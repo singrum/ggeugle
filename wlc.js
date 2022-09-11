@@ -442,6 +442,8 @@ function ruleUpdate(){
     document.querySelector("#search-val-area").innerHTML= "";
     document.querySelector("#search-val-result").innerHTML = "";
     document.querySelector("#button-area").innerHTML = "";
+    
+    document.querySelector("#stat-alert-area").innerHTML = "";
     document.querySelector("#char-button-set").innerHTML=`<div class="col win-menu center">
         <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
@@ -457,7 +459,6 @@ function ruleUpdate(){
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>`;
-    document.querySelector("#stat-alert-area").innerHTML = "";
 
 
     if(document.querySelector("#index-head-forward").selected){head_index = head_query_val - 1}
