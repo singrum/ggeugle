@@ -457,7 +457,7 @@ function ruleUpdate(){
             <span class="visually-hidden">Loading...</span>
         </div>
     </div>`;
-
+    document.querySelector("#stat-alert-area").innerHTML = "";
 
 
     if(document.querySelector("#index-head-forward").selected){head_index = head_query_val - 1}
