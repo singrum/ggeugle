@@ -249,7 +249,7 @@ class WordManager extends CharManager{
 }
 
 async function getText(){
-    let response = await fetch('./olddict');
+    let response = await fetch('https://singrum.github.com/ggeugle/olddict');
     let text = await response.text();
     return text;
 }
