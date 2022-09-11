@@ -345,7 +345,9 @@ async function func1(rule_object = {}){
         for(let i in wm.win_char_class.content){
             win_buttons_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
             win_buttons_HTML += `<div class="char-button-set">`;
-            wm.win_char_class.get(i).forEach(x=>{win_buttons_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
+            let arr = Array.from(wm.win_char_class.get(i));
+            arr.sort()
+            arr.forEach(x=>{win_buttons_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
             win_buttons_HTML += `</div>`;
         }
         document.querySelector("#button-area").innerHTML = win_buttons_HTML;
@@ -361,7 +363,10 @@ async function func1(rule_object = {}){
         for(let i in wm.los_char_class.content){
             los_buttons_HTML += "" + `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
             los_buttons_HTML += `<div class="char-button-set">`;
-            wm.los_char_class.get(i).forEach(x=>{los_buttons_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
+            let arr = Array.from(wm.los_char_class.get(i));
+            console.log(arr)
+            arr.sort();
+            arr.forEach(x=>{los_buttons_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
             los_buttons_HTML += `</div>`;
 
         }
@@ -378,7 +383,9 @@ async function func1(rule_object = {}){
     document.querySelector(".cir-menu").addEventListener("click", function(){
         let cir_buttons_HTML = "";
         cir_buttons_HTML += `<div class="char-button-set">`;
-        wm.cir_char_set.forEach(char=>{cir_buttons_HTML += `<span class="char-button cir-char-button">${char}</span>`});
+        let arr = Array.from(wm.cir_char_set);
+        arr.sort();
+        arr.forEach(char=>{cir_buttons_HTML += `<span class="char-button cir-char-button">${char}</span>`});
         cir_buttons_HTML += `</div>`;
         
         document.querySelector("#button-area").innerHTML = cir_buttons_HTML;
