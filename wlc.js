@@ -26,7 +26,7 @@ class Rule{
                     sc(char) >= sc("류") && sc(char) <= sc("륳") ||
                     sc(char) >= sc("리") && sc(char) <= sc("맇") ||
                     sc(char) >= sc("례") && sc(char) <= sc("롛")) 
-                        return [char, cs(sc(char) + sc('나') - sc("라")), cs(sc(char) + sc("아") - sc("라"))];
+                        return [char, cs(sc(char) + sc("아") - sc("라"))];
                     if(sc(char) >= sc("라") && sc(char) <= sc("랗") ||
                     sc(char) >= sc("래") && sc(char) <= sc("랳") ||
                     sc(char) >= sc("로") && sc(char) <= sc("롷") ||
