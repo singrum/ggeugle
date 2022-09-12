@@ -275,57 +275,57 @@ async function func1(rule_object = {}){
             <button class="btn btn-outline-success" type="button">순환음절</button>
         </div>
     </div>`
-        let search = function(){
-        let val = document.querySelector('#search-box').value;
-        let val_button_HTML;
-        let val_result_HTML;
-        if(wm.cir_char_set.has(val)){
-            val_button_HTML = `<div class="char-button-set" style="margin-top:20px;margin-bottom:20px"><span class="char-button cir-char-button" style="font-size: 30px; padding : 5px 14px;">${val}</span><br></div>`;
-            val_result_HTML = "";
+    let search = function(){
+    let val = document.querySelector('#search-box').value;
+    let val_button_HTML;
+    let val_result_HTML;
+    if(wm.cir_char_set.has(val)){
+        val_button_HTML = `<div class="char-button-set" style="margin-top:20px;margin-bottom:20px"><span class="char-button cir-char-button" style="font-size: 30px; padding : 5px 14px;">${val}</span><br></div>`;
+        val_result_HTML = "";
+        val_result_HTML += `<div class="char-button-set">`;
+        wm.nextCirWordList(val).forEach(x=>{val_result_HTML += `<span class="char-button cir-char-button">${x}</span>`});
+        val_result_HTML += `</div>`;
+    }
+    else if(wm.win_char_set.has(val)){
+        let i = wm.win_char_class.findDegree(val);
+        val_button_HTML = `<span class="badge bg-secondary">${i}턴 후 승리</span><div class="char-button-set" style="margin-top:5px; margin-bottom:10px"><span class="char-button win-char-button${i <= 3? i: 3}" style="font-size: 30px; padding : 5px 14px;">${val}</span><br></div>`;
+        val_result_HTML = "";
+        for(let i in wm.win_word_class.get(val).content){
+            val_result_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
             val_result_HTML += `<div class="char-button-set">`;
-            wm.nextCirWordList(val).forEach(x=>{val_result_HTML += `<span class="char-button cir-char-button">${x}</span>`});
+            wm.win_word_class.get(val).get(i).forEach(x=>{val_result_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
             val_result_HTML += `</div>`;
         }
-        else if(wm.win_char_set.has(val)){
-            let i = wm.win_char_class.findDegree(val);
-            val_button_HTML = `<span class="badge bg-secondary">${i}턴 후 승리</span><div class="char-button-set" style="margin-top:5px; margin-bottom:10px"><span class="char-button win-char-button${i <= 3? i: 3}" style="font-size: 30px; padding : 5px 14px;">${val}</span><br></div>`;
-            val_result_HTML = "";
-            for(let i in wm.win_word_class.get(val).content){
-                val_result_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
-                val_result_HTML += `<div class="char-button-set">`;
-                wm.win_word_class.get(val).get(i).forEach(x=>{val_result_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
-                val_result_HTML += `</div>`;
-            }
+    }
+    else if(wm.los_char_set.has(val)){
+        let i = wm.los_char_class.findDegree(val);
+        val_button_HTML = `<span class="badge bg-secondary">${i}턴 후 패배</span><div class="char-button-set" style="margin-top:5px; margin-bottom:10px"><span class="char-button los-char-button${i <= 3? i: 3}" style="font-size: 30px; padding : 5px 14px;">${val}</span><br></div>`;
+        val_result_HTML = "";
+        for(let i in wm.los_word_class.get(val).content){
+            val_result_HTML += `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
+            val_result_HTML += `<div class="char-button-set">`;
+            wm.los_word_class.get(val).get(i).forEach(x=>{val_result_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
+            val_result_HTML += `</div>`;
         }
-        else if(wm.los_char_set.has(val)){
-            let i = wm.los_char_class.findDegree(val);
-            val_button_HTML = `<span class="badge bg-secondary">${i}턴 후 패배</span><div class="char-button-set" style="margin-top:5px; margin-bottom:10px"><span class="char-button los-char-button${i <= 3? i: 3}" style="font-size: 30px; padding : 5px 14px;">${val}</span><br></div>`;
-            val_result_HTML = "";
-            for(let i in wm.los_word_class.get(val).content){
-                val_result_HTML += `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
-                val_result_HTML += `<div class="char-button-set">`;
-                wm.los_word_class.get(val).get(i).forEach(x=>{val_result_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
-                val_result_HTML += `</div>`;
-            }
-        }
-        else if(!val){
-            val_button_HTML = "";
-            val_result_HTML = "";
-        }
-        else{
-            val_button_HTML = `<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-            <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
-              <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-            </symbol>
-          </svg>
-          <div class="alert alert-danger d-flex align-items-center" style="margin-top:20px" role="alert">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-            <div>
-              존재하지 않는 음절입니다!
-            </div>
-          </div>`
-            val_result_HTML = ""
-        }
+    }
+    else if(!val){
+        val_button_HTML = "";
+        val_result_HTML = "";
+    }
+    else{
+        val_button_HTML = `<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+        </symbol>
+        </svg>
+        <div class="alert alert-danger d-flex align-items-center" style="margin-top:20px" role="alert">
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+        <div>
+            존재하지 않는 음절입니다!
+        </div>
+        </div>`
+        val_result_HTML = ""
+    }
 
         document.querySelector("#search-val-area").innerHTML = val_button_HTML;
         document.querySelector("#search-val-result").innerHTML = val_result_HTML;
@@ -333,12 +333,12 @@ async function func1(rule_object = {}){
         let char_button_list = document.querySelectorAll(".char-button")
         char_button_list.forEach(button => {button.addEventListener("click", ()=>{
             document.querySelector("#search-box").value = button.innerText.length === 1?button.innerText : wm.rule.tail(button.innerText);
-            document.querySelector('#search-button').click();
+            search()
             window.scrollTo({ left: 0, top: document.querySelector("#scroll-flag").offsetTop, behavior: "smooth" });
         })})
     }
-    document.querySelector('#search-button').addEventListener("click", search);
-    document.querySelector('#search-box').addEventListener("keypress", (e)=>{if (e.keyCode === 13) search()});
+    // document.querySelector('#search-button').addEventListener("click", search);
+    document.querySelector('#search-box').addEventListener("keyup", search);
     document.querySelector(".win-menu").addEventListener("click", function(){
         
         let win_buttons_HTML = "";
@@ -354,7 +354,7 @@ async function func1(rule_object = {}){
         let char_button_list = document.querySelectorAll(".char-button")
         char_button_list.forEach(button => {button.addEventListener("click", ()=>{
             document.querySelector("#search-box").value = button.innerText.length === 1?button.innerText : wm.rule.tail(button.innerText);
-            document.querySelector('#search-button').click();
+            search();
             window.scrollTo({ left: 0, top: document.querySelector("#scroll-flag").offsetTop, behavior: "smooth" });
         })})
     });
@@ -374,7 +374,7 @@ async function func1(rule_object = {}){
         let char_button_list = document.querySelectorAll(".char-button")
         char_button_list.forEach(button => {button.addEventListener("click", ()=>{
             document.querySelector("#search-box").value = button.innerText.length === 1?button.innerText : wm.rule.tail(button.innerText);
-            document.querySelector('#search-button').click();
+            search();
             window.scrollTo({ left: 0, top: document.querySelector("#scroll-flag").offsetTop, behavior: "smooth" });
         })})
     });
@@ -392,7 +392,7 @@ async function func1(rule_object = {}){
         let char_button_list = document.querySelectorAll(".char-button")
         char_button_list.forEach(button => {button.addEventListener("click", ()=>{
             document.querySelector("#search-box").value = button.innerText.length === 1?button.innerText : wm.rule.tail(button.innerText);
-            document.querySelector('#search-button').click();
+            search();
             window.scrollTo({ left: 0, top: document.querySelector("#scroll-flag").offsetTop, behavior: "smooth" });
         })})
     });
