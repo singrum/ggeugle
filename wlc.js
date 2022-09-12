@@ -250,7 +250,7 @@ class WordManager extends CharManager{
     
 }
 
-async function main(dict_type = "olddict", rule_object = {}){
+async function main(dict_type = "olddict_1", rule_object = {}){
     let response = await fetch(`https://singrum.github.io/ggeugle/${dict_type}`);
     let text = await response.text();
     let word_list = text.split('\n');
@@ -417,7 +417,7 @@ function ruleUpdate(){
     }
     switch(dict_num){
         case 0:
-            dict_type = "olddict";
+            dict_type = "olddict_1";
             break;
         case 1:
             dict_type = "newdict";
