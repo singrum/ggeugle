@@ -250,14 +250,9 @@ class WordManager extends CharManager{
     
 }
 
-async function getText(){
-    let response = await fetch('https://singrum.github.io/ggeugle/olddict');
+async function main(dict_type = "olddict", rule_object = {}){
+    let response = await fetch(`https://singrum.github.io/ggeugle/${dict_type}`);
     let text = await response.text();
-    return text;
-}
-
-async function func1(rule_object = {}){
-    let text = await getText()
     let word_list = text.split('\n');
     let r = new Rule(word_list, rule_object);
     let wm = new WordManager(r);
@@ -371,7 +366,6 @@ async function func1(rule_object = {}){
             los_buttons_HTML += "" + `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
             los_buttons_HTML += `<div class="char-button-set">`;
             let arr = Array.from(wm.los_char_class.get(i));
-            console.log(arr)
             arr.sort();
             arr.forEach(x=>{los_buttons_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
             los_buttons_HTML += `</div>`;
@@ -411,12 +405,24 @@ async function func1(rule_object = {}){
     })
 
 }
-func1()
+main()
 
 function ruleUpdate(){
+    let dict_num, dict_type;
     let changable;
     let i;
     let minlen;
+    for(i = 0; i <= 1; i++){
+        if(document.querySelector(`#dict${i}`).checked) {dict_num = i; break;}
+    }
+    switch(dict_num){
+        case 0:
+            dict_type = "olddict";
+            break;
+        case 1:
+            dict_type = "newdict";
+            break;
+    }
     for(i = 0; i <= 3; i++){
         if(document.querySelector(`#chan${i}`).checked) {changable = i; break;}
     }
@@ -470,5 +476,5 @@ function ruleUpdate(){
     if(document.querySelector("#index-tail-forward").selected){tail_index = tail_query_val - 1}
     else{tail_index = - tail_query_val}
     let rule_object = {changable, len_filter, head_index, tail_index};
-    func1(rule_object);
+    main(dict_type, rule_object);
 }
