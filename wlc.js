@@ -45,6 +45,8 @@ class Rule{
                 return function(char){
                     if(sc(char) >= sc("라") && sc(char) <= sc("맇"))
                         return [char, cs(sc(char) + sc('나') - sc("라")), cs(sc(char) + sc("아") - sc("라"))];
+                    if(sc(char) >= sc("나") && sc(char) <= sc("닣"))
+                        return [char, cs(sc(char) + sc('아') - sc("나"))];
                     return [char]
                 }
             case 3: //ㄹㄴㅇ 쌍방향
