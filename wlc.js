@@ -468,6 +468,5 @@ function ruleUpdate(){
     if(document.querySelector("#index-tail-forward").selected){tail_index = tail_query_val - 1}
     else{tail_index = - tail_query_val}
     let rule_object = {changable, len_filter, head_index, tail_index};
-    console.log(rule_object)
     func1(rule_object);
 }
