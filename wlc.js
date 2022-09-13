@@ -251,7 +251,7 @@ class WordManager extends CharManager{
 }
 
 async function main(dict_type = "olddict_1", rule_object = {}){
-    let response = await fetch(`https://singrum.github.io/ggeugle/${dict_type}`);
+    let response = await fetch(`http://singrum.github.io/ggeugle/olddictfilter/db2/olddict%EB%AA%85%EC%82%AC`);
     let text = await response.text();
     let word_list = text.split('\n');
     let r = new Rule(word_list, rule_object);
