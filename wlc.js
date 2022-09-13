@@ -1,7 +1,7 @@
 class Rule{
     constructor(word_list, {changable = 1, len_filter = (w)=>w.length>=2, head_index = 0, tail_index = -1, is_misere = false}){
 
-        this.word_list = word_list;
+        this.word_list = Array.from(new Set(word_list));
         this.changable = this.setChangable(changable);
         this.len_filter = len_filter;
         this.lenFilt();
@@ -250,10 +250,14 @@ class WordManager extends CharManager{
     
 }
 
-async function main(dict_type = "olddict_1", rule_object = {}){
-    let response = await fetch(`https://singrum.github.io/ggeugle/olddictfilter/db2/olddict%EB%AA%85%EC%82%AC`);
-    let text = await response.text();
-    let word_list = text.split('\n');
+async function main(dict_type = "olddict", pos_list = ["명사"], rule_object = {}){
+    let word_list = [];
+    for(let pos of pos_list){
+        let response = await fetch(`https://singrum.github.io/ggeugle/olddictfilter/db2/olddict${encodeURI(pos)}`);
+        let text = await response.text();
+        word_list = word_list.concat(text.split('\n'));
+        
+    }
     let r = new Rule(word_list, rule_object);
     let wm = new WordManager(r);
     document.querySelector("#char-button-set").innerHTML=`
@@ -426,6 +430,34 @@ function ruleUpdate(){
     for(i = 0; i <= 3; i++){
         if(document.querySelector(`#chan${i}`).checked) {changable = i; break;}
     }
+
+    let pos_list = [];
+    for(i = 0; i <= 7; i++){
+        if(document.querySelector(`#pos${i}`).checked){
+            pos_list.push(i);
+        }
+    }
+    pos_list = pos_list.map(x=>{
+        switch(x){
+            case 0:
+                return "명사";
+            case 1:
+                return "의존명사"
+            case 2:
+                return "대명사";
+            case 3:
+                return "수사"
+            case 4:
+                return "부사";
+            case 5:
+                return "관형사";
+            case 6:
+                return "어근";
+            case 7:
+                return "감탄사";
+        }
+    })
+    console.log(pos_list)
     let available_length_set = new Set()
     let len10up = document.querySelector("#length10up").checked;
     for(i = 2; i <= 9; i++){
@@ -476,5 +508,5 @@ function ruleUpdate(){
     if(document.querySelector("#index-tail-forward").selected){tail_index = tail_query_val - 1}
     else{tail_index = - tail_query_val}
     let rule_object = {changable, len_filter, head_index, tail_index};
-    main(dict_type, rule_object);
+    main(dict_type, pos_list, rule_object);
 }
