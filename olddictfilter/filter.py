@@ -7,12 +7,12 @@ def get_lines():
 
 def write_file(word_type):
     lst = get_lines()
-    lst = [a for a in lst if "word_type" in a[-1]]
+    lst = [a for a in lst if word_type == a[-1].strip("\n")]
     lst = list(map(lambda x: x[0].replace('-', ""), lst))
     lst = [a for a in lst if not reg.findall(a)]
     lst = list(set(lst))
     lst.sort()
-    with open("olddictfilter/olddict"+word_type+".txt", "w") as f:
+    with open("olddictfilter/db/olddict"+word_type, "w") as f:
         f.write("\n".join(lst))
 
 
