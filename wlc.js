@@ -432,7 +432,7 @@ function ruleUpdate(){
     }
 
     let pos_list = [];
-    for(i = 0; i <= 7; i++){
+    for(i = 0; i <= 6; i++){
         if(document.querySelector(`#pos${i}`).checked){
             pos_list.push(i);
         }
@@ -452,8 +452,6 @@ function ruleUpdate(){
             case 5:
                 return "관형사";
             case 6:
-                return "어근";
-            case 7:
                 return "감탄사";
         }
     })
