@@ -251,6 +251,7 @@ class WordManager extends CharManager{
 }
 
 async function main(dict_type = "olddict", pos_list = ["명사"], rule_object = {}){
+    let alert_area_flag = 0;
     let word_list = [];
     for(let pos of pos_list){
         let response = await fetch(`https://singrum.github.io/ggeugle/olddictfilter/db2/olddict${encodeURI(pos)}`);
@@ -350,62 +351,100 @@ async function main(dict_type = "olddict", pos_list = ["명사"], rule_object = 
     }
     // document.querySelector('#search-button').addEventListener("click", search);
     document.querySelector('#search-box').addEventListener("keyup", ()=>{searchLengthRestrict();search();});
+    let menu_flag = 0;
     document.querySelector(".win-menu").addEventListener("click", function(){
-        
-        let win_buttons_HTML = "";
-        for(let i in wm.win_char_class.content){
-            win_buttons_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
-            win_buttons_HTML += `<div class="char-button-set">`;
-            let arr = Array.from(wm.win_char_class.get(i));
-            arr.sort()
-            arr.forEach(x=>{win_buttons_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
-            win_buttons_HTML += `</div>`;
+        if(menu_flag !== 1){
+            menu_flag = 1;
+            let win_buttons_HTML = "";
+            for(let i in wm.win_char_class.content){
+                win_buttons_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
+                win_buttons_HTML += `<div class="char-button-set">`;
+                let arr = Array.from(wm.win_char_class.get(i));
+                arr.sort()
+                arr.forEach(x=>{win_buttons_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
+                win_buttons_HTML += `</div>`;
+            }
+            document.querySelector("#button-area").innerHTML = win_buttons_HTML;
+            addEventtoButtons()
         }
-        document.querySelector("#button-area").innerHTML = win_buttons_HTML;
-        addEventtoButtons()
+        else{
+            menu_flag = 0;
+            document.querySelector("#button-area").innerHTML = "";
+        }
     });
     document.querySelector(".los-menu").addEventListener("click", function(){
-        let los_buttons_HTML = "";
-        for(let i in wm.los_char_class.content){
-            los_buttons_HTML += "" + `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
-            los_buttons_HTML += `<div class="char-button-set">`;
-            let arr = Array.from(wm.los_char_class.get(i));
-            arr.sort();
-            arr.forEach(x=>{los_buttons_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
-            los_buttons_HTML += `</div>`;
+        if(menu_flag !== 2){
+            menu_flag = 2;
+            let los_buttons_HTML = "";
+            for(let i in wm.los_char_class.content){
+                los_buttons_HTML += "" + `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
+                los_buttons_HTML += `<div class="char-button-set">`;
+                let arr = Array.from(wm.los_char_class.get(i));
+                arr.sort();
+                arr.forEach(x=>{los_buttons_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
+                los_buttons_HTML += `</div>`;
+            }
+            document.querySelector("#button-area").innerHTML = los_buttons_HTML;
+            addEventtoButtons()
         }
-        document.querySelector("#button-area").innerHTML = los_buttons_HTML;
-        addEventtoButtons()
-
+        else{
+            menu_flag = 0;
+            document.querySelector("#button-area").innerHTML = "";
+        }
     });
 
 
     document.querySelector(".cir-menu").addEventListener("click", function(){
-        let cir_buttons_HTML = "";
-        cir_buttons_HTML += `<div class="char-button-set">`;
-        let arr = Array.from(wm.cir_char_set);
-        arr.sort();
-        arr.forEach(char=>{cir_buttons_HTML += `<span class="char-button cir-char-button">${char}</span>`});
-        cir_buttons_HTML += `</div>`;
-        
-        document.querySelector("#button-area").innerHTML = cir_buttons_HTML;
-        addEventtoButtons();
+        if(menu_flag !== 3){
+            menu_flag = 3;
+            let cir_buttons_HTML = "";
+            cir_buttons_HTML += `<div class="char-button-set">`;
+            let arr = Array.from(wm.cir_char_set);
+            arr.sort();
+            arr.forEach(char=>{cir_buttons_HTML += `<span class="char-button cir-char-button">${char}</span>`});
+            cir_buttons_HTML += `</div>`;
+            
+            document.querySelector("#button-area").innerHTML = cir_buttons_HTML;
+            addEventtoButtons();
+        }
+        else{
+            menu_flag = 0;
+            document.querySelector("#button-area").innerHTML = "";
+        }
     });
     document.querySelector("#stat-button").addEventListener("click", function(){
-        document.querySelector("#stat-alert-area").innerHTML=`<div class="alert alert-light alert-dismissible fade show " role="alert" style = "margin:20px 0px">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        <table class="table table-hover">
-        <tbody>
-            <tr><th scope="row">단어 수</th><td>${wm.rule.word_list.length}</td></tr>
-            <tr><th scope="row">음절 수</th><td>${wm.char_list.length}</td></tr>
-            <tr><th scope="row">승리음절 수</th><td>${wm.win_char_set.size}</td></tr>
-            <tr><th scope="row">패배음절 수</th><td>${wm.los_char_set.size}</td></tr>
-            <tr><th scope="row">순환음절 수</th><td>${wm.cir_char_set.size}</td></tr>
-            <tr><th scope="row">평균 순환단어 수</th><td>${Math.round((function(){let i=0; wm.cir_char_set.forEach((x)=>{i += wm.nextCirWordList(x).length;}); return i;}())/(wm.cir_char_set.size) * 10000)/10000}</td></tr>
-        </tbody>
+        if(alert_area_flag !== 1){
+            alert_area_flag = 1
+            document.querySelector("#rule-area").style.display = "none";
+            document.querySelector("#alert-area").innerHTML=`
+            <table class="table table-hover">
+            <tbody>
+                <tr><th scope="row">단어 수</th><td>${wm.rule.word_list.length}</td></tr>
+                <tr><th scope="row">음절 수</th><td>${wm.char_list.length}</td></tr>
+                <tr><th scope="row">승리음절 수</th><td>${wm.win_char_set.size}</td></tr>
+                <tr><th scope="row">패배음절 수</th><td>${wm.los_char_set.size}</td></tr>
+                <tr><th scope="row">순환음절 수</th><td>${wm.cir_char_set.size}</td></tr>
+                <tr><th scope="row">평균 순환단어 수</th><td>${Math.round((function(){let i=0; wm.cir_char_set.forEach((x)=>{i += wm.nextCirWordList(x).length;}); return i;}())/(wm.cir_char_set.size) * 10000)/10000}</td></tr>
+            </tbody>
 
-        </table>
-      </div>`
+            </table>`;
+        }
+        else{
+            alert_area_flag = 0;
+            document.querySelector("#alert-area").innerHTML= "";
+        }
+    })
+
+    document.querySelector("#rule-button").addEventListener("click", function(){
+        if(alert_area_flag !== 2){
+            alert_area_flag = 2
+            document.querySelector("#alert-area").innerHTML= "";
+            document.querySelector("#rule-area").style.display = "block";
+        }
+        else{
+            alert_area_flag = 0;
+            document.querySelector("#rule-area").style.display = "none";
+        }
     })
 
 }
@@ -455,7 +494,6 @@ function ruleUpdate(){
                 return "감탄사";
         }
     })
-    console.log(pos_list)
     let available_length_set = new Set()
     let len10up = document.querySelector("#length10up").checked;
     for(i = 2; i <= 9; i++){
@@ -482,8 +520,8 @@ function ruleUpdate(){
     document.querySelector("#search-val-area").innerHTML= "";
     document.querySelector("#search-val-result").innerHTML = "";
     document.querySelector("#button-area").innerHTML = "";
-    document.querySelector("#stat-alert-area").innerHTML = "";
-    document.querySelector(".accordion-button").click();
+    document.querySelector("#alert-area").innerHTML = "";
+    document.querySelector("#rule-area").style.display = "none";
     document.querySelector("#char-button-set").innerHTML=`<div class="col win-menu center">
         <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading...</span>

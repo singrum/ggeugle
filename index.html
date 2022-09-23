@@ -188,6 +188,10 @@
             th, td{
                 text-align: left;
             }
+            .big-font{
+                font-size : 30px
+            }
+
         </style>
     </head>
     <body>
@@ -203,152 +207,145 @@
 
 
 
-        <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header " id="headingOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        룰 설정
-                    </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        <div class="row">
-                            <div class="col-6 center border-bottom" style="border-right:1px solid #dee2e6!important">
-                                <h3 class = "center"><b>사전</b></h3>
-                                <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group">
-        
-                                    <input type="radio" class="btn-check" name="dictionary" id="dict0" autocomplete="off" checked>
-                                    <label class="btn btn-outline-primary" for="dict0">(구)표국대</label>
-        
-                                    <input type="radio" class="btn-check" name="dictionary" id="dict1" autocomplete="off" disabled>
-                                    <label class="btn btn-outline-primary" for="dict1">(신)표국대</label>
-                                    <!-- 
-                                    <input type="radio" class="btn-check" name="dictionary" id="dict2" autocomplete="off" disabled>
-                                    <label class="btn btn-outline-primary" for="dict3">지식백과</label>
-                                    
-                                    <input type="radio" class="btn-check" name="dictionary" id="dict3" autocomplete="off" disabled>
-                                    <label class="btn btn-outline-primary" for="dict4">나무위키</label>
-    
-                                    <input type="radio" class="btn-check" name="dictionary" id="dict4" autocomplete="off" disabled>
-                                    <label class="btn btn-outline-primary" for="dict5">위키피디아</label> -->
-                                </div>
-                            </div>
-                            <div class="col-6 center border-bottom">
-                                <h3><b>두음법칙</b></h3>
-                                <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group" style = "margin-bottom: 20px">
-    
-                                    <input type="radio" class="btn-check" name="changable" id="chan0" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="chan0">없음</label>
-    
-                                    <input type="radio" class="btn-check" name="changable" id="chan1" autocomplete="off" checked>
-                                    <label class="btn btn-outline-primary" for="chan1">표준</label>
-                                    
-                                    <input type="radio" class="btn-check" name="changable" id="chan2" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="chan2">ㄹ&#8594;ㄴ&#8594;ㅇ</label>
-                                    
-                                    <input type="radio" class="btn-check" name="changable" id="chan3" autocomplete="off">
-                                    <label class="btn btn-outline-primary" for="chan3">ㄹ&#8644;ㄴ&#8644;ㅇ</label>
-                                </div>
-                            </div>
-                            <div class="col-12 border-bottom">
-                                <br>
-                                <h3 class="center"><b>품사</b></h3>
-                                <div class="wrapper center">
-                                    <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="margin-bottom : 10px">
-                                        <input type="checkbox" class="btn-check" name="pos" id="pos0" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="pos0">명사</label>
-                                        <input type="checkbox" class="btn-check" name="pos" id="pos1" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="pos1">의존명사</label>
-                                        <input type="checkbox" class="btn-check" name="pos" id="pos2" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="pos2">대명사</label>
-                                        <input type="checkbox" class="btn-check" name="pos" id="pos3" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="pos3">수사</label>
-                                    </div>
-                                    <br>
-                                    <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="margin-bottom : 10px">
-                                        <input type="checkbox" class="btn-check" name="pos" id="pos4" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="pos4">부사</label>
-                                        <input type="checkbox" class="btn-check" name="pos" id="pos5" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="pos5">관형사</label>
-                                        <input type="checkbox" class="btn-check" name="pos" id="pos6" autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="pos6">감탄사</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 border-bottom">
-                                <br>
-                                <h3 class="center"><b>글자수</b></h3>
-                                <div class="wrapper center">
-                                    <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-                                        <input type="checkbox" class="btn-check" name="length" id="length2" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="length2">2</label>
-                                        <input type="checkbox" class="btn-check" name="length" id="length3" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="length3">3</label>
-                                        <input type="checkbox" class="btn-check" name="length" id="length4" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="length4">4</label>
-                                        <input type="checkbox" class="btn-check" name="length" id="length5" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="length5">5</label>
-                                        <input type="checkbox" class="btn-check" name="length" id="length6" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="length6">6</label>
-                                        <input type="checkbox" class="btn-check" name="length" id="length7" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="length7">7</label>
-                                        <input type="checkbox" class="btn-check" name="length" id="length8" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="length8">8</label>
-                                        <input type="checkbox" class="btn-check" name="length" id="length9" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="length9">9</label>
-                                        <input type="checkbox" class="btn-check" name="length" id="length10up" autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="length10up">...</label>
-                                    </div>
-                                    <div><br></div>
-                                </div>
-                            </div>
-                            <div class="col-12 center border-bottom">
-                                <br>
-                                <h3><b>인덱스</b></h3>
-                                <div class ="center">
-                                    <div class="row" style="justify-content: center;">
-                                        <div class="input-group input-group-md mb-3 index-input-group" >
-                                            <span class="input-group-text" id="inputGroup-sizing-sm">첫글자</span>
-                                            <select class="form-select">
-                                                <option value="forward" id="index-head-forward" selected>앞에서</option>
-                                                <option value="backward" id="index-head-backward">뒤에서</option>
-                                            </select>
-                                            <input type="text" class="form-control" id="index-head" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="1">
-                                        </div>
-                                        
-                                        <div class="input-group input-group-md mb-3 index-input-group">
-                                            <span class="input-group-text" id="inputGroup-sizing-sm">끝글자</span>
-                                            <select class="form-select">
-                                                <option value="forward" id="index-tail-forward">앞에서</option>
-                                                <option value="backward" id="index-tail-backward" selected>뒤에서</option>
-                                            </select>
-                                            <input type="text" class="form-control" id="index-tail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="1">
-                                        </div>
 
-                                        <div class="container" id = "index-alert"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <div class="col-12 center border-bottom">
-                                <h3><b>지면이기는룰</b></h3>
-                                <input class="form-check-input" type="checkbox" id="check1" name="option1" value="something" disabled>
-                                <label class="form-check-label">사용</label>
-                            </div>      -->
-                            <div class="col-12 center">
-                                <div class="container mt-3"><button type="submit" class="btn btn-primary" onclick="ruleUpdate()">완료</button></div>    
-                            </div>         
-                        </div>
-                    </div>   
-                </div>
-            </div>
-        </div>
         <div class="container center">
+            <button type="button" class="btn btn-outline-dark center" style="line-height: 10px; margin:10px auto" id="rule-button"><span class="material-symbols-outlined">settings</span></button>
             <button type="button" class="btn btn-outline-dark center" style="line-height: 10px; margin:10px auto" id="stat-button"><span class="material-symbols-outlined">query_stats</span></button>
         </div>
         
-        <div class="container center" id="stat-alert-area"></div>
+        <div class="container center" id="alert-area"></div>
+        <div class="container center" id="rule-area" style="display: none">
+            <div class="row">
+                <div class="col-6 center border-bottom" style="border-right:1px solid #dee2e6!important">
+                    <br>
+                    <h3 class = "center"><b>사전</b></h3>
+                    <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group">
+    
+                        <input type="radio" class="btn-check" name="dictionary" id="dict0" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="dict0">(구)표국대</label>
+    
+                        <input type="radio" class="btn-check" name="dictionary" id="dict1" autocomplete="off" disabled>
+                        <label class="btn btn-outline-primary" for="dict1">(신)표국대</label>
+                        <!-- 
+                        <input type="radio" class="btn-check" name="dictionary" id="dict2" autocomplete="off" disabled>
+                        <label class="btn btn-outline-primary" for="dict3">지식백과</label>
+                        
+                        <input type="radio" class="btn-check" name="dictionary" id="dict3" autocomplete="off" disabled>
+                        <label class="btn btn-outline-primary" for="dict4">나무위키</label>
+    
+                        <input type="radio" class="btn-check" name="dictionary" id="dict4" autocomplete="off" disabled>
+                        <label class="btn btn-outline-primary" for="dict5">위키피디아</label> -->
+                    </div>
+                </div>
+                <div class="col-6 center border-bottom">
+                    <br>
+                    <h3><b>두음법칙</b></h3>
+                    <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group" style = "margin-bottom: 20px">
+    
+                        <input type="radio" class="btn-check" name="changable" id="chan0" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="chan0">없음</label>
+    
+                        <input type="radio" class="btn-check" name="changable" id="chan1" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="chan1">표준</label>
+                        
+                        <input type="radio" class="btn-check" name="changable" id="chan2" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="chan2">ㄹ&#8594;ㄴ&#8594;ㅇ</label>
+                        
+                        <input type="radio" class="btn-check" name="changable" id="chan3" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="chan3">ㄹ&#8644;ㄴ&#8644;ㅇ</label>
+                    </div>
+                </div>
+                <div class="col-12 border-bottom">
+                    <br>
+                    <h3 class="center"><b>품사</b></h3>
+                    <div class="wrapper center">
+                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="margin-bottom : 10px">
+                            <input type="checkbox" class="btn-check" name="pos" id="pos0" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="pos0">명사</label>
+                            <input type="checkbox" class="btn-check" name="pos" id="pos1" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="pos1">의존명사</label>
+                            <input type="checkbox" class="btn-check" name="pos" id="pos2" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="pos2">대명사</label>
+                            <input type="checkbox" class="btn-check" name="pos" id="pos3" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="pos3">수사</label>
+                        </div>
+                        <br>
+                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="margin-bottom : 10px">
+                            <input type="checkbox" class="btn-check" name="pos" id="pos4" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="pos4">부사</label>
+                            <input type="checkbox" class="btn-check" name="pos" id="pos5" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="pos5">관형사</label>
+                            <input type="checkbox" class="btn-check" name="pos" id="pos6" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="pos6">감탄사</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 border-bottom">
+                    <br>
+                    <h3 class="center"><b>글자수</b></h3>
+                    <div class="wrapper center">
+                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+                            <input type="checkbox" class="btn-check" name="length" id="length2" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="length2">2</label>
+                            <input type="checkbox" class="btn-check" name="length" id="length3" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="length3">3</label>
+                            <input type="checkbox" class="btn-check" name="length" id="length4" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="length4">4</label>
+                            <input type="checkbox" class="btn-check" name="length" id="length5" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="length5">5</label>
+                            <input type="checkbox" class="btn-check" name="length" id="length6" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="length6">6</label>
+                            <input type="checkbox" class="btn-check" name="length" id="length7" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="length7">7</label>
+                            <input type="checkbox" class="btn-check" name="length" id="length8" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="length8">8</label>
+                            <input type="checkbox" class="btn-check" name="length" id="length9" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="length9">9</label>
+                            <input type="checkbox" class="btn-check" name="length" id="length10up" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="length10up">...</label>
+                        </div>
+                        <div><br></div>
+                    </div>
+                </div>
+                <div class="col-12 center border-bottom">
+                    <br>
+                    <h3><b>인덱스</b></h3>
+                    <div class ="center">
+                        <div class="row" style="justify-content: center;">
+                            <div class="input-group input-group-md mb-3 index-input-group" >
+                                <span class="input-group-text" id="inputGroup-sizing-sm">첫글자</span>
+                                <select class="form-select">
+                                    <option value="forward" id="index-head-forward" selected>앞에서</option>
+                                    <option value="backward" id="index-head-backward">뒤에서</option>
+                                </select>
+                                <input type="text" class="form-control" id="index-head" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="1">
+                            </div>
+                            
+                            <div class="input-group input-group-md mb-3 index-input-group">
+                                <span class="input-group-text" id="inputGroup-sizing-sm">끝글자</span>
+                                <select class="form-select">
+                                    <option value="forward" id="index-tail-forward">앞에서</option>
+                                    <option value="backward" id="index-tail-backward" selected>뒤에서</option>
+                                </select>
+                                <input type="text" class="form-control" id="index-tail" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" value="1">
+                            </div>
+    
+                            <div class="container" id = "index-alert"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="col-12 center border-bottom">
+                    <h3><b>지면이기는룰</b></h3>
+                    <input class="form-check-input" type="checkbox" id="check1" name="option1" value="something" disabled>
+                    <label class="form-check-label">사용</label>
+                </div>      -->
+                <div class="col-12 center">
+                    <div class="container" style="margin:0px"><button type="submit" class="btn btn-primary" style="width : 100px; line-height: 10px; margin:10px auto" onclick="ruleUpdate()"><span class="material-symbols-outlined big-font">autorenew</span></button></div>    
+                </div>         
+            </div>
+        </div>
         <div class="container" id="scroll-flag"></div>
-        <div class="container">
+        <div class="container mt-3">
             <input type="text" class="form-control center" id = "search-box" placeholder="" style="width: 100px;display: block; margin:10px auto; padding:3px; font-size : 50px" maxlength='1'/>
         </div>
         <div class="container center" id="search-val-area"></div>
