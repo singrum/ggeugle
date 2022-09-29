@@ -336,18 +336,22 @@ async function main(dict_type = "olddict", pos_list = ["명사"], rule_object = 
             val_result_HTML = ""
         }
 
-            document.querySelector("#search-val-area").innerHTML = val_button_HTML;
-            document.querySelector("#search-val-result").innerHTML = val_result_HTML;
+        document.querySelector("#search-val-area").innerHTML = val_button_HTML;
+        document.querySelector("#search-val-result").innerHTML = val_result_HTML;
 
-            addEventtoButtons();
+        addEventtoButtons();
+    }
+    let foo = function(){
+        document.querySelector("#search-box").value = this.innerText.length === 1?this.innerText : wm.rule.tail(this.innerText);
+        search();
     }
     function addEventtoButtons(){
 
-        let char_button_list = document.querySelectorAll(".char-button")
-        char_button_list.forEach(button => {button.addEventListener("click", ()=>{
-            document.querySelector("#search-box").value = button.innerText.length === 1?button.innerText : wm.rule.tail(button.innerText);
-            search();
-        })})
+        let char_button_list = document.querySelectorAll(".char-button");
+
+        char_button_list.forEach(button => {
+            button.removeEventListener("click", foo);
+            button.addEventListener("click", foo);})
     }
     // document.querySelector('#search-button').addEventListener("click", search);
     document.querySelector('#search-box').addEventListener("keyup", ()=>{searchLengthRestrict();search();});
