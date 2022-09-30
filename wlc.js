@@ -526,21 +526,29 @@ function ruleUpdate(){
     document.querySelector("#button-area").innerHTML = "";
     document.querySelector("#alert-area").innerHTML = "";
     document.querySelector("#rule-area").style.display = "none";
-    document.querySelector("#char-button-set").innerHTML=`<div class="col win-menu center">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>    
+    document.querySelector("#char-button-set").innerHTML=`
+    <div class="col win-menu center">
+        <div class="d-grid gap-2">
+            <button class="btn btn-outline-primary" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+        </div>
     </div>
     <div class="col los-menu center">
-        <div class="spinner-border text-danger" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <div class="d-grid gap-2">
+            <button class="btn btn-outline-danger" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
         </div>
     </div>
     <div class="col cir-menu center">
-        <div class="spinner-border text-success" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <div class="d-grid gap-2">
+            <button class="btn btn-outline-success" type="button" disabled>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
         </div>
-    </div>`;
+    </div>
+    `;
 
 
     if(document.querySelector("#index-head-forward").selected){head_index = head_query_val - 1}
