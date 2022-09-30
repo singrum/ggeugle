@@ -262,21 +262,12 @@ async function main(dict_type = "olddict", pos_list = ["명사"], rule_object = 
     let r = new Rule(word_list, rule_object);
     let wm = new WordManager(r);
     document.querySelector("#char-button-set").innerHTML=`
-    <div class="col win-menu center">
-        <div class="d-grid gap-2">
-            <button class="btn btn-outline-primary" type="button">승리음절</button>
-        </div>
-    </div>
-    <div class="col los-menu center">
-        <div class="d-grid gap-2">
-            <button class="btn btn-outline-danger" type="button">패배음절</button>
-        </div>
-    </div>
-    <div class="col cir-menu center">
-        <div class="d-grid gap-2">
-            <button class="btn btn-outline-success" type="button">순환음절</button>
-        </div>
-    </div>`
+
+        <div class="container center">
+            <button class="btn btn-outline-primary win-menu" type="button" style="width:32%">승리음절</button>
+            <button class="btn btn-outline-danger los-menu" type="button" style="width:32%">패배음절</button>
+            <button class="btn btn-outline-success cir-menu" type="button" style="width:32%">순환음절</button>
+        </div>`
     function searchLengthRestrict(){
         if(document.querySelector("#search-box").value.length > 1){
             document.querySelector("#search-box").value = document.querySelector("#search-box").value[1];
@@ -527,26 +518,16 @@ function ruleUpdate(){
     document.querySelector("#alert-area").innerHTML = "";
     document.querySelector("#rule-area").style.display = "none";
     document.querySelector("#char-button-set").innerHTML=`
-    <div class="col win-menu center">
-        <div class="d-grid gap-2">
-            <button class="btn btn-outline-primary" type="button" disabled>
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            </button>
-        </div>
-    </div>
-    <div class="col los-menu center">
-        <div class="d-grid gap-2">
-            <button class="btn btn-outline-danger" type="button" disabled>
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            </button>
-        </div>
-    </div>
-    <div class="col cir-menu center">
-        <div class="d-grid gap-2">
-            <button class="btn btn-outline-success" type="button" disabled>
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            </button>
-        </div>
+    <div class="container center">
+        <button class="btn btn-outline-primary" type="button" style="width:32%" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <button class="btn btn-outline-danger" type="button" style="width:32%" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
+        <button class="btn btn-outline-success" type="button" style="width:32%" disabled>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        </button>
     </div>
     `;
 
