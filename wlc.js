@@ -65,6 +65,7 @@ class Rule{
     lenFilt(){
 
         this.word_list = this.word_list.filter(x => x&&this.len_filter(x));
+        this.word_list.forEach((e, i)=>this.word_list[i].trim());
     }
 
     head(word){return word[this.head_index >= 0? this.head_index:word.length + this.head_index];}
@@ -250,13 +251,13 @@ class WordManager extends CharManager{
     
 }
 
-async function main(dict_type = "olddict", pos_list = ["명사"], rule_object = {}){
+async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사"], rule_object = {}){
     let alert_area_flag = 0;
     let word_list = [];
     for(let pos of pos_list){
-        let response = await fetch(`https://singrum.github.io/ggeugle/olddictfilter/db2/olddict${encodeURI(pos)}`);
+        let response = await fetch(`https://singrum.github.io/ggeugle/${dict_type}${encodeURI(pos)}`);
         let text = await response.text();
-        word_list = word_list.concat(text.split('\n'));
+        word_list = word_list.concat(text.split('\n').map(x=>x.trim("\r")));
         
     }
     let r = new Rule(word_list, rule_object);
@@ -269,8 +270,8 @@ async function main(dict_type = "olddict", pos_list = ["명사"], rule_object = 
             <button class="btn btn-outline-success cir-menu" type="button" style="width:32%">순환음절</button>
         </div>`
     function searchLengthRestrict(){
-        if(document.querySelector("#search-box").value.length > 1){
-            document.querySelector("#search-box").value = document.querySelector("#search-box").value[1];
+        if(document.querySelector("#search-box").value.length > 3){
+            document.querySelector("#search-box").value = document.querySelector("#search-box").value[3];
         }
     }
     function search(){
@@ -450,15 +451,15 @@ function ruleUpdate(){
     let changable;
     let i;
     let minlen;
-    for(i = 0; i <= 1; i++){
+    for(i = 0; i <= 2; i++){
         if(document.querySelector(`#dict${i}`).checked) {dict_num = i; break;}
     }
     switch(dict_num){
         case 0:
-            dict_type = "olddict_1";
+            dict_type = "olddictfilter/db2/olddict";
             break;
         case 1:
-            dict_type = "newdict";
+            dict_type = "opendict/db/품사2/opendict";
             break;
     }
     for(i = 0; i <= 3; i++){
