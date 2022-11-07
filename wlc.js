@@ -270,7 +270,7 @@ async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사
     }
 
     if(dict_type == "opendict/db/품사2/opendict" && cate_list.length != 4){
-        cate_word_list = [];
+        let cate_word_list = [];
         for(let cate of cate_list){
             response = await fetch(`https://singrum.github.io/ggeugle/opendict/db/범주/opendict${encodeURI(cate)}`);
             text = await response.text();
