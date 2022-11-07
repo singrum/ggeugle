@@ -1,3 +1,12 @@
+function ableCateButton(){
+    document.querySelectorAll("input[name=cate]").forEach(e=>e.disabled = false);
+}
+
+function disableCateButton(){
+    document.querySelectorAll("input[name=cate]").forEach(e=>{e.disabled = true; e.checked = true;});
+}
+
+
 class Rule{
     constructor(word_list, {changable = 1, len_filter = (w)=>w.length>=2, head_index = 0, tail_index = -1, is_misere = false}){
 
@@ -65,7 +74,6 @@ class Rule{
     lenFilt(){
 
         this.word_list = this.word_list.filter(x => x&&this.len_filter(x));
-        this.word_list.forEach((e, i)=>this.word_list[i].trim());
     }
 
     head(word){return word[this.head_index >= 0? this.head_index:word.length + this.head_index];}
@@ -251,7 +259,7 @@ class WordManager extends CharManager{
     
 }
 
-async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사"], rule_object = {}){
+async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사"], cate_list = ["", "방언", "북한어", "옛말"], rule_object = {}){
     let alert_area_flag = 0;
     let word_list = [];
     for(let pos of pos_list){
@@ -260,6 +268,18 @@ async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사
         word_list = word_list.concat(text.split('\n').map(x=>x.trim("\r")));
         
     }
+
+    if(dict_type == "opendict/db/품사2/opendict" && cate_list.length != 4){
+        cate_word_list = [];
+        for(let cate of cate_list){
+            response = await fetch(`https://singrum.github.io/ggeugle/opendict/db/범주/opendict${encodeURI(cate)}`);
+            text = await response.text();
+            cate_word_list = cate_word_list.concat(text.split('\n').map(x=>x.trim("\r")));
+        }
+        let cate_word_set = new Set(cate_word_list);
+        word_list = word_list.filter(e=>cate_word_set.has(e));
+    }
+
     let r = new Rule(word_list, rule_object);
     let wm = new WordManager(r);
     document.querySelector("#char-button-set").innerHTML=`
@@ -490,6 +510,27 @@ function ruleUpdate(){
                 return "감탄사";
         }
     })
+
+    let cate_list = [];
+    for(i = 0; i<=3; i++){
+        if(document.querySelector(`#cate${i}`).checked){
+            cate_list.push(i);
+        }
+    }
+    cate_list = cate_list.map(x=>{
+        switch(x){
+            case 0:
+                return "";
+            case 1:
+                return "방언";
+            case 2:
+                return "북한어";
+            case 3:
+                return "옛말";
+        }
+    })
+
+
     let available_length_set = new Set()
     let len10up = document.querySelector("#length10up").checked;
     for(i = 2; i <= 9; i++){
@@ -538,5 +579,5 @@ function ruleUpdate(){
     if(document.querySelector("#index-tail-forward").selected){tail_index = tail_query_val - 1}
     else{tail_index = - tail_query_val}
     let rule_object = {changable, len_filter, head_index, tail_index};
-    main(dict_type, pos_list, rule_object);
+    main(dict_type, pos_list, cate_list, rule_object);
 }

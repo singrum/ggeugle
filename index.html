@@ -223,18 +223,16 @@
         <div class="container center" id="rule-area" style="display: none">
             <div class="row" style="background-color: #f5f5f5">
                 <div class="col-6 center border-bottom" style="border-right:1px solid #dee2e6!important">
-                    <br>
-                    <h3 class = "center"><b>사전</b></h3>
+                    <div style = "height: 20px; width: 100%"></div>
+                    <h5 class = "center"><b>사전</b></h5>
                     <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group">
     
-                        <input type="radio" class="btn-check" name="dictionary" id="dict0" autocomplete="off" checked>
+                        <input type="radio" class="btn-check" name="dictionary" id="dict0" autocomplete="off" onclick="disableCateButton()" checked>
                         <label class="btn btn-outline-primary" for="dict0">(구)표국대</label>
     
-                        <input type="radio" class="btn-check" name="dictionary" id="dict1" autocomplete="off">
+                        <input type="radio" class="btn-check" name="dictionary" id="dict1" autocomplete="off" onclick="ableCateButton()">
                         <label class="btn btn-outline-primary" for="dict1">우리말샘</label>
                        
-                        <input type="radio" class="btn-check" name="dictionary" id="dict2" autocomplete="off" disabled>
-                        <label class="btn btn-outline-primary" for="dict3">(신)표국대</label>
                         <!-- 
                         <input type="radio" class="btn-check" name="dictionary" id="dict3" autocomplete="off" disabled>
                         <label class="btn btn-outline-primary" for="dict4">나무위키</label>
@@ -244,8 +242,8 @@
                     </div>
                 </div>
                 <div class="col-6 center border-bottom">
-                    <br>
-                    <h3><b>두음법칙</b></h3>
+                    <div style = "height: 20px; width: 100%"></div>
+                    <h5><b>두음법칙</b></h5>
                     <div class="btn-group-vertical" role="group" aria-label="Basic radio toggle button group" style = "margin-bottom: 20px">
     
                         <input type="radio" class="btn-check" name="changable" id="chan0" autocomplete="off">
@@ -262,8 +260,8 @@
                     </div>
                 </div>
                 <div class="col-12 border-bottom">
-                    <br>
-                    <h3 class="center"><b>품사</b></h3>
+                    <div style = "height: 20px; width: 100%"></div>
+                    <h5 class="center"><b>품사</b></h5>
                     <div class="wrapper center">
                         <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="margin-bottom : 10px">
                             <input type="checkbox" class="btn-check" name="pos" id="pos0" autocomplete="off" checked>
@@ -275,7 +273,7 @@
                             <input type="checkbox" class="btn-check" name="pos" id="pos3" autocomplete="off">
                             <label class="btn btn-outline-primary" for="pos3">수사</label>
                         </div>
-                        <br>
+                        
                         <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="margin-bottom : 10px">
                             <input type="checkbox" class="btn-check" name="pos" id="pos4" autocomplete="off">
                             <label class="btn btn-outline-primary" for="pos4">부사</label>
@@ -285,10 +283,28 @@
                             <label class="btn btn-outline-primary" for="pos6">감탄사</label>
                         </div>
                     </div>
+                    <div style = "height: 20px; width: 100%"></div>
                 </div>
                 <div class="col-12 border-bottom">
-                    <br>
-                    <h3 class="center"><b>글자수</b></h3>
+                    <div style = "height: 20px; width: 100%"></div>
+                    <h5 class="center"><b>범주</b></h5>
+                    <div class="wrapper center">
+                        <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group" style="margin-bottom : 10px">
+                            <input type="checkbox" class="btn-check" name="cate" id="cate0" autocomplete="off" checked disabled>
+                            <label class="btn btn-outline-primary" for="cate0">일반어</label>
+                            <input type="checkbox" class="btn-check" name="cate" id="cate1" autocomplete="off" checked disabled>
+                            <label class="btn btn-outline-primary" for="cate1">방언</label>
+                            <input type="checkbox" class="btn-check" name="cate" id="cate2" autocomplete="off" checked disabled>
+                            <label class="btn btn-outline-primary" for="cate2">북한어</label>
+                            <input type="checkbox" class="btn-check" name="cate" id="cate3" autocomplete="off" checked disabled>
+                            <label class="btn btn-outline-primary" for="cate3">옛말</label>
+                        </div>
+                    </div>
+                    <div style = "height: 20px; width: 100%"></div>
+                </div>
+                <div class="col-12 border-bottom">
+                    <div style = "height: 20px; width: 100%"></div>
+                    <h5 class="center"><b>글자수</b></h5>
                     <div class="wrapper center">
                         <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                             <input type="checkbox" class="btn-check" name="length" id="length2" autocomplete="off" checked>
@@ -310,12 +326,12 @@
                             <input type="checkbox" class="btn-check" name="length" id="length10up" autocomplete="off" checked>
                             <label class="btn btn-outline-primary" for="length10up">...</label>
                         </div>
-                        <div><br></div>
+                        <div style = "height: 20px; width: 100%"></div>
                     </div>
                 </div>
                 <div class="col-12 center">
-                    <br>
-                    <h3><b>인덱스</b></h3>
+                    <div style = "height: 20px; width: 100%"></div>
+                    <h5><b>인덱스</b></h5>
                     <div class ="center">
                         <div class="row" style="justify-content: center;">
                             <div class="input-group input-group-md mb-3 index-input-group" >
@@ -339,6 +355,7 @@
                             <div class="container" id = "index-alert"></div>
                         </div>
                     </div>
+                    <div style = "height: 20px; width: 100%"></div>
                 </div>
                 <!-- <div class="col-12 center border-bottom">
                     <h3><b>지면이기는룰</b></h3>
