@@ -1,3 +1,11 @@
+a{
+    text-decoration : none;
+}
+a { color: #444444; }
+a:visited { color: #444444; }
+a:hover { color: #444444; }
+a:active { color: #444444; }
+
 .site-header{
     height:70px;
     display: flex;
@@ -16,7 +24,6 @@
     font-size: 40px;
     margin-left: 10px;
     color : #444444;
-    
 }
 
 .sublogo{
