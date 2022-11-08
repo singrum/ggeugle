@@ -7,6 +7,7 @@
         <meta name="author" content="싱그럼">
         <title>끄글·끝말잇기 검색 엔진</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="design.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,202 +23,28 @@
             $('.material-icons').css('opacity','1');
             });
         </script>
-        <style>
-            .material-icons{
-                opacity:0;
-            }
-            .logo{
-                font-family: 'Sunflower', sans-serif;
-                color : #444444;
-                margin-top : 20px;
-            }
-            .small-logo{
-                font-family: 'Sunflower', sans-serif;
-                color : #444444;
-	    font-size : 40px;
-
-            }
-            .logo-explain{
-                color:#999999;
-                transform: translateY(-20px);
-            }
-            .logo-explain2{
-                font-size: 10px;
-                color:#999999;
-                transform: translateY(-20px);
-            }
-            body {
-                text-align: left;
-                background-color : rgba(241, 243, 244, 0.1);
-            }
-            h1{
-                font-size: 100px;
-                text-align: center;
-            }
-            h2{
-                text-align: center;
-            }
-            .center{
-                text-align : center;
-            }
-            .perfect-center{
-                line-height: 0px
-            }
-            .smallwidth{
-                width : 80%;
-            }
-            #rule-option{
-                background-color: #212529;
-                color : white
-            }
-            .accordion-body{
-                background-color : #e7f1ff;
-            }
-            .material-symbols-outlined {
-                font-variation-settings:
-                'FILL' 0,
-                'wght' 400,
-                'GRAD' 0,
-                'opsz' 100;
-
-            }
-            .win-char-button0{
-                background-color: #0a58ca;
-                color:#fff;
-                font-size: 15px;
-                border-radius: 100000px;
-                padding: 5px 10px;
-                margin: 0px 2px;
-                white-space:nowrap
-            }
-            .win-char-button1{
-                background-color: #0d6efd;
-                color:#fff;
-                font-size: 15px;
-                border-radius: 100000px;
-                padding: 5px 10px;
-                margin: 0px 2px;
-                white-space:nowrap
-            }
-            .win-char-button2{
-                background-color: #3d8bfd;
-                color:#fff;
-                font-size: 15px;
-                border-radius: 100000px;
-                padding: 5px 10px;
-                margin: 0px 2px;
-                white-space:nowrap
-            }
-            .win-char-button3{
-                background-color: #6ea8fe;
-                color:#fff;
-                font-size: 15px;
-                border-radius: 100000px;
-                padding: 5px 10px;
-                margin: 0px 2px;
-                white-space:nowrap
-            }
-            .win-char-button4{
-                background-color: #9ec5fe;
-                color:#fff;
-                font-size: 15px;
-                border-radius: 100000px;
-                padding: 5px 10px;
-                margin: 0px 2px;
-                white-space:nowrap
-            }
-            .los-char-button0{
-                background-color: #b02a37;
-                color:#fff;
-                font-size: 15px;
-                border-radius: 100000px;
-                padding: 5px 10px;
-                margin: 0px 2px;
-                white-space:nowrap
-            }
-            .los-char-button1{
-                background-color: #dc3545;
-                color:#fff;
-                font-size: 15px;
-                border-radius: 100000px;
-                padding: 5px 10px;
-                margin: 0px 2px;
-                white-space:nowrap
-            }
-            .los-char-button2{
-                background-color: #e35d6a;
-                color:#fff;
-                font-size: 15px;
-                border-radius: 100000px;
-                padding: 5px 10px;
-                margin: 0px 2px;
-                white-space:nowrap
-            }
-            .los-char-button3{
-                background-color: #ea868f;
-                color:#fff;
-                font-size: 15px;
-                border-radius: 100000px;
-                padding: 5px 10px;
-                margin: 0px 2px;
-                white-space:nowrap
-            }
-            .los-char-button4{
-                background-color: #f1aeb5;
-                color:#fff;
-                font-size: 15px;
-                border-radius: 100000px;
-                padding: 5px 10px;
-                margin: 0px 2px;
-                white-space:nowrap
-            }
-            .cir-char-button{
-                background-color: #198754;
-                color:#fff;
-                font-size: 15px;
-                border-radius: 100000px;
-                padding: 5px 10px;
-                margin: 0px 2px;
-                white-space:nowrap
-            }
-            #button-area, #search-val-area, #search-val-result{
-                line-height: 40px;
-                text-align: center
-            }
-            .index-input-group{
-                width : 270px;
-            }
-            .footer{
-                height : 500px;
-            }
-            th, td{
-                text-align: left;
-            }
-            .big-font{
-                font-size : 30px
-            }
-
-        </style>
     </head>
     <body>
-        <div class = "container headbox"><div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <!-- <div class = "container headbox"><div class="alert alert-primary alert-dismissible fade show" role="alert">
             음절, 단어 버튼을 클릭하면 자동으로 검색됩니다.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-          </div></div>
+          </div></div> -->
 
-
-        <div class = "container logo" onclick="window.location.reload()" oncontextmenu="return false" ondragstart="return false" onselectstart="return false"><h1>끄글</h1></div>
-        <div class = "container logo-explain center">끝말잇기 검색 엔진</div>
+        <header class="site-header">
+            <span class = "logo-set">
+                <span class = "logo" onclick="window.location.reload()" oncontextmenu="return false" ondragstart="return false" onselectstart="return false">끄글</span>
+                <span class = "sublogo">끝말잇기 검색 엔진</span>
+            </span>
+            <span class="stat-rule-btn-set">
+                <button type="button" class="trans-bnt" id="stat-button"><span class="material-symbols-outlined" style="font-size:30px;">query_stats</span></button>
+                <button type="button" class="trans-bnt" id="rule-button"><span class="material-symbols-outlined" style="font-size:30px;">settings</span></button>
+            </div>
+        </header>
  
 
 
 
 
-        <div class="container center">
-            <button type="button" class="btn btn-outline-dark center" style="line-height: 10px; margin:10px auto; width:70px" id="rule-button"><span class="material-symbols-outlined">settings</span></button>
-            
-            <button type="button" class="btn btn-outline-dark center" style="line-height: 10px; margin:10px auto; width:70px" id="stat-button"><span class="material-symbols-outlined">query_stats</span></button>
-        </div>
         
         <div class="container center" id="alert-area"></div>
         <div class="container center" id="rule-area" style="display: none">
@@ -401,7 +228,7 @@
     </body>
     <footer>
         <div class="p-4" style="background-color: rgba(0, 0, 0, 0.05);">
-            <div class="small-logo">끄글</div>
+            <div class="logo" style="font-size: 35px; margin: 0px">끄글</div>
             <span style="font-size: 17px; color:#212529">ⓒ 2022 강효민 | </span>
             <a href="https://github.com/singrum"><img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" style="width: 25px;height:25px;margin:1px 1px;"/></a>
             <a href="https://open.kakao.com/me/singrum"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111496.png" style="width:25px; height: 25px; margin: 1px 1px"/></a>
