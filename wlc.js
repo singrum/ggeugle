@@ -429,10 +429,7 @@ async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사
         }
     });
     document.querySelector("#stat-button").addEventListener("click", function(){
-        if(alert_area_flag !== 1){
-            alert_area_flag = 1
-            document.querySelector("#rule-area").style.display = "none";
-            document.querySelector("#alert-area").innerHTML=`
+        document.querySelector("#alert-area").innerHTML=`
             <table class="table table-hover">
             <tbody>
                 <tr><th scope="row">단어 수</th><td>${wm.rule.word_list.length}</td></tr>
@@ -445,23 +442,9 @@ async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사
 
             </table>`;
         }
-        else{
-            alert_area_flag = 0;
-            document.querySelector("#alert-area").innerHTML= "";
-        }
-    })
+    )
 
-    document.querySelector("#rule-button").addEventListener("click", function(){
-        if(alert_area_flag !== 2){
-            alert_area_flag = 2
-            document.querySelector("#alert-area").innerHTML= "";
-            document.querySelector("#rule-area").style.display = "block";
-        }
-        else{
-            alert_area_flag = 0;
-            document.querySelector("#rule-area").style.display = "none";
-        }
-    })
+
 
 }
 main()
@@ -553,12 +536,12 @@ function ruleUpdate(){
       </div>`
       return;
     }
-
+    var modal = bootstrap.Modal.getInstance(document.querySelector("#rule-modal"))
+    modal.hide();
     document.querySelector("#search-val-area").innerHTML= "";
     document.querySelector("#search-val-result").innerHTML = "";
     document.querySelector("#button-area").innerHTML = "";
     document.querySelector("#alert-area").innerHTML = "";
-    document.querySelector("#rule-area").style.display = "none";
     document.querySelector("#char-button-set").innerHTML=`
     <div class="container center">
         <button class="btn btn-outline-primary" type="button" style="width:32%" disabled>
