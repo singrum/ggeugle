@@ -1,7 +1,7 @@
 a{
     text-decoration : none;
+    color: #444444;
 }
-a { color: #444444; }
 a:visited { color: #444444; }
 a:hover { color: #444444; }
 a:active { color: #444444; }
