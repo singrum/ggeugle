@@ -215,12 +215,23 @@
         
 
         <div class="container" id="scroll-flag"></div>
-        <div class="container mt-3">
-            <input type="text" class="form-control center" id = "search-box" placeholder="" style="width: 100px;display: block; margin:10px auto; padding:3px; font-size : 50px" maxlength='1'/>
+        <div class="search-set">
+            <input type="text" class="search-box form-control center" id = "search-box" placeholder="" style="width: 100px;display: block; margin:10px auto; padding:3px; font-size : 50px" maxlength='1'/>
+            
+            <span class="btn btn-outline-secondary subsearch-keyboard" type="button">
+                <span class="material-symbols-outlined">
+                    keyboard
+                </span>
+            </span>
+            <span class="btn btn-outline-secondary subsearch-selection" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+                <span class="material-symbols-outlined">
+                    apps
+                </span>
+            </span>
         </div>
         <div class="container center" id="search-val-area"></div>
         <div class="container" id="search-val-result"></div>
-        <div class="container"><br></div>
+        <!--
         <div class="container">
             <div class="row" id="char-button-set">
                         
@@ -238,12 +249,34 @@
                
             </div>
         </div>
+        -->
 
 
-        <div class ="container"><br></div>
+        
+
+        <!--offcanvas-->
+
+        <div class="offcanvas offcanvas-bottom" style="height: 40%" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+            <div class="offcanvas-header" style="padding: 0; border-bottom: 1px solid rgba(0, 0, 0, 0.175)">
+                <div class="btn-group menu-group" role="group" aria-label="Basic radio toggle button group">
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                    <label class="btn btn-outline-primary wlc-menu win-menu" for="btnradio1">승리음절</label>
+                
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                    <label class="btn btn-outline-danger wlc-menu los-menu" for="btnradio2">패배음절</label>
+                
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                    <label class="btn btn-outline-success wlc-menu cir-menu" for="btnradio3">순환음절</label>
+                </div>
+                <button type="button" class="btn-close offcanvas-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body" style="padding: 0">
+                <div class="container" id="button-area"></div>
+            </div>
+        </div>
 
 
-        <div class="container" id="button-area"></div>
+
         <div class="footer"></div>
     </body>
     <footer>

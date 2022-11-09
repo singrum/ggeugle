@@ -282,13 +282,13 @@ async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사
 
     let r = new Rule(word_list, rule_object);
     let wm = new WordManager(r);
-    document.querySelector("#char-button-set").innerHTML=`
+    // document.querySelector("#char-button-set").innerHTML=`
 
-        <div class="container center">
-            <button class="btn btn-outline-primary win-menu" type="button" style="width:32%">승리음절</button>
-            <button class="btn btn-outline-danger los-menu" type="button" style="width:32%">패배음절</button>
-            <button class="btn btn-outline-success cir-menu" type="button" style="width:32%">순환음절</button>
-        </div>`
+    //     <div class="container center">
+    //         <button class="btn btn-outline-primary win-menu" type="button">승리음절</button>
+    //         <button class="btn btn-outline-danger los-menu" type="button">패배음절</button>
+    //         <button class="btn btn-outline-success cir-menu" type="button">순환음절</button>
+    //     </div>`
     function searchLengthRestrict(){
         if(document.querySelector("#search-box").value.length > 3){
             document.querySelector("#search-box").value = document.querySelector("#search-box").value[3];
@@ -367,7 +367,47 @@ async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사
     }
     // document.querySelector('#search-button').addEventListener("click", search);
     document.querySelector('#search-box').addEventListener("keyup", ()=>{searchLengthRestrict();search();});
-    let menu_flag = 0;
+    
+    let menu_flag = 1;
+    document.querySelector(".subsearch-selection").addEventListener("click", function(){
+        if(menu_flag == 1){
+            let win_buttons_HTML = "";
+            for(let i in wm.win_char_class.content){
+                win_buttons_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
+                win_buttons_HTML += `<div class="char-button-set">`;
+                let arr = Array.from(wm.win_char_class.get(i));
+                arr.sort()
+                arr.forEach(x=>{win_buttons_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
+                win_buttons_HTML += `</div>`;
+            }
+            document.querySelector("#button-area").innerHTML = win_buttons_HTML;
+            addEventtoButtons()
+        }
+        else if(menu_flag == 2){
+            let los_buttons_HTML = "";
+            for(let i in wm.los_char_class.content){
+                los_buttons_HTML += "" + `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
+                los_buttons_HTML += `<div class="char-button-set">`;
+                let arr = Array.from(wm.los_char_class.get(i));
+                arr.sort();
+                arr.forEach(x=>{los_buttons_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
+                los_buttons_HTML += `</div>`;
+            }
+            document.querySelector("#button-area").innerHTML = los_buttons_HTML;
+            addEventtoButtons()
+        }
+        else{
+            let cir_buttons_HTML = "";
+            cir_buttons_HTML += `<div class="char-button-set">`;
+            let arr = Array.from(wm.cir_char_set);
+            arr.sort();
+            arr.forEach(char=>{cir_buttons_HTML += `<span class="char-button cir-char-button">${char}</span>`});
+            cir_buttons_HTML += `</div>`;
+            
+            document.querySelector("#button-area").innerHTML = cir_buttons_HTML;
+            addEventtoButtons();
+        }
+    });
     document.querySelector(".win-menu").addEventListener("click", function(){
         if(menu_flag !== 1){
             menu_flag = 1;
@@ -382,10 +422,6 @@ async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사
             }
             document.querySelector("#button-area").innerHTML = win_buttons_HTML;
             addEventtoButtons()
-        }
-        else{
-            menu_flag = 0;
-            document.querySelector("#button-area").innerHTML = "";
         }
     });
     document.querySelector(".los-menu").addEventListener("click", function(){
@@ -403,10 +439,6 @@ async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사
             document.querySelector("#button-area").innerHTML = los_buttons_HTML;
             addEventtoButtons()
         }
-        else{
-            menu_flag = 0;
-            document.querySelector("#button-area").innerHTML = "";
-        }
     });
 
 
@@ -423,11 +455,14 @@ async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사
             document.querySelector("#button-area").innerHTML = cir_buttons_HTML;
             addEventtoButtons();
         }
-        else{
-            menu_flag = 0;
-            document.querySelector("#button-area").innerHTML = "";
-        }
     });
+
+    document.querySelector(".subsearch-keyboard").addEventListener("click", function(){
+            document.querySelector(".offcanvas-close").click();
+            document.querySelector(".search-box").click();
+        }
+    )
+
     document.querySelector("#stat-button").addEventListener("click", function(){
         document.querySelector("#alert-area").innerHTML=`
             <table class="table table-hover">
@@ -542,19 +577,6 @@ function ruleUpdate(){
     document.querySelector("#search-val-result").innerHTML = "";
     document.querySelector("#button-area").innerHTML = "";
     document.querySelector("#alert-area").innerHTML = "";
-    document.querySelector("#char-button-set").innerHTML=`
-    <div class="container center">
-        <button class="btn btn-outline-primary" type="button" style="width:32%" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        </button>
-        <button class="btn btn-outline-danger" type="button" style="width:32%" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        </button>
-        <button class="btn btn-outline-success" type="button" style="width:32%" disabled>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        </button>
-    </div>
-    `;
 
 
     if(document.querySelector("#index-head-forward").selected){head_index = head_query_val - 1}
