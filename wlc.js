@@ -260,7 +260,6 @@ class WordManager extends CharManager{
 }
 
 async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어", "방언", "북한어", "옛말"], rule_object = {}){
-    
     let word_list = [];
     if(dict_num == 0){
         for(let pos of pos_list){
@@ -480,13 +479,15 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             </table>`;
         }
     )
-
+    
+    document.querySelector(".backdrop").style.display = "none";
 
 
 }
 main()
 
 function ruleUpdate(){
+    document.querySelector(".backdrop").style.display = "flex";
     let dict_num;
     let changable;
     let i;

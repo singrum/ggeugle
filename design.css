@@ -6,6 +6,23 @@ a:visited { color: #444444; }
 a:hover { color: #444444; }
 a:active { color: #444444; }
 
+.backdrop{
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100vw;
+    height : 100vh;
+    position : fixed;
+    top: 0px;
+    left : 0px;
+    z-index: 999999;
+    display : flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.screen-loading{
+    position : fixed;
+    margin :auto
+}
 
 .site-header{
     height:70px;
