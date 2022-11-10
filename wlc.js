@@ -259,25 +259,27 @@ class WordManager extends CharManager{
     
 }
 
-async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사"], cate_list = ["", "방언", "북한어", "옛말"], rule_object = {}){
-    let alert_area_flag = 0;
+async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어", "방언", "북한어", "옛말"], rule_object = {}){
+    
     let word_list = [];
-    for(let pos of pos_list){
-        let response = await fetch(`https://singrum.github.io/ggeugle/${dict_type}${encodeURI(pos)}`);
-        let text = await response.text();
-        word_list = word_list.concat(text.split('\n').map(x=>x.trim("\r")));
-        
+    if(dict_num == 0){
+        for(let pos of pos_list){
+            let response = await fetch(`https://singrum.github.io/ggeugle/olddictfilter/db2/olddict${encodeURI(pos)}`);
+            let text = await response.text();
+            word_list = word_list.concat(text.split('\n').map(x=>x.trim("\r")));
+            
+    }
     }
 
-    if(dict_type == "opendict/db/품사2/opendict" && cate_list.length != 4){
-        let cate_word_list = [];
+
+    else if(dict_num == 1){
         for(let cate of cate_list){
-            response = await fetch(`https://singrum.github.io/ggeugle/opendict/db/범주/opendict${encodeURI(cate)}`);
-            text = await response.text();
-            cate_word_list = cate_word_list.concat(text.split('\n').map(x=>x.trim("\r")));
+            for (let pos of pos_list){
+                response = await fetch(`https://singrum.github.io/ggeugle/opendict_db/db/${cate}/${encodeURI(pos)}`);
+                text = await response.text();
+                word_list = word_list.concat(text.split('\n').map(x=>x.trim("\r")));
+            }
         }
-        let cate_word_set = new Set(cate_word_list);
-        word_list = word_list.filter(e=>cate_word_set.has(e));
     }
 
     let r = new Rule(word_list, rule_object);
@@ -485,20 +487,12 @@ async function main(dict_type = "olddictfilter/db2/olddict", pos_list = ["명사
 main()
 
 function ruleUpdate(){
-    let dict_num, dict_type;
+    let dict_num;
     let changable;
     let i;
     let minlen;
     for(i = 0; i <= 2; i++){
         if(document.querySelector(`#dict${i}`).checked) {dict_num = i; break;}
-    }
-    switch(dict_num){
-        case 0:
-            dict_type = "olddictfilter/db2/olddict";
-            break;
-        case 1:
-            dict_type = "opendict/db/품사2/opendict";
-            break;
     }
     for(i = 0; i <= 3; i++){
         if(document.querySelector(`#chan${i}`).checked) {changable = i; break;}
@@ -538,7 +532,7 @@ function ruleUpdate(){
     cate_list = cate_list.map(x=>{
         switch(x){
             case 0:
-                return "";
+                return "일반어";
             case 1:
                 return "방언";
             case 2:
@@ -584,5 +578,5 @@ function ruleUpdate(){
     if(document.querySelector("#index-tail-forward").selected){tail_index = tail_query_val - 1}
     else{tail_index = - tail_query_val}
     let rule_object = {changable, len_filter, head_index, tail_index};
-    main(dict_type, pos_list, cate_list, rule_object);
+    main(dict_num, pos_list, cate_list, rule_object);
 }
