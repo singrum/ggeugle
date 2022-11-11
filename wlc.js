@@ -299,8 +299,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
         }
     }
     function search(){
-        // window.scrollTo({ left: 0, top: document.querySelector(".search-set").offsetTop - 10, behavior: "smooth" });
-        console.log(wm)
+        
         let val = document.querySelector('#search-box').value;
         let val_button_HTML;
         let val_result_HTML;
@@ -380,7 +379,6 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
     document.querySelector('#search-box').addEventListener("keyup", search_event);
     
     function make_offcanvas(){
-        console.log(wm)
         let win_buttons_HTML = "";
         for(let i in wm.win_char_class.content){
             win_buttons_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
