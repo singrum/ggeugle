@@ -486,7 +486,11 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             </table>`;
         }
     )
-    
+    document.querySelector(".subsearch-shuffle").addEventListener("click", function(){
+        let random_char = wm.char_list[Math.floor(Math.random() * wm.char_list.length)]
+        document.querySelector("#search-box").value = random_char;
+        search();
+    })
     document.querySelector(".backdrop").style.display = "none";
 
 
