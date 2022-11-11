@@ -259,6 +259,8 @@ class WordManager extends CharManager{
     
 }
 
+let menu_flag = 1;
+
 async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어", "방언", "북한어", "옛말"], rule_object = {}){
     let word_list = [];
     if(dict_num == 0){
@@ -296,7 +298,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
         }
     }
     function search(){
-        window.scrollTo({ left: 0, top: document.querySelector("#scroll-flag").offsetTop, behavior: "smooth" });
+        // window.scrollTo({ left: 0, top: document.querySelector(".search-set").offsetTop - 10, behavior: "smooth" });
 
         let val = document.querySelector('#search-box').value;
         let val_button_HTML;
@@ -354,10 +356,15 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
 
         addEventtoButtons();
     }
+
+
     let foo = function(){
         document.querySelector("#search-box").value = this.innerText.length === 1?this.innerText : wm.rule.tail(this.innerText);
         search();
     }
+    
+    search()
+    
     function addEventtoButtons(){
 
         let char_button_list = document.querySelectorAll(".char-button");
@@ -368,9 +375,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
     }
     // document.querySelector('#search-button').addEventListener("click", search);
     document.querySelector('#search-box').addEventListener("keyup", ()=>{searchLengthRestrict();search();});
-    
-    let menu_flag = 1;
-    document.querySelector(".subsearch-selection").addEventListener("click", function(){
+    let make_modal = function(){
         if(menu_flag == 1){
             let win_buttons_HTML = "";
             for(let i in wm.win_char_class.content){
@@ -408,7 +413,9 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             document.querySelector("#button-area").innerHTML = cir_buttons_HTML;
             addEventtoButtons();
         }
-    });
+    }
+    make_modal();
+    // document.querySelector(".subsearch-selection").addEventListener("click", make_modal);
     document.querySelector(".win-menu").addEventListener("click", function(){
         if(menu_flag !== 1){
             menu_flag = 1;
@@ -568,10 +575,9 @@ function ruleUpdate(){
     }
     var modal = bootstrap.Modal.getInstance(document.querySelector("#rule-modal"))
     modal.hide();
-    document.querySelector("#search-val-area").innerHTML= "";
-    document.querySelector("#search-val-result").innerHTML = "";
-    document.querySelector("#button-area").innerHTML = "";
-    document.querySelector("#alert-area").innerHTML = "";
+    // document.querySelector("#search-val-area").innerHTML= "";
+    // document.querySelector("#search-val-result").innerHTML = "";
+    // document.querySelector("#button-area").innerHTML = "";
 
 
     if(document.querySelector("#index-head-forward").selected){head_index = head_query_val - 1}

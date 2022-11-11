@@ -68,7 +68,7 @@ a:active { color: #444444; }
     display:grid;
     width: 100px;
     margin: auto;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 .subsearch-keyboard{
     width: 50px;
