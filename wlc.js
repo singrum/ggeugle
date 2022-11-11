@@ -285,6 +285,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
 
     let r = new Rule(word_list, rule_object);
     let wm = new WordManager(r);
+    
     // document.querySelector("#char-button-set").innerHTML=`
 
     //     <div class="container center">
@@ -299,7 +300,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
     }
     function search(){
         // window.scrollTo({ left: 0, top: document.querySelector(".search-set").offsetTop - 10, behavior: "smooth" });
-
+        console.log(wm)
         let val = document.querySelector('#search-box').value;
         let val_button_HTML;
         let val_result_HTML;
@@ -356,7 +357,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
 
         addEventtoButtons();
     }
-
+    
 
     let foo = function(){
         document.querySelector("#search-box").value = this.innerText.length === 1?this.innerText : wm.rule.tail(this.innerText);
@@ -374,96 +375,79 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             button.addEventListener("click", foo);})
     }
     // document.querySelector('#search-button').addEventListener("click", search);
-    document.querySelector('#search-box').addEventListener("keyup", ()=>{searchLengthRestrict();search();});
-    let make_modal = function(){
-        if(menu_flag == 1){
-            let win_buttons_HTML = "";
-            for(let i in wm.win_char_class.content){
-                win_buttons_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
-                win_buttons_HTML += `<div class="char-button-set">`;
-                let arr = Array.from(wm.win_char_class.get(i));
-                arr.sort()
-                arr.forEach(x=>{win_buttons_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
-                win_buttons_HTML += `</div>`;
-            }
-            document.querySelector("#button-area").innerHTML = win_buttons_HTML;
-            addEventtoButtons()
+    let search_event = function(){searchLengthRestrict();search();};
+    document.querySelector('#search-box').removeEventListener("keyup", search_event);
+    document.querySelector('#search-box').addEventListener("keyup", search_event);
+    
+    function make_offcanvas(){
+        console.log(wm)
+        let win_buttons_HTML = "";
+        for(let i in wm.win_char_class.content){
+            win_buttons_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
+            win_buttons_HTML += `<div class="char-button-set">`;
+            let arr = Array.from(wm.win_char_class.get(i));
+            arr.sort()
+            arr.forEach(x=>{win_buttons_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
+            win_buttons_HTML += `</div>`;
         }
-        else if(menu_flag == 2){
-            let los_buttons_HTML = "";
-            for(let i in wm.los_char_class.content){
-                los_buttons_HTML += "" + `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
-                los_buttons_HTML += `<div class="char-button-set">`;
-                let arr = Array.from(wm.los_char_class.get(i));
-                arr.sort();
-                arr.forEach(x=>{los_buttons_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
-                los_buttons_HTML += `</div>`;
-            }
-            document.querySelector("#button-area").innerHTML = los_buttons_HTML;
-            addEventtoButtons()
-        }
-        else{
-            let cir_buttons_HTML = "";
-            cir_buttons_HTML += `<div class="char-button-set">`;
-            let arr = Array.from(wm.cir_char_set);
+        document.querySelector("#win-button-area").innerHTML = win_buttons_HTML;
+        
+        let los_buttons_HTML = "";
+        for(let i in wm.los_char_class.content){
+            los_buttons_HTML += "" + `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
+            los_buttons_HTML += `<div class="char-button-set">`;
+            let arr = Array.from(wm.los_char_class.get(i));
             arr.sort();
-            arr.forEach(char=>{cir_buttons_HTML += `<span class="char-button cir-char-button">${char}</span>`});
-            cir_buttons_HTML += `</div>`;
-            
-            document.querySelector("#button-area").innerHTML = cir_buttons_HTML;
-            addEventtoButtons();
+            arr.forEach(x=>{los_buttons_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
+            los_buttons_HTML += `</div>`;
         }
+        document.querySelector("#los-button-area").innerHTML = los_buttons_HTML;
+        
+        let cir_buttons_HTML = "";
+        cir_buttons_HTML += `<div class="char-button-set">`;
+        let arr = Array.from(wm.cir_char_set);
+        arr.sort();
+        arr.forEach(char=>{cir_buttons_HTML += `<span class="char-button cir-char-button">${char}</span>`});
+        cir_buttons_HTML += `</div>`;
+        
+        document.querySelector("#cir-button-area").innerHTML = cir_buttons_HTML;
+        addEventtoButtons();
     }
-    make_modal();
-    // document.querySelector(".subsearch-selection").addEventListener("click", make_modal);
-    document.querySelector(".win-menu").addEventListener("click", function(){
+    make_offcanvas();
+    
+
+    let win_menu_event = ()=>{
         if(menu_flag !== 1){
             menu_flag = 1;
-            let win_buttons_HTML = "";
-            for(let i in wm.win_char_class.content){
-                win_buttons_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
-                win_buttons_HTML += `<div class="char-button-set">`;
-                let arr = Array.from(wm.win_char_class.get(i));
-                arr.sort()
-                arr.forEach(x=>{win_buttons_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
-                win_buttons_HTML += `</div>`;
-            }
-            document.querySelector("#button-area").innerHTML = win_buttons_HTML;
-            addEventtoButtons()
+            document.querySelector("#win-button-area").style.display = "block";
+            document.querySelector("#los-button-area").style.display = "none";
+            document.querySelector("#cir-button-area").style.display = "none";
         }
-    });
-    document.querySelector(".los-menu").addEventListener("click", function(){
+    }
+    let los_menu_event = ()=>{
         if(menu_flag !== 2){
             menu_flag = 2;
-            let los_buttons_HTML = "";
-            for(let i in wm.los_char_class.content){
-                los_buttons_HTML += "" + `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
-                los_buttons_HTML += `<div class="char-button-set">`;
-                let arr = Array.from(wm.los_char_class.get(i));
-                arr.sort();
-                arr.forEach(x=>{los_buttons_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
-                los_buttons_HTML += `</div>`;
-            }
-            document.querySelector("#button-area").innerHTML = los_buttons_HTML;
-            addEventtoButtons()
+            document.querySelector("#win-button-area").style.display = "none";
+            document.querySelector("#los-button-area").style.display = "block";
+            document.querySelector("#cir-button-area").style.display = "none";
         }
-    });
-
-
-    document.querySelector(".cir-menu").addEventListener("click", function(){
+    }
+    let cir_menu_event = ()=>{
         if(menu_flag !== 3){
             menu_flag = 3;
-            let cir_buttons_HTML = "";
-            cir_buttons_HTML += `<div class="char-button-set">`;
-            let arr = Array.from(wm.cir_char_set);
-            arr.sort();
-            arr.forEach(char=>{cir_buttons_HTML += `<span class="char-button cir-char-button">${char}</span>`});
-            cir_buttons_HTML += `</div>`;
-            
-            document.querySelector("#button-area").innerHTML = cir_buttons_HTML;
-            addEventtoButtons();
+            document.querySelector("#win-button-area").style.display = "none";
+            document.querySelector("#los-button-area").style.display = "none";
+            document.querySelector("#cir-button-area").style.display = "block";
         }
-    });
+    }
+    // document.querySelector(".win-menu").removeEventListener("click", win_menu_event);
+    document.querySelector(".win-menu").addEventListener("click", win_menu_event);
+
+    // // document.querySelector(".los-menu").removeEventListener("click", los_menu_event);
+    document.querySelector(".los-menu").addEventListener("click", los_menu_event);
+
+    // document.querySelector(".cir-menu").removeEventListener("click", cir_menu_event);
+    document.querySelector(".cir-menu").addEventListener("click", cir_menu_event);
 
     document.querySelector(".subsearch-keyboard").addEventListener("click", function(){
             document.querySelector(".offcanvas-close").click();
@@ -491,6 +475,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
         document.querySelector("#search-box").value = random_char;
         search();
     })
+    
     document.querySelector(".backdrop").style.display = "none";
 
 

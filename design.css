@@ -308,7 +308,7 @@ h2{
     margin: 0px 2px;
     white-space:nowrap
 }
-#button-area, #search-val-area, #search-val-result{
+.button-area, #search-val-area, #search-val-result{
     line-height: 40px;
     text-align: center
 }
