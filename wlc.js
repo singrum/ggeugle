@@ -262,6 +262,9 @@ class WordManager extends CharManager{
 let menu_flag = 1;
 
 async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어", "방언", "북한어", "옛말"], rule_object = {}){
+
+
+
     let word_list = [];
     if(dict_num == 0){
         for(let pos of pos_list){
@@ -299,7 +302,6 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
         }
     }
     function search(){
-        
         let val = document.querySelector('#search-box').value;
         let val_button_HTML;
         let val_result_HTML;
@@ -307,7 +309,12 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             val_button_HTML = `<div class="char-button-set" style="margin-top:20px;margin-bottom:20px"><span class="char-button cir-char-button" style="font-size: 30px; padding : 5px 14px;">${val}</span><br></div>`;
             val_result_HTML = "";
             val_result_HTML += `<div class="char-button-set">`;
-            wm.nextCirWordList(val).forEach(x=>{val_result_HTML += `<span class="char-button cir-char-button">${x}</span>`});
+            let sorted_array = wm.nextCirWordList(val).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
+            if (wm.rule.head(a) < wm.rule.head(b)) return -1;
+            if (wm.rule.tail(a) > wm.rule.tail(b)) return 1;
+            if (wm.rule.tail(a) < wm.rule.tail(b)) return -1;
+            return 0;});
+            sorted_array.forEach(x=>{val_result_HTML += `<span class="char-button cir-char-button">${x}</span>`});
             val_result_HTML += `</div>`;
         }
         else if(wm.win_char_set.has(val)){
@@ -317,7 +324,13 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             for(let i in wm.win_word_class.get(val).content){
                 val_result_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
                 val_result_HTML += `<div class="char-button-set">`;
-                wm.win_word_class.get(val).get(i).forEach(x=>{val_result_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
+                let sorted_array = Array.from(wm.win_word_class.get(val).get(i)).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
+                    if (wm.rule.head(a) < wm.rule.head(b)) return -1;
+                    if (wm.rule.tail(a) > wm.rule.tail(b)) return 1;
+                    if (wm.rule.tail(a) < wm.rule.tail(b)) return -1;
+                    return 0;});
+                
+                sorted_array.forEach(x=>{val_result_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
                 val_result_HTML += `</div>`;
             }
         }
@@ -328,7 +341,12 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             for(let i in wm.los_word_class.get(val).content){
                 val_result_HTML += `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
                 val_result_HTML += `<div class="char-button-set">`;
-                wm.los_word_class.get(val).get(i).forEach(x=>{val_result_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
+                let sorted_array = Array.from(wm.los_word_class.get(val).get(i)).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
+                    if (wm.rule.head(a) < wm.rule.head(b)) return -1;
+                    if (wm.rule.tail(a) > wm.rule.tail(b)) return 1;
+                    if (wm.rule.tail(a) < wm.rule.tail(b)) return -1;
+                    return 0;});
+                sorted_array.forEach(x=>{val_result_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
                 val_result_HTML += `</div>`;
             }
         }
@@ -363,7 +381,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
         search();
     }
     
-    search()
+    search();
     
     function addEventtoButtons(){
 
@@ -373,12 +391,12 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             button.removeEventListener("click", foo);
             button.addEventListener("click", foo);})
     }
-    // document.querySelector('#search-button').addEventListener("click", search);
     let search_event = function(){searchLengthRestrict();search();};
-    document.querySelector('#search-box').removeEventListener("keyup", search_event);
+    
     document.querySelector('#search-box').addEventListener("keyup", search_event);
     
     function make_offcanvas(){
+        
         let win_buttons_HTML = "";
         for(let i in wm.win_char_class.content){
             win_buttons_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
@@ -438,13 +456,9 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             document.querySelector("#cir-button-area").style.display = "block";
         }
     }
-    // document.querySelector(".win-menu").removeEventListener("click", win_menu_event);
+
     document.querySelector(".win-menu").addEventListener("click", win_menu_event);
-
-    // // document.querySelector(".los-menu").removeEventListener("click", los_menu_event);
     document.querySelector(".los-menu").addEventListener("click", los_menu_event);
-
-    // document.querySelector(".cir-menu").removeEventListener("click", cir_menu_event);
     document.querySelector(".cir-menu").addEventListener("click", cir_menu_event);
 
     document.querySelector(".subsearch-keyboard").addEventListener("click", function(){
@@ -453,6 +467,12 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
         }
     )
 
+
+    document.querySelector(".subsearch-shuffle").addEventListener("click", function(){
+        let random_char = wm.char_list[Math.floor(Math.random() * wm.char_list.length)]
+        document.querySelector("#search-box").value = random_char;
+        search();
+    })
     document.querySelector("#stat-button").addEventListener("click", function(){
         document.querySelector("#alert-area").innerHTML=`
             <table class="table table-hover">
@@ -468,12 +488,6 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             </table>`;
         }
     )
-    document.querySelector(".subsearch-shuffle").addEventListener("click", function(){
-        let random_char = wm.char_list[Math.floor(Math.random() * wm.char_list.length)]
-        document.querySelector("#search-box").value = random_char;
-        search();
-    })
-    
     document.querySelector(".backdrop").style.display = "none";
 
 
@@ -562,15 +576,74 @@ function ruleUpdate(){
     }
     var modal = bootstrap.Modal.getInstance(document.querySelector("#rule-modal"))
     modal.hide();
-    // document.querySelector("#search-val-area").innerHTML= "";
-    // document.querySelector("#search-val-result").innerHTML = "";
-    // document.querySelector("#button-area").innerHTML = "";
 
 
     if(document.querySelector("#index-head-forward").selected){head_index = head_query_val - 1}
     else{head_index = - head_query_val}
     if(document.querySelector("#index-tail-forward").selected){tail_index = tail_query_val - 1}
     else{tail_index = - tail_query_val}
+
+
+
+
     let rule_object = {changable, len_filter, head_index, tail_index};
+
+    let temp = document.querySelector(".search-box").value;
+    document.querySelector(".search-set").innerHTML = `<input type="text" class="search-box form-control center" id = "search-box" placeholder="" maxlength='1'/>
+            
+    <span class="btn btn-outline-secondary subsearch-keyboard" type="button">
+        <span class="material-symbols-outlined">
+            keyboard
+        </span>
+    </span>
+    <span class="btn btn-outline-secondary subsearch-selection" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">
+        <span class="material-symbols-outlined">
+            apps
+        </span>
+    </span>
+    <span class="btn btn-outline-secondary subsearch-shuffle" type="button">
+        <span class="material-symbols-outlined">
+            shuffle
+        </span>
+    </span>`;
+
+    document.querySelector(".search-box").value = temp;
+    if(menu_flag == 1){
+        document.querySelector(".menu-group").innerHTML = 
+        `<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+        <label class="btn btn-outline-primary wlc-menu win-menu" for="btnradio1">승리음절</label>
+    
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+        <label class="btn btn-outline-danger wlc-menu los-menu" for="btnradio2">패배음절</label>
+    
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+        <label class="btn btn-outline-success wlc-menu cir-menu" for="btnradio3">순환음절</label>`;
+    }
+    else if(menu_flag == 2){
+        document.querySelector(".menu-group").innerHTML = 
+        `<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+        <label class="btn btn-outline-primary wlc-menu win-menu" for="btnradio1">승리음절</label>
+    
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" checked>
+        <label class="btn btn-outline-danger wlc-menu los-menu" for="btnradio2">패배음절</label>
+    
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+        <label class="btn btn-outline-success wlc-menu cir-menu" for="btnradio3">순환음절</label>`;
+    }
+    else{
+        document.querySelector(".menu-group").innerHTML = 
+        `<input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+        <label class="btn btn-outline-primary wlc-menu win-menu" for="btnradio1">승리음절</label>
+    
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+        <label class="btn btn-outline-danger wlc-menu los-menu" for="btnradio2">패배음절</label>
+    
+        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" checked>
+        <label class="btn btn-outline-success wlc-menu cir-menu" for="btnradio3">순환음절</label>`;
+    }
+
+    document.querySelector(".stat-rule-btn-set").innerHTML = 
+    `<button type="button" class="trans-bnt" id="stat-button" data-bs-toggle="modal" data-bs-target="#stat-modal"><span class="material-symbols-outlined" style="font-size:30px;">query_stats</span></button>
+    <button type="button" class="trans-bnt" id="rule-button" data-bs-toggle="modal" data-bs-target="#rule-modal"><span class="material-symbols-outlined" style="font-size:30px;">settings</span></button>`;
     main(dict_num, pos_list, cate_list, rule_object);
 }
