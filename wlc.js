@@ -303,11 +303,11 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
     }
     function search(){
         let val = document.querySelector('#search-box').value;
-        let val_button_HTML;
-        let val_result_HTML;
+        let val_button_HTML = "";
+        let val_result_HTML = "";
         if(wm.cir_char_set.has(val)){
             val_button_HTML = `<div class="char-button-set" style="margin-top:20px;margin-bottom:20px"><span class="char-button cir-char-button" style="font-size: 30px; padding : 5px 14px;">${val}</span><br></div>`;
-            val_result_HTML = "";
+            
             val_result_HTML += `<div class="char-button-set">`;
             let sorted_array = wm.nextCirWordList(val).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
             if (wm.rule.head(a) < wm.rule.head(b)) return -1;
@@ -316,11 +316,24 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             return 0;});
             sorted_array.forEach(x=>{val_result_HTML += `<span class="char-button cir-char-button">${x}</span>`});
             val_result_HTML += `</div>`;
+            val_result_HTML += `<span class="badge bg-secondary">${val}(으)로 끝나는 순환단어</span>`
+            val_result_HTML += `<div class="char-button-set"">`
+            let result = [];
+            for(let char of wm.cir_char_set){
+                result = result.concat(wm.nextCirWordList(char).filter((e) => wm.rule.tail(e) === val))
+            }
+            sorted_array = result.sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
+                if (wm.rule.head(a) < wm.rule.head(b)) return -1;
+                if (wm.rule.tail(a) > wm.rule.tail(b)) return 1;
+                if (wm.rule.tail(a) < wm.rule.tail(b)) return -1;
+                return 0;});
+            sorted_array.forEach(x=>{val_result_HTML += `<span class="char-button cir-char-button">${x}</span>`});
+            val_result_HTML += `</div>`;
         }
         else if(wm.win_char_set.has(val)){
             let i = wm.win_char_class.findDegree(val);
             val_button_HTML = `<span class="badge bg-secondary">${i}턴 후 승리</span><div class="char-button-set" style="margin-top:5px; margin-bottom:10px"><span class="char-button win-char-button${i <= 3? i: 3}" style="font-size: 30px; padding : 5px 14px;">${val}</span><br></div>`;
-            val_result_HTML = "";
+            
             for(let i in wm.win_word_class.get(val).content){
                 val_result_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
                 val_result_HTML += `<div class="char-button-set">`;
@@ -333,11 +346,12 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
                 sorted_array.forEach(x=>{val_result_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
                 val_result_HTML += `</div>`;
             }
+
         }
         else if(wm.los_char_set.has(val)){
             let i = wm.los_char_class.findDegree(val);
             val_button_HTML = `<span class="badge bg-secondary">${i}턴 후 패배</span><div class="char-button-set" style="margin-top:5px; margin-bottom:10px"><span class="char-button los-char-button${i <= 3? i: 3}" style="font-size: 30px; padding : 5px 14px;">${val}</span><br></div>`;
-            val_result_HTML = "";
+            
             for(let i in wm.los_word_class.get(val).content){
                 val_result_HTML += `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
                 val_result_HTML += `<div class="char-button-set">`;
@@ -349,10 +363,20 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
                 sorted_array.forEach(x=>{val_result_HTML += `<span class="char-button los-char-button${i <= 3? i: 3}">${x}</span>`});
                 val_result_HTML += `</div>`;
             }
+            val_result_HTML += `<span class="badge bg-secondary">${val}(으)로 끝나는 단어</span>`
+            val_result_HTML += `<div class="char-button-set"">`
+            let sorted_array = wm.rule.word_list.filter((e) => wm.rule.tail(e) == val).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
+                if (wm.rule.head(a) < wm.rule.head(b)) return -1;
+                if (wm.rule.tail(a) > wm.rule.tail(b)) return 1;
+                if (wm.rule.tail(a) < wm.rule.tail(b)) return -1;
+                return 0;});
+            sorted_array.forEach(x=>{val_result_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
+            val_result_HTML += `</div>`;
+
         }
         else if(!val){
             val_button_HTML = "";
-            val_result_HTML = "";
+            
         }
         else{
             val_button_HTML = `<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -366,12 +390,13 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
                 존재하지 않는 음절입니다!
             </div>
             </div>`
-            val_result_HTML = ""
+            
         }
 
         document.querySelector("#search-val-area").innerHTML = val_button_HTML;
         document.querySelector("#search-val-result").innerHTML = val_result_HTML;
 
+        
         addEventtoButtons();
     }
     
