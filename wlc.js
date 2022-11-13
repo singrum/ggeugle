@@ -322,7 +322,8 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             for(let char of wm.cir_char_set){
                 result = result.concat(wm.nextCirWordList(char).filter((e) => wm.rule.tail(e) === val))
             }
-            sorted_array = result.sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
+            
+            sorted_array = Array.from(new Set(result)).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
                 if (wm.rule.head(a) < wm.rule.head(b)) return -1;
                 if (wm.rule.tail(a) > wm.rule.tail(b)) return 1;
                 if (wm.rule.tail(a) < wm.rule.tail(b)) return -1;
