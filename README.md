@@ -65,5 +65,5 @@ x가 1을 만족시키는 경우 x를 **승리음절**이라고 하고, 2를 만
 
 DB출처
 ------
-구표준국어대사전 : https://github.com/korean-word-game/db
+구표준국어대사전 : https://github.com/korean-word-game/db  
 우리말샘 : https://opendict.korean.go.kr/main?target=pc&view=main
