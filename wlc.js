@@ -12,6 +12,7 @@ class Rule{
 
         this.word_list = Array.from(new Set(word_list));
         this.changable = this.setChangable(changable);
+        this.reverse_changable = this.setReverseChangable(changable);
         this.len_filter = len_filter;
         this.lenFilt();
         this.head_index = head_index;
@@ -70,6 +71,52 @@ class Rule{
                 }
         }
     }
+    setReverseChangable(changable){
+        let sc = (char)=>char.charCodeAt(0);//string to charcode
+        let cs = (code)=>String.fromCharCode(code);//code to string
+        switch(changable){
+            case 0: //두법 없음
+                return function(char){return [char]};
+            case 1: //표준
+                return function(char){
+                    if(sc(char) >= sc("야") && sc(char) <= sc("얗") ||
+                    sc(char) >= sc("예") && sc(char) <= sc("옣")) 
+                        return [char, cs(sc(char) + sc("라") - sc("아"))];
+                    if(sc(char) >= sc("나") && sc(char) <= sc("낳") ||
+                    sc(char) >= sc("내") && sc(char) <= sc("냏") ||
+                    sc(char) >= sc("노") && sc(char) <= sc("놓") ||
+                    sc(char) >= sc("누") && sc(char) <= sc("눟") ||
+                    sc(char) >= sc("느") && sc(char) <= sc("늫") ||
+                    sc(char) >= sc("뇌") && sc(char) <= sc("뇧")) 
+                        return [char, cs(sc(char) + sc('라') - sc("나"))];
+                    if(sc(char) >= sc("여") && sc(char) <= sc("옇") ||
+                    sc(char) >= sc("요") && sc(char) <= sc("욯") ||
+                    sc(char) >= sc("유") && sc(char) <= sc("윻") ||
+                    sc(char) >= sc("이") && sc(char) <= sc("잏")) 
+                        return [char, cs(sc(char) + sc('나') - sc("아")), cs(sc(char) + sc('라') - sc("아"))];
+                    return [char];
+                }
+            case 2: //ㄹㄴㅇ 일방향
+                return function(char){
+                    if(sc(char) >= sc("아") && sc(char) <= sc("잏"))
+                        return [char, cs(sc(char) + sc('나') - sc("아")), cs(sc(char) + sc("라") - sc("아"))];
+                    if(sc(char) >= sc("나") && sc(char) <= sc("닣"))
+                        return [char, cs(sc(char) + sc('라') - sc("나"))];
+                    return [char]
+                }
+            case 3: //ㄹㄴㅇ 쌍방향
+                return function(char){
+                    if(sc(char) >= sc("라") && sc(char) <= sc("맇"))
+                        return [char, cs(sc(char) + sc('나') - sc("라")), cs(sc(char) + sc("아") - sc("라"))];
+                    if(sc(char) >= sc("나") && sc(char) <= sc("닣"))
+                        return [char, cs(sc(char) + sc('라') - sc("나")), cs(sc(char) + sc("아") - sc("나"))];
+                    if(sc(char) >= sc("아") && sc(char) <= sc("잏"))
+                        return [char, cs(sc(char) + sc('라') - sc("아")), cs(sc(char) + sc("나") - sc("아"))];
+                    return [char]
+                }
+        }
+    }
+    
 
     lenFilt(){
 
@@ -143,15 +190,6 @@ class CharManager{
     }
     setGraph(){
         let graph = new Map();
-        // let h,t;
-        // for(let word of this.rule.word_list){
-        //     h = this.rule.head(word);
-        //     t = this.rule.tail(word);
-        //     if(!graph.has(h)){graph.set(h,[])}
-        //     if(!graph.has(t)){graph.set(t,[])}
-        //     graph.get(h).push(t);
-        // }
-
         for(let [key, val] of this.rule.word_dict.entries()){
             graph.set(key, val.map(x=>this.rule.tail(x)));
         }
@@ -289,13 +327,6 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
     let r = new Rule(word_list, rule_object);
     let wm = new WordManager(r);
     
-    // document.querySelector("#char-button-set").innerHTML=`
-
-    //     <div class="container center">
-    //         <button class="btn btn-outline-primary win-menu" type="button">승리음절</button>
-    //         <button class="btn btn-outline-danger los-menu" type="button">패배음절</button>
-    //         <button class="btn btn-outline-success cir-menu" type="button">순환음절</button>
-    //     </div>`
     function searchLengthRestrict(){
         if(document.querySelector("#search-box").value.length > 3){
             document.querySelector("#search-box").value = document.querySelector("#search-box").value[3];
@@ -309,8 +340,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             val_button_HTML = `<div class="char-button-set" style="margin-top:20px;margin-bottom:20px"><span class="char-button cir-char-button" style="font-size: 30px; padding : 5px 14px;">${val}</span><br></div>`;
             
             val_result_HTML += `<div class="char-button-set">`;
-            let sorted_array = wm.nextCirWordList(val).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
-            if (wm.rule.head(a) < wm.rule.head(b)) return -1;
+            let sorted_array = wm.nextCirWordList(val).sort((a,b) => {
             if (wm.rule.tail(a) > wm.rule.tail(b)) return 1;
             if (wm.rule.tail(a) < wm.rule.tail(b)) return -1;
             return 0;});
@@ -320,13 +350,12 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             val_result_HTML += `<div class="char-button-set"">`
             let result = [];
             for(let char of wm.cir_char_set){
-                result = result.concat(wm.nextCirWordList(char).filter((e) => wm.rule.tail(e) === val))
+                result = result.concat(wm.nextCirWordList(char).filter((e) => wm.rule.reverse_changable(val).includes(wm.rule.tail(e))))
             }
             
-            sorted_array = Array.from(new Set(result)).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
+            sorted_array = Array.from(new Set(result)).sort((a,b) => {
+                if(wm.rule.head(a) > wm.rule.head(b)) return 1;
                 if (wm.rule.head(a) < wm.rule.head(b)) return -1;
-                if (wm.rule.tail(a) > wm.rule.tail(b)) return 1;
-                if (wm.rule.tail(a) < wm.rule.tail(b)) return -1;
                 return 0;});
             sorted_array.forEach(x=>{val_result_HTML += `<span class="char-button cir-char-button">${x}</span>`});
             val_result_HTML += `</div>`;
@@ -338,8 +367,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             for(let i in wm.win_word_class.get(val).content){
                 val_result_HTML += `<span class="badge bg-secondary">${i}턴 후 승리</span>`;
                 val_result_HTML += `<div class="char-button-set">`;
-                let sorted_array = Array.from(wm.win_word_class.get(val).get(i)).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
-                    if (wm.rule.head(a) < wm.rule.head(b)) return -1;
+                let sorted_array = Array.from(wm.win_word_class.get(val).get(i)).sort((a,b) => {
                     if (wm.rule.tail(a) > wm.rule.tail(b)) return 1;
                     if (wm.rule.tail(a) < wm.rule.tail(b)) return -1;
                     return 0;});
@@ -356,8 +384,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             for(let i in wm.los_word_class.get(val).content){
                 val_result_HTML += `<span class="badge bg-secondary">${i}턴 후 패배</span>`;
                 val_result_HTML += `<div class="char-button-set">`;
-                let sorted_array = Array.from(wm.los_word_class.get(val).get(i)).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
-                    if (wm.rule.head(a) < wm.rule.head(b)) return -1;
+                let sorted_array = Array.from(wm.los_word_class.get(val).get(i)).sort((a,b) => {
                     if (wm.rule.tail(a) > wm.rule.tail(b)) return 1;
                     if (wm.rule.tail(a) < wm.rule.tail(b)) return -1;
                     return 0;});
@@ -366,10 +393,8 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             }
             val_result_HTML += `<span class="badge bg-secondary">${val}(으)로 끝나는 단어</span>`
             val_result_HTML += `<div class="char-button-set"">`
-            let sorted_array = wm.rule.word_list.filter((e) => wm.rule.tail(e) == val).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
+            let sorted_array = wm.rule.word_list.filter((e) => wm.rule.reverse_changable(val).includes(wm.rule.tail(e))).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
                 if (wm.rule.head(a) < wm.rule.head(b)) return -1;
-                if (wm.rule.tail(a) > wm.rule.tail(b)) return 1;
-                if (wm.rule.tail(a) < wm.rule.tail(b)) return -1;
                 return 0;});
             sorted_array.forEach(x=>{val_result_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
             val_result_HTML += `</div>`;
