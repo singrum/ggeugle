@@ -1,5 +1,0 @@
-[2022.11.10/19:43:22] - Traceback (most recent call last):
-  File "C:\Users\CKIRUser\Downloads\ggeugle-main\ggeugle-main\opendict\filter.py", line 57, in <module>
-    f.write(text)
-io.UnsupportedOperation: not writable
-
