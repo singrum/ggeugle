@@ -350,7 +350,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             val_result_HTML += `<div class="char-button-set"">`
             let result = [];
             for(let char of wm.cir_char_set){
-                result = result.concat(wm.nextCirWordList(char).filter((e) => wm.rule.reverse_changable(val).includes(wm.rule.tail(e))))
+                result = result.concat(wm.nextCirWordList(char).filter(e => wm.rule.reverse_changable(val).includes(wm.rule.tail(e))))
             }
             
             sorted_array = Array.from(new Set(result)).sort((a,b) => {
@@ -393,7 +393,7 @@ async function main(dict_num = 0, pos_list = ["명사"], cate_list = ["일반어
             }
             val_result_HTML += `<span class="badge bg-secondary">${val}(으)로 끝나는 단어</span>`
             val_result_HTML += `<div class="char-button-set"">`
-            let sorted_array = wm.rule.word_list.filter((e) => wm.rule.reverse_changable(val).includes(wm.rule.tail(e))).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
+            let sorted_array = wm.rule.word_list.filter((e) => wm.rule.reverse_changable(val).filter(e=>wm.los_char_set.has(e)).includes(wm.rule.tail(e))).sort((a,b) => {if(wm.rule.head(a) > wm.rule.head(b)) return 1;
                 if (wm.rule.head(a) < wm.rule.head(b)) return -1;
                 return 0;});
             sorted_array.forEach(x=>{val_result_HTML += `<span class="char-button win-char-button${i <= 3? i: 3}">${x}</span>`});
