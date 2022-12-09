@@ -67,3 +67,6 @@ DB출처
 ------
 구표준국어대사전 : https://github.com/korean-word-game/db  
 우리말샘 : https://opendict.korean.go.kr/main?target=pc&view=main
+
+Bug & Fix
+----------
