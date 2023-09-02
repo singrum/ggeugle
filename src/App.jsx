@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import Header from './header'
-import Search from './search'
+import Header from './component/Header'
+import Search from './component/Search'
 import './App.css'
 
 function App() {
@@ -10,6 +10,8 @@ function App() {
     <>
       <Header></Header>
       <Search></Search>
+      {/* <WordBox></WordBox>
+      <CharBox></CharBox> */}
       
     </>
   )

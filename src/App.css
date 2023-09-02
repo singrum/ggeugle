@@ -5,8 +5,7 @@
   align-items: center;
 }
 
-.logo-set,
-.menu-set {
+.logo-set,.menu-set {
   display: flex;
   align-items: center;
   margin: 10px;
@@ -54,7 +53,7 @@
 .search-box .search-input {
   padding: 0 10px;
   font-size: 50px;
-  width: 117px;
+  width: 137px;
   height: 80px;
   border-radius: 0.5rem 0.5rem 0px 0px;
   border: 1px solid #ced4da;
