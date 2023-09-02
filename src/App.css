@@ -1,42 +1,107 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.logo-set,
+.menu-set {
+  display: flex;
+  align-items: center;
+  margin: 10px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.logo-img {
+  width: 45px;
+ 
+  margin: 0.4rem;
+  fill: #444444
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.logo-text {
+  font-family: 'Do Hyeon', sans-serif;
+  font-size: 2.6rem;
+
+  transform: translateY(0.1rem);
+  color: #444444
 }
 
-.card {
-  padding: 2em;
+.btn-wrap {
+  display: flex;
+  font-size: 0.8rem;
+  width: 44px;
+  margin: 0.2rem;
+  flex-direction: column;
+  align-items: center;
+
 }
 
-.read-the-docs {
-  color: #888;
+.btn-wrap caption {
+  margin: 0;
+  color : "#444444"
+}
+
+
+.search-box {
+  display: grid;
+  width: 137px;
+  margin: auto;
+  margin-top: 10px;
+  box-shadow: 0 5px 10px 0 rgba(117,145,181,.12);
+}
+
+.search-box .search-input {
+  padding: 0 10px;
+  font-size: 50px;
+  width: 117px;
+  height: 80px;
+  border-radius: 0.5rem 0.5rem 0px 0px;
+  border: 1px solid #ced4da;
+  grid-column: 1 / span 3;
+  margin: 0 !important;
+}
+.search-box .prev {
+  width: 45px;
+  height: 40px;
+  grid-column: 1;
+  grid-row: 2;
+  border-radius: 0px 0px 0px 0.5rem;
+  border: 1px solid #ced4da;
+  border-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-box .selection {
+  width: 45px;
+  height: 40px;
+  grid-column: 2;
+  grid-row: 2;
+  border-radius: 0;
+  border: 1px solid #ced4da;
+  border-top: 0;
+  border-left: 0;
+  border-right : 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-box .next {
+  width: 45px;
+  height: 40px;
+  grid-column: 3;
+  grid-row: 2;
+  border-radius: 0px 0px 0.5rem 0px;
+  border: 1px solid #ced4da;
+  border-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-box .btn-icon{
+  
+  width : 30px;
 }
