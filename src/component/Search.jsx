@@ -1,5 +1,10 @@
-function Search() {
+import { useState } from 'react';
+import CharOffcanvas from './CharOffcanvas'
 
+function Search(props) {
+  
+
+  const toggleOffcanvas = () => props.setOffCanvasShow(!props.offCanvasShow);
   return (
     <>
       <div className="search-box">
@@ -7,7 +12,7 @@ function Search() {
         <span className="prev">
           <img className="btn-icon" src="icon/arrow_back_FILL0_wght200_GRAD0_opsz24.svg"></img>
         </span>
-        <span className="selection">
+        <span className="selection" onClick={toggleOffcanvas}>
           <img className="btn-icon" src="icon/apps_FILL0_wght200_GRAD0_opsz24.svg"></img>
         </span>
         <span className="next">
@@ -15,6 +20,7 @@ function Search() {
         </span>
 
       </div>
+      
     </>
   )
 }

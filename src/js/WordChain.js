@@ -1,5 +1,5 @@
 class Rule{
-    constructor(word_list, {changable = 1, len_filter = (w)=>w.length>=2, head_index = 0, tail_index = -1, is_misere = false}){
+    constructor(word_list, {changable = 1, len_filter = (w)=>w.length>=2, head_index = 0, tail_index = -1}){
 
         this.word_list = Array.from(new Set(word_list));
         this.changable = this.setChangable(changable);
@@ -9,7 +9,7 @@ class Rule{
         this.head_index = head_index;
         this.tail_index = tail_index;
         this.word_dict = this.setWordDict(this.word_list);
-        this.is_misere = is_misere;
+        
     }
 
 
