@@ -50,7 +50,7 @@ async function getData() {
       pos: 1,
       cate: 15,
       len: 1023,
-      chan: 0,
+      chan: 1,
       idx: 2
     }
   }

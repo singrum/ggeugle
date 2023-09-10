@@ -49,7 +49,8 @@
   width: 137px;
   margin: auto;
   margin-top: 1rem;
-  box-shadow: 0 7px 30px -10px rgba(150,170,180,0.5);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 0.5rem;
 }
 
 .search-box .search-input, .search-box .search-input:focus, .search-box .search-input:focus-visible{
@@ -236,57 +237,72 @@
   white-space:nowrap
 }
 .char-button-win-0{
-  background-color: #0a58ca;
+  background-color: rgba(13, 110, 253, 1.0);
 }
 .char-button-win-1{
-  background-color: #0d6efd;
+  background-color: rgba(13, 110, 253, 0.9);
 }
 .char-button-win-2{
-  background-color: #3d8bfd;
+  background-color: rgba(13, 110, 253, 0.8);
 }
 .char-button-win-3{
-  background-color: #6ea8fe;
+  background-color: rgba(13, 110, 253, 0.7);
 }
 .char-button-win-4{
-  background-color: #9ec5fe;
+  background-color: rgba(13, 110, 253, 0.6);
+}
+.char-button-win-5{
+  background-color: rgba(13, 110, 253, 0.5);
+}
+.char-button-win-6{
+  background-color: rgba(13, 110, 253, 0.4);
 }
 .char-button-los-0{
-  background-color: #b02a37;
+  background-color: rgba(220, 53, 69, 1.0);
 }
 .char-button-los-1{
-  background-color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.9);
 }
 .char-button-los-2{
-  background-color: #e35d6a;
+  background-color: rgba(220, 53, 69, 0.8);
 }
 .char-button-los-3{
-  background-color: #ea868f;
+  background-color: rgba(220, 53, 69, 0.7);
 }
 .char-button-los-4{
-  background-color: #f1aeb5;
+  background-color: rgba(220, 53, 69, 0.6);
 }
+.char-button-los-5{
+  background-color: rgba(220, 53, 69, 0.5);
+}
+.char-button-los-6{
+  background-color: rgba(220, 53, 69, 0.4);
+}
+
 .char-button-cir-0{
   background-color: #198754;
 }
-.offcanvas .char-btn-card{
+.char-btn-card{
   text-align: center;
   border-radius: 0.5rem;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   padding : 0.8rem;
-  margin-bottom : 1rem
+  margin-bottom : 1rem;
+  /* display : inline-block */
 
 }
-.offcanvas .card-caption{
+.card-caption{
   background-color: rgb(var(--bs-secondary-rgb));
   border-radius: 10000px;
   font-size : 0.75rem;
   padding: 0.35em 0.75em;
-  /* font-weight: 700; */
+  margin-bottom : 0.8rem;
+  display : inline-block;
   color: #ffffff;  
 }
 
-.offcanvas .char-container{
-  margin-top : 1rem;
+.char-container{
+  
   line-height :2rem;
 }
 

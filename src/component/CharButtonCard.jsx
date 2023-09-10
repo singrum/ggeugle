@@ -1,9 +1,10 @@
 function CharButtonCard(props) {
 	return (
 		<div className="char-btn-card">
-			<span className="card-caption">
+			{props.caption && 
+			<div className="card-caption">
 				{props.caption}
-			</span>
+			</div>}
 			<div className='char-container'>
 				{props.children}
 			</div>

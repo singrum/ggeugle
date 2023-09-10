@@ -24,7 +24,7 @@ function Setting1(props) {
   )
 }
 function Setting2(props) {
-  const [select, setSelect] = useState(0)
+  const [select, setSelect] = useState('1')
   useEffect(() => {
     props.setRuleInfo({ ...props.ruleInfo, "chan": select })
   }, [select])

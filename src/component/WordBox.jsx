@@ -1,11 +1,9 @@
 import CharButtonCard from "./CharButtonCard"
 
-function WordBox() {
+function WordBox(props) {
   return (
     <div className="btn-card-set">
-      <CharButtonCard>
-        
-      </CharButtonCard>
+        {props.children}
     </div>
   )
 }
