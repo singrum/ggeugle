@@ -212,10 +212,10 @@
   height : 50% !important
 }
 .offcanvas-header{
-  padding:0;
+  padding: 0.5rem 0;
   display: grid;
   grid-template-columns: 1fr 3rem;
-  height : 3rem
+  height : auto
 }
 .offcanvas .radio-btn-set{
   display: flex;
