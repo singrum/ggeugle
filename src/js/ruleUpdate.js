@@ -1,5 +1,17 @@
 import { Rule, DegreeClass, WordClass, CharManager, WordManager } from "../js/WordChain"
 
+function decimalToArr(decimal, map){
+  const binaryArr = decimal.toString(2).padStart(map.length,'0').split("")
+  
+  const result = []
+  for (let i = 0; i < map.length; i++) {
+    if (binaryArr[i] === "1") {
+      result.push(map[map.length - 1 - i])
+    }
+  }
+  return result
+}
+
 function decode(params) {
   const result = { ...params }
   const map = {
@@ -8,53 +20,16 @@ function decode(params) {
     len: [2, 3, 4, 5, 6, 7, 8, 9, -1]
   }
 
-  function toArr(decimal, map){
-    const binaryArr = decimal.toString(2).padStart(map.length,'0').split("")
-    
-    const result = []
-    for (let i = 0; i < map.length; i++) {
-      if (binaryArr[i] === "1") {
-        result.push(map[map.length - 1 - i])
-      }
-    }
-    return result
-  }
-
-  result.pos = toArr(params.pos, map.pos)
-  result.cate = toArr(params.cate, map.cate)
-  result.len = toArr(params.len, map.len)
-
-
-  
-  const headIdxDir = params.idx % 2;
-  const tailIdxDir = (params.idx % 4) / 2;
-  const headIdxNum = Math.floor(params.idx / 4) % 10
-  const tailIdxNum = Math.floor(Math.floor(params.idx / 4) / 10)
-  const headIdx = headIdxDir === 0? headIdxNum : -headIdxNum - 1
-  const tailIdx = tailIdxDir === 0? tailIdxNum : -tailIdxNum - 1
-
-  result.idx = [headIdx, tailIdx]
+  result.pos = decimalToArr(params.pos, map.pos)
+  result.cate = decimalToArr(params.cate, map.cate)
+  result.len = decimalToArr(params.len, map.len)
   return result
 
 }
 
 
-async function getData() {
-  let params = Object.fromEntries(
-    new URLSearchParams(window.location.search)
-  )
-  
-  if (Object.keys(params).length === 0) {
-    params = {
-      dict: 0,
-      pos: 1,
-      cate: 15,
-      len: 1023,
-      chan: 1,
-      idx: 2
-    }
-  }
-  params = decode(params)
+async function getData(rule) {
+  const params = decode(rule)
   
 
   let wordList = []
@@ -99,8 +74,8 @@ async function getData() {
       }
       return false;
     },
-    head_index : params.idx[0],
-    tail_index : params.idx[1]
+    head_index : params.headDir === 0 ? params.headIdx - 1 : -params.headIdx,
+    tail_index : params.tailDir === 0 ? params.tailIdx - 1 : -params.tailIdx
   });
   let wm = new WordManager(r);
   return wm

@@ -147,21 +147,17 @@ function Setting5(props) {
 }
 
 function Setting6(props) {
-  const [idxObj, setIdxObj] = useState({ headDir: 0, headIdx: 0, tailDir: 1, tailIdx: 0 })
-  let code = 2;
-
+  const [idxObj, setIdxObj] = useState({headDir : 0, headIdx: 1, tailDir:1, tailIdx: 1 })
   useEffect(() => {
-
-    code = idxObj.headDir + idxObj.tailDir * 2 ** 1 + 4 * (idxObj.headIdx + idxObj.tailIdx * 10)
-    props.setRuleInfo({ ...props.ruleInfo, "idx": code })
+    props.setRuleInfo({ ...props.ruleInfo, ...idxObj})
   }, [idxObj])
 
-  const onChange = (e, type) => {
+  const onChange = (e) => {
     const newObj = { ...idxObj }
-    if (type === "headIdx" || type === "tailIdx") {
-      newObj[type] = parseInt(e.target.value) - 1
+    if (e.target.name=== "headIdx" || e.target.name === "tailIdx") {
+      newObj[e.target.name] = parseInt(e.target.value);
     } else {
-      newObj[type] = parseInt(e.target.value)
+      newObj[e.target.name] = parseInt(e.target.value);
     }
     setIdxObj(newObj)
   }
@@ -170,21 +166,20 @@ function Setting6(props) {
       <div className="setting-wrap">
         <div className="setting-select-index" id="head">
           <span className="title">첫글자</span>
-          <Form.Select aria-label="Default select example" onChange={e => onChange(e, "headDir")}>
+          <Form.Select aria-label="Default select example" onChange={onChange} name = "headDir">
             <option value="0">앞에서</option>
             <option value="1">뒤에서</option>
           </Form.Select>
           <div className="form-control-wrap">
             <Form.Control
               type="number"
-              name="first-index"
+              name="headIdx"
               defaultValue='1'
-              onChange={e => onChange(e, "headIdx")}
+              onChange={onChange}
               isInvalid={!props.isValid1}
             />
             <span className='index-text'>번째</span>
             <Form.Control.Feedback type="invalid">글자수의 최솟값보다 작거나 같아야 합니다!</Form.Control.Feedback>
-            
           </div>
 
         </div>
@@ -192,16 +187,16 @@ function Setting6(props) {
       <div className="setting-wrap">
         <div className="setting-select-index" id="tail">
           <span className="title">끝글자</span>
-          <Form.Select defaultValue="1" aria-label="Default select example" onChange={e => onChange(e, "tailDir")}>
+          <Form.Select defaultValue="1" aria-label="Default select example" onChange={onChange} name = "tailDir">
             <option value="0">앞에서</option>
             <option value="1">뒤에서</option>
           </Form.Select>
           <div className="form-control-wrap">
             <Form.Control
               type="number"
-              name="first-index"
+              name="tailIdx"
               defaultValue='1'
-              onChange={e => onChange(e, "tailIdx")}
+              onChange={onChange}
               isInvalid={!props.isValid2}
             />
             <span className='index-text'>번째</span>
@@ -223,21 +218,13 @@ function checkValidity(ruleInfo){
   }
   minLen += 2;
 
-  const headIdx = Math.floor(ruleInfo.idx / 4) % 10
-  const tailIdx = Math.floor(Math.floor(ruleInfo.idx / 4) / 10)
-  let headValidity, tailValidity;
-  if (!isNaN(headIdx) && (headIdx < minLen) && (headIdx >= 0)) {
-    headValidity = true
-  }
-  else {
-    headValidity = false
-  }
-  if (!isNaN(tailIdx) && (tailIdx < minLen) && (tailIdx >= 0)) {
-    tailValidity = true
-  } else {
-    tailValidity = false;
-  }
+  const headValidity = ruleInfo.headIdx <= minLen && ruleInfo.headIdx > 0
+  const tailValidity = ruleInfo.tailIdx <= minLen && ruleInfo.tailIdx > 0
+
   return [headValidity, tailValidity]
+
+
+
 
 }
 
@@ -249,7 +236,8 @@ function RuleModal(props) {
     cate: 15,
     len: 1023,
     chan: 0,
-    idx: 2
+    headIdx: 0,
+    tailIdx: -1
   });
   const [isValid1, setIsValid1] = useState(true);
   const [isValid2, setIsValid2] = useState(true);
@@ -266,7 +254,8 @@ function RuleModal(props) {
 
   return (
     <Modal
-      {...props}
+      show = {props.show}
+      onHide = {props.onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       scrollable="true"
@@ -289,10 +278,10 @@ function RuleModal(props) {
       <Modal.Footer>
         <Button onClick={
           () => {
-            if(validity[0] && validity[1]){
-              props.onHide();
-              
-            }
+            if(!isValid1 || !isValid2) return;
+            props.onHide();
+            props.setRule(ruleInfo)
+            props.setIsLoading(true)
           }}>완료</Button>
       </Modal.Footer>
     </Modal>

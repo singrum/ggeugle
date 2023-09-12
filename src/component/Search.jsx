@@ -2,9 +2,6 @@ import { useState } from 'react';
 import CharOffcanvas from './CharOffcanvas'
 
 function Search(props) {
-  function onChange(e){
-    props.setSearch(e.target.value)
-  }
 
   const toggleOffcanvas = () => props.setOffCanvasShow(!props.offCanvasShow);
   return (
@@ -12,11 +9,12 @@ function Search(props) {
       <div className="search-box">
         <input 
           className="search-input" 
-          type="text" 
+          type="text"   
           id="search-box" 
           placeholder="" 
           maxLength="1"
-          onChange={onChange}
+          value = {props.input}
+          onChange={(e) => props.setInput(e.target.value)}
         />
         <span className="prev">
           <img className="btn-icon" src="icon/arrow_back_FILL0_wght200_GRAD0_opsz24.svg"></img>
