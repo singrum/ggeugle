@@ -1,19 +1,17 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 
-function Setting1(props) {
-  const [select, setSelect] = useState('0')
-  useEffect(() => {
-    props.setRuleInfo({ ...props.ruleInfo, "dict": select })
-  }, [select])
+
+function Setting1({dict, setDict}) {
+  
   return (
     <div className="setting-wrap">
       <div className="setting-select" id="dict">
         <span className="title">사전</span>
-        <Form.Select aria-label="Default select example" value={select} onChange={(e) => { setSelect(parseInt(e.target.value)); }}>
+        <Form.Select aria-label="Default select example" value={dict} onChange={(e) => { setDict(parseInt(e.target.value)); }}>
           <option value="0">표준국어대사전</option>
           <option value="1">우리말샘</option>
           <option value="2">한국어기초사전</option>
@@ -23,16 +21,116 @@ function Setting1(props) {
     </div>
   )
 }
-function Setting2(props) {
-  const [select, setSelect] = useState('1')
-  useEffect(() => {
-    props.setRuleInfo({ ...props.ruleInfo, "chan": select })
-  }, [select])
+
+
+function ToggleBtn({value, defaultChecked, onChange, className, disabled, children}) {
+  const [checked, setChecked] = useState(defaultChecked);
+
+  return (
+    <ToggleButton
+      id={`toggle-check${value}`}
+      type="checkbox"
+      variant="outline-dark"
+      checked={checked}
+      onChange={(e) => {
+        
+        setChecked(e.currentTarget.checked)
+        onChange(e)
+      }}
+      value={value}
+      className={className}
+      disabled = {disabled}
+
+    >
+      {children}
+    </ToggleButton>
+  )
+}
+
+function updateArr(e, arr, setArr) {
+  if(e.target.checked){
+    setArr([...arr, parseInt(e.target.value[e.target.value.length - 1])]);
+    
+  }
+  else{
+    setArr(arr.filter(a => a !== parseInt(e.target.value[e.target.value.length - 1])))
+    
+  }
+  
+  
+}
+
+function Setting2({pos, setPos}) {
+  const onChange = e => updateArr(e, pos,setPos)
+  
+  return (
+    <div className="setting-wrap">
+      <div className="setting-toggle" id="pos">
+        <div className="title">품사</div>
+        <div className="toggle-box">
+          <ToggleBtn value="0" defaultChecked = {pos.includes(0)} onChange={onChange}>명사</ToggleBtn>
+          <ToggleBtn value="1" defaultChecked = {pos.includes(1)} onChange={onChange}>의존명사</ToggleBtn>
+          <ToggleBtn value="2" defaultChecked = {pos.includes(2)} onChange={onChange}>대명사</ToggleBtn>
+          <ToggleBtn value="3" defaultChecked = {pos.includes(3)} onChange={onChange}>수사</ToggleBtn>
+          <ToggleBtn value="4" defaultChecked = {pos.includes(4)} onChange={onChange}>부사</ToggleBtn>
+          <ToggleBtn value="5" defaultChecked = {pos.includes(5)} onChange={onChange}>관형사</ToggleBtn>
+          <ToggleBtn value="6" defaultChecked = {pos.includes(6)} onChange={onChange}>감탄사</ToggleBtn>
+        </div>
+      </div>
+    </div>
+
+  )
+}
+function Setting3({cate, setCate, disabled}) {
+  const onChange = e => updateArr(e, cate,setCate)
+  
+  return (
+
+    <div className="setting-wrap">
+      <div className="setting-toggle" id="cate">
+        <div className="title">범주</div>
+        <div className="toggle-box">
+          <ToggleBtn value="10" disabled = {disabled} defaultChecked = {cate.includes(0)} onChange={onChange}>일반어</ToggleBtn>
+          <ToggleBtn value="11" disabled = {disabled} defaultChecked = {cate.includes(1)} onChange={onChange}>방언</ToggleBtn>
+          <ToggleBtn value="12" disabled = {disabled} defaultChecked = {cate.includes(2)} onChange={onChange}>북한어</ToggleBtn>
+          <ToggleBtn value="13" disabled = {disabled} defaultChecked = {cate.includes(3)} onChange={onChange}>옛말</ToggleBtn>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
+function Setting4({len, setLen}) {
+  const onChange = e => updateArr(e, len,setLen)
+  
+  return (
+    <div className="setting-wrap">
+      <div className="setting-range" id="len">
+        <div className="title">글자수</div>
+        <div className="range-box">
+          <ToggleBtn value="20" defaultChecked = {len.includes(0)} onChange={onChange}>2</ToggleBtn>
+          <ToggleBtn value="21" defaultChecked = {len.includes(1)} onChange={onChange}>3</ToggleBtn>
+          <ToggleBtn value="22" defaultChecked = {len.includes(2)} onChange={onChange}>4</ToggleBtn>
+          <ToggleBtn value="23" defaultChecked = {len.includes(3)} onChange={onChange}>5</ToggleBtn>
+          <ToggleBtn value="24" defaultChecked = {len.includes(4)} onChange={onChange}>6</ToggleBtn>
+          <ToggleBtn value="25" defaultChecked = {len.includes(5)} onChange={onChange}>7</ToggleBtn>
+          <ToggleBtn value="26" defaultChecked = {len.includes(6)} onChange={onChange}>8</ToggleBtn>
+          <ToggleBtn value="27" defaultChecked = {len.includes(7)} onChange={onChange}>9</ToggleBtn>
+          <ToggleBtn value="28" defaultChecked = {len.includes(8)} onChange={onChange}>...</ToggleBtn>
+
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Setting5({chan, setChan}) {
   return (
     <div className="setting-wrap">
       <div className="setting-select" id="chan">
         <div className="title">두음법칙</div>
-        <Form.Select aria-label="Default select example" value={select} onChange={(e) => { setSelect(parseInt(e.target.value)) }}>
+        <Form.Select aria-label="Default select example" value={chan} onChange={(e) => { setChan(parseInt(e.target.value)); }}>
           <option value="0">없음</option>
           <option value="1">표준</option>
           <option value="2">ㄹ&#8594;ㄴ&#8594;ㅇ</option>
@@ -43,140 +141,32 @@ function Setting2(props) {
   )
 }
 
-function ToggleBtn(props) {
-  const [checked, setChecked] = useState(props.defaultChecked);
-  return (
-    <ToggleButton
-      id={`toggle-check${props.value}`}
-      type="checkbox"
-      variant="outline-dark"
-      checked={checked}
-      onChange={(e) => {
-        setChecked(e.currentTarget.checked)
-        props.onChange(e)
-      }}
-      value={props.value}
-      className={props.class}
 
-    >
-      {props.children}
-    </ToggleButton>
-  )
-}
-
-function updateCode(e, code, setCode) {
-  setCode(code + 2 ** e.target.value.charAt(e.target.value.length - 1) * (e.target.checked ? 1 : -1));
-}
-
-function Setting3(props) {
-  const [code, setCode] = useState(1);
-  useEffect(() => {
-    props.setRuleInfo({ ...props.ruleInfo, "pos": code })
-  }, [code])
-  const onChange = e => updateCode(e, code, setCode)
-  return (
-    <div className="setting-wrap">
-      <div className="setting-toggle" id="pos">
-        <div className="title">품사</div>
-        <div className="toggle-box">
-          <ToggleBtn value="0" defaultChecked={true} onChange={onChange}>명사</ToggleBtn>
-          <ToggleBtn value="1" onChange={onChange}>의존명사</ToggleBtn>
-          <ToggleBtn value="2" onChange={onChange}>대명사</ToggleBtn>
-          <ToggleBtn value="3" onChange={onChange}>수사</ToggleBtn>
-          <ToggleBtn value="4" onChange={onChange}>부사</ToggleBtn>
-          <ToggleBtn value="5" onChange={onChange}>관형사</ToggleBtn>
-          <ToggleBtn value="6" onChange={onChange}>감탄사</ToggleBtn>
-        </div>
-      </div>
-    </div>
-
-  )
-}
-function Setting4(props) {
-  const [code, setCode] = useState(15);
-  useEffect(() => {
-    props.setRuleInfo({ ...props.ruleInfo, "cate": code })
-  }, [code])
-  const onChange = e => updateCode(e, code, setCode)
-
-  return (
-
-    <div className="setting-wrap">
-      <div className="setting-toggle" id="cate">
-        <div className="title">범주</div>
-        <div className="toggle-box">
-          <ToggleBtn value="10" defaultChecked={true} onChange={onChange}>일반어</ToggleBtn>
-          <ToggleBtn value="11" defaultChecked={true} onChange={onChange}>방언</ToggleBtn>
-          <ToggleBtn value="12" defaultChecked={true} onChange={onChange}>북한어</ToggleBtn>
-          <ToggleBtn value="13" defaultChecked={true} onChange={onChange}>옛말</ToggleBtn>
-        </div>
-      </div>
-    </div>
-  )
-}
+function Setting6({headDir , setHeadDir , headIdx , setHeadIdx , tailDir , setTailDir , tailIdx , setTailIdx , isHeadValid , isTailValid}) {
 
 
-function Setting5(props) {
-  const [code, setCode] = useState(1023);
-  useEffect(() => {
-    props.setRuleInfo({ ...props.ruleInfo, "len": code })
-  }, [code])
-  const onChange = e => {
-    updateCode(e, code, setCode)
-
-  }
-  return (
-    <div className="setting-wrap">
-      <div className="setting-range" id="len">
-        <div className="title">글자수</div>
-        <div className="range-box">
-          <ToggleBtn value="20" defaultChecked={true} onChange={onChange}>2</ToggleBtn>
-          <ToggleBtn value="21" defaultChecked={true} onChange={onChange}>3</ToggleBtn>
-          <ToggleBtn value="22" defaultChecked={true} onChange={onChange}>4</ToggleBtn>
-          <ToggleBtn value="23" defaultChecked={true} onChange={onChange}>5</ToggleBtn>
-          <ToggleBtn value="24" defaultChecked={true} onChange={onChange}>6</ToggleBtn>
-          <ToggleBtn value="25" defaultChecked={true} onChange={onChange}>7</ToggleBtn>
-          <ToggleBtn value="26" defaultChecked={true} onChange={onChange}>8</ToggleBtn>
-          <ToggleBtn value="27" defaultChecked={true} onChange={onChange}>9</ToggleBtn>
-          <ToggleBtn value="28" defaultChecked={true} onChange={onChange}>...</ToggleBtn>
-
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function Setting6(props) {
-  const [idxObj, setIdxObj] = useState({headDir : 0, headIdx: 1, tailDir:1, tailIdx: 1 })
-  useEffect(() => {
-    props.setRuleInfo({ ...props.ruleInfo, ...idxObj})
-  }, [idxObj])
-
-  const onChange = (e) => {
-    const newObj = { ...idxObj }
-    if (e.target.name=== "headIdx" || e.target.name === "tailIdx") {
-      newObj[e.target.name] = parseInt(e.target.value);
-    } else {
-      newObj[e.target.name] = parseInt(e.target.value);
-    }
-    setIdxObj(newObj)
-  }
   return (
     <>
       <div className="setting-wrap">
         <div className="setting-select-index" id="head">
           <span className="title">첫글자</span>
-          <Form.Select aria-label="Default select example" onChange={onChange} name = "headDir">
+          <Form.Select 
+            defaultValue={`${headDir}`} 
+            aria-label="Default select example" 
+            onChange={e=>{setHeadDir(parseInt(e.target.value))}} 
+            name = "headDir"
+          >
             <option value="0">앞에서</option>
             <option value="1">뒤에서</option>
           </Form.Select>
+
           <div className="form-control-wrap">
             <Form.Control
               type="number"
               name="headIdx"
-              defaultValue='1'
-              onChange={onChange}
-              isInvalid={!props.isValid1}
+              defaultValue={`${headIdx}`}
+              onChange={e=>{setHeadIdx(parseInt(e.target.value))}}
+              isInvalid={!isHeadValid}
             />
             <span className='index-text'>번째</span>
             <Form.Control.Feedback type="invalid">글자수의 최솟값보다 작거나 같아야 합니다!</Form.Control.Feedback>
@@ -187,7 +177,12 @@ function Setting6(props) {
       <div className="setting-wrap">
         <div className="setting-select-index" id="tail">
           <span className="title">끝글자</span>
-          <Form.Select defaultValue="1" aria-label="Default select example" onChange={onChange} name = "tailDir">
+          <Form.Select 
+            defaultValue={`${tailDir}`} 
+            aria-label="Default select example" 
+            onChange={e=>{setTailDir(parseInt(e.target.value))}} 
+            name = "tailDir"
+          >
             <option value="0">앞에서</option>
             <option value="1">뒤에서</option>
           </Form.Select>
@@ -195,9 +190,9 @@ function Setting6(props) {
             <Form.Control
               type="number"
               name="tailIdx"
-              defaultValue='1'
-              onChange={onChange}
-              isInvalid={!props.isValid2}
+              defaultValue={`${tailIdx}`}
+              onChange={e=>{setTailIdx(parseInt(e.target.value))}}
+              isInvalid={!isTailValid}
             />
             <span className='index-text'>번째</span>
             <Form.Control.Feedback type="invalid">글자수의 최솟값보다 작거나 같아야 합니다!</Form.Control.Feedback>
@@ -209,53 +204,66 @@ function Setting6(props) {
 }
 
 
-function checkValidity(ruleInfo){
-  let minLen = 0;
-  let q = ruleInfo.len
-  while (q % 2 === 0) {
-    q = Math.floor(q / 2)
-    minLen++;
-  }
-  minLen += 2;
 
-  const headValidity = ruleInfo.headIdx <= minLen && ruleInfo.headIdx > 0
-  const tailValidity = ruleInfo.tailIdx <= minLen && ruleInfo.tailIdx > 0
+function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
+  const [dict, setDict] = useState(rule.dict)
+  const [pos, setPos] = useState(rule.pos)
+  const [cate, setCate] = useState(rule.cate)
+  const [len, setLen] = useState(rule.len)
+  const [chan, setChan] = useState(rule.chan)
+  const [headDir, setHeadDir] = useState(rule.headDir)
+  const [headIdx, setHeadIdx] = useState(rule.headIdx)
+  const [tailDir, setTailDir] = useState(rule.tailDir)
+  const [tailIdx, setTailIdx] = useState(rule.headIdx)
+  
+  const [isHeadValid, setIsHeadValid] = useState(true);
+  const [isTailValid, setIsTailValid] = useState(true);
+  const [disabled, setDisabled] = useState(rule.dict === 0 || rule.dict === 2)
 
-  return [headValidity, tailValidity]
-
-
-
-
-}
-
-
-function RuleModal(props) {
-  const [ruleInfo, setRuleInfo] = useState({
-    dict: 0,
-    pos: 1,
-    cate: 15,
-    len: 1023,
-    chan: 0,
-    headIdx: 0,
-    tailIdx: -1
-  });
-  const [isValid1, setIsValid1] = useState(true);
-  const [isValid2, setIsValid2] = useState(true);
   useEffect(
     ()=>{
-      const validity = checkValidity(ruleInfo);
-      setIsValid1(validity[0])
-      setIsValid2(validity[1])
-      
-    }, [ruleInfo]
+      const minLen = Math.min(...len) + 2
+
+      setIsHeadValid(typeof headIdx === "number" && headIdx <= minLen && headIdx > 0)
+      setIsTailValid(typeof tailIdx === "number" && tailIdx <= minLen && tailIdx > 0)
+
+    }, [len, headIdx, tailIdx]
   )
+  
+  useEffect(
+    ()=>{
+      if(dict === 0 || dict === 2){
+        setDisabled(true);
+      }
+      else{
+        setDisabled(false);
+      }
+    },
+    [dict]
+  )
+  useEffect(()=>{
+    
+
+    setDict(rule.dict)
+    setPos(rule.pos)
+    setLen(rule.len)
+    setChan(rule.chan)
+    setHeadDir(rule.headDir)
+    setHeadIdx(rule.headIdx)
+    setTailDir(rule.tailDir)
+    setTailIdx(rule.headIdx)},
+    [modalShow]
+  )
+  
+
+
 
 
 
   return (
     <Modal
-      show = {props.show}
-      onHide = {props.onHide}
+      show = {modalShow}
+      onHide = {() => setModalShow(false)}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       scrollable="true"
@@ -268,20 +276,25 @@ function RuleModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Setting1 ruleInfo={ruleInfo} setRuleInfo={setRuleInfo} />
-        <Setting3 ruleInfo={ruleInfo} setRuleInfo={setRuleInfo} />
-        <Setting4 ruleInfo={ruleInfo} setRuleInfo={setRuleInfo} />
-        <Setting5 ruleInfo={ruleInfo} setRuleInfo={setRuleInfo}/>
-        <Setting2 ruleInfo={ruleInfo} setRuleInfo={setRuleInfo}/>
-        <Setting6 ruleInfo={ruleInfo} setRuleInfo={setRuleInfo} isValid1 = {isValid1} isValid2 = {isValid2}/>
+        <Setting1 dict = {dict} setDict = {setDict}/>
+        <Setting2 pos = {pos} setPos = {setPos} />
+        <Setting3 cate = {cate} setCate = {setCate} disabled = {disabled}/>
+        <Setting4 len = {len} setLen = {setLen}/>
+        <Setting5 chan = {chan} setChan = {setChan}/>
+        <Setting6 
+          headDir ={headDir} setHeadDir = {setHeadDir} 
+          headIdx = {headIdx} setHeadIdx = {setHeadIdx} 
+          tailDir = {tailDir} setTailDir = {setTailDir} 
+          tailIdx = {tailIdx} setTailIdx = {setTailIdx} 
+          isHeadValid = {isHeadValid} isTailValid = {isTailValid}/>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={
           () => {
-            if(!isValid1 || !isValid2) return;
-            props.onHide();
-            props.setRule(ruleInfo)
-            props.setIsLoading(true)
+            if(!isHeadValid || !isTailValid) return;
+            setRule({dict,pos,cate,len,chan,headDir,headIdx,tailDir,tailIdx})
+            setModalShow(false)
+            setIsLoading(true)
           }}>완료</Button>
       </Modal.Footer>
     </Modal>

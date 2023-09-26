@@ -29,6 +29,7 @@ function Header(props) {
         
       </div>
       <RuleModal
+        rule = {props.rule}
         setRule = {props.setRule}
         setIsLoading = {props.setIsLoading}
         show={modalShow}

@@ -1,16 +1,6 @@
 import { Rule, DegreeClass, WordClass, CharManager, WordManager } from "../js/WordChain"
 
-function decimalToArr(decimal, map){
-  const binaryArr = decimal.toString(2).padStart(map.length,'0').split("")
-  
-  const result = []
-  for (let i = 0; i < map.length; i++) {
-    if (binaryArr[i] === "1") {
-      result.push(map[map.length - 1 - i])
-    }
-  }
-  return result
-}
+
 
 function decode(params) {
   const result = { ...params }
@@ -20,9 +10,9 @@ function decode(params) {
     len: [2, 3, 4, 5, 6, 7, 8, 9, -1]
   }
 
-  result.pos = decimalToArr(params.pos, map.pos)
-  result.cate = decimalToArr(params.cate, map.cate)
-  result.len = decimalToArr(params.len, map.len)
+  result.pos = params.pos.map(e=>map.pos[e])
+  result.cate = params.cate.map(e=>map.cate[e])
+  result.len = params.len.map(e=>map.len[e])
   return result
 
 }
@@ -36,6 +26,7 @@ async function getData(rule) {
   if (params.dict == 0) {
     for (let pos of params.pos) {
       let response = await fetch(`https://singrum.github.io/ggeugle/olddictfilter/db2/olddict${encodeURI(pos)}`);
+    
       let text = await response.text();
       
       wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
@@ -46,9 +37,9 @@ async function getData(rule) {
 
   else if (params.dict == 1) {
     for (let cate of params.cate) {
-      for (let pos of params.cate) {
-        response = await fetch(`https://singrum.github.io/ggeugle/opendict_db/db/${cate}/${encodeURI(pos)}`);
-        text = await response.text();
+      for (let pos of params.pos) {
+        let response = await fetch(`https://singrum.github.io/ggeugle/opendict_db/db/${cate}/${encodeURI(pos)}`);
+        let text = await response.text();
         wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
       }
     }
@@ -62,7 +53,6 @@ async function getData(rule) {
 
     }
   }
-
 
   let r = new Rule(wordList, {
     changable : params.chan,
@@ -85,4 +75,4 @@ async function getData(rule) {
 
 
 
-export {decode, getData}
+export { decode, getData}

@@ -121,13 +121,16 @@
   
 }
 .rule-modal .modal-body{
-  padding : 0
+  padding : 0 1rem;
 }
 .rule-modal .setting-wrap{
-  margin : 0 0.5rem;
+  /* margin : 0 0.5rem; */
   padding : 1rem 0.5rem;
   border-bottom: 1px solid #dee2e6;
   
+}
+.rule-modal .setting-wrap:last-of-type{
+  border-bottom : 0;
 }
 
 .rule-modal .form-select{
@@ -168,9 +171,7 @@
 .setting-range label:last-of-type {
   border-radius: 0 10000px 10000px 0 ;
 }
-.rule-modal .range-box{
-  text-align: center;
-}
+
 .setting-select-index{
   display: grid;
   grid-template-columns : 2fr 3fr 3fr;
@@ -215,7 +216,11 @@
   padding: 0.5rem 0;
   display: grid;
   grid-template-columns: 1fr 3rem;
-  height : auto
+  height : auto;
+  border-bottom : var(--bs-offcanvas-border-width) solid var(--bs-offcanvas-border-color);
+}
+.offcanvas-body{
+  padding : 0;
 }
 .offcanvas .radio-btn-set{
   display: flex;
@@ -285,11 +290,12 @@
 .char-btn-card{
   text-align: center;
   border-radius: 0.5rem;
-  /* box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px; */
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
   padding : 0.8rem;
-  margin-bottom : 1rem;
-  border : 1px solid #dee2e6
-  /* display : inline-block */
+  margin : 0 0 1rem 0;
+  border : 1px solid #dee2e6;
+  /* display : inline-block; */
+  width : auto;
 
 }
 .card-caption{

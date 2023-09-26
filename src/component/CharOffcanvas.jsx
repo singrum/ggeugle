@@ -45,7 +45,10 @@ function CharOffcanvas(props) {
 
         </Offcanvas.Header>
         <Offcanvas.Body>
+          <div className="btn-card-set">
           {props.children}
+          </div>
+          
 
         </Offcanvas.Body>
       </Offcanvas>

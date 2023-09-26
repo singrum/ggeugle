@@ -155,14 +155,14 @@ class DegreeClass{
 
 class WordClass{
     constructor(char_set){
-        this.content = new Map();
-        char_set.forEach(x=>this.content.set(x, new DegreeClass()));
+        this.content = {};
+        char_set.forEach(x=>this.content[x]=new DegreeClass());
     }
     add(char, deg, word){
-        this.content.get(char).add(deg, word);
+        this.content[char].add(deg, word);
     }
     get(char){
-        return this.content.get(char)
+        return this.content[char]
     }
     
 }
@@ -264,21 +264,31 @@ class WordManager extends CharManager{
     }
 
     setWordClass(){
-        let i;
+        
         for(let char of this.win_char_set){
             
             for(let word of this.nextWordList(char)){
                 if(this.los_char_set.has(this.rule.tail(word))){
-                    i = this.los_char_class.findDegree(this.rule.tail(word));
+
+                    let i = this.los_char_class.findDegree(this.rule.tail(word));
                     this.win_word_class.add(char, i, word);
                 }
+                if(this.win_char_set.has(this.rule.tail(word))){
+                    let i = this.win_char_class.findDegree(this.rule.tail(word));
+                    this.win_word_class.add(char, -i-1, word);
+                }
+                if(this.cir_char_set.has(this.rule.tail(word))){
+                    this.win_word_class.add(char, "cir", word);
+                }
             }
+            
         }
         for(let char of this.los_char_set){
             for(let word of this.nextWordList(char)){
-                i = this.win_char_class.findDegree(this.rule.tail(word));
+                let i = this.win_char_class.findDegree(this.rule.tail(word));
                 this.los_word_class.add(char, i, word);
             }
+            
         }
     }
 
