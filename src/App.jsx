@@ -88,22 +88,29 @@ function App() {
         </CharButtonCard>))
     }
     else if (wm.cir_char_set.has(search)) {
+      const wc = wm.cir_word_class.get(search).content;
       result.push((
         <CharButtonCard key={`cir-0`} caption={`순환단어`}>
-          {wm.nextCirWordList(search).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+          {Array.from(wc["cir"]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
             (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
 
       result.push((
-        <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 단어`}>
+        <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 순환단어`}>
           {Array.from(new Set(Array.from(wm.cir_char_set).flatMap(char=>wm.nextCirWordList(char).filter(e => wm.rule.reverse_changable(search).includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
             (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
-      result.push(
-        
-      )
+      for (let i of Object.keys(wc).filter(e => parseInt(e) < 0).sort((a,b)=>{return a-b})) {
+        result.push((
+          <CharButtonCard key={`los-${-i-1}`} caption={`${-i}턴 후 패배`}>
+            {Array.from(wc[i]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+              (<CharButton key={`los-${-i-1}-${e}`} type="los" strength={`${Math.min(-i-1, 3)}`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
+            )}
+
+          </CharButtonCard>))
+      }
     }
 
     setWordCards(result)
