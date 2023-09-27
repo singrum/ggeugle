@@ -183,7 +183,7 @@ function App() {
       <Loading style={{ display: isLoading ? "flex" : "none" }} />
 
       <div className='header'>
-        <span className="logo-set">
+        <span className="logo-set" onClick={()=>window.location.reload()}>
           <img className="logo-img" src="img/ggeugle_logo_small.png"></img>
           <span className='logo-text'>끄글</span>
         </span>
