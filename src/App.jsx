@@ -185,7 +185,7 @@ function App() {
       <div className='header'>
         <span className="logo-set">
           <img className="logo-img" src="img/ggeugle_logo_small.png"></img>
-          <span className='logo-text'>끄글</span>
+          <span className='logo-text'>끄글.</span>
         </span>
 
         <span className="menu-set">
