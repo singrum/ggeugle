@@ -1,9 +1,9 @@
 {
-  "name": "ggeugle-by-react",
+  "name": "ggeugle",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://singrum.github.io/ggeugle-by-react/",
+  "homepage": "https://singrum.github.io/ggeugle/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
