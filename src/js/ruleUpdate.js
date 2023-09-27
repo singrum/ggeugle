@@ -25,7 +25,7 @@ async function getData(rule) {
   let wordList = []
   if (params.dict == 0) {
     for (let pos of params.pos) {
-      let response = await fetch(`https://singrum.github.io/ggeugle/olddictfilter/db2/olddict${encodeURI(pos)}`);
+      let response = await fetch(`https://singrum.github.io/ggeugle-legacy/olddictfilter/db2/olddict${encodeURI(pos)}`);
     
       let text = await response.text();
       
@@ -38,7 +38,7 @@ async function getData(rule) {
   else if (params.dict == 1) {
     for (let cate of params.cate) {
       for (let pos of params.pos) {
-        let response = await fetch(`https://singrum.github.io/ggeugle/opendict_db/db/${cate}/${encodeURI(pos)}`);
+        let response = await fetch(`https://singrum.github.io/ggeugle-legacy/opendict_db/db/${cate}/${encodeURI(pos)}`);
         let text = await response.text();
         wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
       }
@@ -47,7 +47,7 @@ async function getData(rule) {
 
   else if (params.dict == 2) {
     for (let pos of params.pos) {
-      let response = await fetch(`https://singrum.github.io/ggeugle/elementarydict/db/${encodeURI(pos)}`);
+      let response = await fetch(`https://singrum.github.io/ggeugle-legacy/elementarydict/db/${encodeURI(pos)}`);
       let text = await response.text();
       wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
 
