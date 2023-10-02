@@ -63,8 +63,8 @@ body {
   padding: 0 10px;
   font-size: 50px;
   width: 136px;
-  height: 80px;
-  border-radius: 0.5rem 0.5rem 0px 0px;
+  height: 100px;
+  border-radius: 0.5rem;
   border: 1px solid #ced4da;
   text-align: center;
   grid-column: 1 / span 3;
@@ -85,7 +85,7 @@ body {
   align-items: center;
   justify-content: center;
 }
-.search-box .selection {
+/* .search-box .selection {
   width: 45px;
   height: 40px;
   grid-column: 2;
@@ -98,7 +98,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 .search-box .next {
   width: 45px;
@@ -111,11 +111,30 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+
 }
 
 .search-box .btn-icon{
-  
   width : 30px;
+}
+
+.selection-btn{
+  position : fixed;
+  bottom : 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  /* border: 1px solid #ced4da; */
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  width : 50px;
+  height : 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+}
+.selection-btn .btn-icon{
+  width : 40px;
 }
 
 .rule-modal .select-form{
@@ -323,6 +342,7 @@ body {
 .btn-card-set{
   text-align: center;
   padding : 1em;
+  min-height: 500px;
 }
 
 .loading-backdrop{

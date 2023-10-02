@@ -12,7 +12,12 @@ import MenuBtn from './component/MenuBtn'
 import StatModal from './component/StatModal'
 import './App.css'
 
-
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth' // 스무스한 애니메이션으로 스크롤 이동
+  });
+};
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -159,11 +164,19 @@ function App() {
 
     const cirCharCards = []
     const card = (
-      <CharButtonCard key={`cir`} caption={false}>
-        {Array.from(wm.cir_char_set).sort().map(e =>
-          (<CharButton key={`cir-${e}`} type="cir" strength={`${0}`} onClick={() => { setInput(e); }}>{`${e}`}</CharButton>)
-        )}
-      </CharButtonCard>
+      <>
+        <CharButtonCard key={`effcir`} caption={"유효순환음절"}>
+          {Array.from(wm.effectiveCirComp).sort().map(e =>
+            (<CharButton key={`cir-${e}`} type="cir" strength={`${0}`} onClick={() => { setInput(e); }}>{`${e}`}</CharButton>)
+          )}
+        </CharButtonCard>
+        <CharButtonCard key={`ineffcir`} caption={"무효순환음절"}>
+          {Array.from(wm.ineffectiveCirComp).sort().map(e =>
+            (<CharButton key={`cir-${e}`} type="cir" strength={`${0}`} onClick={() => { setInput(e); }}>{`${e}`}</CharButton>)
+          )}
+        </CharButtonCard>
+      </>
+      
     )
     cirCharCards.push(card)
     setCharCards([winCharCards, losCharCards, cirCharCards][radioValue])
@@ -171,13 +184,14 @@ function App() {
 
   useEffect(() => {
     setSearch(input)
+    scrollToTop()
   }, [wm, input])
 
   useEffect(applySearch, [search])
 
   const [ruleModalShow, setRuleModalShow] = useState(false);
   const [statModalShow, setStatModalShow] = useState(false);
-
+  
   return (
     <>
       <Loading style={{ display: isLoading ? "flex" : "none" }} />
@@ -214,8 +228,7 @@ function App() {
 
 
       <Search
-        setOffCanvasShow={setOffCanvasShow}
-        offCanvasShow={offCanvasShow}
+
         input={input}
         setInput={setInput}
       />
@@ -224,6 +237,10 @@ function App() {
         {wordCards}
       </WordBox>
 
+
+      <span className="selection-btn" onClick={()=>setOffCanvasShow(!offCanvasShow)}>
+        <img className="btn-icon" src="icon/apps_FILL0_wght200_GRAD0_opsz24.svg"></img>
+      </span>
       <CharOffcanvas
         radioValue={radioValue}
         setRadioValue={setRadioValue}
@@ -232,6 +249,8 @@ function App() {
       >
         {charCards}
       </CharOffcanvas>
+
+      
 
 
     </>

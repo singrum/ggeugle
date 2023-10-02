@@ -247,6 +247,13 @@ class CharManager {
   }
 }
 
+
+
+
+
+
+
+
 class WordManager extends CharManager {
   constructor(rule) {
     super(rule);
@@ -254,6 +261,8 @@ class WordManager extends CharManager {
     this.los_word_class = new WordClass(this.los_char_set);
     this.cir_word_class = new WordClass(this.cir_char_set);
     this.setWordClass()
+    
+    this.classifyCirChar();
   }
 
   nextWordList(char) {
@@ -308,6 +317,220 @@ class WordManager extends CharManager {
   nextCirWordList(char) {
     return this.nextWordList(char).filter(x => this.cir_char_set.has(this.rule.tail(x)));
   }
+  
+  getSCC(graph) {
+    // Helper function to perform DFS traversal on the graph
+    function dfs(graph, node, visited, stack) {
+      visited.add(node);
+      
+      for (const neighbor of graph[node]) {
+        if (!visited.has(neighbor)) {
+          dfs(graph, neighbor, visited, stack);
+        }
+      }
+      
+      stack.push(node);
+    }
+  
+    // Transpose the graph (reverse the direction of edges)
+    const transposeGraph = graph => {
+      const transposedGraph = {};
+      for(const char of this.cir_char_set){
+        transposedGraph[char] = new Set();
+      }
+      
+      for (const [node, neighbors] of Object.entries(graph)) {
+        for (const neighbor of neighbors) {
+          
+          transposedGraph[neighbor].add(node);
+        }
+      }
+      return transposedGraph;
+    }
+  
+    const visited = new Set();
+    const stack = [];
+  
+    // Perform DFS on the original graph and fill the stack
+    for (const node of Object.keys(graph)) {
+      if (!visited.has(node)) {
+        
+        dfs(graph, node, visited, stack);
+      }
+    }
+  
+    const transposedGraph = transposeGraph(graph);
+    const sccs = [];
+  
+    // Perform DFS on the transposed graph and get strongly connected components
+    visited.clear();
+    while (stack.length > 0) {
+      const node = stack.pop();
+  
+      if (!visited.has(node)) {
+        const scc = [];
+        dfs(transposedGraph, node, visited, scc);
+        sccs.push(scc);
+      }
+    }
+
+
+
+    function findSCCIndex(node, sccs) {
+      for (let i = 0; i < sccs.length; i++) {
+        if (sccs[i].includes(node)) {
+          return i;
+        }
+      }
+      return -1;
+    }
+    // return sccs;
+    const connectionsData = {};
+
+    // Calculate the connections between SCCs
+    for (let i = 0; i < sccs.length; i++) {
+      const connections = [];
+      const currentSCC = sccs[i];
+  
+      for (const node of currentSCC) {
+        for (const neighbor of graph[node]) {
+          const neighborSCCIndex = findSCCIndex(neighbor, sccs);
+          if (neighborSCCIndex !== i && !connections.includes(neighborSCCIndex)) {
+            connections.push(neighborSCCIndex);
+          }
+        }
+      }
+  
+      connectionsData[i] = connections;
+    }
+  
+    return [sccs, connectionsData];
+  }
+  
+  topologicalSort(connectionsData) {
+    const inDegree = Array(Object.keys(connectionsData).length).fill(0);
+    const adjacencyList = {};
+  
+    // Calculate in-degree for each SCC
+    for (const key in connectionsData) {
+      connectionsData[key].forEach((neighbor) => {
+        inDegree[neighbor] += 1;
+        if (!adjacencyList[key]) adjacencyList[key] = [];
+        adjacencyList[key].push(neighbor);
+      });
+    }
+  
+    const queue = [];
+    const result = [];
+  
+    // Enqueue SCCs with in-degree 0
+    for (let i = 0; i < inDegree.length; i++) {
+      if (inDegree[i] === 0) {
+        queue.push(i);
+      }
+    }
+  
+    // Perform topological sorting
+    while (queue.length > 0) {
+      const current = queue.shift();
+      result.push(current);
+  
+      if (adjacencyList[current]) {
+        for (const neighbor of adjacencyList[current]) {
+          inDegree[neighbor] -= 1;
+          if (inDegree[neighbor] === 0) {
+            queue.push(neighbor);
+          }
+        }
+      }
+    }
+  
+    return result;
+  }
+  calculateComponentDepths(connectionsData) {
+    const depths = {};
+  
+    // Helper function to perform DFS and calculate depth
+    function dfs(node, depth) {
+      depths[node] = Math.max(depths[node] || 0, depth);
+  
+      const neighbors = connectionsData[node];
+      if (neighbors) {
+        for (const neighbor of neighbors) {
+          dfs(neighbor, depth + 1);
+        }
+      }
+    }
+  
+    for (const node in connectionsData) {
+      if (!depths[node]) {
+        dfs(node, 0);
+      }
+    }
+  
+    return depths;
+  }
+
+  
+
+  classifyWeaklyConnectedComponents(graph) {
+    function explore(vertex, visited, graph, component) {
+      visited[vertex] = true;
+      component.push(vertex);
+    
+      const neighbors = graph[vertex] || [];
+      for (const neighbor of neighbors) {
+        if (!visited[neighbor]) {
+          explore(neighbor, visited, graph, component);
+        }
+      }
+    }
+    const visited = {};
+    const components = [];
+  
+    for (const vertex in graph) {
+      if (!visited[parseInt(vertex)]) {
+        const component = [];
+        explore(parseInt(vertex), visited, graph, component);
+        components.push(component);
+      }
+    }
+  
+    return components;
+  }
+  
+  directedToUndirected(directedGraph) {
+    const undirectedGraph = {};
+  
+    for (const vertex in directedGraph) {
+      undirectedGraph[vertex] = []
+    }
+    for(const vertex in directedGraph){
+      for(const neighbor of directedGraph[vertex]){
+        undirectedGraph[vertex].push(neighbor)
+        undirectedGraph[neighbor].push(parseInt(vertex))
+      }
+    }
+    
+    return undirectedGraph;
+  }
+
+  classifyCirChar(){
+    const cirGraph = {}
+    for(let char of this.cir_char_set){
+      let tails = new Set();
+      this.cir_word_class.get(char).content["cir"].forEach((e)=>{tails.add(this.rule.tail(e))})
+      cirGraph[char] = tails
+    }
+    const [sccs, connection] = this.getSCC(cirGraph)
+    // console.log(sccs)
+    this.effectiveCirComp = sccs.filter(e=>e.length >=5).flat()
+    this.ineffectiveCirComp = sccs.filter(e=>e.length < 5).flat()
+    
+    
+    
+  }
+
 
 }
 
