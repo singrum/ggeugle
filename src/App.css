@@ -342,7 +342,7 @@ body {
 .btn-card-set{
   text-align: center;
   padding : 1em;
-  min-height: 500px;
+  margin-bottom: 50vh;
 }
 
 .loading-backdrop{

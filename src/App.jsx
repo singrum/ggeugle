@@ -249,7 +249,7 @@ function App() {
       >
         {charCards}
       </CharOffcanvas>
-
+      
       
 
 
