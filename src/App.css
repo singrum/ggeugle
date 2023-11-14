@@ -342,6 +342,11 @@ body {
 .btn-card-set{
   text-align: center;
   padding : 1em;
+  
+}
+.word-btn-card-set{
+  text-align: center;
+  padding : 1em;
   margin-bottom: 50vh;
 }
 
