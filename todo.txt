@@ -6,3 +6,6 @@ O 5. len 설정 버그
 Off canvas 열면 바디 줄어들게
 음절 클릭 시 위로 스크롤
 순환음절 부분 분류 알고리즘
+
+npm run dev
+npm run deploy
