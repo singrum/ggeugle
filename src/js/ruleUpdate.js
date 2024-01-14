@@ -69,11 +69,7 @@ async function getData(rule) {
   });
   let wm = new WordManager(r);
 
-  console.log(wm.char_list.sort().join())
-  console.log(wm.win_char_class)
-  console.log(Array.from(wm.win_char_set).sort().join())
-  console.log(Array.from(wm.los_char_set).sort().join())
-  console.log(Array.from(wm.cir_char_set).sort().join())
+
   
   return wm
 

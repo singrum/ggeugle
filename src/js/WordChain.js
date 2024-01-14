@@ -177,7 +177,6 @@ class CharManager {
     this.cir_char_set = new Set(this.graph.keys());
     this.win_char_class = new DegreeClass();
     this.los_char_class = new DegreeClass();
-
     this._classifyChar();
   }
   setGraph() {
@@ -259,7 +258,7 @@ class WordManager extends CharManager {
     super(rule);
     this.win_word_class = new WordClass(this.win_char_set);
     this.los_word_class = new WordClass(this.los_char_set);
-    this.cir_word_class = new WordClass(this.cir_char_set);
+    this.cir_word_class = new WordClass(this.cir_char_set)
     this.setWordClass()
     
     this.classifyCirChar();
@@ -522,13 +521,187 @@ class WordManager extends CharManager {
       this.cir_word_class.get(char).content["cir"].forEach((e)=>{tails.add(this.rule.tail(e))})
       cirGraph[char] = tails
     }
-    const [sccs, connection] = this.getSCC(cirGraph)
-    // console.log(sccs)
-    this.effectiveCirComp = sccs.filter(e=>e.length >=5).flat()
-    this.ineffectiveCirComp = sccs.filter(e=>e.length < 5).flat()
+
+    for(let char of this.cir_char_set){
+      let chan = this.rule.changable(char)
+      if (chan.length >=2 ){
+        if (this.cir_char_set.has(chan[1])){
+          cirGraph[char].add(chan[1])
+          cirGraph[chan[1]].add(char)
+        }
+      }
+    }
+    let winCirChar = new Set()
+    let losCirChar = new Set()
+    let routeCirChar = new Set()
+
+    
+    function is_loop_or_return_cir(char){
+      let lose = true
+      
+      for(let next of cirGraph[char]){
+        
+        if(next === char){
+          
+          lose = !lose
+          
+          continue
+        }
+        if(cirGraph[next].has(char)){
+          
+          continue
+        }
+        
+        return false;
+      }
+        
+      
+      if (lose){
+        return "los"
+      }
+      else{
+        return "win"
+      }
+    }
+    for(let char of this.cir_char_set){
+      let win_lose = is_loop_or_return_cir(char)
+      if(!win_lose){
+        routeCirChar.add(char)
+      }
+      else if(win_lose === "win"){
+        winCirChar.add(char)
+      }
+      else if(win_lose === "los"){
+        losCirChar.add(char)
+      }
+    }
+    
+
+
+    function filterLoop(){
+      for(let char of routeCirChar){
+        for(let next of cirGraph[char]){
+          if (losCirChar.has(next) && !cirGraph[next].has(char)){
+            routeCirChar.delete(char)
+            winCirChar.add(char)
+          }
+        } 
+      }
+      for(let char of routeCirChar){
+        let lose = true
+        for(let next of cirGraph[char]){
+          if(!winCirChar.has(next) || cirGraph[next].has(char)){
+            lose = false
+          }
+        }
+        if(lose){
+          routeCirChar.delete(char)
+          losCirChar.add(char)
+        }
+      }
+    }
+
+    let length = 0
+
+    while(length !== routeCirChar.size){
+      length = routeCirChar.size
+      
+      filterLoop()
+    }
+    const routeGraph = {}
+    for(let char of routeCirChar){
+
+      routeGraph[char] = new Set()
+      
+      for (let circhar of cirGraph[char]){
+        if(routeCirChar.has(circhar)){
+          routeGraph[char].add(circhar)
+        }
+      }
+      
+      
+    }
+    const [sccs, connection] = this.getSCC(routeGraph)
+
+    this.win_cir_word_class = new WordClass(winCirChar)
+    this.los_cir_word_class = new WordClass(losCirChar)
+    this.route_cir_word_class = new WordClass(routeCirChar)
+
+
+
+    this.winCirChar = winCirChar
+    this.losCirChar = losCirChar
+    this.routeCirChar = routeCirChar  
+    this.maxRouteComp = sccs.filter(e=>e.length >=4).flat()
+    this.restRouteComp = sccs.filter(e=>e.length < 4).flat()
     
     
     
+    for (let char of this.winCirChar) {
+      let to_los = false
+      for (let word of this.nextWordList(char)) {
+        if (this.losCirChar.has(this.rule.tail(word))) {
+          this.win_cir_word_class.add(char, "win", word)
+          to_los = true
+        }
+        else if(char === this.rule.tail(word)){
+          this.win_cir_word_class.add(char, "win", word)
+        }
+        
+        else if (this.routeCirChar.has(this.rule.tail(word))) {
+          this.win_cir_word_class.add(char, "route", word);
+        }
+        else if (this.winCirChar.has(this.rule.tail(word))){
+          this.win_cir_word_class.add(char, "los", word);
+        }
+        else if (this.win_char_set.has(this.rule.tail(word))) {
+          let i = this.win_char_class.findDegree(this.rule.tail(word));
+          this.win_cir_word_class.add(char, -i - 1, word);
+        }
+      }
+      let win_word = this.win_cir_word_class.get(char).get("win")
+      if (to_los){
+        
+        for(let w of new Set(win_word)){
+          
+          if (this.rule.head(w) === this.rule.tail(w)){
+            win_word.delete(w)
+            this.win_cir_word_class.add(char, "route", w);
+            
+          }
+        }
+      }
+
+      
+      
+
+    }
+
+    for (let char of this.losCirChar) {
+      for (let word of this.nextWordList(char)) {
+        if (this.cir_char_set.has(this.rule.tail(word))) {
+          this.los_cir_word_class.add(char, "los", word);
+        }
+        
+        else if (this.win_char_set.has(this.rule.tail(word))) {
+          let i = this.win_char_class.findDegree(this.rule.tail(word));
+          this.los_cir_word_class.add(char, -i - 1, word);
+        }
+      }
+    }
+    for (let char of this.routeCirChar) {
+      for (let word of this.nextWordList(char)) {
+        if (this.cir_char_set.has(this.rule.tail(word))) {
+          this.route_cir_word_class.add(char, "route", word);
+        }
+        else if (this.win_char_set.has(this.rule.tail(word))) {
+          let i = this.win_char_class.findDegree(this.rule.tail(word));
+          this.route_cir_word_class.add(char, -i - 1, word);
+        }
+      }
+
+    }
+
   }
 
 
