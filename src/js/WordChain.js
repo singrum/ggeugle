@@ -309,7 +309,6 @@ class WordManager extends CharManager {
           this.cir_word_class.add(char, -i - 1, word);
         }
       }
-
     }
   }
 
@@ -533,7 +532,7 @@ class WordManager extends CharManager {
       for(let next of cirGraph[char]){
         
         if(this.rule.changable(char).includes(next)){
-          
+
           lose = !lose
           
           continue
@@ -548,7 +547,7 @@ class WordManager extends CharManager {
         return false;
       }
         
-      
+
       if (lose){
         return "los"
       }
@@ -570,7 +569,7 @@ class WordManager extends CharManager {
     }
     
 
-
+    
     const filterLoop = ()=>{
       for(let char of routeCirChar){
         for(let next of cirGraph[char]){
@@ -585,6 +584,7 @@ class WordManager extends CharManager {
         for(let next of cirGraph[char]){
           if(!winCirChar.has(next) || this.rule.changable(char).some(e=>cirGraph[next].has(e))){
             lose = false
+            
           }
         }
         if(lose){
@@ -646,7 +646,7 @@ class WordManager extends CharManager {
           this.win_cir_word_class.add(char, "win", word)
           to_los = true
         }
-        else if(char === this.rule.tail(word)){
+        else if(this.rule.changable(char).includes(this.rule.tail(word))){
           this.win_cir_word_class.add(char, "win", word)
         }
         
