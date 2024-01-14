@@ -522,31 +522,24 @@ class WordManager extends CharManager {
       cirGraph[char] = tails
     }
 
-    for(let char of this.cir_char_set){
-      let chan = this.rule.changable(char)
-      if (chan.length >=2 ){
-        if (this.cir_char_set.has(chan[1])){
-          cirGraph[char].add(chan[1])
-          cirGraph[chan[1]].add(char)
-        }
-      }
-    }
+
     let winCirChar = new Set()
     let losCirChar = new Set()
     let routeCirChar = new Set()
 
-    
-    function is_loop_or_return_cir(char){
+    const is_loop_or_return_cir = (char)=>{
       let lose = true
       
       for(let next of cirGraph[char]){
         
-        if(next === char){
+        if(this.rule.changable(char).includes(next)){
           
           lose = !lose
           
           continue
         }
+
+        
         if(cirGraph[next].has(char)){
           
           continue
@@ -578,10 +571,10 @@ class WordManager extends CharManager {
     
 
 
-    function filterLoop(){
+    const filterLoop = ()=>{
       for(let char of routeCirChar){
         for(let next of cirGraph[char]){
-          if (losCirChar.has(next) && !cirGraph[next].has(char)){
+          if (losCirChar.has(next) && !this.rule.changable(char).some(e=>cirGraph[next].has(e))){
             routeCirChar.delete(char)
             winCirChar.add(char)
           }
@@ -590,7 +583,7 @@ class WordManager extends CharManager {
       for(let char of routeCirChar){
         let lose = true
         for(let next of cirGraph[char]){
-          if(!winCirChar.has(next) || cirGraph[next].has(char)){
+          if(!winCirChar.has(next) || this.rule.changable(char).some(e=>cirGraph[next].has(e))){
             lose = false
           }
         }
@@ -607,6 +600,15 @@ class WordManager extends CharManager {
       length = routeCirChar.size
       
       filterLoop()
+    }
+        for(let char of this.cir_char_set){
+      let chan = this.rule.changable(char)
+      if (chan.length >=2 ){
+        if (this.cir_char_set.has(chan[1])){
+          cirGraph[char].add(chan[1])
+          cirGraph[chan[1]].add(char)
+        }
+      }
     }
     const routeGraph = {}
     for(let char of routeCirChar){
