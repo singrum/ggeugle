@@ -1,3 +1,4 @@
+
 class Rule {
   constructor(word_list, { changable = 1, len_filter = (w) => w.length >= 2, head_index = 0, tail_index = -1 }) {
 
@@ -258,7 +259,8 @@ class WordManager extends CharManager {
     super(rule);
     this.win_word_class = new WordClass(this.win_char_set);
     this.los_word_class = new WordClass(this.los_char_set);
-    this.cir_word_class = new WordClass(this.cir_char_set)
+    this.cir_word_class = new WordClass(this.cir_char_set);
+    
     this.setWordClass()
     
     this.classifyCirChar();
@@ -310,6 +312,7 @@ class WordManager extends CharManager {
         }
       }
     }
+    
   }
 
   nextCirWordList(char) {
@@ -404,70 +407,7 @@ class WordManager extends CharManager {
   
     return [sccs, connectionsData];
   }
-  
-  topologicalSort(connectionsData) {
-    const inDegree = Array(Object.keys(connectionsData).length).fill(0);
-    const adjacencyList = {};
-  
-    // Calculate in-degree for each SCC
-    for (const key in connectionsData) {
-      connectionsData[key].forEach((neighbor) => {
-        inDegree[neighbor] += 1;
-        if (!adjacencyList[key]) adjacencyList[key] = [];
-        adjacencyList[key].push(neighbor);
-      });
-    }
-  
-    const queue = [];
-    const result = [];
-  
-    // Enqueue SCCs with in-degree 0
-    for (let i = 0; i < inDegree.length; i++) {
-      if (inDegree[i] === 0) {
-        queue.push(i);
-      }
-    }
-  
-    // Perform topological sorting
-    while (queue.length > 0) {
-      const current = queue.shift();
-      result.push(current);
-  
-      if (adjacencyList[current]) {
-        for (const neighbor of adjacencyList[current]) {
-          inDegree[neighbor] -= 1;
-          if (inDegree[neighbor] === 0) {
-            queue.push(neighbor);
-          }
-        }
-      }
-    }
-  
-    return result;
-  }
-  calculateComponentDepths(connectionsData) {
-    const depths = {};
-  
-    // Helper function to perform DFS and calculate depth
-    function dfs(node, depth) {
-      depths[node] = Math.max(depths[node] || 0, depth);
-  
-      const neighbors = connectionsData[node];
-      if (neighbors) {
-        for (const neighbor of neighbors) {
-          dfs(neighbor, depth + 1);
-        }
-      }
-    }
-  
-    for (const node in connectionsData) {
-      if (!depths[node]) {
-        dfs(node, 0);
-      }
-    }
-  
-    return depths;
-  }
+
 
   
 
@@ -515,93 +455,145 @@ class WordManager extends CharManager {
 
   classifyCirChar(){
     const cirGraph = {}
+    let cirDict = {}
     for(let char of this.cir_char_set){
       let tails = new Set();
       this.cir_word_class.get(char).content["cir"].forEach((e)=>{tails.add(this.rule.tail(e))})
+      cirDict[char] = {}
+      cirDict[char].word = Array.from(this.cir_word_class.get(char).content["cir"])
       cirGraph[char] = tails
     }
-
-
-    let winCirChar = new Set()
-    let losCirChar = new Set()
-    let routeCirChar = new Set()
-
-    const is_loop_or_return_cir = (char)=>{
-      let lose = true
-      
-      for(let next of cirGraph[char]){
-        
-        if(this.rule.changable(char).includes(next)){
-
-          lose = !lose
-          
-          continue
-        }
-
-        
-        if(cirGraph[next].has(char)){
-          
-          continue
-        }
-        
-        return false;
-      }
-        
-
-      if (lose){
-        return "los"
-      }
-      else{
-        return "win"
+    
+    let cirChars = Array.from(this.cir_char_set)
+    let cirWords = new Set()
+    for(let char of cirChars){
+      for(let word of cirDict[char].word){
+        cirWords.add(word)
       }
     }
-    for(let char of this.cir_char_set){
-      let win_lose = is_loop_or_return_cir(char)
-      if(!win_lose){
-        routeCirChar.add(char)
-      }
-      else if(win_lose === "win"){
-        winCirChar.add(char)
-      }
-      else if(win_lose === "los"){
-        losCirChar.add(char)
-      }
-    }
+    cirWords = Array.from(cirWords)
     
 
-    
-    const filterLoop = ()=>{
-      for(let char of routeCirChar){
-        for(let next of cirGraph[char]){
-          if (losCirChar.has(next) && !this.rule.changable(char).some(e=>cirGraph[next].has(e))){
-            routeCirChar.delete(char)
-            winCirChar.add(char)
+    // looping
+    for(let char of cirChars){
+      cirDict[char].looping = []
+      for(let next of cirDict[char].word){
+        if (this.rule.changable(char).includes(this.rule.tail(next))){
+          cirDict[char].looping.push(next)
+        }
+      }
+      cirDict[char].allLooping = cirDict[char].word.length === cirDict[char].looping.length
+    }
+
+    // returning
+    for(let char of cirChars){
+      cirDict[char].returning = []
+      for(let next of cirDict[char].word){
+        for(let next_next of cirDict[this.rule.tail(next)].word){
+          if(this.rule.changable(char).includes(this.rule.tail(next_next)) &&
+          !cirDict[char].returning.includes(next_next) &&
+          !cirDict[char].looping.includes(next)){
+            cirDict[char].returning.push(next)
+            cirDict[char].returning.push(next_next)
+            break
           }
+          
+        }
+      }
+      cirDict[char].allReturning = cirDict[char].word.length === cirDict[char].returning.length / 2 
+    }
+    
+    for(let char of cirChars){
+      if(cirDict[char].returning.length/2 + cirDict[char].looping.length === cirDict[char].word.length){
+          if (cirDict[char].looping.length % 2 === 1){
+            cirDict[char].sorted = "win"
+          }
+          else if(cirDict[char].looping.length % 2 === 0){
+            cirDict[char].sorted = "los"
+          }
+          
+          cirDict[char].path = cirDict[char].looping.concat(cirDict[char].returning)
+          
+      } 
+    }
+
+
+  
+    const filterLoop = ()=>{
+      for(let char of cirChars){
+        if(cirDict[char].sorted){
+          continue
+        }
+        
+        for(let next of cirDict[char].word){
+          
+
+          let nextPath = cirDict[this.rule.tail(next)].path
+          if (cirDict[this.rule.tail(next)].sorted === "los" && !nextPath.includes(next)){
+            cirDict[char].sorted = "win"
+            cirDict[char].path = [next].concat(nextPath)
+            if (!cirDict[char].toLos){
+              cirDict[char].toLos = []
+            }
+            cirDict[char].toLos.push(next)
+          }  
         } 
       }
-      for(let char of routeCirChar){
+      for(let char of cirChars){
+        if(cirDict[char].sorted){
+          continue
+        }
         let lose = true
-        for(let next of cirGraph[char]){
-          if(!winCirChar.has(next) || this.rule.changable(char).some(e=>cirGraph[next].has(e))){
+        let path = []
+        
+        for(let next of cirDict[char].word){
+          let nextPath = cirDict[this.rule.tail(next)].path
+          if(!(cirDict[this.rule.tail(next)].sorted === "win" && !nextPath.includes(next))){
             lose = false
-            
           }
         }
         if(lose){
-          routeCirChar.delete(char)
-          losCirChar.add(char)
+          cirDict[char].sorted = "los"
+          cirDict[char].path = path
         }
       }
     }
 
     let length = 0
-
-    while(length !== routeCirChar.size){
-      length = routeCirChar.size
-      
+    let prev_length = -1
+    let routeCirChars = cirChars.filter(e=>!cirDict[e].sorted)
+    while(prev_length !== length){
+      prev_length = length
+      routeCirChars = cirChars.filter(e=>!cirDict[e].sorted)
+      length = routeCirChars.length
       filterLoop()
     }
-        for(let char of this.cir_char_set){
+
+    // 루트음절, 승리순환음절에 대해서 패배순환단어 찾기
+
+    for(let char of cirChars){
+      if(!cirDict[char].sorted || cirDict[char].sorted === "win"){
+        for(let next of cirDict[char].word){
+          let nextPath = cirDict[this.rule.tail(next)].path
+          if(cirDict[this.rule.tail(next)].sorted === "win" && !nextPath.includes(next)){
+            if(!cirDict[char].toWin){
+              cirDict[char].toWin = []
+            }
+            cirDict[char].toWin.push(next)
+          }
+        }
+      }
+    }
+    
+
+
+
+
+    let winning = cirChars.filter(e=>cirDict[e].sorted === "win")
+    let losing = cirChars.filter(e=>cirDict[e].sorted === "los")
+    
+
+    for(let char of this.cir_char_set){
       let chan = this.rule.changable(char)
       if (chan.length >=2 ){
         if (this.cir_char_set.has(chan[1])){
@@ -610,13 +602,14 @@ class WordManager extends CharManager {
         }
       }
     }
+
     const routeGraph = {}
-    for(let char of routeCirChar){
+    for(let char of routeCirChars){
 
       routeGraph[char] = new Set()
       
       for (let circhar of cirGraph[char]){
-        if(routeCirChar.has(circhar)){
+        if(routeCirChars.includes(circhar)){
           routeGraph[char].add(circhar)
         }
       }
@@ -625,54 +618,41 @@ class WordManager extends CharManager {
     }
     const [sccs, connection] = this.getSCC(routeGraph)
 
-    this.win_cir_word_class = new WordClass(winCirChar)
-    this.los_cir_word_class = new WordClass(losCirChar)
-    this.route_cir_word_class = new WordClass(routeCirChar)
+    this.winCirChar = new Set(cirChars.filter(e=>cirDict[e].sorted === "win"))
+    this.losCirChar = new Set(cirChars.filter(e=>cirDict[e].sorted === "los"))
+    this.routeCirChar = new Set(cirChars.filter(e=>!cirDict[e].sorted))
+    this.win_cir_word_class = new WordClass(this.winCirChar)
+    this.los_cir_word_class = new WordClass(this.losCirChar)
+    this.route_cir_word_class = new WordClass(cirChars.filter(e=>!cirDict[e].sorted))
 
-
-
-    this.winCirChar = winCirChar
-    this.losCirChar = losCirChar
-    this.routeCirChar = routeCirChar  
     this.maxRouteComp = sccs.filter(e=>e.length >=4).flat()
     this.restRouteComp = sccs.filter(e=>e.length < 4).flat()
-    
-    
-    
     for (let char of this.winCirChar) {
-      let to_los = false
       for (let word of this.nextWordList(char)) {
-        if (this.losCirChar.has(this.rule.tail(word))) {
-          this.win_cir_word_class.add(char, "win", word)
-          to_los = true
-        }
-        else if(this.rule.changable(char).includes(this.rule.tail(word))){
+        if (cirDict[char].toLos && cirDict[char].toLos.includes(word)) {
           this.win_cir_word_class.add(char, "win", word)
         }
-        
+        else if (!cirDict[char].toLos && cirDict[char].looping.includes(word)) {
+          this.win_cir_word_class.add(char, "win", word)
+        }
+        else if (cirDict[char].returning.includes(word)){
+          this.win_cir_word_class.add(char, "returning", word)
+        }
         else if (this.routeCirChar.has(this.rule.tail(word))) {
           this.win_cir_word_class.add(char, "route", word);
         }
-        else if (this.winCirChar.has(this.rule.tail(word))){
+        else if (cirDict[char].toWin && cirDict[char].toWin.includes(word)){
           this.win_cir_word_class.add(char, "los", word);
         }
         else if (this.win_char_set.has(this.rule.tail(word))) {
           let i = this.win_char_class.findDegree(this.rule.tail(word));
           this.win_cir_word_class.add(char, -i - 1, word);
         }
+        // else{
+        //   console.log(word)
+        // }
       }
-      let win_word = this.win_cir_word_class.get(char).get("win")
-      if (to_los){
-        
-        for(let w of new Set(win_word)){
-          
-          if (this.rule.head(w) === this.rule.tail(w)){
-            win_word.delete(w)
-            this.win_cir_word_class.add(char, "route", w);
-            
-          }
-        }
-      }
+      
 
       
       
@@ -681,7 +661,10 @@ class WordManager extends CharManager {
 
     for (let char of this.losCirChar) {
       for (let word of this.nextWordList(char)) {
-        if (this.cir_char_set.has(this.rule.tail(word))) {
+        if (cirDict[char].returning.includes(word)){
+          this.los_cir_word_class.add(char, "returning", word)
+        }
+        else if (this.cir_char_set.has(this.rule.tail(word))) {
           this.los_cir_word_class.add(char, "los", word);
         }
         
@@ -689,17 +672,35 @@ class WordManager extends CharManager {
           let i = this.win_char_class.findDegree(this.rule.tail(word));
           this.los_cir_word_class.add(char, -i - 1, word);
         }
+        // else{
+        //   console.log(word)
+        // }
       }
     }
+
+
+
     for (let char of this.routeCirChar) {
       for (let word of this.nextWordList(char)) {
-        if (this.cir_char_set.has(this.rule.tail(word))) {
+        
+        if (cirDict[char].toWin && cirDict[char].toWin.includes(word)){
+          
+          this.route_cir_word_class.add(char, "los", word);
+        }
+        else if (cirDict[char].returning.includes(word)){
+          this.route_cir_word_class.add(char, "returning", word)
+        }
+        else if (this.cir_char_set.has(this.rule.tail(word))) {
           this.route_cir_word_class.add(char, "route", word);
         }
+        
         else if (this.win_char_set.has(this.rule.tail(word))) {
           let i = this.win_char_class.findDegree(this.rule.tail(word));
           this.route_cir_word_class.add(char, -i - 1, word);
         }
+        // else{
+        //   console.log(word)
+        // }
       }
 
     }

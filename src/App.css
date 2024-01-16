@@ -257,7 +257,12 @@ body {
   border-radius: 10000px;
   border : none
 }
-
+.returning-icon{
+  width : 1.0rem;
+  margin-left:0.1rem  ;
+  
+  transform: translate(0, -11%);
+}
 
 .char-btn{
   color:#fff;
@@ -265,7 +270,10 @@ body {
   border-radius: 100000px;
   padding: 0.35em 0.75em;
   margin: 0.1rem;
-  white-space:nowrap
+  
+  white-space:nowrap;
+  line-height: 2rem;
+  
 }
 .char-button-win-0{
   background-color: rgba(13, 110, 253, 1.0);
@@ -320,6 +328,8 @@ body {
   padding : 0.8rem;
   margin : 0 0 1rem 0;
   border : 1px solid #dee2e6;
+  vertical-align: center;
+  
   /* display : inline-block; */
   width : auto;
 

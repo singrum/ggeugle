@@ -12,7 +12,7 @@ function Setting1({dict, setDict}) {
       <div className="setting-select" id="dict">
         <span className="title">사전</span>
         <Form.Select aria-label="Default select example" value={dict} onChange={(e) => { setDict(parseInt(e.target.value)); }}>
-          <option value="0">표준국어대사전</option>
+          <option value="0">(구)표준국어대사전</option>
           <option value="1">우리말샘</option>
           <option value="2">한국어기초사전</option>
         </Form.Select>
