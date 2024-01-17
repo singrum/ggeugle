@@ -697,7 +697,6 @@ class WordManager extends CharManager {
       
 
     }
-    console.log(cirDict['회'])
     for (let char of this.losCirChar) {
       for (let word of this.nextWordList(char)) {
         if (cirDict[char].returning.includes(word)){
