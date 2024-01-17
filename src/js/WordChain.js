@@ -476,6 +476,7 @@ class WordManager extends CharManager {
 
     // looping
     for(let char of cirChars){
+      
       cirDict[char].looping = []
       for(let next of cirDict[char].word){
         if (this.rule.changable(char).includes(this.rule.tail(next))){
@@ -487,12 +488,17 @@ class WordManager extends CharManager {
 
     // returning
     for(let char of cirChars){
+
       cirDict[char].returning = []
       for(let next of cirDict[char].word){
+        if(cirDict[char].looping.includes(next)){
+          continue
+        }
+        
         for(let next_next of cirDict[this.rule.tail(next)].word){
+          
           if(this.rule.changable(char).includes(this.rule.tail(next_next)) &&
-          !cirDict[char].returning.includes(next_next) &&
-          !cirDict[char].looping.includes(next)){
+          !cirDict[char].returning.includes(next_next)){
             cirDict[char].returning.push(next)
             cirDict[char].returning.push(next_next)
             break
@@ -520,6 +526,7 @@ class WordManager extends CharManager {
 
   
     const filterLoop = ()=>{
+      
       for(let char of cirChars){
         if(cirDict[char].sorted){
           continue
@@ -536,6 +543,7 @@ class WordManager extends CharManager {
               cirDict[char].toLos = []
             }
             cirDict[char].toLos.push(next)
+            break
           }  
         } 
       }
@@ -559,7 +567,7 @@ class WordManager extends CharManager {
           }
           else{
             
-            path = path.concat(cirDict[char].looping).concat(cirDict[char].returning).concat(nextPath)
+            path = path.concat([next]).concat(cirDict[char].looping).concat(cirDict[char].returning).concat(nextPath)
             
           }
         }
@@ -570,6 +578,7 @@ class WordManager extends CharManager {
         }
       }
     }
+
 
     let length = 0
     let prev_length = -1
@@ -592,12 +601,27 @@ class WordManager extends CharManager {
               cirDict[char].toWin = []
             }
             cirDict[char].toWin.push(next)
+
+          }
+        }
+      }
+      // 승리순환단어 찾기
+      if(cirDict[char].sorted === "win"){
+        for(let next of cirDict[char].word){
+          let nextPath = cirDict[this.rule.tail(next)].path
+          if(cirDict[this.rule.tail(next)].sorted === "los" && !nextPath.includes(next)){
+            if(!cirDict[char].toLos){
+              cirDict[char].toLos = []
+            }
+            cirDict[char].toLos.push(next)
           }
         }
       }
     }
     
 
+    // 승리순환음절에 대해 승리순환단어 찾기
+    
 
 
 
@@ -650,20 +674,22 @@ class WordManager extends CharManager {
         else if (cirDict[char].returning.includes(word)){
           this.win_cir_word_class.add(char, "returning", word)
         }
-        else if (this.routeCirChar.has(this.rule.tail(word))) {
-          this.win_cir_word_class.add(char, "route", word);
-        }
         else if (cirDict[char].toWin && cirDict[char].toWin.includes(word)){
           this.win_cir_word_class.add(char, "los", word);
+        }
+        else if (cirChars.includes(this.rule.tail(word))) {
+          this.win_cir_word_class.add(char, "route", word);
         }
         else if (this.win_char_set.has(this.rule.tail(word))) {
           let i = this.win_char_class.findDegree(this.rule.tail(word));
           this.win_cir_word_class.add(char, -i - 1, word);
         }
-        // else{
-        //   console.log(word)
-        // }
+        else{
+          console.log("분류 안 된 단어")
+          console.log(word)
+        }
       }
+    
       
 
       
@@ -684,9 +710,10 @@ class WordManager extends CharManager {
           let i = this.win_char_class.findDegree(this.rule.tail(word));
           this.los_cir_word_class.add(char, -i - 1, word);
         }
-        // else{
-        //   console.log(word)
-        // }
+        else{
+          console.log("분류 안 된 단어")
+          console.log(word)
+        }
       }
     }
 
@@ -710,9 +737,10 @@ class WordManager extends CharManager {
           let i = this.win_char_class.findDegree(this.rule.tail(word));
           this.route_cir_word_class.add(char, -i - 1, word);
         }
-        // else{
-        //   console.log(word)
-        // }
+        else{
+          console.log("분류 안 된 단어")
+          console.log(word)
+        }
       }
 
     }
