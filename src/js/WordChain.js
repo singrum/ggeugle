@@ -665,6 +665,7 @@ class WordManager extends CharManager {
     this.restRouteComp = sccs.filter(e=>e.length < 4).flat()
     for (let char of this.winCirChar) {
       for (let word of this.nextWordList(char)) {
+
         if (cirDict[char].toLos && cirDict[char].toLos.includes(word)) {
           this.win_cir_word_class.add(char, "win", word)
         }
@@ -696,7 +697,7 @@ class WordManager extends CharManager {
       
 
     }
-
+    console.log(cirDict['회'])
     for (let char of this.losCirChar) {
       for (let word of this.nextWordList(char)) {
         if (cirDict[char].returning.includes(word)){
