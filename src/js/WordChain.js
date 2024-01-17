@@ -548,12 +548,23 @@ class WordManager extends CharManager {
         
         for(let next of cirDict[char].word){
           let nextPath = cirDict[this.rule.tail(next)].path
+          if(cirDict[char].looping.includes(next)){
+            continue
+          }
+          if(cirDict[char].returning.includes(next)){
+            continue
+          }
           if(!(cirDict[this.rule.tail(next)].sorted === "win" && !nextPath.includes(next))){
             lose = false
           }
+          else{
+            console.log(next)
+            path = path.concat(cirDict[char].looping).concat(cirDict[char].returning).concat(nextPath)
+            console.log(path)
+          }
         }
         if(lose){
-          cirDict[char].sorted = "los"
+          cirDict[char].sorted = (cirDict[char].looping.length % 2 === 0 ? "los" : "win")
           cirDict[char].path = path
         }
       }

@@ -38,7 +38,8 @@ async function getData(rule) {
   else if (params.dict == 1) {
     for (let cate of params.cate) {
       for (let pos of params.pos) {
-        let response = await fetch(`https://singrum.github.io/ggeugle-legacy/opendict_db/db/${cate}/${encodeURI(pos)}`);
+        let response = await fetch(`https://singrum.github.io/KoreanDict/opendict/db/${cate}/${encodeURI(pos)}`);
+        
         let text = await response.text();
         wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
       }
