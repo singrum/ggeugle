@@ -558,14 +558,15 @@ class WordManager extends CharManager {
             lose = false
           }
           else{
-            console.log(next)
+            
             path = path.concat(cirDict[char].looping).concat(cirDict[char].returning).concat(nextPath)
-            console.log(path)
+            
           }
         }
         if(lose){
           cirDict[char].sorted = (cirDict[char].looping.length % 2 === 0 ? "los" : "win")
           cirDict[char].path = path
+          
         }
       }
     }
