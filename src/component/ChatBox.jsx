@@ -11,7 +11,7 @@ let ChatBox = forwardRef((props, ref) => {
     
       <div className="chat-box" 
       ref = {ref}
-      onScroll={e => {setShadow(e.target.scrollHeight - e.target.scrollTop !== e.target.clientHeight)}}>
+      onScroll={e => {Math.floor(setShadow((e.target.scrollHeight - e.target.scrollTop - e.target.clientHeight))) === 0}}>
         {props.children}
       </div>
       <div style = {{display : shadow ? "block" : "None"}}className="chat-box-shadow"></div>
