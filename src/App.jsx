@@ -422,9 +422,10 @@ function App() {
 
           }
           else if(practiceWm.losCirChar.has(currChar)){
-            if(practiceWm.los_cir_word_class.get(currChar)["returning"]){
+            if(practiceWm.los_cir_word_class.get(currChar).content["returning"]){
               word = Array.from(practiceWm.los_cir_word_class.get(currChar).content["returning"])[0]
             }else{
+              
               word = Array.from(practiceWm.los_cir_word_class.get(currChar).content["los"])[0]
             }
             
