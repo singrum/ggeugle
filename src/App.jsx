@@ -413,27 +413,33 @@ function App() {
           if(practiceWm.win_char_set.has(currChar)){
             let wc = practiceWm.win_word_class.get(currChar).content
             let key = Math.min(...Object.keys(wc).filter(e=>!isNaN(e) && Number(e) >= 0).map(e=>Number(e)))
-            word = Array.from(wc[key])[0]
+            let next = Array.from(wc[key])
+            word = next[Math.floor(Math.random() * next.length)]
           }
           else if(practiceWm.los_char_set.has(currChar)){
             let wc = practiceWm.los_word_class.get(currChar).content
             let key = Math.max(...Object.keys(wc))
-            word = Array.from(wc[key])[0]  
+            let next = Array.from(wc[key])
+            word = next[Math.floor(Math.random() * next.length)]
           }
           else if(practiceWm.winCirChar.has(currChar)){
-            word = Array.from(practiceWm.win_cir_word_class.get(currChar).content["win"])[0]
+            let next = Array.from(practiceWm.win_cir_word_class.get(currChar).content["win"])
+            word = next[Math.floor(Math.random() * next.length)]
 
           }
           else if(practiceWm.losCirChar.has(currChar)){
             if(practiceWm.los_cir_word_class.get(currChar).content["returning"]){
-              word = Array.from(practiceWm.los_cir_word_class.get(currChar).content["returning"])[0]
+              let next = Array.from(practiceWm.los_cir_word_class.get(currChar).content["returning"])
+              word = next[Math.floor(Math.random() * next.length)]
             }else{
-              word = Array.from(practiceWm.los_cir_word_class.get(currChar).content["los"])[0]
+              let next = Array.from(practiceWm.los_cir_word_class.get(currChar).content["los"])
+              word = next[Math.floor(Math.random() * next.length)]
             }
             
           }
           else{
-            word = Array.from(practiceWm.route_cir_word_class.get(currChar).content["route"])[0]
+            let next = Array.from(practiceWm.route_cir_word_class.get(currChar).content["route"])
+            word = next[0]
             
           }
           
