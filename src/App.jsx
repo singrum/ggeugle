@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-
+import { WordManager, Rule } from "./js/WordChain"
 import Search from './component/Search'
 import WordBox from './component/WordBox'
 import Loading from './component/Loading'
@@ -10,7 +10,12 @@ import { getData } from './js/ruleUpdate'
 import RuleModal from './component/RuleModal'
 import MenuBtn from './component/MenuBtn'
 import StatModal from './component/StatModal'
+import SwitchMode from './component/SwitchMode'
+import WordInput from './component/WordInput'
 import './App.css'
+import ChatBox from './component/ChatBox'
+import Chat from './component/Chat'
+import Button from 'react-bootstrap/Button'
 
 const scrollToTop = () => {
   window.scrollTo({
@@ -18,6 +23,15 @@ const scrollToTop = () => {
     behavior: 'smooth' // 스무스한 애니메이션으로 스크롤 이동
   });
 };
+
+const checkKorean = (char) => {
+        
+  let isThereLastChar = (char.charCodeAt(0) - 44032) % 28
+  if (isThereLastChar) {
+    return '으로'
+  }
+  return '로'
+}
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +42,7 @@ function App() {
   const [input, setInput] = useState("");
   const [wordCards, setWordCards] = useState([]);
   const [wm, setWm] = useState(null);
-
+  const [mode, setMode] = useState('0')
   const [rule, setRule] = useState({
     dict: 0,
     pos: [0],
@@ -40,6 +54,15 @@ function App() {
     tailDir: 1,
     tailIdx: 1
   });
+  const [chatList, setChatList] = useState([])
+  const [practiceWm, setPracticeWm] = useState(null)
+  const [difficulty, setDifficulty] = useState(null)
+  const [wmSign, setWmSign] = useState(null)
+  const [initiatePracticeWm, setInitiatePracticeWm] = useState(null)
+  const [practiceInput, setPracticeInput] = useState("")
+  const [sendSign, setSendSign] = useState(false)
+  const [history, setHistory] = useState([])
+  const chatBox = useRef()
 
   const applySearch = useCallback(() => {
     if (!wm) { return; }
@@ -318,6 +341,211 @@ function App() {
 
   useEffect(applySearch, [search])
 
+  useEffect(()=>{
+    setDifficulty(null)
+    if (mode == "1"){
+      setChatList(
+        [(<Chat sender="computer">
+        끄글 연습 모드에 오신 것을 환영합니다.
+        <br></br>
+        난이도를 선택해주세요.
+        <div className='diff-box'>
+          <Button onClick = {()=>setDifficulty("0")} variant="outline-primary" className = "diff-btn" >쉬움</Button>
+          {/* <Button onClick = {()=>setDifficulty("1")} variant="outline-success" className = "diff-btn">보통</Button> */}
+          <Button onClick = {()=>setDifficulty("2")} variant="outline-danger" className = "diff-btn">어려움</Button>
+        </div>
+      </Chat>)]
+      )
+    }
+    setPracticeWm(null)
+    
+    
+  }, [mode, wm])
+
+
+
+  useEffect(()=>{
+    if(!wm){return}
+    if(!difficulty){return}
+    setChatList([...chatList.slice(0, 1), <Chat sender = "computer" loading></Chat>])
+    setHistory([])
+    setPracticeWm(null)
+    setInitiatePracticeWm(true)
+    
+  }, [difficulty])
+
+
+  useEffect(()=>{
+    
+    if(practiceWm && initiatePracticeWm){
+      setInitiatePracticeWm(false)
+      
+      setChatList([...chatList.slice(0, 1), (<Chat sender="computer">
+      난이도 <b>{`${difficulty === "0" ? "쉬움" : (difficulty === "1" ? "보통" : "어려움")}`}</b>을 선택하셨습니다.
+      <br></br>
+      먼저 단어를 제시해주세요!
+    </Chat>)])
+      return
+    }
+    
+    if (practiceWm){
+
+      let currChar = practiceWm.rule.tail(practiceInput)
+      let next = practiceWm.nextWordList(currChar)
+      let word;
+      if(next.length === 0){
+        setChatList([...chatList.slice(0,chatList.length - 1), 
+          <Chat sender="computer">{`당신이 이겼습니다.`}</Chat>])
+        return
+      }
+      if(difficulty === "0"){
+        word = next[Math.floor(Math.random() * next.length)]
+      }
+      else{
+        if(difficulty === "1"){
+
+          return
+        }
+        else if(difficulty === "2"){
+          if(practiceWm.win_char_set.has(currChar)){
+            let wc = practiceWm.win_word_class.get(currChar).content
+            let key = Math.min(...Object.keys(wc).filter(e=>!isNaN(e) && Number(e) >= 0).map(e=>Number(e)))
+            word = Array.from(wc[key])[0]
+          }
+          else if(practiceWm.los_char_set.has(currChar)){
+            let wc = practiceWm.los_word_class.get(currChar).content
+            let key = Math.max(...Object.keys(wc))
+            word = Array.from(wc[key])[0]  
+          }
+          else if(practiceWm.winCirChar.has(currChar)){
+            word = Array.from(practiceWm.win_cir_word_class.get(currChar).content["win"])[0]
+
+          }
+          else if(practiceWm.losCirChar.has(currChar)){
+            if(practiceWm.los_cir_word_class.get(currChar)["returning"]){
+              word = Array.from(practiceWm.los_cir_word_class.get(currChar).content["returning"])[0]
+            }else{
+              word = Array.from(practiceWm.los_cir_word_class.get(currChar).content["los"])[0]
+            }
+            
+          }
+          else{
+            word = Array.from(practiceWm.route_cir_word_class.get(currChar).content["route"])[0]
+            
+          }
+          
+
+      
+        }
+        
+      }
+      setChatList([...chatList.slice(0,chatList.length - 1), 
+        <Chat sender="computer">{word}</Chat>])
+        
+        
+      setHistory([...history, word])
+
+        
+      next = practiceWm.nextWordList(practiceWm.rule.tail(word))
+      if(next.length === 0){
+        setChatList([...chatList.slice(0,chatList.length - 1),
+          <Chat sender="computer">{word}</Chat>,
+          <Chat sender="computer">{`제가 이겼습니다.`}</Chat>])
+        return
+      }
+      
+    }
+
+
+  }, [practiceWm])
+  useEffect(()=>{
+    if(!initiatePracticeWm){return}
+    let rule = new Rule(
+      wm.rule.word_list,
+        {changable : wm.rule.changable_index,
+          len_filter : wm.rule.len_filter,
+          head_index : wm.rule.head_index,
+          tail_index : wm.rule.tail_index
+        }
+    )
+    setPracticeWm(new WordManager(rule))
+    
+    
+    
+  }, [initiatePracticeWm])  
+  
+  useEffect(()=>{
+    if(!wmSign){return}
+    setWmSign(false)
+    
+    setPracticeWm(new WordManager(
+        new Rule(
+          wm.rule.word_list.filter(e=>!history.includes(e)),
+            {changable : wm.rule.changable_index,
+              len_filter : wm.rule.len_filter,
+              head_index : wm.rule.head_index,
+              tail_index : wm.rule.tail_index
+            }
+        )
+      )
+    )
+
+  },[wmSign])
+
+  useEffect(()=>{
+    if (!sendSign){return;}
+    setSendSign(false)
+
+    
+    if (difficulty === null){
+      setChatList([...chatList, 
+        <Chat sender = "you">{practiceInput}</Chat>,
+        <Chat sender="computer">먼저 난이도를 선택해주세요.</Chat>])
+      return
+    }
+    
+    if (history.length > 0){
+      let chan = practiceWm.rule.changable(practiceWm.rule.tail(history[history.length - 1]))
+      if (!chan.includes(practiceWm.rule.head(practiceInput))){
+        setChatList([...chatList, 
+          <Chat sender = "you">{practiceInput}</Chat>,
+          <Chat sender="computer"><b>{`${chan.join(" 또는 ")}`}</b>{checkKorean(chan[0])} 시작하는 단어를 입력해주세요.</Chat>])
+        return
+      }
+      if (history.includes(practiceInput)){
+        setChatList([...chatList, 
+          <Chat sender = "you">{practiceInput}</Chat>,
+          <Chat sender="computer">{`이미 사용한 단어입니다.`}</Chat>])
+        return
+      }
+    }
+    if (!practiceWm.rule.word_list.includes(practiceInput)){
+      setChatList([...chatList, 
+        <Chat sender = "you">{practiceInput}</Chat>,
+        <Chat sender="computer">존재하지 않는 단어입니다.</Chat>])
+      return
+    }
+    setHistory([...history, practiceInput])
+    setChatList([...chatList,<Chat sender = "you">{practiceInput}</Chat>,
+    <Chat sender = "computer" loading></Chat>
+    ])
+    
+
+
+
+
+
+    setWmSign(true)
+  }, [sendSign])
+
+  // 스크롤 다운
+  useEffect(()=>{
+    if(chatBox.current){
+      chatBox.current.scrollTop = chatBox.current.scrollHeight
+    }
+  }, [chatList])
+  
+
   const [ruleModalShow, setRuleModalShow] = useState(false);
   const [statModalShow, setStatModalShow] = useState(false);
   
@@ -354,31 +582,51 @@ function App() {
         setModalShow={setRuleModalShow}
       />
 
+      <SwitchMode
+        mode = {mode}
+        setMode = {setMode}
+      ></SwitchMode>
+      <div style = {{display: mode ==="0" ? "block" : "none"}}>
+        <Search
+
+          input={input}
+          setInput={setInput}
+        />
+
+        <WordBox>
+          {wordCards}
+        </WordBox>
 
 
-      <Search
-
-        input={input}
-        setInput={setInput}
-      />
-
-      <WordBox>
-        {wordCards}
-      </WordBox>
-
-
-      <span className="selection-btn" onClick={()=>setOffCanvasShow(!offCanvasShow)}>
-        <img className="btn-icon" src="icon/apps_FILL0_wght200_GRAD0_opsz24.svg"></img>
-      </span>
-      <CharOffcanvas
-        radioValue={radioValue}
-        setRadioValue={setRadioValue}
-        show={offCanvasShow}
-        onHide={() => { setOffCanvasShow(!offCanvasShow) }}
-      >
-        {charCards}
-      </CharOffcanvas>
-      
+        <span className="selection-btn" onClick={()=>setOffCanvasShow(!offCanvasShow)}>
+          <img className="btn-icon" src="icon/apps_FILL0_wght200_GRAD0_opsz24.svg"></img>
+        </span>
+        <CharOffcanvas
+          radioValue={radioValue}
+          setRadioValue={setRadioValue}
+          show={offCanvasShow}
+          onHide={() => { setOffCanvasShow(!offCanvasShow) }}
+        >
+          {charCards}
+        </CharOffcanvas> 
+      </div>
+      <div style = {{display: mode ==="1" ? "block" : "none"}}>
+        <ChatBox
+          chatList = {chatList}
+          setChatLists = {setChatList}
+          ref = {chatBox}
+        >
+          {chatList}
+        </ChatBox>
+        <WordInput
+          practiceInput = {practiceInput}
+          setPracticeInput = {setPracticeInput}
+          sendSign = {sendSign}
+          setSendSign = {setSendSign}
+        >
+          
+        </WordInput>
+      </div>
       
 
 

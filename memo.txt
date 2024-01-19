@@ -1,1 +1,6 @@
 git subtree push --prefix dist origin gh-pages
+(<Chat sender="computer">
+      난이도 <b>{`${difficulty === "0" ? "쉬움" : (difficulty === "1" ? "보통" : "어려움")}`}</b>을 선택하셨습니다.
+      <br></br>
+      먼저 단어를 제시해주세요!
+    </Chat>)

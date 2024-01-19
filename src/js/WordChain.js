@@ -3,6 +3,7 @@ class Rule {
   constructor(word_list, { changable = 1, len_filter = (w) => w.length >= 2, head_index = 0, tail_index = -1 }) {
 
     this.word_list = Array.from(new Set(word_list));
+    this.changable_index =  changable
     this.changable = this.setChangable(changable);
     this.reverse_changable = this.setReverseChangable(changable);
     this.len_filter = len_filter;
@@ -13,7 +14,7 @@ class Rule {
 
   }
 
-
+  
   setChangable(changable) {
     let sc = (char) => char.charCodeAt(0);//string to charcode
     let cs = (code) => String.fromCharCode(code);//code to string
