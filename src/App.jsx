@@ -62,6 +62,7 @@ function App() {
   const [practiceInput, setPracticeInput] = useState("")
   const [sendSign, setSendSign] = useState(false)
   const [history, setHistory] = useState([])
+  const [regame, setRegame] = useState(false)
   const chatBox = useRef()
 
   const applySearch = useCallback(() => {
@@ -350,9 +351,9 @@ function App() {
         <br></br>
         난이도를 선택해주세요.
         <div className='diff-box'>
-          <Button onClick = {()=>setDifficulty("0")} variant="outline-primary" className = "diff-btn" >쉬움</Button>
+          <Button onClick = {()=>{setDifficulty("0"); setRegame(true)}} variant="outline-primary" className = "diff-btn" >쉬움</Button>
           {/* <Button onClick = {()=>setDifficulty("1")} variant="outline-success" className = "diff-btn">보통</Button> */}
-          <Button onClick = {()=>setDifficulty("2")} variant="outline-danger" className = "diff-btn">어려움</Button>
+          <Button onClick = {()=>{setDifficulty("2"); setRegame(true)}} variant="outline-danger" className = "diff-btn">어려움</Button>
         </div>
       </Chat>)]
       )
@@ -365,6 +366,8 @@ function App() {
 
 
   useEffect(()=>{
+    if(!regame){return}
+    setRegame(false)
     if(!wm){return}
     if(!difficulty){return}
     setChatList([...chatList.slice(0, 1), <Chat sender = "computer" loading></Chat>])
@@ -372,7 +375,7 @@ function App() {
     setPracticeWm(null)
     setInitiatePracticeWm(true)
     
-  }, [difficulty])
+  }, [difficulty,regame])
 
 
   useEffect(()=>{

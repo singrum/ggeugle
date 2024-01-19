@@ -510,6 +510,7 @@ body {
 .chat-you{
   border-radius: 15px 0 15px 15px;
   margin-left: auto;
+  background-color: #f4f5fb;
 }
 .diff-box{
   display : flex;
