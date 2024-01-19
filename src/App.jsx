@@ -439,7 +439,7 @@ function App() {
           }
           else{
             let next = Array.from(practiceWm.route_cir_word_class.get(currChar).content["route"])
-            word = next[0]
+            word = next[Math.floor(Math.random() * next.length)]
             
           }
           
