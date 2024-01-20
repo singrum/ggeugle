@@ -13,8 +13,10 @@ function Setting1({dict, setDict}) {
         <span className="title">사전</span>
         <Form.Select aria-label="Default select example" value={dict} onChange={(e) => { setDict(parseInt(e.target.value)); }}>
           <option value="0">(구)표준국어대사전</option>
+          <option value="3">(신)표준국어대사전</option>
           <option value="1">우리말샘</option>
           <option value="2">한국어기초사전</option>
+          
         </Form.Select>
 
       </div>
@@ -218,7 +220,7 @@ function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
   
   const [isHeadValid, setIsHeadValid] = useState(true);
   const [isTailValid, setIsTailValid] = useState(true);
-  const [disabled, setDisabled] = useState(rule.dict === 0 || rule.dict === 2)
+  const [disabled, setDisabled] = useState(rule.dict === 0 || rule.dict === 2 || rule.dict === 3)
 
   useEffect(
     ()=>{
@@ -232,7 +234,7 @@ function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
   
   useEffect(
     ()=>{
-      if(dict === 0 || dict === 2){
+      if(dict === 0 || dict === 2 || dict === 3){
         setDisabled(true);
       }
       else{

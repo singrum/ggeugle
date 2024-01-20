@@ -55,6 +55,13 @@ async function getData(rule) {
     }
   }
 
+  else if (params.dict == 3){
+    for (let pos of params.pos) {
+      let response = await fetch(`https://singrum.github.io/KoreanDict/stdict/db/${encodeURI(pos)}`);
+      let text = await response.text();
+      wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
+    }
+  }
   let r = new Rule(wordList, {
     changable : params.chan,
     len_filter : (w)=>{
@@ -69,13 +76,65 @@ async function getData(rule) {
     tail_index : params.tailDir === 0 ? params.tailIdx - 1 : -params.tailIdx
   });
   let wm = new WordManager(r);
-
-
+  
   
   return wm
 
 }
 
+function printDict(wm){
+  let dict_str = ""
+  let char_list = wm.char_list.sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b)))
+  // for(let char of char_list){
+  //     if (wm.win_char_set.has(char)){
+  //       dict_str += char
+        
+  //       dict_str += " : "
+  //       let wc = wm.win_word_class.get(char).content
+  //       for (let i of Object.keys(wc).filter(e => parseInt(e) >= 0)){
+  //         dict_str += Array.from(wc[i]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).join(", ")
+  //         dict_str += ", "
+  //       }
+  //       dict_str += '\n'
+  //     }
+  // }
+  
+  // dict_str = ""
+  // char_list = wm.char_list.sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b)))
+  // for(let char of char_list){
+  //     if (wm.winCirChar.has(char)){
+  //       dict_str += char
+  //       dict_str += " : "
+  //       let wc = wm.win_cir_word_class.get(char).content
+  //       dict_str += Array.from(wc['win']).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).join(", ")
+  //       dict_str += ", "
+        
+  //       dict_str += '\n'
+  //     }
+  // }
+
+
+  dict_str = ""
+  char_list = wm.char_list.sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b)))
+  for(let char of char_list){
+      if (wm.maxRouteComp.includes(char)){
+        dict_str += char
+        dict_str += " : "
+        let wc = wm.route_cir_word_class.get(char).content
+        if(wc["route"]){
+          dict_str += Array.from(wc['route']).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).join(", ")
+          dict_str += ", "
+        }
+        if(wc["returning"]){
+          dict_str += Array.from(wc['returning']).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).join("(돌림), ")
+        }
+        dict_str += '\n'
+        
+        
+      }
+  }
+  console.log(dict_str)
+}
 
 
 
