@@ -45,12 +45,16 @@ export default function StatModal({ wm, modalShow, setModalShow }) {
               <td>{wm.los_char_set.size}</td>
             </tr>
             <tr>
-              <td>순환음절 수</td>
-              <td>{wm.cir_char_set.size}</td>
+              <td>주요루트음절 수</td>
+              <td>{wm.routeCirChar.size}</td>
             </tr>
             <tr>
-              <td>평균 순환단어 수</td>
-              <td>{Math.round((function () { let i = 0; wm.cir_char_set.forEach((x) => { i += wm.nextCirWordList(x).length; }); return i; }()) / (wm.cir_char_set.size) * 10000) / 10000}</td>
+              <td>루트 복잡도</td>
+              <td>{Math.round((function () { let i = 0; wm.routeCirChar.forEach((x) => {
+                
+                 i += (wm.route_cir_word_class.get(x).content["route"] ? wm.route_cir_word_class.get(x).content["route"].size : 0 +
+                  wm.route_cir_word_class.get(x).content["returning"] ? wm.route_cir_word_class.get(x).content["returning"].size : 0); 
+                }); return i; }()) / (wm.routeCirChar.size) * 10000) / 10000}</td>
             </tr>
           </tbody>
         </Table>
