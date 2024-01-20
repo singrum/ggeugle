@@ -513,6 +513,7 @@ class WordManager extends CharManager {
     for(let char of cirChars){
       if(cirDict[char].returning.length/2 + cirDict[char].looping.length === cirDict[char].word.length){
           if (cirDict[char].looping.length % 2 === 1){
+            cirDict[char].winWord = cirDict[char].looping[0]
             cirDict[char].sorted = "win"
           }
           else if(cirDict[char].looping.length % 2 === 0){
@@ -535,7 +536,7 @@ class WordManager extends CharManager {
         
         for(let next of cirDict[char].word){
           
-
+          
           let nextPath = cirDict[this.rule.tail(next)].path
           if (cirDict[this.rule.tail(next)].sorted === "los" && !nextPath.includes(next)){
             cirDict[char].sorted = "win"
@@ -544,6 +545,7 @@ class WordManager extends CharManager {
               cirDict[char].toLos = []
             }
             cirDict[char].toLos.push(next)
+            cirDict[char].winWord = next
             break
           }  
         } 
@@ -573,8 +575,14 @@ class WordManager extends CharManager {
           }
         }
         if(lose){
-          cirDict[char].sorted = (cirDict[char].looping.length % 2 === 0 ? "los" : "win")
           cirDict[char].path = path
+          if(cirDict[char].looping.length % 2 === 0){
+            cirDict[char].sorted = "los"
+          }
+          else{
+            cirDict[char].winWord = cirDict[char].looping[0]
+            cirDict[char].sorted = "win"
+          }
           
         }
       }
@@ -608,6 +616,8 @@ class WordManager extends CharManager {
       }
       // 승리순환단어 찾기
       if(cirDict[char].sorted === "win"){
+
+
         for(let next of cirDict[char].word){
           let nextPath = cirDict[this.rule.tail(next)].path
           if(cirDict[this.rule.tail(next)].sorted === "los" && !nextPath.includes(next)){
@@ -617,11 +627,13 @@ class WordManager extends CharManager {
             cirDict[char].toLos.push(next)
           }
         }
+        
+        
       }
     }
     
 
-    // 승리순환음절에 대해 승리순환단어 찾기
+    
     
 
 
@@ -629,7 +641,7 @@ class WordManager extends CharManager {
     let winning = cirChars.filter(e=>cirDict[e].sorted === "win")
     let losing = cirChars.filter(e=>cirDict[e].sorted === "los")
     
-
+    
     for(let char of this.cir_char_set){
       let chan = this.rule.changable(char)
       if (chan.length >=2 ){
@@ -639,6 +651,8 @@ class WordManager extends CharManager {
         }
       }
     }
+
+    
 
     const routeGraph = {}
     for(let char of routeCirChars){
@@ -718,7 +732,7 @@ class WordManager extends CharManager {
       }
     }
 
-
+    this.cirDict = cirDict
 
     for (let char of this.routeCirChar) {
       for (let word of this.nextWordList(char)) {

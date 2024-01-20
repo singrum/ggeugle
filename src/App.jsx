@@ -392,7 +392,7 @@ function App() {
     }
     
     if (practiceWm){
-
+      console.log(practiceWm)
       let currChar = practiceWm.rule.tail(practiceInput)
       let next = practiceWm.nextWordList(currChar)
       let word;
@@ -424,7 +424,9 @@ function App() {
           }
           else if(practiceWm.winCirChar.has(currChar)){
             let next = Array.from(practiceWm.win_cir_word_class.get(currChar).content["win"])
-            word = next[Math.floor(Math.random() * next.length)]
+
+            
+            word = practiceWm.cirDict[currChar].winWord
 
           }
           else if(practiceWm.losCirChar.has(currChar)){
