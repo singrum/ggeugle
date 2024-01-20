@@ -64,6 +64,7 @@ function App() {
   const [history, setHistory] = useState([])
   const [regame, setRegame] = useState(false)
   const chatBox = useRef()
+  const [gameEnd, setGameEnd] = useState(false)
 
   const applySearch = useCallback(() => {
     if (!wm) { return; }
@@ -373,7 +374,9 @@ function App() {
     setChatList([...chatList.slice(0, 1), <Chat sender = "computer" loading></Chat>])
     setHistory([])
     setPracticeWm(null)
+    setGameEnd(false)
     setInitiatePracticeWm(true)
+    
     
   }, [difficulty,regame])
 
@@ -399,6 +402,7 @@ function App() {
       if(next.length === 0){
         setChatList([...chatList.slice(0,chatList.length - 1), 
           <Chat sender="computer">{`당신이 이겼습니다.`}</Chat>])
+          setGameEnd(true)
         return
       }
       if(difficulty === "0"){
@@ -462,6 +466,7 @@ function App() {
         setChatList([...chatList.slice(0,chatList.length - 1),
           <Chat sender="computer">{word}</Chat>,
           <Chat sender="computer">{`제가 이겼습니다.`}</Chat>])
+        setGameEnd(true)
         return
       }
       
@@ -507,7 +512,11 @@ function App() {
     if (!sendSign){return;}
     setSendSign(false)
 
-    
+    if(gameEnd){
+      setChatList([...chatList, 
+        <Chat sender = "you">{practiceInput}</Chat>])
+      return
+    }
     if (difficulty === null){
       setChatList([...chatList, 
         <Chat sender = "you">{practiceInput}</Chat>,
