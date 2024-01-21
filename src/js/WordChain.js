@@ -11,6 +11,7 @@ class Rule {
     this.lenFilt();
     this.head_index = head_index;
     this.tail_index = tail_index;
+    
     this.word_dict = this.setWordDict(this.word_list);
     
   }
@@ -121,6 +122,7 @@ class Rule {
   tail(word) { return word[this.tail_index >= 0 ? this.tail_index : word.length + this.tail_index]; }
 
   setWordDict(word_list) {
+    
     let dict = new Map();
     let h, t;
     for (let word of word_list) {
@@ -130,6 +132,7 @@ class Rule {
       if (!dict.has(t)) { dict.set(t, []); }
       dict.get(h).push(word);
     }
+    
     return dict;
   }
 }
@@ -677,6 +680,17 @@ class WordManager extends CharManager {
     this.win_cir_word_class = new WordClass(this.winCirChar)
     this.los_cir_word_class = new WordClass(this.losCirChar)
     this.route_cir_word_class = new WordClass(cirChars.filter(e=>!cirDict[e].sorted))
+    this.route_words_list = new Set()
+    for(let routechar of this.routeCirChar){
+      for(let word of this.nextWordList(routechar)){
+        if(this.routeCirChar.has(this.rule.tail(word))){
+          this.route_words_list.add(word)
+        }
+      }
+    }
+    this.route_words_list = Array.from(this.route_words_list)
+    
+
 
     this.maxRouteComp = sccs.filter(e=>e.length >=4).flat()
     this.restRouteComp = sccs.filter(e=>e.length < 4).flat()
@@ -761,6 +775,79 @@ class WordManager extends CharManager {
       }
 
     }
+
+  }
+  // nextRouteWords(char){
+  //   let result = []
+  //   for(let word of this.nextRouteWords){
+  //     if(this.changable(char).includes(this.rule.head(word))){
+  //       result.push(word)
+  //     }
+  //   }
+  //   return result
+  // }
+  winWord(char, depth, first = false){
+    if (depth < 0){
+      return -1;
+    }
+    if(!this.char_list.includes(char)){
+      char = this.rule.changable(char)[1]
+    }
+
+    if (this.win_char_set.has(char)){
+      let wc = this.win_word_class.get(char).content
+      let key = Math.min(...Object.keys(wc).filter(e=>!isNaN(e) && Number(e) >= 0).map(e=>Number(e)))
+      let next = Array.from(wc[key])
+      return next[Math.floor(Math.random() * next.length)]
+    }
+    if (this.winCirChar.has(char)){
+      return this.cirDict[char].winWord
+    }
+    if (this.los_char_set.has(char)){
+      return false
+    }
+    if (this.losCirChar.has(char)){
+      return false
+    }
+    
+    let nextRoute = Array.from(this.route_cir_word_class.get(char).content["route"]).sort((a,b)=>
+      this.route_cir_word_class.get(this.rule.tail(a)).content["route"].size - 
+      this.route_cir_word_class.get(this.rule.tail(b)).content["route"].size)
+    nextRoute = nextRoute.filter(word => nextRoute.find(e=>this.rule.tail(e) === this.rule.tail(word)) === word)
+    
+    let unknown = false
+    let losWords = []
+    for(let word of nextRoute){
+      let nextWm = new WordManager(
+        new Rule(
+          this.route_words_list.filter(e=>e !== word),
+          {changable : this.rule.changable_index,
+            len_filter : this.rule.len_filter,
+            head_index : this.rule.head_index,
+            tail_index : this.rule.tail_index
+          }
+        )
+      )
+
+
+      // 다음 단어가 2개 이하면 depth 안줄임
+      let ww = nextWm.winWord(nextWm.rule.tail(word), depth - (nextRoute.length <= 2 ? 0 : 1))
+      if (ww === false){
+        return word
+      }
+      if(ww === -1){
+        unknown = true
+        continue
+      }
+      losWords.push(word)
+    }
+    if(unknown){
+      return first ? losWords : -1
+    }
+
+    return first ? losWords : false
+    
+
 
   }
 

@@ -395,7 +395,7 @@ function App() {
     }
     
     if (practiceWm){
-      console.log(practiceWm)
+      
       let currChar = practiceWm.rule.tail(practiceInput)
       let next = practiceWm.nextWordList(currChar)
       let word;
@@ -414,38 +414,41 @@ function App() {
           return
         }
         else if(difficulty === "2"){
-          if(practiceWm.win_char_set.has(currChar)){
-            let wc = practiceWm.win_word_class.get(currChar).content
-            let key = Math.min(...Object.keys(wc).filter(e=>!isNaN(e) && Number(e) >= 0).map(e=>Number(e)))
-            let next = Array.from(wc[key])
-            word = next[Math.floor(Math.random() * next.length)]
-          }
+          let winWord = practiceWm.winWord(currChar, 1, true)
+          if(typeof winWord === 'string'){
+            word = winWord
+            
+            console.log("승 : " +  word)
+          } 
           else if(practiceWm.los_char_set.has(currChar)){
             let wc = practiceWm.los_word_class.get(currChar).content
             let key = Math.max(...Object.keys(wc))
             let next = Array.from(wc[key])
             word = next[Math.floor(Math.random() * next.length)]
           }
-          else if(practiceWm.winCirChar.has(currChar)){
-            let next = Array.from(practiceWm.win_cir_word_class.get(currChar).content["win"])
-
-            
-            word = practiceWm.cirDict[currChar].winWord
-
-          }
           else if(practiceWm.losCirChar.has(currChar)){
+            console.log("패")
             if(practiceWm.los_cir_word_class.get(currChar).content["returning"]){
               let next = Array.from(practiceWm.los_cir_word_class.get(currChar).content["returning"])
               word = next[Math.floor(Math.random() * next.length)]
             }else{
               let next = Array.from(practiceWm.los_cir_word_class.get(currChar).content["los"])
               word = next[Math.floor(Math.random() * next.length)]
-            }
-            
+            } 
           }
           else{
-            let next = Array.from(practiceWm.route_cir_word_class.get(currChar).content["route"])
-            word = next[Math.floor(Math.random() * next.length)]
+            let losWords = winWord;
+            console.log("죽는단어 : " + losWords)
+            let next = Array.from(practiceWm.route_cir_word_class.get(currChar).content["route"]).filter(e=>!losWords.includes(e))
+            
+            if(next.length === 0){
+              console.log("패")
+              word = losWords[Math.floor(Math.random() * losWords.length)]  
+            }
+            else{
+              word = next[Math.floor(Math.random() * next.length)]
+            }
+            
             
           }
           
@@ -459,8 +462,10 @@ function App() {
         
         
       setHistory([...history, word])
-
-        
+      
+      if (word === undefined){
+        alert("[" + history + "] \n에러가 발생했습니다. https://open.kakao.com/me/singrum")
+      }
       next = practiceWm.nextWordList(practiceWm.rule.tail(word))
       if(next.length === 0){
         setChatList([...chatList.slice(0,chatList.length - 1),
