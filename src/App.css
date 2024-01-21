@@ -254,10 +254,11 @@ body {
   width : 100%;
   justify-content: space-around;
 }
+
 .offcanvas label{
   border-radius: 10000px;
-  border : none
-  
+  border : none;
+  /* padding : 0; */
 }
 .returning-icon{
   width : 1.0rem;

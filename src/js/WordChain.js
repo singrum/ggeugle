@@ -1,17 +1,18 @@
 
 class Rule {
   constructor(word_list, { changable = 1, len_filter = (w) => w.length >= 2, head_index = 0, tail_index = -1 }) {
-
+    
     this.word_list = Array.from(new Set(word_list));
     this.changable_index =  changable
     this.changable = this.setChangable(changable);
     this.reverse_changable = this.setReverseChangable(changable);
     this.len_filter = len_filter;
+    
     this.lenFilt();
     this.head_index = head_index;
     this.tail_index = tail_index;
     this.word_dict = this.setWordDict(this.word_list);
-
+    
   }
 
   
@@ -112,7 +113,6 @@ class Rule {
 
 
   lenFilt() {
-
     this.word_list = this.word_list.filter(x => x && this.len_filter(x));
   }
 
@@ -277,10 +277,12 @@ class WordManager extends CharManager {
   }
 
   setWordClass() {
-
+    
     for (let char of this.win_char_set) {
-
+      
       for (let word of this.nextWordList(char)) {
+        
+        
         if (this.los_char_set.has(this.rule.tail(word))) {
 
           let i = this.los_char_class.findDegree(this.rule.tail(word));

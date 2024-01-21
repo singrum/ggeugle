@@ -30,7 +30,7 @@ async function getData(rule) {
       let text = await response.text();
       
       wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
-
+      
     }
   }
 
@@ -66,7 +66,7 @@ async function getData(rule) {
     changable : params.chan,
     len_filter : (w)=>{
       for(let e of params.len){
-        if(e === -1 && w.length > 10 || w.length === e){
+        if(e === -1 && w.length >= 10 || w.length === e){
           return true;
         }
       }
