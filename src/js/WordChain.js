@@ -244,7 +244,7 @@ class WCengine{
       }
 
       else if(this.charMap[char].sorted === LOSCIR){
-        console.log(this.charMap[char])
+        
         for (let word of this.charMap[char].outWords) {
           let tail = this.rule.tail(word)
           let type = this.charMap[tail].sorted
