@@ -190,7 +190,9 @@ function App() {
     // 승리순환
     else if (wm.charMap[search]?.sorted === WINCIR) {
       const wc =  wm.charMap[search].wordClass;
+      
       if(wc["WINCIR"]){
+        
               result.push((
         <CharButtonCard key={`win-cir`} caption={`조건부 승리`}>
           {wc["WINCIR"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
@@ -198,7 +200,8 @@ function App() {
           )}
         </CharButtonCard>))
       }
-      if(wc["ROUTE"] || wc["returning"]){
+      if(wc["ROUTE"] || wc["RETURN"]){
+        
         result.push((
           <CharButtonCard key={`route-cir`} caption={`루트단어`}>
             {! wc["ROUTE"] || wc["ROUTE"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
