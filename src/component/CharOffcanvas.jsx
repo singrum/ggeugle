@@ -38,9 +38,9 @@ function CharOffcanvas(props) {
       >
         <Offcanvas.Header closeButton>
           <div className="radio-btn-set">
-            <RadioButton variant='outline-primary' value="0">승리음절</RadioButton>
-            <RadioButton variant='outline-danger' value="1">패배음절</RadioButton>
-            <RadioButton variant='outline-success' value="2">순환음절</RadioButton>
+            <RadioButton variant='outline-primary' value="0">공격단어</RadioButton>
+            <RadioButton variant='outline-danger' value="1">방어단어</RadioButton>
+            <RadioButton variant='outline-success' value="2">루트단어</RadioButton>
           </div>
 
         </Offcanvas.Header>

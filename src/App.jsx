@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { WordManager, Rule } from "./js/WordChain"
+import { Rule ,WCengine, LOS, WIN, LOSCIR, WINCIR, ROUTE} from "./js/WordChain"
 import Search from './component/Search'
 import WordBox from './component/WordBox'
 import Loading from './component/Loading'
@@ -69,83 +69,99 @@ function App() {
   const applySearch = useCallback(() => {
     if (!wm) { return; }
     const result = []
-    if (wm.win_char_set.has(search)) {
-      const wc = wm.win_word_class.get(search).content;
+    if (wm.charMap[search]?.sorted === WIN) {
+      const wc = wm.charMap[search].wordClass;
       for (let i of Object.keys(wc).filter(e => parseInt(e) >= 0)) {
         result.push((
           <CharButtonCard key={`win-${i}`} caption={`${i}턴 후 승리`}>
-            {Array.from(wc[i]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+            {wc[i].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
               (<CharButton key={`win-${i}-${e}`} type="win" strength={`${Math.min(i, 3)}`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
 
           </CharButtonCard>))
       }
-      if(wc["cir"]){
+      if(wc["WINCIR"]){
         result.push((
-          <CharButtonCard key={`cir-0`} caption={"순환단어"}>
-          {Array.from(wc["cir"]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+          <CharButtonCard key={`wincir-0`} caption={"조건부 승리"}>
+          {wc["WINCIR"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+            (<CharButton key={`win-0-${e}`} type="win" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
+          )}
+        </CharButtonCard>))
+      }
+      if(wc["ROUTE"]){
+        result.push((
+          <CharButtonCard key={`cir-0`} caption={"루트 단어"}>
+          {wc["ROUTE"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
             (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
       }
-        
-      for (let i of Object.keys(wc).filter(e => parseInt(e) < 0).sort((a,b)=>{return a-b})) {
+      if(wc["LOSCIR"]){
         result.push((
-          <CharButtonCard key={`los-${-i-1}`} caption={`${-i}턴 후 패배`}>
-            {Array.from(wc[i]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
-              (<CharButton key={`los-${-i-1}-${e}`} type="los" strength={`${Math.min(-i-1, 3)}`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
+          <CharButtonCard key={`loscir-0`} caption={"조건부 패배"}>
+          {wc["LOSCIR"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+            (<CharButton key={`los-0-${e}`} type="los" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
+          )}
+        </CharButtonCard>))
+      }
+        
+      for (let i of Object.keys(wc).filter(e => parseInt(e) <= 0).sort((a,b)=>{return a-b})) {
+        result.push((
+          <CharButtonCard key={`los-${-i}`} caption={`${-i}턴 후 패배`}>
+            {wc[i].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+              (<CharButton key={`los-${-i}-${e}`} type="los" strength={`${Math.min(-i-1, 3)}`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
 
           </CharButtonCard>))
       }
-
     }
 
 
-    else if (wm.los_char_set.has(search)) {
-      const wc = wm.los_word_class.get(search).content;
-      for (let i of Object.keys(wc).sort((a,b)=>{return b-a})) {
+    else if (wm.charMap[search]?.sorted === LOS) {
+      const wc = wm.charMap[search].wordClass;
+      
+      for (let i of Object.keys(wc).sort((a,b)=>b-a)) {
         result.push((
-          <CharButtonCard key={`los-${i}`} caption={`${+i + 1}턴 후 패배`}>
-            {Array.from(wc[i]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
-              (<CharButton key={`los-${i}-${e}`} type="los" strength={`${Math.min(i, 3)}`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
+          <CharButtonCard key={`los-${-i}`} caption={`${- i}턴 후 패배`}>
+            {wc[i].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+              (<CharButton key={`los-${-i}-${e}`} type="los" strength={`${Math.min(-i-1, 3)}`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
           </CharButtonCard>))
       }
       result.push((
         <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 단어`}>
-          {wm.rule.word_list.filter((e) => wm.rule.reverse_changable(search).filter(e=>wm.los_char_set.has(e)).includes(wm.rule.tail(e))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(
+          {wm.rule.word_list.filter((e) => wm.charMap[search].reverseChangable.filter(e=>wm.losChars.has(e)).includes(wm.rule.tail(e))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(
             e=>(<CharButton key={`win-${Object.keys(wc).length}-${e}`} type="win" strength={`${Math.min(Object.keys(wc).length, 3)}`} onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
     }
 
       /// 루트
-    else if (wm.routeCirChar.has(search)) {
-      const wc = wm.route_cir_word_class.get(search).content;
-      if(wc["route"]){
+    else if (wm.charMap[search]?.sorted === ROUTE) {
+      const wc = wm.charMap[search].wordClass;
+      if(wc["ROUTE"]){
         result.push((
           <CharButtonCard key={`route-cir`} caption={`루트단어`}>
-            {Array.from(wc["route"]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+            {wc["ROUTE"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
               (<CharButton key={`route-cir-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
-            {! wc["returning"] || Array.from(wc["returning"]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+            {! wc["RETURN"] || wc["RETURN"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
               (<CharButton key={`returning-route-cir-${e}`} returning = "true" type="cir" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
           </CharButtonCard>))
           
       }
       result.push((
-        <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 순환단어`}>
-          {Array.from(new Set(Array.from(wm.cir_char_set).flatMap(char=>wm.nextCirWordList(char).filter(e => wm.rule.reverse_changable(search).includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
+        <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 루트단어`}>
+          {Array.from(new Set(wm.cirChars.flatMap(char=>wm.charMap[char].outCirWords.filter(e => wm.charMap[search].reverseChangable.includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
             (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
       
-      if(wc["los"]){
+      if(wc["LOSCIR"]){
         result.push((
-          <CharButtonCard key={`los-cir`} caption={`패배순환단어`}>
-            {Array.from(wc["los"]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+          <CharButtonCard key={`los-cir`} caption={`조건부 패배`}>
+            {wc["LOSCIR"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
               (<CharButton key={`los-cir-${e}`} type="los" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
           </CharButtonCard>))
@@ -153,7 +169,7 @@ function App() {
       for (let i of Object.keys(wc).filter(e => parseInt(e) < 0).sort((a,b)=>{return a-b})) {
         result.push((
           <CharButtonCard key={`los-${-i-1}`} caption={`${-i}턴 후 패배`}>
-            {Array.from(wc[i]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+            {wc[i].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
               (<CharButton key={`los-${-i-1}-${e}`} type="los" strength={`${Math.min(-i-1, 3)}`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
 
@@ -171,23 +187,23 @@ function App() {
 
 
     // 승리순환
-    else if (wm.winCirChar.has(search)) {
-      const wc = wm.win_cir_word_class.get(search).content;
-      if(wc["win"]){
+    else if (wm.charMap[search]?.sorted === WINCIR) {
+      const wc =  wm.charMap[search].wordClass;
+      if(wc["WINCIR"]){
               result.push((
-        <CharButtonCard key={`win-cir`} caption={`승리순환단어`}>
-          {Array.from(wc["win"]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+        <CharButtonCard key={`win-cir`} caption={`조건부 승리`}>
+          {wc["WINCIR"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
             (<CharButton key={`win-cir-${e}`} type="win" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
       }
-      if(wc["route"] || wc["returning"]){
+      if(wc["ROUTE"] || wc["returning"]){
         result.push((
           <CharButtonCard key={`route-cir`} caption={`루트단어`}>
-            {! wc["route"] || Array.from(wc["route"]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+            {! wc["ROUTE"] || wc["ROUTE"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
               (<CharButton key={`route-cir-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
-            {! wc["returning"] || Array.from(wc["returning"]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+            {! wc["RETURN"] || wc["RETURN"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
               (<CharButton key={`returning-route-cir-${e}`} returning = "true" type="cir" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
           </CharButtonCard>))
@@ -195,15 +211,15 @@ function App() {
       
     
       result.push((
-        <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 순환단어`}>
-          {Array.from(new Set(Array.from(wm.cir_char_set).flatMap(char=>wm.nextCirWordList(char).filter(e => wm.rule.reverse_changable(search).includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
+        <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 루트단어`}>
+          {Array.from(new Set(wm.cirChars.flatMap(char=>wm.charMap[char].outCirWords.filter(e => wm.charMap[search].reverseChangable.includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
             (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
-      if(wc["los"]){
+      if(wc["LOS"]){
         result.push((
-          <CharButtonCard key={`los-cir`} caption={`패배순환단어`}>
-            {Array.from(wc["los"]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+          <CharButtonCard key={`los-cir`} caption={`조건부 패배`}>
+            {wc["LOSCIR"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
               (<CharButton key={`los-cir-${e}`} type="los" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
           </CharButtonCard>))
@@ -211,7 +227,7 @@ function App() {
       for (let i of Object.keys(wc).filter(e => parseInt(e) < 0).sort((a,b)=>{return a-b})) {
         result.push((
           <CharButtonCard key={`los-${-i-1}`} caption={`${-i}턴 후 패배`}>
-            {Array.from(wc[i]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+            {wc[i].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
               (<CharButton key={`los-${-i-1}-${e}`} type="los" strength={`${Math.min(-i-1, 3)}`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
 
@@ -231,30 +247,30 @@ function App() {
     // 패배순환
     
 
-    else if (wm.losCirChar.has(search)) {
-      const wc = wm.los_cir_word_class.get(search).content;
+    else if (wm.charMap[search]?.sorted === LOSCIR) {
+      const wc =  wm.charMap[search].wordClass;
 
       result.push((
-        <CharButtonCard key={`los-cir`} caption={`패배순환단어`}>
-          {! wc["los"] || Array.from(wc["los"]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+        <CharButtonCard key={`los-cir`} caption={`조건부 패배`}>
+          {! wc["LOS"] || wc["LOS"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
             (<CharButton key={`los-cir-${e}`} type="los" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
           )}
-          {! wc["returning"] || Array.from(wc["returning"]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+          {! wc["RETURN"] || wc["RETURN"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
             (<CharButton key={`returning-los-cir-${e}`} returning = "true" type="los" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
       
       
       result.push((
-        <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 순환단어`}>
-          {Array.from(new Set(Array.from(wm.cir_char_set).flatMap(char=>wm.nextCirWordList(char).filter(e => wm.rule.reverse_changable(search).includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
+        <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 루트단어`}>
+          {Array.from(new Set(wm.cirChars.flatMap(char=>wm.charMap[char].outCirWords.filter(e => wm.charMap[search].reverseChangable.includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
             (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
       for (let i of Object.keys(wc).filter(e => parseInt(e) < 0).sort((a,b)=>{return a-b})) {
         result.push((
           <CharButtonCard key={`los-${-i-1}`} caption={`${-i}턴 후 패배`}>
-            {Array.from(wc[i]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+            {wc[i].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
               (<CharButton key={`los-${-i-1}-${e}`} type="los" strength={`${Math.min(-i-1, 3)}`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
             )}
 
@@ -268,6 +284,7 @@ function App() {
   useEffect(() => {
     async function applyData() {
       const wm1 = await getData(rule);
+      
       setWm(wm1);
       setIsLoading(false);
 
@@ -280,55 +297,67 @@ function App() {
     if (!wm) { return; }
     applySearch();
     const winCharCards = []
-    for (let i in wm.win_char_class.content) {
-
+    for (let i in wm.winCharClass) {
       const card = (
         <CharButtonCard key={`win-${i}`} caption={`${i}턴 후 승리`}>
-          {Array.from(wm.win_char_class.get(i)).sort().map(e =>
-            (<CharButton key={`win-${i}-${e}`} type="win" strength={`${Math.min(i, 3)}`} onClick={() => { setInput(e) }}>{`${e}`}</CharButton>)
+          {wm.winCharClass[i].sort().map(e =>
+            (<CharButton key={`win-${i}-${e}`} type="win" strength={`${Math.min(i - 1 , 3)}`} onClick={() => { setInput(e) }}>{`${e}`}</CharButton>)
           )}
 
         </CharButtonCard>
       )
       winCharCards.push(card)
     }
-    const losCharCards = []
-    for (let i in wm.los_char_class.content) {
+    winCharCards.push(
+      (
+        <CharButtonCard key={`win-cir`} caption={"조건부 승리"}>
+            {Array.from(wm.winCirChars).sort().map(e =>
+              (<CharButton key={`win-cir-${e}`} type="win" strength={`${0}`} onClick={() => { setInput(e); }}>{`${e}`}</CharButton>)
+            )}
+        </CharButtonCard>
+      )
+    )
+    
 
+    const losCharCards = []
+    let keys = Object.keys(wm.losCharClass)
+    keys.sort((a,b) =>a-b)
+
+    for (let i of keys) {
       const card = (
-        <CharButtonCard key={`los-${i}`} caption={`${i}턴 후 패배`}>
-          {Array.from(wm.los_char_class.get(i)).sort().map(e =>
-            (<CharButton key={`los-${i}-${e}`} type="los" strength={`${Math.min(i, 3)}`} onClick={() => { setInput(e) }}>{`${e}`}</CharButton>)
+        <CharButtonCard key={`los-${i}`} caption={`${-i}턴 후 패배`}>
+          {wm.losCharClass[i].sort().map(e =>
+            (<CharButton key={`los-${i}-${e}`} type="los" strength={`${Math.min(-i, 3)}`} onClick={() => { setInput(e) }}>{`${e}`}</CharButton>)
           )}
 
         </CharButtonCard>
       )
       losCharCards.push(card)
     }
+    losCharCards.push(
+      (
+        <CharButtonCard key={`los-cir`} caption={"조건부 패배"}>
+            {Array.from(wm.losCirChars).sort().map(e =>
+              (<CharButton key={`los-cir-${e}`} type="los" strength={`${0}`} onClick={() => { setInput(e); }}>{`${e}`}</CharButton>)
+            )}
+        </CharButtonCard>
+      )
+    )
+
 
     const cirCharCards = []
     const card = (
       <>
-          <CharButtonCard key={`max-route`} caption={"주요루트음절"}>
-          {Array.from(wm.maxRouteComp).sort().map(e =>
+          <CharButtonCard key={`max-route`} caption={"주요루트단어"}>
+          {wm.maxRouteComp.sort().map(e =>
             (<CharButton key={`max-route-char-${e}`} type="cir" strength={`${0}`} onClick={() => { setInput(e); }}>{`${e}`}</CharButton>)
           )}
           </CharButtonCard>
-          <CharButtonCard key={`rest-route`} caption={"희귀루트음절"}>
-          {Array.from(wm.restRouteComp).sort().map(e =>
+          <CharButtonCard key={`rest-route`} caption={"희귀루트단어"}>
+          {wm.restRouteComp.sort().map(e =>
             (<CharButton key={`rest-route-char-${e}`} type="cir" strength={`${0}`} onClick={() => { setInput(e); }}>{`${e}`}</CharButton>)
           )}
           </CharButtonCard>
-        <CharButtonCard key={`win-cir`} caption={"승리순환음절"}>
-          {Array.from(wm.winCirChar).sort().map(e =>
-            (<CharButton key={`win-cir-${e}`} type="win" strength={`${0}`} onClick={() => { setInput(e); }}>{`${e}`}</CharButton>)
-          )}
-        </CharButtonCard>
-        <CharButtonCard key={`los-cir`} caption={"패배순환음절"}>
-          {Array.from(wm.losCirChar).sort().map(e =>
-            (<CharButton key={`lose-cir-${e}`} type="los" strength={`${0}`} onClick={() => { setInput(e); }}>{`${e}`}</CharButton>)
-          )}
-        </CharButtonCard>
       </>
       
     )
@@ -397,7 +426,7 @@ function App() {
     if (practiceWm){
       
       let currChar = practiceWm.rule.tail(practiceInput)
-      let next = practiceWm.nextWordList(currChar)
+      let next = practiceWm.charMap[currChar].outWords
       let word;
       if(next.length === 0){
         setChatList([...chatList.slice(0,chatList.length - 1), 
@@ -420,29 +449,31 @@ function App() {
             
             console.log("승 : " +  word)
           } 
-          else if(practiceWm.los_char_set.has(currChar)){
-            let wc = practiceWm.los_word_class.get(currChar).content
+          else if(practiceWm.charMap[currChar].sorted === LOS){
+            let wc = practiceWm.charMap[currChar].wordClass
             let key = Math.max(...Object.keys(wc))
-            let next = Array.from(wc[key])
+            let next = wc[key]
             word = next[Math.floor(Math.random() * next.length)]
           }
-          else if(practiceWm.losCirChar.has(currChar)){
+          else if(practiceWm.charMap[currChar].sorted === LOSCIR){
             console.log("패")
-            if(practiceWm.los_cir_word_class.get(currChar).content["returning"]){
-              let next = Array.from(practiceWm.los_cir_word_class.get(currChar).content["returning"])
+            if(practiceWm.charMap[currChar].wordClass["RETURN"]){
+              let next = practiceWm.charMap[currChar].wordClass["RETURN"]
               word = next[Math.floor(Math.random() * next.length)]
             }else{
-              let next = Array.from(practiceWm.los_cir_word_class.get(currChar).content["los"])
+              let next = practiceWm.charMap[currChar].wordClass["LOSCIR"]
+              
               word = next[Math.floor(Math.random() * next.length)]
             } 
           }
           else{
             let losWords = winWord;
             console.log("죽는단어 : " + losWords)
-            let next = Array.from(practiceWm.route_cir_word_class.get(currChar).content["route"]).filter(e=>!losWords.includes(e))
+            let losNextChars = losWords.map(e=>practiceWm.rule.tail(e))
+            let next = practiceWm.charMap[currChar].wordClass["ROUTE"].filter(e=>!losNextChars.includes(practiceWm.rule.tail(e)))
             
             if(next.length === 0){
-              console.log("패")
+              console.log("1수 패")
               word = losWords[Math.floor(Math.random() * losWords.length)]  
             }
             else{
@@ -466,7 +497,7 @@ function App() {
       if (word === undefined){
         alert("[" + history + "] \n에러가 발생했습니다. https://open.kakao.com/me/singrum")
       }
-      next = practiceWm.nextWordList(practiceWm.rule.tail(word))
+      next = practiceWm.charMap[practiceWm.rule.tail(word)].outWords.filter(e=>e != word)
       if(next.length === 0){
         setChatList([...chatList.slice(0,chatList.length - 1),
           <Chat sender="computer">{word}</Chat>,
@@ -489,7 +520,7 @@ function App() {
           tail_index : wm.rule.tail_index
         }
     )
-    setPracticeWm(new WordManager(rule))
+    setPracticeWm(new WCengine(rule))
     
     
     
@@ -499,7 +530,7 @@ function App() {
     if(!wmSign){return}
     setWmSign(false)
     
-    setPracticeWm(new WordManager(
+    setPracticeWm(new WCengine(
         new Rule(
           wm.rule.word_list.filter(e=>!history.includes(e)),
             {changable : wm.rule.changable_index,

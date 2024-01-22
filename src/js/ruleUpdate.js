@@ -1,4 +1,4 @@
-import { Rule, DegreeClass, WordClass, CharManager, WordManager } from "../js/WordChain"
+import { WCengine, Rule} from "../js/WordChain"
 
 
 
@@ -75,9 +75,8 @@ async function getData(rule) {
     head_index : params.headDir === 0 ? params.headIdx - 1 : -params.headIdx,
     tail_index : params.tailDir === 0 ? params.tailIdx - 1 : -params.tailIdx
   });
-  let wm = new WordManager(r);
-  
-  
+  let wm = new WCengine(r);
+  wm.getRouteComp()
   return wm
 
 }

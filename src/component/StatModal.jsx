@@ -34,27 +34,27 @@ export default function StatModal({ wm, modalShow, setModalShow }) {
             </tr>
             <tr>
               <td>음절 수</td>
-              <td>{wm.char_list.length}</td>
+              <td>{Object.keys(wm.charMap).length}</td>
             </tr>
             <tr>
               <td>승리음절 수</td>
-              <td>{wm.win_char_set.size}</td>
+              <td>{wm.winChars.size + wm.winCirChars.size}</td>
             </tr>
             <tr>
               <td>패배음절 수</td>
-              <td>{wm.los_char_set.size}</td>
+              <td>{wm.losChars.size + wm.losCirChars.size}</td>
             </tr>
             <tr>
               <td>주요루트음절 수</td>
-              <td>{wm.routeCirChar.size}</td>
+              <td>{wm.maxRouteComp.length}</td>
             </tr>
             <tr>
               <td>루트 복잡도</td>
-              <td>{Math.round((function () { let i = 0; wm.routeCirChar.forEach((x) => {
+              <td>{Math.round((function () { let i = 0; wm.maxRouteComp.forEach((x) => {
                 
-                 i += (wm.route_cir_word_class.get(x).content["route"] ? wm.route_cir_word_class.get(x).content["route"].size : 0 +
-                  wm.route_cir_word_class.get(x).content["returning"] ? wm.route_cir_word_class.get(x).content["returning"].size : 0); 
-                }); return i; }()) / (wm.routeCirChar.size) * 10000) / 10000}</td>
+                 i += (wm.charMap[x].wordClass["ROUTE"] ? wm.charMap[x].wordClass["ROUTE"].length : 0 +
+                  wm.charMap[x].wordClass["RETURN"] ? wm.charMap[x].wordClass["RETURN"].length : 0); 
+                }); return i; }()) / (wm.maxRouteComp.length) * 10000) / 10000}</td>
             </tr>
           </tbody>
         </Table>
