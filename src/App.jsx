@@ -120,7 +120,7 @@ function App() {
     else if (wm.charMap[search]?.sorted === LOS) {
       const wc = wm.charMap[search].wordClass;
       
-      for (let i of Object.keys(wc).sort((a,b)=>b-a)) {
+      for (let i of Object.keys(wc).sort((a,b)=>a-b)) {
         result.push((
           <CharButtonCard key={`los-${-i}`} caption={`${- i}턴 후 패배`}>
             {wc[i].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
