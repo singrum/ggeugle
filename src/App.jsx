@@ -97,6 +97,7 @@ function App() {
         </CharButtonCard>))
       }
       if(wc["LOSCIR"]){
+        
         result.push((
           <CharButtonCard key={`loscir-0`} caption={"조건부 패배"}>
           {wc["LOSCIR"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
@@ -217,7 +218,9 @@ function App() {
           )}
         </CharButtonCard>))
       if(wc["LOSCIR"]){
+        
         result.push((
+          
           <CharButtonCard key={`los-cir`} caption={`조건부 패배`}>
             {wc["LOSCIR"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
               (<CharButton key={`los-cir-${e}`} type="los" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
@@ -252,7 +255,7 @@ function App() {
 
       result.push((
         <CharButtonCard key={`los-cir`} caption={`조건부 패배`}>
-          {! wc["LOS"] || wc["LOS"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+          {! wc["LOSCIR"] || wc["LOSCIR"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
             (<CharButton key={`los-cir-${e}`} type="los" strength={`0`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
           )}
           {! wc["RETURN"] || wc["RETURN"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
