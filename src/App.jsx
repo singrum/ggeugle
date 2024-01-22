@@ -216,7 +216,7 @@ function App() {
             (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
-      if(wc["LOS"]){
+      if(wc["LOSCIR"]){
         result.push((
           <CharButtonCard key={`los-cir`} caption={`조건부 패배`}>
             {wc["LOSCIR"].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>

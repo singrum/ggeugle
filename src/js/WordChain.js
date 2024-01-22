@@ -244,6 +244,7 @@ class WCengine{
       }
 
       else if(this.charMap[char].sorted === LOSCIR){
+        
         for (let word of this.charMap[char].outWords) {
           let tail = this.rule.tail(word)
           let type = this.charMap[tail].sorted
@@ -809,17 +810,22 @@ class WCengine{
     const [sccs, connection] = this.getSCC(routeGraph)
     this.maxRouteComp = sccs.filter(e=>e.length >=4).flat()
     this.restRouteComp = sccs.filter(e=>e.length < 4).flat()
+    
   }
-
+  
 
   winWord(char, depth, first = false){
     if (depth < 0){
       return -1;
     }
-    if(!char in this.charMap){
+
+    
+    if(!this.charMap[char]){
       char = this.rule.changable(char)[1]
     }
-
+    
+    
+    
     if (this.charMap[char].sorted === WIN){
       let wc = this.charMap[char].wordClass
       let key = Math.min(...Object.keys(wc).filter(e=>!isNaN(e) && Number(e) >= 0).map(e=>Number(e)))
