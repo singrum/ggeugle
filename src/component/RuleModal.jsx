@@ -15,7 +15,7 @@ function Setting1({dict, setDict}) {
           <option value="0">(구)표준국어대사전</option>
           <option value="3">(신)표준국어대사전</option>
           <option value="1">우리말샘</option>
-          <option value="2">한국어기초사전</option>
+          {/* <option value="2">한국어기초사전</option> */}
           
         </Form.Select>
 
@@ -77,6 +77,7 @@ function Setting2({pos, setPos}) {
           <ToggleBtn value="4" defaultChecked = {pos.includes(4)} onChange={onChange}>부사</ToggleBtn>
           <ToggleBtn value="5" defaultChecked = {pos.includes(5)} onChange={onChange}>관형사</ToggleBtn>
           <ToggleBtn value="6" defaultChecked = {pos.includes(6)} onChange={onChange}>감탄사</ToggleBtn>
+          <ToggleBtn value="7" defaultChecked = {pos.includes(7)} onChange={onChange}>구</ToggleBtn>
         </div>
       </div>
     </div>

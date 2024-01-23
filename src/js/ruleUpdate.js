@@ -5,7 +5,7 @@ import { WCengine, Rule} from "../js/WordChain"
 function decode(params) {
   const result = { ...params }
   const map = {
-    pos: ["명사", "의존명사", "대명사", "수사", "부사", "관형사", "감탄사"],
+    pos: ["명사", "의존명사", "대명사", "수사", "부사", "관형사", "감탄사", "구"],
     cate: ['일반어', "방언", "북한어", "옛말"],
     len: [2, 3, 4, 5, 6, 7, 8, 9, -1]
   }
@@ -27,7 +27,7 @@ async function getData(rule) {
   let wordList = []
   if (params.dict == 0) {
     for (let pos of params.pos) {
-      let response = await fetch(`https://singrum.github.io/ggeugle-legacy/olddictfilter/db2/olddict${encodeURI(pos)}`);
+      let response = await fetch(`https://singrum.github.io/KoreanDict/oldict/db/${encodeURI(pos)}`);
       let text = await response.text();
       wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
       
