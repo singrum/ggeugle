@@ -472,7 +472,7 @@ class WCengine{
     
     let updatedChars = []
 
-    console.log("시드 분류중") 
+    // console.log("시드 분류중") 
     // .loopWords .returnWords
     for(let cirChar of this.cirChars){
       this.charMap[cirChar].loopWords = []
@@ -512,7 +512,7 @@ class WCengine{
         this.charMap[cirChar].path = this.charMap[cirChar].returnWords
       }
     }
-    console.log("시드 분류 완료")
+    // console.log("시드 분류 완료")
 
 
     // .cirPredecessors
@@ -532,12 +532,13 @@ class WCengine{
     }
     
     // .CIRWIN, .CIRLOS
-    console.log("CIRWIN, CIRLOS 분류 중") 
+    // console.log("CIRWIN, CIRLOS 분류 중") 
 
     let i = 0
     while(updatedChars.length !== 0 ){
       i ++;
-      console.log("깊이 : " + i)
+      // console.log("깊이 : " + i)
+
       let newUpdatedChars = []
       let predecessors = new Set()
       for(let char of updatedChars){

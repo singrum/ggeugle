@@ -466,18 +466,22 @@ body {
   
 }
 
-.send-btn{
+.input-btn-box{
   /* border: 1px solid #ced4da; */
   height : 3rem;
-  width : 3rem;
+  width : 6rem;
   display : flex;
   justify-content: center;
   align-items: center;
   margin-left : 0.7rem
 }
 .send-btn-icon{
-  width : 3rem;
-  fill : #000000;
+  width : 2.5rem;
+  
+}
+.copy-icon{
+  width : 2.5rem;
+  
 }
 .chat-box{
   position: fixed;

@@ -445,6 +445,7 @@ function App() {
         setChatList([...chatList.slice(0,chatList.length - 1), 
           <Chat sender="computer">{`당신이 이겼습니다.`}</Chat>])
           setGameEnd(true)
+        console.log(history)
         return
       }
       if(difficulty === "0"){
@@ -688,6 +689,7 @@ function App() {
           {chatList}
         </ChatBox>
         <WordInput
+          history = {history}
           practiceInput = {practiceInput}
           setPracticeInput = {setPracticeInput}
           sendSign = {sendSign}

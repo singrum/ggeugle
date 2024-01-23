@@ -4,6 +4,12 @@ import { useState, useEffect} from 'react'
 function WordInput(props) {
   const [sendable, setSendable] = useState(false)
   const [input, setInput] = useState("")
+  const [copyable, setCopyable] = useState(false)
+
+  useEffect(()=>{
+    
+    setCopyable(props.history.length > 0)
+  }, [props.history])
   useEffect(()=>{
     setSendable(input.length > 0)
   }, [input])
@@ -33,18 +39,43 @@ function WordInput(props) {
           
         />
         <div 
-          className="send-btn" 
-          onClick = {()=>{
-            if(input.length > 0){
-              props.setSendSign(true)
-              props.setPracticeInput(input)
-              setInput("");
-            }
-          }}
+          className="input-btn-box" 
+          
 
         >
-          <img style = {{opacity: sendable ? 1 : 0.5}} className="send-btn-icon" src="icon/send_FILL0_wght200_GRAD0_opsz24.svg" />
+          <img 
+            onClick = {()=>{
+              if(input.length > 0){
+                props.setSendSign(true)
+                props.setPracticeInput(input)
+                setInput("");
+              }
+            }}
+            style = {{opacity: sendable ? 1 : 0.5}} 
+            className="send-btn-icon" 
+            src="icon/send_FILL0_wght200_GRAD0_opsz24.svg" />
+          <img
+            onClick = {()=>{
+              if(props.history.length > 0){
+                let text = "나 vs 끄글\n"
+                for(let i = 0; i < props.history.length/2; i++){
+                  text += "\n"
+                  text += props.history[i * 2]
+                  text += " "
+                  if(props.history[i * 2 + 1]){
+                    text += props.history[i * 2 + 1]
+                  }
+                  
+                }
+
+                navigator.clipboard.writeText(text)
+              }
+            }} 
+            style = {{opacity: copyable ? 1 : 0.5}}
+            className="copy-icon" 
+            src="icon/content_paste_FILL0_wght200_GRAD0_opsz24.svg" />
         </div>
+        
       </div>
 
 
