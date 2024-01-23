@@ -221,8 +221,8 @@ function Setting7({manner, setManner}) {
             name="manner"
             type="checkbox"
             id="manner"
-          /></div>
-          
+          />
+          </div>
       </div>
     </div>
   )

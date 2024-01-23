@@ -268,7 +268,17 @@ function App() {
         </CharButtonCard>))
       
       
-      // result.push((
+
+      for (let i of Object.keys(wc).filter(e => parseInt(e) < 0).sort((a,b)=>{return a-b})) {
+        result.push((
+          <CharButtonCard key={`los-${-i-1}`} caption={`${-i}턴 후 패배`}>
+            {wc[i].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
+              (<CharButton key={`los-${-i-1}-${e}`} type="los" strength={`${Math.min(-i-1, 3)}`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
+            )}
+
+          </CharButtonCard>))
+      }
+            // result.push((
       //   <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 단어`}>
       //     {Array.from(new Set(wm.cirChars.flatMap(char=>wm.charMap[char].outCirWords.filter(e => wm.charMap[search].reverseChangable.includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
       //       (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
@@ -280,15 +290,6 @@ function App() {
             e=>(<CharButton key={`win-${Object.keys(wc).length}-${e}`} type="win" strength='0' onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
-      for (let i of Object.keys(wc).filter(e => parseInt(e) < 0).sort((a,b)=>{return a-b})) {
-        result.push((
-          <CharButtonCard key={`los-${-i-1}`} caption={`${-i}턴 후 패배`}>
-            {wc[i].sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).map(e =>
-              (<CharButton key={`los-${-i-1}-${e}`} type="los" strength={`${Math.min(-i-1, 3)}`} onClick={() => { setInput(wm.rule.tail(e)) }}>{`${e}`}</CharButton>)
-            )}
-
-          </CharButtonCard>))
-      }
     }
 
     setWordCards(result)
@@ -334,7 +335,7 @@ function App() {
 
     const losCharCards = []
     let keys = Object.keys(wm.losCharClass)
-    keys.sort((a,b) =>a-b)
+    keys.sort((a,b) =>b-a)
 
     for (let i of keys) {
       const card = (
