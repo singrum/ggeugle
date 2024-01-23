@@ -205,6 +205,27 @@ function Setting6({headDir , setHeadDir , headIdx , setHeadIdx , tailDir , setTa
   )
 }
 
+function Setting7({manner, setManner}) {
+  return (
+
+    <div className="setting-wrap">
+      <div className="setting-check" id="menner">
+        <div className="title">
+        <Form.Check
+        reverse
+            onChange={e=>{setManner(e.target.checked)}}
+            defaultChecked={manner}
+            inline
+            label="한방단어 금지"
+            name="manner"
+            type="checkbox"
+            id="manner"
+          /></div>
+          
+      </div>
+    </div>
+  )
+}
 
 
 function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
@@ -217,6 +238,7 @@ function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
   const [headIdx, setHeadIdx] = useState(rule.headIdx)
   const [tailDir, setTailDir] = useState(rule.tailDir)
   const [tailIdx, setTailIdx] = useState(rule.headIdx)
+  const [manner, setManner] = useState(rule.manner)
   
   const [isHeadValid, setIsHeadValid] = useState(true);
   const [isTailValid, setIsTailValid] = useState(true);
@@ -244,16 +266,15 @@ function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
     [dict]
   )
   useEffect(()=>{
-    
-
-    setDict(rule.dict)
-    setPos(rule.pos)
-    setLen(rule.len)
-    setChan(rule.chan)
-    setHeadDir(rule.headDir)
-    setHeadIdx(rule.headIdx)
-    setTailDir(rule.tailDir)
-    setTailIdx(rule.headIdx)},
+    setDict(rule.dict);
+    setPos(rule.pos);
+    setLen(rule.len);
+    setChan(rule.chan);
+    setHeadDir(rule.headDir);
+    setHeadIdx(rule.headIdx);
+    setTailDir(rule.tailDir);
+    setTailIdx(rule.headIdx);
+    setManner(rule.manner);},
     [modalShow]
   )
   
@@ -289,12 +310,14 @@ function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
           tailDir = {tailDir} setTailDir = {setTailDir} 
           tailIdx = {tailIdx} setTailIdx = {setTailIdx} 
           isHeadValid = {isHeadValid} isTailValid = {isTailValid}/>
+        <Setting7
+          manner = {manner} setManner = {setManner}/>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={
           () => {
             if(!isHeadValid || !isTailValid) return;
-            setRule({dict,pos,cate,len,chan,headDir,headIdx,tailDir,tailIdx})
+            setRule({dict,pos,cate,len,chan,headDir,headIdx,tailDir,tailIdx,manner})
             setModalShow(false)
             setIsLoading(true)
           }}>완료</Button>

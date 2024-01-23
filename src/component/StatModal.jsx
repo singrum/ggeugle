@@ -50,7 +50,7 @@ export default function StatModal({ wm, modalShow, setModalShow }) {
             </tr>
             <tr>
               <td>루트 복잡도</td>
-              <td>{Math.round((function () { let i = 0; wm.maxRouteComp.forEach((x) => {
+              <td>{wm.maxRouteComp.length === 0 ? 0 : Math.round((function () { let i = 0; wm.maxRouteComp.forEach((x) => {
                 
                  i += (wm.charMap[x].wordClass["ROUTE"] ? wm.charMap[x].wordClass["ROUTE"].length : 0 +
                   wm.charMap[x].wordClass["RETURN"] ? wm.charMap[x].wordClass["RETURN"].length : 0); 

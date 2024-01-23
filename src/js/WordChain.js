@@ -1,6 +1,6 @@
 
 class Rule {
-  constructor(word_list, { changable = 1, len_filter = (w) => w.length >= 2, head_index = 0, tail_index = -1 }) {
+  constructor(word_list, { changable , len_filter , head_index , tail_index , manner = false}) {
     
     this.word_list = Array.from(new Set(word_list));
     this.changable_index =  changable
@@ -10,6 +10,8 @@ class Rule {
     this.lenFilt();
     this.head_index = head_index;
     this.tail_index = tail_index;
+    this.manner = manner
+    
   }
   setChangable(changable) {
     let sc = (char) => char.charCodeAt(0);//string to charcode
@@ -348,6 +350,14 @@ class WCengine{
     // WIN, LOS
     this._sortChar()
 
+    if(this.rule.manner){
+      this.remove_hanbang()
+      this.rule.manner = false
+      this.update()
+      
+      return
+    }
+    
     // WINCIR, LOSCIR
     this._sortCirChar()
     
@@ -393,6 +403,7 @@ class WCengine{
       if(this.charMap[char].successors.size === 0){
         this.charMap[char].sorted = LOS
         this.charMap[char].degree = -degree
+        this.charMap[char].hanbang = true
         updatedChars.push(char)
       }
     }
@@ -447,6 +458,7 @@ class WCengine{
   }
 
   _sortCirChar(){
+    
     this.cirChars = Object.keys(this.charMap).filter(char => !this.charMap[char].sorted)
     this.cirWords = this.word_list.filter(word=>
       !this.charMap[this.rule.head(word)].sorted && 
@@ -460,6 +472,7 @@ class WCengine{
     
     let updatedChars = []
 
+    console.log("시드 분류중") 
     // .loopWords .returnWords
     for(let cirChar of this.cirChars){
       this.charMap[cirChar].loopWords = []
@@ -479,6 +492,8 @@ class WCengine{
         }
       }
     }
+
+    
     
     // .sorted, .path
     for(let cirChar of this.cirChars){
@@ -494,9 +509,11 @@ class WCengine{
           this.charMap[cirChar].sorted = LOSCIR
         }
         updatedChars.push(cirChar)
-        this.charMap[cirChar].path = this.charMap[cirChar].loopWords.concat(this.charMap[cirChar].returnWords)
+        this.charMap[cirChar].path = this.charMap[cirChar].returnWords
       }
     }
+    console.log("시드 분류 완료")
+
 
     // .cirPredecessors
     for(let cirChar of this.cirChars){
@@ -515,9 +532,12 @@ class WCengine{
     }
     
     // .CIRWIN, .CIRLOS
-    
+    console.log("CIRWIN, CIRLOS 분류 중") 
+
+    let i = 0
     while(updatedChars.length !== 0 ){
-      
+      i ++;
+      console.log("깊이 : " + i)
       let newUpdatedChars = []
       let predecessors = new Set()
       for(let char of updatedChars){
@@ -532,14 +552,15 @@ class WCengine{
       
 
       for(let char of predecessors){
+        
         for(let next of this.charMap[char].outCirWords){
           
           let nextPath = this.charMap[this.rule.tail(next)].path
-          
+
           if (this.charMap[this.rule.tail(next)].sorted === LOSCIR && !nextPath.includes(next)){
             this.charMap[char].sorted = WINCIR
             newUpdatedChars.push(char)
-            this.charMap[char].path = [next].concat(nextPath)
+            this.charMap[char].path = nextPath.concat([next])
             if(!this.charMap[char].winCirWords){
               this.charMap[char].winCirWords = []
             }
@@ -549,7 +570,8 @@ class WCengine{
           }
         }
       }
-
+      
+      
       for(let char of newUpdatedChars){
         for(let cirChar of this.charMap[char].cirPredecessors){
           if(this.charMap[cirChar].sorted){
@@ -559,10 +581,14 @@ class WCengine{
         }
       }
 
+      
       for(let char of predecessors){
+        
         let lose = true
         let path = []
+        
         for(let next of this.charMap[char].outCirWords){
+          
           let nextPath = this.charMap[this.rule.tail(next)].path
           if(this.charMap[char].loopWords.includes(next)){
             continue
@@ -574,9 +600,10 @@ class WCengine{
             lose = false
           }
           else{
-            path = path.concat([next]).concat(this.charMap[char].loopWords).concat(this.charMap[char].returnWords).concat(nextPath)
+            path = nextPath.concat(this.charMap[char].returnWords).concat([next])
           }
         }
+        
         if(lose){
           this.charMap[char].path = path
           if(this.charMap[char].loopWords.length % 2 === 0){
@@ -590,6 +617,7 @@ class WCengine{
           }
           newUpdatedChars.push(char)
         }
+        
         
       }
 
@@ -878,6 +906,10 @@ class WCengine{
     }
 
     return first ? losWords : false
+  }
+  remove_hanbang(){
+    this.word_list = this.word_list.filter(word=>!this.charMap[this.rule.tail(word)].hanbang)
+    
   }
 }
 

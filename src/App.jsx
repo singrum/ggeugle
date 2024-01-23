@@ -52,7 +52,8 @@ function App() {
     headDir: 0,
     headIdx: 1,
     tailDir: 1,
-    tailIdx: 1
+    tailIdx: 1,
+    manner: false
   });
   const [chatList, setChatList] = useState([])
   const [practiceWm, setPracticeWm] = useState(null)
@@ -214,12 +215,12 @@ function App() {
       }
       
     
-      result.push((
-        <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 루트단어`}>
-          {Array.from(new Set(wm.cirChars.flatMap(char=>wm.charMap[char].outCirWords.filter(e => wm.charMap[search].reverseChangable.includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
-            (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
-          )}
-        </CharButtonCard>))
+      // result.push((
+      //   <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 루트단어`}>
+      //     {Array.from(new Set(wm.cirChars.flatMap(char=>wm.charMap[char].outCirWords.filter(e => wm.charMap[search].reverseChangable.includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
+      //       (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
+      //     )}
+      //   </CharButtonCard>))
       if(wc["LOSCIR"]){
         
         result.push((
@@ -267,10 +268,16 @@ function App() {
         </CharButtonCard>))
       
       
+      // result.push((
+      //   <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 단어`}>
+      //     {Array.from(new Set(wm.cirChars.flatMap(char=>wm.charMap[char].outCirWords.filter(e => wm.charMap[search].reverseChangable.includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
+      //       (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
+      //     )}
+      //   </CharButtonCard>))
       result.push((
-        <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 루트단어`}>
-          {Array.from(new Set(wm.cirChars.flatMap(char=>wm.charMap[char].outCirWords.filter(e => wm.charMap[search].reverseChangable.includes(wm.rule.tail(e)))))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(e =>
-            (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
+        <CharButtonCard key={`endwith`} caption={`${search}(으)로 끝나는 단어`}>
+          {wm.rule.word_list.filter((e) => wm.charMap[search].reverseChangable.filter(e=>wm.losCirChars.has(e)).includes(wm.rule.tail(e))).sort((a,b) => wm.rule.head(a).localeCompare(wm.rule.head(b))).map(
+            e=>(<CharButton key={`win-${Object.keys(wc).length}-${e}`} type="win" strength='0' onClick={() => { setInput(wm.rule.head(e)) }}>{`${e}`}</CharButton>)
           )}
         </CharButtonCard>))
       for (let i of Object.keys(wc).filter(e => parseInt(e) < 0).sort((a,b)=>{return a-b})) {
@@ -519,7 +526,7 @@ function App() {
   useEffect(()=>{
     if(!initiatePracticeWm){return}
     let rule = new Rule(
-      wm.rule.word_list,
+      wm.word_list,
         {changable : wm.rule.changable_index,
           len_filter : wm.rule.len_filter,
           head_index : wm.rule.head_index,
@@ -538,7 +545,7 @@ function App() {
     
     setPracticeWm(new WCengine(
         new Rule(
-          wm.rule.word_list.filter(e=>!history.includes(e)),
+          wm.word_list.filter(e=>!history.includes(e)),
             {changable : wm.rule.changable_index,
               len_filter : wm.rule.len_filter,
               head_index : wm.rule.head_index,

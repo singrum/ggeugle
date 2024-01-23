@@ -13,6 +13,8 @@ function decode(params) {
   result.pos = params.pos.map(e=>map.pos[e])
   result.cate = params.cate.map(e=>map.cate[e])
   result.len = params.len.map(e=>map.len[e])
+  result.manner = params.manner
+  
   return result
 
 }
@@ -26,9 +28,7 @@ async function getData(rule) {
   if (params.dict == 0) {
     for (let pos of params.pos) {
       let response = await fetch(`https://singrum.github.io/ggeugle-legacy/olddictfilter/db2/olddict${encodeURI(pos)}`);
-    
       let text = await response.text();
-      
       wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
       
     }
@@ -73,12 +73,12 @@ async function getData(rule) {
       return false;
     },
     head_index : params.headDir === 0 ? params.headIdx - 1 : -params.headIdx,
-    tail_index : params.tailDir === 0 ? params.tailIdx - 1 : -params.tailIdx
+    tail_index : params.tailDir === 0 ? params.tailIdx - 1 : -params.tailIdx,
+    manner : params.manner
   });
   let wm = new WCengine(r);
   wm.getRouteComp()
   return wm
-
 }
 
 function printDict(wm){

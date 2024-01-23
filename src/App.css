@@ -179,10 +179,13 @@ body {
   border : 1px solid #dee2e6 !important;
   /* color : #212529; */
 }
-.rule-modal .setting-toggle, .rule-modal .setting-range{
+.rule-modal .setting-toggle, 
+.rule-modal .setting-range, 
+.rule-modal .setting-check{
   display : grid;
   row-gap: 1rem;
 }
+
 
 .setting-range label, .setting-range label:hover, .setting-range label:focus-visible{
   margin : 0;
@@ -198,7 +201,12 @@ body {
 .setting-range label:last-of-type {
   border-radius: 0 10000px 10000px 0 ;
 }
-
+.setting-check{
+  display : grid;
+  row-gap: 1rem;
+}
+.setting-check label{
+}
 .setting-select-index{
   display: grid;
   grid-template-columns : 2fr 3fr 3fr;
