@@ -1,3 +1,6 @@
+const sc = (char) => char.charCodeAt(0);//string to charcode
+const cs = (code) => String.fromCharCode(code);//code to string
+
 
 class Rule {
   constructor(word_list, { changable , len_filter , head_index , tail_index , manner = false}) {
@@ -14,8 +17,7 @@ class Rule {
     
   }
   setChangable(changable) {
-    let sc = (char) => char.charCodeAt(0);//string to charcode
-    let cs = (code) => String.fromCharCode(code);//code to string
+
     switch (changable) {
       case 0: //두법 없음
         return function (char) { return [char] };
@@ -63,8 +65,6 @@ class Rule {
     }
   }
   setReverseChangable(changable) {
-    let sc = (char) => char.charCodeAt(0);//string to charcode
-    let cs = (code) => String.fromCharCode(code);//code to string
     switch (changable) {
       case 0: //두법 없음
         return function (char) { return [char] };
@@ -107,8 +107,6 @@ class Rule {
         }
     }
   }
-
-
   lenFilt() {
     this.word_list = this.word_list.filter(x => x && this.len_filter(x));
   }
@@ -140,7 +138,7 @@ class WCengine{
       this.charMap[char].successors = new Set()
       this.charMap[char].predecessors = new Set()
       this.charMap[char].outWords = []
-      this.charMap[char].inWords = []
+      // this.charMap[char].inWords = []
       this.charMap[char].wordClass = {}
     }
   }
@@ -218,13 +216,13 @@ class WCengine{
             }
             this.charMap[char].wordClass["WINCIR"].push(word)
           }
-          else if(!this.charMap[char].winCirWords && this.charMap[char].loopWords.includes(word)){
+          else if(!this.charMap[char].winCirWords && this.charMap[char].loopWords.has(word)){
             if(!this.charMap[char].wordClass["WINCIR"]){
               this.charMap[char].wordClass["WINCIR"] = []
             }
             this.charMap[char].wordClass["WINCIR"].push(word)
           }
-          else if(this.charMap[char].returnWords.includes(word)){
+          else if(this.charMap[char].returnWords.has(word)){
             if(!this.charMap[char].wordClass["RETURN"]){
               this.charMap[char].wordClass["RETURN"] = []
             }
@@ -257,7 +255,7 @@ class WCengine{
             this.charMap[char].wordClass[this.charMap[tail].degree > 0 ? -this.charMap[tail].degree : -this.charMap[tail].degree + 1].push(word)
             
           }
-          else if(this.charMap[char].returnWords.includes(word)){
+          else if(this.charMap[char].returnWords.has(word)){
             if(!this.charMap[char].wordClass["RETURN"]){
               this.charMap[char].wordClass["RETURN"] = []
             }
@@ -291,7 +289,7 @@ class WCengine{
             }
             this.charMap[char].wordClass["LOSCIR"].push(word)
           }
-          else if(this.charMap[char].returnWords.includes(word)){
+          else if(this.charMap[char].returnWords.has(word)){
             if(!this.charMap[char].wordClass["RETURN"]){
               this.charMap[char].wordClass["RETURN"] = []
             }
@@ -342,9 +340,9 @@ class WCengine{
         this.charMap[headChan].successors.add(tail)
         this.charMap[tail].predecessors.add(headChan)
       }
-      for(let tailChan of tailChangable){
-        this.charMap[tailChan].inWords.push(word)
-      }
+      // for(let tailChan of tailChangable){
+      //   this.charMap[tailChan].inWords.push(word)
+      // }
     }
 
     // WIN, LOS
@@ -393,19 +391,19 @@ class WCengine{
     // WIN 이면 +degree
     // LOS 면 -degree
 
-
     let degree = 0;
     let updatedChars = []
     
     // seed 찾기
     for(let char in this.charMap){
-    
-      if(this.charMap[char].successors.size === 0){
-        this.charMap[char].sorted = LOS
-        this.charMap[char].degree = -degree
-        this.charMap[char].hanbang = true
-        updatedChars.push(char)
+      this.charMap[char].cnt = this.charMap[char].successors.size
+      if(this.charMap[char].cnt > 0){
+        continue
       }
+      this.charMap[char].sorted = LOS
+      this.charMap[char].degree = -degree
+      this.charMap[char].hanbang = true
+      updatedChars.push(char)
     }
     
     
@@ -413,46 +411,32 @@ class WCengine{
       degree++;
       let newUpdatedWinChars = []
       let newUpdatedLosChars = []
-
-
       for(let losChar of updatedChars){
         for(let winChar of this.charMap[losChar].predecessors){
           if (this.charMap[winChar].sorted){
             continue
           }
-          
           this.charMap[winChar].sorted = WIN
           this.charMap[winChar].degree = degree
-          
-          newUpdatedWinChars.push(winChar)
-          
+          newUpdatedWinChars.push(winChar)  
         }
       }
 
-      let visited = new Set()
       for(let winChar of newUpdatedWinChars){
         for(let losChar of this.charMap[winChar].predecessors){
-          if(this.charMap[losChar].sorted || visited.has(losChar)){
+          if(this.charMap[losChar].sorted){
             continue
           }
-          visited.add(losChar)
-          
-          let allowSort = true
-          for(let next of this.charMap[losChar].successors){
-            if(this.charMap[next].sorted !== WIN){
-              allowSort = false
-            }
-          }
-          if (!allowSort){
+          this.charMap[losChar].cnt--
+          if(this.charMap[losChar].cnt > 0){
             continue
           }
-
           this.charMap[losChar].sorted = LOS
           this.charMap[losChar].degree = -degree
           newUpdatedLosChars.push(losChar)
-
         }
       }
+
       updatedChars = newUpdatedLosChars
     }
   }
@@ -475,50 +459,27 @@ class WCengine{
     // console.log("시드 분류중") 
     // .loopWords .returnWords
     for(let cirChar of this.cirChars){
-      this.charMap[cirChar].loopWords = []
-      this.charMap[cirChar].returnWords = []
+      this.charMap[cirChar].loopWords = new Set()
+      this.charMap[cirChar].returnWords = new Set()
       for(let cirWords of this.charMap[cirChar].outCirWords){
         if(this.charMap[cirChar].changable.includes(this.rule.tail(cirWords))){
-          this.charMap[cirChar].loopWords.push(cirWords)
+          this.charMap[cirChar].loopWords.add(cirWords)
           continue
         }
         for(let next_next of this.charMap[this.rule.tail(cirWords)].outCirWords){
           if(this.charMap[cirChar].changable.includes(this.rule.tail(next_next)) &&
-          !this.charMap[cirChar].returnWords.includes(next_next)){
-            this.charMap[cirChar].returnWords.push(cirWords);
-            this.charMap[cirChar].returnWords.push(next_next);
+          !this.charMap[cirChar].returnWords.has(next_next)){
+            this.charMap[cirChar].returnWords.add(cirWords);
+            this.charMap[cirChar].returnWords.add(next_next);
             break
           }
         }
       }
     }
 
-    
-    
-    // .sorted, .path
-    for(let cirChar of this.cirChars){
-      
-      if(this.charMap[cirChar].returnWords.length / 2 + this.charMap[cirChar].loopWords.length 
-      === this.charMap[cirChar].outCirWords.length){
-        
-        if(this.charMap[cirChar].loopWords.length % 2 === 1){
-          this.charMap[cirChar].solution = this.charMap[cirChar].loopWords[0]
-          this.charMap[cirChar].sorted = WINCIR
-        }
-        else{
-          this.charMap[cirChar].sorted = LOSCIR
-        }
-        updatedChars.push(cirChar)
-        this.charMap[cirChar].path = this.charMap[cirChar].returnWords
-      }
-    }
-    // console.log("시드 분류 완료")
-
-
     // .cirPredecessors
     for(let cirChar of this.cirChars){
       this.charMap[cirChar].cirPredecessors = new Set()
-      
     }
     for(let cirWord of this.cirWords){
       let head = this.rule.head(cirWord)
@@ -526,10 +487,34 @@ class WCengine{
       let headChangable = this.charMap[head].reverseChangable
       let tail = this.rule.tail(cirWord)
 
-      for(let headChan of headChangable.filter(e => this.cirChars.includes(e))){  
+      for(let headChan of headChangable.filter(e => !this.charMap[e].sorted)){  
         this.charMap[tail].cirPredecessors.add(headChan)
       }
     }
+    
+    // .sorted, .path
+    for(let cirChar of this.cirChars){
+      let returnWordsNum = this.charMap[cirChar].returnWords.size / 2
+      let loopWordsNum = this.charMap[cirChar].loopWords.size
+      let outCirWordsNum = this.charMap[cirChar].outCirWords.length
+
+      if(returnWordsNum + loopWordsNum !== outCirWordsNum){
+        continue
+      }  
+      if(loopWordsNum % 2 === 1){
+        this.charMap[cirChar].solution = this.charMap[cirChar].loopWords[0]
+        this.charMap[cirChar].sorted = WINCIR
+      }
+      else{
+        this.charMap[cirChar].sorted = LOSCIR
+      }
+      updatedChars.push(cirChar)
+      this.charMap[cirChar].path = this.charMap[cirChar].returnWords
+    }
+    // console.log("시드 분류 완료")
+
+
+
     
     // .CIRWIN, .CIRLOS
     // console.log("CIRWIN, CIRLOS 분류 중") 
@@ -542,7 +527,6 @@ class WCengine{
       let newUpdatedChars = []
       let predecessors = new Set()
       for(let char of updatedChars){
-        
         for(let cirChar of this.charMap[char].cirPredecessors){
           if(this.charMap[cirChar].sorted){
             continue
@@ -555,18 +539,19 @@ class WCengine{
       for(let char of predecessors){
         
         for(let next of this.charMap[char].outCirWords){
-          
+
           let nextPath = this.charMap[this.rule.tail(next)].path
 
-          if (this.charMap[this.rule.tail(next)].sorted === LOSCIR && !nextPath.includes(next)){
+          if (this.charMap[this.rule.tail(next)].sorted === LOSCIR && !nextPath.has(next)){
             this.charMap[char].sorted = WINCIR
             newUpdatedChars.push(char)
-            this.charMap[char].path = nextPath.concat([next])
+            this.charMap[char].path = new Set([...nextPath, next])
             if(!this.charMap[char].winCirWords){
               this.charMap[char].winCirWords = []
             }
             this.charMap[char].winCirWords.push(next)
             this.charMap[char].solution = next
+
             break
           }
         }
@@ -586,35 +571,42 @@ class WCengine{
       for(let char of predecessors){
         
         let lose = true
-        let path = []
-        
+        let path = new Set();
+                
+
         for(let next of this.charMap[char].outCirWords){
           
+          
+          
+          
+          
           let nextPath = this.charMap[this.rule.tail(next)].path
-          if(this.charMap[char].loopWords.includes(next)){
+          if(this.charMap[char].loopWords.has(next)){
             continue
           }
-          if(this.charMap[char].returnWords.includes(next)){
+          if(this.charMap[char].returnWords.has(next)){
             continue
           }
-          if(!(this.charMap[this.rule.tail(next)].sorted === WINCIR && !nextPath.includes(next))){
+          if(!(this.charMap[this.rule.tail(next)].sorted === WINCIR && !nextPath.has(next))){
             lose = false
+            break
           }
           else{
-            path = nextPath.concat(this.charMap[char].returnWords).concat([next])
+            
+            path = new Set([...nextPath, ...this.charMap[char].returnWords, next, ...path])
           }
         }
         
         if(lose){
+          
           this.charMap[char].path = path
-          if(this.charMap[char].loopWords.length % 2 === 0){
+          // console.log(char, path)
+          if(this.charMap[char].loopWords.size % 2 === 0){
             this.charMap[char].sorted = LOSCIR
-            
           }
           else{
             this.charMap[char].solution = this.charMap[char].loopWords[0]
             this.charMap[char].sorted = WINCIR
-            
           }
           newUpdatedChars.push(char)
         }
@@ -639,7 +631,7 @@ class WCengine{
           
           let nextPath = this.charMap[this.rule.tail(next)].path
           
-          if(this.charMap[this.rule.tail(next)].sorted === WINCIR && !nextPath.includes(next)){
+          if(this.charMap[this.rule.tail(next)].sorted === WINCIR && !nextPath.has(next)){
               
             if(!this.charMap[char].losCirWords){
               this.charMap[char].losCirWords = []
@@ -844,13 +836,15 @@ class WCengine{
   
 
   winWord(char, depth, first = false){
+    console.log(this)
     if (depth < 0){
       return -1;
     }
 
     
     if(!this.charMap[char]){
-      char = this.rule.changable(char)[1]
+      let chan = this.rule.changable(char)
+      char = chan[chan.length - 1]
     }
     
     
@@ -875,10 +869,13 @@ class WCengine{
       this.charMap[this.rule.tail(a)].wordClass["ROUTE"].length - 
       this.charMap[this.rule.tail(b)].wordClass["ROUTE"].length)
     nextRoute = nextRoute.filter(word => nextRoute.find(e=>this.rule.tail(e) === this.rule.tail(word)) === word)
+
     
+
     let unknown = false
     let losWords = []
     for(let word of nextRoute){
+      
       let nextWm = new WCengine(
         new Rule(
           this.routeWords.filter(e=>e !== word),

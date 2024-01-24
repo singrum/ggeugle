@@ -683,6 +683,7 @@ function App() {
       </div>
       <div style = {{display: mode ==="1" ? "block" : "none"}}>
         <ChatBox
+          
           chatList = {chatList}
           setChatLists = {setChatList}
           ref = {chatBox}
