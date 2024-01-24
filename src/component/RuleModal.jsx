@@ -222,7 +222,7 @@ function Setting7({manner, setManner}) {
             type="checkbox"
             id="manner"
           />
-          <span className='manner-warning' style={{display : manner ? "inline" : "none"}}>성능 저하 주의</span>
+          <div className='manner-warning' style={{display : manner ? "block" : "none"}}>로딩 시간이 길어질 수 있습니다.</div>
           </div>
       </div>
     </div>
