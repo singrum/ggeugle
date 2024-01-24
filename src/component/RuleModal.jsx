@@ -222,6 +222,7 @@ function Setting7({manner, setManner}) {
             type="checkbox"
             id="manner"
           />
+          <span className='manner-warning' style={{display : manner ? "inline" : "none"}}>성능 저하 주의</span>
           </div>
       </div>
     </div>

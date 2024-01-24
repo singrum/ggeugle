@@ -536,4 +536,8 @@ body {
   background-color : #ffffff;
   border-radius: 15px;
 }
-
+.manner-warning{
+  color : red;
+  font-size: 0.8rem;
+  
+}
