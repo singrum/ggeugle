@@ -3,7 +3,8 @@ import Table from 'react-bootstrap/Table';
 import { useEffect } from 'react';
 
 export default function StatModal({ wm, modalShow, setModalShow }) {
-
+  
+  
   return wm && (
     <Modal
       show={modalShow}
@@ -30,7 +31,7 @@ export default function StatModal({ wm, modalShow, setModalShow }) {
           <tbody>
             <tr>
               <td>단어 수</td>
-              <td>{wm.rule.word_list.length}</td>
+              <td>{wm.word_list.length}</td>
             </tr>
             <tr>
               <td>음절 수</td>
@@ -38,11 +39,11 @@ export default function StatModal({ wm, modalShow, setModalShow }) {
             </tr>
             <tr>
               <td>승리음절 수</td>
-              <td>{wm.winChars.size + wm.winCirChars.size}</td>
+              <td>{wm.winChars.length + wm.winCirChars.length}</td>
             </tr>
             <tr>
               <td>패배음절 수</td>
-              <td>{wm.losChars.size + wm.losCirChars.size}</td>
+              <td>{wm.losChars.length + wm.losCirChars.length}</td>
             </tr>
             <tr>
               <td>주요루트음절 수</td>

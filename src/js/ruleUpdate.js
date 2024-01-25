@@ -62,21 +62,26 @@ async function getData(rule) {
       wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
     }
   }
-  let r = new Rule(wordList, {
-    changable : params.chan,
-    len_filter : (w)=>{
-      for(let e of params.len){
-        if(e === -1 && w.length >= 10 || w.length === e){
-          return true;
-        }
+
+  const lenFilter = (w)=>{
+    for(let e of params.len){
+      if(e === -1 && w.length >= 10 || w.length === e){
+        return true;
       }
-      return false;
-    },
-    head_index : params.headDir === 0 ? params.headIdx - 1 : -params.headIdx,
-    tail_index : params.tailDir === 0 ? params.tailIdx - 1 : -params.tailIdx,
-    manner : params.manner
-  });
+    }
+    return false;
+  }
+
+  let r = new Rule(
+    params.chan,
+    params.headDir === 0 ? params.headIdx - 1 : -params.headIdx,
+    params.tailDir === 0 ? params.tailIdx - 1 : -params.tailIdx,
+    params.manner
+  );
   let wm = new WCengine(r);
+  // console.log(wm)
+  wm.word_list = wordList.filter(x => x && lenFilter(x));
+  wm.update()
   wm.getRouteComp()
   return wm
 }
