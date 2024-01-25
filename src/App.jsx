@@ -66,6 +66,8 @@ function App() {
   const [regame, setRegame] = useState(false)
   const chatBox = useRef()
   const [gameEnd, setGameEnd] = useState(false)
+  const winConfirmed = useRef(0) // 0:승리 안확정, 1:승리 방금 확정, 2:이미 확정됨
+  const losConfirmed = useRef(0) // 0:패배 안확정, 1:패배 방금 확정, 2:이미 확정됨
 
   const applySearch = useCallback(() => {
     if (!wm) { return; }
@@ -417,6 +419,8 @@ function App() {
     setPracticeWm(null)
     setGameEnd(false)
     setInitiatePracticeWm(true)
+    winConfirmed.current = 0
+    losConfirmed.current = 0
     
     
   }, [difficulty,regame])
@@ -457,19 +461,28 @@ function App() {
         }
         else if(difficulty === "2"){
           let winWord = practiceWm.winWord(currChar, 1, true)
+          
           if(typeof winWord === 'string'){
+            if(winConfirmed.current === 0){
+              winConfirmed.current = 1
+            }
             word = winWord
             
-            console.log("승 : " +  word)
+            console.log("승리 : " +  word)  
           } 
           else if(practiceWm.charMap[currChar].sorted === LOS){
+            if(losConfirmed.current === 0){
+              losConfirmed.current = 1
+            }
             let wc = practiceWm.charMap[currChar].wordClass
             let key = Math.max(...Object.keys(wc))
             let next = wc[key]
             word = next[Math.floor(Math.random() * next.length)]
           }
           else if(practiceWm.charMap[currChar].sorted === LOSCIR){
-            console.log("패")
+            if(losConfirmed.current === 0){
+              losConfirmed.current = 1
+            }
             if(practiceWm.charMap[currChar].wordClass["RETURN"]){
               let next = practiceWm.charMap[currChar].wordClass["RETURN"]
               word = next[Math.floor(Math.random() * next.length)]
@@ -486,7 +499,9 @@ function App() {
             let next = practiceWm.charMap[currChar].wordClass["ROUTE"].filter(e=>!losNextChars.includes(practiceWm.rule.tail(e)))
             
             if(next.length === 0){
-              console.log("1수 패")
+              if(losConfirmed.current === 0){
+                losConfirmed.current = 1
+              }
               word = losWords[Math.floor(Math.random() * losWords.length)]  
             }
             else{
@@ -501,8 +516,24 @@ function App() {
         }
         
       }
-      setChatList([...chatList.slice(0,chatList.length - 1), 
-        <Chat sender="computer">{word}</Chat>])
+
+      if(winConfirmed.current === 1){
+        setChatList([...chatList.slice(0,chatList.length - 1), 
+          <Chat sender="computer">저의 <b>승리</b>가 확정 되었습니다.</Chat>,
+          <Chat sender="computer">{word}</Chat>])
+        winConfirmed.current = 2
+      }
+      else if(losConfirmed.current === 1){
+        setChatList([...chatList.slice(0,chatList.length - 1), 
+          <Chat sender="computer">저의 <b>패배</b>가 확정 되었습니다.</Chat>,
+          <Chat sender="computer">{word}</Chat>])
+        losConfirmed.current = 2
+      }
+      else{
+        setChatList([...chatList.slice(0,chatList.length - 1), 
+          <Chat sender="computer">{word}</Chat>])
+      }
+      
         
         
       setHistory([...history, word])

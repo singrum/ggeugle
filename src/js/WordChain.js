@@ -491,7 +491,7 @@ class WCengine{
         continue
       }  
       if(loopWordsNum % 2 === 1){
-        this.charMap[cirChar].solution = this.charMap[cirChar].loopWords[0]
+        this.charMap[cirChar].solution = [...this.charMap[cirChar].loopWords][0]
         this.charMap[cirChar].sorted = WINCIR
       }
       else{
@@ -594,7 +594,7 @@ class WCengine{
             this.charMap[char].sorted = LOSCIR
           }
           else{
-            this.charMap[char].solution = this.charMap[char].loopWords[0]
+            this.charMap[char].solution = [...this.charMap[char].loopWords][0]
             this.charMap[char].sorted = WINCIR
           }
           newUpdatedChars.push(char)
@@ -845,6 +845,7 @@ class WCengine{
       return next[Math.floor(Math.random() * next.length)]
     }
     if (this.charMap[char].sorted === WINCIR){
+      
       return this.charMap[char].solution
     }
     if (this.charMap[char].sorted === LOS){
