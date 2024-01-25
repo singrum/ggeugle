@@ -71,6 +71,7 @@ function App() {
     if (!wm) { return; }
     const result = []
     if (wm.charMap[search]?.sorted === WIN) {
+      
       const wc = wm.charMap[search].wordClass;
       for (let i of Object.keys(wc).filter(e => parseInt(e) >= 0)) {
         result.push((
@@ -116,6 +117,7 @@ function App() {
 
           </CharButtonCard>))
       }
+      
     }
 
 
@@ -287,7 +289,7 @@ function App() {
           )}
         </CharButtonCard>))
     }
-
+    
     setWordCards(result)
   })
 
@@ -662,7 +664,6 @@ function App() {
       </div>
       <div style = {{display: mode ==="1" ? "block" : "none"}}>
         <ChatBox
-          
           chatList = {chatList}
           setChatLists = {setChatList}
           ref = {chatBox}

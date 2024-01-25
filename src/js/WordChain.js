@@ -132,6 +132,7 @@ class WCengine{
   _sortWord(){
     for(let char in this.charMap){
       if(this.charMap[char].sorted === WIN){
+        
         for (let word of this.charMap[char].outWords) {
           let type = this.charMap[this.rule.tail(word)].sorted
           let tail = this.rule.tail(word)
@@ -163,6 +164,7 @@ class WCengine{
               break;
           }
         }
+        
       }
 
 

@@ -80,7 +80,7 @@ async function getData(rule) {
   );
   let wm = new WCengine(r);
   // console.log(wm)
-  wm.word_list = wordList.filter(x => x && lenFilter(x));
+  wm.word_list = Array.from(new Set(wordList.filter(x => x && lenFilter(x))));
   wm.update()
   wm.getRouteComp()
   return wm
