@@ -138,6 +138,9 @@ function Setting5({chan, setChan}) {
           <option value="1">표준</option>
           <option value="2">ㄹ&#8594;ㄴ&#8594;ㅇ</option>
           <option value="3">ㄹ&#8644;ㄴ&#8644;ㅇ</option>
+          <option value="4">반전룰</option>
+          <option value="5">첸룰</option>
+          <option value="6">듭2룰</option>
         </Form.Select>
       </div>
     </div>

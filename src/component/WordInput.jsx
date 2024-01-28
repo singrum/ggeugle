@@ -43,18 +43,7 @@ function WordInput(props) {
           
 
         >
-          <img 
-            onClick = {()=>{
-              if(input.length > 0){
-                props.setSendSign(true)
-                props.setPracticeInput(input)
-                setInput("");
-              }
-            }}
-            style = {{opacity: sendable ? 1 : 0.5}} 
-            className="send-btn-icon" 
-            src="icon/send_FILL0_wght200_GRAD0_opsz24.svg" />
-          <img
+        <img
             onClick = {()=>{
               if(props.history.length > 0){
                 let text = "나 vs 끄글\n"
@@ -74,6 +63,18 @@ function WordInput(props) {
             style = {{opacity: copyable ? 1 : 0.5}}
             className="copy-icon" 
             src="icon/content_paste_FILL0_wght200_GRAD0_opsz24.svg" />
+          <img 
+            onClick = {()=>{
+              if(input.length > 0){
+                props.setSendSign(true)
+                props.setPracticeInput(input)
+                setInput("");
+              }
+            }}
+            style = {{opacity: sendable ? 1 : 0.5}} 
+            className="send-btn-icon" 
+            src="icon/send_FILL0_wght200_GRAD0_opsz24.svg" />
+
         </div>
         
       </div>

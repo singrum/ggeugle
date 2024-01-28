@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { Rule ,WCengine, LOS, WIN, LOSCIR, WINCIR, ROUTE} from "./js/WordChain"
+import { Rule ,WCengine, Turn, LOS, WIN, LOSCIR, WINCIR, ROUTE} from "./js/WordChain"
 import Search from './component/Search'
 import WordBox from './component/WordBox'
 import Loading from './component/Loading'
@@ -66,8 +66,6 @@ function App() {
   const [regame, setRegame] = useState(false)
   const chatBox = useRef()
   const [gameEnd, setGameEnd] = useState(false)
-  const winConfirmed = useRef(0) // 0:승리 안확정, 1:승리 방금 확정, 2:이미 확정됨
-  const losConfirmed = useRef(0) // 0:패배 안확정, 1:패배 방금 확정, 2:이미 확정됨
 
   const applySearch = useCallback(() => {
     if (!wm) { return; }
@@ -395,8 +393,8 @@ function App() {
         <br></br>
         난이도를 선택해주세요.
         <div className='diff-box'>
-          <Button onClick = {()=>{setDifficulty("0"); setRegame(true)}} variant="outline-primary" className = "diff-btn" >쉬움</Button>
-          {/* <Button onClick = {()=>setDifficulty("1")} variant="outline-success" className = "diff-btn">보통</Button> */}
+          <Button onClick = {()=>{setDifficulty("0"); setRegame(true)}} variant="outline-primary" className = "diff-btn">쉬움</Button>
+          <Button onClick = {()=>{setDifficulty("1"); setRegame(true)}} variant="outline-success" className = "diff-btn">보통</Button>
           <Button onClick = {()=>{setDifficulty("2"); setRegame(true)}} variant="outline-danger" className = "diff-btn">어려움</Button>
         </div>
       </Chat>)]
@@ -419,8 +417,6 @@ function App() {
     setPracticeWm(null)
     setGameEnd(false)
     setInitiatePracticeWm(true)
-    winConfirmed.current = 0
-    losConfirmed.current = 0
     
     
   }, [difficulty,regame])
@@ -432,7 +428,7 @@ function App() {
       setInitiatePracticeWm(false)
       
       setChatList([...chatList.slice(0, 1), (<Chat sender="computer">
-      난이도 <b>{`${difficulty === "0" ? "쉬움" : (difficulty === "1" ? "보통" : "어려움")}`}</b>을 선택하셨습니다.
+      난이도 <b>{`${difficulty === "0" ? "쉬움" : difficulty === "1" ? "보통" : "어려움"}`}</b>을 선택하셨습니다.
       <br></br>
       먼저 단어를 제시해주세요!
     </Chat>)])
@@ -444,103 +440,95 @@ function App() {
       let currChar = practiceWm.rule.tail(practiceInput)
       let next = practiceWm.charMap[currChar].outWords
       let word;
-      if(next.length === 0){
-        setChatList([...chatList.slice(0,chatList.length - 1), 
-          <Chat sender="computer">{`당신이 이겼습니다.`}</Chat>])
-          setGameEnd(true)
-        console.log(history)
-        return
-      }
-      if(difficulty === "0"){
-        word = next[Math.floor(Math.random() * next.length)]
-      }
-      else{
-        if(difficulty === "1"){
 
-          return
-        }
-        else if(difficulty === "2"){
-          let winWord = practiceWm.winWord(currChar, 1, true)
+
+      if(difficulty === "1"){
+        let winWord = practiceWm.winWord(currChar, 1, [],true)
           
-          if(typeof winWord === 'string'){
-            if(winConfirmed.current === 0){
-              winConfirmed.current = 1
-            }
-            word = winWord
-            
-            console.log("승리 : " +  word)  
-          } 
-          else if(practiceWm.charMap[currChar].sorted === LOS){
-            if(losConfirmed.current === 0){
-              losConfirmed.current = 1
-            }
-            let wc = practiceWm.charMap[currChar].wordClass
-            let key = Math.max(...Object.keys(wc))
-            let next = wc[key]
+        if(typeof winWord === 'string'){
+          word = winWord
+          
+          console.log("승리 : " +  word)  
+        } 
+        else if(practiceWm.charMap[currChar].sorted === LOS){
+          let wc = practiceWm.charMap[currChar].wordClass
+          let key = Math.max(...Object.keys(wc))
+          let next = wc[key]
+          word = next[Math.floor(Math.random() * next.length)]
+        }
+        else if(practiceWm.charMap[currChar].sorted === LOSCIR){
+          if(practiceWm.charMap[currChar].wordClass["RETURN"]){
+            let next = practiceWm.charMap[currChar].wordClass["RETURN"]
             word = next[Math.floor(Math.random() * next.length)]
-          }
-          else if(practiceWm.charMap[currChar].sorted === LOSCIR){
-            if(losConfirmed.current === 0){
-              losConfirmed.current = 1
-            }
-            if(practiceWm.charMap[currChar].wordClass["RETURN"]){
-              let next = practiceWm.charMap[currChar].wordClass["RETURN"]
-              word = next[Math.floor(Math.random() * next.length)]
-            }else{
-              let next = practiceWm.charMap[currChar].wordClass["LOSCIR"]
-              
-              word = next[Math.floor(Math.random() * next.length)]
-            } 
+          }else{
+            let next = practiceWm.charMap[currChar].wordClass["LOSCIR"]
+            
+            word = next[Math.floor(Math.random() * next.length)]
+          } 
+        }
+        else{
+          let losWords = winWord;
+          // console.log("죽는단어 : " + losWords)
+          let losNextChars = losWords.map(e=>practiceWm.rule.tail(e))
+          let next = practiceWm.charMap[currChar].wordClass["ROUTE"].filter(e=>!losNextChars.includes(practiceWm.rule.tail(e)))
+          
+          if(next.length === 0){
+            word = losWords[Math.floor(Math.random() * losWords.length)]  
           }
           else{
-            let losWords = winWord;
-            console.log("죽는단어 : " + losWords)
-            let losNextChars = losWords.map(e=>practiceWm.rule.tail(e))
-            let next = practiceWm.charMap[currChar].wordClass["ROUTE"].filter(e=>!losNextChars.includes(practiceWm.rule.tail(e)))
-            
-            if(next.length === 0){
-              if(losConfirmed.current === 0){
-                losConfirmed.current = 1
-              }
-              word = losWords[Math.floor(Math.random() * losWords.length)]  
-            }
-            else{
-              word = next[Math.floor(Math.random() * next.length)]
-            }
-            
-            
+            word = next[Math.floor(Math.random() * next.length)]
           }
           
-
-      
+          
         }
         
       }
+      else if(difficulty === "2"){
+        if(practiceWm.charMap[currChar].sorted === WIN){
+          let wc = practiceWm.charMap[currChar].wordClass
+          let key = Math.min(...Object.keys(wc).filter(e=>!isNaN(e) && Number(e) >= 0).map(e=>Number(e)))
+          let next = wc[key]
+          word = next[Math.floor(Math.random() * next.length)]
+        }
+        else if(practiceWm.charMap[currChar].sorted === LOS){
+          let wc = practiceWm.charMap[currChar].wordClass
+          let key = Math.min(...Object.keys(wc))
+          let next = wc[key]
+          word = next[Math.floor(Math.random() * next.length)]
+        }
+        else if(practiceWm.charMap[currChar].sorted === LOSCIR){
+          if(practiceWm.charMap[currChar].wordClass["RETURN"]){
+            let next = practiceWm.charMap[currChar].wordClass["RETURN"]
+            word = next[Math.floor(Math.random() * next.length)]
+          }else{
+            let next = practiceWm.charMap[currChar].wordClass["LOSCIR"]
+            
+            word = next[Math.floor(Math.random() * next.length)]
+          } 
+        }
+        else if (practiceWm.charMap[currChar].sorted === WINCIR){
+          word = practiceWm.charMap[currChar].solution
+        }
+        else{
 
-      if(winConfirmed.current === 1){
-        setChatList([...chatList.slice(0,chatList.length - 1), 
-          <Chat sender="computer">저의 <b>승리</b>가 확정 되었습니다.</Chat>,
-          <Chat sender="computer">{word}</Chat>])
-        winConfirmed.current = 2
+          
+          let mcts = practiceWm.winWord2(currChar)
+          // console.log(mcts)
+          console.log(mcts.root.children.sort((a,b)=> a.w / a.n - b.w / b.n).map(e=> (e.n - e.w) + "/" + e.n + " = " +  String(Math.round((1 - e.w / e.n) * 10000) / 10000) + " : " + e.prevWord).join("\n"))
+          
+          word = mcts.winTurn.prevWord
+          
+        }
       }
-      else if(losConfirmed.current === 1){
-        setChatList([...chatList.slice(0,chatList.length - 1), 
-          <Chat sender="computer">저의 <b>패배</b>가 확정 되었습니다.</Chat>,
-          <Chat sender="computer">{word}</Chat>])
-        losConfirmed.current = 2
-      }
-      else{
-        setChatList([...chatList.slice(0,chatList.length - 1), 
-          <Chat sender="computer">{word}</Chat>])
-      }
+
+      setChatList([...chatList.slice(0,chatList.length - 1), 
+        <Chat sender="computer">{word}</Chat>])
+      
       
         
-        
+      
       setHistory([...history, word])
       
-      if (word === undefined){
-        alert("[" + history + "] \n에러가 발생했습니다. https://open.kakao.com/me/singrum")
-      }
       next = practiceWm.charMap[practiceWm.rule.tail(word)].outWords.filter(e=>e != word)
       if(next.length === 0){
         setChatList([...chatList.slice(0,chatList.length - 1),
@@ -557,7 +545,7 @@ function App() {
   useEffect(()=>{
     if(!initiatePracticeWm){return}
     
-    setPracticeWm(wm.copy())
+    setPracticeWm(wm.copy(history))
     
     
     
@@ -566,7 +554,7 @@ function App() {
   useEffect(()=>{
     if(!wmSign){return}
     setWmSign(false)
-
+    
     setPracticeWm(practiceWm.copy(history))
 
   },[wmSign])
@@ -608,17 +596,79 @@ function App() {
         <Chat sender="computer">존재하지 않는 단어입니다.</Chat>])
       return
     }
-    setHistory([...history, practiceInput])
-    setChatList([...chatList,<Chat sender = "you">{practiceInput}</Chat>,
-    <Chat sender = "computer" loading></Chat>
+
+
+    // 입력값이 유효한 단어인 경우
+
+    let currChar = practiceWm.rule.tail(practiceInput)    
+    let next = practiceWm.charMap[currChar].outWords.filter(e=>![...history, practiceInput].includes(e))
+    let word;
+    if(next.length === 0){
+      setChatList([...chatList,<Chat sender = "you">{practiceInput}</Chat>,
+      <Chat sender = "computer">당신이 이겼습니다.</Chat>
     ])
+    setGameEnd(true)
+      return
+    }
+
+
+
+    let heuristic;
+    if(difficulty == "0"){
+      word = next[Math.floor(Math.random() * next.length)]
+      heuristic = true
+    }
     
+    else{
+      let currCharMap = practiceWm.charMap[currChar]
+      let type = currCharMap.sorted
+      let wc = currCharMap.wordClass  
 
-
-
-
-
-    setWmSign(true)
+      if(type === LOS){
+        let keys = Object.keys(wc)
+        keys.sort((a,b)=>a-b)
+        for(let key of keys){
+          let losWords = wc[key].find(e=>next.includes(e))
+          if(losWords!==undefined){
+            word = losWords
+            break
+          }
+        }
+        heuristic = true
+      }
+      else if(type === ROUTE){
+        let nextRoute = practiceWm.charMap[currChar].wordClass["ROUTE"].filter(e=>![...history, practiceInput].includes(e))
+        nextRoute = nextRoute.filter(word => nextRoute.find(e=>practiceWm.rule.tail(e) === practiceWm.rule.tail(word)) === word)
+        if(nextRoute.length === 1){
+          word = nextRoute[0]
+          heuristic = true
+        }
+      }
+    }
+    if(heuristic){
+      setHistory([...history, practiceInput, word])
+      next = practiceWm.charMap[practiceWm.rule.tail(word)].outWords.filter(e=>![...history, practiceInput, word].includes(e))
+      if(next.length === 0){
+        setChatList([...chatList,
+          <Chat sender = "you">{practiceInput}</Chat>,
+          <Chat sender="computer">{word}</Chat>,
+          <Chat sender="computer">{`제가 이겼습니다.`}</Chat>])
+        setGameEnd(true)
+        return
+      }else{
+        setChatList([...chatList,
+          <Chat sender = "you">{practiceInput}</Chat>,
+          <Chat sender="computer">{word}</Chat>])
+      }
+    }
+    else{
+      setChatList([...chatList,<Chat sender = "you">{practiceInput}</Chat>,
+      <Chat sender = "computer" loading></Chat>
+      ])
+      setHistory([...history, practiceInput])
+      setWmSign(true)
+    }
+    
   }, [sendSign])
 
   // 스크롤 다운

@@ -1,96 +1,278 @@
+import * as Hangul from 'hangul-js';
 const sc = (char) => char.charCodeAt(0);//string to charcode
 const cs = (code) => String.fromCharCode(code);//code to string
+
+const f = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ',
+'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ',
+'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+const s = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ',
+'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ',
+'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'];
+const t = ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ',
+'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ',
+'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ',
+'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+const ga = 44032;
+
+function getConstantVowel(kor) {
+  let uni = kor.charCodeAt(0);
+  uni = uni - ga;
+  if(uni < 0){
+    return {
+      f:undefined,
+      s:undefined,
+      t:undefined
+    }
+  }
+  let fn = parseInt(uni / 588);
+  let sn = parseInt((uni - (fn * 588)) / 28);
+  let tn = parseInt(uni % 28);
+  
+  return [f[fn],s[sn],t[tn]]
+}
+
+const banjeonMap = {
+  "ㅏ" : "ㅓ",
+  "ㅑ" : "ㅕ",
+  "ㅓ" : "ㅏ",
+  "ㅕ" : "ㅑ",
+  "ㅗ" : "ㅜ",
+  "ㅛ" : "ㅠ",
+  "ㅜ" : "ㅗ",
+  "ㅠ" : "ㅛ"
+}
+
 const changableMap = {
   0:function (char) { return [char] },
   1:function (char) {
-    if (sc(char) >= sc("랴") && sc(char) <= sc("럏") ||
-      sc(char) >= sc("려") && sc(char) <= sc("렿") ||
-      sc(char) >= sc("료") && sc(char) <= sc("룧") ||
-      sc(char) >= sc("류") && sc(char) <= sc("륳") ||
-      sc(char) >= sc("리") && sc(char) <= sc("맇") ||
-      sc(char) >= sc("례") && sc(char) <= sc("롛"))
-      return [char, cs(sc(char) + sc("아") - sc("라"))];
-    if (sc(char) >= sc("라") && sc(char) <= sc("랗") ||
-      sc(char) >= sc("래") && sc(char) <= sc("랳") ||
-      sc(char) >= sc("로") && sc(char) <= sc("롷") ||
-      sc(char) >= sc("루") && sc(char) <= sc("뤃") ||
-      sc(char) >= sc("르") && sc(char) <= sc("릏") ||
-      sc(char) >= sc("뢰") && sc(char) <= sc("뢰"))
-      return [char, cs(sc(char) + sc('나') - sc("라"))];
-    if (sc(char) >= sc("녀") && sc(char) <= sc("녛") ||
-      sc(char) >= sc("뇨") && sc(char) <= sc("눃") ||
-      sc(char) >= sc("뉴") && sc(char) <= sc("늏") ||
-      sc(char) >= sc("니") && sc(char) <= sc("닣"))
-      return [char, cs(sc(char) + sc('아') - sc("나"))];
+    let code = sc(char)
+    if (code >= sc("랴") && code <= sc("럏") ||
+      code >= sc("려") && code <= sc("렿") ||
+      code >= sc("료") && code <= sc("룧") ||
+      code >= sc("류") && code <= sc("륳") ||
+      code >= sc("리") && code <= sc("맇") ||
+      code >= sc("례") && code <= sc("롛"))
+      return [char, cs(code + sc("아") - sc("라"))];
+    else if (code >= sc("라") && code <= sc("랗") ||
+      code >= sc("래") && code <= sc("랳") ||
+      code >= sc("로") && code <= sc("롷") ||
+      code >= sc("루") && code <= sc("뤃") ||
+      code >= sc("르") && code <= sc("릏") ||
+      code >= sc("뢰") && code <= sc("뢰"))
+      return [char, cs(code + sc('나') - sc("라"))];
+    else if (code >= sc("녀") && code <= sc("녛") ||
+      code >= sc("뇨") && code <= sc("눃") ||
+      code >= sc("뉴") && code <= sc("늏") ||
+      code >= sc("니") && code <= sc("닣"))
+      return [char, cs(code + sc('아') - sc("나"))];
     return [char];
   },
   2:function (char) {
-    if (sc(char) >= sc("라") && sc(char) <= sc("맇"))
-      return [char, cs(sc(char) + sc('나') - sc("라")), cs(sc(char) + sc("아") - sc("라"))];
-    if (sc(char) >= sc("나") && sc(char) <= sc("닣"))
-      return [char, cs(sc(char) + sc('아') - sc("나"))];
+    let code = sc(char)
+    if (code >= sc("라") && code <= sc("맇"))
+      return [char, cs(code + sc('나') - sc("라")), cs(code + sc("아") - sc("라"))];
+    else if (code >= sc("나") && code <= sc("닣"))
+      return [char, cs(code + sc('아') - sc("나"))];
     return [char]
   },
   3:function (char) {
-    if (sc(char) >= sc("라") && sc(char) <= sc("맇"))
-      return [char, cs(sc(char) + sc('나') - sc("라")), cs(sc(char) + sc("아") - sc("라"))];
-    if (sc(char) >= sc("나") && sc(char) <= sc("닣"))
-      return [char, cs(sc(char) + sc('라') - sc("나")), cs(sc(char) + sc("아") - sc("나"))];
-    if (sc(char) >= sc("아") && sc(char) <= sc("잏"))
-      return [char, cs(sc(char) + sc('라') - sc("아")), cs(sc(char) + sc("나") - sc("아"))];
+    let code = sc(char)
+    if (code >= sc("라") && code <= sc("맇"))
+      return [char, cs(code + sc('나') - sc("라")), cs(code + sc("아") - sc("라"))];
+    else if (code >= sc("나") && code <= sc("닣"))
+      return [char, cs(code + sc('라') - sc("나")), cs(code + sc("아") - sc("나"))];
+    else if (code >= sc("아") && code <= sc("잏"))
+      return [char, cs(code + sc('라') - sc("아")), cs(code + sc("나") - sc("아"))];
     return [char]
+  },
+  4:function(char){
+    let code = sc(char)
+    let result = [char]
+    if (code >= sc("랴") && code <= sc("럏") ||
+    code >= sc("려") && code <= sc("렿") ||
+    code >= sc("료") && code <= sc("룧") ||
+    code >= sc("류") && code <= sc("륳") ||
+    code >= sc("리") && code <= sc("맇") ||
+    code >= sc("례") && code <= sc("롛"))
+    result.push(cs(code + sc("아") - sc("라")));
+    else if (code >= sc("라") && code <= sc("랗") ||
+    code >= sc("래") && code <= sc("랳") ||
+    code >= sc("로") && code <= sc("롷") ||
+    code >= sc("루") && code <= sc("뤃") ||
+    code >= sc("르") && code <= sc("릏") ||
+    code >= sc("뢰") && code <= sc("뢰"))
+    result.push(cs(code + sc("나") - sc("라")));
+    else if (code >= sc("녀") && code <= sc("녛") ||
+    code >= sc("뇨") && code <= sc("눃") ||
+    code >= sc("뉴") && code <= sc("늏") ||
+    code >= sc("니") && code <= sc("닣"))
+    result.push(cs(code + sc("아") - sc("나")));
+    
+    
+    let disassembled = getConstantVowel(char)
+    let jung = disassembled[1]
+    
+    if(jung && jung in banjeonMap){
+      disassembled[1] = banjeonMap[jung]
+      result.push(Hangul.assemble(disassembled))
+    }
+    return result
+  },
+  5:function(char){
+    let code = sc(char)
+    let result = [char]
+    if (code >= sc("랴") && code <= sc("럏") ||
+    code >= sc("려") && code <= sc("렿") ||
+    code >= sc("료") && code <= sc("룧") ||
+    code >= sc("류") && code <= sc("륳") ||
+    code >= sc("리") && code <= sc("맇") ||
+    code >= sc("례") && code <= sc("롛"))
+    result.push(cs(code + sc("아") - sc("라")));
+    else if (code >= sc("라") && code <= sc("랗") ||
+    code >= sc("래") && code <= sc("랳") ||
+    code >= sc("로") && code <= sc("롷") ||
+    code >= sc("루") && code <= sc("뤃") ||
+    code >= sc("르") && code <= sc("릏") ||
+    code >= sc("뢰") && code <= sc("뢰"))
+    result.push(cs(code + sc("나") - sc("라")));
+    else if (code >= sc("녀") && code <= sc("녛") ||
+    code >= sc("뇨") && code <= sc("눃") ||
+    code >= sc("뉴") && code <= sc("늏") ||
+    code >= sc("니") && code <= sc("닣"))
+    result.push(cs(code + sc("아") - sc("나")));
+    
+    
+    let disassembled = getConstantVowel(char)
+    let cho = disassembled[0]
+    
+    let jong = disassembled[2]
+    if(cho && jong && Hangul.isCho(cho) && Hangul.isJong(jong)){
+      disassembled[0] = jong
+      disassembled[2] = cho
+      result.push(Hangul.assemble(disassembled))
+    }
+    return result
+  },
+  6:function(char){
+    let result = [char]
+    let disassembled = getConstantVowel(char)
+    let cho = disassembled[0]
+    let jung = disassembled[1]
+    let jong = disassembled[2]
+    
+    if(cho && (cho === "ㄹ" || cho === "ㄴ" || cho === "ㅇ" )){
+      result.push(...["ㄹ","ㄴ","ㅇ"].filter(e=>e !== cho).map(e => Hangul.assemble([e, jung, jong])))
+    }
+     
+    if(jong && (jong === "ㄹ" || jong === "ㄴ" || jong === "ㅇ" )){
+      result.push(...["ㄹ","ㄴ","ㅇ"].filter(e=>e !== jong).map(e => Hangul.assemble([cho, jung, e])))
+    }
+    
+    return result
   }
 }
+
+
+
 const reverseChangableMap = {
   0:function (char) { return [char] },
   1:function (char) {
-    if (sc(char) >= sc("야") && sc(char) <= sc("얗") ||
-      sc(char) >= sc("예") && sc(char) <= sc("옣"))
-      return [char, cs(sc(char) + sc("라") - sc("아"))];
-    if (sc(char) >= sc("나") && sc(char) <= sc("낳") ||
-      sc(char) >= sc("내") && sc(char) <= sc("냏") ||
-      sc(char) >= sc("노") && sc(char) <= sc("놓") ||
-      sc(char) >= sc("누") && sc(char) <= sc("눟") ||
-      sc(char) >= sc("느") && sc(char) <= sc("늫") ||
-      sc(char) >= sc("뇌") && sc(char) <= sc("뇧"))
-      return [char, cs(sc(char) + sc('라') - sc("나"))];
-    if (sc(char) >= sc("여") && sc(char) <= sc("옇") ||
-      sc(char) >= sc("요") && sc(char) <= sc("욯") ||
-      sc(char) >= sc("유") && sc(char) <= sc("윻") ||
-      sc(char) >= sc("이") && sc(char) <= sc("잏"))
-      return [char, cs(sc(char) + sc('나') - sc("아")), cs(sc(char) + sc('라') - sc("아"))];
+    let code = sc(char)
+    if (code >= sc("야") && code <= sc("얗") ||
+      code >= sc("예") && code <= sc("옣"))
+      return [char, cs(code + sc("라") - sc("아"))];
+    else if (code >= sc("나") && code <= sc("낳") ||
+      code >= sc("내") && code <= sc("냏") ||
+      code >= sc("노") && code <= sc("놓") ||
+      code >= sc("누") && code <= sc("눟") ||
+      code >= sc("느") && code <= sc("늫") ||
+      code >= sc("뇌") && code <= sc("뇧"))
+      return [char, cs(code + sc('라') - sc("나"))];
+    else if (code >= sc("여") && code <= sc("옇") ||
+      code >= sc("요") && code <= sc("욯") ||
+      code >= sc("유") && code <= sc("윻") ||
+      code >= sc("이") && code <= sc("잏"))
+      return [char, cs(code + sc('나') - sc("아")), cs(code + sc('라') - sc("아"))];
     return [char];
   },
   2:function (char) {
-    if (sc(char) >= sc("아") && sc(char) <= sc("잏"))
-      return [char, cs(sc(char) + sc('나') - sc("아")), cs(sc(char) + sc("라") - sc("아"))];
-    if (sc(char) >= sc("나") && sc(char) <= sc("닣"))
-      return [char, cs(sc(char) + sc('라') - sc("나"))];
+    let code = sc(char)
+    if (code >= sc("아") && code <= sc("잏"))
+      return [char, cs(code + sc('나') - sc("아")), cs(code + sc("라") - sc("아"))];
+    else if (code >= sc("나") && code <= sc("닣"))
+      return [char, cs(code + sc('라') - sc("나"))];
     return [char]
   },
   3:function (char) {
-    if (sc(char) >= sc("라") && sc(char) <= sc("맇"))
-      return [char, cs(sc(char) + sc('나') - sc("라")), cs(sc(char) + sc("아") - sc("라"))];
-    if (sc(char) >= sc("나") && sc(char) <= sc("닣"))
-      return [char, cs(sc(char) + sc('라') - sc("나")), cs(sc(char) + sc("아") - sc("나"))];
-    if (sc(char) >= sc("아") && sc(char) <= sc("잏"))
-      return [char, cs(sc(char) + sc('라') - sc("아")), cs(sc(char) + sc("나") - sc("아"))];
+    let code = sc(char)
+    if (code >= sc("라") && code <= sc("맇"))
+      return [char, cs(code + sc('나') - sc("라")), cs(code + sc("아") - sc("라"))];
+    else if (code >= sc("나") && code <= sc("닣"))
+      return [char, cs(code + sc('라') - sc("나")), cs(code + sc("아") - sc("나"))];
+    else if (code >= sc("아") && code <= sc("잏"))
+      return [char, cs(code + sc('라') - sc("아")), cs(code + sc("나") - sc("아"))];
     return [char]
-  }
+  },
+  4:function(char){
+    let code = sc(char)
+    let result = [char]
+    if (code >= sc("야") && code <= sc("얗") ||
+      code >= sc("예") && code <= sc("옣"))
+      result.push(cs(code + sc("라") - sc("아")))
+    else if (code >= sc("나") && code <= sc("낳") ||
+      code >= sc("내") && code <= sc("냏") ||
+      code >= sc("노") && code <= sc("놓") ||
+      code >= sc("누") && code <= sc("눟") ||
+      code >= sc("느") && code <= sc("늫") ||
+      code >= sc("뇌") && code <= sc("뇧"))
+      result.push(cs(code + sc('라') - sc("나")))
+    else if (code >= sc("여") && code <= sc("옇") ||
+      code >= sc("요") && code <= sc("욯") ||
+      code >= sc("유") && code <= sc("윻") ||
+      code >= sc("이") && code <= sc("잏"))
+      result.push(cs(code + sc('나') - sc("아")),cs(code + sc('라') - sc("아")))
+
+    let disassembled = getConstantVowel(char)
+    let jung = disassembled[1]
+    
+    if(jung && jung in banjeonMap){
+      disassembled[1] = banjeonMap[jung]
+      result.push(Hangul.assemble(disassembled))
+    }
+    return result
+  },
+  5:function(char){
+    let code = sc(char)
+    let result = [char]
+    if (code >= sc("야") && code <= sc("얗") ||
+      code >= sc("예") && code <= sc("옣"))
+      result.push(cs(code + sc("라") - sc("아")))
+    else if (code >= sc("나") && code <= sc("낳") ||
+      code >= sc("내") && code <= sc("냏") ||
+      code >= sc("노") && code <= sc("놓") ||
+      code >= sc("누") && code <= sc("눟") ||
+      code >= sc("느") && code <= sc("늫") ||
+      code >= sc("뇌") && code <= sc("뇧"))
+      result.push(cs(code + sc('라') - sc("나")))
+    else if (code >= sc("여") && code <= sc("옇") ||
+      code >= sc("요") && code <= sc("욯") ||
+      code >= sc("유") && code <= sc("윻") ||
+      code >= sc("이") && code <= sc("잏"))
+      result.push(cs(code + sc('나') - sc("아")),cs(code + sc('라') - sc("아")))
+
+      let disassembled = getConstantVowel(char)
+      let cho = disassembled[0]
+      let jong = disassembled[2]
+      if(cho && jong && cho !== jong && Hangul.isCho(cho) && Hangul.isJong(jong)){
+        disassembled[0] = jong
+        disassembled[2] = cho
+        result.push(Hangul.assemble(disassembled))
+      }
+      return result
+  },
+  6: changableMap[6]
 }
-const deepcopy = (obj) => {
-  if(typeof obj !== "object" || obj === null){
-    return obj;
-  }
-  
-  const deepCopyObj = {};
-  
-  for(let key in obj){
-    deepCopyObj[key] = deepcopy(obj[key]);
-  }
-  
-  return deepCopyObj;
-}
+
 
 class Rule {
   constructor(changable_index , head_index , tail_index , manner = false) {
@@ -298,6 +480,7 @@ class WCengine{
 
   update(){
     this.charMap = {}
+    
     for(let word of this.word_list){
       let head = this.rule.head(word)  
       let tail = this.rule.tail(word)
@@ -354,7 +537,7 @@ class WCengine{
 
     // 음절 분류
     this.winChars = Object.keys(this.charMap).filter(e=>this.charMap[e].sorted === WIN)
-    // console.log(this.winChars)
+    
     this.winCharClass = {}
     for(let char of this.winChars){
       if(!this.winCharClass[this.charMap[char].degree]){
@@ -373,7 +556,7 @@ class WCengine{
 
     this.winCirChars = Object.keys(this.charMap).filter(e=>this.charMap[e].sorted === WINCIR)
     this.losCirChars = Object.keys(this.charMap).filter(e=>this.charMap[e].sorted === LOSCIR)
-    // this.routeChars = new Set(Object.keys(this.charMap).filter(e=>this.charMap[e].sorted === ROUTE))
+    
 
   }
   _sortChar(){
@@ -589,7 +772,6 @@ class WCengine{
         if(lose){
           
           this.charMap[char].path = path
-          // console.log(char, path)
           if(this.charMap[char].loopWords.size % 2 === 0){
             this.charMap[char].sorted = LOSCIR
           }
@@ -823,96 +1005,313 @@ class WCengine{
     
   }
   
+  // win : true
+  // los : arr / false
+  // unknown : -1
 
-  winWord(char, depth, first = false){
-    // console.log(this)
-    if (depth < 0){
-      return -1;
+  winWord(char, depth, except, first = false){
+    if(depth < 0){
+      return -1
     }
-
-    
-    if(!this.charMap[char]){
+    let map = this.charMap[char]
+    if(!map){
       let chan = this.rule.changable(char)
       char = chan[chan.length - 1]
     }
-    
-    
-    
-    if (this.charMap[char].sorted === WIN){
-      let wc = this.charMap[char].wordClass
+    if(!map){
+      return false
+    }
+    if (map.sorted === WIN){
+      let wc = map.wordClass
       let key = Math.min(...Object.keys(wc).filter(e=>!isNaN(e) && Number(e) >= 0).map(e=>Number(e)))
       let next = wc[key]
       return next[Math.floor(Math.random() * next.length)]
     }
-    if (this.charMap[char].sorted === WINCIR){
+    if (map.sorted === WINCIR){
+      return map.solution
+    }
+    if (map.sorted === LOS){
+      return false
+    }
+    if (map.sorted === LOSCIR){
+      return false
+    }
+
+    
       
-      return this.charMap[char].solution
-    }
-    if (this.charMap[char].sorted === LOS){
-      return false
-    }
-    if (this.charMap[char].sorted === LOSCIR){
-      return false
-    }
-    
-    let nextRoute = this.charMap[char].wordClass["ROUTE"].sort((a,b)=>
+      
+
+      let nextRoute = map.wordClass["ROUTE"].sort((a,b)=>
       this.charMap[this.rule.tail(a)].wordClass["ROUTE"].length - 
-      this.charMap[this.rule.tail(b)].wordClass["ROUTE"].length)
+      this.charMap[this.rule.tail(b)].wordClass["ROUTE"].length).
+      filter(e=>!except.includes(e))
+
+    // 루프 단어 홀수 개이면 하나만 남기고, 짝수 개이면 전부 삭제
+    if(map.loopWords && map.loopWords.size % 2 === 0){
+      nextRoute = nextRoute.filter(word => !map.loopWords.has(word))
+    }
     nextRoute = nextRoute.filter(word => nextRoute.find(e=>this.rule.tail(e) === this.rule.tail(word)) === word)
-
     
-
     let unknown = false
     let losWords = []
-    for(let word of nextRoute){
+
+    let breaking = false;
+    
+    depth = depth - (breaking ? 0 : 1)
+    
+    // 하위 두법 음절에 대해 next route length가 1이면 breaking = true
+    for(let chan of map.changable){
+      breaking = nextRoute.filter(e => this.rule.head(e) === chan).length === 1
+      if(breaking){
+        break
+      }
+    }
+
+    if(!breaking){
+      for(let word of nextRoute){
+        let ww = this.winWord(this.rule.tail(word), depth, [...except, word])
+        if (ww === false){
+          return word
+        }
+        if(ww === -1){
+          unknown = true
+          continue
+        }
+      }
+    }
+    else{
+      if(depth < 0){
+        return - 1
+      }
+      let nextWord = nextRoute[0]
       let nextWm = new WCengine(this.rule)
-      nextWm.word_list = this.routeWords.filter(e=>e !== word)
-      nextWm.update()
+      nextWm.word_list = this.routeWords.filter(
+        e=>!except.includes(e) && e !== nextWord)
       
-
-
-      // 다음 단어가 2개 이하면 depth 안줄임
-      let ww = nextWm.winWord(nextWm.rule.tail(word), depth - (nextRoute.length <= 2 ? 0 : 1))
+      nextWm.update()
+      let ww = nextWm.winWord(nextWm.rule.tail(nextWord), depth, [])
       if (ww === false){
-        return word
+        return nextWord
       }
       if(ww === -1){
         unknown = true
-        continue
       }
-      losWords.push(word)
     }
+
     if(unknown){
       return first ? losWords : -1
     }
 
     return first ? losWords : false
   }
+  winWord2(char){
+    let mcts = new MCTS(new Turn(undefined, char,this, []), 700)
+    return mcts
+  }
   remove_hanbang(){
     this.word_list = this.word_list.filter(word=>!this.charMap[this.rule.tail(word)].hanbang)
     
   }
+
   copy(except = []){
     let c = new WCengine(this.rule)
     c.word_list = this.word_list.filter(e=>!except.includes(e))
     c.update(except = except)
-    
 
     return c
   }
 }
 
-class Turn{
-  constructor(pos, graph){
-    this.pos = pos
-    this.graph = graph
+class MCTS{
+  constructor(rootTurn, cnt = 100){
+    this.root = rootTurn
+    for(let i = 0; i<cnt; i++){
+      this.learn()
+    }
+    let max = this.root.children.reduce((a,b) => (1 - a.w / a.n > 1 - b.w / b.n) ? 1 - a.w / a.n : 1 - b.w / b.n)
+    // if(max < 0.6 && max > 0.4){
+    //   for(let i = 0; i<cnt; i++){
+    //     this.learn()
+    //   } 
+    // }
+    
+
+    this.winTurn = this.root.children.reduce((prev, curr)=>(curr.w/curr.n > prev.w / prev.n) ? prev : curr)
   }
-  removeWords(){
+  learn(){
+    
+    let selected = this.root
+    let stack = [selected]
+    
+    // stack의 마지막 원소의 children 개수와 가능한 다음 수의 개수가 같으면 UTC최대값 selected에 대입
+
+    while((selected.children.length === selected.nextRoute.length) && (selected.nextRoute.length !== 0)){
+      selected = selected.select()
+      stack.push(selected)
+    }
+    
+    if(selected.nextRoute.length === 0){
+      let type = selected.WCengine.charMap[selected.currChar].sorted
+      let win;
+      if(type === WINCIR || type === WIN){
+        win = true
+      }
+      else if (type === LOSCIR || type === LOS){
+        win = false
+      }
+      this.backprop(stack, win)
+    }
+    
+    else{
+      // 다를 때까지 수행 후 가능한 다음 수 중 하나를 children에 추가하고 stack에 추가
+      let newSelected = selected.expand()
+      stack.push(newSelected)
+
+      // 방금 추가한 것에서 simulation, backprop
+
+      let win = newSelected.simulate() // true : win, false : los
+
+      this.backprop(stack, win)
+    }
+    
+    
+    
 
   }
+  
+  backprop(stack, win){
+    
+    
+    let turn = stack.pop()
+    let parity = false
+    // console.log("back")
+    // console.log(win + "출발")
+    
+    while(turn){
+      turn.n += 1
+      turn.w += (win === parity) ? 0 : 1
+      
+      turn = stack.pop()
+      parity = !parity
+    }
+  }
+  
+}
+
+class Turn{
+  constructor(prevWord, currChar, WCengine, except){
+    this.prevWord = prevWord
+    this.WCengine = WCengine
+    this.currChar = currChar
+    this.except = except
+    this.n = 0
+    this.w = 0
+    this.children = []
+    this.nextRoute = this.getNextRoute()
+    this.parent = undefined
+  } 
+  UTC(){
+    return 1- this.w / this.n + Math.sqrt(2 * Math.log(this.parent.n) / this.n)
+  }
+
+  select(){
+    
+    let selected = this.children.reduce(
+      (prev, current) => {
+        return prev.UTC() > current.UTC() ? prev : current
+      }
+    )
+    return selected
+  }
+  expand(){
+    let routes = this.nextRoute.filter(e=>!this.children.map(e=>e.prevWord).includes(e))
+    
+    let route = routes.reduce((a,b)=>(this.WCengine.charMap[this.WCengine.rule.tail(a)].wordClass["ROUTE"].length < this.WCengine.charMap[this.WCengine.rule.tail(b)].wordClass["ROUTE"].length) ? a : b)
+
+    
+    let expanded = this.getTurnFromRoute(route)
+    this.children.push(expanded)
+    expanded.parent = this
+    return expanded
+  }
+  getTurnFromRoute(route){
+    let head = this.WCengine.rule.head(route)
+    
+    let breaking = this.nextRoute.filter(e=>this.WCengine.charMap[head].changable.includes(this.WCengine.rule.head(e))).length === 1
+    let nextTurn;
+    
+    if(breaking){
+      
+      let nextWm = new WCengine(this.WCengine.rule)
+      nextWm.word_list = this.WCengine.routeWords.filter(
+        e=>!this.except.includes(e) && e !== route)
+      nextWm.update()
+      
+      nextTurn = new Turn(route, this.WCengine.rule.tail(route), nextWm, [])
+    }
+    else{
+      
+      nextTurn = new Turn(route, this.WCengine.rule.tail(route), this.WCengine, [...this.except, route])
+    }
+
+    return nextTurn
+  }
+
+  simulate(){
+    let turn = this
+    let parity = false
+    
+    // console.log("simulate start")
+    while(turn.nextRoute.length > 0){
+      let route = turn.nextRoute[Math.floor(Math.random() * turn.nextRoute.length)]
+      turn = turn.getTurnFromRoute(route)
+      parity = !parity
+      // console.log(turn.nextRoute.length)
+    }
+    // console.log("simulate end")
+    // 밑의 조건이 충족되는 경우 존재함 -> 버그
+    if(!turn.WCengine.charMap[turn.currChar]){
+      return parity
+    }
+    let type=turn.WCengine.charMap[turn.currChar].sorted
+    if(type === WIN || type === WINCIR){
+      return !parity
+    }
+    else if(type === LOS || type === LOSCIR){
+      return parity
+    }
+    console.log("error 1")
+  }
+
+  getNextRoute(){
+    if(!(this.currChar in this.WCengine.charMap)){
+      let chan = this.WCengine.rule.changable(this.currChar)
+      for(let c of chan){
+        if(c in this.WCengine.charMap){
+          this.currChar = c
+          break
+        }
+      }
+    }
+    let map = this.WCengine.charMap[this.currChar]
+    if(!map){
+      console.log(this)
+    }
+    if(!map || map.sorted !== ROUTE){
+      return []
+    }
+
+    let nextRoute = map.wordClass["ROUTE"].filter(e=>!this.except.includes(e))
+    if(map.loopWords && map.loopWords.size % 2 === 0){
+      nextRoute = nextRoute.filter(word => !map.loopWords.has(word))
+    }
+    nextRoute = nextRoute.filter(word => nextRoute.find(e=>this.WCengine.rule.tail(e) === this.WCengine.rule.tail(word)) === word)
+    return nextRoute
+  }
+
 }
 
 
 
 
-export { LOS, WIN, LOSCIR, WINCIR, ROUTE, Rule, WCengine }
+export { LOS, WIN, LOSCIR, WINCIR, ROUTE, Rule, WCengine, Turn }
