@@ -154,24 +154,41 @@ const changableMap = {
     return result
   },
   6:function(char){
-    let result = [char]
+    let result = [];
     let disassembled = getConstantVowel(char)
     let cho = disassembled[0]
     let jung = disassembled[1]
     let jong = disassembled[2]
     
+    let choChan;
+    let jongChan;
+    if(!jung){
+      return [char]
+    }
     if(cho && (cho === "ㄹ" || cho === "ㄴ" || cho === "ㅇ" )){
-      result.push(...["ㄹ","ㄴ","ㅇ"].filter(e=>e !== cho).map(e => Hangul.assemble([e, jung, jong])))
+      choChan = ["ㄹ", "ㄴ","ㅇ"]
+    }
+    else{
+      choChan = [cho]
     }
      
     if(jong && (jong === "ㄹ" || jong === "ㄴ" || jong === "ㅇ" )){
-      result.push(...["ㄹ","ㄴ","ㅇ"].filter(e=>e !== jong).map(e => Hangul.assemble([cho, jung, e])))
+      jongChan = ["ㄹ", "ㄴ","ㅇ"]
     }
+    else{
+      jongChan = [jong]
+    }
+
+    for(let chan1 of choChan){
+      for(let chan2 of jongChan){
+        result.push(Hangul.assemble([chan1, jung, chan2]))
+      }
+    }
+    
     
     return result
   }
 }
-
 
 
 const reverseChangableMap = {
