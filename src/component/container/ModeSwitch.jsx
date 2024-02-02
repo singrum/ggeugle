@@ -17,7 +17,7 @@ function RadioButton({mode, setmode, ...props}) {
     </div>
   )
 }
-
+// 흔척 척촉 촉규 규획 획득 득롱망촉 촉륜 륜습 습득 득업 업시름 늠준 준척 척석희 희
 function ModeSwitch({mode, setmode}) {
     
     return (

@@ -1142,7 +1142,6 @@ class WCengine{
 class MCTS{
   constructor(rootTurn, cnt = 100){
     this.root = rootTurn
-    
   }
   getWinWord(){
     const winTurn = this.root.children.reduce((prev, curr)=>(curr.w/curr.n > prev.w / prev.n) ? prev : curr)
@@ -1254,8 +1253,12 @@ class Turn{
   }
   getTurnFromRoute(route){
     let head = this.WCengine.rule.head(route)
+    let map = this.WCengine.charMap[head]
     
-    let breaking = this.nextRoute.filter(e=>this.WCengine.charMap[head].changable.includes(this.WCengine.rule.head(e))).length === 1
+    let breaking = this.nextRoute.filter(e=>!map.loopWords.has(e)).filter(e=>map.changable.includes(this.WCengine.rule.head(e))).length === 1
+
+    
+
     let nextTurn;
     
     if(breaking){
@@ -1268,7 +1271,6 @@ class Turn{
       nextTurn = new Turn(route, this.WCengine.rule.tail(route), nextWm, [])
     }
     else{
-      
       nextTurn = new Turn(route, this.WCengine.rule.tail(route), this.WCengine, [...this.except, route])
     }
 
@@ -1283,12 +1285,13 @@ class Turn{
     while(turn.nextRoute.length > 0){
       let route = turn.nextRoute[Math.floor(Math.random() * turn.nextRoute.length)]
       turn = turn.getTurnFromRoute(route)
+    
       parity = !parity
-      // console.log(turn.nextRoute.length)
     }
     // console.log("simulate end")
     // 밑의 조건이 충족되는 경우 존재함 -> 버그
     if(!turn.WCengine.charMap[turn.currChar]){
+      console.log("error 2 (해결)")
       return parity
     }
     let type=turn.WCengine.charMap[turn.currChar].sorted
@@ -1298,7 +1301,7 @@ class Turn{
     else if(type === LOS || type === LOSCIR){
       return parity
     }
-    console.log("error 1")
+    console.log("error 1 (해결)")
   }
 
   getNextRoute(){
@@ -1306,8 +1309,6 @@ class Turn{
       let nextRoute = this.WCengine.routeChars  
       return nextRoute
     }
-
-
 
     if(!(this.currChar in this.WCengine.charMap)){
       let chan = this.WCengine.rule.changable(this.currChar)
@@ -1319,9 +1320,7 @@ class Turn{
       }
     }
     let map = this.WCengine.charMap[this.currChar]
-    if(!map){
-      console.log("error 2")
-    }
+
     if(!map || map.sorted !== ROUTE){
       return []
     }
