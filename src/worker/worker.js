@@ -75,6 +75,7 @@ const analysis = (data)=>{
   wc.word_list = wc.routeWords
   wc.update()
   const mcts = new MCTS(new Turn(undefined, data.currChar, wc, []))
+  
   for(let i = 0; i < 100000; i++){
     for(let j = 0;j<100;j++){
       mcts.learn()

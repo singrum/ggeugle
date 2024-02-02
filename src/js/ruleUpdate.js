@@ -1,4 +1,4 @@
-import { WCengine, Rule} from "./WordChain"
+import { WCengine, Rule, MCTS, Turn} from "./WordChain"
 
 
 
@@ -70,6 +70,7 @@ async function getData(rule) {
   wm.update()
   wm.getRouteComp()
   console.log("단어 분류 완료")
+
   return wm
 }
 
