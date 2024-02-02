@@ -93,9 +93,7 @@ export default function AnalysisMode({ display }) {
   return WC && (
     <div style={{ display: display ? "block" : "none" }}>
       <div className='analysis-setting'>
-        {/* <div className='setting-title'>
-          분석 설정
-        </div> */}
+
         <div className="setting-body">
           <div className='analysis-box'>
             <div className='title'>제외할 단어 <span style={{ fontWeight: "500", color: "gray" }}>(공백으로 구분)</span></div>
