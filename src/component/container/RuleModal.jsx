@@ -1,9 +1,11 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState, useReducer, useCallback } from 'react';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-
+import { WCcontext } from '../../context/WCcontext';
+import Loading from "../presentation/Loading.jsx"
+import { getData } from "../../js/ruleUpdate.js"
 
 function Setting1({dict, setDict}) {
   
@@ -233,7 +235,20 @@ function Setting7({manner, setManner}) {
 }
 
 
-function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
+
+function RuleModal({modalShow, setModalShow}) {
+  const [rule, setRule] = useState({
+    dict: 0,
+    pos: [0],
+    cate: [0, 1, 2, 3],
+    len: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+    chan: 1,
+    headDir: 0,
+    headIdx: 1,
+    tailDir: 1,
+    tailIdx: 1,
+    manner: false
+  })
   const [dict, setDict] = useState(rule.dict)
   const [pos, setPos] = useState(rule.pos)
   const [cate, setCate] = useState(rule.cate)
@@ -248,7 +263,7 @@ function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
   const [isHeadValid, setIsHeadValid] = useState(true);
   const [isTailValid, setIsTailValid] = useState(true);
   const [disabled, setDisabled] = useState(rule.dict === 0 || rule.dict === 2 || rule.dict === 3)
-
+  useEffect(()=>{makeWC()}, [])
   useEffect(
     ()=>{
       const minLen = Math.min(...len) + 2
@@ -278,17 +293,32 @@ function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
     setHeadDir(rule.headDir);
     setHeadIdx(rule.headIdx);
     setTailDir(rule.tailDir);
-    setTailIdx(rule.headIdx);
+    setTailIdx(rule.tailIdx);
     setManner(rule.manner);},
     [modalShow]
   )
+
+  const [isLoading, setIsLoading] = useState(false);
+  const {WC, setWC} = useContext(WCcontext)
+
   
 
-
-
-
+  async function makeWC() {
+    if(!isHeadValid || !isTailValid) return;
+    
+    setRule({dict,pos,cate,len,chan,headDir,headIdx,tailDir,tailIdx,manner})
+    setModalShow(false)
+    setIsLoading(true)
+    
+    const newWC = await getData({dict,pos,cate,len,chan,headDir,headIdx,tailDir,tailIdx,manner});
+    setWC(newWC);
+    setIsLoading(false);
+  }
+  
+  
 
   return (
+    <>
     <Modal
       show = {modalShow}
       onHide = {() => setModalShow(false)}
@@ -304,7 +334,7 @@ function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Setting1 dict = {dict} setDict = {setDict}/>
+      <Setting1 dict = {dict} setDict = {setDict}/>
         <Setting2 pos = {pos} setPos = {setPos} />
         <Setting3 cate = {cate} setCate = {setCate} disabled = {disabled}/>
         <Setting4 len = {len} setLen = {setLen}/>
@@ -319,15 +349,14 @@ function RuleModal({rule, setRule, setIsLoading, modalShow, setModalShow}) {
           manner = {manner} setManner = {setManner}/>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={
-          () => {
-            if(!isHeadValid || !isTailValid) return;
-            setRule({dict,pos,cate,len,chan,headDir,headIdx,tailDir,tailIdx,manner})
-            setModalShow(false)
-            setIsLoading(true)
-          }}>완료</Button>
+        <Button onClick={makeWC}>완료</Button>
       </Modal.Footer>
     </Modal>
+
+    {isLoading && (<Loading/>)}
+    
+    </>
+    
   );
 }
 

@@ -11,10 +11,21 @@ body {
   height : 4rem
   /* align-items: center; */
 }
-.logo-set,.menu-set {
+.info-logo-set, .logo-set,.menu-set {
   display: flex;
   align-items: center;
   margin: 5px;
+}
+.menu-wrap{
+  border-radius: 0.8rem;
+  border : solid 1px #ced4da;
+  height : 40px;
+  width : 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin : 0.3rem;
+
 }
 
 .logo-img {
@@ -26,7 +37,7 @@ body {
 
 .logo-text {
   font-family: 'Do Hyeon', sans-serif;
-  font-size: 2.2rem;
+  font-size: 2rem;
 
   transform: translateY(0.1rem);
   color: #444444
@@ -42,7 +53,7 @@ body {
 
 }
 .menu-set .btn-icon{
-  width : 30px;
+  width : 1.5rem;
 }
 .menu-set .caption {
   margin: 0;
@@ -204,8 +215,6 @@ body {
 .setting-check{
   display : grid;
   row-gap: 1rem;
-}
-.setting-check label{
 }
 .setting-select-index{
   display: grid;
@@ -381,6 +390,7 @@ body {
   z-index: 999999;
   align-items: center;
   justify-content: center;
+  display :flex;
 }
 .loading-backdrop .loading-box{
   text-align: center;
@@ -407,24 +417,33 @@ body {
 
 
 .switch-mode-btn-set{
-  display : flex;
-  justify-content: center;
-  align-items: center;
-  margin : 0.5rem 0;
 
+  margin : 0.5rem 0;
+  overflow: auto;
+  white-space: nowrap;
+  text-align: center;
+  -webkit-overflow-scrolling: touch;
+}
+.switch-mode-btn-set::-webkit-scrollbar{
+  display: none; 
+}
+
+.switch-mode-btn-set .toggle-wrap{
+  display : inline;
+  
 }
 
 .switch-mode-btn{
   background-color: #ffffff;
-  font-weight: bold;
+  font-weight:500;
   font-size : 1rem;
   border-radius: 100000px;
-  margin : 0 1rem 0 1rem;
+  margin : 0 0.5rem 0 0.5rem;
   border : 0;
-  
 }
+
 .switch-mode-btn-set label{
-  color: #212529;
+  font-weight : 800;
   background-color: #ffffff;
   border: 0;
   height : 2.25rem
@@ -469,7 +488,7 @@ body {
 .input-btn-box{
   /* border: 1px solid #ced4da; */
   height : 3rem;
-  width : 6rem;
+  width : 3rem;
   display : flex;
   justify-content: center;
   align-items: center;
@@ -540,4 +559,130 @@ body {
   color : red;
   font-size: 0.8rem;
   
+}
+
+.stat-box{
+  margin-top : 1rem
+}
+
+
+.title-text{
+  font-size : 1.3rem;
+  font-weight: 600;
+  color : #212529;
+}
+
+.info-logo-set .logo-img{
+  width : 40px
+}
+.info-logo-set .logo-text{
+  font-size: 2.4rem;  
+}
+.info-link{
+  display:flex;
+  align-items: center;
+}
+.link-icon{
+  width : 1.3rem;
+  margin-right : 0.2rem;
+}
+.delete-icon{
+  width : 20px;
+  transform: translate(4px,-2px);
+}
+
+.analysis-input,
+.analysis-input:focus,
+.analysis-input:focus-visible
+.analysis-input:focus {
+  outline: none;
+  width : 100%;
+  height : 0.9rem;
+  border-radius: 10000px;
+  margin-top: 0.5rem;
+  padding : 1rem;
+  font-size : 0.9rem;
+  border: 1px solid #ced4da;
+  background-color: #f4f5fb;
+  
+}
+
+.analysis-box{
+  padding : 1rem 1rem 0 1rem
+}
+.analysis-box .title{
+  font-weight: 600;
+}
+.analysis-box .word-btn-card-set{
+  padding : 0;
+  margin :0.5rem 0 0 0
+}
+
+.analysis-box .char-btn-card{
+  margin :0
+}
+.analysis-box .search-box{
+  margin : 0.5rem 0 0 0;
+}
+.analysis-box .search-input,
+.analysis-box .search-input:focus,
+.analysis-box .search-input:focus-visible
+.analysis-box .search-input:focus{
+  width : 80px;
+  height : 60px;
+  font-size : 30px;
+}
+.analysis-icon{
+  width : 1.2rem;
+  margin-left : 0.2rem
+}
+.analysis-btn{
+  display:flex;
+  align-items: center;
+}
+.accordion-body{
+  padding:0 0 1rem 0 
+}
+.accordion-button:not(.collapsed){
+  background-color: #efeff0;
+}
+.accordion-button:focus{
+  border : 0
+}
+.setting-title, .setting-foot{
+  border-top : 1px solid #ced4da;
+  border-bottom : 1px solid #ced4da;
+  padding : 1rem;
+  font-size: 1.0rem;
+  font-weight: 600;
+  background-color: #fafafa;
+}
+.setting-body{
+  padding: 0 0 1rem 0
+}
+.setting-foot{
+  display: flex;
+  justify-content: center;
+  
+}
+.chart-item{
+  margin : 1rem 0 1rem 0
+}
+.progress-bar{
+  display : inline;
+  
+}
+.progress-bar-wrap{
+  display:inline;
+  width : 100%;
+  /* margin-top : 0.5rem; */
+}
+.analysis-result{
+  padding : 1rem
+}
+/* .analysis-num{
+  font-weight : 600;
+} */
+ul{
+  padding-left: 1.5rem;
 }

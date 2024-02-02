@@ -8,8 +8,9 @@ function CharButton(props){
 		>
 			{props.children}		
 			
-			{!props.returning || (<img className="returning-icon" src="icon/cached_FILL0_wght400_GRAD0_opsz24.svg">
-			</img>)}
+			{props.returning && (<img className="returning-icon" src="icon/cached_FILL0_wght400_GRAD0_opsz24.svg"/>)}
+			
+			
 			
 		</span>
 	)

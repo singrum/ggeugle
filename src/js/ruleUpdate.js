@@ -1,4 +1,4 @@
-import { WCengine, Rule} from "../js/WordChain"
+import { WCengine, Rule} from "./WordChain"
 
 
 
@@ -19,50 +19,37 @@ function decode(params) {
 
 }
 
+async function makeWordList(url){
+  let response = await fetch(url);
+  let text = await response.text();
+  return text.split('\n').map(x => x.trim("\r"))
+}
 
 async function getData(rule) {
   const params = decode(rule)
   
 
-  let wordList = []
+  let wordList;
   if (params.dict == 0) {
-    for (let pos of params.pos) {
-      let response = await fetch(`https://singrum.github.io/KoreanDict/oldict/db/${encodeURI(pos)}`);
-      let text = await response.text();
-      wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
-      
-    }
+    const wordLists = await Promise.all(params.pos.map(pos=>makeWordList(`https://singrum.github.io/KoreanDict/oldict/db/${encodeURI(pos)}`)))
+    wordList = wordLists.reduce((a,b)=>a.concat(b), [])
   }
-
 
   else if (params.dict == 1) {
+    let wordLists = []
     for (let cate of params.cate) {
       for (let pos of params.pos) {
-        let response = await fetch(`https://singrum.github.io/KoreanDict/opendict/db/${cate}/${encodeURI(pos)}`);
-        
-        let text = await response.text();
-        wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
+        wordLists.push(makeWordList(`https://singrum.github.io/KoreanDict/opendict/db/${cate}/${encodeURI(pos)}`))
       }
     }
+    wordLists = await Promise.all(wordLists)
+    wordList = wordLists.reduce((a,b)=>a.concat(b), [])
   }
-
-  else if (params.dict == 2) {
-    for (let pos of params.pos) {
-      let response = await fetch(`https://singrum.github.io/ggeugle-legacy/elementarydict/db/${encodeURI(pos)}`);
-      let text = await response.text();
-      wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
-
-    }
-  }
-
   else if (params.dict == 3){
-    for (let pos of params.pos) {
-      let response = await fetch(`https://singrum.github.io/KoreanDict/stdict/db/${encodeURI(pos)}`);
-      let text = await response.text();
-      wordList = wordList.concat(text.split('\n').map(x => x.trim("\r")));
-    }
+    const wordLists = await Promise.all(params.pos.map(pos=>makeWordList(`https://singrum.github.io/KoreanDict/stdict/db/${encodeURI(pos)}`)))
+    wordList = wordLists.reduce((a,b)=>a.concat(b), [])
   }
-
+  console.log("데이터 로드 완료")
   const lenFilter = (w)=>{
     for(let e of params.len){
       if(e === -1 && w.length >= 10 || w.length === e){
@@ -79,66 +66,13 @@ async function getData(rule) {
     params.manner
   );
   let wm = new WCengine(r);
-  // console.log(wm)
   wm.word_list = Array.from(new Set(wordList.filter(x => x && lenFilter(x))));
   wm.update()
   wm.getRouteComp()
+  console.log("단어 분류 완료")
   return wm
 }
 
-function printDict(wm){
-  let dict_str = ""
-  let char_list = wm.char_list.sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b)))
-  // for(let char of char_list){
-  //     if (wm.win_char_set.has(char)){
-  //       dict_str += char
-        
-  //       dict_str += " : "
-  //       let wc = wm.win_word_class.get(char).content
-  //       for (let i of Object.keys(wc).filter(e => parseInt(e) >= 0)){
-  //         dict_str += Array.from(wc[i]).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).join(", ")
-  //         dict_str += ", "
-  //       }
-  //       dict_str += '\n'
-  //     }
-  // }
-  
-  // dict_str = ""
-  // char_list = wm.char_list.sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b)))
-  // for(let char of char_list){
-  //     if (wm.winCirChar.has(char)){
-  //       dict_str += char
-  //       dict_str += " : "
-  //       let wc = wm.win_cir_word_class.get(char).content
-  //       dict_str += Array.from(wc['win']).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).join(", ")
-  //       dict_str += ", "
-        
-  //       dict_str += '\n'
-  //     }
-  // }
-
-
-  dict_str = ""
-  char_list = wm.char_list.sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b)))
-  for(let char of char_list){
-      if (wm.maxRouteComp.includes(char)){
-        dict_str += char
-        dict_str += " : "
-        let wc = wm.route_cir_word_class.get(char).content
-        if(wc["route"]){
-          dict_str += Array.from(wc['route']).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).join(", ")
-          dict_str += ", "
-        }
-        if(wc["returning"]){
-          dict_str += Array.from(wc['returning']).sort((a, b) => wm.rule.tail(a).localeCompare(wm.rule.tail(b))).join("(돌림), ")
-        }
-        dict_str += '\n'
-        
-        
-      }
-  }
-  console.log(dict_str)
-}
 
 
 
