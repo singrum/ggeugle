@@ -1,11 +1,11 @@
 import Modal from 'react-bootstrap/Modal';
 import Table from 'react-bootstrap/Table';
-import { useEffect } from 'react';
+import { useContext } from 'react';
+import { WCcontext } from '../../context/WCcontext';
 
-export default function StatModal({ wm, modalShow, setModalShow }) {
-  
-  
-  return wm && (
+export default function StatModal({modalShow, setModalShow}) {
+  const {WC, setWC} = useContext(WCcontext)
+  return WC && (
     <Modal
       show={modalShow}
       onHide={() => setModalShow(false)}
@@ -31,31 +31,31 @@ export default function StatModal({ wm, modalShow, setModalShow }) {
           <tbody>
             <tr>
               <td>단어 수</td>
-              <td>{wm.word_list.length}</td>
+              <td>{WC.word_list.length}</td>
             </tr>
             <tr>
               <td>음절 수</td>
-              <td>{Object.keys(wm.charMap).length}</td>
+              <td>{Object.keys(WC.charMap).length}</td>
             </tr>
             <tr>
               <td>승리음절 수</td>
-              <td>{wm.winChars.length + wm.winCirChars.length}</td>
+              <td>{WC.winChars.length + WC.winCirChars.length}</td>
             </tr>
             <tr>
               <td>패배음절 수</td>
-              <td>{wm.losChars.length + wm.losCirChars.length}</td>
+              <td>{WC.losChars.length + WC.losCirChars.length}</td>
             </tr>
             <tr>
               <td>주요루트음절 수</td>
-              <td>{wm.maxRouteComp.length}</td>
+              <td>{WC.maxRouteComp.length}</td>
             </tr>
             <tr>
               <td>루트 복잡도</td>
-              <td>{wm.maxRouteComp.length === 0 ? 0 : Math.round((function () { let i = 0; wm.maxRouteComp.forEach((x) => {
+              <td>{WC.maxRouteComp.length === 0 ? 0 : Math.round((function () { let i = 0; WC.maxRouteComp.forEach((x) => {
                 
-                 i += (wm.charMap[x].wordClass["ROUTE"] ? wm.charMap[x].wordClass["ROUTE"].length : 0 +
-                  wm.charMap[x].wordClass["RETURN"] ? wm.charMap[x].wordClass["RETURN"].length : 0); 
-                }); return i; }()) / (wm.maxRouteComp.length) * 10000) / 10000}</td>
+                 i += (WC.charMap[x].wordClass["ROUTE"] ? WC.charMap[x].wordClass["ROUTE"].length : 0 +
+                 WC.charMap[x].wordClass["RETURN"] ? WC.charMap[x].wordClass["RETURN"].length : 0); 
+                }); return i; }()) / (WC.maxRouteComp.length) * 10000) / 10000}</td>
             </tr>
           </tbody>
         </Table>

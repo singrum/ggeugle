@@ -1,12 +1,8 @@
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import { useState } from 'react';
-import CharButton from './CharButton';
 
 
 function CharOffcanvas(props) {
-  
-  
   function RadioButton(props2) {
     return (
       <div className='toggle-wrap'>

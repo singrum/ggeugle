@@ -2,16 +2,9 @@ import * as Hangul from 'hangul-js';
 const sc = (char) => char.charCodeAt(0);//string to charcode
 const cs = (code) => String.fromCharCode(code);//code to string
 
-const f = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ',
-'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ',
-'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
-const s = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ',
-'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ',
-'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'];
-const t = ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ',
-'ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ',
-'ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ',
-'ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+const f = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ','ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ','ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
+const s = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ','ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ','ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅣ'];
+const t = ['', 'ㄱ', 'ㄲ', 'ㄳ', 'ㄴ', 'ㄵ', 'ㄶ','ㄷ', 'ㄹ', 'ㄺ', 'ㄻ', 'ㄼ', 'ㄽ', 'ㄾ','ㄿ', 'ㅀ', 'ㅁ', 'ㅂ', 'ㅄ', 'ㅅ', 'ㅆ','ㅇ', 'ㅈ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
 const ga = 44032;
 
 function getConstantVowel(kor) {
@@ -300,6 +293,13 @@ class Rule {
     this.tail_index = tail_index;
     this.manner = manner
     
+  }
+  getRuleObj(){
+    return {
+      head_index : this.head_index,
+      tail_index : this.tail_index,
+      changable_index : this.changable_index
+    }
   }
   head(word) { return word[this.head_index >= 0 ? this.head_index : word.length + this.head_index]; }
   tail(word) { return word[this.tail_index >= 0 ? this.tail_index : word.length + this.tail_index]; }
@@ -1122,7 +1122,7 @@ class WCengine{
     return first ? losWords : false
   }
   winWord2(char){
-    let mcts = new MCTS(new Turn(undefined, char,this, []), 700)
+    let mcts = new MCTS(new Turn(undefined, char,this, []), 1000)
     return mcts
   }
   remove_hanbang(){
@@ -1142,18 +1142,19 @@ class WCengine{
 class MCTS{
   constructor(rootTurn, cnt = 100){
     this.root = rootTurn
-    for(let i = 0; i<cnt; i++){
-      this.learn()
-    }
-    let max = this.root.children.reduce((a,b) => (1 - a.w / a.n > 1 - b.w / b.n) ? 1 - a.w / a.n : 1 - b.w / b.n)
-    // if(max < 0.6 && max > 0.4){
-    //   for(let i = 0; i<cnt; i++){
-    //     this.learn()
-    //   } 
-    // }
     
-
-    this.winTurn = this.root.children.reduce((prev, curr)=>(curr.w/curr.n > prev.w / prev.n) ? prev : curr)
+  }
+  getWinWord(){
+    const winTurn = this.root.children.reduce((prev, curr)=>(curr.w/curr.n > prev.w / prev.n) ? prev : curr)
+    return winTurn.prevWord
+  }
+  
+  getChart(){
+    let chart = {}
+    for(let child of this.root.children){
+      chart[child.prevWord] = (1 - child.w / child.n)
+    }
+    return chart
   }
   learn(){
     
@@ -1301,6 +1302,13 @@ class Turn{
   }
 
   getNextRoute(){
+    if(!this.currChar){
+      let nextRoute = this.WCengine.routeChars  
+      return nextRoute
+    }
+
+
+
     if(!(this.currChar in this.WCengine.charMap)){
       let chan = this.WCengine.rule.changable(this.currChar)
       for(let c of chan){
@@ -1312,7 +1320,7 @@ class Turn{
     }
     let map = this.WCengine.charMap[this.currChar]
     if(!map){
-      console.log(this)
+      console.log("error 2")
     }
     if(!map || map.sorted !== ROUTE){
       return []
@@ -1331,4 +1339,13 @@ class Turn{
 
 
 
-export { LOS, WIN, LOSCIR, WINCIR, ROUTE, Rule, WCengine, Turn }
+
+
+
+
+
+
+
+
+
+export { LOS, WIN, LOSCIR, WINCIR, ROUTE, Rule, WCengine, Turn, MCTS }
