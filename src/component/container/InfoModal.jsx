@@ -40,8 +40,8 @@ export default function StatModal({ modalShow, setModalShow }) {
         <h2 className='info-text title-text'>DB 제공</h2>
         <span className='info-text' >
           <div className='info-link' onClick={() => window.open('https://github.com/korean-word-game/db')}><img className="link-icon" src={"icon/link_FILL0_wght400_GRAD0_opsz24.svg"} /><span>(구)표준국어대사전</span></div>
-          <div className='info-link' onClick={() => window.open('https://stdict.korean.go.kr/main/main.do')}><img className="link-icon" src={"icon/link_FILL0_wght400_GRAD0_opsz24.svg"} /><span>(신)표준국어대사전</span></div>
-          <div className='info-link' onClick={() => window.open('https://opendict.korean.go.kr/main')}><img className="link-icon" src={"icon/link_FILL0_wght400_GRAD0_opsz24.svg"} /><span>우리말샘</span></div>
+          <div className='info-link' onClick={() => window.open('https://stdict.korean.go.kr/main/main.do')}><img className="link-icon" src={"icon/link_FILL0_wght400_GRAD0_opsz24.svg"} /><span>(신)표준국어대사전(2024.01)</span></div>
+          <div className='info-link' onClick={() => window.open('https://opendict.korean.go.kr/main')}><img className="link-icon" src={"icon/link_FILL0_wght400_GRAD0_opsz24.svg"} /><span>우리말샘(2024.01)</span></div>
         </span>
         <br />
         <h2 className='info-text title-text'>링크</h2>
