@@ -23,10 +23,10 @@ function ModeSwitch({mode, setmode}) {
     return (
       <>
         <div className="switch-mode-btn-set">
-            <RadioButton style = {{color : mode === "0" ? "#222222": "#666666"}} mode = {mode} setmode = {setmode} variant='light' className = "switch-mode-btn" value="0">검색</RadioButton>
-            <RadioButton style = {{color : mode === "2" ? "#222222": "#666666"}} mode = {mode} setmode = {setmode} variant='light' className = "switch-mode-btn" value="2">분석</RadioButton>
-            <RadioButton style = {{color : mode === "1" ? "#222222": "#666666"}} mode = {mode} setmode = {setmode} variant='light' className = "switch-mode-btn" value="1">연습</RadioButton>
-            <RadioButton style = {{color : mode === "3" ? "#222222": "#666666"}} mode = {mode} setmode = {setmode} variant='light' className = "switch-mode-btn" value="3">룰 정보</RadioButton>
+            <RadioButton style = {{color : mode === "0" ? "#222222": "#666666", fontWeight : mode === "0" ? "600": "500"}} mode = {mode} setmode = {setmode} variant='light' className = "switch-mode-btn" value="0">검색</RadioButton>
+            <RadioButton style = {{color : mode === "2" ? "#222222": "#666666",fontWeight : mode === "2" ? "600": "500"}} mode = {mode} setmode = {setmode} variant='light' className = "switch-mode-btn" value="2">분석</RadioButton>
+            <RadioButton style = {{color : mode === "1" ? "#222222": "#666666",fontWeight : mode === "1" ? "600": "500"}} mode = {mode} setmode = {setmode} variant='light' className = "switch-mode-btn" value="1">연습</RadioButton>
+            <RadioButton style = {{color : mode === "3" ? "#222222": "#666666",fontWeight : mode === "3" ? "600": "500"}} mode = {mode} setmode = {setmode} variant='light' className = "switch-mode-btn" value="3">룰 정보</RadioButton>
         </div>
       </>
     )

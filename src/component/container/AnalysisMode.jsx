@@ -130,7 +130,7 @@ export default function AnalysisMode({ display }) {
         </div>
       </div>
       <div className='analysis-result'>
-        <div className="analysis-num"><b>시뮬레이션</b> : {simulNum} 회</div>
+        <div className="analysis-num"><span className='title'>시뮬레이션</span> : {simulNum} 회</div>
         <div className="chart-wrap">
           {chart}
         </div>
