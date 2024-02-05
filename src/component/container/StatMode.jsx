@@ -44,10 +44,9 @@ export default function StatMode({display}) {
             <tr>
               <td>루트 복잡도</td>
               <td>{WC.maxRouteComp.length === 0 ? 0 : Math.round((function () { let i = 0; WC.maxRouteComp.forEach((x) => {
-                 i += (WC.charMap[x].wordClass["ROUTE"] ? WC.charMap[x].wordClass["ROUTE"].length : 0 +
-                 WC.charMap[x].wordClass["RETURN"] ? WC.charMap[x].wordClass["RETURN"].length : 0); 
+                 i += (WC.charMap[x].wordClass["ROUTE"] ? WC.charMap[x].wordClass["ROUTE"].length : 0); 
                 }); return i; }()) / (WC.maxRouteComp.length) * 10000) / 10000}</td>
-              <td>7.1705</td>
+              <td>7.1591</td>
             </tr>
           </tbody>
         </Table>

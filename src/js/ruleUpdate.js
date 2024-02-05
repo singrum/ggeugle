@@ -66,8 +66,10 @@ async function getData(rule) {
     params.manner
   );
   let wm = new WCengine(r);
+  
   wm.word_list = Array.from(new Set(wordList.filter(x => x && lenFilter(x))));
   wm.update()
+  
   wm.getRouteComp()
   console.log("단어 분류 완료")
 

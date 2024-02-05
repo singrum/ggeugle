@@ -24,6 +24,13 @@ function getConstantVowel(kor) {
   return [f[fn],s[sn],t[tn]]
 }
 
+function size(obj){
+  return Object.keys(obj).length
+}
+function isEmpty(obj){
+  return size(obj) === 0
+}
+
 const banjeonMap = {
   "ㅏ" : "ㅓ",
   "ㅑ" : "ㅕ",
@@ -310,8 +317,6 @@ const WIN = 2
 const WINCIR = 3
 const LOSCIR = 4
 const ROUTE = 5
-
-
 
 class WCengine{
   constructor(rule){
@@ -1379,9 +1384,119 @@ function randomSelectWithWeights(arr, weights){
 
 
 
+// WCgraph : 두법 무시한 단어 그래프(다중 유향 그래프)
+// chanGraph : 두법 그래프(단순 유향 그래프)
+class WCengine2{
+  constructor(rule){
+    this.rule = rule
+  }
+  update(){
+    this.chars = new Set()
+    for(let word of this.word_list){
+      let head = this.rule.head(word)
+      let tail = this.rule.tail(word)
+      this.chars.add(head).add(tail)
+    } 
+    this.chars = Array.from(this.chars)
+    // WCgraph
+    this.WCgraph = {}
+    
+    for(let char of this.chars){
+      this.WCgraph[char] = {}
+      this.WCgraph[char].successors = {}
+      this.WCgraph[char].predecessors = {}
+    }
+    for(let word of this.word_list){
+      let head = this.rule.head(word)
+      let tail = this.rule.tail(word)
+      this.WCgraph[head].successors[tail] = this.WCgraph[head].successors[tail] || 0
+      this.WCgraph[head].successors[tail]++
+      this.WCgraph[tail].predecessors[head] = this.WCgraph[tail].predecessors[head] || 0
+      this.WCgraph[tail].predecessors[head]++
+    } 
+    
+    // chanGraph
+    this.chanGraph = {}
+    for(let char of this.chars){
+      this.chanGraph[char] = {}
+    }
+    for(let char of this.chars){
+      this.chanGraph[char].successors = this.rule.changable(char).filter(e=>this.chanGraph[e])
+      this.chanGraph[char].predecessors = [] 
+    }
+    for(let char of this.chars){
+      for(let chan of this.chanGraph[char].successors){
+        if(this.chanGraph[chan]){
+          this.chanGraph[chan].predecessors.push(char)
+        }    
+      }
+    }
+    // charMap
+    this.charMap = {}
+    for(let char of this.chars){
+      
+      
+      this.charMap[char] = {cnt : 
+        this.chanGraph[char].successors.reduce((a,b)=>a + size(this.WCgraph[b].successors), 0)}
+    }
+    this._sortChar()
+    this._sortCirChar()
+  }
+  _sortChar(){
+    let degree = 0 
+    let updatedLosChars = this.chars.filter(e=>isEmpty(this.WCgraph[e].successors))
+    updatedLosChars = updatedLosChars.filter(e=>this.chanGraph[e].successors.every(e=>updatedLosChars.includes(e)))
+    for(let char of updatedLosChars){
+      this.charMap[char].sorted = LOS
+      this.charMap[char].degree = degree
+      this.charMap[char].hanbang = true
+    }
+    
+    while(updatedLosChars.length !==0){
+      degree ++
+      let updatedWinChars = []
+      let predecessors = new Set()
+      for(let los of updatedLosChars){
+        for(let pred in this.WCgraph[los].predecessors){
+          predecessors.add(pred)
+        }
+      }
+      for(let win of predecessors){
+        for(let chan of this.chanGraph[win].predecessors){
+          if(this.charMap[chan].sorted){
+            continue
+          } 
+          updatedWinChars.push(chan)
+          this.charMap[chan].sorted = WIN
+          this.charMap[chan].degree = degree
+        }
+      }
+      updatedLosChars = []
+      for(let win of updatedWinChars){
+        for(let los in this.WCgraph[win].predecessors){
+          for(let chan of this.chanGraph[los].predecessors){
+            if(this.charMap[chan].sorted){
+              continue
+            }
+            this.charMap[chan].cnt--
+            if(this.charMap[chan].cnt > 0){
+              continue
+            }
+            this.charMap[chan].sorted = LOS
+            this.charMap[chan].degree = -degree
+            updatedLosChars.push(chan)
+          }
+        }
+      }
+    }
+    
+  }
+  _sortCirChar(){
+
+  }
+}
 
 
 
 
-
-export { LOS, WIN, LOSCIR, WINCIR, ROUTE, Rule, WCengine, Turn, MCTS }
+export { LOS, WIN, LOSCIR, WINCIR, ROUTE, Rule, WCengine, Turn, MCTS}
