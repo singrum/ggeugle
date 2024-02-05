@@ -24,6 +24,13 @@ function getConstantVowel(kor) {
   return [f[fn],s[sn],t[tn]]
 }
 
+function size(obj){
+  return Object.keys(obj).length
+}
+function isEmpty(obj){
+  return size(obj) === 0
+}
+
 const banjeonMap = {
   "ㅏ" : "ㅓ",
   "ㅑ" : "ㅕ",
@@ -310,8 +317,6 @@ const WIN = 2
 const WINCIR = 3
 const LOSCIR = 4
 const ROUTE = 5
-
-
 
 class WCengine{
   constructor(rule){
@@ -655,9 +660,23 @@ class WCengine{
           this.charMap[cirChar].loopWords.add(cirWords)
           continue
         }
+        let reverseChan = this.charMap[cirChar].reverseChangable
+        if(reverseChan.includes(this.rule.tail(cirWords)) && 
+          this.charMap[this.rule.tail(cirWords)].outCirWords.length === this.charMap[cirChar].outCirWords.length){
+            this.charMap[cirChar].loopWords.add(cirWords)
+          continue
+        }
         for(let next_next of this.charMap[this.rule.tail(cirWords)].outCirWords){
-          if(this.charMap[cirChar].changable.includes(this.rule.tail(next_next)) &&
-          !this.charMap[cirChar].returnWords.has(next_next)){
+          if(this.charMap[cirChar].returnWords.has(next_next)){
+            continue
+          }
+          if(this.charMap[cirChar].changable.includes(this.rule.tail(next_next))){
+            this.charMap[cirChar].returnWords.add(cirWords);
+            this.charMap[cirChar].returnWords.add(next_next);
+            break
+          }
+          if(this.charMap[cirChar].reverseChangable.includes(this.rule.tail(next_next)) && 
+          this.charMap[this.rule.tail(next_next)].outCirWords.length === this.charMap[cirChar].outCirWords.length){
             this.charMap[cirChar].returnWords.add(cirWords);
             this.charMap[cirChar].returnWords.add(next_next);
             break
@@ -1140,7 +1159,7 @@ class WCengine{
 }
 
 class MCTS{
-  constructor(rootTurn, cnt = 100){
+  constructor(rootTurn){
     this.root = rootTurn
   }
   getWinWord(){
@@ -1201,8 +1220,6 @@ class MCTS{
     
     let turn = stack.pop()
     let parity = false
-    // console.log("back")
-    // console.log(win + "출발")
     
     while(turn){
       turn.n += 1
@@ -1220,11 +1237,21 @@ class Turn{
     this.prevWord = prevWord
     this.WCengine = WCengine
     this.currChar = currChar
+    if(!(this.currChar in this.WCengine.charMap)){
+      let chan = this.WCengine.rule.changable(this.currChar)
+      for(let c of chan){
+        if(c in this.WCengine.charMap){
+          this.currChar = c
+          break
+        }
+      }
+    }
+
     this.except = except
     this.n = 0
     this.w = 0
     this.children = []
-    this.nextRoute = this.getNextRoute()
+    this.nextRoute = this.getNextRoute(this.currChar)
     this.parent = undefined
   } 
   UTC(){
@@ -1283,14 +1310,15 @@ class Turn{
     
     // console.log("simulate start")
     while(turn.nextRoute.length > 0){
-      let route = turn.nextRoute[Math.floor(Math.random() * turn.nextRoute.length)]
+      let probMap = turn.nextRoute.map(e=>1 / (this.getNextRoute(this.WCengine.rule.tail(e)).length))
+      
+      let route = randomSelectWithWeights(turn.nextRoute, probMap)
       turn = turn.getTurnFromRoute(route)
-    
       parity = !parity
     }
-    // console.log("simulate end")
     // 밑의 조건이 충족되는 경우 존재함 -> 버그
     if(!turn.WCengine.charMap[turn.currChar]){
+      // console.log(Object.keys(turn.WCengine.charMap))
       console.log("error 2 (해결)")
       return parity
     }
@@ -1304,22 +1332,23 @@ class Turn{
     console.log("error 1 (해결)")
   }
 
-  getNextRoute(){
-    if(!this.currChar){
+  getNextRoute(char){
+    if(!char){
       let nextRoute = this.WCengine.routeChars  
       return nextRoute
     }
 
-    if(!(this.currChar in this.WCengine.charMap)){
-      let chan = this.WCengine.rule.changable(this.currChar)
+    if(!(char in this.WCengine.charMap)){
+      let chan = this.WCengine.rule.changable(char)
       for(let c of chan){
         if(c in this.WCengine.charMap){
-          this.currChar = c
+          char = c
           break
         }
       }
     }
-    let map = this.WCengine.charMap[this.currChar]
+
+    let map = this.WCengine.charMap[char]
 
     if(!map || map.sorted !== ROUTE){
       return []
@@ -1336,15 +1365,138 @@ class Turn{
 }
 
 
+function randomSelectWithWeights(arr, weights){
+  const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+  const randomValue = Math.random() * totalWeight;
+
+  let cumulativeWeight = 0;
+  let index;
+  for (index = 0; index < weights.length; index++) {
+    cumulativeWeight += weights[index];
+    if (randomValue <= cumulativeWeight) {
+      break
+    }
+  }
+  return arr[index]
+}
 
 
 
 
 
+// WCgraph : 두법 무시한 단어 그래프(다중 유향 그래프)
+// chanGraph : 두법 그래프(단순 유향 그래프)
+class WCengine2{
+  constructor(rule){
+    this.rule = rule
+  }
+  update(){
+    this.chars = new Set()
+    for(let word of this.word_list){
+      let head = this.rule.head(word)
+      let tail = this.rule.tail(word)
+      this.chars.add(head).add(tail)
+    } 
+    this.chars = Array.from(this.chars)
+    // WCgraph
+    this.WCgraph = {}
+    
+    for(let char of this.chars){
+      this.WCgraph[char] = {}
+      this.WCgraph[char].successors = {}
+      this.WCgraph[char].predecessors = {}
+    }
+    for(let word of this.word_list){
+      let head = this.rule.head(word)
+      let tail = this.rule.tail(word)
+      this.WCgraph[head].successors[tail] = this.WCgraph[head].successors[tail] || 0
+      this.WCgraph[head].successors[tail]++
+      this.WCgraph[tail].predecessors[head] = this.WCgraph[tail].predecessors[head] || 0
+      this.WCgraph[tail].predecessors[head]++
+    } 
+    
+    // chanGraph
+    this.chanGraph = {}
+    for(let char of this.chars){
+      this.chanGraph[char] = {}
+    }
+    for(let char of this.chars){
+      this.chanGraph[char].successors = this.rule.changable(char).filter(e=>this.chanGraph[e])
+      this.chanGraph[char].predecessors = [] 
+    }
+    for(let char of this.chars){
+      for(let chan of this.chanGraph[char].successors){
+        if(this.chanGraph[chan]){
+          this.chanGraph[chan].predecessors.push(char)
+        }    
+      }
+    }
+    // charMap
+    this.charMap = {}
+    for(let char of this.chars){
+      
+      
+      this.charMap[char] = {cnt : 
+        this.chanGraph[char].successors.reduce((a,b)=>a + size(this.WCgraph[b].successors), 0)}
+    }
+    this._sortChar()
+    this._sortCirChar()
+  }
+  _sortChar(){
+    let degree = 0 
+    let updatedLosChars = this.chars.filter(e=>isEmpty(this.WCgraph[e].successors))
+    updatedLosChars = updatedLosChars.filter(e=>this.chanGraph[e].successors.every(e=>updatedLosChars.includes(e)))
+    for(let char of updatedLosChars){
+      this.charMap[char].sorted = LOS
+      this.charMap[char].degree = degree
+      this.charMap[char].hanbang = true
+    }
+    
+    while(updatedLosChars.length !==0){
+      degree ++
+      let updatedWinChars = []
+      let predecessors = new Set()
+      for(let los of updatedLosChars){
+        for(let pred in this.WCgraph[los].predecessors){
+          predecessors.add(pred)
+        }
+      }
+      for(let win of predecessors){
+        for(let chan of this.chanGraph[win].predecessors){
+          if(this.charMap[chan].sorted){
+            continue
+          } 
+          updatedWinChars.push(chan)
+          this.charMap[chan].sorted = WIN
+          this.charMap[chan].degree = degree
+        }
+      }
+      updatedLosChars = []
+      for(let win of updatedWinChars){
+        for(let los in this.WCgraph[win].predecessors){
+          for(let chan of this.chanGraph[los].predecessors){
+            if(this.charMap[chan].sorted){
+              continue
+            }
+            this.charMap[chan].cnt--
+            if(this.charMap[chan].cnt > 0){
+              continue
+            }
+            this.charMap[chan].sorted = LOS
+            this.charMap[chan].degree = -degree
+            updatedLosChars.push(chan)
+          }
+        }
+      }
+    }
+    
+  }
+  _sortCirChar(){
+
+  }
+}
 
 
 
 
-
-
-export { LOS, WIN, LOSCIR, WINCIR, ROUTE, Rule, WCengine, Turn, MCTS }
+export { LOS, WIN, LOSCIR, WINCIR, ROUTE, Rule, WCengine, Turn, MCTS}

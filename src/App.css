@@ -610,7 +610,8 @@ body {
 .analysis-box{
   padding : 1rem 1rem 0 1rem
 }
-.analysis-box .title{
+.analysis-box .title,
+.analysis-result .title{
   font-weight: 600;
 }
 .analysis-box .word-btn-card-set{
