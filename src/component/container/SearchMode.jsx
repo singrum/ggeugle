@@ -24,7 +24,7 @@ function SearchMode({display}) {
   const [radioValue, setRadioValue] = useState('0');
   const [search, setSearch] = useState("");
   const [input, setInput] = useState("");
-
+  const [first, setFirst] = useState(true);
 
   const applySearch = useCallback(() => {
     if (!WC) { return; }
@@ -235,6 +235,8 @@ function SearchMode({display}) {
 
   useEffect(() => {
     if (!WC) { return; }
+    const chars = Object.keys(WC.charMap)
+    if(first){setInput(chars[Math.floor(Math.random() * chars.length)]); setFirst(false);}
     applySearch();
     const winCharCards = []
     for (let i in WC.winCharClass) {
@@ -251,7 +253,7 @@ function SearchMode({display}) {
     winCharCards.push(
       (
         <CharButtonCard key={`win-cir`} caption={"조건부 승리"}>
-            {Array.from(WC.winCirChars).sort().map(e =>
+            {WC.winCirChars.sort().map(e =>
               (<CharButton key={`win-cir-${e}`} type="win" strength={`${0}`} onClick={() => { setInput(e); }}>{`${e}`}</CharButton>)
             )}
         </CharButtonCard>
@@ -277,7 +279,7 @@ function SearchMode({display}) {
     losCharCards.push(
       (
         <CharButtonCard key={`los-cir`} caption={"조건부 패배"}>
-            {Array.from(WC.losCirChars).sort().map(e =>
+            {WC.losCirChars.sort().map(e =>
               (<CharButton key={`los-cir-${e}`} type="los" strength={`${0}`} onClick={() => { setInput(e); }}>{`${e}`}</CharButton>)
             )}
         </CharButtonCard>
@@ -309,8 +311,9 @@ function SearchMode({display}) {
     setSearch(input)
     scrollToTop()
   }, [input])
-
+  
   useEffect(applySearch, [search])
+  
 
 
 
