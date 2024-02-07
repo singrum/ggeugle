@@ -127,7 +127,9 @@ const analysisExhaustive = (data) => {
   
   function isWin(turn) {
     stack.push(turn.prevWord)
+    
     if (turn.nextRoute.length === 0) {
+      
       let type = turn.WCengine.charMap[turn.currChar].sorted
       if (type === WINCIR || type === WIN) {
         self.postMessage({trail : stack})

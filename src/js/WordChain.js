@@ -693,7 +693,9 @@ class WCengine {
             this.charMap[cirChar].returnWords.add(next_next);
             break
           }
-          if (this.charMap[cirChar].reverseChangable.includes(this.rule.tail(next_next)) &&
+          
+          // this.charMap[cirChar].reverseChangable.flatMap(this.charMap[cirChar].changable.includes(this.rule.tail(next_next)))
+          if (this.charMap[cirChar].changable.flatMap(e=>this.charMap[e].reverseChangable).includes(this.rule.tail(next_next)) &&
             this.charMap[this.rule.tail(next_next)].outCirWords.length === this.charMap[cirChar].outCirWords.length) {
             this.charMap[cirChar].returnWords.add(cirWords);
             this.charMap[cirChar].returnWords.add(next_next);
@@ -1392,7 +1394,7 @@ class Turn {
     let nextRoute = map.wordClass["ROUTE"].filter(e => !this.except.includes(e))
     if (map.loopWords && map.loopWords.size % 2 === 0) {
       nextRoute = nextRoute.filter(word => !map.loopWords.has(word))
-    }
+    } 
     nextRoute = nextRoute.filter(word => nextRoute.find(e => this.WCengine.rule.tail(e) === this.WCengine.rule.tail(word)) === word)
     return nextRoute
   }
