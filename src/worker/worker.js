@@ -1,4 +1,4 @@
-import { WCengine, Rule, MCTS, Turn, WIN, LOS, WINCIR, LOSCIR, ROUTE } from "../js/WordChain"
+import { WCengine, Rule, MCTS, Turn, WIN, LOS, WINCIR, LOSCIR, ROUTE} from "../js/WordChain"
 
 const heuristic = (currChar, wc)=>{ 
   if (!currChar){
@@ -76,12 +76,13 @@ const analysis = (data)=>{
   wc.update()
   const mcts = new MCTS(new Turn(undefined, data.currChar, wc, []))
   
-  for(let i = 0; i < 100000; i++){
+  for(let i = 0; i < 10000; i++){
     for(let j = 0;j<100;j++){
       mcts.learn()
     }
     const chart = mcts.getChart()
-    self.postMessage({chart, num : (i + 1) * 100, terminate : false})  
+    const trail = mcts.getTrail()
+    self.postMessage({chart, num : (i + 1) * 100, terminate : false, trail})  
   }
   
 }

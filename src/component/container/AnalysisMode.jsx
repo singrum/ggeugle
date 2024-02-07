@@ -17,6 +17,7 @@ export default function AnalysisMode({ display }) {
   const [chart, setChart] = useState()
   const [isAnalysis, setIsAnalysis] = useState(false)
   const [simulNum, setSimulNum] = useState(0)
+  const [simulTrail, setSimulTrail] = useState([])
   const id = useRef(0);
   const WCworker = useRef()
   const onWordInputChange = e => {
@@ -62,6 +63,7 @@ export default function AnalysisMode({ display }) {
       WCworker.current.onmessage = ({ data }) => {
         setChart(getChart(data.chart))
         setSimulNum(data.num)
+        setSimulTrail(data.trail)
         if (data.num >= 1000000 || data.terminate === true) {
 
           setIsAnalysis(false)
@@ -131,6 +133,7 @@ export default function AnalysisMode({ display }) {
       </div>
       <div className='analysis-result'>
         <div className="analysis-num"><span className='title'>시뮬레이션</span> : {simulNum} 회</div>
+        <div className="analysis-trail">{simulTrail.join(" - ")}</div>
         <div className="chart-wrap">
           {chart}
         </div>

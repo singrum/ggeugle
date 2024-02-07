@@ -317,6 +317,7 @@ const WIN = 2
 const WINCIR = 3
 const LOSCIR = 4
 const ROUTE = 5
+const IDK = 6
 
 class WCengine{
   constructor(rule){
@@ -1158,6 +1159,8 @@ class WCengine{
   }
 }
 
+
+
 class MCTS{
   constructor(rootTurn){
     this.root = rootTurn
@@ -1165,6 +1168,19 @@ class MCTS{
   getWinWord(){
     const winTurn = this.root.children.reduce((prev, curr)=>(curr.w/curr.n > prev.w / prev.n) ? prev : curr)
     return winTurn.prevWord
+  }
+  getTrail(){
+    const trail = []
+    let turn = this.root
+    let winTurn;
+    while(turn.children.length > 0){
+      winTurn = turn.children.reduce((prev, curr)=>(curr.n < prev.n) ? prev : curr)
+      if(turn.prevWord){
+        trail.push(turn.prevWord)
+      }
+      turn = winTurn
+    }
+    return trail
   }
   
   getChart(){
@@ -1204,10 +1220,9 @@ class MCTS{
       stack.push(newSelected)
 
       // 방금 추가한 것에서 simulation, backprop
-
       let win = newSelected.simulate() // true : win, false : los
-
       this.backprop(stack, win)
+      
     }
     
     
@@ -1330,6 +1345,27 @@ class Turn{
       return parity
     }
     console.log("error 1 (해결)")
+  }
+
+  randomSimulate(){
+    let parity = false
+    
+    // console.log("simulate start")
+    const history = []
+    let currChar = this.currChar
+
+    while(true){
+      let nextRoutes = this.getNextRoute(currChar).filter(e=>!history.includes(e))
+      if(nextRoutes.length === 0) break;
+      let nextRoute = nextRoutes[Math.floor(Math.random() * nextRoutes.length)]
+      history.push(nextRoute)
+
+      parity = !parity
+      currChar = this.WCengine.rule.tail(nextRoute)
+    }
+    return parity
+
+
   }
 
   getNextRoute(char){
