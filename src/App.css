@@ -562,7 +562,7 @@ body {
 }
 
 .stat-box{
-  margin-top : 1rem
+  margin : 1rem
 }
 
 
@@ -709,6 +709,14 @@ th{
 .analysis-box select{
   margin-top: 0.5rem;
 }
+
+.analysis-box .form-select:focus, .analysis-box .form-select:active, .analysis-box .form-select:focus-visible{
+  border : var(--bs-border-width) solid var(--bs-border-color) !important;
+  outline: none !important;
+  box-shadow: none;
+}
+
+
 .padding{
   height : 500px
 }

@@ -88,7 +88,7 @@ export default function AnalysisMode({ display }) {
                 ...curr,
                 <div className="chart-item" key={data.word}>
                   <CharButton key={`${data.word}`} type="cir" strength={`${0}`}>{data.word}
-                    <img className="delete-icon" onClick={() => { if (word.length === 1) { setCharInput(data.word); return } addExceptWord(data.word) }} src="icon/add_FILL0_wght400_GRAD0_opsz24.svg" /></CharButton>
+                    <img className="delete-icon" onClick={() => { if (data.word.length === 1) { setCharInput(data.word); return } addExceptWord(data.word) }} src="icon/add_FILL0_wght400_GRAD0_opsz24.svg" /></CharButton>
                   <span className="analysis-exhaustive-result">
                     {data.win ? "승" : "패"}
                   </span>
