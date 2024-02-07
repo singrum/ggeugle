@@ -668,7 +668,8 @@ body {
   
 }
 .chart-item{
-  margin : 1rem 0 1rem 0
+  margin : 1rem 0 1rem 0;
+  vertical-align: middle ;
 }
 .progress-bar{
   display : inline;
@@ -688,7 +689,7 @@ body {
 ul{
   padding-left: 1.5rem;
 }
-.analysis-trail{
+.overflow{
   overflow: auto;
   white-space: nowrap;
   /* text-align: center; */
@@ -704,4 +705,15 @@ td, th{
 }
 th{
   border-width: 0 !important;
+}
+.analysis-box select{
+  margin-top: 0.5rem;
+}
+.padding{
+  height : 500px
+}
+.analysis-exhaustive-result{
+  font-weight : 600;
+  font-size: 1.1rem;
+  margin-left : 0.5rem
 }

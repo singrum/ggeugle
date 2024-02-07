@@ -1,4 +1,4 @@
-import { WCengine, Rule, MCTS, Turn} from "./WordChain"
+import { WCengine, Rule} from "./WordChain"
 
 
 

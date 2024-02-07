@@ -1,6 +1,6 @@
 import { WCcontext } from "../../context/WCcontext";
 import { useContext, useState, useCallback, useEffect } from "react";
-import { Rule ,WCengine, Turn, LOS, WIN, LOSCIR, WINCIR, ROUTE} from "../../js/WordChain"
+import { LOS, WIN, LOSCIR, WINCIR, ROUTE} from "../../js/WordChain"
 import Search from './Search';
 import WordBox from "../presentation/WordBox";
 import CharOffcanvas from "./CharOffcanvas";
@@ -51,7 +51,7 @@ function SearchMode({display}) {
       }
       if(wc["ROUTE"]){
         result.push((
-          <CharButtonCard key={`cir-0`} caption={"루트 단어"}>
+          <CharButtonCard key={`cir-0`} caption={"루트단어"}>
           {wc["ROUTE"].sort((a, b) => WC.rule.tail(a).localeCompare(WC.rule.tail(b))).map(e =>
             (<CharButton key={`cir-0-${e}`} type="cir" strength={`0`} onClick={() => { setInput(WC.rule.tail(e)) }}>{`${e}`}</CharButton>)
           )}
