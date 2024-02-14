@@ -142,7 +142,7 @@ const analysisExhaustive = (data) => {
         return false
       }
     }
-    
+    // 여기서 nextRoute의 wordclass가 존재안함
     const nextRoute = turn.nextRoute.sort((a, b) =>
       turn.WCengine.charMap[turn.WCengine.rule.tail(a)].wordClass["ROUTE"]?.length -
       turn.WCengine.charMap[turn.WCengine.rule.tail(b)].wordClass["ROUTE"]?.length)
