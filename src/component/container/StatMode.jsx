@@ -25,7 +25,7 @@ export default function StatMode({ display }) {
             <td>{WC.winCirChars.length}</td>
             <td></td>
           </tr>]);
-        setLosCharTable(Object.keys(WC.losCharClass).map(i =>
+        setLosCharTable(Object.keys(WC.losCharClass).sort((a,b)=>-parseInt(a) + parseInt(b)).map(i =>
         (<tr key={`los-char-${-i}`} className = "sub-row">
           <td>{`${-i}턴 후 패배`}</td>
           <td>{WC.losCharClass[i].length}</td>
