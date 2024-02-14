@@ -142,10 +142,10 @@ const analysisExhaustive = (data) => {
         return false
       }
     }
-
+    
     const nextRoute = turn.nextRoute.sort((a, b) =>
-      turn.WCengine.charMap[turn.WCengine.rule.tail(a)].wordClass["ROUTE"].length -
-      turn.WCengine.charMap[turn.WCengine.rule.tail(b)].wordClass["ROUTE"].length)
+      turn.WCengine.charMap[turn.WCengine.rule.tail(a)].wordClass["ROUTE"]?.length -
+      turn.WCengine.charMap[turn.WCengine.rule.tail(b)].wordClass["ROUTE"]?.length)
     for (let next of nextRoute) {
       const nextTurn = turn.getTurnFromRoute(next)
       if (!isWin(nextTurn)) {
