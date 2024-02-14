@@ -74,7 +74,7 @@
 
 분석
 ---------
-끝말잇기에서 서로 지지 않기 위해서 루트단어를 말하게 되며, 이것을 **루트전** 이라고 하며 현시대 끝말잇기의 메인 컨텐츠입니다. 루트전에서 이기기 위해선 복잡한 수를 읽어야 합니다. 루트전의 승리전략을 찾는 문제는 [**PSPACE-Complete**](https://en.wikipedia.org/wiki/PSPACE-complete)클래스에 속합니다.  
+끝말잇기에서 서로 지지 않기 위해서 루트단어를 말하게 되며, 이것을 **루트전** 이라고 하며 현시대 끝말잇기의 메인 컨텐츠입니다. 루트전에서 이기기 위해선 복잡한 수를 읽어야 합니다. 루트전의 승리전략을 찾는 문제는 [**PSPACE-Complete**](https://en.wikipedia.org/wiki/PSPACE-complete)클래스에 속합니다.<sup>[[1]](#foot_1)</sup>  
 끄글은 [몬테카를로 트리 탐색](https://en.wikipedia.org/wiki/Monte_Carlo_tree_search)과 완전 탐색 등 루트전을 분석하는 도구를 제공합니다.
 
 
@@ -82,3 +82,4 @@
 ---------
 룰 정보 버튼을 클릭하면 설정된 룰에 대한 대푯값을 볼 수 있습니다. 대푯값은 **단어 수**, **음절 수**, **승리음절 수**, **패배음절 수**, **주요루트음절 수**, **주요루트음절 수(평균)**(루트단어 수 / 루트음절 수) 가 있으며 룰을 나타내는 지표가 됩니다.
 
+<a name="foot_1">[1]</a>: ["Generalized geography"](https://en.wikipedia.org/wiki/Generalized_geography). *Wikipedia*. 
