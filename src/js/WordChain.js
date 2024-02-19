@@ -95,13 +95,6 @@ function getConstantVowel(kor) {
   return [f[fn], s[sn], t[tn]];
 }
 
-function size(obj) {
-  return Object.keys(obj).length;
-}
-function isEmpty(obj) {
-  return size(obj) === 0;
-}
-
 function randomSelectWithWeights(arr, weights) {
   const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
   const randomValue = Math.random() * totalWeight;
@@ -491,7 +484,6 @@ const WIN = 2;
 const WINCIR = 3;
 const LOSCIR = 4;
 const ROUTE = 5;
-const IDK = 6;
 
 class WCengine {
   constructor(rule) {
@@ -751,7 +743,7 @@ class WCengine {
       let headChangable = this.charMap[head].reverseChangable;
 
       let tail = this.rule.tail(word);
-      let tailChangable = this.charMap[tail].changable;
+      // let tailChangable = this.charMap[tail].changable;
 
       // changable 처리
       for (let headChan of headChangable) {
@@ -1415,7 +1407,7 @@ class WCengine {
   copy(except = []) {
     let c = new WCengine(this.rule);
     c.word_list = this.word_list.filter((e) => !except.includes(e));
-    c.update((except = except));
+    c.update(except);
 
     return c;
   }
@@ -1575,6 +1567,8 @@ class Turn {
     let map = this.WCengine.charMap[char];
 
     if (!map || map.sorted !== ROUTE) {
+      // console.log(map.sorted);
+      // console.log("error");
       return [];
     }
 
@@ -1582,21 +1576,35 @@ class Turn {
       (e) => !this.except.includes(e)
     );
 
-    if (
-      map.loopWords &&
-      map.loopWords.size % 2 === 0 &&
-      map.loopWords.size != 0
-    ) {
+    if (map.loopWords.size != 0 && map.loopWords.size % 2 === 0) {
       nextRoute = nextRoute.filter((word) => !map.loopWords.has(word));
     }
-    nextRoute = nextRoute.filter(
-      (word) =>
-        nextRoute.find(
-          (e) => this.WCengine.rule.tail(e) === this.WCengine.rule.tail(word)
-        ) === word
-    );
+    let filteredNextRoute = [];
+    if (map.changable.length === 1) {
+      return nextRoute.filter(
+        (word) =>
+          nextRoute.find(
+            (e) => this.WCengine.rule.tail(e) === this.WCengine.rule.tail(word)
+          ) === word
+      );
+    } else {
+      for (let c of map.changable) {
+        let nextRouteComponent = nextRoute.filter(
+          (e) => this.WCengine.rule.head(e) == c
+        );
+        nextRouteComponent = nextRouteComponent.filter(
+          (word) =>
+            nextRouteComponent.find(
+              (e) =>
+                this.WCengine.rule.tail(e) === this.WCengine.rule.tail(word)
+            ) === word
+        );
+        filteredNextRoute = filteredNextRoute.concat(nextRouteComponent);
+      }
+      console.log(nextRoute, filteredNextRoute);
 
-    return nextRoute;
+      return filteredNextRoute;
+    }
   }
 }
 
