@@ -153,6 +153,7 @@ export default function AnalysisMode({ display }) {
       ));
       return chart;
     } else if (engine === 1) {
+      return;
     }
   };
 

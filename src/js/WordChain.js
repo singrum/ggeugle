@@ -1601,7 +1601,6 @@ class Turn {
         );
         filteredNextRoute = filteredNextRoute.concat(nextRouteComponent);
       }
-      console.log(nextRoute, filteredNextRoute);
 
       return filteredNextRoute;
     }
