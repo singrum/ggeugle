@@ -1,8 +1,9 @@
 import React from "react";
 import { Badge } from "./badge";
 import { cn } from "@/lib/utils";
-import { useSearch } from "@/lib/store/useSearch";
+
 import { useWC } from "@/lib/store/useWC";
+import { WCDisplay } from "@/lib/wc/wordChain";
 
 export function CharBox({
   children,
@@ -20,24 +21,27 @@ export function CharBox({
 
 export function CharBadge({ children }: { children: React.ReactNode }) {
   return (
-    <Badge className="text-muted-foreground" variant={"secondary"}>
+    <Badge className="text-muted-foreground text-xs" variant={"secondary"}>
       {children}
     </Badge>
   );
 }
 export function CharContent({
-  charInfo,
+  children,
+  className,
 }: {
-  charInfo: { char: string; type: string }[];
+  children: React.ReactNode;
+  className?: string;
 }) {
   return (
     <div className="flex justify-center w-full">
-      <div className="flex flex-wrap gap-x-1 gap-y-1 text-xl justify-center">
-        {charInfo.map((e) => (
-          <CharButton className={`text-${e.type}`} key={e.char}>
-            {e.char}
-          </CharButton>
-        ))}
+      <div
+        className={cn(
+          "flex flex-wrap gap-x-1 gap-y-1 text-xl justify-center",
+          className
+        )}
+      >
+        {children}
       </div>
     </div>
   );
@@ -45,23 +49,32 @@ export function CharContent({
 export function CharButton({
   children,
   className,
+  type,
 }: {
   children: string;
   className?: string;
+  type: string;
 }) {
-  const setValue = useSearch((e) => e.setValue);
-  const worker = useWC((e) => e.worker);
+  const setValue = useWC((e) => e.setValue);
+  const setSearchInputValue = useWC((e) => e.setSearchInputValue);
+  const changeInfo = useWC((e) => e.changeInfo);
   return (
     <div
       className={cn(
-        "rounded-full h-9 w-9 flex items-center justify-center text-win transition-colors hover:bg-accent cursor-pointer prevent-select",
+        `relative rounded-full h-9 w-9 flex items-center justify-center transition-all duration-75 cursor-pointer prevent-select hover:scale-150 text-${type}`,
         className
       )}
       onClick={() => {
-        worker?.postMessage({ action: "getWordClass", data: children });
         setValue(children);
+        setSearchInputValue(children);
       }}
     >
+      {changeInfo[children] && (
+        <div
+          className={`absolute h-[7px] w-[7px] bg-${type} top-1 left-1 rounded-full`}
+        />
+      )}
+
       {children}
     </div>
   );

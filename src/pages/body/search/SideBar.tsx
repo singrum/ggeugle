@@ -9,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ScrollSpy from "react-scrollspy-navigation";
 import {
   Select,
@@ -18,7 +18,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { LOS, LOSCIR, ROUTE, WIN, WINCIR } from "@/lib/wc/WordChain";
+import { WCDisplay } from "@/lib/wc/wordChain";
+import { Skeleton } from "@/components/ui/skeleton";
+
 const order = ["n턴 후 승리", "가나다 순", "빈도 순"];
 
 export default function SideBar() {
@@ -26,13 +28,12 @@ export default function SideBar() {
 
   return (
     <>
-      <div className="h-full w-full flex flex-col bg-muted/40">
-        <div className="flex flex-col">
-          {/* <div className="text-xl p-3 pb-1">글자</div> */}
-          <div className="flex items-center p-3 gap-2">
-            <div className="text-muted-foreground">정렬 방법</div>
+      <div className="h-full w-full flex flex-col">
+        <CharMenu />
+        <div className="flex-1 overflow-auto scrollbar-none px-2 pb-2 bg-background">
+          <div className="flex gap-2 justify-end pt-3">
             <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-fit text-xs text-muted-foreground border-0 p-1 h-fit">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -41,11 +42,7 @@ export default function SideBar() {
               </SelectContent>
             </Select>
           </div>
-        </div>
 
-        <CharMenu />
-        <div className="flex-1 overflow-auto scrollbar-none px-2 pb-2 bg-background">
-          {/* <EndInN /> */}
           {order === "0" ? <EndInN /> : <Frequency />}
         </div>
       </div>
@@ -53,21 +50,38 @@ export default function SideBar() {
   );
 }
 function Frequency() {
-  const chars = useWC((e) => e.charClass);
+  const engine = useWC((e) => e.engine);
 
   return (
     <>
       <div className="mb-2" id="win">
-        {chars && (
+        {engine && (
           <>
             <CharBox>
-              <CharBadge>{`공격단어`}</CharBadge>
-              <CharContent
-                charInfo={chars.frequency.win.map((char) => ({
-                  char,
-                  type: "win",
-                }))}
-              />
+              <CharBadge>{`승리`}</CharBadge>
+              <CharContent>
+                {Object.keys(engine.charInfo)
+                  .filter(
+                    (e) =>
+                      engine.charInfo[e].type === "win" ||
+                      engine.charInfo[e].type === "wincir"
+                  )
+                  .sort(
+                    (a, b) =>
+                      engine.charInfo[b].inWords.length -
+                      engine.charInfo[a].inWords.length
+                  )
+                  .map((char) => (
+                    <div className="flex flex-col items-center" key={char}>
+                      <CharButton type="win" className={`text-win`}>
+                        {char}
+                      </CharButton>
+                      <div className="text-muted-foreground text-xs">
+                        {engine.charInfo[char].inWords.length.toLocaleString()}
+                      </div>
+                    </div>
+                  ))}
+              </CharContent>
             </CharBox>
 
             <Separator className="my-2" />
@@ -75,34 +89,67 @@ function Frequency() {
         )}
       </div>
       <div className="mb-2" id="los">
-        {chars && (
+        {engine && (
           <>
             <CharBox>
-              <CharBadge>{`방어단어`}</CharBadge>
-              <CharContent
-                charInfo={chars.frequency.los.map((char) => ({
-                  char,
-                  type: "los",
-                }))}
-              />
+              <CharBadge>{`패배`}</CharBadge>
+              <CharContent>
+                {Object.keys(engine.charInfo)
+                  .filter(
+                    (e) =>
+                      engine.charInfo[e].type === "los" ||
+                      engine.charInfo[e].type === "loscir"
+                  )
+                  .sort(
+                    (a, b) =>
+                      engine.charInfo[b].inWords.length -
+                      engine.charInfo[a].inWords.length
+                  )
+                  .map((char) => (
+                    <div className="flex flex-col items-center" key={char}>
+                      <CharButton type="los" className={`text-los`}>
+                        {char}
+                      </CharButton>
+                      <div className="text-muted-foreground text-xs">
+                        {engine.charInfo[char].inWords.length.toLocaleString()}
+                      </div>
+                    </div>
+                  ))}
+              </CharContent>
             </CharBox>
+
             <Separator className="my-2" />
           </>
         )}
       </div>
 
       <div className="" id="route">
-        {chars && (
+        {engine && (
           <>
             <CharBox>
-              <CharBadge>{`루트단어`}</CharBadge>
-              <CharContent
-                charInfo={chars.frequency.route.map((char) => ({
-                  char,
-                  type: "route",
-                }))}
-              />
+              <CharBadge>{`루트`}</CharBadge>
+              <CharContent>
+                {Object.keys(engine.charInfo)
+                  .filter((e) => engine.charInfo[e].type === "route")
+                  .sort(
+                    (a, b) =>
+                      engine.charInfo[b].inWords.length -
+                      engine.charInfo[a].inWords.length
+                  )
+                  .map((char) => (
+                    <div className="flex flex-col items-center" key={char}>
+                      <CharButton type="route" className={`text-route`}>
+                        {char}
+                      </CharButton>
+                      <div className="text-muted-foreground text-xs">
+                        {engine.charInfo[char].inWords.length.toLocaleString()}
+                      </div>
+                    </div>
+                  ))}
+              </CharContent>
             </CharBox>
+
+            <Separator className="my-2" />
           </>
         )}
       </div>
@@ -111,81 +158,119 @@ function Frequency() {
 }
 
 function EndInN() {
-  const chars = useWC((e) => e.charClass);
+  const engine = useWC((e) => e.engine);
+  const wcd = useMemo(() => {
+    if (engine) {
+      const wcd = WCDisplay.endInN(engine!);
+
+      return wcd;
+    } else {
+      return;
+    }
+  }, [engine]);
 
   return (
     <>
-      <div className="mb-2" id="win">
-        {chars && (
-          <>
-            {chars.endInN.win.map((e) => (
-              <React.Fragment key={e.key}>
-                <CharBox key={e.key}>
-                  <CharBadge>
-                    {e.key === "wincir" ? `조건부 승리` : `${e.key}턴 후 승리`}
-                  </CharBadge>
-                  <CharContent
-                    charInfo={e.chars.map((char) => ({
-                      char,
-                      type: "win",
-                    }))}
-                  />
+      {engine && wcd ? (
+        <>
+          <div className="mb-2" id="win">
+            {wcd.win.map((e) => (
+              <React.Fragment key={e.endNum}>
+                <CharBox>
+                  <CharBadge>{`${e.endNum}턴 후 승리`}</CharBadge>
+                  <CharContent>
+                    {e.chars.map((char) => (
+                      <CharButton type="win" key={char} className="text-win">
+                        {char}
+                      </CharButton>
+                    ))}
+                  </CharContent>
                 </CharBox>
                 <Separator className="my-2" />
               </React.Fragment>
             ))}
-          </>
-        )}
-      </div>
-      <div className="mb-2" id="los">
-        {chars && (
-          <>
-            {chars.endInN.los.map((e) => (
-              <React.Fragment key={e.key}>
-                <CharBox key={e.key}>
-                  <CharBadge>
-                    {e.key === "loscir" ? `조건부 패배` : `${-e.key}턴 후 패배`}
-                  </CharBadge>
-                  <CharContent
-                    charInfo={e.chars.map((char) => ({
-                      char,
-                      type: "los",
-                    }))}
-                  />
-                </CharBox>
-                <Separator className="my-2" />
-              </React.Fragment>
-            ))}
-          </>
-        )}
-      </div>
 
-      <div className="" id="route">
-        {chars && (
-          <>
             <CharBox>
-              <CharBadge>루트단어</CharBadge>
-              <div className="flex flex-wrap gap-y-1 text-xl justify-center items-center text-muted">
-                {chars.endInN.route.map((e, index) => (
+              <CharBadge>{`조건부 승리`}</CharBadge>
+              <CharContent>
+                {wcd.wincir.map((char) => (
+                  <CharButton type="win" key={char} className="text-win">
+                    {char}
+                  </CharButton>
+                ))}
+              </CharContent>
+            </CharBox>
+            <Separator className="my-2" />
+          </div>
+          <div className="mb-2" id="los">
+            {wcd.los.map((e) => (
+              <React.Fragment key={e.endNum}>
+                <CharBox>
+                  <CharBadge>{`${e.endNum}턴 후 패배`}</CharBadge>
+                  <CharContent>
+                    {e.chars.map((char) => (
+                      <CharButton type="los" key={char} className="text-los">
+                        {char}
+                      </CharButton>
+                    ))}
+                  </CharContent>
+                </CharBox>
+                <Separator className="my-2" />
+              </React.Fragment>
+            ))}
+
+            <CharBox>
+              <CharBadge>{`조건부 패배`}</CharBadge>
+              <CharContent>
+                {wcd.wincir.map((char) => (
+                  <CharButton type="los" key={char} className="text-los">
+                    {char}
+                  </CharButton>
+                ))}
+              </CharContent>
+            </CharBox>
+            <Separator className="my-2" />
+          </div>
+
+          <div className="" id="route">
+            <CharBox>
+              <CharBadge>{`루트`}</CharBadge>
+              <CharContent className="gap-x-0 items-center">
+                {wcd.route.map((scc, index) => (
                   <React.Fragment key={index}>
-                    {e.map((char, i) => (
+                    {scc.map((char, i) => (
                       <CharButton
+                        type="route"
                         className={cn(`text-route mr-1`, {
-                          "mr-0": i === e.length - 1,
+                          "mr-0": i === scc.length - 1,
                         })}
                         key={char}
                       >
                         {char}
                       </CharButton>
                     ))}
-                    {index !== chars.endInN.route.length - 1 ? `/` : undefined}
+                    <div className="text-muted-foreground/40">
+                      {index !== wcd.route.length - 1 ? `/` : undefined}
+                    </div>
                   </React.Fragment>
                 ))}
-              </div>
+              </CharContent>
             </CharBox>
-          </>
-        )}
-      </div>
+            <Separator className="my-2" />
+          </div>
+        </>
+      ) : (
+        <div className="mb-2">
+          <CharBox>
+            <CharContent>
+              {Array.from({ length: 500 }, (e, i) => (
+                <Skeleton className="h-8 w-8 m-1" key={i} />
+              ))}
+            </CharContent>
+          </CharBox>
+          <Separator className="my-2" />
+        </div>
+      )}
     </>
   );
 }
@@ -194,9 +279,9 @@ const CharMenus: {
   name: string;
   color: string;
 }[] = [
-  { name: "공격단어", color: "win" },
-  { name: "방어단어", color: "los" },
-  { name: "루트단어", color: "route" },
+  { name: "승리", color: "win" },
+  { name: "패배", color: "los" },
+  { name: "루트", color: "route" },
 ];
 
 function CharMenu() {
@@ -214,7 +299,7 @@ function CharMenu() {
               href={`#${e.color}`}
               className={cn(
                 "flex justify-center items-center cursor-pointer py-2 border-b border-border overflow-hidden whitespace-nowrap",
-                { ["border-foreground"]: menu === i }
+                { [`border-${e.color}`]: menu === i }
               )}
             >
               <div

@@ -19,10 +19,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import ToggleButton from "react-bootstrap/ToggleButton";
-import { Settings2 } from "lucide-react";
+import { Settings, Settings2 } from "lucide-react";
 import { Button } from "@/components/ui/button.js";
 import { getEngine } from "@/lib/wc/ruleUpdate";
 import { RuleForm, useWC } from "@/lib/store/useWC";
+import { cn } from "@/lib/utils";
+import { MenuBtn } from "@/App";
 
 export function RuleSetting() {
   const rule = useWC((state) => state.rule);
@@ -68,7 +70,7 @@ export function RuleSetting() {
     setRule(ruleForm);
     setModalOpen(false);
 
-    worker!.postMessage({ action: "setEngine", data: ruleForm });
+    worker!.postMessage({ action: "getEngine", data: ruleForm });
   }
   return (
     <Dialog
@@ -77,10 +79,8 @@ export function RuleSetting() {
         setRuleForm({ ...rule });
       }}
     >
-      <DialogTrigger asChild>
-        <Button size="icon" variant={"ghost"}>
-          <Settings2 />
-        </Button>
+      <DialogTrigger>
+        <MenuBtn icon={<Settings2 strokeWidth={1.5} />} name={"룰 변경"} />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

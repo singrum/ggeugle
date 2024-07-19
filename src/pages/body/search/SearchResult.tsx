@@ -1,196 +1,279 @@
 import { WordBadge, WordBox, WordContent } from "@/components/ui/WordBox";
 import { Separator } from "@/components/ui/separator";
-import { useSearch } from "@/lib/store/useSearch";
+
 import { useWC } from "@/lib/store/useWC";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { josa } from "es-hangul";
-export default function SearchResult() {
-  const value = useSearch((e) => e.value);
-  const setValue = useSearch((e) => e.value);
-  const wordClass = useWC((e) => e.wordClass);
+import {
+  CharSearchResult,
+  NoncharSearchResult,
+  WCDisplay,
+  WordType,
+} from "@/lib/wc/wordChain";
 
+export default function SearchResult() {
+  const [searchResult, engine] = useWC((e) => [e.searchResult, e.engine]);
+  
   return (
     <Tabs
-      defaultValue="start-with"
+      defaultValue="startsWith"
       className="w-full flex flex-col items-center"
     >
-      <TabsList>
-        <TabsTrigger value="start-with">{`~로 시작하는 단어`}</TabsTrigger>
-        <TabsTrigger value="end-with">{`~로 끝나는 단어`}</TabsTrigger>
+      <TabsList className="h-auto">
+        <TabsTrigger
+          className="text-xs"
+          value="startsWith"
+        >{`~로 시작하는 단어`}</TabsTrigger>
+        <TabsTrigger
+          className="text-xs"
+          value="endsWith"
+        >{`~로 끝나는 단어`}</TabsTrigger>
       </TabsList>
 
       <>
-        <TabsContent value="start-with" className="w-full">
-          {wordClass && wordClass.outWordClass && (
+        <TabsContent value="startsWith" className="w-full">
+          {searchResult && (
             <>
               <div className="flex-1 min-h-0">
-                {Object.keys(wordClass.outWordClass)
-                  .filter((e) => parseInt(e) >= 0)
-                  .sort((a, b) => parseInt(a) - parseInt(b))
-                  .map((e) => (
-                    <React.Fragment key={e}>
-                      <WordBox key={e}>
-                        <WordBadge>{`${e}턴 후 승리`}</WordBadge>
-                        <WordContent
-                          wordInfo={wordClass!.outWordClass[e].map((word) => ({
-                            word,
-                            type: "win",
-                          }))}
-                        />
-                      </WordBox>
-                      <Separator className="my-2" />
-                    </React.Fragment>
-                  ))}
-                {wordClass.outWordClass["WINCIR"] && (
-                  <React.Fragment>
-                    <WordBox>
-                      <WordBadge>{`조건부 승리`}</WordBadge>
-                      <WordContent
-                        wordInfo={wordClass!.outWordClass["WINCIR"].map(
-                          (word) => ({
-                            word,
-                            type: "win",
-                          })
-                        )}
-                      />
-                    </WordBox>
-                    <Separator className="my-2" />
-                  </React.Fragment>
-                )}
-                {(wordClass.outWordClass["ROUTE"] ||
-                  wordClass.outWordClass["ROUTE_RETURN"]) && (
+                {searchResult.isChar ? (
                   <>
-                    <WordBox>
-                      <WordBadge>{`루트단어`}</WordBadge>
-                      <WordContent
-                        wordInfo={(wordClass!.outWordClass["ROUTE"]
-                          ? wordClass!.outWordClass["ROUTE"].map((word) => ({
-                              word,
-                              type: "route",
-                            }))
-                          : []
-                        ).concat(
-                          wordClass!.outWordClass["ROUTE_RETURN"]
-                            ? wordClass!.outWordClass["ROUTE_RETURN"].map(
-                                (word) => ({
+                    {(searchResult.result as CharSearchResult).startsWith.win
+                      .length > 0 &&
+                      (
+                        searchResult.result as CharSearchResult
+                      ).startsWith.win.map((e, i) => (
+                        <React.Fragment key={i}>
+                          <WordBox>
+                            <WordBadge>{`${e.endNum}턴 후 승리`}</WordBadge>
+                            <WordContent
+                              wordInfo={e.words.map((word) => ({
+                                word,
+                                type: "win",
+                              }))}
+                            />
+                          </WordBox>
+                          <Separator className="my-2" />
+                        </React.Fragment>
+                      ))}
+                    {(searchResult.result as CharSearchResult).startsWith.wincir
+                      .length > 0 &&
+                      (searchResult.result as CharSearchResult).startsWith
+                        .wincir.length && (
+                        <React.Fragment>
+                          <WordBox>
+                            <WordBadge>{`조건부 승리`}</WordBadge>
+                            <WordContent
+                              wordInfo={(
+                                searchResult.result as CharSearchResult
+                              ).startsWith.wincir.map((word) => ({
+                                word,
+                                type: "win",
+                              }))}
+                            />
+                          </WordBox>
+                          <Separator className="my-2" />
+                        </React.Fragment>
+                      )}
+                    {((searchResult.result as CharSearchResult).startsWith.route
+                      .length > 0 ||
+                      (searchResult.result as CharSearchResult).startsWith
+                        .route_return.length > 0) && (
+                      <>
+                        <WordBox>
+                          <WordBadge>{`루트단어`}</WordBadge>
+                          <WordContent
+                            wordInfo={((searchResult.result as CharSearchResult)
+                              .startsWith.route
+                              ? (
+                                  searchResult.result as CharSearchResult
+                                ).startsWith.route.map((word) => ({
                                   word,
                                   type: "route",
-                                  returning: true,
-                                })
-                              )
-                            : []
-                        )}
-                      />
-                    </WordBox>
-                    <Separator className="my-2" />
-                  </>
-                )}
-                {(wordClass.outWordClass["LOSCIR"] ||
-                  wordClass.outWordClass["LOSCIR_RETURN"]) && (
-                  <>
-                    <WordBox>
-                      <WordBadge>{`조건부 패배`}</WordBadge>
-                      <WordContent
-                        wordInfo={(wordClass.outWordClass["LOSCIR"]
-                          ? wordClass!.outWordClass["LOSCIR"].map((word) => ({
-                              word,
-                              type: "los",
-                            }))
-                          : []
-                        ).concat(
-                          wordClass.outWordClass["LOSCIR_RETURN"]
-                            ? wordClass!.outWordClass["LOSCIR_RETURN"].map(
-                                (word) => ({
+                                }))
+                              : []
+                            ).concat(
+                              (searchResult.result as CharSearchResult)
+                                .startsWith.route_return
+                                ? (
+                                    searchResult.result as CharSearchResult
+                                  ).startsWith.route_return.map((word) => ({
+                                    word,
+                                    type: "route",
+                                    returning: true,
+                                  }))
+                                : []
+                            )}
+                          />
+                        </WordBox>
+                        <Separator className="my-2" />
+                      </>
+                    )}
+                    {((searchResult.result as CharSearchResult).startsWith
+                      .loscir.length > 0 ||
+                      (searchResult.result as CharSearchResult).startsWith
+                        .loscir_return.length > 0) && (
+                      <>
+                        <WordBox>
+                          <WordBadge>{`조건부 패배`}</WordBadge>
+                          <WordContent
+                            wordInfo={((searchResult.result as CharSearchResult)
+                              .startsWith.loscir
+                              ? (
+                                  searchResult.result as CharSearchResult
+                                ).startsWith.loscir.map((word) => ({
                                   word,
                                   type: "los",
-                                  returning: true,
-                                })
-                              )
-                            : []
-                        )}
-                      />
-                    </WordBox>
-                    <Separator className="my-2" />
+                                }))
+                              : []
+                            ).concat(
+                              (searchResult.result as CharSearchResult)
+                                .startsWith.loscir_return.length
+                                ? (
+                                    searchResult.result as CharSearchResult
+                                  ).startsWith.loscir_return.map((word) => ({
+                                    word,
+                                    type: "los",
+                                    returning: true,
+                                  }))
+                                : []
+                            )}
+                          />
+                        </WordBox>
+                        <Separator className="my-2" />
+                      </>
+                    )}
+                    {(searchResult.result as CharSearchResult).startsWith.los
+                      .length > 0 &&
+                      (
+                        searchResult.result as CharSearchResult
+                      ).startsWith.los.map((e, i) => (
+                        <React.Fragment key={i}>
+                          <WordBox>
+                            <WordBadge>{`${e.endNum}턴 후 패배`}</WordBadge>
+                            <WordContent
+                              wordInfo={e.words.map((word) => ({
+                                word,
+                                type: "los",
+                              }))}
+                            />
+                          </WordBox>
+                          <Separator className="my-2" />
+                        </React.Fragment>
+                      ))}
                   </>
-                )}
-                {Object.keys(wordClass.outWordClass)
-                  .filter((e) => parseInt(e) < 0)
-                  .sort((a, b) => parseInt(a) - parseInt(b))
-                  .map((e) => (
-                    <React.Fragment key={e}>
-                      <WordBox key={e}>
-                        <WordBadge>{`${-e}턴 후 패배`}</WordBadge>
+                ) : (
+                  (searchResult.result as NoncharSearchResult).startsWith
+                    .length > 0 && (
+                    <>
+                      <WordBox>
                         <WordContent
-                          wordInfo={wordClass!.outWordClass[e].map((word) => ({
+                          wordInfo={(
+                            searchResult.result as NoncharSearchResult
+                          ).startsWith.map((word) => ({
                             word,
-                            type: "los",
+                            type: WCDisplay.reduceWordtype(
+                              WCDisplay.getWordType(engine!, word)
+                                .type as WordType
+                            ),
                           }))}
                         />
                       </WordBox>
                       <Separator className="my-2" />
-                    </React.Fragment>
-                  ))}
+                    </>
+                  )
+                )}
               </div>
             </>
           )}
         </TabsContent>
         {/* 끝나는 */}
 
-        <TabsContent value="end-with" className="w-full">
-          {wordClass && wordClass.inWordClass && (
+        <TabsContent value="endsWith" className="w-full">
+          {searchResult && (
             <>
               <div className="flex-1 min-h-0">
-                {wordClass.inWordClass["WIN"] && (
-                  <React.Fragment>
-                    <WordBox>
-                      {/* <WordBadge>{``}</WordBadge> */}
-                      <WordContent
-                        wordInfo={wordClass!.inWordClass["WIN"].map((word) => ({
-                          word,
-                          type: "foreground",
-                        }))}
-                      />
-                    </WordBox>
-                    <Separator className="my-2" />
-                  </React.Fragment>
-                )}
-                {(wordClass.inWordClass["ROUTE"] ||
-                  wordClass.inWordClass["ROUTE"]) && (
+                {searchResult.isChar === true ? (
                   <>
-                    <WordBox>
-                      <WordBadge>{`루트단어`}</WordBadge>
-                      <WordContent
-                        wordInfo={
-                          wordClass!.inWordClass["ROUTE"]
-                            ? wordClass!.inWordClass["ROUTE"].map((word) => ({
-                                word,
-                                type: "foreground",
-                              }))
-                            : []
-                        }
-                      />
-                    </WordBox>
-                    <Separator className="my-2" />
+                    {(searchResult.result as CharSearchResult).endsWith.head_los
+                      .length > 0 && (
+                      <React.Fragment>
+                        <WordBox>
+                          <WordContent
+                            wordInfo={(
+                              searchResult.result as CharSearchResult
+                            ).endsWith.head_los.map((word) => ({
+                              word,
+                              type: WCDisplay.reduceWordtype(
+                                WCDisplay.getWordType(engine!, word)
+                                  .type as WordType
+                              ),
+                            }))}
+                          />
+                        </WordBox>
+                        <Separator className="my-2" />
+                      </React.Fragment>
+                    )}
+                    {(searchResult.result as CharSearchResult).endsWith
+                      .head_route.length > 0 && (
+                      <React.Fragment>
+                        <WordBox>
+                          {/* <WordBadge>{``}</WordBadge> */}
+                          <WordContent
+                            wordInfo={(
+                              searchResult.result as CharSearchResult
+                            ).endsWith.head_route.map((word) => ({
+                              word,
+                              type: WCDisplay.reduceWordtype(
+                                WCDisplay.getWordType(engine!, word)
+                                  .type as WordType
+                              ),
+                            }))}
+                          />
+                        </WordBox>
+                        <Separator className="my-2" />
+                      </React.Fragment>
+                    )}
+                    {(searchResult.result as CharSearchResult).endsWith.rest
+                      .length > 0 && (
+                      <>
+                        <WordBox>
+                          <WordContent
+                            wordInfo={(
+                              searchResult.result as CharSearchResult
+                            ).endsWith.rest.map((word) => ({
+                              word,
+                              type: WCDisplay.reduceWordtype(
+                                WCDisplay.getWordType(engine!, word)
+                                  .type as WordType
+                              ),
+                            }))}
+                          />
+                        </WordBox>
+                        <Separator className="my-2" />
+                      </>
+                    )}
                   </>
-                )}
-                {(wordClass.inWordClass["REST"] ||
-                  wordClass.inWordClass["REST"]) && (
-                  <>
-                    <WordBox>
-                      <WordContent
-                        wordInfo={
-                          wordClass!.inWordClass["REST"]
-                            ? wordClass!.inWordClass["REST"].map((word) => ({
-                                word,
-                                type: "foreground",
-                              }))
-                            : []
-                        }
-                      />
-                    </WordBox>
-                    <Separator className="my-2" />
-                  </>
+                ) : (
+                  (searchResult.result as NoncharSearchResult).endsWith.length >
+                    0 && (
+                    <>
+                      <WordBox>
+                        <WordContent
+                          wordInfo={(
+                            searchResult.result as NoncharSearchResult
+                          ).endsWith.map((word) => ({
+                            word,
+                            type: WCDisplay.reduceWordtype(
+                              WCDisplay.getWordType(engine!, word)
+                                .type as WordType
+                            ),
+                          }))}
+                        />
+                      </WordBox>
+                      <Separator className="my-2" />
+                    </>
+                  )
                 )}
               </div>
             </>

@@ -1,5 +1,5 @@
 import { RuleForm } from "../store/useWC";
-import { WCengine, Rule, LOS, WIN, WINCIR, LOSCIR, ROUTE } from "./WordChain";
+import { WCEngine, WCRule } from "./wordChain";
 
 function decode(params: RuleForm) {
   const map: {
@@ -114,15 +114,15 @@ export async function getEngine(rule: RuleForm) {
     return false;
   };
 
-  let r = new Rule(
+  let r = new WCRule(
     params.chan,
     params.headDir === 0 ? params.headIdx - 1 : -params.headIdx,
     params.tailDir === 0 ? params.tailIdx - 1 : -params.tailIdx,
     params.manner
   );
-  let wm = new WCengine(r);
+  let wm = new WCEngine(r);
 
-  wm.word_list = Array.from(
+  wm.words = Array.from(
     new Set(
       wordList
         .filter((x) => x && lenFilter(x))
@@ -132,7 +132,6 @@ export async function getEngine(rule: RuleForm) {
   );
 
   wm.update();
-  wm.getRouteComp();
-
+  wm.sortRouteChars();
   return wm;
 }

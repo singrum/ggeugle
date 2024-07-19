@@ -3,7 +3,8 @@ import { Badge } from "./badge";
 import { cn } from "@/lib/utils";
 import { RefreshCcw } from "lucide-react";
 import { useWC } from "@/lib/store/useWC";
-import { useSearch } from "@/lib/store/useSearch";
+
+import { WCDisplay } from "@/lib/wc/wordChain";
 
 export function WordBox({
   children,
@@ -37,7 +38,7 @@ export function WordContent({
     <div className="flex flex-wrap gap-x-1 gap-y-1 justify-center font-normal">
       {wordInfo.map((e) => (
         <WordButton
-          className={`border border-${e.type}/40 text-${e.type} hover:border-${e.type}`}
+          className={`border border-${e.type}/30 text-${e.type} hover:border-${e.type} hover:bg-${e.type}/10`}
           key={e.word}
           returning={e.returning}
         >
@@ -56,28 +57,24 @@ export function WordButton({
   className?: string;
   returning?: boolean;
 }) {
-  const worker = useWC((e) => e.worker);
-  const setExceptWords = useSearch((e) => e.setExceptWords);
-  const exceptWords = useSearch((e) => e.exceptWords);
-  const setValue = useSearch((e) => e.setValue);
-  const rule = useWC((e) => e.rule);
+  const setExceptWords = useWC((e) => e.setExceptWords);
+  const exceptWords = useWC((e) => e.exceptWords);
+  const setValue = useWC((e) => e.setValue);
+  const engine = useWC((e) => e.engine);
+  const setSearchInputValue = useWC((e) => e.setSearchInputValue);
   return (
     <div
       className={cn(
-        "rounded-full flex items-center transition-colors py-1 px-3 text-background cursor-pointer prevent-select",
+        "rounded-full flex items-center transition-colors py-1 px-3 text-background cursor-pointer prevent-select gap-1 hover:font-semibold",
         className
       )}
       onClick={() => {
-        setExceptWords([...exceptWords, children]);
-        worker!.postMessage({
-          action: "setWords",
-          data: { words: [children], operation: "remove", autoSearch: true },
-        });
-        const tail_index =
-          rule.tailDir === 0 ? rule.tailIdx - 1 : -rule.tailIdx;
-        const tail =
-          children[tail_index >= 0 ? tail_index : children.length + tail_index];
+        const tail = children.at(engine!.rule.tailIdx)!;
         setValue(tail);
+        setSearchInputValue(tail);
+        if (!exceptWords.includes(children)) {
+          setExceptWords([...exceptWords, children]);
+        }
       }}
     >
       <div>{children}</div>
