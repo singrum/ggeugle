@@ -71,6 +71,7 @@ export function WordButton({
       onClick={() => {
         const tail = children.at(engine!.rule.tailIdx)!;
         setValue(tail);
+
         setSearchInputValue(tail);
         if (!exceptWords.includes(children)) {
           setExceptWords([...exceptWords, children]);

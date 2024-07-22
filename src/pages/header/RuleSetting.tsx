@@ -1,13 +1,12 @@
-import Modal from "react-bootstrap/Modal";
-import Form from "react-bootstrap/Form";
+import { MenuBtn } from "@/App";
 import {
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-  useReducer,
-  useCallback,
-} from "react";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button.js";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogClose,
@@ -18,683 +17,435 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import ToggleButton from "react-bootstrap/ToggleButton";
-import { Settings, Settings2 } from "lucide-react";
-import { Button } from "@/components/ui/button.js";
-import { getEngine } from "@/lib/wc/ruleUpdate";
-import { RuleForm, useWC } from "@/lib/store/useWC";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { cates, dicts, poses, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { MenuBtn } from "@/App";
-
+import { ChevronRight, Settings2 } from "lucide-react";
+import React from "react";
 export function RuleSetting() {
-  const rule = useWC((state) => state.rule);
-  const setRule = useWC((state) => state.setRule);
-  const worker = useWC((state) => state.worker);
+  const [rule, setRuleForm, updateRule] = useWC((state) => [
+    state.rule,
+    state.setRuleForm,
+    state.updateRule,
+  ]);
 
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [ruleForm, setRuleForm] = useState<RuleForm>({ ...rule });
-  const [isHeadValid, setIsHeadValid] = useState(true);
-  const [isTailValid, setIsTailValid] = useState(true);
-  const [disabled, setDisabled] = useState(
-    rule.dict === 0 || rule.dict === 2 || rule.dict === 3
-  );
-  useEffect(() => {
-    makeWC();
-  }, []);
-  useEffect(() => {
-    const minLen = ruleForm.len.findIndex((e) => e === true) + 2;
-
-    setIsHeadValid(
-      typeof ruleForm.headIdx === "number" &&
-        ruleForm.headIdx <= minLen &&
-        ruleForm.headIdx > 0
-    );
-    setIsTailValid(
-      typeof ruleForm.tailIdx === "number" &&
-        ruleForm.tailIdx <= minLen &&
-        ruleForm.tailIdx > 0
-    );
-  }, [ruleForm.len, ruleForm.headIdx, ruleForm.tailIdx]);
-
-  useEffect(() => {
-    if (ruleForm.dict === 0 || ruleForm.dict === 2 || ruleForm.dict === 3) {
-      setDisabled(true);
-    } else {
-      setDisabled(false);
-    }
-  }, [ruleForm.dict]);
-
-  async function makeWC() {
-    if (!isHeadValid || !isTailValid) return;
-
-    setRule(ruleForm);
-    setModalOpen(false);
-
-    worker!.postMessage({ action: "getEngine", data: ruleForm });
-  }
   return (
-    <Dialog
-      onOpenChange={(e) => {
-        setModalOpen(e);
-        setRuleForm({ ...rule });
-      }}
-    >
-      <DialogTrigger>
-        <MenuBtn icon={<Settings2 strokeWidth={1.5} />} name={"룰 변경"} />
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>룰 설정</DialogTitle>
-        </DialogHeader>
-        <DialogDescription>끝말잇기 룰 설정</DialogDescription>
-        <div className="">
-          <Setting1 ruleForm={ruleForm} setRuleForm={setRuleForm} />
-          <Setting9 ruleForm={ruleForm} setRuleForm={setRuleForm} />
-          <Setting2 ruleForm={ruleForm} setRuleForm={setRuleForm} />
-          <Setting3
-            ruleForm={ruleForm}
-            setRuleForm={setRuleForm}
-            disabled={disabled}
-          />
-          <Setting4 ruleForm={ruleForm} setRuleForm={setRuleForm} />
-          <Setting8 ruleForm={ruleForm} setRuleForm={setRuleForm} />
-
-          <Setting5 ruleForm={ruleForm} setRuleForm={setRuleForm} />
-          <Setting6
-            ruleForm={ruleForm}
-            setRuleForm={setRuleForm}
-            isHeadValid={isHeadValid}
-            isTailValid={isTailValid}
-          />
-          <Setting7 ruleForm={ruleForm} setRuleForm={setRuleForm} />
-        </div>
-      </DialogContent>
-    </Dialog>
+    <div></div>
+    // <Dialog
+    //   onOpenChange={(e) => {
+    //     if (e) {
+    //       setRuleForm({ ...rule });
+    //     }
+    //   }}
+    // >
+    //   <DialogTrigger>
+    //     <MenuBtn icon={<Settings2 strokeWidth={1.5} />} name={"룰 변경"} />
+    //   </DialogTrigger>
+    //   <DialogContent className="sm:max-w-[425px] max-h-[80%] overflow-auto scrollbar-thin">
+    //     <DialogHeader>
+    //       <DialogTitle>룰 변경</DialogTitle>
+    //     </DialogHeader>
+    //     <DialogDescription>끝말잇기 룰 변경</DialogDescription>
+    //     <div className="flex flex-col">
+    //       <DictSetting />
+    //       <Separator className="my-2" />
+    //       <PosSetting />
+    //       <Separator className="my-2" />
+    //       <CateSetting />
+    //       <Separator className="my-2" />
+    //       <ChanSetting />
+    //       <Separator className="my-2" />
+    //       <HeadIdxSetting />
+    //       <Separator className="my-2" />
+    //       <TailIdxSetting />
+    //       <Separator className="my-2" />
+    //       <MannerSetting />
+    //       <Separator className="my-2" />
+    //       <RegexFilterSetting />
+    //       <Separator className="my-2" />
+    //       <AddedWordsSetting />
+    //       <Separator className="my-2" />
+    //     </div>
+    //     <DialogFooter>
+    //       <DialogClose asChild>
+    //         <Button variant="outline">취소</Button>
+    //       </DialogClose>
+    //       <DialogClose asChild>
+    //         <Button
+    //           onClick={() => {
+    //             updateRule();
+    //           }}
+    //         >
+    //           변경사항 저장
+    //         </Button>
+    //       </DialogClose>
+    //     </DialogFooter>
+    //   </DialogContent>
+    // </Dialog>
   );
 }
 
-function Setting1({
-  ruleForm,
-  setRuleForm,
-}: {
-  ruleForm: RuleForm;
-  setRuleForm: React.Dispatch<React.SetStateAction<RuleForm>>;
-}) {
+function DictSetting() {
+  const ruleForm = useWC((e) => e.ruleForm);
+  const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <div className="setting-wrap">
-      <div className="setting-select" id="dict">
-        <span className="title">사전</span>
-        <Form.Select
-          aria-label="Default select example"
-          value={ruleForm.dict}
-          onChange={(e) => {
-            setRuleForm({ ...ruleForm, dict: parseInt(e.target.value) });
-          }}
-        >
-          <option value="0">(구)표준국어대사전</option>
-          <option value="3">(신)표준국어대사전</option>
-          <option value="1">우리말샘</option>
-          {/* <option value="2">한국어기초사전</option> */}
-        </Form.Select>
+    <RuleMenu name="사전">
+      <Select
+        defaultValue={ruleForm.dict.toString()}
+        onValueChange={(e) =>
+          setRuleForm({
+            ...ruleForm,
+            dict: parseInt(e),
+            cate: [true, true, true, true],
+          })
+        }
+      >
+        <SelectTrigger className="w-[180px] text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {dicts.map((dict, i) => (
+            <SelectItem className="text-xs" value={`${i}`} key={i}>
+              {dict}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </RuleMenu>
+  );
+}
+
+function PosSetting() {
+  const ruleForm = useWC((e) => e.ruleForm);
+  const setRuleForm = useWC((e) => e.setRuleForm);
+
+  return (
+    <RuleMenu name="품사">
+      <div className="flex flex-wrap gap-1">
+        {poses.map((e, i) => (
+          <React.Fragment key={i}>
+            <div
+              className={cn(
+                "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer",
+                {
+                  "bg-white text-background hover:bg-foreground hover:text-background":
+                    ruleForm.pos[i],
+                }
+              )}
+              onClick={() => {
+                setRuleForm({
+                  ...ruleForm,
+                  pos: { ...ruleForm.pos, [i]: !ruleForm.pos[i] },
+                });
+              }}
+            >
+              {e}
+            </div>
+          </React.Fragment>
+        ))}
       </div>
-    </div>
+    </RuleMenu>
   );
 }
 
-function ToggleBtn({
-  value,
-  defaultChecked,
-  onChange,
-  className,
-  disabled,
+function CateSetting() {
+  const ruleForm = useWC((e) => e.ruleForm);
+  const setRuleForm = useWC((e) => e.setRuleForm);
+  return (
+    <RuleMenu name="범주">
+      <div className="flex flex-wrap gap-1">
+        {cates.map((e, i) => (
+          <React.Fragment key={i}>
+            <div
+              className={cn(
+                "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer",
+                {
+                  "bg-white text-background hover:bg-foreground hover:text-background":
+                    ruleForm.cate[i],
+                  "bg-muted-foreground/80 cursor-default hover:bg-muted-foreground/80":
+                    ruleForm.dict === 0,
+                }
+              )}
+              onClick={() => {
+                if (ruleForm.dict === 0) return;
+
+                setRuleForm({
+                  ...ruleForm,
+                  cate: { ...ruleForm.cate, [i]: !ruleForm.cate[i] },
+                });
+              }}
+            >
+              {e}
+            </div>
+          </React.Fragment>
+        ))}
+      </div>
+    </RuleMenu>
+  );
+}
+
+function ChanSetting() {
+  const ruleForm = useWC((e) => e.ruleForm);
+  const setRuleForm = useWC((e) => e.setRuleForm);
+  return (
+    <RuleMenu name="두음법칙">
+      <Select
+        defaultValue={ruleForm.chan.toString()}
+        onValueChange={(e) => setRuleForm({ ...ruleForm, chan: parseInt(e) })}
+      >
+        <SelectTrigger className="w-[180px] text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {[
+            "없음",
+            "표준",
+            "ㄹ→ㄴ→ㅇ",
+            "ㄹ⇄ㄴ⇄ㅇ",
+            "반전룰",
+            "첸룰",
+            "듭2룰",
+          ].map((e, i) => (
+            <SelectItem className="text-xs" value={`${i}`} key={i}>
+              {e}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </RuleMenu>
+  );
+}
+
+function HeadIdxSetting() {
+  const ruleForm = useWC((e) => e.ruleForm);
+  const setRuleForm = useWC((e) => e.setRuleForm);
+  return (
+    <RuleMenu name="첫 글자">
+      <div className="flex gap-1 items-center">
+        <Select
+          defaultValue={ruleForm.headDir.toString()}
+          onValueChange={(e) =>
+            setRuleForm({ ...ruleForm, headDir: parseInt(e) as 0 | 1 })
+          }
+        >
+          <SelectTrigger className="w-[180px] text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem className="text-xs" value="0">
+              앞에서
+            </SelectItem>
+            <SelectItem className="text-xs" value="1">
+              뒤에서
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <Input
+          defaultValue={ruleForm.headIdx}
+          type="number"
+          className="w-20 h-fit text-xs focus-visible:ring-offset-1 focus-visible:ring-1"
+          onChange={(e) =>
+            setRuleForm({ ...ruleForm, headIdx: parseInt(e.target.value) })
+          }
+        />
+        <div className="flex-1 text-muted-foreground">번째 글자</div>
+      </div>
+    </RuleMenu>
+  );
+}
+
+function TailIdxSetting() {
+  const ruleForm = useWC((e) => e.ruleForm);
+  const setRuleForm = useWC((e) => e.setRuleForm);
+  return (
+    <RuleMenu name="끝 글자">
+      <div className="flex gap-1 items-center">
+        <Select
+          defaultValue={ruleForm.tailDir.toString()}
+          onValueChange={(e) =>
+            setRuleForm({ ...ruleForm, tailDir: parseInt(e) as 0 | 1 })
+          }
+        >
+          <SelectTrigger className="w-[180px] text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem className="text-xs" value="0">
+              앞에서
+            </SelectItem>
+            <SelectItem className="text-xs" value="1">
+              뒤에서
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <Input
+          defaultValue={ruleForm.tailIdx}
+          type="number"
+          className="w-20 h-fit text-xs focus-visible:ring-offset-1 focus-visible:ring-1"
+          onChange={(e) =>
+            setRuleForm({ ...ruleForm, tailIdx: parseInt(e.target.value) })
+          }
+        />
+        <div className="flex-1 text-muted-foreground ">번째 글자</div>
+      </div>
+    </RuleMenu>
+  );
+}
+
+function MannerSetting() {
+  const ruleForm = useWC((e) => e.ruleForm);
+  const setRuleForm = useWC((e) => e.setRuleForm);
+  return (
+    <RuleMenu name="매너">
+      <div className="flex items-center space-x-2 px-1">
+        <Checkbox
+          id="manner"
+          defaultChecked={ruleForm.manner}
+          onCheckedChange={(e: boolean) => {
+            setRuleForm({ ...ruleForm, manner: e });
+          }}
+        />
+        <label
+          htmlFor="manner"
+          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        >
+          한방단어 제거
+        </label>
+      </div>
+    </RuleMenu>
+  );
+}
+
+function AddedWordsSetting() {
+  const ruleForm = useWC((e) => e.ruleForm);
+  const setRuleForm = useWC((e) => e.setRuleForm);
+  return (
+    <RuleMenu name="단어 추가">
+      <div className="text-muted-foreground text-xs">띄어쓰기로 구분</div>
+      <Input
+        defaultValue={ruleForm.addedWords}
+        onChange={(e) =>
+          setRuleForm({ ...ruleForm, addedWords: e.target.value })
+        }
+      ></Input>
+    </RuleMenu>
+  );
+}
+
+const RegexExamples = [
+  {
+    title: "모든 단어",
+    content: String.raw`.*`,
+  },
+  {
+    title: "'가', '나', '다'로 시작하지 않는 단어",
+    content: String.raw`[^가나다].*`,
+  },
+  {
+    title: "'가', '나', '다'로 끝나지 않는 단어",
+    content: String.raw`.*[^가나다]`,
+  },
+  {
+    title: "첫 글자와 끝 글자가 같은 단어",
+    content: String.raw`(.).*(?!\1).`,
+  },
+  {
+    title: "2글자 또는 5글자 단어",
+    content: String.raw`(.{2}|.{5})`,
+  },
+  {
+    title: "3글자 이상 단어",
+    content: String.raw`(.{3}).*`,
+  },
+  {
+    title: "4글자 이하 단어",
+    content: String.raw`.{0,4}`,
+  },
+  {
+    title: "짝수 글자 단어",
+    content: String.raw`(..)*`,
+  },
+  {
+    title: "홀수 글자 단어",
+    content: String.raw`.(..)*`,
+  },
+  {
+    title: "'가' 또는 '나'를 포함하는 단어",
+    content: String.raw`.*[가나].*`,
+  },
+  {
+    title: "'가' 또는 '나'를 포함하지 않는 단어",
+    content: String.raw`.*[^가나].*`,
+  },
+];
+
+function RegexFilterSetting() {
+  const ruleForm = useWC((e) => e.ruleForm);
+  const setRuleForm = useWC((e) => e.setRuleForm);
+
+  return (
+    <RuleMenu name="단어 필터">
+      <div>
+        <Input
+          defaultValue={ruleForm.regexFilter}
+          onChange={(e) =>
+            setRuleForm({ ...ruleForm, regexFilter: e.target.value })
+          }
+          value={ruleForm.regexFilter}
+        ></Input>
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1" className="border-none mx-1">
+            <AccordionTrigger className="text-sm">예시</AccordionTrigger>
+            <AccordionContent className="font-semibold">
+              <div className="flex flex-col gap-2">
+                {RegexExamples.map((e, i) => (
+                  <div
+                    key={i}
+                    className="px-1 hover:bg-accent cursor-pointer transition-colors"
+                    onClick={() => {
+                      setRuleForm({ ...ruleForm, regexFilter: e.content });
+                    }}
+                  >
+                    <span className="font-medium text-muted-foreground">
+                      {e.title}
+                    </span>{" "}
+                    {e.content}
+                  </div>
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
+    </RuleMenu>
+  );
+}
+
+function RuleMenu({
+  name,
   children,
 }: {
-  value: any;
-  defaultChecked: boolean;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-  className?: string;
-  disabled?: boolean;
-  children?: React.ReactNode;
+  name: string;
+  children: React.ReactNode;
 }) {
-  const [checked, setChecked] = useState(defaultChecked);
-
   return (
-    <ToggleButton
-      id={`toggle-check${value}`}
-      type="checkbox"
-      variant="outline-dark"
-      checked={checked}
-      onChange={(e) => {
-        setChecked(e.currentTarget.checked);
-        onChange(e);
-      }}
-      value={value}
-      className={className}
-      disabled={disabled}
-    >
+    <div className="flex flex-col gap-2">
+      <div className="text-md">
+        <div className="flex gap-2 items-center">
+          <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          <div>{name}</div>
+        </div>
+      </div>
+
       {children}
-    </ToggleButton>
-  );
-}
-
-function Setting2({
-  ruleForm,
-  setRuleForm,
-}: {
-  ruleForm: RuleForm;
-  setRuleForm: React.Dispatch<React.SetStateAction<RuleForm>>;
-}) {
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const resultLen = [...ruleForm.len];
-    resultLen[parseInt(e.target.value)] = e.target.checked;
-    setRuleForm({ ...ruleForm, pos: resultLen });
-  };
-  return (
-    <div className="setting-wrap">
-      <div className="setting-toggle" id="pos">
-        <div className="title">품사</div>
-        <div className="toggle-box">
-          <ToggleBtn
-            value="0"
-            defaultChecked={ruleForm.pos[0]}
-            onChange={onChange}
-          >
-            명사
-          </ToggleBtn>
-          <ToggleBtn
-            value="1"
-            defaultChecked={ruleForm.pos[1]}
-            onChange={onChange}
-          >
-            의존명사
-          </ToggleBtn>
-          <ToggleBtn
-            value="2"
-            defaultChecked={ruleForm.pos[2]}
-            onChange={onChange}
-          >
-            대명사
-          </ToggleBtn>
-          <ToggleBtn
-            value="3"
-            defaultChecked={ruleForm.pos[3]}
-            onChange={onChange}
-          >
-            수사
-          </ToggleBtn>
-          <ToggleBtn
-            value="4"
-            defaultChecked={ruleForm.pos[4]}
-            onChange={onChange}
-          >
-            부사
-          </ToggleBtn>
-          <ToggleBtn
-            value="5"
-            defaultChecked={ruleForm.pos[5]}
-            onChange={onChange}
-          >
-            관형사
-          </ToggleBtn>
-          <ToggleBtn
-            value="6"
-            defaultChecked={ruleForm.pos[6]}
-            onChange={onChange}
-          >
-            감탄사
-          </ToggleBtn>
-          <ToggleBtn
-            value="7"
-            defaultChecked={ruleForm.pos[7]}
-            onChange={onChange}
-          >
-            구
-          </ToggleBtn>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Setting3({
-  ruleForm,
-  setRuleForm,
-  disabled,
-}: {
-  ruleForm: RuleForm;
-  setRuleForm: React.Dispatch<React.SetStateAction<RuleForm>>;
-  disabled: boolean;
-}) {
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const resultLen = [...ruleForm.len];
-    resultLen[parseInt(e.target.value)] = e.target.checked;
-    setRuleForm({ ...ruleForm, cate: resultLen });
-  };
-
-  return (
-    <div className="setting-wrap">
-      <div className="setting-toggle" id="cate">
-        <div className="title">범주</div>
-        <div className="toggle-box">
-          <ToggleBtn
-            value="10"
-            disabled={disabled}
-            defaultChecked={ruleForm.cate[0]}
-            onChange={onChange}
-          >
-            일반어
-          </ToggleBtn>
-          <ToggleBtn
-            value="11"
-            disabled={disabled}
-            defaultChecked={ruleForm.cate[1]}
-            onChange={onChange}
-          >
-            방언
-          </ToggleBtn>
-          <ToggleBtn
-            value="12"
-            disabled={disabled}
-            defaultChecked={ruleForm.cate[2]}
-            onChange={onChange}
-          >
-            북한어
-          </ToggleBtn>
-          <ToggleBtn
-            value="13"
-            disabled={disabled}
-            defaultChecked={ruleForm.cate[3]}
-            onChange={onChange}
-          >
-            옛말
-          </ToggleBtn>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Setting4({
-  ruleForm,
-  setRuleForm,
-}: {
-  ruleForm: RuleForm;
-  setRuleForm: React.Dispatch<React.SetStateAction<RuleForm>>;
-}) {
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const resultLen = [...ruleForm.len];
-    resultLen[parseInt(e.target.value)] = e.target.checked;
-    setRuleForm({ ...ruleForm, len: resultLen });
-  };
-
-  return (
-    <div className="setting-wrap">
-      <div className="setting-range" id="len">
-        <div className="title">글자수</div>
-        <div className="range-box">
-          <ToggleBtn
-            value="20"
-            defaultChecked={ruleForm.len[0]}
-            onChange={onChange}
-          >
-            2
-          </ToggleBtn>
-          <ToggleBtn
-            value="21"
-            defaultChecked={ruleForm.len[1]}
-            onChange={onChange}
-          >
-            3
-          </ToggleBtn>
-          <ToggleBtn
-            value="22"
-            defaultChecked={ruleForm.len[2]}
-            onChange={onChange}
-          >
-            4
-          </ToggleBtn>
-          <ToggleBtn
-            value="23"
-            defaultChecked={ruleForm.len[3]}
-            onChange={onChange}
-          >
-            5
-          </ToggleBtn>
-          <ToggleBtn
-            value="24"
-            defaultChecked={ruleForm.len[4]}
-            onChange={onChange}
-          >
-            6
-          </ToggleBtn>
-          <ToggleBtn
-            value="25"
-            defaultChecked={ruleForm.len[5]}
-            onChange={onChange}
-          >
-            7
-          </ToggleBtn>
-          <ToggleBtn
-            value="26"
-            defaultChecked={ruleForm.len[6]}
-            onChange={onChange}
-          >
-            8
-          </ToggleBtn>
-          <ToggleBtn
-            value="27"
-            defaultChecked={ruleForm.len[7]}
-            onChange={onChange}
-          >
-            9
-          </ToggleBtn>
-          <ToggleBtn
-            value="28"
-            defaultChecked={ruleForm.len[8]}
-            onChange={onChange}
-          >
-            ...
-          </ToggleBtn>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Setting5({
-  ruleForm,
-  setRuleForm,
-}: {
-  ruleForm: RuleForm;
-  setRuleForm: React.Dispatch<React.SetStateAction<RuleForm>>;
-}) {
-  return (
-    <div className="setting-wrap">
-      <div className="setting-select" id="chan">
-        <div className="title">두음법칙</div>
-        <Form.Select
-          aria-label="Default select example"
-          value={ruleForm.chan}
-          onChange={(e) => {
-            setRuleForm({ ...ruleForm, chan: parseInt(e.target.value) });
-          }}
-        >
-          <option value="0">없음</option>
-          <option value="1">표준</option>
-          <option value="2">ㄹ&#8594;ㄴ&#8594;ㅇ</option>
-          <option value="3">ㄹ&#8644;ㄴ&#8644;ㅇ</option>
-          <option value="4">반전룰</option>
-          <option value="5">첸룰</option>
-          <option value="6">듭2룰</option>
-        </Form.Select>
-      </div>
-    </div>
-  );
-}
-
-function Setting6({
-  ruleForm,
-  setRuleForm,
-  isHeadValid,
-  isTailValid,
-}: {
-  ruleForm: RuleForm;
-  setRuleForm: React.Dispatch<React.SetStateAction<RuleForm>>;
-  isHeadValid: boolean;
-  isTailValid: boolean;
-}) {
-  return (
-    <>
-      <div className="setting-wrap">
-        <div className="setting-select-index" id="head">
-          <span className="title">첫글자</span>
-          <Form.Select
-            defaultValue={`${ruleForm.headDir}`}
-            aria-label="Default select example"
-            onChange={(e) => {
-              setRuleForm({
-                ...ruleForm,
-                headDir: parseInt(e.target.value) as 0 | 1,
-              });
-            }}
-            name="headDir"
-          >
-            <option value="0">앞에서</option>
-            <option value="1">뒤에서</option>
-          </Form.Select>
-
-          <div className="form-control-wrap">
-            <Form.Control
-              type="number"
-              name="headIdx"
-              defaultValue={`${ruleForm.headIdx}`}
-              onChange={(e) => {
-                setRuleForm({
-                  ...ruleForm,
-                  headIdx: parseInt(e.target.value),
-                });
-              }}
-              isInvalid={!isHeadValid}
-            />
-            <span className="index-text">번째</span>
-            <Form.Control.Feedback type="invalid">
-              글자수의 최솟값보다 작거나 같아야 합니다!
-            </Form.Control.Feedback>
-          </div>
-        </div>
-      </div>
-      <div className="setting-wrap">
-        <div className="setting-select-index" id="tail">
-          <span className="title">끝글자</span>
-          <Form.Select
-            defaultValue={`${ruleForm.tailDir}`}
-            aria-label="Default select example"
-            onChange={(e) => {
-              setRuleForm({
-                ...ruleForm,
-                tailDir: parseInt(e.target.value) as 0 | 1,
-              });
-            }}
-            name="tailDir"
-          >
-            <option value="0">앞에서</option>
-            <option value="1">뒤에서</option>
-          </Form.Select>
-          <div className="form-control-wrap">
-            <Form.Control
-              type="number"
-              name="tailIdx"
-              defaultValue={`${ruleForm.tailIdx}`}
-              onChange={(e) => {
-                setRuleForm({
-                  ...ruleForm,
-                  tailIdx: parseInt(e.target.value),
-                });
-              }}
-              isInvalid={!isTailValid}
-            />
-            <span className="index-text">번째</span>
-            <Form.Control.Feedback type="invalid">
-              글자수의 최솟값보다 작거나 같아야 합니다!
-            </Form.Control.Feedback>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
-
-function Setting7({
-  ruleForm,
-  setRuleForm,
-}: {
-  ruleForm: RuleForm;
-  setRuleForm: React.Dispatch<React.SetStateAction<RuleForm>>;
-}) {
-  return (
-    <div className="setting-wrap">
-      <div className="setting-check" id="menner">
-        <div className="title">
-          <Form.Check
-            reverse
-            onChange={(e) => {
-              setRuleForm({
-                ...ruleForm,
-                manner: e.target.checked,
-              });
-            }}
-            defaultChecked={ruleForm.manner}
-            inline
-            label="한방단어 금지"
-            name="manner"
-            type="checkbox"
-            id="manner"
-          />
-          <div
-            className="manner-warning"
-            style={{ display: ruleForm.manner ? "block" : "none" }}
-          >
-            로딩 시간이 길어질 수 있습니다.
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-function Setting8({
-  ruleForm,
-  setRuleForm,
-}: {
-  ruleForm: RuleForm;
-  setRuleForm: React.Dispatch<React.SetStateAction<RuleForm>>;
-}) {
-  const [isShowGuide, setIsShowGuide] = useState(false);
-  return (
-    <div className="setting-wrap">
-      <div className="setting-range" id="len">
-        <div className="title">
-          단어 필터 <span style={{ fontSize: "0.8rem" }}>(정규표현식)</span>
-        </div>
-        <div className="input-box">
-          <Form.Control
-            type="text"
-            name="regexFilter"
-            className="regex-form"
-            defaultValue={`${ruleForm.regexFilter}`}
-            onChange={(e) => {
-              setRuleForm({ ...ruleForm, regexFilter: e.target.value });
-            }}
-            value={ruleForm.regexFilter}
-            // isInvalid={!isTailValid}
-          />
-        </div>
-        <div className="regex-ex-box">
-          <div
-            className="guide-btn"
-            onClick={() => setIsShowGuide(!isShowGuide)}
-          >
-            예시 보기
-            {isShowGuide ? (
-              <img
-                className="analysis-icon"
-                src="icon/arrow_drop_up_FILL0_wght400_GRAD0_opsz24.svg"
-              />
-            ) : (
-              <img
-                className="analysis-icon"
-                src="icon/arrow_drop_down_FILL0_wght400_GRAD0_opsz24.svg"
-              />
-            )}
-          </div>
-          {isShowGuide && (
-            <>
-              <div
-                className=""
-                onClick={() => {
-                  setRuleForm({ ...ruleForm, regexFilter: ".*" });
-                }}
-              >
-                모든 단어: <span className="regex-ex-regex">.*</span>
-              </div>
-              <div
-                className=""
-                onClick={() => {
-                  setRuleForm({ ...ruleForm, regexFilter: ".*[^a]" });
-                }}
-              >
-                a로 끝나지 않는 단어:{" "}
-                <span className="regex-ex-regex">.*[^a]</span>
-              </div>
-              <div
-                className=""
-                onClick={() => {
-                  setRuleForm({ ...ruleForm, regexFilter: ".*[^abc]" });
-                }}
-              >
-                a,b,c로 끝나지 않는 단어:{" "}
-                <span className="regex-ex-regex">.*[^abc]</span>
-              </div>
-              <div
-                className=""
-                onClick={() => {
-                  setRuleForm({ ...ruleForm, regexFilter: "[^a].*" });
-                }}
-              >
-                a로 시작하지 않는 단어:{" "}
-                <span className="regex-ex-regex">[^a].*</span>
-              </div>
-              <div
-                className=""
-                onClick={() => {
-                  setRuleForm({ ...ruleForm, regexFilter: "[^abc].*" });
-                }}
-              >
-                a,b,c로 시작하지 않는 단어:{" "}
-                <span className="regex-ex-regex">[^abc].*</span>
-              </div>
-              <div
-                className=""
-                onClick={() => {
-                  setRuleForm({ ...ruleForm, regexFilter: "(.).*(?!\\1)." });
-                }}
-              >
-                첫 글자와 끝 글자가 다른 단어:{" "}
-                <span className="regex-ex-regex">(.).*(?!\1).</span>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function Setting9({
-  ruleForm,
-  setRuleForm,
-}: {
-  ruleForm: RuleForm;
-  setRuleForm: React.Dispatch<React.SetStateAction<RuleForm>>;
-}) {
-  return (
-    <div className="setting-wrap">
-      <div className="setting-range" id="len">
-        <div className="title">
-          단어 추가 <span style={{ fontSize: "0.8rem" }}>(공백으로 구분)</span>
-        </div>
-        <div className="input-box">
-          <Form.Control
-            type="text"
-            name="addedWords"
-            className="addedWords-form"
-            defaultValue={ruleForm.addedWords}
-            onChange={(e) => {
-              setRuleForm({ ...ruleForm, addedWords: e.target.value });
-            }}
-            value={ruleForm.addedWords}
-          />
-        </div>
-      </div>
     </div>
   );
 }

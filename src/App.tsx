@@ -30,12 +30,16 @@ import { Label } from "@/components/ui/label";
 import { useTheme } from "./components/theme-provider";
 import { RuleSetting } from "./pages/header/RuleSetting";
 import { Separator } from "./components/ui/separator";
+import Statistics from "./pages/body/statistics/Statistics";
+import Practice from "./pages/body/practice/Practice";
 function App() {
   const menu = useMenu((e) => e.menu);
   const setMenu = useMenu((e) => e.setMenu);
   const initWorker = useWC((e) => e.initWorker);
+  const updateRule = useWC((e) => e.updateRule);
   useEffect(() => {
     initWorker();
+    updateRule();
   }, []);
   return (
     <>
@@ -63,7 +67,13 @@ function App() {
             </div>
           </div>
           <div className="flex-1 h-full min-h-0">
-            <Search />
+            {menu.index === 0 ? (
+              <Search />
+            ) : menu.index === 1 ? (
+              <Practice />
+            ) : (
+              <Statistics />
+            )}
           </div>
         </div>
       </div>
@@ -76,52 +86,53 @@ function PreferenceSetting() {
     theme.theme
   );
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <div
-          className={cn(
-            "h-12 w-12 flex flex-col justify-center items-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg p-1 transition-colors"
-          )}
-        >
-          <Settings strokeWidth={1.5} />
-          <div className="text-[10px]">설정</div>
-        </div>
-        {/* <MenuBtn icon={<Settings2 strokeWidth={1.5} />} name={"설정"} /> */}
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>환경 설정</DialogTitle>
-        </DialogHeader>
-        <DialogDescription></DialogDescription>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              테마
-            </Label>
-            <ThemeDropdown
-              themeSelect={themeSelect}
-              setThemeSelect={setThemeSelect}
-            />
-          </div>
-        </div>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button type="button" variant="ghost" id="close">
-              취소
-            </Button>
-          </DialogClose>
-          <Button
-            type="submit"
-            onClick={() => {
-              document.getElementById("close")!.click();
-              theme.setTheme(themeSelect);
-            }}
-          >
-            적용
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <div></div>
+    // <Dialog>
+    //   <DialogTrigger asChild>
+    //     <div
+    //       className={cn(
+    //         "h-12 w-12 flex flex-col justify-center items-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg p-1 transition-colors"
+    //       )}
+    //     >
+    //       <Settings strokeWidth={1.5} />
+    //       <div className="text-[10px]">설정</div>
+    //     </div>
+    //     {/* <MenuBtn icon={<Settings2 strokeWidth={1.5} />} name={"설정"} /> */}
+    //   </DialogTrigger>
+    //   <DialogContent className="sm:max-w-[425px]">
+    //     <DialogHeader>
+    //       <DialogTitle>환경 설정</DialogTitle>
+    //     </DialogHeader>
+    //     <DialogDescription></DialogDescription>
+    //     <div className="grid gap-4 py-4">
+    //       <div className="grid grid-cols-4 items-center gap-4">
+    //         <Label htmlFor="name" className="text-right">
+    //           테마
+    //         </Label>
+    //         <ThemeDropdown
+    //           themeSelect={themeSelect}
+    //           setThemeSelect={setThemeSelect}
+    //         />
+    //       </div>
+    //     </div>
+    //     <DialogFooter>
+    //       <DialogClose asChild>
+    //         <Button type="button" variant="ghost" id="close">
+    //           취소
+    //         </Button>
+    //       </DialogClose>
+    //       <Button
+    //         type="submit"
+    //         onClick={() => {
+    //           document.getElementById("close")!.click();
+    //           theme.setTheme(themeSelect);
+    //         }}
+    //       >
+    //         적용
+    //       </Button>
+    //     </DialogFooter>
+    //   </DialogContent>
+    // </Dialog>
   );
 }
 
@@ -162,23 +173,25 @@ function ThemeDropdown({
   );
 }
 
-export const MenuBtn = forwardRef<
-  HTMLButtonElement,
-  { icon: ReactNode; name: string; className?: string }
->(({ icon, name, className, ...props }, ref) => {
+interface MenuBtnProps extends React.HTMLAttributes<HTMLDivElement> {
+  icon: ReactNode;
+  name: string;
+  className?: string;
+}
+
+export function MenuBtn({ icon, name, className, ...props }: MenuBtnProps) {
   return (
-    <button
+    <div
       {...props}
       className={cn(
         "h-12 w-12 flex flex-col justify-center items-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg p-1 transition-colors",
         className
       )}
-      ref={ref}
     >
       {icon}
       <div className="text-[10px]">{name}</div>
-    </button>
+    </div>
   );
-});
+}
 
 export default App;

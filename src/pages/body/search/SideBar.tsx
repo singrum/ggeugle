@@ -4,13 +4,6 @@ import {
   CharButton,
   CharContent,
 } from "@/components/ui/CharBox";
-import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { useWC } from "@/lib/store/useWC";
-import { cn } from "@/lib/utils";
-import React, { useEffect, useMemo, useState } from "react";
-import ScrollSpy from "react-scrollspy-navigation";
 import {
   Select,
   SelectContent,
@@ -18,10 +11,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { WCDisplay } from "@/lib/wc/wordChain";
+import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useWC } from "@/lib/store/useWC";
+import { cn } from "@/lib/utils";
+import { WCDisplay } from "@/lib/wc/wordChain";
+import React, { useMemo, useState } from "react";
+import ScrollSpy from "react-scrollspy-navigation";
 
-const order = ["n턴 후 승리", "가나다 순", "빈도 순"];
+const orders = ["n턴 후 승리", "빈도 순"];
 
 export default function SideBar() {
   const [order, setOrder] = useState<string>("0");
@@ -33,12 +31,16 @@ export default function SideBar() {
         <div className="flex-1 overflow-auto scrollbar-none px-2 pb-2 bg-background">
           <div className="flex gap-2 justify-end pt-3">
             <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
-              <SelectTrigger className="w-fit text-xs text-muted-foreground border-0 p-1 h-fit">
-                <SelectValue />
+              <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1">
+                <div className="text-muted-foreground mr-1">정렬:</div>
+                <SelectValue className="" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="0">n턴 후 승리</SelectItem>
-                <SelectItem value="1">빈도 순</SelectItem>
+                {orders.map((e, i) => (
+                  <SelectItem value={`${i}`} key={i} className="text-xs">
+                    {e}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
@@ -222,7 +224,7 @@ function EndInN() {
             <CharBox>
               <CharBadge>{`조건부 패배`}</CharBadge>
               <CharContent>
-                {wcd.wincir.map((char) => (
+                {wcd.loscir.map((char) => (
                   <CharButton type="los" key={char} className="text-los">
                     {char}
                   </CharButton>
@@ -263,7 +265,7 @@ function EndInN() {
         <div className="mb-2">
           <CharBox>
             <CharContent>
-              {Array.from({ length: 500 }, (e, i) => (
+              {Array.from({ length: 500 }, (_, i) => (
                 <Skeleton className="h-8 w-8 m-1" key={i} />
               ))}
             </CharContent>
@@ -288,7 +290,7 @@ function CharMenu() {
   const [menu, setMenu] = useState<number>(0);
   return (
     <ScrollSpy
-      onChangeActiveId={(curr, prev) => {
+      onChangeActiveId={(curr) => {
         setMenu(curr === "route" ? 2 : curr === "los" ? 1 : 0);
       }}
     >

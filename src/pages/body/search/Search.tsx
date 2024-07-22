@@ -1,12 +1,13 @@
-import React from "react";
-import SearchInput from "./SearchInput";
-import SideBar from "./SideBar";
+
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import ExceptWordsDisplay from "./ExceptWordsDisplay";
+import SearchInput from "./SearchInput";
 import SearchResult from "./SearchResult";
+import SideBar from "./SideBar";
 export default function Search() {
   return (
     <>
@@ -21,8 +22,9 @@ export default function Search() {
           <ResizablePanel className="min-h-0">
             <div className="min-h-0 h-full">
               <div className="flex flex-col p-3 gap-2 min-h-0 h-full overflow-auto scrollbar-none">
+                <ExceptWordsDisplay />
                 <SearchInput />
-
+                
                 <SearchResult />
               </div>
             </div>

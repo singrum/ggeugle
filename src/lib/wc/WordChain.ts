@@ -1,23 +1,12 @@
 import * as Collections from "typescript-collections";
 import { changeableMap, reverseChangeableMap } from "./hangul";
 import { pushObject } from "../utils";
-export class WCRule {
+export type WCRule = {
   changeableIdx: number;
   headIdx: number;
   tailIdx: number;
   manner: boolean;
-  constructor(
-    changeableIdx: number = 1,
-    headIdx: number = 0,
-    tailIdx: number = -1,
-    manner: boolean = false
-  ) {
-    this.changeableIdx = changeableIdx;
-    this.headIdx = headIdx;
-    this.tailIdx = tailIdx;
-    this.manner = manner;
-  }
-}
+};
 
 export type Char = string;
 export type CharType = "los" | "win" | "loscir" | "wincir" | "route";
@@ -531,6 +520,62 @@ export type NoncharSearchResult = {
 };
 
 export class WCDisplay {
+  static routeComparisonChartData(engine: WCEngine) {
+    const routeChars = Object.keys(engine.charInfo).filter(
+      (e) => engine.charInfo[e].type === "route"
+    ).length;
+    const routeWords = engine.words
+      .filter(
+        (word) =>
+          engine.charInfo[word.at(engine.rule.headIdx)!].type === "route" &&
+          engine.charInfo[word.at(engine.rule.tailIdx)!].type === "route"
+      )
+      .filter(
+        (word) => WCDisplay.getWordType(engine, word).type === "route"
+      ).length;
+    const averageWords = routeWords / routeChars;
+    return [
+      { data: "routeChars", currentRule: routeChars, guelRule: routeChars },
+      { data: "routeWords", currentRule: routeWords, guelRule: routeWords },
+      {
+        data: "averageWords",
+        currentRule: averageWords,
+        guelRule: averageWords,
+      },
+    ];
+  }
+  static charTypeChartData(engine: WCEngine) {
+    const chars = Object.keys(engine.charInfo);
+
+    const chartData = [
+      {
+        type: "win",
+        num: chars.filter((e) => engine.charInfo[e].type === "win").length,
+        fill: "hsl(var(--win))",
+      },
+      {
+        type: "wincir",
+        num: chars.filter((e) => engine.charInfo[e].type === "wincir").length,
+        fill: "hsl(var(--win) / 0.6)",
+      },
+      {
+        type: "los",
+        num: chars.filter((e) => engine.charInfo[e].type === "los").length,
+        fill: "hsl(var(--los))",
+      },
+      {
+        type: "loscir",
+        num: chars.filter((e) => engine.charInfo[e].type === "loscir").length,
+        fill: "hsl(var(--los) / 0.6)",
+      },
+      {
+        type: "route",
+        num: chars.filter((e) => engine.charInfo[e].type === "route").length,
+        fill: "hsl(var(--route))",
+      },
+    ];
+    return chartData;
+  }
   static endInN(engine: WCEngine) {
     const result: {
       win: { endNum: number; chars: Char[] }[];
@@ -595,7 +640,7 @@ export class WCDisplay {
   ): { type: string; endNum?: number } {
     const head = word.at(engine.rule.headIdx)!;
     const tail = word.at(engine.rule.tailIdx)!;
-    
+
     if (engine.charInfo[head].type === "win") {
       if (engine.charInfo[tail].type === "win") {
         return { type: "los", endNum: engine.charInfo[tail].endNum! };

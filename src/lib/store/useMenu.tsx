@@ -12,7 +12,7 @@ export interface MenuInfo {
   setMenu: (index: number) => void;
 }
 
-export const useMenu = create<MenuInfo>((set, get) => ({
+export const useMenu = create<MenuInfo>((set) => ({
   menu: menus[0],
   setMenu: (index: number) => set(() => ({ menu: menus[index] })),
 }));

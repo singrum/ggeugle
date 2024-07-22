@@ -1,20 +1,73 @@
 import { WordBadge, WordBox, WordContent } from "@/components/ui/WordBox";
 import { Separator } from "@/components/ui/separator";
 
-import { useWC } from "@/lib/store/useWC";
-import React, { useEffect, useMemo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { josa } from "es-hangul";
+import { useWC } from "@/lib/store/useWC";
 import {
   CharSearchResult,
   NoncharSearchResult,
   WCDisplay,
   WordType,
 } from "@/lib/wc/wordChain";
+import { josa } from "es-hangul";
+import React from "react";
 
 export default function SearchResult() {
+  return (
+    <>
+      {/* <CharResult /> */}
+
+      <WordsResult />
+    </>
+  );
+}
+
+function CharResult() {
+  const [searchResult, searchInputValue, engine] = useWC((e) => [
+    e.searchResult,
+    e.searchInputValue,
+    e.engine,
+  ]);
+
+  return (
+    searchResult &&
+    searchResult.isChar && (
+      <div className="flex w-full items-center gap-2">
+        <div
+          className={`border border-border p-2 rounded-lg flex justify-center items-center w-16 h-16 text-5xl text-${WCDisplay.reduceWordtype(
+            engine?.charInfo[searchInputValue].type!
+          )}`}
+        >
+          {searchInputValue}
+        </div>
+        <div className="flex flex-col">
+          {(engine?.charInfo[searchInputValue].type === "win" ||
+            engine?.charInfo[searchInputValue].type === "los") && (
+            <>
+              <div>
+                <span className="font-semibold">{searchInputValue}</span>
+                {josa(searchInputValue, "이/가").at(-1)} 주어진 플레이어는{" "}
+                <span
+                  className={`text-${engine?.charInfo[searchInputValue].type}`}
+                >
+                  {engine?.charInfo[searchInputValue].endNum}턴 후{" "}
+                  {engine?.charInfo[searchInputValue].type === "win"
+                    ? "승리"
+                    : "패배"}
+                </span>
+                해요.
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+    )
+  );
+}
+
+function WordsResult() {
   const [searchResult, engine] = useWC((e) => [e.searchResult, e.engine]);
-  
+
   return (
     <Tabs
       defaultValue="startsWith"

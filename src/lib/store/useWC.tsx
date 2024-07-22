@@ -1,14 +1,29 @@
 import { create } from "zustand";
 import { Char, SearchResult, WCDisplay, WCEngine } from "../wc/wordChain";
-import toast from "react-hot-toast";
+
 import { ChangedCharsAlert } from "@/pages/body/search/ChangedCharsAlert";
+import toast from "react-hot-toast";
 export type changeInfo = Record<Char, { prevType: string; currType: string }>;
+
+export const dicts = ["(구)표국대", "(신)표국대", "우리말샘"];
+
+export const poses = [
+  "명사",
+  "의존명사",
+  "대명사",
+  "수사",
+  "부사",
+  "관형사",
+  "감탄사",
+  "구",
+];
+
+export const cates = ["일반어", "방언", "북한어", "옛말"];
 
 export interface RuleForm {
   dict: number;
   pos: boolean[]; // 8
   cate: boolean[]; // 4
-  len: boolean[]; // 9
   chan: number;
   headDir: 0 | 1;
   tailDir: 0 | 1;
@@ -32,11 +47,14 @@ export interface WCInfo {
   prevEngine?: WCEngine;
   engine?: WCEngine;
   initWorker: () => void;
-  rule: RuleForm;
   isLoading: boolean;
-  setRule: (rule: RuleForm) => void;
   changeInfo: changeInfo;
   setChangeInfo: (changeInfo: changeInfo) => void;
+
+  rule: RuleForm;
+  ruleForm: RuleForm;
+  setRuleForm: (ruleForm: RuleForm) => void;
+  updateRule: () => void;
 }
 
 export const useWC = create<WCInfo>((set, get) => ({
@@ -67,12 +85,13 @@ export const useWC = create<WCInfo>((set, get) => ({
   engine: undefined,
   initWorker: () => {
     const worker = get().worker;
+
     worker!.onmessage = ({ data }) => {
       switch (data.action) {
         case "getEngine":
           const engine = data.data;
           const prevEngine = get().engine;
-          // console.log(WCDisplay.searchResult(engine!, get().value));
+
           set(() => ({
             prevEngine,
             engine,
@@ -110,7 +129,15 @@ export const useWC = create<WCInfo>((set, get) => ({
           break;
       }
     };
+    
   },
+  changeInfo: {},
+  setChangeInfo: (changeInfo) => {
+    set(() => ({
+      changeInfo,
+    }));
+  },
+
   rule: {
     dict: 0,
     pos: [true, false, false, false, false, false, false, false],
@@ -125,11 +152,32 @@ export const useWC = create<WCInfo>((set, get) => ({
     regexFilter: ".*",
     addedWords: "",
   },
-  setRule: (rule: RuleForm) => set(() => ({ rule })),
-  changeInfo: {},
-  setChangeInfo: (changeInfo) => {
+
+  ruleForm: {
+    dict: 0,
+    pos: [true, false, false, false, false, false, false, false],
+    cate: [true, true, true, true],
+    chan: 1,
+    headDir: 0,
+    headIdx: 1,
+    tailDir: 1,
+    tailIdx: 1,
+    manner: false,
+    regexFilter: ".*",
+    addedWords: "",
+  },
+  setRuleForm: (ruleForm: RuleForm) => set({ ruleForm }),
+  updateRule: () => {
+    const ruleForm = get().ruleForm;
+
     set(() => ({
-      changeInfo,
+      engine: undefined,
+      prevEngine: undefined,
+      exceptWords: [],
+      isLoading: true,
+      rule: ruleForm,
     }));
+
+    get().worker!.postMessage({ action: "getEngine", data: ruleForm });
   },
 }));
