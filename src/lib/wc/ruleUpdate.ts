@@ -9,6 +9,7 @@ async function fetchWords(url: string) {
 
 export async function getEngine(ruleForm: RuleForm) {
   let words: string[] = [];
+
   switch (ruleForm.dict) {
     case 0:
       words = (
@@ -17,13 +18,12 @@ export async function getEngine(ruleForm: RuleForm) {
             .filter((_, i) => ruleForm.pos[i])
             .map((pos) =>
               fetchWords(
-                `https://singrum.github.io/KoreanDict/oldict/db/${encodeURI(
-                  pos
-                )}`
+                `https://singrum.github.io/KoreanDict/oldict/db/${pos}`
               )
             )
         )
       ).flat();
+
       break;
     case 1:
       words = (
@@ -32,9 +32,7 @@ export async function getEngine(ruleForm: RuleForm) {
             .filter((_, i) => ruleForm.pos[i])
             .map((pos) =>
               fetchWords(
-                `https://singrum.github.io/KoreanDict/stdict/db/${encodeURI(
-                  pos
-                )}`
+                `https://singrum.github.io/KoreanDict/stdict/db/${pos}`
               )
             )
         )
@@ -44,15 +42,13 @@ export async function getEngine(ruleForm: RuleForm) {
       const pairs = [];
       for (let cate of cates.filter((_, i) => ruleForm.cate[i]))
         for (let pos of poses.filter((_, i) => ruleForm.pos[i]))
-          pairs.push([pos, cate]);
+          pairs.push([cate, pos]);
 
       words = (
         await Promise.all(
           pairs.map((e) =>
             fetchWords(
-              `https://singrum.github.io/KoreanDict/opendict/db/${
-                e[0]
-              }/${encodeURI(e[1])}`
+              `https://singrum.github.io/KoreanDict/opendict/db/${e[0]}/${e[1]}`
             )
           )
         )
@@ -75,7 +71,7 @@ export async function getEngine(ruleForm: RuleForm) {
   wce.words = Array.from(
     new Set(
       words
-        .filter((x) => re.test(x))
+        .filter((x) => re.test(x) && x.length > 1)
         .concat(ruleForm.addedWords.split(/\s+/).filter((e) => e.length > 0))
     )
   );

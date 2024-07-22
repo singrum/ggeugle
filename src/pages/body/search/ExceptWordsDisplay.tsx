@@ -13,7 +13,7 @@ import {
   X
 } from "lucide-react";
 import { Toaster } from "react-hot-toast";
-import { ChangedCharsDialog } from "./ChangedCharsAlert";
+import { ChangedCharsDialog } from "./ChangedCharsDialog";
 export default function ExceptWordsDisplay() {
   // const [value, setValue] = useState("");
 

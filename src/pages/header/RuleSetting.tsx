@@ -38,58 +38,58 @@ export function RuleSetting() {
   ]);
 
   return (
-    <div></div>
-    // <Dialog
-    //   onOpenChange={(e) => {
-    //     if (e) {
-    //       setRuleForm({ ...rule });
-    //     }
-    //   }}
-    // >
-    //   <DialogTrigger>
-    //     <MenuBtn icon={<Settings2 strokeWidth={1.5} />} name={"룰 변경"} />
-    //   </DialogTrigger>
-    //   <DialogContent className="sm:max-w-[425px] max-h-[80%] overflow-auto scrollbar-thin">
-    //     <DialogHeader>
-    //       <DialogTitle>룰 변경</DialogTitle>
-    //     </DialogHeader>
-    //     <DialogDescription>끝말잇기 룰 변경</DialogDescription>
-    //     <div className="flex flex-col">
-    //       <DictSetting />
-    //       <Separator className="my-2" />
-    //       <PosSetting />
-    //       <Separator className="my-2" />
-    //       <CateSetting />
-    //       <Separator className="my-2" />
-    //       <ChanSetting />
-    //       <Separator className="my-2" />
-    //       <HeadIdxSetting />
-    //       <Separator className="my-2" />
-    //       <TailIdxSetting />
-    //       <Separator className="my-2" />
-    //       <MannerSetting />
-    //       <Separator className="my-2" />
-    //       <RegexFilterSetting />
-    //       <Separator className="my-2" />
-    //       <AddedWordsSetting />
-    //       <Separator className="my-2" />
-    //     </div>
-    //     <DialogFooter>
-    //       <DialogClose asChild>
-    //         <Button variant="outline">취소</Button>
-    //       </DialogClose>
-    //       <DialogClose asChild>
-    //         <Button
-    //           onClick={() => {
-    //             updateRule();
-    //           }}
-    //         >
-    //           변경사항 저장
-    //         </Button>
-    //       </DialogClose>
-    //     </DialogFooter>
-    //   </DialogContent>
-    // </Dialog>
+    // <div></div>
+    <Dialog
+      onOpenChange={(e) => {
+        if (e) {
+          setRuleForm({ ...rule });
+        }
+      }}
+    >
+      <DialogTrigger>
+        <MenuBtn icon={<Settings2 strokeWidth={1.5} />} name={"룰 변경"} />
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px] max-h-[80%] overflow-auto scrollbar-thin">
+        <DialogHeader>
+          <DialogTitle>룰 변경</DialogTitle>
+        </DialogHeader>
+        <DialogDescription>끝말잇기 룰 변경</DialogDescription>
+        <div className="flex flex-col">
+          <DictSetting />
+          <Separator className="my-2" />
+          <PosSetting />
+          <Separator className="my-2" />
+          <CateSetting />
+          <Separator className="my-2" />
+          <ChanSetting />
+          <Separator className="my-2" />
+          <HeadIdxSetting />
+          <Separator className="my-2" />
+          <TailIdxSetting />
+          <Separator className="my-2" />
+          <MannerSetting />
+          <Separator className="my-2" />
+          <RegexFilterSetting />
+          <Separator className="my-2" />
+          <AddedWordsSetting />
+          <Separator className="my-2" />
+        </div>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button variant="outline">취소</Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button
+              onClick={() => {
+                updateRule();
+              }}
+            >
+              변경사항 저장
+            </Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
 
@@ -100,13 +100,30 @@ function DictSetting() {
     <RuleMenu name="사전">
       <Select
         defaultValue={ruleForm.dict.toString()}
-        onValueChange={(e) =>
-          setRuleForm({
-            ...ruleForm,
-            dict: parseInt(e),
-            cate: [true, true, true, true],
-          })
-        }
+        onValueChange={(e) => {
+          switch (parseInt(e)) {
+            case 0:
+              setRuleForm({
+                ...ruleForm,
+                dict: parseInt(e),
+                cate: [true, true, true, true],
+              });
+              break;
+            case 1:
+              setRuleForm({
+                ...ruleForm,
+                dict: parseInt(e),
+                cate: [true, false, false, false],
+              });
+              break;
+            case 2:
+              setRuleForm({
+                ...ruleForm,
+                dict: parseInt(e),
+              });
+              break;
+          }
+        }}
       >
         <SelectTrigger className="w-[180px] text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
           <SelectValue />
@@ -136,7 +153,7 @@ function PosSetting() {
               className={cn(
                 "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer",
                 {
-                  "bg-white text-background hover:bg-foreground hover:text-background":
+                  "bg-foreground text-background hover:bg-foreground hover:text-background":
                     ruleForm.pos[i],
                 }
               )}
@@ -168,19 +185,18 @@ function CateSetting() {
               className={cn(
                 "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer",
                 {
-                  "bg-white text-background hover:bg-foreground hover:text-background":
+                  "bg-foreground text-background hover:bg-foreground hover:text-background":
                     ruleForm.cate[i],
-                  "bg-muted-foreground/80 cursor-default hover:bg-muted-foreground/80":
-                    ruleForm.dict === 0,
+                  "opacity-50": ruleForm.dict === 0 || ruleForm.dict === 1,
                 }
               )}
               onClick={() => {
-                if (ruleForm.dict === 0) return;
-
-                setRuleForm({
-                  ...ruleForm,
-                  cate: { ...ruleForm.cate, [i]: !ruleForm.cate[i] },
-                });
+                if (ruleForm.dict === 2) {
+                  setRuleForm({
+                    ...ruleForm,
+                    cate: { ...ruleForm.cate, [i]: !ruleForm.cate[i] },
+                  });
+                }
               }}
             >
               {e}
@@ -249,7 +265,7 @@ function HeadIdxSetting() {
           </SelectContent>
         </Select>
         <Input
-          defaultValue={ruleForm.headIdx}
+          value={ruleForm.headIdx}
           type="number"
           className="w-20 h-fit text-xs focus-visible:ring-offset-1 focus-visible:ring-1"
           onChange={(e) =>
@@ -287,7 +303,7 @@ function TailIdxSetting() {
           </SelectContent>
         </Select>
         <Input
-          defaultValue={ruleForm.tailIdx}
+          value={ruleForm.tailIdx}
           type="number"
           className="w-20 h-fit text-xs focus-visible:ring-offset-1 focus-visible:ring-1"
           onChange={(e) =>
@@ -331,11 +347,11 @@ function AddedWordsSetting() {
     <RuleMenu name="단어 추가">
       <div className="text-muted-foreground text-xs">띄어쓰기로 구분</div>
       <Input
-        defaultValue={ruleForm.addedWords}
+        value={ruleForm.addedWords}
         onChange={(e) =>
           setRuleForm({ ...ruleForm, addedWords: e.target.value })
         }
-      ></Input>
+      />
     </RuleMenu>
   );
 }
@@ -395,12 +411,11 @@ function RegexFilterSetting() {
     <RuleMenu name="단어 필터">
       <div>
         <Input
-          defaultValue={ruleForm.regexFilter}
+          value={ruleForm.regexFilter}
           onChange={(e) =>
             setRuleForm({ ...ruleForm, regexFilter: e.target.value })
           }
-          value={ruleForm.regexFilter}
-        ></Input>
+        />
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none mx-1">
             <AccordionTrigger className="text-sm">예시</AccordionTrigger>

@@ -9,11 +9,20 @@ import {
 import { useWC } from "@/lib/store/useWC";
 import { WCDisplay } from "@/lib/wc/wordChain";
 import { useMemo } from "react";
-import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, XAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Label,
+  Pie,
+  PieChart,
+  XAxis,
+} from "recharts";
 
 export default function Statistics() {
-  const engine = useWC((e) => e.engine);
-  return engine ? (
+  const originalEngine = useWC((e) => e.originalEngine);
+
+  return originalEngine ? (
     <>
       <div className="flex flex-col p-4 h-full">
         <Header />
@@ -34,18 +43,18 @@ export default function Statistics() {
 }
 
 function Header() {
-  const engine = useWC((e) => e.engine);
+  const originalEngine = useWC((e) => e.originalEngine);
   return (
     <div className="flex gap-2">
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
-          {engine?.words.length.toLocaleString()}
+          {originalEngine?.words.length.toLocaleString()}
         </div>
         <div>단어</div>
       </div>
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
-          {Object.keys(engine!.charInfo).length.toLocaleString()}
+          {Object.keys(originalEngine!.charInfo).length.toLocaleString()}
         </div>
         <div>글자</div>
       </div>
@@ -54,10 +63,10 @@ function Header() {
 }
 
 function CharTypeChart() {
-  const engine = useWC((e) => e.engine);
+  const originalEngine = useWC((e) => e.originalEngine);
   const chartData = useMemo(() => {
-    return engine && WCDisplay.charTypeChartData(engine!);
-  }, [engine]);
+    return originalEngine && WCDisplay.charTypeChartData(originalEngine!);
+  }, [originalEngine]);
   const chartConfig = {
     num: {
       label: "글자",
@@ -115,7 +124,9 @@ function CharTypeChart() {
                       y={viewBox.cy}
                       className="fill-foreground text-3xl font-bold"
                     >
-                      {Object.keys(engine!.charInfo).length.toLocaleString()}
+                      {Object.keys(
+                        originalEngine!.charInfo
+                      ).length.toLocaleString()}
                     </tspan>
                     <tspan
                       x={viewBox.cx}
@@ -139,10 +150,10 @@ function CharTypeChart() {
   );
 }
 function RouteComparisonChart() {
-  const engine = useWC((e) => e.engine);
+  const originalEngine = useWC((e) => e.originalEngine);
   const chartData = useMemo(() => {
-    return engine && WCDisplay.routeComparisonChartData(engine);
-  }, [engine]);
+    return originalEngine && WCDisplay.routeComparisonChartData(originalEngine);
+  }, [originalEngine]);
   const chartConfig = {
     currentRule: { label: "현재 룰", color: "hsl(val(--foreground))" },
     guelRule: { label: "구엜룰", color: "hsl(val(--muted-foreground))" },

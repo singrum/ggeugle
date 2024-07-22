@@ -488,6 +488,20 @@ export class WCEngine {
     }
     this.SCC = SCC;
   }
+  copy(except?: string[]): WCEngine {
+    const engine = new WCEngine(this.rule, this.words);
+    engine.charInfo = this.charInfo;
+    engine.SCC = this.SCC;
+
+    if (except && except.length > 0) {
+      engine!.words = this.words!.filter((e) => !except.includes(e));
+      engine.charInfo = {};
+      engine!.update();
+      engine!.sortRouteChars();
+    }
+
+    return engine;
+  }
 }
 
 export type SearchResult =
@@ -621,13 +635,12 @@ export class WCDisplay {
 
     result.win = Object.keys(win)
       .map((e) => parseInt(e))
-      .sort()
+      .sort((a, b) => a - b)
       .map((endNum) => ({ endNum, chars: win[endNum] }));
 
     result.los = Object.keys(los)
       .map((e) => parseInt(e))
-      .sort()
-      .reverse()
+      .sort((a, b) => a - b)
       .map((endNum) => ({ endNum, chars: los[endNum] }));
 
     return result;
@@ -781,12 +794,12 @@ export class WCDisplay {
 
       result.startsWith.win = Object.keys(startWin)
         .map((e) => parseInt(e))
-        .sort()
+        .sort((a, b) => a - b)
         .map((endNum) => ({ endNum, words: startWin[endNum] }));
 
       result.startsWith.los = Object.keys(startLos)
         .map((e) => parseInt(e))
-        .sort()
+        .sort((a, b) => a - b)
         .reverse()
         .map((endNum) => ({ endNum, words: startLos[endNum] }));
       return { isChar: true, result };

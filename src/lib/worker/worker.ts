@@ -1,20 +1,18 @@
 import { RuleForm } from "../store/useWC";
 
 import { getEngine } from "../wc/ruleUpdate";
-import { WCEngine, Word } from "../wc/wordChain";
+import { Char, WCDisplay, WCEngine, Word } from "../wc/wordChain";
 
 export type payload = {
-  action: "getEngine" | "setWords";
+  action: "getEngine" | "setWords" | "getGameWord";
   data: unknown;
 };
-let mainEngine: undefined | WCEngine = undefined;
-let fullWords: undefined | Word[] = undefined;
+let originalEngine: undefined | WCEngine = undefined;
 
 const getEngine_ = async (ruleForm: RuleForm) => {
-  console.log(ruleForm);
-  mainEngine = await getEngine(ruleForm);
-  fullWords = mainEngine.words;
-  const { rule, charInfo, words, SCC } = mainEngine;
+  originalEngine = await getEngine(ruleForm);
+
+  const { rule, charInfo, words, SCC } = originalEngine;
 
   self.postMessage({
     action: "getEngine",
@@ -23,10 +21,7 @@ const getEngine_ = async (ruleForm: RuleForm) => {
 };
 
 const setWords = (exceptWords: Word[]) => {
-  mainEngine!.words = fullWords!.filter((e) => !exceptWords.includes(e));
-  mainEngine!.charInfo = {};
-  mainEngine!.update();
-  mainEngine!.sortRouteChars();
+  const mainEngine = originalEngine?.copy(exceptWords);
 
   const { rule, charInfo, words, SCC } = mainEngine!;
   self.postMessage({
@@ -35,15 +30,40 @@ const setWords = (exceptWords: Word[]) => {
   });
 };
 
+const getGameWord = ({
+  exceptWords,
+  currChar,
+  strength,
+}: {
+  exceptWords: string[];
+  currChar: Char;
+  strength: 0 | 1 | 2;
+}) => {
+  const engine = originalEngine?.copy(exceptWords);
+  switch (WCDisplay.reduceWordtype(engine?.charInfo[currChar].type!)) {
+    case "win":
+      break;
+    case "los":
+      break;
+    case "route":
+      break;
+  }
+};
+
 self.onmessage = (event) => {
   const { action, data }: payload = event.data;
-  
+
   switch (action) {
     case "getEngine":
       getEngine_(data as RuleForm);
       return;
     case "setWords":
       setWords(data as Word[]);
+      return;
+    case "getGameWord":
+      getGameWord(
+        data as { exceptWords: string[]; currChar: Char; strength: 0 | 1 | 2 }
+      );
       return;
   }
 };
