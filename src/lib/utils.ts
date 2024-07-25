@@ -15,3 +15,8 @@ export function pushObject(
   }
   obj[key].push(value);
 }
+
+export function choice(arr: any[]) {
+  if (arr.length > 0) return arr[Math.floor(Math.random() * arr.length)];
+  else return undefined;
+}

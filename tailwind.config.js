@@ -38,6 +38,9 @@ module.exports = {
     "bg-win/60",
     "bg-los/60",
     "bg-route/60",
+    "animate-[chat-loading_0.7s_ease-in-out_0s_infinite]",
+    "animate-[chat-loading_0.7s_ease-in-out_-0.15s_infinite]",
+    "animate-[chat-loading_0.7s_ease-in-out_-0.3s_infinite]",
   ],
   prefix: "",
   theme: {
@@ -102,10 +105,15 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "chat-loading": {
+          "0%, 100%": { transform: "scale(0.5,0.5)", opacity: "0.5" },
+          "50%": { transform: "scale(1,1)", opacity: "1" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "chat-loading": "chat-loading 1s ease-in-out infinite",
       },
     },
   },

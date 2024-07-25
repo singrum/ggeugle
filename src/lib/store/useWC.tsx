@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { Char, SearchResult, WCDisplay, WCEngine, Word } from "../wc/wordChain";
 
 import toast from "react-hot-toast";
-import { ChangedCharsAlert } from "@/pages/body/search/ChangedCharDisplay";
+
 import { josa } from "es-hangul";
 export type changeInfo = Record<Char, { prevType: string; currType: string }>;
 
@@ -46,6 +46,16 @@ export type Chat = {
   isMy: boolean;
   content: React.ReactNode;
 };
+
+export type GameInfo = {
+  strength: 0 | 1 | 2;
+  isFirst: boolean;
+  chats: Chat[];
+  moves: Word[];
+  isPlaying: boolean;
+  winner?: "computer" | "me";
+};
+
 export interface WCInfo {
   value: string;
   setValue: (value: string) => void;
@@ -71,18 +81,19 @@ export interface WCInfo {
   updateRule: () => void;
 
   // 연습
-  strength: number;
-  setStrength: (strength: number) => void;
-  turnForm: number;
-  setTurnForm: (turnForm: number) => void;
-  isFirst?: boolean;
-  setIsFirst: (isFirst: boolean) => void;
-  started: boolean;
-  setStarted: (started: boolean) => void;
-  moves: Word[];
-  setMoves: (moves: Word[]) => void;
-  chats: Chat[];
-  setChats: (chats: Chat[]) => void;
+  currGame?: GameInfo;
+  setCurrGame: (gameInfo?: GameInfo) => void;
+  gameSettingForm: {
+    strength: 0 | 1 | 2;
+    turn: 0 | 1 | 2;
+  };
+  setGameSettingForm: (form: { strength: 0 | 1 | 2; turn: 0 | 1 | 2 }) => void;
+  makeMyMove: (move: Word) => void;
+  isChatLoading: boolean;
+  getStarted: () => void;
+
+  games: GameInfo[];
+  setGames: (games: GameInfo[]) => void;
 }
 
 export const useWC = create<WCInfo>((set, get) => ({
@@ -194,6 +205,70 @@ export const useWC = create<WCInfo>((set, get) => ({
             set(() => ({ changeInfo }));
           }
           break;
+        case "getComputerMove":
+          const currGame = get().currGame!;
+          const { word, isLos } = data.data;
+          if (word) {
+            if (isLos) {
+              const newCurrGame: GameInfo = {
+                ...currGame,
+                moves: [...currGame.moves, word],
+                chats: [
+                  ...currGame.chats,
+                  { isMy: false, content: word },
+                  {
+                    isMy: false,
+                    content: (
+                      <div className="flex flex-col">
+                        <div>게임이 끝났습니다.</div>
+                        <div>끄글봇의 승리입니다!</div>
+                      </div>
+                    ),
+                  },
+                ],
+                isPlaying: false,
+                winner: "computer",
+              };
+
+              set({
+                currGame: newCurrGame,
+                isChatLoading: false,
+                games: [...get().games, newCurrGame],
+              });
+            } else {
+              set({
+                currGame: {
+                  ...currGame,
+                  moves: [...currGame.moves, word],
+                  chats: [...currGame.chats, { isMy: false, content: word }],
+                },
+                isChatLoading: false,
+              });
+            }
+          } else {
+            const newCurrGame: GameInfo = {
+              ...currGame,
+              chats: [
+                ...currGame.chats,
+                {
+                  isMy: false,
+                  content: (
+                    <div className="flex flex-col">
+                      <div>게임이 끝났습니다.</div>
+                      <div>당신의 승리입니다!</div>
+                    </div>
+                  ),
+                },
+              ],
+              isPlaying: false,
+              winner: "me",
+            };
+            set({
+              isChatLoading: false,
+              currGame: newCurrGame,
+              games: [...get().games, newCurrGame],
+            });
+          }
       }
     };
   },
@@ -253,53 +328,85 @@ export const useWC = create<WCInfo>((set, get) => ({
       data: ruleForm,
     });
   },
+  currGame: undefined,
+  setCurrGame: (gameInfo?: GameInfo) => {
+    set(() => ({ currGame: gameInfo }));
+  },
+  gameSettingForm: { strength: 1, turn: 1 },
+  setGameSettingForm: (form: { strength: 0 | 1 | 2; turn: 0 | 1 | 2 }) =>
+    set(() => ({ gameSettingForm: form })),
 
-  strength: 1,
-  setStrength: (strength) => set({ strength }),
-  turnForm: 1,
-  setTurnForm: (turnForm) => set({ turnForm }),
-  isFirst: undefined,
-  setIsFirst: (isFirst) => set({ isFirst }),
-  started: false,
-  setStarted: (started: boolean) => {
-    const turnForm = get().turnForm;
+  getStarted: () => {
+    const gameSettingForm = get().gameSettingForm;
     const isFirst =
-      turnForm === 0 ? true : turnForm === 2 ? false : Math.random() < 0.5;
+      gameSettingForm.turn === 0
+        ? true
+        : gameSettingForm.turn === 2
+        ? false
+        : Math.random() < 0.5;
 
     if (isFirst) {
       set({
-        chats: [
-          {
-            isMy: false,
-            content: (
-              <div>
-                당신의 차례입니다.
-                <br />
-                먼저 단어를 입력해 주세요.
-              </div>
-            ),
-          },
-        ],
-
-        started,
-        isFirst,
+        currGame: {
+          isFirst,
+          strength: gameSettingForm.strength,
+          chats: [
+            {
+              isMy: false,
+              content: (
+                <div>
+                  당신의 차례입니다.
+                  <br />
+                  먼저 단어를 입력해 주세요.
+                </div>
+              ),
+            },
+          ],
+          moves: [],
+          isPlaying: true,
+        },
       });
     } else {
       get().worker!.postMessage({
-        action: "getGameWord",
-        data: { exceptWords: [], currChar: undefined, strength: 0 | 1 | 2 },
+        action: "getComputerMove",
+        data: {
+          exceptWords: [],
+          currChar: undefined,
+          strength: gameSettingForm.strength,
+        },
       });
       set({
-        chats: [],
-        started,
-        isFirst,
+        currGame: {
+          isFirst,
+          strength: gameSettingForm.strength,
+          chats: [],
+          moves: [],
+          isPlaying: true,
+        },
       });
     }
   },
   moves: [],
-  setMoves: (moves: string[]) => {
-    set({ moves });
+  makeMyMove: (move: Word) => {
+    const currGame = get().currGame!;
+    const moves = [...currGame.moves, move];
+
+    set({ currGame: { ...currGame, moves }, isChatLoading: true });
+
+    get().worker!.postMessage({
+      action: "getComputerMove",
+      data: {
+        exceptWords: moves,
+        currChar: move.at(get().engine!.rule.tailIdx),
+        strength: get().currGame!.strength,
+      },
+    });
   },
-  chats: [],
-  setChats: (chats: Chat[]) => set({ chats }),
+  isChatLoading: false,
+
+  games: [],
+  setGames: (games: GameInfo[]) =>
+    set(() => ({
+      games,
+    })),
 }));

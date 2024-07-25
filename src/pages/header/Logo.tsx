@@ -1,4 +1,12 @@
-
 export default function Logo() {
-  return <div className="font-bold text-xl ml-3">끄글</div>;
+  return (
+    <div
+      className="font-semibold text-lg ml-1 md:ml-0 md:mb-2"
+      onClick={() => {
+        location.reload();
+      }}
+    >
+      끄글
+    </div>
+  );
 }

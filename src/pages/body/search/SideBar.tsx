@@ -28,7 +28,7 @@ export default function SideBar() {
     <>
       <div className="h-full w-full flex flex-col">
         <CharMenu />
-        <div className="flex-1 overflow-auto scrollbar-none px-2 pb-2 bg-background">
+        <div className="flex-1 overflow-auto scrollbar-none px-2 pb-2 bg-background h-full">
           <div className="flex gap-2 justify-end pt-3">
             <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
               <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1">

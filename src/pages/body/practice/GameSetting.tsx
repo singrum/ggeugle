@@ -6,24 +6,34 @@ import React from "react";
 import { BsCpuFill } from "react-icons/bs";
 
 export default function GameSetting() {
-  const [strength, setStrength, turnForm, setTurnForm, setStarted] = useWC(
-    (e) => [e.strength, e.setStrength, e.turnForm, e.setTurnForm, e.setStarted]
-  );
+  const [gameSettingForm, setGameSettingForm, getStarted] = useWC((e) => [
+    e.gameSettingForm,
+    e.setGameSettingForm,
+    e.getStarted,
+  ]);
 
   return (
     <div className="flex flex-col items-center p-3 h-full justify-between">
       <div className="flex-1 flex flex-col justify-center w-full items-center gap-8">
-        <div className="text-xl">게임 설정</div>
-        <div className="rounded-lg p-2 flex items-center justify-center ">
-          <BsCpuFill
-            className={`w-40 h-40 transition-colors duration-200 ${strengths[strength].color}`}
-          />
-        </div>
+        <div className="text-xl font-semibold">게임 설정</div>
+
         <div className="flex flex-col items-center gap-3 w-1/2">
-          <div>{strengths[strength].name}</div>
+          <div
+            className={`rounded-lg p-2 flex items-center justify-center gap-2`}
+          >
+            <div>난이도:</div>
+            <div className={`${strengths[gameSettingForm.strength].color}`}>
+              {strengths[gameSettingForm.strength].name}
+            </div>
+          </div>
           <Slider
-            onValueChange={(e) => setStrength(e[0])}
-            value={[strength]}
+            onValueChange={(e) =>
+              setGameSettingForm({
+                ...gameSettingForm,
+                strength: e[0] as 0 | 1 | 2,
+              })
+            }
+            value={[gameSettingForm.strength]}
             max={2}
             step={1}
             className={cn("w-full")}
@@ -35,10 +45,16 @@ export default function GameSetting() {
               key={i}
               className={cn(
                 "w-12 h-12 flex items-center justify-center rounded-md border border-border transition-colors hover:bg-accent cursor-pointer text-muted-foreground hover:text-foreground",
-                { "text-foreground ring-2 ring-ring": turnForm === i }
+                {
+                  "text-foreground ring-2 ring-ring":
+                    gameSettingForm.turn === i,
+                }
               )}
               onClick={() => {
-                setTurnForm(i);
+                setGameSettingForm({
+                  ...gameSettingForm,
+                  turn: i as 0 | 1 | 2,
+                });
               }}
             >
               {e}
@@ -49,7 +65,9 @@ export default function GameSetting() {
       <div className="flex items-center justify-center w-full h-12">
         <Button
           className="w-full h-full text-md"
-          onClick={() => setStarted(true)}
+          onClick={() => {
+            getStarted();
+          }}
         >
           시작하기
         </Button>

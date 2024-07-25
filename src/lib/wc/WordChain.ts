@@ -828,6 +828,32 @@ export class WCDisplay {
   }
 }
 
+export class RouteEngine {
+  engine: WCEngine;
+  constructor(engine: WCEngine) {
+    const routeGraph: Record<Char, Word[]> = {};
+    this.engine = engine;
+    for (let routeChar in this.engine.charInfo) {
+      if (this.engine.charInfo[routeChar].type === "route") {
+        routeGraph[routeChar] = this.engine.charInfo[routeChar].outWords.filter(
+          (e) =>
+            this.engine.charInfo[e.at(this.engine.rule.tailIdx)!].type ===
+            "route"
+        );
+      }
+    }
+
+    const minimumRouteGraph: Record<Char, Word[]> = {};
+    for (let routeChar in routeGraph) {
+      minimumRouteGraph[routeChar] = routeGraph[routeChar].filter(
+        (e) =>
+          this.engine.charInfo[routeChar].loopWords!.has(e) &&
+          this.engine.charInfo[routeChar].returnWords!.has(e)
+      );
+    }
+  }
+}
+
 class StrategyTree {
   constructor() {}
 }

@@ -25,6 +25,7 @@ export default function SearchInput() {
       <Input
         className="rounded-full bg-muted text-md pl-10 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:bg-background focus-visible:border-border"
         value={value}
+        type="search"
         placeholder="글자 또는 단어를 입력하세요."
         onChange={(e) => {
           e.preventDefault();
@@ -53,12 +54,7 @@ export default function SearchInput() {
           }
         }}
       />
-      <Search className="text-muted-foreground w-[1.2rem] h-[1.2rem] absolute left-3 top-[calc(50%-0.6rem)]" />
-      {/* <div className="flex items-center rounded-full bg-muted/40 border-border border px-3 py-1">
-        <Search className="text-muted-foreground w-6 h-6" />
-
-      
-      </div> */}
+      <Search className="text-foreground w-[1.2rem] h-[1.2rem] absolute left-3 top-[calc(50%-0.6rem)]" />
     </div>
   );
 }

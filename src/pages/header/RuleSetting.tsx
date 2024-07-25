@@ -1,4 +1,3 @@
-import { MenuBtn } from "@/App";
 import {
   Accordion,
   AccordionContent,
@@ -28,6 +27,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { cates, dicts, poses, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
+import { MenuBtn } from "@/NavBar";
 import { ChevronRight, Settings2 } from "lucide-react";
 import React from "react";
 export function RuleSetting() {
