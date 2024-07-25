@@ -21,10 +21,7 @@ import { LayoutGrid } from "lucide-react";
 import { useState } from "react";
 export default function Search() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [show, setShow] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const toggleShow = () => setShow((s) => !s);
   return (
     <>
       {isDesktop ? (
@@ -49,25 +46,23 @@ export default function Search() {
           </ResizablePanelGroup>
         </div>
       ) : (
-        <>
-          <div className="flex h-full min-h-0 flex-1">
-            <ResizablePanelGroup direction="vertical">
-              <ResizablePanel minSize={10}>
-                <div className="flex flex-col p-2 gap-2 min-h-0 h-full overflow-auto scrollbar-none mb-10">
-                  <ExceptWordsDisplay />
-                  <SearchInput />
-                  <SearchResult />
-                </div>
-              </ResizablePanel>
-              <ResizableHandle withHandle />
-              <ResizablePanel minSize={6}>
-                {/* <div className=> */}
-                <SideBar />
-                {/* </div> */}
-              </ResizablePanel>
-            </ResizablePanelGroup>
-          </div>
-        </>
+        <div className="flex h-full min-h-0 flex-1 relative z-10">
+          <ResizablePanelGroup direction="vertical">
+            <ResizablePanel>
+              <div className="flex flex-col p-2 gap-2 min-h-0 h-full overflow-auto scrollbar-none mb-10">
+                <ExceptWordsDisplay />
+                <SearchInput />
+                <SearchResult />
+              </div>
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+            <ResizablePanel minSize={6}>
+              {/* <div className=> */}
+              <SideBar />
+              {/* </div> */}
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </div>
       )}
     </>
   );

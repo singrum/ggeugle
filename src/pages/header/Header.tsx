@@ -18,11 +18,11 @@ import {
 import NavBar from "@/NavBar";
 export default function Header() {
   return (
-    <div className="sticky top-0 flex flex-col p-1 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <div className="sticky top-0 flex flex-col p-1 min-h-9 z-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="flex w-full items-center justify-between">
         <Logo />
         <div
-          className="cursor-pointer hover:bg-accent p-1 rounded-md "
+          className="cursor-pointer hover:ring-1 hover:ring-ring p-1 rounded-md"
           onClick={() => {
             document.getElementById("menu-accordian")?.click();
           }}

@@ -7,7 +7,7 @@ export default function GameList() {
   const [currGame, games] = useWC((e) => [e.currGame, e.games]);
   return (
     <div
-      className={cn("w-full flex flex-col-reverse gap-2 p-5", {
+      className={cn("w-full flex flex-col-reverse gap-2 p-2 md:p-5", {
         "items-center justify-center h-full": games.length === 0 && !currGame,
       })}
     >

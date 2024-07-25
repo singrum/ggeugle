@@ -63,7 +63,7 @@ export default function Game() {
                     <span
                       className={`animate-[chat-loading_0.7s_ease-in-out_${
                         -e * 0.15
-                      }s_infinite] absolute inline-flex h-full w-full rounded-full bg-foreground`}
+                      }s_infinite] absolute inline-flex h-full w-full rounded-full bg-foreground/70`}
                     />
                     {/* <span className="relative inline-flex rounded-full h-3 w-3 bg-foreground"></span> */}
                   </span>

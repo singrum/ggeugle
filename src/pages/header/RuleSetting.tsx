@@ -454,9 +454,9 @@ function RuleMenu({
   return (
     <div className="flex flex-col gap-2">
       <div className="text-md">
-        <div className="flex gap-2 items-center">
-          <ChevronRight className="w-4 h-4 text-muted-foreground" />
-          <div>{name}</div>
+        <div className="flex gap-1 items-center">
+          <ChevronRight className="w-4 h-4" />
+          <div className="font-semibold">{name}</div>
         </div>
       </div>
 
