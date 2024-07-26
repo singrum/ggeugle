@@ -3,22 +3,11 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import ExceptWordsDisplay from "./ExceptWordsDisplay";
 import SearchInput from "./SearchInput";
 import SearchResult from "./SearchResult";
 import SideBar from "./SideBar";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
-import { LayoutGrid } from "lucide-react";
-import { useState } from "react";
 export default function Search() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -57,9 +46,7 @@ export default function Search() {
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel minSize={6}>
-              {/* <div className=> */}
               <SideBar />
-              {/* </div> */}
             </ResizablePanel>
           </ResizablePanelGroup>
         </div>

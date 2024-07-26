@@ -25,7 +25,7 @@ export function ChangedCharsDialog({}: {}) {
         <DialogHeader>
           <DialogTitle>변경된 글자</DialogTitle>
           <DialogDescription className="">
-            금지 단어 추가 및 삭제에 의해 유형이 변경된 글자들입니다.
+            단어 추가 및 제외에 의해 유형이 변경된 글자들입니다.
           </DialogDescription>
         </DialogHeader>
 
@@ -61,9 +61,8 @@ export function ChangedCharsDialog({}: {}) {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col border border-border rounded-md p-2 w-full items-center gap-2">
-            <TriangleAlert className="h-4 w-4" />
-            <div>변경된 글자가 없습니다.</div>
+          <div className="flex items-center justify-center border border-border rounded-md p-2 w-full gap-2 h-[10rem]">
+            <div className="text-muted-foreground">변경된 글자가 없습니다.</div>
           </div>
         )}
       </DialogContent>

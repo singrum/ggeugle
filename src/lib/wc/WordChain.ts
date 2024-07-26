@@ -1,6 +1,7 @@
 import * as Collections from "typescript-collections";
 import { changeableMap, reverseChangeableMap } from "./hangul";
 import { pushObject } from "../utils";
+import { indexOf } from "typescript-collections/dist/lib/arrays";
 export type WCRule = {
   changeableIdx: number;
   headIdx: number;
@@ -96,6 +97,7 @@ export class WCEngine {
     // WIN, LOS 분류
     this._sortChars();
     this._sortCirChars();
+    return this;
   }
 
   _sortChars() {
@@ -488,6 +490,81 @@ export class WCEngine {
     }
     this.SCC = SCC;
   }
+  getReachableRouteChars(char: Char) {
+    const routeChars = Object.keys(
+      (e: Char) => this.charInfo[e].type === "route"
+    );
+    const visited: Record<Char, boolean> = {};
+
+    for (let char of routeChars) {
+      visited[char] = false;
+    }
+
+    const dfs = (char: Char) => {
+      visited[char] = true;
+      const nextChars = new Set(
+        this.charInfo[char].outWords
+          .map((e: Word) => e.at(this.rule.tailIdx)!)
+          .filter((e: Char) => this.charInfo[e].type === "route" && !visited[e])
+      );
+
+      for (let next of nextChars) {
+        dfs(next);
+      }
+    };
+    dfs(char);
+
+    return Object.keys(visited).filter((char) => visited[char]);
+  }
+
+  getShortestPaths(char: Char) {
+    const result: Record<Char, { pathStart?: Word; length?: number }> = {};
+    const visited: Record<Char, boolean> = {};
+
+    for (let char of Object.keys(this.charInfo)) {
+      result[char] = {};
+      visited[char] = false;
+    }
+    const queue = new Collections.Queue<string>();
+    result[char].length = 0;
+    result[char].pathStart = undefined;
+    visited[char] = true;
+    // console.log(this.charInfo[char]);
+    for (let word of this.charInfo[char].outWords.filter(
+      (e) => !this.charInfo[char].returnWords!.has(e)
+    )) {
+      const nextChar = word.at(this.rule.tailIdx)!;
+
+      if (result[nextChar].length === undefined) {
+        visited[nextChar] = true;
+        queue.enqueue(nextChar);
+        result[nextChar].length = 1;
+        result[nextChar].pathStart = word;
+      }
+    }
+
+    // bfs
+    while (!queue.isEmpty()) {
+      const curr = queue.dequeue()!;
+
+      const nextChars = new Set(
+        this.charInfo[curr].outWords
+          .filter((e) => !this.charInfo[char].returnWords!.has(e))
+          .map((e: Word) => e.at(this.rule.tailIdx)!)
+          .filter((e: Char) => !visited[e])
+      );
+
+      for (let next of nextChars) {
+        visited[next] = true;
+        queue.enqueue(next);
+        result[next].length = result[curr].length! + 1;
+        result[next].pathStart = result[curr].pathStart;
+      }
+    }
+
+    return result;
+  }
+
   copy(except?: string[]): WCEngine {
     const engine = new WCEngine(this.rule, this.words);
     engine.charInfo = this.charInfo;
@@ -534,6 +611,82 @@ export type NoncharSearchResult = {
 };
 
 export class WCDisplay {
+  static winCharTypeChartData(engine: WCEngine) {
+    const winChars = Object.keys(engine.charInfo).filter(
+      (e) => engine.charInfo[e].type === "win"
+    );
+    const wincirChars = Object.keys(engine.charInfo).filter(
+      (e) => engine.charInfo[e].type === "wincir"
+    );
+
+    const win: Record<string, string[]> = {};
+    for (let char of winChars) {
+      pushObject(win, engine.charInfo[char].endNum!, char);
+    }
+    const data = Object.keys(win)
+      .map((e) => parseInt(e))
+      .sort((a, b) => a - b)
+      .map((endNum) => ({
+        endNum: `${endNum}`,
+        num: win[endNum].length,
+        fill: `hsl(var(--win) / ${
+          (0.5 / Object.keys(win).length) * (Object.keys(win).length - endNum) +
+          0.5
+        })`,
+      }));
+    data.push({
+      endNum: "-1",
+      num: wincirChars.length,
+      fill: `hsl(var(--win) / ${0.5})`,
+    });
+    const config: Record<string, { label: string }> = {};
+    data.forEach((e, i) => {
+      if (i !== data.length - 1) {
+        config[e.endNum] = { label: `${e.endNum}턴 후 승리` };
+      } else {
+        config["-1"] = { label: `조건부 승리` };
+      }
+    });
+    return { data, config };
+  }
+  static losCharTypeChartData(engine: WCEngine) {
+    const losChars = Object.keys(engine.charInfo).filter(
+      (e) => engine.charInfo[e].type === "los"
+    );
+    const loscirChars = Object.keys(engine.charInfo).filter(
+      (e) => engine.charInfo[e].type === "loscir"
+    );
+
+    const los: Record<string, string[]> = {};
+    for (let char of losChars) {
+      pushObject(los, engine.charInfo[char].endNum!, char);
+    }
+    const data = Object.keys(los)
+      .map((e) => parseInt(e))
+      .sort((a, b) => a - b)
+      .map((endNum) => ({
+        endNum: `${endNum}`,
+        num: los[endNum].length,
+        fill: `hsl(var(--los) / ${
+          (0.5 / Object.keys(los).length) * (Object.keys(los).length - endNum) +
+          0.5
+        })`,
+      }));
+    data.push({
+      endNum: "-1",
+      num: loscirChars.length,
+      fill: `hsl(var(--los) / ${0.5})`,
+    });
+    const config: Record<string, { label: string }> = {};
+    data.forEach((e, i) => {
+      if (i !== data.length - 1) {
+        config[e.endNum] = { label: `${e.endNum}턴 후 패배` };
+      } else {
+        config["-1"] = { label: `조건부 승리` };
+      }
+    });
+    return { data, config };
+  }
   static routeComparisonChartData(engine: WCEngine) {
     const routeChars = Object.keys(engine.charInfo).filter(
       (e) => engine.charInfo[e].type === "route"
@@ -560,27 +713,29 @@ export class WCDisplay {
   }
   static charTypeChartData(engine: WCEngine) {
     const chars = Object.keys(engine.charInfo);
+    const maxRoutes = engine.SCC!.filter((e) => e.length >= 4).flat();
+    const restRoutes = engine.SCC!.filter((e) => e.length < 4).flat();
 
     const chartData = [
       {
         type: "win",
-        num: chars.filter((e) => engine.charInfo[e].type === "win").length,
+
+        num: chars.filter(
+          (e) =>
+            engine.charInfo[e].type === "win" ||
+            engine.charInfo[e].type === "wincir"
+        ).length,
         fill: "hsl(var(--win))",
       },
-      {
-        type: "wincir",
-        num: chars.filter((e) => engine.charInfo[e].type === "wincir").length,
-        fill: "hsl(var(--win) / 0.6)",
-      },
+
       {
         type: "los",
-        num: chars.filter((e) => engine.charInfo[e].type === "los").length,
+        num: chars.filter(
+          (e) =>
+            engine.charInfo[e].type === "los" ||
+            engine.charInfo[e].type === "loscir"
+        ).length,
         fill: "hsl(var(--los))",
-      },
-      {
-        type: "loscir",
-        num: chars.filter((e) => engine.charInfo[e].type === "loscir").length,
-        fill: "hsl(var(--los) / 0.6)",
       },
       {
         type: "route",
@@ -828,29 +983,94 @@ export class WCDisplay {
   }
 }
 
-export class RouteEngine {
-  engine: WCEngine;
-  constructor(engine: WCEngine) {
-    const routeGraph: Record<Char, Word[]> = {};
-    this.engine = engine;
-    for (let routeChar in this.engine.charInfo) {
-      if (this.engine.charInfo[routeChar].type === "route") {
-        routeGraph[routeChar] = this.engine.charInfo[routeChar].outWords.filter(
-          (e) =>
-            this.engine.charInfo[e.at(this.engine.rule.tailIdx)!].type ===
-            "route"
-        );
-      }
+export class RouteAnalyzer {
+  rootEngine: WCEngine;
+  currChar: Char;
+
+  constructor(engine: WCEngine, char: Char) {
+    this.currChar = char;
+
+    // const chars = char
+    //   ? engine.getReachableRouteChars(char)
+    //   : Object.keys(this.rootEngine.charInfo).filter(
+    //       (e) => this.rootEngine.charInfo[e].type === "route"
+    //     );
+    this.rootEngine = this.getReducedEngine(engine, char);
+    console.log(this.isWin(this.rootEngine, char));
+  }
+
+  getReducedEngine(engine: WCEngine, char: Char) {
+    const chars = engine.getReachableRouteChars(char);
+    const charSet = new Set(chars);
+    const words = engine.words.filter(
+      (word) =>
+        charSet.has(word.at(engine.rule.headIdx)!) &&
+        charSet.has(word.at(engine.rule.tailIdx)!)
+    );
+
+    const result = new WCEngine(engine.rule, words);
+    result.update();
+    return result;
+  }
+
+  getPriorities(engine: WCEngine, char: string) {
+    const result: Record<Word, number> = {};
+
+    for (let word of engine.charInfo[char].outWords) {
+      result[word] = Infinity;
     }
 
-    const minimumRouteGraph: Record<Char, Word[]> = {};
-    for (let routeChar in routeGraph) {
-      minimumRouteGraph[routeChar] = routeGraph[routeChar].filter(
-        (e) =>
-          this.engine.charInfo[routeChar].loopWords!.has(e) &&
-          this.engine.charInfo[routeChar].returnWords!.has(e)
-      );
+    const paths = engine.getShortestPaths(char);
+
+    for (let goal of Object.keys(engine.charInfo)) {
+      if (paths[goal].pathStart) {
+        const value =
+          engine.charInfo[goal].outWords.filter(
+            (e) =>
+              !engine.charInfo[goal].returnWords?.has(e) &&
+              !engine.charInfo[goal].loopWords?.has(e)
+          ).length + paths[goal].length!;
+
+        if (result[paths[goal].pathStart] > value) {
+          result[paths[goal].pathStart] = value;
+        }
+      }
     }
+    return result;
+  }
+  isWin(engine: WCEngine, char: string) {
+    if (!engine.charInfo[char]) {
+      console.log(engine, char);
+    }
+    if (
+      engine.charInfo[char].type === "win" ||
+      engine.charInfo[char].type === "wincir"
+    ) {
+      return true;
+    } else if (
+      engine.charInfo[char].type === "los" ||
+      engine.charInfo[char].type === "loscir"
+    ) {
+      return false;
+    }
+    const priorities = this.getPriorities(engine, char);
+    const nexts = Object.keys(priorities).sort(
+      (a, b) => priorities[a] - priorities[b]
+    );
+    // console.log(nexts);
+    for (let next of nexts) {
+      // console.log(next);
+      const nextEngine = this.getReducedEngine(
+        engine.copy([next]).update(),
+        next.at(engine.rule.tailIdx)!
+      );
+      // console.log(nextEngine.words);
+      if (!this.isWin(nextEngine, next.at(engine.rule.tailIdx)!)) {
+        return true;
+      }
+      console.log(nextEngine, next);
+    }
+    return false;
   }
 }
 

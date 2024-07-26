@@ -1,14 +1,7 @@
-import { BotIcon, ChevronRight, Plus } from "lucide-react";
-import React from "react";
-import Chat from "./Chat";
-import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
-import { cn } from "@/lib/utils";
-import { BsCpuFill } from "react-icons/bs";
-import GameSetting from "./GameSetting";
-import Game from "./Game";
 import { useWC } from "@/lib/store/useWC";
+import Game from "./Game";
 import GameList from "./GameList";
+import GameSetting from "./GameSetting";
 
 export default function Practice() {
   const [currGame, games] = useWC((e) => [e.currGame, e.games]);

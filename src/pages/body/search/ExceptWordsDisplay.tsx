@@ -1,16 +1,18 @@
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useWC } from "@/lib/store/useWC";
 import {
   Ban,
+  Clipboard,
   EllipsisVertical,
   LoaderCircle,
-  X
+  Replace,
+  Trash2,
+  X,
 } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 import { ChangedCharsDialog } from "./ChangedCharsDialog";
@@ -24,7 +26,7 @@ export default function ExceptWordsDisplay() {
 
   return (
     <div className="border border-border rounded-xl flex flex-col">
-      <div className="flex justify-between p-2">
+      <div className="flex justify-between p-2 items-center">
         <div className="flex gap-1 ">
           <div className="gap-2 pl-8 relative">
             <Ban
@@ -32,7 +34,7 @@ export default function ExceptWordsDisplay() {
               strokeWidth={1.5}
             />
             <div className="flex flex-col">
-              <div>금지 단어 목록</div>
+              <div>제외된 단어 목록</div>
               <div className="text-muted-foreground text-sm">
                 단어 입력 후 띄어쓰기로 추가
               </div>
@@ -42,8 +44,8 @@ export default function ExceptWordsDisplay() {
 
         <ChangedCharsDialog />
         <DropdownMenu>
-          <DropdownMenuTrigger className="relative">
-            <div className="text-muted-foreground hover:text-foreground">
+          <DropdownMenuTrigger className="relative focus-visible:outline-none w-6 h-8 flex items-center">
+            <div className="w-6 h-8">
               <EllipsisVertical strokeWidth={1.5} className="w-6 h-6" />
             </div>
           </DropdownMenuTrigger>
@@ -53,13 +55,17 @@ export default function ExceptWordsDisplay() {
                 exceptWords.length > 0 && engine && setExceptWords([])
               }
             >
+              <Trash2 className="w-4 h-4" />
               비우기
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() =>
-                exceptWords.length > 0 && engine && setExceptWords([])
-              }
+              onClick={() => {
+                if (exceptWords.length > 0) {
+                  navigator.clipboard.writeText(exceptWords.join(" "));
+                }
+              }}
             >
+              <Clipboard className="w-4 h-4" />
               클립보드에 복사
             </DropdownMenuItem>
             <DropdownMenuItem
@@ -67,7 +73,8 @@ export default function ExceptWordsDisplay() {
                 document.getElementById("changed-char-dialog-open")?.click();
               }}
             >
-              변경된 글자 목록
+              <Replace className="w-4 h-4" />
+              변경된 글자 보기
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -93,7 +100,7 @@ export default function ExceptWordsDisplay() {
           ))
         ) : (
           <div className="text-muted-foreground text-sm">
-            금지 단어가 없습니다.
+            제외된 단어가 없습니다.
           </div>
         )}
 

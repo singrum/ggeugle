@@ -4,7 +4,7 @@ import { choice } from "../utils";
 import { getEngine } from "../wc/ruleUpdate";
 import {
   Char,
-  RouteEngine,
+  RouteAnalyzer,
   WCDisplay,
   WCEngine,
   Word,
@@ -27,7 +27,7 @@ const getEngine_ = async (ruleForm: RuleForm) => {
     data: { rule, charInfo, words, SCC },
   });
 
-  new RouteEngine(originalEngine);
+  // new RouteEngine(originalEngine);
 };
 
 const setWords = (exceptWords: Word[]) => {
@@ -112,12 +112,7 @@ const getComputerMove = ({
                 ) === "route"
             );
           } else if (strength === 2) {
-            nextWords = engine!.charInfo[currChar].outWords.filter(
-              (word) =>
-                WCDisplay.reduceWordtype(
-                  WCDisplay.getWordType(engine!, word).type as WordType
-                ) === "route"
-            );
+            console.log(new RouteAnalyzer(engine!, currChar));
           }
           break;
       }

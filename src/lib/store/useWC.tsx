@@ -332,7 +332,7 @@ export const useWC = create<WCInfo>((set, get) => ({
   setCurrGame: (gameInfo?: GameInfo) => {
     set(() => ({ currGame: gameInfo }));
   },
-  gameSettingForm: { strength: 1, turn: 1 },
+  gameSettingForm: { strength: 2, turn: 0 },
   setGameSettingForm: (form: { strength: 0 | 1 | 2; turn: 0 | 1 | 2 }) =>
     set(() => ({ gameSettingForm: form })),
 
@@ -355,7 +355,7 @@ export const useWC = create<WCInfo>((set, get) => ({
               isMy: false,
               content: (
                 <div>
-                  당신의 차례입니다.
+                  게임이 시작되었습니다!
                   <br />
                   먼저 단어를 입력해 주세요.
                 </div>
@@ -379,7 +379,12 @@ export const useWC = create<WCInfo>((set, get) => ({
         currGame: {
           isFirst,
           strength: gameSettingForm.strength,
-          chats: [],
+          chats: [
+            {
+              isMy: false,
+              content: <div>게임이 시작되었습니다!</div>,
+            },
+          ],
           moves: [],
           isPlaying: true,
         },

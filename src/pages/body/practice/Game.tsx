@@ -154,11 +154,11 @@ function GameInput() {
   }, [currGame!.moves]);
 
   return (
-    <div className="sticky w-full bottom-0 flex flex-col">
+    <div className="sticky w-full bottom-0 flex flex-col border-t border-border">
       {currGame!.moves.length > 0 && (
         <div
           ref={ref}
-          className="flex gap-1 border-y border-border bg-none p-2 items-center min-w-0 overflow-auto scrollbar-none bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+          className="flex gap-1 bg-none p-2 items-center min-w-0 overflow-auto scrollbar-none bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
         >
           {currGame!.moves.map((e, i) => (
             <React.Fragment key={i}>
@@ -183,7 +183,7 @@ function GameInput() {
         </div>
       )}
 
-      <div className="p-2 pt-2 bg-background rounded-b-xl">
+      <div className="p-2 pt-1 bg-background rounded-b-xl">
         <div className="relative">
           <Input
             disabled={!currGame!.isPlaying}
@@ -281,7 +281,7 @@ function NewGameDialog() {
         <DialogHeader>
           <DialogTitle>새 게임</DialogTitle>
           <DialogDescription>
-            플레이 중인 게임이 있습니다. 새 게임을 만드시겠습니까?
+            플레이 중인 게임이 삭제됩니다. 계속하시겠습니까?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="justify-end">

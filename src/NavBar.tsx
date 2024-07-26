@@ -1,22 +1,4 @@
-import React from "react";
-import Header from "./pages/header/Header";
-import Search from "./pages/body/search/Search";
-
-import { menus, useMenu } from "./lib/store/useMenu";
-import { cn } from "./lib/utils";
-import { forwardRef, ReactNode, useEffect, useState } from "react";
-import { useWC } from "./lib/store/useWC";
 import { Button } from "@/components/ui/button";
-import { Settings, Settings2 } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Dialog,
   DialogClose,
@@ -27,14 +9,30 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Ellipsis, History, Settings } from "lucide-react";
+import React, { ForwardedRef, forwardRef, ReactNode, useState } from "react";
+import { VscGithubInverted } from "react-icons/vsc";
 import { useTheme } from "./components/theme-provider";
-import { RuleSetting } from "./pages/header/RuleSetting";
-import { Separator } from "./components/ui/separator";
-import Statistics from "./pages/body/statistics/Statistics";
-import Practice from "./pages/body/practice/Practice";
 import { Checkbox } from "./components/ui/checkbox";
+import { Separator } from "./components/ui/separator";
 import { useMediaQuery } from "./hooks/use-media-query";
+import { menus, useMenu } from "./lib/store/useMenu";
+import { cn } from "./lib/utils";
+import { RuleSetting } from "./pages/header/RuleSetting";
 export default function NavBar() {
   const setMenu = useMenu((e) => e.setMenu);
   const menu = useMenu((e) => e.menu);
@@ -64,6 +62,13 @@ export default function NavBar() {
         <RuleSetting />
         <PreferenceSetting />
       </div>
+      <Separator
+        className={cn("mx-2 md:my-2", { "h-12": !isDesktop })}
+        orientation={isDesktop ? "horizontal" : "vertical"}
+      />
+      <div className="flex md:flex-col gap-1 items-center">
+        <EtcDropdown />
+      </div>
     </>
   );
 }
@@ -75,15 +80,7 @@ function PreferenceSetting() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div
-          className={cn(
-            "h-12 w-12 flex flex-col justify-center items-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg p-1 transition-colors"
-          )}
-        >
-          <Settings strokeWidth={1.5} />
-          <div className="text-[10px]">설정</div>
-        </div>
-        {/* <MenuBtn icon={<Settings2 strokeWidth={1.5} />} name={"설정"} /> */}
+        <MenuBtn icon={<Settings strokeWidth={1.5} />} name={"설정"} />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
@@ -174,17 +171,48 @@ interface MenuBtnProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
 }
 
-export function MenuBtn({ icon, name, className, ...props }: MenuBtnProps) {
+export const MenuBtn = forwardRef(
+  (
+    { icon, name, className, ...props }: MenuBtnProps,
+    ref: ForwardedRef<HTMLDivElement>
+  ) => {
+    return (
+      <div
+        ref={ref}
+        {...props}
+        className={cn(
+          "h-12 w-12 flex flex-col justify-center items-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg p-1 transition-colors",
+          className
+        )}
+      >
+        {icon}
+        <div className="text-[10px]">{name}</div>
+      </div>
+    );
+  }
+);
+
+function EtcDropdown() {
   return (
-    <div
-      {...props}
-      className={cn(
-        "h-12 w-12 flex flex-col justify-center items-center cursor-pointer text-muted-foreground hover:text-foreground hover:bg-accent rounded-lg p-1 transition-colors",
-        className
-      )}
-    >
-      {icon}
-      <div className="text-[10px]">{name}</div>
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger className="focus-visible:outline-none">
+        <MenuBtn icon={<Ellipsis strokeWidth={1.5} />} name={"더보기"} />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem
+          onClick={() => open("https://singrum.github.io/ggeugle_old")}
+        >
+          <History className="h-4 w-4" />
+          이전 버전 끄글
+        </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => open("https://github.com/singrum/ggeugle")}
+        >
+          <VscGithubInverted size={15} />
+          깃허브
+        </DropdownMenuItem>
+        {/* <DropdownMenuSeparator /> */}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

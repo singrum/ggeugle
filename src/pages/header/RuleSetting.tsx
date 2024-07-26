@@ -252,7 +252,7 @@ function HeadIdxSetting() {
             setRuleForm({ ...ruleForm, headDir: parseInt(e) as 0 | 1 })
           }
         >
-          <SelectTrigger className="w-[180px] text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
+          <SelectTrigger className="w-fit text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -290,7 +290,7 @@ function TailIdxSetting() {
             setRuleForm({ ...ruleForm, tailDir: parseInt(e) as 0 | 1 })
           }
         >
-          <SelectTrigger className="w-[180px] text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
+          <SelectTrigger className="w-fit text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

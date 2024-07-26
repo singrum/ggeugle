@@ -9,12 +9,6 @@ import NavBar from "./NavBar";
 import Practice from "./pages/body/practice/Practice";
 import Statistics from "./pages/body/statistics/Statistics";
 import Logo from "./pages/header/Logo";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const menu = useMenu((e) => e.menu);
@@ -29,7 +23,7 @@ function App() {
 
         <div className="flex-1 md:flex min-h-0">
           {isDesktop && (
-            <div className="flex flex-col h-full items-center border-border border-r prevent-select p-2">
+            <div className="flex flex-col h-full items-center border-border border-r prevent-select p-2 overflow-auto scrollbar-none min-h-0">
               <Logo />
               <NavBar />
             </div>
