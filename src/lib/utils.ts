@@ -20,3 +20,12 @@ export function choice(arr: any[]) {
   if (arr.length > 0) return arr[Math.floor(Math.random() * arr.length)];
   else return undefined;
 }
+
+export function arrayToKeyMap(array: string[], callback: (key: string) => any) {
+  const result: Record<string, any> = array.reduce(
+    (acc: Record<string, any>, curr) => ((acc[curr] = callback(curr)), acc),
+    {}
+  );
+
+  return result;
+}

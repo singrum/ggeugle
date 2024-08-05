@@ -14,50 +14,72 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWC } from "@/lib/store/useWC";
-import { cn } from "@/lib/utils";
+import { arrayToKeyMap, cn } from "@/lib/utils";
+import { changeableMap } from "@/lib/wc/hangul";
 import { WCDisplay } from "@/lib/wc/wordChain";
 import React, { useMemo, useState } from "react";
 import ScrollSpy from "react-scrollspy-navigation";
 
 const orders = ["n턴 후 승리", "빈도 순"];
 
-export default function SideBar() {
-  const [order, setOrder] = useState<string>("0");
-
+export function SideBar() {
   return (
     <>
       <div className="h-full w-full flex flex-col">
         <CharMenu />
-        <div className="flex-1 overflow-auto scrollbar-none px-2 pb-2 bg-background h-full">
-          <div className="flex gap-2 justify-end pt-3">
-            <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
-              <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1">
-                <div className="text-muted-foreground mr-1">정렬:</div>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {orders.map((e, i) => (
-                  <SelectItem value={`${i}`} key={i} className="text-xs">
-                    {e}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          {order === "0" ? <EndInN /> : <Frequency />}
-        </div>
+        <Content />
       </div>
     </>
   );
 }
+
+export function Content() {
+  const [order, setOrder] = useState<string>("0");
+  return (
+    <div className="flex-1 overflow-auto px-2 pb-2 bg-background h-full">
+      <div className="flex gap-2 justify-end pt-3">
+        <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
+          <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1">
+            <div className="text-muted-foreground mr-1">정렬:</div>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {orders.map((e, i) => (
+              <SelectItem value={`${i}`} key={i} className="text-xs">
+                {e}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {order === "0" ? <EndInN /> : <Frequency />}
+    </div>
+  );
+}
+
 function Frequency() {
   const engine = useWC((e) => e.engine);
+  const inWordsLen = useMemo(() => {
+    if (!engine) {
+      return;
+    }
+    const result = arrayToKeyMap(Object.keys(engine.charInfo), () => 0);
+    for (let word of engine.words) {
+      changeableMap[engine.rule.changeableIdx](
+        word.at(engine.rule.tailIdx)!
+      ).forEach((char) => {
+        result[char]++;
+      });
+    }
+
+    return result;
+  }, [engine]);
 
   return (
     <>
       <div className="mb-2" id="win">
-        {engine && (
+        {engine && inWordsLen && (
           <>
             <CharBox>
               <CharBadge>{`승리`}</CharBadge>
@@ -68,18 +90,14 @@ function Frequency() {
                       engine.charInfo[e].type === "win" ||
                       engine.charInfo[e].type === "wincir"
                   )
-                  .sort(
-                    (a, b) =>
-                      engine.charInfo[b].inWords.length -
-                      engine.charInfo[a].inWords.length
-                  )
+                  .sort((a, b) => inWordsLen[b] - inWordsLen[a])
                   .map((char) => (
                     <div className="flex flex-col items-center" key={char}>
                       <CharButton type="win" className={`text-win`}>
                         {char}
                       </CharButton>
                       <div className="text-muted-foreground text-xs">
-                        {engine.charInfo[char].inWords.length.toLocaleString()}
+                        {inWordsLen[char].toLocaleString()}
                       </div>
                     </div>
                   ))}
@@ -91,7 +109,7 @@ function Frequency() {
         )}
       </div>
       <div className="mb-2" id="los">
-        {engine && (
+        {engine && inWordsLen && (
           <>
             <CharBox>
               <CharBadge>{`패배`}</CharBadge>
@@ -102,18 +120,14 @@ function Frequency() {
                       engine.charInfo[e].type === "los" ||
                       engine.charInfo[e].type === "loscir"
                   )
-                  .sort(
-                    (a, b) =>
-                      engine.charInfo[b].inWords.length -
-                      engine.charInfo[a].inWords.length
-                  )
+                  .sort((a, b) => inWordsLen[b] - inWordsLen[a])
                   .map((char) => (
                     <div className="flex flex-col items-center" key={char}>
                       <CharButton type="los" className={`text-los`}>
                         {char}
                       </CharButton>
                       <div className="text-muted-foreground text-xs">
-                        {engine.charInfo[char].inWords.length.toLocaleString()}
+                        {inWordsLen[char].toLocaleString()}
                       </div>
                     </div>
                   ))}
@@ -126,25 +140,21 @@ function Frequency() {
       </div>
 
       <div className="" id="route">
-        {engine && (
+        {engine && inWordsLen && (
           <>
             <CharBox>
               <CharBadge>{`루트`}</CharBadge>
               <CharContent>
                 {Object.keys(engine.charInfo)
                   .filter((e) => engine.charInfo[e].type === "route")
-                  .sort(
-                    (a, b) =>
-                      engine.charInfo[b].inWords.length -
-                      engine.charInfo[a].inWords.length
-                  )
+                  .sort((a, b) => inWordsLen[b] - inWordsLen[a])
                   .map((char) => (
                     <div className="flex flex-col items-center" key={char}>
                       <CharButton type="route" className={`text-route`}>
                         {char}
                       </CharButton>
                       <div className="text-muted-foreground text-xs">
-                        {engine.charInfo[char].inWords.length.toLocaleString()}
+                        {inWordsLen[char].toLocaleString()}
                       </div>
                     </div>
                   ))}
@@ -286,11 +296,12 @@ const CharMenus: {
   { name: "루트", color: "route" },
 ];
 
-function CharMenu() {
+export function CharMenu() {
   const [menu, setMenu] = useState<number>(0);
   return (
     <ScrollSpy
       onChangeActiveId={(curr) => {
+        console.log(1);
         setMenu(curr === "route" ? 2 : curr === "los" ? 1 : 0);
       }}
     >

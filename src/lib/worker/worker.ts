@@ -20,11 +20,9 @@ let originalEngine: undefined | WCEngine = undefined;
 const getEngine_ = async (ruleForm: RuleForm) => {
   originalEngine = await getEngine(ruleForm);
 
-  const { rule, charInfo, words, SCC } = originalEngine;
-
   self.postMessage({
     action: "getEngine",
-    data: { rule, charInfo, words, SCC },
+    data: originalEngine,
   });
 
   // new RouteEngine(originalEngine);
@@ -33,10 +31,9 @@ const getEngine_ = async (ruleForm: RuleForm) => {
 const setWords = (exceptWords: Word[]) => {
   const mainEngine = originalEngine?.copy(exceptWords);
 
-  const { rule, charInfo, words, SCC } = mainEngine!;
   self.postMessage({
     action: "getEngine",
-    data: { rule, charInfo, words, SCC },
+    data: mainEngine,
   });
 };
 

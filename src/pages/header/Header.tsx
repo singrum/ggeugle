@@ -7,33 +7,23 @@ import {
 import NavBar from "@/NavBar";
 import { Menu } from "lucide-react";
 import Logo from "./Logo";
+import { EtcDropdown } from "@/App";
+import { cn } from "@/lib/utils";
+import { useMenu } from "@/lib/store/useMenu";
 export default function Header() {
+  const menu = useMenu((e) => e.menu);
   return (
-    <div className="border-b border-border sticky top-0 flex flex-col min-h-9 z-0 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="flex w-full items-center justify-between p-1">
+    <div
+      className={cn("top-0 flex flex-col min-h-9 z-0 ", {
+        "bg-muted/40": menu.index === 1 || menu.index === 2,
+      })}
+    >
+      <div className="flex w-full items-end p-2 gap-1">
         <Logo />
-        <div
-          className="cursor-pointer hover:ring-1 hover:ring-ring p-1 rounded-md"
-          onClick={() => {
-            document.getElementById("menu-accordian")?.click();
-          }}
-        >
-          <Menu className="w-5 h-5" />
+        <div className="text-muted-foreground mb-1 text-xs">
+          끝말잇기 검색기
         </div>
-      </div>
-      <div className="">
-        <Accordion type="single" collapsible>
-          <AccordionItem value="item-1" className="border-0">
-            <AccordionTrigger className="hidden absolute">
-              <div id="menu-accordian" className="absolute hidden" />
-            </AccordionTrigger>
-            <AccordionContent className="p-0 overflow-auto scrollbar-none">
-              <div className="flex p-2">
-                <NavBar />
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+        {/* <EtcDropdown /> */}
       </div>
     </div>
   );

@@ -77,7 +77,6 @@ export async function getEngine(ruleForm: RuleForm) {
   );
 
   wce.update();
-  wce.sortRouteChars();
 
   return wce;
 }

@@ -1,7 +1,9 @@
 import * as Collections from "typescript-collections";
 import { changeableMap, reverseChangeableMap } from "./hangul";
-import { pushObject } from "../utils";
+import { arrayToKeyMap, pushObject } from "../utils";
 import { indexOf } from "typescript-collections/dist/lib/arrays";
+import { MultiDiGraph, objToMultiDiGraph } from "./multidigraph";
+// import { DiGraph } from "./multidigraph";
 export type WCRule = {
   changeableIdx: number;
   headIdx: number;
@@ -11,87 +13,43 @@ export type WCRule = {
 
 export type Char = string;
 export type CharType = "los" | "win" | "loscir" | "wincir" | "route";
-export type WordType =
-  | "win"
-  | "los"
-  | "wincir"
-  | "loscir"
-  | "route"
-  | "route_return"
-  | "loscir_return";
+export type WordType = "win" | "los" | "wincir" | "loscir" | "route" | "return";
+
 export type Word = string;
 
 export class WCEngine {
   rule: WCRule;
   words: Word[];
-  charInfo: {
-    [char: Char]: {
-      outWords: Word[];
-      inWords: Word[];
-      chanSucc: Char[];
-      chanPred: Char[];
-      type?: CharType;
-
-      endNum?: number; // WIN, LOS일 때
-
-      loopWords?: Set<Word>; // WINCIR, LOSCIR일 때
-      returnWords?: Set<Word>; // WINCIR, LOSCIR일 때
-      path?: Set<Word>; // WINCIR, LOSCIR일 때
-      solution?: Word; // WINCIR, LOSCIR일 때
-      winCirWords?: Word[]; // WINCIR, LOSCIR일 때
-      losCirWords?: Word[];
-    };
-  };
-  SCC?: Char[][];
+  wordGraph: MultiDiGraph;
+  chanGraph: MultiDiGraph;
+  returnWordGraph: MultiDiGraph;
+  loopWordGraph: MultiDiGraph;
+  solutionGraph: MultiDiGraph;
+  charInfo: Record<Char, { type: CharType; endNum?: number }>;
 
   constructor(rule: WCRule, words?: Word[]) {
     this.rule = rule;
     this.words = words ? words : [];
+    this.wordGraph = new MultiDiGraph();
+    this.returnWordGraph = new MultiDiGraph();
+    this.loopWordGraph = new MultiDiGraph();
+    this.solutionGraph = new MultiDiGraph();
+    this.chanGraph = new MultiDiGraph();
     this.charInfo = {};
   }
-  _setKeys(char: string) {
-    if (!this.charInfo[char]) {
-      this.charInfo[char] = {
-        outWords: [],
-        inWords: [],
-        type: undefined,
-        endNum: undefined,
-        chanPred: [],
-        chanSucc: [],
-      };
-    }
-  }
+
   update() {
     for (let word of this.words) {
       let head = word.at(this.rule.headIdx) as string;
       let tail = word.at(this.rule.tailIdx) as string;
-      this._setKeys(head);
-      this._setKeys(tail);
+      this.wordGraph.addEdge(head, tail);
     }
-    // changeable
-    for (let char in this.charInfo) {
-      this.charInfo[char].chanSucc = changeableMap[this.rule.changeableIdx](
-        char
-      ).filter((e) => e in this.charInfo);
-      this.charInfo[char].chanPred = reverseChangeableMap[
-        this.rule.changeableIdx
-      ](char).filter((e) => e in this.charInfo);
-    }
+    // this.charInfo = arrayToKeyMap([...this.wordGraph.nodes], () => ({}));
 
-    // chanPred, chanSucc, outWords, inWords
-    for (let word of this.words) {
-      let head = word.at(this.rule.headIdx)!;
-      let headChangable = this.charInfo[head].chanPred!;
-
-      let tail = word.at(this.rule.tailIdx)!;
-      let tailChangable = this.charInfo[tail].chanSucc!;
-
-      for (let headChan of headChangable) {
-        this.charInfo[headChan].outWords!.push(word);
-      }
-      for (let tailChan of tailChangable) {
-        this.charInfo[tailChan].inWords!.push(word);
-      }
+    for (let char of this.wordGraph.nodes) {
+      changeableMap[this.rule.changeableIdx](char)
+        .filter((e) => this.wordGraph.nodes.has(e))
+        .forEach((chan) => this.chanGraph.addEdge(char, chan));
     }
 
     // WIN, LOS 분류
@@ -101,356 +59,255 @@ export class WCEngine {
   }
 
   _sortChars() {
-    // init counter
-    const counter: Record<Char, number> = {};
-    for (let char in this.charInfo) {
-      counter[char] = this.charInfo[char].outWords.length;
+    let i = 0;
+    const chars = [...this.chanGraph.nodes];
+
+    // 시드 찾기 wordSinks, chanSinks
+    let wordLos: Char[] = chars.filter(
+      (e) => this.wordGraph.successors(e).length === 0
+    );
+    this.chanGraph.removeInEdge(wordLos);
+
+    let chanLos: Char[] = chars.filter(
+      (e) => this.chanGraph.successors(e).length === 0
+    );
+    this.chanGraph.removeNode(chanLos);
+    let info = {
+      type: "los" as CharType,
+      endNum: i,
+    };
+    for (let char of chanLos) {
+      this.charInfo[char] = info;
     }
 
-    // init pred
-    const pred: Record<Char, Record<Char, number>> = {};
-    for (let char in this.charInfo) {
-      pred[char] = {};
-    }
-    for (let word of this.words) {
-      const head = word.at(this.rule.headIdx)!;
-      const headChangable = this.charInfo[head].chanPred!;
-      const tail = word.at(this.rule.tailIdx)!;
-      for (let headChan of headChangable) {
-        if (!pred[tail][headChan]) {
-          pred[tail][headChan] = 0;
-        }
-        pred[tail][headChan]++;
+    // win, los 분류
+    while (chanLos.length !== 0) {
+      const wordWins: Char[] = this.wordGraph.predecessors(chanLos);
+      this.wordGraph.removeNode(chanLos);
+
+      const chanWins: Char[] = this.chanGraph.predecessors(wordWins);
+      this.chanGraph.removeNode(wordWins);
+      info = { type: "win" as CharType, endNum: i };
+      for (let char of chanWins) {
+        this.charInfo[char] = info;
       }
-    }
 
-    // init queue
-    const q: Collections.Queue<string> = new Collections.Queue();
+      i++;
 
-    // find seeds
-    for (let char in counter) {
-      if (counter[char] === 0) {
-        this.charInfo[char].type = "los";
-        this.charInfo[char].endNum = 0;
-        q.enqueue(char);
-      }
-    }
+      let preds = this.wordGraph.predecessors(chanWins);
 
-    // 분류
-    while (!q.isEmpty()) {
-      const losChar = q.dequeue()!;
-      for (let winChar in pred[losChar]) {
-        if (this.charInfo[winChar].type !== undefined) {
-          continue;
-        }
-        this.charInfo[winChar].type = "win";
-        this.charInfo[winChar].endNum = this.charInfo[losChar].endNum;
+      this.wordGraph.removeNode(chanWins);
+      this.chanGraph.removeNode(chanWins);
 
-        for (let losCandidateChar in pred[winChar]) {
-          counter[losCandidateChar] -= pred[winChar][losCandidateChar];
+      wordLos = preds.filter(
+        (pred) =>
+          this.wordGraph.nodes.has(pred) &&
+          this.wordGraph.successors(pred).length === 0
+      );
 
-          if (counter[losCandidateChar] === 0) {
-            this.charInfo[losCandidateChar].type = "los";
-            this.charInfo[losCandidateChar].endNum =
-              this.charInfo[losChar].endNum! + 1;
-            q.enqueue(losCandidateChar);
-          }
-        }
+      preds = this.chanGraph.predecessors(wordLos);
+      this.chanGraph.removeInEdge(wordLos);
+      chanLos = preds.filter((e) => this.chanGraph.successors(e).length === 0);
+      this.chanGraph.removeNode(chanLos);
+      info = { type: "los", endNum: i };
+      for (let char of chanLos) {
+        this.charInfo[char] = info;
       }
     }
   }
 
   _sortCirChars() {
-    const cirChars: Char[] = Object.keys(this.charInfo).filter(
-      (char) => this.charInfo[char].type === undefined
-    );
-    const cirWords: Word[] = this.words.filter(
-      (word) =>
-        !this.charInfo[word.at(this.rule.headIdx)!].type &&
-        !this.charInfo[word.at(this.rule.tailIdx)!].type
-    );
+    // 돌림 단어쌍 찾기
+    const pair: (head: string, tail: string) => undefined | [string, string] = (
+      head: string,
+      tail: string
+    ) => {
+      for (let headPred of this.chanGraph.predecessors(head)) {
+        for (let tailSucc of this.chanGraph.successors(tail)) {
+          if (this.wordGraph.hasEdge(tailSucc, headPred)) {
+            return [tailSucc, headPred];
+          }
+        }
+      }
+      return undefined;
+    };
 
-    // .outCirWords
-    const outCirWords: Record<Char, Word[]> = cirChars.reduce(
-      (acc: Record<Char, Word[]>, curr) => ((acc[curr] = []), acc),
-      {}
+    const chars = [...this.wordGraph.nodes];
+
+    const singleCharCounter = arrayToKeyMap(
+      chars,
+      (e: string) => this.chanGraph.predecessors(e).length
     );
-    for (let char of cirChars) {
-      outCirWords[char] = this.charInfo[char].outWords.filter(
-        (word) => !this.charInfo[word.at(this.rule.tailIdx)!].type
-      );
+    for (let char of chars) {
+      if (this.chanGraph.successors(char).length === 1) {
+        singleCharCounter[this.chanGraph.successors(char)[0]]--;
+      }
     }
 
-    let updatedChars: string[] = [];
-
-    // console.log("시드 분류중")
-    // .loopWords .returnWords .path
-    for (let cirChar of cirChars) {
-      this.charInfo[cirChar].loopWords = new Set<string>();
-      this.charInfo[cirChar].returnWords = new Set<string>();
-      this.charInfo[cirChar].path = new Set<string>();
-    }
-    for (let cirChar of cirChars) {
-      for (let cirWord of outCirWords[cirChar]) {
+    for (let head of this.wordGraph.nodes) {
+      for (let tail of this.wordGraph.successors(head)) {
+        const returnPair = pair(head, tail);
         if (
-          this.charInfo[cirChar].chanSucc!.includes(
-            cirWord.at(this.rule.tailIdx)!
-          )
-        ) {
-          this.charInfo[cirChar].loopWords!.add(cirWord);
+          !returnPair ||
+          singleCharCounter[head] !== 0 ||
+          singleCharCounter[returnPair[0]] !== 0
+        )
           continue;
+        const [pairHead, pairTail] = returnPair;
+        // 맴맴, 삐삐, 죽력죽
+        if (pairHead === head) {
+          const outdeg = this.wordGraph._succ[head][tail];
+          const maximumEven = Math.floor(outdeg / 2) * 2;
+          if (maximumEven > 0) {
+            this.returnWordGraph.addEdge(head, tail, maximumEven);
+          }
+          if (outdeg % 2 === 1) {
+            this.loopWordGraph.addEdge(head, tail);
+          }
         }
-        let reverseChan = this.charInfo[cirChar].chanPred!;
-        if (
-          reverseChan.includes(cirWord.at(this.rule.tailIdx)!) &&
-          outCirWords[cirWord.at(this.rule.tailIdx)!].length ===
-            outCirWords[cirChar].length
-        ) {
-          this.charInfo[cirChar].loopWords!.add(cirWord);
-          continue;
-        }
-        for (let next_next of outCirWords[cirWord.at(this.rule.tailIdx)!]) {
-          if (this.charInfo[cirChar].returnWords!.has(next_next)) {
-            continue;
-          }
-          if (this.charInfo[cirChar].chanSucc!.includes(next_next)) {
-            this.charInfo[cirChar].returnWords!.add(cirWord);
-            this.charInfo[cirChar].returnWords!.add(next_next);
-            break;
-          }
-
-          // this.charInfo[cirChar].chanPred.flatMap(this.charInfo[cirChar].changable.includes(this.rule.tail(next_next)))
-          if (
-            this.charInfo[cirChar]
-              .chanSucc!.flatMap((e) => this.charInfo[e].chanPred)
-              .includes(next_next.at(this.rule.tailIdx)!) &&
-            outCirWords[next_next.at(this.rule.tailIdx)!].length ===
-              outCirWords[cirChar]!.length
-          ) {
-            this.charInfo[cirChar].returnWords!.add(cirWord);
-            this.charInfo[cirChar].returnWords!.add(next_next);
-            break;
-          }
+        // 늠축 - 축보름
+        else {
+          this.returnWordGraph.addEdge(
+            head,
+            tail,
+            Math.min(
+              this.wordGraph._succ[head][tail],
+              this.wordGraph._succ[pairHead][pairTail]
+            )
+          );
         }
       }
     }
-
-    // cirPred
-    const cirPred: Record<Char, Set<Char>> = cirChars.reduce(
-      (acc: Record<Char, Set<Char>>, curr) => ((acc[curr] = new Set()), acc),
-      {}
+    // this.wordGraph에서 제거
+    for (let head of this.returnWordGraph.nodes) {
+      for (let tail of this.returnWordGraph.successors(head)) {
+        this.wordGraph.removeEdge(
+          head,
+          tail,
+          this.returnWordGraph._succ[head][tail]
+        );
+      }
+    }
+    const hasLoop = arrayToKeyMap(
+      chars,
+      (char) =>
+        this.loopWordGraph.nodes.has(char) &&
+        this.loopWordGraph.successors(char).length > 0
     );
 
-    for (let cirWord of cirWords) {
-      let head = cirWord.at(this.rule.headIdx)!;
-
-      let headChangable = this.charInfo[head].chanPred!;
-      let tail = cirWord.at(this.rule.tailIdx)!;
-
-      for (let headChan of headChangable.filter(
-        (e) => !this.charInfo[e].type
-      )) {
-        cirPred[tail]!.add(headChan);
+    // loop 제거
+    for (let head of this.loopWordGraph.nodes) {
+      for (let tail of this.loopWordGraph.successors(head)) {
+        this.wordGraph.removeEdge(
+          head,
+          tail,
+          this.loopWordGraph._succ[head][tail]
+        );
       }
     }
-
-    // .sorted, .path
-    for (let cirChar of cirChars) {
-      let returnWordsNum = this.charInfo[cirChar].returnWords!.size / 2;
-      let loopWordsNum = this.charInfo[cirChar].loopWords!.size;
-      let outCirWordsNum = outCirWords[cirChar].length;
-
-      if (returnWordsNum + loopWordsNum !== outCirWordsNum) {
-        continue;
-      }
-      if (loopWordsNum % 2 === 1) {
-        this.charInfo[cirChar].solution = [
-          ...this.charInfo[cirChar].loopWords!,
-        ][0];
-        this.charInfo[cirChar].type = "wincir";
-      } else {
-        this.charInfo[cirChar].type = "loscir";
-      }
-      updatedChars.push(cirChar);
-      this.charInfo[cirChar].path = this.charInfo[cirChar].returnWords!;
-    }
-    // console.log("시드 분류 완료")
-
-    // .CIRWIN, .CIRLOS
-    // console.log("CIRWIN, CIRLOS 분류 중")
 
     let i = 0;
-    while (updatedChars.length !== 0) {
+    let wordSinks = chars.filter(
+      (e) => this.wordGraph.successors(e).length === 0
+    );
+    let wordWin = wordSinks.filter((e) => hasLoop[e]);
+    wordWin.forEach((char) => {
+      this.solutionGraph.addEdge(
+        char,
+        char,
+        this.loopWordGraph._succ[char][char]
+      );
+    });
+
+    let wordLos = wordSinks.filter((e) => !hasLoop[e]);
+
+    let chanWin = this.chanGraph.predecessors(wordWin);
+    this.chanGraph.removeNode(chanWin);
+    let info = { type: "wincir" as CharType, endNum: i };
+    chanWin.forEach((char) => {
+      this.charInfo[char] = info;
+    });
+
+    this.chanGraph.removeInEdge(wordLos);
+
+    let chanLos = [...this.chanGraph.nodes].filter(
+      (e) => this.chanGraph.successors(e).length === 0
+    );
+    info = { type: "loscir" as CharType, endNum: i };
+    chanLos.forEach((char) => {
+      this.charInfo[char] = info;
+    });
+
+    this.chanGraph.removeNode(chanLos);
+
+    while (chanLos.length > 0 || chanWin.length > 0) {
+      // console.log(chanLos, chanWin);
+
+      let preds = this.wordGraph.predecessors(chanWin);
+      this.wordGraph.removeNode(chanWin);
+      this.chanGraph.removeNode(chanWin);
+
+      wordSinks = preds.filter(
+        (e) =>
+          this.wordGraph.nodes.has(e) &&
+          this.wordGraph.successors(e).length === 0
+      );
+
+      wordLos = wordSinks.filter((e) => !hasLoop[e]);
+      const wordWinLoop = wordSinks.filter((e) => hasLoop[e]);
+      wordWinLoop.forEach((char) => {
+        this.solutionGraph.addEdge(
+          char,
+          char,
+          this.loopWordGraph._succ[char][char]
+        );
+      });
+      const wordWinNoLoop = [];
+      for (let char of chanLos) {
+        const preds = this.wordGraph.predecessors(char);
+
+        preds.forEach((pred) =>
+          this.solutionGraph.addEdge(
+            pred,
+            char,
+            this.wordGraph._succ[pred][char]
+          )
+        );
+        wordWinNoLoop.push(...preds);
+      }
+
+      wordWin = [...wordWinLoop, ...wordWinNoLoop];
+      this.wordGraph.removeNode(chanLos);
+
+      chanWin = this.chanGraph.predecessors(wordWin);
+      this.chanGraph.removeNode(chanWin);
+
+      preds = this.chanGraph.predecessors(wordLos);
+      this.chanGraph.removeInEdge(wordLos);
+      chanLos = preds.filter((e) => this.chanGraph.successors(e).length === 0);
+      this.chanGraph.removeNode(chanLos);
       i++;
-      // console.log("깊이 : " + i)
 
-      let newUpdatedChars = [];
-      let predecessors: Set<string> = new Set();
-      for (let char of updatedChars) {
-        for (let cirChar of cirPred[char]!) {
-          if (this.charInfo[cirChar].type) {
-            continue;
-          }
-          predecessors.add(cirChar);
-        }
-      }
-
-      for (let char of predecessors) {
-        for (let next of outCirWords[char]!) {
-          let nextPath = this.charInfo[next.at(this.rule.tailIdx)!].path;
-
-          if (
-            this.charInfo[next.at(this.rule.tailIdx)!].type === "loscir" &&
-            !nextPath!.has(next)
-          ) {
-            this.charInfo[char].type = "wincir";
-            newUpdatedChars.push(char);
-            this.charInfo[char].path = new Set([...nextPath!, next]);
-            if (!this.charInfo[char].winCirWords) {
-              this.charInfo[char].winCirWords = [];
-            }
-            this.charInfo[char].winCirWords!.push(next);
-            this.charInfo[char].solution = next;
-
-            break;
-          }
-        }
-      }
-
-      for (let char of newUpdatedChars) {
-        for (let cirChar of cirPred[char]!) {
-          if (this.charInfo[cirChar].type) {
-            continue;
-          }
-          predecessors.add(cirChar);
-        }
-      }
-
-      for (let char of predecessors) {
-        let lose = true;
-        let path = new Set<string>();
-
-        for (let next of outCirWords[char]!) {
-          let nextPath = this.charInfo[next.at(this.rule.tailIdx)!].path;
-          if (this.charInfo[char].loopWords!.has(next)) {
-            continue;
-          }
-          if (this.charInfo[char].returnWords!.has(next)) {
-            continue;
-          }
-          if (
-            !(
-              this.charInfo[next.at(this.rule.tailIdx)!].type === "wincir" &&
-              !nextPath!.has(next)
-            )
-          ) {
-            lose = false;
-            break;
-          } else {
-            path = new Set([
-              ...nextPath!,
-              ...this.charInfo[char].returnWords!,
-              next,
-              ...path,
-            ]);
-          }
-        }
-
-        if (lose) {
-          this.charInfo[char].path = path;
-          if (this.charInfo[char].loopWords!.size % 2 === 0) {
-            this.charInfo[char].type = "loscir";
-          } else {
-            this.charInfo[char].solution = [
-              ...this.charInfo[char].loopWords!,
-            ][0];
-            this.charInfo[char].type = "wincir";
-          }
-          newUpdatedChars.push(char);
-        }
-      }
-
-      updatedChars = newUpdatedChars;
+      info = { type: "loscir", endNum: i };
+      chanLos.forEach((char) => {
+        this.charInfo[char] = info;
+      });
+      info = { type: "wincir", endNum: i };
+      chanWin.forEach((char) => (this.charInfo[char] = info));
     }
-
-    for (let char of cirChars) {
-      // .losCirWords
-      if (!this.charInfo[char].type || this.charInfo[char].type === "wincir") {
-        for (let next of outCirWords[char]!) {
-          let nextPath = this.charInfo[next.at(this.rule.tailIdx)!].path;
-
-          if (
-            this.charInfo[next.at(this.rule.tailIdx)!].type === "wincir" &&
-            !nextPath!.has(next)
-          ) {
-            if (!this.charInfo[char].losCirWords) {
-              this.charInfo[char].losCirWords = [];
-            }
-            this.charInfo[char].losCirWords!.push(next);
-          }
-        }
-      }
-      // .winCirWords
-      if (this.charInfo[char].type === "wincir") {
-        for (let next of outCirWords[char]) {
-          let nextPath = this.charInfo[next.at(this.rule.tailIdx)!].path;
-          if (
-            this.charInfo[next.at(this.rule.tailIdx)!].type === "loscir" &&
-            !nextPath!.has(next)
-          ) {
-            if (!this.charInfo[char].winCirWords) {
-              this.charInfo[char].winCirWords = [];
-            }
-            this.charInfo[char].winCirWords!.push(next);
-          }
-        }
-      }
-    }
-    for (let char of cirChars) {
-      if (this.charInfo[char].type === undefined)
-        this.charInfo[char].type = "route";
-    }
+    [...this.chanGraph.nodes].forEach((char) => {
+      this.charInfo[char] = { type: "route" };
+    });
+    return;
   }
 
-  sortRouteChars() {
-    const routeChars: Char[] = Object.keys(this.charInfo).filter(
-      (char) => this.charInfo[char].type === "route"
-    );
-    const routeWords = this.words.filter(
-      (word) =>
-        this.charInfo[word.at(this.rule.headIdx)!].type === "route" &&
-        this.charInfo[word.at(this.rule.tailIdx)!].type === "route"
-    );
-
-    const graph: Record<Char, Set<Char>> = routeChars.reduce(
-      (acc: Record<Char, Set<Char>>, curr) => ((acc[curr] = new Set()), acc),
-      {}
-    );
-
-    for (let char of routeChars) {
-      for (let chan of this.charInfo[char].chanPred) {
-        if (this.charInfo[chan].type === "route") graph[char].add(chan);
-      }
-      for (let chan of this.charInfo[char].chanSucc) {
-        if (this.charInfo[chan].type === "route") graph[char].add(chan);
-      }
-    }
-    for (let word of routeWords) {
-      const head = word.at(this.rule.headIdx)!;
-      const tail = word.at(this.rule.tailIdx)!;
-      graph[head].add(tail);
-    }
-
+  getSCC() {
+    const chars = [...this.chanGraph.nodes];
     let id = 0;
-    const d: Record<Char, number> = routeChars.reduce(
-      (acc: Record<Char, number>, curr) => ((acc[curr] = 0), acc),
-      {}
-    );
 
-    const finished: Record<Char, boolean> = routeChars.reduce(
-      (acc: Record<Char, boolean>, curr) => ((acc[curr] = false), acc),
-      {}
-    );
+    const d: Record<Char, number> = arrayToKeyMap(chars, () => 0);
+
+    const finished: Record<Char, boolean> = arrayToKeyMap(chars, () => false);
 
     const SCC: Char[][] = [];
     const stack: Char[] = [];
@@ -460,7 +317,16 @@ export class WCEngine {
       stack.push(x);
 
       let parent = d[x];
-      const succ = [...graph[x]];
+      const succ = [
+        ...new Set(
+          (this.chanGraph.nodes.has(x)
+            ? this.chanGraph.successors(x)
+            : []
+          ).concat(
+            this.chanGraph.nodes.has(x) ? this.wordGraph.successors(x) : []
+          )
+        ),
+      ];
       for (let i = 0; i < succ.length; i++) {
         const next = succ[i];
 
@@ -483,17 +349,18 @@ export class WCEngine {
       return parent;
     };
 
-    for (let char of routeChars) {
+    for (let char of chars) {
       if (d[char] === 0) {
         dfs(char);
       }
     }
-    this.SCC = SCC;
+
+    return SCC;
   }
   getReachableRouteChars(char: Char) {
-    const routeChars = Object.keys(
-      (e: Char) => this.charInfo[e].type === "route"
-    );
+    const routeChars = Object.keys((e: Char) => {
+      this.charInfo[e] = { type: "route" };
+    });
     const visited: Record<Char, boolean> = {};
 
     for (let char of routeChars) {
@@ -567,14 +434,18 @@ export class WCEngine {
 
   copy(except?: string[]): WCEngine {
     const engine = new WCEngine(this.rule, this.words);
-    engine.charInfo = this.charInfo;
-    engine.SCC = this.SCC;
 
     if (except && except.length > 0) {
-      engine!.words = this.words!.filter((e) => !except.includes(e));
+      engine.words = this.words!.filter((e) => !except.includes(e));
       engine.charInfo = {};
-      engine!.update();
-      engine!.sortRouteChars();
+      engine.update();
+    } else {
+      engine.charInfo = this.charInfo;
+      engine.wordGraph = this.wordGraph;
+      engine.chanGraph = this.chanGraph;
+      engine.returnWordGraph = this.returnWordGraph;
+      engine.loopWordGraph = this.loopWordGraph;
+      engine.solutionGraph = this.solutionGraph;
     }
 
     return engine;
@@ -595,8 +466,7 @@ export type CharSearchResult = {
     wincir: Word[];
     loscir: Word[];
     route: Word[];
-    loscir_return: Word[];
-    route_return: Word[];
+    return: Word[];
   };
   endsWith: {
     head_los: Word[];
@@ -611,6 +481,31 @@ export type NoncharSearchResult = {
 };
 
 export class WCDisplay {
+  static routeCharTypeChartData(engine: WCEngine) {
+    const routeChars = Object.keys(engine.charInfo).filter(
+      (e) => engine.charInfo[e].type === "route"
+    );
+    const scc = engine.getSCC();
+    const maxRouteChars = scc.filter((e) => e.length >= 3).flat();
+    const minRouteChars = scc.filter((e) => e.length < 3).flat();
+    const data = [
+      {
+        name: "maxRouteChars",
+        num: maxRouteChars.length,
+        fill: `hsl(var(--route))`,
+      },
+      {
+        name: "minRouteChars",
+        num: minRouteChars.length,
+        fill: `hsl(var(--route) / 0.8)`,
+      },
+    ];
+    const config = {
+      minRouteChars: { label: "희소루트" },
+      maxRouteChars: { label: "주요루트" },
+    };
+    return { data, config };
+  }
   static winCharTypeChartData(engine: WCEngine) {
     const winChars = Object.keys(engine.charInfo).filter(
       (e) => engine.charInfo[e].type === "win"
@@ -642,9 +537,9 @@ export class WCDisplay {
     const config: Record<string, { label: string }> = {};
     data.forEach((e, i) => {
       if (i !== data.length - 1) {
-        config[e.endNum] = { label: `${e.endNum}턴 후 승리` };
+        config[e.endNum] = { label: `${e.endNum}턴` };
       } else {
-        config["-1"] = { label: `조건부 승리` };
+        config["-1"] = { label: `조건부` };
       }
     });
     return { data, config };
@@ -680,9 +575,9 @@ export class WCDisplay {
     const config: Record<string, { label: string }> = {};
     data.forEach((e, i) => {
       if (i !== data.length - 1) {
-        config[e.endNum] = { label: `${e.endNum}턴 후 패배` };
+        config[e.endNum] = { label: `${e.endNum}턴` };
       } else {
-        config["-1"] = { label: `조건부 승리` };
+        config["-1"] = { label: `조건부` };
       }
     });
     return { data, config };
@@ -713,8 +608,6 @@ export class WCDisplay {
   }
   static charTypeChartData(engine: WCEngine) {
     const chars = Object.keys(engine.charInfo);
-    const maxRoutes = engine.SCC!.filter((e) => e.length >= 4).flat();
-    const restRoutes = engine.SCC!.filter((e) => e.length < 4).flat();
 
     const chartData = [
       {
@@ -781,10 +674,11 @@ export class WCDisplay {
       }
     }
 
-    for (let scc of engine.SCC!) {
+    const SCC = engine.getSCC();
+    for (let scc of SCC!) {
       scc.sort();
     }
-    result.route = engine.SCC!.sort((a, b) =>
+    result.route = SCC!.sort((a, b) =>
       b.length === a.length ? (a[0] > b[0] ? 1 : -1) : b.length - a.length
     );
 
@@ -801,7 +695,7 @@ export class WCDisplay {
     return result;
   }
 
-  // wordType : win, los, wincir, loscir, route, route_return,loscir_return
+  // wordType : win, los, wincir, loscir, route, return, return
   static getWordType(
     engine: WCEngine,
     word: Word
@@ -822,26 +716,13 @@ export class WCDisplay {
         return { type: "route" };
       }
     } else if (engine.charInfo[head].type === "los") {
-      return { type: "los", endNum: engine.charInfo[head].endNum! };
+      return { type: "los", endNum: engine.charInfo[tail].endNum! };
     } else if (engine.charInfo[head].type === "wincir") {
       if (engine.charInfo[tail].type === "win") {
         return { type: "los", endNum: engine.charInfo[tail].endNum! };
-      } else if (
-        engine.charInfo[head].winCirWords &&
-        engine.charInfo[head].winCirWords!.includes(word)
-      ) {
+      } else if (engine.solutionGraph.hasEdge(head, tail)) {
         return { type: "wincir" };
-      } else if (
-        !engine.charInfo[head].winCirWords &&
-        engine.charInfo[head].loopWords!.has(word)
-      ) {
-        return { type: "wincir" };
-      } else if (engine.charInfo[head].returnWords!.has(word)) {
-        return { type: "route_return" };
-      } else if (
-        engine.charInfo[head].losCirWords &&
-        engine.charInfo[head].losCirWords!.includes(word)
-      ) {
+      } else if (engine.charInfo[tail].type === "wincir") {
         return { type: "loscir" };
       } else {
         return { type: "route" };
@@ -849,21 +730,14 @@ export class WCDisplay {
     } else if (engine.charInfo[head].type === "loscir") {
       if (engine.charInfo[tail].type === "win") {
         return { type: "los", endNum: engine.charInfo[tail].endNum };
-      } else if (engine.charInfo[head].returnWords!.has(word)) {
-        return { type: "loscir_return" };
       } else {
         return { type: "loscir" };
       }
     } else {
       if (engine.charInfo[tail].type === "win") {
         return { type: "los", endNum: engine.charInfo[tail].endNum };
-      } else if (
-        engine.charInfo[head].losCirWords &&
-        engine.charInfo[head].losCirWords!.includes(word)
-      ) {
+      } else if (engine.charInfo[tail].type === "wincir") {
         return { type: "loscir" };
-      } else if (engine.charInfo[head].returnWords!.has(word)) {
-        return { type: "route_return" };
       } else {
         return { type: "route" };
       }
@@ -886,9 +760,22 @@ export class WCDisplay {
       return undefined;
     }
     if (input.length === 1) {
-      if (!engine.charInfo[input]) {
-        return undefined;
-      }
+      const chanSucc = new Set(
+        changeableMap[engine.rule.changeableIdx](input).filter(
+          (e) => e in engine.charInfo
+        )
+      );
+      const chanPred = new Set(
+        reverseChangeableMap[engine.rule.changeableIdx](input).filter(
+          (e) => e in engine.charInfo
+        )
+      );
+      const nextWords = engine.words.filter((e) =>
+        chanSucc.has(e.at(engine.rule.headIdx)!)
+      );
+      const prevWords = engine.words.filter((e) =>
+        chanPred.has(e.at(engine.rule.tailIdx)!)
+      );
       const result: CharSearchResult = {
         startsWith: {
           win: [],
@@ -896,8 +783,7 @@ export class WCDisplay {
           wincir: [],
           loscir: [],
           route: [],
-          loscir_return: [],
-          route_return: [],
+          return: [],
         },
         endsWith: {
           head_los: [],
@@ -905,31 +791,39 @@ export class WCDisplay {
           rest: [],
         },
       };
+
       const startWin: Record<string, Word[]> = {};
       const startLos: Record<string, Word[]> = {};
 
-      const startWords = engine.charInfo[input].outWords.sort((a, b) =>
+      const startWords = nextWords.sort((a, b) =>
         WCDisplay.compareWord(engine, a, b)
       );
-      const endWords = engine.charInfo[input].inWords.sort((a, b) =>
+      const endWords = prevWords.sort((a, b) =>
         WCDisplay.compareWord(engine, a, b)
       );
 
+      const returnWords = { ...engine.returnWordGraph._succ[input] };
+
       for (let word of startWords) {
-        const { type, endNum } = WCDisplay.getWordType(engine, word);
-        switch (type) {
-          case "win":
-            pushObject(startWin, endNum!, word);
-            break;
-          case "los":
-            pushObject(startLos, endNum!, word);
-            break;
-          default:
-            (
-              result.startsWith[
-                type as keyof typeof result.startsWith
-              ] as Word[]
-            ).push(word);
+        if (returnWords[word.at(engine.rule.tailIdx)!]) {
+          returnWords[word.at(engine.rule.tailIdx)!]--;
+          result.startsWith["return"].push(word);
+        } else {
+          const { type, endNum } = WCDisplay.getWordType(engine, word);
+          switch (type) {
+            case "win":
+              pushObject(startWin, endNum!, word);
+              break;
+            case "los":
+              pushObject(startLos, endNum!, word);
+              break;
+            default:
+              (
+                result.startsWith[
+                  type as keyof typeof result.startsWith
+                ] as Word[]
+              ).push(word);
+          }
         }
       }
 
@@ -957,6 +851,7 @@ export class WCDisplay {
         .sort((a, b) => a - b)
         .reverse()
         .map((endNum) => ({ endNum, words: startLos[endNum] }));
+
       return { isChar: true, result };
     } else {
       const startsWith = engine.words.filter((e) => e.startsWith(input)).sort();
@@ -974,10 +869,9 @@ export class WCDisplay {
         return "win";
       case "los":
       case "loscir":
-      case "loscir_return":
         return "los";
       case "route":
-      case "route_return":
+      case "return":
         return "route";
     }
   }
@@ -1074,6 +968,13 @@ export class RouteAnalyzer {
   }
 }
 
-class StrategyTree {
-  constructor() {}
+export function objToInstance(obj: WCEngine): WCEngine {
+  const result = new WCEngine(obj.rule, obj.words);
+  result.wordGraph = objToMultiDiGraph(obj.wordGraph);
+  result.chanGraph = objToMultiDiGraph(obj.chanGraph);
+  result.returnWordGraph = objToMultiDiGraph(obj.returnWordGraph);
+  result.loopWordGraph = objToMultiDiGraph(obj.loopWordGraph);
+  result.solutionGraph = objToMultiDiGraph(obj.solutionGraph);
+  result.charInfo = obj.charInfo;
+  return result;
 }

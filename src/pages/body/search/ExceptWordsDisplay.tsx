@@ -17,13 +17,21 @@ import {
 import { Toaster } from "react-hot-toast";
 import { ChangedCharsDialog } from "./ChangedCharsDialog";
 export default function ExceptWordsDisplay() {
-  // const [value, setValue] = useState("");
-
-  const exceptWords = useWC((e) => e.exceptWords);
-  const setExceptWords = useWC((e) => e.setExceptWords);
-  const engine = useWC((e) => e.engine);
-  const isLoading = useWC((e) => e.isLoading);
-
+  const [
+    setValue,
+    setSearchInputValue,
+    exceptWords,
+    setExceptWords,
+    engine,
+    isLoading,
+  ] = useWC((e) => [
+    e.setValue,
+    e.setSearchInputValue,
+    e.exceptWords,
+    e.setExceptWords,
+    e.engine,
+    e.isLoading,
+  ]);
   return (
     <div className="border border-border rounded-xl flex flex-col">
       <div className="flex justify-between p-2 items-center">
@@ -36,7 +44,7 @@ export default function ExceptWordsDisplay() {
             <div className="flex flex-col">
               <div>제외된 단어 목록</div>
               <div className="text-muted-foreground text-sm">
-                단어 입력 후 띄어쓰기로 추가
+                띄어쓰기로 구분, 엔터로 추가
               </div>
             </div>
           </div>
@@ -86,13 +94,19 @@ export default function ExceptWordsDisplay() {
             <div
               className="transition-colors hover:border-foreground  rounded-full flex px-1 items-center gap-1 border border-foreground/40 cursor-pointer"
               key={e}
+              onClick={() => {
+                const tail = e.at(engine!.rule.tailIdx)!;
+                setValue(tail);
+                setSearchInputValue(tail);
+              }}
             >
               <div className="pl-2 text-muted-foreground">{e}</div>
               <div
                 className="flex items-center justify-center rounded-full h-7 w-7 text-muted-foreground hover:text-foreground cursor-pointer"
-                onClick={() =>
-                  setExceptWords([...exceptWords.filter((ex) => ex !== e)])
-                }
+                onClick={(evt) => {
+                  evt.stopPropagation();
+                  setExceptWords([...exceptWords.filter((ex) => ex !== e)]);
+                }}
               >
                 <X className="h-5 w-5" />
               </div>

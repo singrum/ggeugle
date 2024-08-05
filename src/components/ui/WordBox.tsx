@@ -1,7 +1,7 @@
 import React from "react";
 import { Badge } from "./badge";
 import { cn } from "@/lib/utils";
-import { RefreshCcw } from "lucide-react";
+import { RefreshCcw, RotateCcw } from "lucide-react";
 import { useWC } from "@/lib/store/useWC";
 
 import { WCDisplay } from "@/lib/wc/wordChain";
@@ -24,23 +24,29 @@ export function WordBox({
 
 export function WordBadge({ children }: { children: React.ReactNode }) {
   return (
-    <Badge className="text-muted-foreground" variant={"secondary"}>
+    <Badge
+      className="text-muted-foreground flex items-center gap-1"
+      variant={"secondary"}
+    >
       {children}
     </Badge>
   );
 }
 export function WordContent({
   wordInfo,
+  endsWith,
 }: {
   wordInfo: { word: string; type: string; returning?: boolean }[];
+  endsWith?: boolean;
 }) {
   return (
     <div className="flex flex-wrap gap-x-1 gap-y-1 justify-center font-normal">
       {wordInfo.map((e) => (
         <WordButton
-          className={`border border-${e.type}/30 text-${e.type} hover:border-${e.type} hover:bg-${e.type}/10`}
+          className={`border border-${e.type}/30 text-${e.type} hover:bg-${e.type}/10`}
           key={e.word}
           returning={e.returning}
+          endsWith={endsWith}
         >
           {e.word}
         </WordButton>
@@ -52,16 +58,30 @@ export function WordButton({
   children,
   className,
   returning,
+  endsWith,
 }: {
   children: string;
   className?: string;
   returning?: boolean;
+  endsWith?: boolean;
 }) {
-  const setExceptWords = useWC((e) => e.setExceptWords);
-  const exceptWords = useWC((e) => e.exceptWords);
-  const setValue = useWC((e) => e.setValue);
-  const engine = useWC((e) => e.engine);
-  const setSearchInputValue = useWC((e) => e.setSearchInputValue);
+  const [
+    setExceptWords,
+    exceptWords,
+    setValue,
+    engine,
+    setSearchInputValue,
+    isAutoExcept,
+  ] = useWC((e) => [
+    e.setExceptWords,
+    e.exceptWords,
+    e.setValue,
+    e.engine,
+    e.setSearchInputValue,
+    e.isAutoExcept,
+  ]);
+  const head = children.at(engine!.rule.headIdx)!;
+  const tail = children.at(engine!.rule.tailIdx)!;
   return (
     <div
       className={cn(
@@ -69,17 +89,24 @@ export function WordButton({
         className
       )}
       onClick={() => {
-        const tail = children.at(engine!.rule.tailIdx)!;
-        setValue(tail);
+        if (!endsWith) {
+          setValue(tail);
+          setSearchInputValue(tail);
+        } else {
+          setValue(head);
+          setSearchInputValue(head);
+        }
 
-        setSearchInputValue(tail);
-        if (!exceptWords.includes(children)) {
+        if (isAutoExcept && !endsWith && !exceptWords.includes(children)) {
           setExceptWords([...exceptWords, children]);
         }
       }}
     >
       <div>{children}</div>
       {returning && <RefreshCcw className="w-4 h-4" />}
+      {!returning && engine!.loopWordGraph.hasEdge(head, tail) && (
+        <RotateCcw className="w-4 h-4" />
+      )}
     </div>
   );
 }

@@ -5,12 +5,9 @@
 
 @layer base {
   :root {
-    /* --win: 216 100% 50%;
-    --los: 346.8 77.2% 49.8%;
-    --route: 142.1 76.2% 36.3%; */
-    --win: 221.2 83.2% 53.3%;
+    --win: 200 98% 39%;
     --los: 347 77% 50%;
-    --route: 142 88% 28%;
+    --route: 142 76% 36%;
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -31,15 +28,16 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
+    --rsbs-max-w: auto;
+    --rsbs-ml: 0;
+    --rsbs-mr: 0;
+    --rsbs-overlay-rounded: 16px;
   }
 
   .dark {
-    /* --win: 216 100% 61%;
-    --los: 346.8 77.2% 50.8%;
-    --route: 142.1 70.6% 45.3%; */
-    --win: 216 92% 60%;
-    --los: 340 75% 55%;
-    --route: 160 60% 45%;
+    --win: 199 89% 48%;
+    --los: 350 89% 60%;
+    --route: 142 71% 45%;
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -59,6 +57,10 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --rsbs-max-w: auto;
+    --rsbs-ml: 0;
+    --rsbs-mr: 0;
+    --rsbs-overlay-rounded: 16px;
   }
 }
 
@@ -91,4 +93,147 @@ body,
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+[data-rsbs-overlay] {
+  border-top-left-radius: var(--rsbs-overlay-rounded);
+  border-top-right-radius: var(--rsbs-overlay-rounded);
+  display: flex;
+  background: hsl(var(--background));
+  flex-direction: column;
+  height: var(--rsbs-overlay-h);
+  transform: translate3d(0, var(--rsbs-overlay-translate-y), 0);
+  will-change: height;
+}
+[data-rsbs-overlay]:focus {
+  outline: none;
+}
+[data-rsbs-is-blocking="false"] [data-rsbs-overlay] {
+  box-shadow: 0 -5px 60px 0 rgba(38, 89, 115, 0.11),
+    0 -1px 0 rgba(38, 89, 115, 0.05);
+}
+[data-rsbs-overlay],
+[data-rsbs-root]:after {
+  max-width: var(--rsbs-max-w);
+  margin-left: var(--rsbs-ml);
+  margin-right: var(--rsbs-mr);
+}
+[data-rsbs-overlay],
+[data-rsbs-backdrop],
+[data-rsbs-root]:after {
+  z-index: 40;
+  overscroll-behavior: none;
+  touch-action: none;
+  position: fixed;
+  right: 0;
+  bottom: calc(3rem);
+  left: 0;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+[data-rsbs-backdrop] {
+  top: -60px;
+  bottom: -60px;
+  background-color: var(--rsbs-backdrop-bg);
+  will-change: opacity;
+  cursor: pointer;
+  opacity: 1;
+}
+[data-rsbs-is-dismissable="false"] [data-rsbs-backdrop] {
+  cursor: ns-resize;
+}
+
+[data-rsbs-root]:after {
+  content: "";
+  pointer-events: none;
+  background: hsl(var(--background));
+  height: 1px;
+  transform-origin: bottom;
+  transform: scale3d(1, var(--rsbs-antigap-scale-y), 1);
+  will-change: transform;
+}
+[data-rsbs-footer],
+[data-rsbs-header] {
+  flex-shrink: 0;
+  cursor: ns-resize;
+}
+[data-rsbs-header] {
+  text-align: center;
+  user-select: none;
+  box-shadow: 0 1px 0
+    rgba(46, 59, 66, calc(var(--rsbs-content-opacity) * 0.125));
+  z-index: 1;
+  padding-top: calc(20px + env(safe-area-inset-top));
+  /* padding-bottom: 8px; */
+}
+[data-rsbs-header]:before {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 36px;
+  height: 4px;
+  top: calc(8px + env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 2px;
+
+  background-color: hsl(var(--muted));
+}
+@media (min-resolution: 2dppx) {
+  [data-rsbs-header]:before {
+    transform: translateX(-50%) scaleY(0.75);
+  }
+}
+[data-rsbs-has-header="false"] [data-rsbs-header] {
+  box-shadow: none;
+  padding-top: calc(12px + env(safe-area-inset-top));
+}
+[data-rsbs-scroll] {
+  flex-shrink: 1;
+  flex-grow: 1;
+  -webkit-tap-highlight-color: revert;
+  -webkit-touch-callout: revert;
+  -webkit-user-select: auto;
+  -ms-user-select: auto;
+  user-select: auto;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+[data-rsbs-scroll]:focus {
+  outline: none;
+}
+[data-rsbs-has-footer="false"] [data-rsbs-content] {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+[data-rsbs-content] {
+  /* The overflow hidden is to ensure any margin on child nodes are included when the resize observer is measuring the height */
+  overflow: hidden;
+}
+[data-rsbs-footer] {
+  box-shadow: 0 -1px 0 rgba(46, 59, 66, calc(var(--rsbs-content-opacity) * 0.125)),
+    0 2px 0 hsl(var(--background));
+  overflow: hidden;
+  z-index: 1;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+
+[data-rsbs-is-dismissable="true"],
+[data-rsbs-is-dismissable="false"]:matches(
+    [data-rsbs-state="opening"],
+    [data-rsbs-state="closing"]
+  ) {
+  & :matches([data-rsbs-header], [data-rsbs-scroll], [data-rsbs-footer]) > * {
+    opacity: var(--rsbs-content-opacity);
+  }
+  & [data-rsbs-backdrop] {
+    opacity: var(--rsbs-backdrop-opacity);
+  }
+}
+
+[data-rsbs-state="closed"],
+[data-rsbs-state="closing"] {
+  /* Allows interactions on the rest of the page before the close transition is finished */
+  pointer-events: none;
 }

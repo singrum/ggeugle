@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 
 import { useWC } from "@/lib/store/useWC";
 import { WCDisplay } from "@/lib/wc/wordChain";
+import { useSheet } from "@/lib/store/useSheet";
 
 export function CharBox({
   children,
@@ -58,6 +59,7 @@ export function CharButton({
   const setValue = useWC((e) => e.setValue);
   const setSearchInputValue = useWC((e) => e.setSearchInputValue);
   const changeInfo = useWC((e) => e.changeInfo);
+  const sheetRef = useSheet((e) => e.sheetRef);
   return (
     <div
       className={cn(
@@ -65,6 +67,12 @@ export function CharButton({
         className
       )}
       onClick={() => {
+        if (sheetRef.current && sheetRef.current.height > 600) {
+          sheetRef.current.snapTo(
+            ({ snapPoints }: { snapPoints: number[] }) => snapPoints[2],
+            {}
+          );
+        }
         setValue(children);
         setSearchInputValue(children);
       }}

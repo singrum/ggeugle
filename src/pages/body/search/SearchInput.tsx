@@ -23,7 +23,7 @@ export default function SearchInput() {
   return (
     <div className="flex flex-col gap-2 relative">
       <Input
-        className="rounded-full bg-muted text-md pl-10 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:bg-background focus-visible:border-border"
+        className="rounded-full bg-muted text-md pl-10 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:bg-background focus-visible:border-primary"
         value={value}
         type="search"
         placeholder="글자 또는 단어를 입력하세요."

@@ -29,7 +29,9 @@ import { cates, dicts, poses, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { MenuBtn } from "@/NavBar";
 import { ChevronRight, Settings2 } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
+import { SettnigMenu } from "./SettingMenu";
+import { useMenu } from "@/lib/store/useMenu";
 export function RuleSetting() {
   const [rule, setRuleForm, updateRule] = useWC((state) => [
     state.rule,
@@ -37,59 +39,45 @@ export function RuleSetting() {
     state.updateRule,
   ]);
 
+  const setMenu = useMenu((state) => state.setMenu);
+
   return (
-    // <div></div>
-    <Dialog
-      onOpenChange={(e) => {
-        if (e) {
-          setRuleForm({ ...rule });
-        }
-      }}
-    >
-      <DialogTrigger>
-        <MenuBtn icon={<Settings2 strokeWidth={1.5} />} name={"룰 변경"} />
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] max-h-[80%] overflow-auto scrollbar-thin">
-        <DialogHeader>
-          <DialogTitle>룰 변경</DialogTitle>
-        </DialogHeader>
-        <DialogDescription>끝말잇기 룰 변경</DialogDescription>
-        <div className="flex flex-col">
-          <DictSetting />
-          <Separator className="my-2" />
-          <PosSetting />
-          <Separator className="my-2" />
-          <CateSetting />
-          <Separator className="my-2" />
-          <ChanSetting />
-          <Separator className="my-2" />
-          <HeadIdxSetting />
-          <Separator className="my-2" />
-          <TailIdxSetting />
-          <Separator className="my-2" />
-          <MannerSetting />
-          <Separator className="my-2" />
-          <RegexFilterSetting />
-          <Separator className="my-2" />
-          <AddedWordsSetting />
-          <Separator className="my-2" />
-        </div>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">취소</Button>
-          </DialogClose>
-          <DialogClose asChild>
-            <Button
-              onClick={() => {
-                updateRule();
-              }}
-            >
-              변경사항 저장
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+    <div className="flex flex-col">
+      <DictSetting />
+      <Separator className="my-4" />
+      <PosSetting />
+      <Separator className="my-4" />
+      <CateSetting />
+      <Separator className="my-4" />
+      <ChanSetting />
+      <Separator className="my-4" />
+      <HeadIdxSetting />
+      <Separator className="my-4" />
+      <TailIdxSetting />
+      <Separator className="my-4" />
+      <RegexFilterSetting />
+      <Separator className="my-4" />
+      <AddedWordsSetting />
+      <Separator className="my-4" />
+      <div className="flex justify-end gap-2">
+        <Button
+          variant={"ghost"}
+          onClick={() => {
+            setRuleForm({ ...rule });
+          }}
+        >
+          되돌리기
+        </Button>
+        <Button
+          onClick={() => {
+            updateRule();
+            setMenu(0);
+          }}
+        >
+          저장
+        </Button>
+      </div>
+    </div>
   );
 }
 
@@ -97,7 +85,7 @@ function DictSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <RuleMenu name="사전">
+    <SettnigMenu name="사전">
       <Select
         defaultValue={ruleForm.dict.toString()}
         onValueChange={(e) => {
@@ -136,7 +124,7 @@ function DictSetting() {
           ))}
         </SelectContent>
       </Select>
-    </RuleMenu>
+    </SettnigMenu>
   );
 }
 
@@ -145,7 +133,7 @@ function PosSetting() {
   const setRuleForm = useWC((e) => e.setRuleForm);
 
   return (
-    <RuleMenu name="품사">
+    <SettnigMenu name="품사">
       <div className="flex flex-wrap gap-1">
         {poses.map((e, i) => (
           <React.Fragment key={i}>
@@ -169,7 +157,7 @@ function PosSetting() {
           </React.Fragment>
         ))}
       </div>
-    </RuleMenu>
+    </SettnigMenu>
   );
 }
 
@@ -177,34 +165,39 @@ function CateSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <RuleMenu name="범주">
-      <div className="flex flex-wrap gap-1">
-        {cates.map((e, i) => (
-          <React.Fragment key={i}>
-            <div
-              className={cn(
-                "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer",
-                {
-                  "bg-foreground text-background hover:bg-foreground hover:text-background":
-                    ruleForm.cate[i],
-                  "opacity-50": ruleForm.dict === 0 || ruleForm.dict === 1,
-                }
-              )}
-              onClick={() => {
-                if (ruleForm.dict === 2) {
-                  setRuleForm({
-                    ...ruleForm,
-                    cate: { ...ruleForm.cate, [i]: !ruleForm.cate[i] },
-                  });
-                }
-              }}
-            >
-              {e}
-            </div>
-          </React.Fragment>
-        ))}
+    <SettnigMenu name="범주">
+      <div>
+        <div className="text-sm text-muted-foreground mb-2">
+          우리말샘일 때만 설정 가능
+        </div>
+        <div className="flex flex-wrap gap-1">
+          {cates.map((e, i) => (
+            <React.Fragment key={i}>
+              <div
+                className={cn(
+                  "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer",
+                  {
+                    "bg-foreground text-background hover:bg-foreground hover:text-background":
+                      ruleForm.cate[i],
+                    "opacity-50": ruleForm.dict === 0 || ruleForm.dict === 1,
+                  }
+                )}
+                onClick={() => {
+                  if (ruleForm.dict === 2) {
+                    setRuleForm({
+                      ...ruleForm,
+                      cate: { ...ruleForm.cate, [i]: !ruleForm.cate[i] },
+                    });
+                  }
+                }}
+              >
+                {e}
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
       </div>
-    </RuleMenu>
+    </SettnigMenu>
   );
 }
 
@@ -212,7 +205,7 @@ function ChanSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <RuleMenu name="두음법칙">
+    <SettnigMenu name="두음법칙">
       <Select
         defaultValue={ruleForm.chan.toString()}
         onValueChange={(e) => setRuleForm({ ...ruleForm, chan: parseInt(e) })}
@@ -236,7 +229,7 @@ function ChanSetting() {
           ))}
         </SelectContent>
       </Select>
-    </RuleMenu>
+    </SettnigMenu>
   );
 }
 
@@ -244,7 +237,7 @@ function HeadIdxSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <RuleMenu name="첫 글자">
+    <SettnigMenu name="첫 글자">
       <div className="flex gap-1 items-center">
         <Select
           defaultValue={ruleForm.headDir.toString()}
@@ -272,9 +265,9 @@ function HeadIdxSetting() {
             setRuleForm({ ...ruleForm, headIdx: parseInt(e.target.value) })
           }
         />
-        <div className="flex-1 text-muted-foreground">번째 글자</div>
+        <div className="flex-1">번째 글자</div>
       </div>
-    </RuleMenu>
+    </SettnigMenu>
   );
 }
 
@@ -282,7 +275,7 @@ function TailIdxSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <RuleMenu name="끝 글자">
+    <SettnigMenu name="끝 글자">
       <div className="flex gap-1 items-center">
         <Select
           defaultValue={ruleForm.tailDir.toString()}
@@ -310,9 +303,9 @@ function TailIdxSetting() {
             setRuleForm({ ...ruleForm, tailIdx: parseInt(e.target.value) })
           }
         />
-        <div className="flex-1 text-muted-foreground ">번째 글자</div>
+        <div className="flex-1 ">번째 글자</div>
       </div>
-    </RuleMenu>
+    </SettnigMenu>
   );
 }
 
@@ -320,7 +313,7 @@ function MannerSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <RuleMenu name="매너">
+    <SettnigMenu name="매너">
       <div className="flex items-center space-x-2 px-1">
         <Checkbox
           id="manner"
@@ -336,7 +329,7 @@ function MannerSetting() {
           한방단어 제거
         </label>
       </div>
-    </RuleMenu>
+    </SettnigMenu>
   );
 }
 
@@ -344,15 +337,17 @@ function AddedWordsSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <RuleMenu name="단어 추가">
-      <div className="text-muted-foreground text-xs">띄어쓰기로 구분</div>
-      <Input
-        value={ruleForm.addedWords}
-        onChange={(e) =>
-          setRuleForm({ ...ruleForm, addedWords: e.target.value })
-        }
-      />
-    </RuleMenu>
+    <SettnigMenu name="단어 추가">
+      <div className="flex flex-col gap-2">
+        <div className="text-muted-foreground text-xs">띄어쓰기로 구분</div>
+        <Input
+          value={ruleForm.addedWords}
+          onChange={(e) =>
+            setRuleForm({ ...ruleForm, addedWords: e.target.value })
+          }
+        />
+      </div>
+    </SettnigMenu>
   );
 }
 
@@ -408,7 +403,7 @@ function RegexFilterSetting() {
   const setRuleForm = useWC((e) => e.setRuleForm);
 
   return (
-    <RuleMenu name="단어 필터">
+    <SettnigMenu name="단어 필터">
       <div>
         <Input
           value={ruleForm.regexFilter}
@@ -418,9 +413,9 @@ function RegexFilterSetting() {
         />
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none mx-1">
-            <AccordionTrigger className="text-sm">예시</AccordionTrigger>
+            <AccordionTrigger className="text-sm pb-0">예시</AccordionTrigger>
             <AccordionContent className="font-semibold">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 py-2">
                 {RegexExamples.map((e, i) => (
                   <div
                     key={i}
@@ -440,27 +435,27 @@ function RegexFilterSetting() {
           </AccordionItem>
         </Accordion>
       </div>
-    </RuleMenu>
+    </SettnigMenu>
   );
 }
 
-function RuleMenu({
-  name,
-  children,
-}: {
-  name: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="text-md">
-        <div className="flex gap-1 items-center">
-          <ChevronRight className="w-4 h-4" />
-          <div className="font-semibold">{name}</div>
-        </div>
-      </div>
+// function SettnigMenu({
+//   name,
+//   children,
+// }: {
+//   name: string;
+//   children: React.ReactNode;
+// }) {
+//   return (
+//     <div className="flex flex-col gap-2">
+//       <div className="text-md">
+//         <div className="flex gap-1 items-center">
+//           <ChevronRight className="w-4 h-4" />
+//           <div className="font-semibold">{name}</div>
+//         </div>
+//       </div>
 
-      {children}
-    </div>
-  );
-}
+//       {children}
+//     </div>
+//   );
+// }

@@ -1,4 +1,9 @@
 import { WordBadge, WordBox, WordContent } from "@/components/ui/WordBox";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -11,6 +16,7 @@ import {
   WordType,
 } from "@/lib/wc/wordChain";
 import { josa } from "es-hangul";
+import { CircleHelp, Info } from "lucide-react";
 import React from "react";
 
 export default function SearchResult() {
@@ -19,50 +25,8 @@ export default function SearchResult() {
       {/* <CharResult /> */}
 
       <WordsResult />
+      <div className="h-[50vh]" />
     </>
-  );
-}
-
-function CharResult() {
-  const [searchResult, searchInputValue, engine] = useWC((e) => [
-    e.searchResult,
-    e.searchInputValue,
-    e.engine,
-  ]);
-
-  return (
-    searchResult &&
-    searchResult.isChar && (
-      <div className="flex w-full items-center gap-2">
-        <div
-          className={`border border-border p-2 rounded-lg flex justify-center items-center w-16 h-16 text-5xl text-${WCDisplay.reduceWordtype(
-            engine?.charInfo[searchInputValue].type!
-          )}`}
-        >
-          {searchInputValue}
-        </div>
-        <div className="flex flex-col">
-          {(engine?.charInfo[searchInputValue].type === "win" ||
-            engine?.charInfo[searchInputValue].type === "los") && (
-            <>
-              <div>
-                <span className="font-semibold">{searchInputValue}</span>
-                {josa(searchInputValue, "이/가").at(-1)} 주어진 플레이어는{" "}
-                <span
-                  className={`text-${engine?.charInfo[searchInputValue].type}`}
-                >
-                  {engine?.charInfo[searchInputValue].endNum}턴 후{" "}
-                  {engine?.charInfo[searchInputValue].type === "win"
-                    ? "승리"
-                    : "패배"}
-                </span>
-                해요.
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    )
   );
 }
 
@@ -130,71 +94,80 @@ function WordsResult() {
                             <Separator className="my-2" />
                           </React.Fragment>
                         )}
-                      {((searchResult.result as CharSearchResult).startsWith
-                        .route.length > 0 ||
-                        (searchResult.result as CharSearchResult).startsWith
-                          .route_return.length > 0) && (
+                      {(searchResult.result as CharSearchResult).startsWith
+                        .route.length > 0 && (
                         <>
                           <WordBox>
-                            <WordBadge>{`루트단어`}</WordBadge>
+                            <WordBadge>{`루트 단어`}</WordBadge>
                             <WordContent
-                              wordInfo={((
-                                searchResult.result as CharSearchResult
-                              ).startsWith.route
-                                ? (
-                                    searchResult.result as CharSearchResult
-                                  ).startsWith.route.map((word) => ({
-                                    word,
-                                    type: "route",
-                                  }))
-                                : []
-                              ).concat(
+                              wordInfo={
                                 (searchResult.result as CharSearchResult)
-                                  .startsWith.route_return
+                                  .startsWith.route
                                   ? (
                                       searchResult.result as CharSearchResult
-                                    ).startsWith.route_return.map((word) => ({
+                                    ).startsWith.route.map((word) => ({
                                       word,
                                       type: "route",
-                                      returning: true,
                                     }))
                                   : []
-                              )}
+                              }
                             />
                           </WordBox>
                           <Separator className="my-2" />
                         </>
                       )}
-                      {((searchResult.result as CharSearchResult).startsWith
-                        .loscir.length > 0 ||
-                        (searchResult.result as CharSearchResult).startsWith
-                          .loscir_return.length > 0) && (
+                      {(searchResult.result as CharSearchResult).startsWith
+                        .return.length > 0 && (
+                        <>
+                          <WordBox>
+                            <Popover>
+                              <PopoverTrigger>
+                                <WordBadge>
+                                  {`되돌림 단어`}
+                                  <CircleHelp className="w-4 h-4" />
+                                </WordBadge>
+                              </PopoverTrigger>
+                              <PopoverContent className="text-sm">
+                                되돌림 단어의 유무는 승패에 영향을 주지
+                                않습니다.
+                              </PopoverContent>
+                            </Popover>
+                            <WordContent
+                              wordInfo={
+                                (searchResult.result as CharSearchResult)
+                                  .startsWith.return
+                                  ? (
+                                      searchResult.result as CharSearchResult
+                                    ).startsWith.return.map((word) => ({
+                                      word,
+                                      type: "muted-foreground",
+                                      returning: true,
+                                    }))
+                                  : []
+                              }
+                            />
+                          </WordBox>
+                          <Separator className="my-2" />
+                        </>
+                      )}
+
+                      {(searchResult.result as CharSearchResult).startsWith
+                        .loscir.length > 0 && (
                         <>
                           <WordBox>
                             <WordBadge>{`조건부 패배`}</WordBadge>
                             <WordContent
-                              wordInfo={((
-                                searchResult.result as CharSearchResult
-                              ).startsWith.loscir
-                                ? (
-                                    searchResult.result as CharSearchResult
-                                  ).startsWith.loscir.map((word) => ({
-                                    word,
-                                    type: "los",
-                                  }))
-                                : []
-                              ).concat(
+                              wordInfo={
                                 (searchResult.result as CharSearchResult)
-                                  .startsWith.loscir_return.length
+                                  .startsWith.loscir
                                   ? (
                                       searchResult.result as CharSearchResult
-                                    ).startsWith.loscir_return.map((word) => ({
+                                    ).startsWith.loscir.map((word) => ({
                                       word,
                                       type: "los",
-                                      returning: true,
                                     }))
                                   : []
-                              )}
+                              }
                             />
                           </WordBox>
                           <Separator className="my-2" />
@@ -297,6 +270,7 @@ function WordsResult() {
                                     .type as WordType
                                 ),
                               }))}
+                              endsWith={true}
                             />
                           </WordBox>
                           <Separator className="my-2" />
@@ -317,6 +291,7 @@ function WordsResult() {
                                     .type as WordType
                                 ),
                               }))}
+                              endsWith={true}
                             />
                           </WordBox>
                           <Separator className="my-2" />

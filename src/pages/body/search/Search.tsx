@@ -7,10 +7,13 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import ExceptWordsDisplay from "./ExceptWordsDisplay";
 import SearchInput from "./SearchInput";
 import SearchResult from "./SearchResult";
-import SideBar from "./SideBar";
+import { SideBar } from "./SideBar";
+import { useMenu } from "@/lib/store/useMenu";
+import Header from "@/pages/header/Header";
+import CharSheet from "./CharSheet";
 export default function Search() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
-
+  const menu = useMenu((e) => e.menu);
   return (
     <>
       {isDesktop ? (
@@ -24,7 +27,7 @@ export default function Search() {
             <ResizableHandle withHandle />
             <ResizablePanel className="min-h-0">
               <div className="min-h-0 h-full">
-                <div className="flex flex-col p-3 gap-2 min-h-0 h-full overflow-auto scrollbar-none">
+                <div className="flex flex-col p-3 gap-2 min-h-0 h-full overflow-auto ">
                   <ExceptWordsDisplay />
                   <SearchInput />
 
@@ -35,20 +38,25 @@ export default function Search() {
           </ResizablePanelGroup>
         </div>
       ) : (
-        <div className="flex h-full min-h-0 flex-1 relative z-10">
-          <ResizablePanelGroup direction="vertical">
+        <div className="flex flex-col h-full min-h-0 flex-1 relative z-10">
+          <div className="overflow-auto min-h-0 h-full w-full">
+            <Header />
+            <div className="flex flex-col p-2 gap-2 mb-10">
+              <ExceptWordsDisplay />
+              <SearchInput />
+              <SearchResult />
+            </div>
+          </div>
+          <CharSheet />
+          {/* <ResizablePanelGroup direction="vertical">
             <ResizablePanel>
-              <div className="flex flex-col p-2 gap-2 min-h-0 h-full overflow-auto scrollbar-none mb-10">
-                <ExceptWordsDisplay />
-                <SearchInput />
-                <SearchResult />
-              </div>
+              
             </ResizablePanel>
             <ResizableHandle withHandle />
             <ResizablePanel minSize={6}>
               <SideBar />
             </ResizablePanel>
-          </ResizablePanelGroup>
+          </ResizablePanelGroup> */}
         </div>
       )}
     </>

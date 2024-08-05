@@ -1,5 +1,12 @@
 import { create } from "zustand";
-import { Char, SearchResult, WCDisplay, WCEngine, Word } from "../wc/wordChain";
+import {
+  Char,
+  objToInstance,
+  SearchResult,
+  WCDisplay,
+  WCEngine,
+  Word,
+} from "../wc/wordChain";
 
 import toast from "react-hot-toast";
 
@@ -94,6 +101,10 @@ export interface WCInfo {
 
   games: GameInfo[];
   setGames: (games: GameInfo[]) => void;
+
+  // 단어 클릭시 자동 금지단어 추가
+  isAutoExcept: boolean;
+  setIsAutoExcept: (isAutoExcept: boolean) => void;
 }
 
 export const useWC = create<WCInfo>((set, get) => ({
@@ -129,9 +140,10 @@ export const useWC = create<WCInfo>((set, get) => ({
     worker!.onmessage = ({ data }) => {
       switch (data.action) {
         case "getEngine":
-          const engine = data.data;
+          const engine = objToInstance(data.data as WCEngine);
           const prevEngine = get().engine;
           const originalEngine = get().originalEngine;
+
           set(() => ({
             prevEngine,
             engine,
@@ -313,6 +325,7 @@ export const useWC = create<WCInfo>((set, get) => ({
     set(() => ({
       engine: undefined,
       prevEngine: undefined,
+      originalEngine: undefined,
       exceptWords: [],
       isLoading: true,
 
@@ -414,4 +427,8 @@ export const useWC = create<WCInfo>((set, get) => ({
     set(() => ({
       games,
     })),
+  isAutoExcept: true,
+  setIsAutoExcept: (isAutoExcept: boolean) => {
+    set({ isAutoExcept });
+  },
 }));
