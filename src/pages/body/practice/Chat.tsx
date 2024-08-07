@@ -1,7 +1,7 @@
 import { strengths, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { BotIcon } from "lucide-react";
-import React, { ReactNode } from "react";
+import React from "react";
 
 export default function Chat({
   isMy,

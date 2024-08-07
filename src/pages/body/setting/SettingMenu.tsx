@@ -1,4 +1,3 @@
-import { ChevronRight } from "lucide-react";
 
 export function SettnigMenu({
   name,

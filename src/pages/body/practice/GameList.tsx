@@ -1,34 +1,14 @@
-import { GameInfo, strengths, turns, useWC } from "@/lib/store/useWC";
+import { GameInfo, strengths, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  Bot,
-  ChevronRight,
-  Clipboard,
-  ClipboardCheck,
-  EllipsisVertical,
-  Trash,
-  Trash2,
-  X,
-} from "lucide-react";
+import { Bot, ChevronRight, Clipboard, ClipboardCheck, X } from "lucide-react";
 import React, { useState } from "react";
-import toast from "react-hot-toast";
 
 export default function GameList() {
   const [currGame, games] = useWC((e) => [e.currGame, e.games]);
   return (
     <div
-      className={cn("w-full flex flex-col-reverse gap-2 p-2 md:p-5", {
-        "items-center justify-center h-full": games.length === 0 && !currGame,
+      className={cn("w-full flex flex-col-reverse gap-2 p-3 md:p-5", {
+        "items-center justify-center": games.length === 0 && !currGame,
       })}
     >
       {games.length === 0 && !currGame && (

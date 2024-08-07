@@ -7,9 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useWC } from "@/lib/store/useWC";
-import { Char } from "@/lib/wc/wordChain";
 import { josa } from "es-hangul";
-import { TriangleAlert } from "lucide-react";
 
 export function ChangedCharsDialog({}: {}) {
   const changeInfo = useWC((e) => e.changeInfo);

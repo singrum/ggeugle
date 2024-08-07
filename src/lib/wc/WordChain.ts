@@ -357,80 +357,88 @@ export class WCEngine {
 
     return SCC;
   }
-  getReachableRouteChars(char: Char) {
-    const routeChars = Object.keys((e: Char) => {
-      this.charInfo[e] = { type: "route" };
-    });
-    const visited: Record<Char, boolean> = {};
 
-    for (let char of routeChars) {
-      visited[char] = false;
-    }
+  getNextWords(char: Char) {
+    return changeableMap[this.rule.changeableIdx](char)
+      .filter((e) => this.charInfo[e])
+      .flatMap((char) =>
+        this.words.filter((word) => word.at(this.rule.headIdx)! === char)
+      );
+  }
+
+  getReachableRouteChars(char: Char) {
+    const chanVisited = new Set();
+    const wordVisited = new Set();
 
     const dfs = (char: Char) => {
-      visited[char] = true;
-      const nextChars = new Set(
-        this.charInfo[char].outWords
-          .map((e: Word) => e.at(this.rule.tailIdx)!)
-          .filter((e: Char) => this.charInfo[e].type === "route" && !visited[e])
-      );
+      chanVisited.add(char);
+      const nextWords = this.chanGraph
+        .successors(char)
+        .filter((e: Char) => !wordVisited.has(e));
 
-      for (let next of nextChars) {
-        dfs(next);
+      for (let next of nextWords) {
+        wordVisited.add(next);
+        const nextChans = this.wordGraph
+          .successors(next)
+          .filter((e) => !chanVisited.has(e));
+        for (let nextChan of nextChans) {
+          dfs(nextChan);
+        }
       }
     };
+
     dfs(char);
 
-    return Object.keys(visited).filter((char) => visited[char]);
+    return [chanVisited, wordVisited];
   }
 
-  getShortestPaths(char: Char) {
-    const result: Record<Char, { pathStart?: Word; length?: number }> = {};
-    const visited: Record<Char, boolean> = {};
+  // getShortestPaths(char: Char) {
+  //   const result: Record<Char, { pathStart?: Word; length?: number }> = {};
+  //   const visited: Record<Char, boolean> = {};
 
-    for (let char of Object.keys(this.charInfo)) {
-      result[char] = {};
-      visited[char] = false;
-    }
-    const queue = new Collections.Queue<string>();
-    result[char].length = 0;
-    result[char].pathStart = undefined;
-    visited[char] = true;
-    // console.log(this.charInfo[char]);
-    for (let word of this.charInfo[char].outWords.filter(
-      (e) => !this.charInfo[char].returnWords!.has(e)
-    )) {
-      const nextChar = word.at(this.rule.tailIdx)!;
+  //   for (let char of Object.keys(this.charInfo)) {
+  //     result[char] = {};
+  //     visited[char] = false;
+  //   }
+  //   const queue = new Collections.Queue<string>();
+  //   result[char].length = 0;
+  //   result[char].pathStart = undefined;
+  //   visited[char] = true;
+  //   // console.log(this.charInfo[char]);
+  //   for (let word of this.charInfo[char].outWords.filter(
+  //     (e) => !this.charInfo[char].returnWords!.has(e)
+  //   )) {
+  //     const nextChar = word.at(this.rule.tailIdx)!;
 
-      if (result[nextChar].length === undefined) {
-        visited[nextChar] = true;
-        queue.enqueue(nextChar);
-        result[nextChar].length = 1;
-        result[nextChar].pathStart = word;
-      }
-    }
+  //     if (result[nextChar].length === undefined) {
+  //       visited[nextChar] = true;
+  //       queue.enqueue(nextChar);
+  //       result[nextChar].length = 1;
+  //       result[nextChar].pathStart = word;
+  //     }
+  //   }
 
-    // bfs
-    while (!queue.isEmpty()) {
-      const curr = queue.dequeue()!;
+  //   // bfs
+  //   while (!queue.isEmpty()) {
+  //     const curr = queue.dequeue()!;
 
-      const nextChars = new Set(
-        this.charInfo[curr].outWords
-          .filter((e) => !this.charInfo[char].returnWords!.has(e))
-          .map((e: Word) => e.at(this.rule.tailIdx)!)
-          .filter((e: Char) => !visited[e])
-      );
+  //     const nextChars = new Set(
+  //       this.charInfo[curr].outWords
+  //         .filter((e) => !this.charInfo[char].returnWords!.has(e))
+  //         .map((e: Word) => e.at(this.rule.tailIdx)!)
+  //         .filter((e: Char) => !visited[e])
+  //     );
 
-      for (let next of nextChars) {
-        visited[next] = true;
-        queue.enqueue(next);
-        result[next].length = result[curr].length! + 1;
-        result[next].pathStart = result[curr].pathStart;
-      }
-    }
+  //     for (let next of nextChars) {
+  //       visited[next] = true;
+  //       queue.enqueue(next);
+  //       result[next].length = result[curr].length! + 1;
+  //       result[next].pathStart = result[curr].pathStart;
+  //     }
+  //   }
 
-    return result;
-  }
+  //   return result;
+  // }
 
   copy(except?: string[]): WCEngine {
     const engine = new WCEngine(this.rule, this.words);
@@ -501,8 +509,8 @@ export class WCDisplay {
       },
     ];
     const config = {
-      minRouteChars: { label: "희소루트" },
-      maxRouteChars: { label: "주요루트" },
+      minRouteChars: { label: "희귀 루트" },
+      maxRouteChars: { label: "주요 루트" },
     };
     return { data, config };
   }
@@ -884,22 +892,17 @@ export class RouteAnalyzer {
   constructor(engine: WCEngine, char: Char) {
     this.currChar = char;
 
-    // const chars = char
-    //   ? engine.getReachableRouteChars(char)
-    //   : Object.keys(this.rootEngine.charInfo).filter(
-    //       (e) => this.rootEngine.charInfo[e].type === "route"
-    //     );
     this.rootEngine = this.getReducedEngine(engine, char);
-    console.log(this.isWin(this.rootEngine, char));
+    console.log(this.getReducedEngine(engine, char));
   }
 
   getReducedEngine(engine: WCEngine, char: Char) {
-    const chars = engine.getReachableRouteChars(char);
-    const charSet = new Set(chars);
+    const [chanChars, wordChars] = engine.getReachableRouteChars(char);
+
     const words = engine.words.filter(
       (word) =>
-        charSet.has(word.at(engine.rule.headIdx)!) &&
-        charSet.has(word.at(engine.rule.tailIdx)!)
+        wordChars.has(word.at(engine.rule.headIdx)!) &&
+        chanChars.has(word.at(engine.rule.tailIdx)!)
     );
 
     const result = new WCEngine(engine.rule, words);

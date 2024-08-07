@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
+import { changeableMap } from "@/lib/wc/hangul";
 export default function Game() {
   const [currGame, isChatLoading] = useWC((e) => [e.currGame, e.isChatLoading]);
 
@@ -79,11 +80,11 @@ export default function Game() {
 }
 function GameInput() {
   const [value, setValue] = useState<string>("");
-  const [currGame, setCurrGame, makeMyMove, engine] = useWC((e) => [
+  const [currGame, setCurrGame, makeMyMove, originalEngine] = useWC((e) => [
     e.currGame,
     e.setCurrGame,
     e.makeMyMove,
-    e.engine,
+    e.originalEngine,
   ]);
   const isValid = (value: string): boolean => {
     const isMyTurn = currGame!.moves.length % 2 !== +currGame!.isFirst!;
@@ -95,24 +96,25 @@ function GameInput() {
       return false;
     }
     if (currGame!.moves.length > 0) {
-      const chars =
-        engine?.charInfo[currGame!.moves.at(-1)!.at(engine.rule.tailIdx)!]
-          .chanSucc!;
+      const chars = changeableMap[originalEngine!.rule.changeableIdx](
+        currGame!.moves.at(-1)!.at(originalEngine!.rule.tailIdx)!
+      );
+
       if (
         currGame!.moves.length === 1 &&
         currGame!.moves[0] !== value &&
-        !chars.includes(value.at(engine!.rule.headIdx)!)
+        !chars.includes(value.at(originalEngine!.rule.headIdx)!)
       ) {
         return false;
       } else if (currGame!.moves.length > 1) {
-        if (!chars.includes(value.at(engine?.rule.headIdx!)!)) {
+        if (!chars.includes(value.at(originalEngine?.rule.headIdx!)!)) {
           return false;
         } else if (currGame!.moves.includes(value)) {
           return false;
         }
       }
     }
-    if (!engine!.words.includes(value)) {
+    if (!originalEngine!.words.includes(value)) {
       return false;
     }
     return true;

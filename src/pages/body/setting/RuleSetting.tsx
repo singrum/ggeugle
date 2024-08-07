@@ -6,16 +6,6 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button.js";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -25,13 +15,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useMenu } from "@/lib/store/useMenu";
 import { cates, dicts, poses, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { MenuBtn } from "@/NavBar";
-import { ChevronRight, Settings2 } from "lucide-react";
-import React, { useEffect } from "react";
+import React from "react";
 import { SettnigMenu } from "./SettingMenu";
-import { useMenu } from "@/lib/store/useMenu";
 export function RuleSetting() {
   const [rule, setRuleForm, updateRule] = useWC((state) => [
     state.rule,

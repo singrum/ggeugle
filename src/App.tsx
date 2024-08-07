@@ -1,23 +1,22 @@
 import Search from "./pages/body/search/Search";
-import Header from "./pages/header/Header";
 
-import { useEffect } from "react";
-import { useMediaQuery } from "./hooks/use-media-query";
-import { useMenu } from "./lib/store/useMenu";
-import { useWC } from "./lib/store/useWC";
-import NavBar, { MenuBtn } from "./NavBar";
-import Practice from "./pages/body/practice/Practice";
-import Statistics from "./pages/body/statistics/Statistics";
-import Logo from "./pages/header/Logo";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CircleEllipsis, Ellipsis, EllipsisIcon, History } from "lucide-react";
+import { CircleEllipsis, EllipsisIcon, History, Menu } from "lucide-react";
+import { useEffect } from "react";
 import { VscGithubInverted } from "react-icons/vsc";
+import { useMediaQuery } from "./hooks/use-media-query";
+import { useMenu } from "./lib/store/useMenu";
+import { useWC } from "./lib/store/useWC";
+import NavBar, { MenuBtn } from "./NavBar";
+import Practice from "./pages/body/practice/Practice";
 import Setting from "./pages/body/setting/Setting";
+import Statistics from "./pages/body/statistics/Statistics";
+import Logo from "./pages/header/Logo";
 
 function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -83,7 +82,7 @@ export function EtcDropdown() {
             <CircleEllipsis strokeWidth={1.5} />
           </div>
           <div className="block md:hidden md:absolute md:p-2">
-            <EllipsisIcon strokeWidth={1.5} />
+            <Menu strokeWidth={1.5} />
           </div>
         </div>
       </DropdownMenuTrigger>
@@ -92,7 +91,7 @@ export function EtcDropdown() {
           onClick={() => open("https://singrum.github.io/ggeugle_old")}
         >
           <History className="h-4 w-4" />
-          이전 버전 끄글
+          이전 버전
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => open("https://github.com/singrum/ggeugle")}

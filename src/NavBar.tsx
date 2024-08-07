@@ -1,38 +1,6 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Ellipsis, History, Settings } from "lucide-react";
-import React, { ForwardedRef, forwardRef, ReactNode, useState } from "react";
-import { VscGithubInverted } from "react-icons/vsc";
-import { useTheme } from "./components/theme-provider";
-import { Checkbox } from "./components/ui/checkbox";
-import { Separator } from "./components/ui/separator";
-import { useMediaQuery } from "./hooks/use-media-query";
+import React, { ForwardedRef, forwardRef, ReactNode } from "react";
 import { menus, useMenu } from "./lib/store/useMenu";
 import { cn } from "./lib/utils";
-import { RuleSetting } from "./pages/body/setting/RuleSetting";
 export default function NavBar() {
   const setMenu = useMenu((e) => e.setMenu);
   const menu = useMenu((e) => e.menu);
@@ -43,7 +11,7 @@ export default function NavBar() {
         {menus.map((e, i) => (
           <MenuBtn
             key={i}
-            icon={e.icon}
+            icon={menu.index === e.index ? e.focusedIcon : e.icon}
             name={e.name}
             className={cn({
               "md:bg-accent text-foreground": menu.index === e.index,

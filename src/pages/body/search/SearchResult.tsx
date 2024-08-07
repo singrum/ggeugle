@@ -15,8 +15,7 @@ import {
   WCDisplay,
   WordType,
 } from "@/lib/wc/wordChain";
-import { josa } from "es-hangul";
-import { CircleHelp, Info } from "lucide-react";
+import { CircleHelp } from "lucide-react";
 import React from "react";
 
 export default function SearchResult() {

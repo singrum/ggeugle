@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import React, { useState } from "react";
 import PreferenceSetting from "./PreferenceSetting";
 import { RuleSetting } from "./RuleSetting";
-import { Separator } from "@/components/ui/separator";
 
 const menuList = [{ name: "룰 설정" }, { name: "환경 설정" }];
 export default function Setting() {

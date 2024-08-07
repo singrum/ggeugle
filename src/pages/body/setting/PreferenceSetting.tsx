@@ -1,5 +1,5 @@
 import { useTheme } from "@/components/theme-provider";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -9,11 +9,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import React, { useState } from "react";
-import { SettnigMenu } from "./SettingMenu";
-import { useWC } from "@/lib/store/useWC";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { useWC } from "@/lib/store/useWC";
+import { SettnigMenu } from "./SettingMenu";
 
 export default function PreferenceSetting() {
   const [isAutoExcept, setIsAutoExcept] = useWC((e) => [

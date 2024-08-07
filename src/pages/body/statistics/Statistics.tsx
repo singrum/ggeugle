@@ -1,4 +1,11 @@
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
   ChartConfig,
   ChartContainer,
   ChartLegend,
@@ -9,34 +16,16 @@ import {
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { WCDisplay } from "@/lib/wc/wordChain";
-import { Square } from "lucide-react";
 import { useMemo } from "react";
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Label,
-  Pie,
-  PieChart,
-  XAxis,
-  YAxis,
-} from "recharts";
+import { Bar, BarChart, Pie, PieChart, XAxis, YAxis } from "recharts";
 
 export default function Statistics() {
   const originalEngine = useWC((e) => e.originalEngine);
@@ -48,43 +37,43 @@ export default function Statistics() {
           <Header />
 
           <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-2">
-            <div>
-              <ChartBox name="글자 유형" description="승리, 패배, 루트로 분류">
-                <CharTypeChart />
-              </ChartBox>
-            </div>
-            <div>
-              <ChartBox
-                name="승리 글자 세부 유형"
-                description="n턴 후 승리, 조건부 승리로 분류"
-              >
-                <WinCharTypeChart />
-              </ChartBox>
-            </div>
-            <div>
-              <ChartBox
-                name="패배 글자 세부 유형"
-                description="n턴 후 패배, 조건부 패배로 분류"
-              >
-                <LosCharTypeChart />
-              </ChartBox>
-            </div>{" "}
-            <div>
-              <ChartBox
-                name="루트 글자 세부 유형"
-                description="주요 루트 글자, 희소 루트 글자로 분류"
-              >
-                <RouteCharTypeChart />
-              </ChartBox>
-            </div>{" "}
-            <div>
-              <ChartBox
-                name="주요 루트 수치 비교"
-                description="주요 루트 글자 수, 주요 루트 단어 수, 평균 루트 단어 수"
-              >
-                <CompareRoute />
-              </ChartBox>
-            </div>
+            {[
+              {
+                title: "글자 유형",
+                desc: "승리, 패배, 루트 글자로 분류",
+                content: <CharTypeChart />,
+              },
+              {
+                title: "승리 글자 세부 유형",
+                desc: "n턴 후 승리, 조건부 승리로 분류",
+                content: <WinCharTypeChart />,
+              },
+              {
+                title: "패배 글자 세부 유형",
+                desc: "n턴 후 패배, 조건부 패배로 분류",
+                content: <LosCharTypeChart />,
+              },
+              {
+                title: "루트 글자 세부 유형",
+                desc: "주요 루트 글자, 희귀 루트 글자로 분류",
+                content: <RouteCharTypeChart />,
+              },
+              {
+                title: "루트 수치 비교",
+                desc: "현재 룰과 구엜룰 비교",
+                content: <CompareRoute />,
+              },
+            ].map(({ title, desc, content }) => (
+              <Card className="flex flex-col gap-2">
+                <CardHeader className="items-center pb-0">
+                  <CardTitle>{title}</CardTitle>
+                  <CardDescription>{desc}</CardDescription>
+                </CardHeader>
+                <CardContent className="flex items-center flex-1 justify-center">
+                  {content}
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </div>
@@ -119,7 +108,7 @@ function CompareRoute() {
         { data: "단어", "현재 룰": words, 구엜룰: 582 },
         {
           data: "단어/글자",
-          "현재 룰": Math.round((words / chars) * 1000) / 1000,
+          "현재 룰": chars > 0 ? Math.round((words / chars) * 1000) / 1000 : 0,
           구엜룰: 6.614,
         },
       ];
@@ -154,34 +143,34 @@ function RouteCharTypeChart() {
   const chartData = useMemo(() => {
     return originalEngine && WCDisplay.routeCharTypeChartData(originalEngine!);
   }, [originalEngine]);
-
   return (
-    chartData && (
-      <div className="flex items-center justify-center gap-2 flex-1 min-h-0">
-        <div className="flex items-center justify-center">
-          <ChartContainer
-            config={chartData!.config}
-            className="aspect-square w-[230px]"
-          >
-            <PieChart>
-              <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent hideLabel />}
-              />
-              <Pie
-                data={chartData!.data}
-                dataKey="num"
-                nameKey="name"
-                strokeWidth={5}
-              />
-            </PieChart>
-          </ChartContainer>
-        </div>
+    chartData &&
+    (chartData.data[0].num > 0 || chartData.data[1].num > 0 ? (
+      <ChartContainer
+        config={chartData!.config}
+        className="aspect-square  max-w-[300px] w-full"
+      >
+        <PieChart>
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+          <ChartLegend content={<ChartLegendContent />} />
+          <Pie
+            data={chartData!.data}
+            dataKey="num"
+            nameKey="name"
+            strokeWidth={5}
+          />
+        </PieChart>
+      </ChartContainer>
+    ) : (
+      <div className="text-center text-muted-foreground">
+        루트 글자가 없습니다.
       </div>
-    )
+    ))
   );
 }
-function RouteWordTypeChart() {}
 
 function Header() {
   const originalEngine = useWC((e) => e.originalEngine);
@@ -210,9 +199,6 @@ function CharTypeChart() {
   }, [originalEngine]);
 
   const chartConfig: Record<string, { label: string; color?: string }> = {
-    num: {
-      label: "글자",
-    },
     win: {
       label: "승리",
     },
@@ -226,46 +212,19 @@ function CharTypeChart() {
     },
   } satisfies ChartConfig;
   return (
-    <div className="flex items-center justify-center gap-2 flex-1 min-h-0">
-      <div className="flex items-center justify-center">
-        <ChartContainer
-          config={chartConfig}
-          className="aspect-square w-[230px]"
-        >
-          <PieChart>
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData!}
-              dataKey="num"
-              nameKey="type"
-              strokeWidth={5}
-            />
-          </PieChart>
-        </ChartContainer>
-      </div>
-      <div className="flex gap-2 flex-col">
-        {chartData!.map((e) => (
-          <TooltipProvider key={e.type}>
-            <Tooltip delayDuration={100}>
-              <TooltipTrigger>
-                <div className="flex items-center gap-1 text-sm" key={e.type}>
-                  <Square fill={e.fill} strokeOpacity={0} className="w-4 h-4" />
-                  <div className="text-muted-foreground hover:text-foreground transition-colors">
-                    {chartConfig[e.type as string].label}
-                  </div>
-                </div>
-              </TooltipTrigger>
-              <TooltipContent className="bg-foreground text-background">
-                <p>{e.num}개</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        ))}
-      </div>
-    </div>
+    <ChartContainer
+      config={chartConfig}
+      className="aspect-square max-w-[300px] w-full"
+    >
+      <PieChart>
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent hideLabel />}
+        />
+        <ChartLegend content={<ChartLegendContent />} />
+        <Pie data={chartData!} dataKey="num" nameKey="type" strokeWidth={5} />
+      </PieChart>
+    </ChartContainer>
   );
 }
 
@@ -277,7 +236,7 @@ function WinCharTypeChart() {
 
   return (
     chartData && (
-      <ChartContainer config={chartData!.config} className="">
+      <ChartContainer config={chartData!.config} className="w-full">
         <BarChart
           accessibilityLayer
           data={chartData.data}
@@ -315,7 +274,7 @@ function LosCharTypeChart() {
 
   return (
     chartData && (
-      <ChartContainer config={chartData!.config} className="">
+      <ChartContainer config={chartData!.config} className="w-full">
         <BarChart
           accessibilityLayer
           data={chartData.data}

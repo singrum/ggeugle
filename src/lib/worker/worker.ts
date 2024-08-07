@@ -49,9 +49,9 @@ const getComputerMove = ({
   let nextWords: Word[];
   if (strength === 0) {
     if (currChar) {
-      nextWords = originalEngine!.charInfo[currChar].outWords.filter(
-        (e) => !exceptWords.includes(e)
-      );
+      nextWords = originalEngine!
+        .getNextWords(currChar)
+        .filter((e) => !exceptWords.includes(e));
       if (exceptWords.length === 1) {
         nextWords.push(exceptWords[0]);
       }
@@ -64,12 +64,14 @@ const getComputerMove = ({
       switch (engine?.charInfo[currChar].type!) {
         case "wincir":
         case "win":
-          nextWords = engine!.charInfo[currChar].outWords.filter(
-            (word) =>
-              WCDisplay.reduceWordtype(
-                WCDisplay.getWordType(engine!, word).type as WordType
-              ) === "win"
-          );
+          nextWords = engine!
+            .getNextWords(currChar)
+            .filter(
+              (word) =>
+                WCDisplay.reduceWordtype(
+                  WCDisplay.getWordType(engine!, word).type as WordType
+                ) === "win"
+            );
 
           break;
         case "los":
@@ -77,9 +79,11 @@ const getComputerMove = ({
             // 1턴 째일 때 단어 뺏기
             nextWords = exceptWords;
           } else {
-            nextWords = engine!.charInfo[currChar].outWords.filter(
-              (word) => WCDisplay.getWordType(engine!, word).type === "los"
-            );
+            nextWords = engine!
+              .getNextWords(currChar)
+              .filter(
+                (word) => WCDisplay.getWordType(engine!, word).type === "los"
+              );
           }
           break;
         case "loscir":
@@ -87,14 +91,19 @@ const getComputerMove = ({
             // 1턴 째일 때 단어 뺏기
             nextWords = exceptWords;
           } else {
-            nextWords = engine!.charInfo[currChar].outWords.filter(
-              (word) =>
-                WCDisplay.getWordType(engine!, word).type === "loscir_return"
-            );
-            if (!nextWords) {
-              nextWords = engine!.charInfo[currChar].outWords.filter(
-                (word) => WCDisplay.getWordType(engine!, word).type === "loscir"
+            nextWords = engine!
+              .getNextWords(currChar)
+              .filter(
+                (word) =>
+                  WCDisplay.getWordType(engine!, word).type === "loscir_return"
               );
+            if (!nextWords) {
+              nextWords = engine!
+                .getNextWords(currChar)
+                .filter(
+                  (word) =>
+                    WCDisplay.getWordType(engine!, word).type === "loscir"
+                );
             }
           }
 
@@ -102,14 +111,17 @@ const getComputerMove = ({
 
         case "route":
           if (strength === 1) {
-            nextWords = engine!.charInfo[currChar].outWords.filter(
-              (word) =>
-                WCDisplay.reduceWordtype(
-                  WCDisplay.getWordType(engine!, word).type as WordType
-                ) === "route"
-            );
+            nextWords = engine!
+              .getNextWords(currChar)
+              .filter(
+                (word) =>
+                  WCDisplay.reduceWordtype(
+                    WCDisplay.getWordType(engine!, word).type as WordType
+                  ) === "route"
+              );
           } else if (strength === 2) {
-            console.log(new RouteAnalyzer(engine!, currChar));
+
+            new RouteAnalyzer(engine!, currChar)
           }
           break;
       }
@@ -118,12 +130,14 @@ const getComputerMove = ({
       if (strength === 1) {
         nextWords = Object.keys(engine!.charInfo).flatMap((char) =>
           engine!.charInfo[char].type === "route"
-            ? engine!.charInfo[char].outWords.filter(
-                (word) =>
-                  WCDisplay.reduceWordtype(
-                    WCDisplay.getWordType(engine!, word).type as WordType
-                  ) === "route"
-              )
+            ? engine!
+                .getNextWords(char)
+                .filter(
+                  (word) =>
+                    WCDisplay.reduceWordtype(
+                      WCDisplay.getWordType(engine!, word).type as WordType
+                    ) === "route"
+                )
             : []
         );
       } else if (strength === 2) {
@@ -137,9 +151,9 @@ const getComputerMove = ({
 
   if (
     result &&
-    originalEngine!.charInfo[
-      result.at(originalEngine!.rule.tailIdx)
-    ].outWords.filter((e) => !exceptWords.includes(e)).length === 0
+    originalEngine!
+      .getNextWords(result.at(originalEngine!.rule.tailIdx))
+      .filter((e) => !exceptWords.includes(e)).length === 0
   ) {
     isLos = true;
   }
