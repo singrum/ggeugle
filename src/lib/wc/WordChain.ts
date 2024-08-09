@@ -3,6 +3,7 @@ import { changeableMap, reverseChangeableMap } from "./hangul";
 import { arrayToKeyMap, pushObject } from "../utils";
 import { indexOf } from "typescript-collections/dist/lib/arrays";
 import { MultiDiGraph, objToMultiDiGraph } from "./multidigraph";
+import { getSCC, pruningWinLos, pruningWinLosCir } from "./algorithms";
 // import { DiGraph } from "./multidigraph";
 export type WCRule = {
   changeableIdx: number;
@@ -23,19 +24,13 @@ export class WCEngine {
   wordGraph: MultiDiGraph;
   chanGraph: MultiDiGraph;
   returnWordGraph: MultiDiGraph;
-  loopWordGraph: MultiDiGraph;
-  solutionGraph: MultiDiGraph;
-  charInfo: Record<Char, { type: CharType; endNum?: number }>;
 
   constructor(rule: WCRule, words?: Word[]) {
     this.rule = rule;
     this.words = words ? words : [];
     this.wordGraph = new MultiDiGraph();
-    this.returnWordGraph = new MultiDiGraph();
-    this.loopWordGraph = new MultiDiGraph();
-    this.solutionGraph = new MultiDiGraph();
     this.chanGraph = new MultiDiGraph();
-    this.charInfo = {};
+    this.returnWordGraph = undefined!;
   }
 
   update() {
@@ -44,318 +39,19 @@ export class WCEngine {
       let tail = word.at(this.rule.tailIdx) as string;
       this.wordGraph.addEdge(head, tail);
     }
-    // this.charInfo = arrayToKeyMap([...this.wordGraph.nodes], () => ({}));
 
-    for (let char of this.wordGraph.nodes) {
+    for (let char in this.wordGraph.nodes) {
       changeableMap[this.rule.changeableIdx](char)
-        .filter((e) => this.wordGraph.nodes.has(e))
-        .forEach((chan) => this.chanGraph.addEdge(char, chan));
+        .filter((e) => this.wordGraph.nodes[e])
+        .forEach((chan) => {
+          this.chanGraph.addEdge(char, chan);
+        });
     }
 
-    // WIN, LOS 분류
-    this._sortChars();
-    this._sortCirChars();
+    pruningWinLos(this.chanGraph, this.wordGraph);
+    pruningWinLosCir(this.chanGraph, this.wordGraph);
+
     return this;
-  }
-
-  _sortChars() {
-    let i = 0;
-    const chars = [...this.chanGraph.nodes];
-
-    // 시드 찾기 wordSinks, chanSinks
-    let wordLos: Char[] = chars.filter(
-      (e) => this.wordGraph.successors(e).length === 0
-    );
-    this.chanGraph.removeInEdge(wordLos);
-
-    let chanLos: Char[] = chars.filter(
-      (e) => this.chanGraph.successors(e).length === 0
-    );
-    this.chanGraph.removeNode(chanLos);
-    let info = {
-      type: "los" as CharType,
-      endNum: i,
-    };
-    for (let char of chanLos) {
-      this.charInfo[char] = info;
-    }
-
-    // win, los 분류
-    while (chanLos.length !== 0) {
-      const wordWins: Char[] = this.wordGraph.predecessors(chanLos);
-      this.wordGraph.removeNode(chanLos);
-
-      const chanWins: Char[] = this.chanGraph.predecessors(wordWins);
-      this.chanGraph.removeNode(wordWins);
-      info = { type: "win" as CharType, endNum: i };
-      for (let char of chanWins) {
-        this.charInfo[char] = info;
-      }
-
-      i++;
-
-      let preds = this.wordGraph.predecessors(chanWins);
-
-      this.wordGraph.removeNode(chanWins);
-      this.chanGraph.removeNode(chanWins);
-
-      wordLos = preds.filter(
-        (pred) =>
-          this.wordGraph.nodes.has(pred) &&
-          this.wordGraph.successors(pred).length === 0
-      );
-
-      preds = this.chanGraph.predecessors(wordLos);
-      this.chanGraph.removeInEdge(wordLos);
-      chanLos = preds.filter((e) => this.chanGraph.successors(e).length === 0);
-      this.chanGraph.removeNode(chanLos);
-      info = { type: "los", endNum: i };
-      for (let char of chanLos) {
-        this.charInfo[char] = info;
-      }
-    }
-  }
-
-  _sortCirChars() {
-    // 돌림 단어쌍 찾기
-    const pair: (head: string, tail: string) => undefined | [string, string] = (
-      head: string,
-      tail: string
-    ) => {
-      for (let headPred of this.chanGraph.predecessors(head)) {
-        for (let tailSucc of this.chanGraph.successors(tail)) {
-          if (this.wordGraph.hasEdge(tailSucc, headPred)) {
-            return [tailSucc, headPred];
-          }
-        }
-      }
-      return undefined;
-    };
-
-    const chars = [...this.wordGraph.nodes];
-
-    const singleCharCounter = arrayToKeyMap(
-      chars,
-      (e: string) => this.chanGraph.predecessors(e).length
-    );
-    for (let char of chars) {
-      if (this.chanGraph.successors(char).length === 1) {
-        singleCharCounter[this.chanGraph.successors(char)[0]]--;
-      }
-    }
-
-    for (let head of this.wordGraph.nodes) {
-      for (let tail of this.wordGraph.successors(head)) {
-        const returnPair = pair(head, tail);
-        if (
-          !returnPair ||
-          singleCharCounter[head] !== 0 ||
-          singleCharCounter[returnPair[0]] !== 0
-        )
-          continue;
-        const [pairHead, pairTail] = returnPair;
-        // 맴맴, 삐삐, 죽력죽
-        if (pairHead === head) {
-          const outdeg = this.wordGraph._succ[head][tail];
-          const maximumEven = Math.floor(outdeg / 2) * 2;
-          if (maximumEven > 0) {
-            this.returnWordGraph.addEdge(head, tail, maximumEven);
-          }
-          if (outdeg % 2 === 1) {
-            this.loopWordGraph.addEdge(head, tail);
-          }
-        }
-        // 늠축 - 축보름
-        else {
-          this.returnWordGraph.addEdge(
-            head,
-            tail,
-            Math.min(
-              this.wordGraph._succ[head][tail],
-              this.wordGraph._succ[pairHead][pairTail]
-            )
-          );
-        }
-      }
-    }
-    // this.wordGraph에서 제거
-    for (let head of this.returnWordGraph.nodes) {
-      for (let tail of this.returnWordGraph.successors(head)) {
-        this.wordGraph.removeEdge(
-          head,
-          tail,
-          this.returnWordGraph._succ[head][tail]
-        );
-      }
-    }
-    const hasLoop = arrayToKeyMap(
-      chars,
-      (char) =>
-        this.loopWordGraph.nodes.has(char) &&
-        this.loopWordGraph.successors(char).length > 0
-    );
-
-    // loop 제거
-    for (let head of this.loopWordGraph.nodes) {
-      for (let tail of this.loopWordGraph.successors(head)) {
-        this.wordGraph.removeEdge(
-          head,
-          tail,
-          this.loopWordGraph._succ[head][tail]
-        );
-      }
-    }
-
-    let i = 0;
-    let wordSinks = chars.filter(
-      (e) => this.wordGraph.successors(e).length === 0
-    );
-    let wordWin = wordSinks.filter((e) => hasLoop[e]);
-    wordWin.forEach((char) => {
-      this.solutionGraph.addEdge(
-        char,
-        char,
-        this.loopWordGraph._succ[char][char]
-      );
-    });
-
-    let wordLos = wordSinks.filter((e) => !hasLoop[e]);
-
-    let chanWin = this.chanGraph.predecessors(wordWin);
-    this.chanGraph.removeNode(chanWin);
-    let info = { type: "wincir" as CharType, endNum: i };
-    chanWin.forEach((char) => {
-      this.charInfo[char] = info;
-    });
-
-    this.chanGraph.removeInEdge(wordLos);
-
-    let chanLos = [...this.chanGraph.nodes].filter(
-      (e) => this.chanGraph.successors(e).length === 0
-    );
-    info = { type: "loscir" as CharType, endNum: i };
-    chanLos.forEach((char) => {
-      this.charInfo[char] = info;
-    });
-
-    this.chanGraph.removeNode(chanLos);
-
-    while (chanLos.length > 0 || chanWin.length > 0) {
-      // console.log(chanLos, chanWin);
-
-      let preds = this.wordGraph.predecessors(chanWin);
-      this.wordGraph.removeNode(chanWin);
-      this.chanGraph.removeNode(chanWin);
-
-      wordSinks = preds.filter(
-        (e) =>
-          this.wordGraph.nodes.has(e) &&
-          this.wordGraph.successors(e).length === 0
-      );
-
-      wordLos = wordSinks.filter((e) => !hasLoop[e]);
-      const wordWinLoop = wordSinks.filter((e) => hasLoop[e]);
-      wordWinLoop.forEach((char) => {
-        this.solutionGraph.addEdge(
-          char,
-          char,
-          this.loopWordGraph._succ[char][char]
-        );
-      });
-      const wordWinNoLoop = [];
-      for (let char of chanLos) {
-        const preds = this.wordGraph.predecessors(char);
-
-        preds.forEach((pred) =>
-          this.solutionGraph.addEdge(
-            pred,
-            char,
-            this.wordGraph._succ[pred][char]
-          )
-        );
-        wordWinNoLoop.push(...preds);
-      }
-
-      wordWin = [...wordWinLoop, ...wordWinNoLoop];
-      this.wordGraph.removeNode(chanLos);
-
-      chanWin = this.chanGraph.predecessors(wordWin);
-      this.chanGraph.removeNode(chanWin);
-
-      preds = this.chanGraph.predecessors(wordLos);
-      this.chanGraph.removeInEdge(wordLos);
-      chanLos = preds.filter((e) => this.chanGraph.successors(e).length === 0);
-      this.chanGraph.removeNode(chanLos);
-      i++;
-
-      info = { type: "loscir", endNum: i };
-      chanLos.forEach((char) => {
-        this.charInfo[char] = info;
-      });
-      info = { type: "wincir", endNum: i };
-      chanWin.forEach((char) => (this.charInfo[char] = info));
-    }
-    [...this.chanGraph.nodes].forEach((char) => {
-      this.charInfo[char] = { type: "route" };
-    });
-    return;
-  }
-
-  getSCC() {
-    const chars = [...this.chanGraph.nodes];
-    let id = 0;
-
-    const d: Record<Char, number> = arrayToKeyMap(chars, () => 0);
-
-    const finished: Record<Char, boolean> = arrayToKeyMap(chars, () => false);
-
-    const SCC: Char[][] = [];
-    const stack: Char[] = [];
-
-    const dfs: (x: Char) => number = (x: Char) => {
-      d[x] = ++id;
-      stack.push(x);
-
-      let parent = d[x];
-      const succ = [
-        ...new Set(
-          (this.chanGraph.nodes.has(x)
-            ? this.chanGraph.successors(x)
-            : []
-          ).concat(
-            this.chanGraph.nodes.has(x) ? this.wordGraph.successors(x) : []
-          )
-        ),
-      ];
-      for (let i = 0; i < succ.length; i++) {
-        const next = succ[i];
-
-        if (d[next] === 0) parent = Math.min(parent, dfs(next));
-        else if (!finished[next]) parent = Math.min(parent, d[next]);
-      }
-
-      if (parent === d[x]) {
-        const scc: Char[] = [];
-        while (1) {
-          const t = stack.pop()!;
-          scc.push(t);
-          finished[t] = true;
-          if (t === x) break;
-        }
-
-        SCC.push(scc);
-      }
-
-      return parent;
-    };
-
-    for (let char of chars) {
-      if (d[char] === 0) {
-        dfs(char);
-      }
-    }
-
-    return SCC;
   }
 
   getNextWords(char: Char) {

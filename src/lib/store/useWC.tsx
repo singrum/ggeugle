@@ -7,10 +7,37 @@ import {
   WCEngine,
   Word,
 } from "../wc/wordChain";
-
 import toast from "react-hot-toast";
-
 import { josa } from "es-hangul";
+import { debug } from "console";
+
+const debugRule = {
+  dict: 2,
+  pos: [true, true, true, true, true, true, true, true],
+  cate: [true, true, true, true],
+  chan: 2,
+  headDir: 0,
+  headIdx: 1,
+  tailDir: 1,
+  tailIdx: 1,
+  manner: false,
+  regexFilter: ".*",
+  addedWords: "",
+};
+const guelrule = {
+  dict: 0,
+  pos: [true, false, false, false, false, false, false, false],
+  cate: [true, true, true, true],
+  chan: 1,
+  headDir: 0,
+  headIdx: 1,
+  tailDir: 1,
+  tailIdx: 1,
+  manner: false,
+  regexFilter: ".*",
+  addedWords: "",
+};
+
 export type changeInfo = Record<Char, { prevType: string; currType: string }>;
 
 export const dicts = ["(구)표국대", "(신)표국대", "우리말샘"];
@@ -292,32 +319,8 @@ export const useWC = create<WCInfo>((set, get) => ({
     }));
   },
 
-  rule: {
-    dict: 0,
-    pos: [true, false, false, false, false, false, false, false],
-    cate: [true, true, true, true],
-    chan: 1,
-    headDir: 0,
-    headIdx: 1,
-    tailDir: 1,
-    tailIdx: 1,
-    manner: false,
-    regexFilter: ".*",
-    addedWords: "",
-  },
-  ruleForm: {
-    dict: 0,
-    pos: [true, false, false, false, false, false, false, false],
-    cate: [true, true, true, true],
-    chan: 1,
-    headDir: 0,
-    headIdx: 1,
-    tailDir: 1,
-    tailIdx: 1,
-    manner: false,
-    regexFilter: ".*",
-    addedWords: "",
-  },
+  rule: guelrule,
+  ruleForm: guelrule,
   setRuleForm: (ruleForm: RuleForm) => set({ ruleForm }),
   updateRule: () => {
     const ruleForm = get().ruleForm;

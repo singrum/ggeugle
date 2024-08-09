@@ -75,7 +75,7 @@ export async function getEngine(ruleForm: RuleForm) {
         .concat(ruleForm.addedWords.split(/\s+/).filter((e) => e.length > 0))
     )
   );
-
+  
   wce.update();
 
   return wce;
