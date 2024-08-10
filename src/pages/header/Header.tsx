@@ -6,9 +6,12 @@ export default function Header() {
   const menu = useMenu((e) => e.menu);
   return (
     <div
-      className={cn("top-0 flex flex-col min-h-9 z-0 ", {
-        "bg-muted/40": menu.index === 1 || menu.index === 2,
-      })}
+      className={cn(
+        "top-0 flex flex-col min-h-9 z-10 sticky bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border",
+        {
+          "bg-muted/40": menu.index === 1 || menu.index === 2,
+        }
+      )}
     >
       <div className="flex w-full justify-between p-2">
         <div className="flex items-end gap-1">

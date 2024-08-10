@@ -1,29 +1,29 @@
+import { josa } from "es-hangul";
+import toast from "react-hot-toast";
 import { create } from "zustand";
 import {
   Char,
+  CharType,
   objToInstance,
   SearchResult,
   WCDisplay,
   WCEngine,
   Word,
 } from "../wc/wordChain";
-import toast from "react-hot-toast";
-import { josa } from "es-hangul";
-import { debug } from "console";
 
-const debugRule = {
-  dict: 2,
-  pos: [true, true, true, true, true, true, true, true],
-  cate: [true, true, true, true],
-  chan: 2,
-  headDir: 0,
-  headIdx: 1,
-  tailDir: 1,
-  tailIdx: 1,
-  manner: false,
-  regexFilter: ".*",
-  addedWords: "",
-};
+// const debugRule = {
+//   dict: 2,
+//   pos: [true, true, true, true, true, true, true, true],
+//   cate: [true, true, true, true],
+//   chan: 2,
+//   headDir: 0,
+//   headIdx: 1,
+//   tailDir: 1,
+//   tailIdx: 1,
+//   manner: false,
+//   regexFilter: ".*",
+//   addedWords: "",
+// };
 const guelrule = {
   dict: 0,
   pos: [true, false, false, false, false, false, false, false],
@@ -184,12 +184,14 @@ export const useWC = create<WCInfo>((set, get) => ({
               Char,
               { prevType: string; currType: string }
             > = {};
-            for (let char in prevEngine!.charInfo) {
+            for (let char in prevEngine!.chanGraph.nodes) {
               const prevType = WCDisplay.reduceWordtype(
-                prevEngine!.charInfo[char].type!
+                prevEngine!.chanGraph.nodes[char].type as CharType
               );
-              const currType = engine!.charInfo[char]
-                ? WCDisplay.reduceWordtype(engine!.charInfo[char].type!)
+              const currType = engine!.chanGraph.nodes[char]
+                ? WCDisplay.reduceWordtype(
+                    engine!.chanGraph.nodes[char].type as CharType
+                  )
                 : "deleted";
               if (prevType !== currType) {
                 changeInfo[char] = { prevType, currType };
@@ -279,7 +281,20 @@ export const useWC = create<WCInfo>((set, get) => ({
                 currGame: {
                   ...currGame,
                   moves: [...currGame.moves, word],
-                  chats: [...currGame.chats, { isMy: false, content: word }],
+                  chats: [
+                    ...currGame.chats,
+                    { isMy: false, content: word },
+                    ...(currGame.moves.length === 0
+                      ? [
+                          {
+                            isMy: false,
+                            content: `'${word}'${josa(word.at(-1), "을/를").at(
+                              -1
+                            )} 입력하시면 단어를 뺏을 수 있습니다.`,
+                          },
+                        ]
+                      : []),
+                  ],
                 },
                 isChatLoading: false,
               });

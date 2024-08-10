@@ -1,5 +1,4 @@
 import { createRef } from "react";
-import { BottomSheetRef } from "react-spring-bottom-sheet";
 import { create } from "zustand";
 
 export interface SheetInfo {

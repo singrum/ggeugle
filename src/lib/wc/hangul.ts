@@ -81,6 +81,11 @@ const ga = 44032;
 
 export function getConstantVowel(char: string) {
   let uni = char2code(char);
+  if (uni >= char2code("ㄱ") && uni <= char2code("ㅎ")) {
+    return [char, undefined, undefined];
+  } else if (uni >= char2code("ㅏ") && uni <= char2code("ㅣ")) {
+    return [undefined, char, undefined];
+  }
   uni = uni - ga;
   let fn = Math.floor(uni / 588);
   let sn = Math.floor((uni - fn * 588) / 28);
@@ -196,10 +201,12 @@ export const changeableMap: ((char: string) => string[])[] = [
       result.push(code2char(code + char2code("아") - char2code("나")));
 
     let disassembled = getConstantVowel(char);
+
     let jung = disassembled[1];
 
     if (jung && jung in banjeonMap) {
       disassembled[1] = banjeonMap[jung];
+      // console.log(disassembled, char);
       result.push(Hangul.assemble(disassembled));
     }
     return result;

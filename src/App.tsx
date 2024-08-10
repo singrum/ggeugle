@@ -6,7 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CircleEllipsis, EllipsisIcon, History, Menu } from "lucide-react";
+import { CircleEllipsis, History, Menu } from "lucide-react";
 import { useEffect } from "react";
 import { VscGithubInverted } from "react-icons/vsc";
 import { useMediaQuery } from "./hooks/use-media-query";
@@ -17,6 +17,7 @@ import Practice from "./pages/body/practice/Practice";
 import Setting from "./pages/body/setting/Setting";
 import Statistics from "./pages/body/statistics/Statistics";
 import Logo from "./pages/header/Logo";
+import Header from "./pages/header/Header";
 
 function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");

@@ -61,7 +61,7 @@ const getComputerMove = ({
   } else {
     const engine = originalEngine?.copy(exceptWords);
     if (currChar) {
-      switch (engine?.charInfo[currChar].type!) {
+      switch (engine?.chanGraph.nodes[currChar].type!) {
         case "wincir":
         case "win":
           nextWords = engine!
@@ -120,16 +120,15 @@ const getComputerMove = ({
                   ) === "route"
               );
           } else if (strength === 2) {
-
-            new RouteAnalyzer(engine!, currChar)
+            new RouteAnalyzer(engine!, currChar);
           }
           break;
       }
     } else {
       // 컴퓨터가 선공인 경우
       if (strength === 1) {
-        nextWords = Object.keys(engine!.charInfo).flatMap((char) =>
-          engine!.charInfo[char].type === "route"
+        nextWords = Object.keys(engine!.chanGraph.nodes).flatMap((char) =>
+          engine!.chanGraph.nodes[char].type === "route"
             ? engine!
                 .getNextWords(char)
                 .filter(

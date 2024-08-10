@@ -21,20 +21,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
+import { getSCC } from "@/lib/wc/algorithms";
 import { WCDisplay } from "@/lib/wc/wordChain";
+import Header from "@/pages/header/Header";
 import { useMemo } from "react";
 import { Bar, BarChart, Pie, PieChart, XAxis, YAxis } from "recharts";
 
 export default function Statistics() {
   const originalEngine = useWC((e) => e.originalEngine);
-
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   return originalEngine ? (
     <>
       <div className=" h-full bg-muted/40 min-h-0 overflow-auto">
+        {!isDesktop && <Header />}
         <div className="flex flex-col p-5 gap-5">
-          <Header />
+          <StatisticsHeader />
 
           <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-2">
             {[
@@ -63,8 +67,8 @@ export default function Statistics() {
                 desc: "현재 룰과 구엜룰 비교",
                 content: <CompareRoute />,
               },
-            ].map(({ title, desc, content }) => (
-              <Card className="flex flex-col gap-2">
+            ].map(({ title, desc, content }, i) => (
+              <Card className="flex flex-col gap-2" key={i}>
                 <CardHeader className="items-center pb-0">
                   <CardTitle>{title}</CardTitle>
                   <CardDescription>{desc}</CardDescription>
@@ -87,10 +91,14 @@ function CompareRoute() {
   const originalEngine = useWC((e) => e.originalEngine);
   const data = useMemo(() => {
     if (originalEngine) {
-      const routeChars = Object.keys(originalEngine.charInfo).filter(
-        (e) => originalEngine.charInfo[e].type === "route"
+      const routeChars = Object.keys(originalEngine.chanGraph.nodes).filter(
+        (e) => originalEngine.chanGraph.nodes[e].type === "route"
       );
-      const scc = originalEngine.getSCC();
+      const scc = getSCC(
+        originalEngine.chanGraph,
+        originalEngine.wordGraph,
+        routeChars
+      );
       const maxRouteChars = scc.filter((e) => e.length >= 3).flat();
       const heads = originalEngine.chanGraph.successors(maxRouteChars);
       const chars = maxRouteChars.length;
@@ -172,7 +180,7 @@ function RouteCharTypeChart() {
   );
 }
 
-function Header() {
+function StatisticsHeader() {
   const originalEngine = useWC((e) => e.originalEngine);
   return (
     <div className="flex gap-2">
@@ -184,7 +192,7 @@ function Header() {
       </div>
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
-          {Object.keys(originalEngine!.charInfo).length.toLocaleString()}
+          {Object.keys(originalEngine!.chanGraph.nodes).length.toLocaleString()}
         </div>
         <div>글자</div>
       </div>

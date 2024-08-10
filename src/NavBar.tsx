@@ -4,7 +4,6 @@ import { cn } from "./lib/utils";
 export default function NavBar() {
   const setMenu = useMenu((e) => e.setMenu);
   const menu = useMenu((e) => e.menu);
-  // const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
     <>
       <div className="flex md:flex-col gap-1 items-center justify-around bg-background border-t border-border md:border-none h-12 relative z-50">

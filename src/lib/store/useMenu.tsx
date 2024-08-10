@@ -1,22 +1,15 @@
-import { create } from "zustand";
-import {
-  BarChartIcon,
-  BotIcon,
-  PieChart,
-  SearchIcon,
-  Settings,
-} from "lucide-react";
 import { ReactElement } from "react";
 import {
+  RiPieChartFill,
+  RiPieChartLine,
+  RiRobot2Fill,
+  RiRobot2Line,
   RiSearchFill,
   RiSearchLine,
-  RiRobot2Line,
-  RiRobot2Fill,
-  RiPieChartLine,
-  RiPieChartFill,
-  RiSettings3Line,
   RiSettings3Fill,
+  RiSettings3Line,
 } from "react-icons/ri";
+import { create } from "zustand";
 export type Menu = {
   index: number;
   name: string;

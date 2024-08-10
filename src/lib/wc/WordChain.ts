@@ -1,9 +1,12 @@
-import * as Collections from "typescript-collections";
-import { changeableMap, reverseChangeableMap } from "./hangul";
 import { arrayToKeyMap, pushObject } from "../utils";
-import { indexOf } from "typescript-collections/dist/lib/arrays";
+import {
+  getReachableNodes,
+  getSCC,
+  pruningWinLos,
+  pruningWinLosCir,
+} from "./algorithms";
+import { changeableMap, reverseChangeableMap } from "./hangul";
 import { MultiDiGraph, objToMultiDiGraph } from "./multidigraph";
-import { getSCC, pruningWinLos, pruningWinLosCir } from "./algorithms";
 // import { DiGraph } from "./multidigraph";
 export type WCRule = {
   changeableIdx: number;
@@ -49,43 +52,17 @@ export class WCEngine {
     }
 
     pruningWinLos(this.chanGraph, this.wordGraph);
-    pruningWinLosCir(this.chanGraph, this.wordGraph);
+    this.returnWordGraph = pruningWinLosCir(this.chanGraph, this.wordGraph);
 
     return this;
   }
 
   getNextWords(char: Char) {
     return changeableMap[this.rule.changeableIdx](char)
-      .filter((e) => this.charInfo[e])
+      .filter((e) => this.chanGraph.nodes[e])
       .flatMap((char) =>
         this.words.filter((word) => word.at(this.rule.headIdx)! === char)
       );
-  }
-
-  getReachableRouteChars(char: Char) {
-    const chanVisited = new Set();
-    const wordVisited = new Set();
-
-    const dfs = (char: Char) => {
-      chanVisited.add(char);
-      const nextWords = this.chanGraph
-        .successors(char)
-        .filter((e: Char) => !wordVisited.has(e));
-
-      for (let next of nextWords) {
-        wordVisited.add(next);
-        const nextChans = this.wordGraph
-          .successors(next)
-          .filter((e) => !chanVisited.has(e));
-        for (let nextChan of nextChans) {
-          dfs(nextChan);
-        }
-      }
-    };
-
-    dfs(char);
-
-    return [chanVisited, wordVisited];
   }
 
   // getShortestPaths(char: Char) {
@@ -141,15 +118,11 @@ export class WCEngine {
 
     if (except && except.length > 0) {
       engine.words = this.words!.filter((e) => !except.includes(e));
-      engine.charInfo = {};
       engine.update();
     } else {
-      engine.charInfo = this.charInfo;
       engine.wordGraph = this.wordGraph;
       engine.chanGraph = this.chanGraph;
       engine.returnWordGraph = this.returnWordGraph;
-      engine.loopWordGraph = this.loopWordGraph;
-      engine.solutionGraph = this.solutionGraph;
     }
 
     return engine;
@@ -186,10 +159,10 @@ export type NoncharSearchResult = {
 
 export class WCDisplay {
   static routeCharTypeChartData(engine: WCEngine) {
-    const routeChars = Object.keys(engine.charInfo).filter(
-      (e) => engine.charInfo[e].type === "route"
+    const routeChars = Object.keys(engine.chanGraph.nodes).filter(
+      (e) => engine.chanGraph.nodes[e].type === "route"
     );
-    const scc = engine.getSCC();
+    const scc = getSCC(engine.wordGraph, engine.chanGraph, routeChars);
     const maxRouteChars = scc.filter((e) => e.length >= 3).flat();
     const minRouteChars = scc.filter((e) => e.length < 3).flat();
     const data = [
@@ -211,16 +184,16 @@ export class WCDisplay {
     return { data, config };
   }
   static winCharTypeChartData(engine: WCEngine) {
-    const winChars = Object.keys(engine.charInfo).filter(
-      (e) => engine.charInfo[e].type === "win"
+    const winChars = Object.keys(engine.chanGraph.nodes).filter(
+      (e) => engine.chanGraph.nodes[e].type === "win"
     );
-    const wincirChars = Object.keys(engine.charInfo).filter(
-      (e) => engine.charInfo[e].type === "wincir"
+    const wincirChars = Object.keys(engine.chanGraph.nodes).filter(
+      (e) => engine.chanGraph.nodes[e].type === "wincir"
     );
 
     const win: Record<string, string[]> = {};
     for (let char of winChars) {
-      pushObject(win, engine.charInfo[char].endNum!, char);
+      pushObject(win, engine.chanGraph.nodes[char].endNum as number, char);
     }
     const data = Object.keys(win)
       .map((e) => parseInt(e))
@@ -249,16 +222,16 @@ export class WCDisplay {
     return { data, config };
   }
   static losCharTypeChartData(engine: WCEngine) {
-    const losChars = Object.keys(engine.charInfo).filter(
-      (e) => engine.charInfo[e].type === "los"
+    const losChars = Object.keys(engine.chanGraph.nodes).filter(
+      (e) => engine.chanGraph.nodes[e].type === "los"
     );
-    const loscirChars = Object.keys(engine.charInfo).filter(
-      (e) => engine.charInfo[e].type === "loscir"
+    const loscirChars = Object.keys(engine.chanGraph.nodes).filter(
+      (e) => engine.chanGraph.nodes[e].type === "loscir"
     );
 
     const los: Record<string, string[]> = {};
     for (let char of losChars) {
-      pushObject(los, engine.charInfo[char].endNum!, char);
+      pushObject(los, engine.chanGraph.nodes[char].endNum as number, char);
     }
     const data = Object.keys(los)
       .map((e) => parseInt(e))
@@ -287,14 +260,15 @@ export class WCDisplay {
     return { data, config };
   }
   static routeComparisonChartData(engine: WCEngine) {
-    const routeChars = Object.keys(engine.charInfo).filter(
-      (e) => engine.charInfo[e].type === "route"
+    const routeChars = Object.keys(engine.chanGraph.nodes).filter(
+      (e) => engine.chanGraph.nodes[e].type === "route"
     ).length;
     const routeWords = engine.words
       .filter(
         (word) =>
-          engine.charInfo[word.at(engine.rule.headIdx)!].type === "route" &&
-          engine.charInfo[word.at(engine.rule.tailIdx)!].type === "route"
+          engine.wordGraph.nodes[word.at(engine.rule.headIdx)!].type ===
+            "route" &&
+          engine.chanGraph.nodes[word.at(engine.rule.tailIdx)!].type === "route"
       )
       .filter(
         (word) => WCDisplay.getWordType(engine, word).type === "route"
@@ -311,7 +285,7 @@ export class WCDisplay {
     ];
   }
   static charTypeChartData(engine: WCEngine) {
-    const chars = Object.keys(engine.charInfo);
+    const chars = Object.keys(engine.chanGraph.nodes);
 
     const chartData = [
       {
@@ -319,8 +293,8 @@ export class WCDisplay {
 
         num: chars.filter(
           (e) =>
-            engine.charInfo[e].type === "win" ||
-            engine.charInfo[e].type === "wincir"
+            engine.chanGraph.nodes[e].type === "win" ||
+            engine.chanGraph.nodes[e].type === "wincir"
         ).length,
         fill: "hsl(var(--win))",
       },
@@ -329,14 +303,15 @@ export class WCDisplay {
         type: "los",
         num: chars.filter(
           (e) =>
-            engine.charInfo[e].type === "los" ||
-            engine.charInfo[e].type === "loscir"
+            engine.chanGraph.nodes[e].type === "los" ||
+            engine.chanGraph.nodes[e].type === "loscir"
         ).length,
         fill: "hsl(var(--los))",
       },
       {
         type: "route",
-        num: chars.filter((e) => engine.charInfo[e].type === "route").length,
+        num: chars.filter((e) => engine.chanGraph.nodes[e].type === "route")
+          .length,
         fill: "hsl(var(--route))",
       },
     ];
@@ -358,16 +333,16 @@ export class WCDisplay {
     };
     const win: Record<string, Char[]> = {};
     const los: Record<string, Char[]> = {};
-    const chars = Object.keys(engine.charInfo);
+    const chars = Object.keys(engine.chanGraph.nodes);
     chars.sort();
 
     for (let char of chars) {
-      switch (engine.charInfo[char].type) {
+      switch (engine.chanGraph.nodes[char].type) {
         case "win":
-          pushObject(win, engine.charInfo[char].endNum!, char);
+          pushObject(win, engine.chanGraph.nodes[char].endNum as number, char);
           break;
         case "los":
-          pushObject(los, engine.charInfo[char].endNum!, char);
+          pushObject(los, engine.chanGraph.nodes[char].endNum as number, char);
           break;
         case "wincir":
           result.wincir.push(char);
@@ -378,7 +353,13 @@ export class WCDisplay {
       }
     }
 
-    const SCC = engine.getSCC();
+    const SCC = getSCC(
+      engine.chanGraph,
+      engine.wordGraph,
+      Object.keys(engine.chanGraph.nodes).filter(
+        (e) => engine.chanGraph.nodes[e].type === "route"
+      )
+    );
     for (let scc of SCC!) {
       scc.sort();
     }
@@ -398,6 +379,28 @@ export class WCDisplay {
 
     return result;
   }
+  static frequency(engine: WCEngine) {
+    const result = arrayToKeyMap(Object.keys(engine.chanGraph.nodes), () => 0);
+
+    for (let word of engine.words) {
+      changeableMap[engine.rule.changeableIdx](
+        word.at(engine.rule.tailIdx)!
+      ).forEach((char) => {
+        result[char]++;
+      });
+    }
+
+    const routes = Object.keys(engine.chanGraph.nodes).filter(
+      (e) => engine.chanGraph.nodes[e].type === "route"
+    );
+    for (let char of routes) {
+      result[char] = engine.wordGraph
+        .predecessors(char)
+        .reduce((acc, curr) => engine.wordGraph._pred[char][curr] + acc, 0);
+    }
+
+    return result;
+  }
 
   // wordType : win, los, wincir, loscir, route, return, return
   static getWordType(
@@ -407,40 +410,58 @@ export class WCDisplay {
     const head = word.at(engine.rule.headIdx)!;
     const tail = word.at(engine.rule.tailIdx)!;
 
-    if (engine.charInfo[head].type === "win") {
-      if (engine.charInfo[tail].type === "win") {
-        return { type: "los", endNum: engine.charInfo[tail].endNum! };
-      } else if (engine.charInfo[tail].type === "los") {
-        return { type: "win", endNum: engine.charInfo[tail].endNum! };
-      } else if (engine.charInfo[tail].type === "wincir") {
+    if (engine.wordGraph.nodes[head].type === "win") {
+      if (engine.chanGraph.nodes[tail].type === "win") {
+        return {
+          type: "los",
+          endNum: engine.chanGraph.nodes[tail].endNum as number,
+        };
+      } else if (engine.chanGraph.nodes[tail].type === "los") {
+        return {
+          type: "win",
+          endNum: engine.chanGraph.nodes[tail].endNum as number,
+        };
+      } else if (engine.chanGraph.nodes[tail].type === "wincir") {
         return { type: "loscir" };
-      } else if (engine.charInfo[tail].type === "loscir") {
+      } else if (engine.chanGraph.nodes[tail].type === "loscir") {
         return { type: "wincir" };
       } else {
         return { type: "route" };
       }
-    } else if (engine.charInfo[head].type === "los") {
-      return { type: "los", endNum: engine.charInfo[tail].endNum! };
-    } else if (engine.charInfo[head].type === "wincir") {
-      if (engine.charInfo[tail].type === "win") {
-        return { type: "los", endNum: engine.charInfo[tail].endNum! };
-      } else if (engine.solutionGraph.hasEdge(head, tail)) {
+    } else if (engine.wordGraph.nodes[head].type === "los") {
+      return {
+        type: "los",
+        endNum: engine.chanGraph.nodes[tail].endNum as number,
+      };
+    } else if (engine.wordGraph.nodes[head].type === "wincir") {
+      if (engine.chanGraph.nodes[tail].type === "win") {
+        return {
+          type: "los",
+          endNum: engine.chanGraph.nodes[tail].endNum as number,
+        };
+      } else if (engine.wordGraph.nodes[head].solution === tail) {
         return { type: "wincir" };
-      } else if (engine.charInfo[tail].type === "wincir") {
+      } else if (engine.chanGraph.nodes[tail].type === "wincir") {
         return { type: "loscir" };
       } else {
         return { type: "route" };
       }
-    } else if (engine.charInfo[head].type === "loscir") {
-      if (engine.charInfo[tail].type === "win") {
-        return { type: "los", endNum: engine.charInfo[tail].endNum };
+    } else if (engine.wordGraph.nodes[head].type === "loscir") {
+      if (engine.chanGraph.nodes[tail].type === "win") {
+        return {
+          type: "los",
+          endNum: engine.chanGraph.nodes[tail].endNum as number,
+        };
       } else {
         return { type: "loscir" };
       }
     } else {
-      if (engine.charInfo[tail].type === "win") {
-        return { type: "los", endNum: engine.charInfo[tail].endNum };
-      } else if (engine.charInfo[tail].type === "wincir") {
+      if (engine.chanGraph.nodes[tail].type === "win") {
+        return {
+          type: "los",
+          endNum: engine.chanGraph.nodes[tail].endNum as number,
+        };
+      } else if (engine.chanGraph.nodes[tail].type === "wincir") {
         return { type: "loscir" };
       } else {
         return { type: "route" };
@@ -466,12 +487,12 @@ export class WCDisplay {
     if (input.length === 1) {
       const chanSucc = new Set(
         changeableMap[engine.rule.changeableIdx](input).filter(
-          (e) => e in engine.charInfo
+          (e) => e in engine.wordGraph.nodes
         )
       );
       const chanPred = new Set(
         reverseChangeableMap[engine.rule.changeableIdx](input).filter(
-          (e) => e in engine.charInfo
+          (e) => e in engine.wordGraph.nodes
         )
       );
       const nextWords = engine.words.filter((e) =>
@@ -532,7 +553,7 @@ export class WCDisplay {
       }
 
       for (let word of endWords) {
-        switch (engine.charInfo[word.at(engine.rule.headIdx)!].type) {
+        switch (engine.wordGraph.nodes[word.at(engine.rule.headIdx)!].type) {
           case "los":
             result.endsWith.head_los.push(word);
             break;
@@ -582,98 +603,89 @@ export class WCDisplay {
 }
 
 export class RouteAnalyzer {
+  rootChanGraph: MultiDiGraph;
+  rootWordGraph: MultiDiGraph;
   rootEngine: WCEngine;
   currChar: Char;
 
   constructor(engine: WCEngine, char: Char) {
     this.currChar = char;
-
-    this.rootEngine = this.getReducedEngine(engine, char);
-    console.log(this.getReducedEngine(engine, char));
-  }
-
-  getReducedEngine(engine: WCEngine, char: Char) {
-    const [chanChars, wordChars] = engine.getReachableRouteChars(char);
-
-    const words = engine.words.filter(
-      (word) =>
-        wordChars.has(word.at(engine.rule.headIdx)!) &&
-        chanChars.has(word.at(engine.rule.tailIdx)!)
+    this.rootEngine = engine;
+    const reacheable = getReachableNodes(
+      engine.chanGraph,
+      engine.wordGraph,
+      char
     );
-
-    const result = new WCEngine(engine.rule, words);
-    result.update();
-    return result;
+    this.rootChanGraph = engine.chanGraph.getSubgraph(reacheable);
+    this.rootWordGraph = engine.wordGraph.getSubgraph(reacheable);
   }
 
-  getPriorities(engine: WCEngine, char: string) {
-    const result: Record<Word, number> = {};
+  // getPriorities(engine: WCEngine, char: string) {
+  //   const result: Record<Word, number> = {};
 
-    for (let word of engine.charInfo[char].outWords) {
-      result[word] = Infinity;
-    }
+  //   for (let word of engine.charInfo[char].outWords) {
+  //     result[word] = Infinity;
+  //   }
 
-    const paths = engine.getShortestPaths(char);
+  //   const paths = engine.getShortestPaths(char);
 
-    for (let goal of Object.keys(engine.charInfo)) {
-      if (paths[goal].pathStart) {
-        const value =
-          engine.charInfo[goal].outWords.filter(
-            (e) =>
-              !engine.charInfo[goal].returnWords?.has(e) &&
-              !engine.charInfo[goal].loopWords?.has(e)
-          ).length + paths[goal].length!;
+  //   for (let goal of Object.keys(engine.charInfo)) {
+  //     if (paths[goal].pathStart) {
+  //       const value =
+  //         engine.charInfo[goal].outWords.filter(
+  //           (e) =>
+  //             !engine.charInfo[goal].returnWords?.has(e) &&
+  //             !engine.charInfo[goal].loopWords?.has(e)
+  //         ).length + paths[goal].length!;
 
-        if (result[paths[goal].pathStart] > value) {
-          result[paths[goal].pathStart] = value;
-        }
-      }
-    }
-    return result;
-  }
-  isWin(engine: WCEngine, char: string) {
-    if (!engine.charInfo[char]) {
-      console.log(engine, char);
-    }
-    if (
-      engine.charInfo[char].type === "win" ||
-      engine.charInfo[char].type === "wincir"
-    ) {
-      return true;
-    } else if (
-      engine.charInfo[char].type === "los" ||
-      engine.charInfo[char].type === "loscir"
-    ) {
-      return false;
-    }
-    const priorities = this.getPriorities(engine, char);
-    const nexts = Object.keys(priorities).sort(
-      (a, b) => priorities[a] - priorities[b]
-    );
-    // console.log(nexts);
-    for (let next of nexts) {
-      // console.log(next);
-      const nextEngine = this.getReducedEngine(
-        engine.copy([next]).update(),
-        next.at(engine.rule.tailIdx)!
-      );
-      // console.log(nextEngine.words);
-      if (!this.isWin(nextEngine, next.at(engine.rule.tailIdx)!)) {
-        return true;
-      }
-      console.log(nextEngine, next);
-    }
-    return false;
-  }
+  //       if (result[paths[goal].pathStart] > value) {
+  //         result[paths[goal].pathStart] = value;
+  //       }
+  //     }
+  //   }
+  //   return result;
+  // }
+  // isWin(engine: WCEngine, char: string) {
+  //   if (!engine.charInfo[char]) {
+  //     console.log(engine, char);
+  //   }
+  //   if (
+  //     engine.charInfo[char].type === "win" ||
+  //     engine.charInfo[char].type === "wincir"
+  //   ) {
+  //     return true;
+  //   } else if (
+  //     engine.charInfo[char].type === "los" ||
+  //     engine.charInfo[char].type === "loscir"
+  //   ) {
+  //     return false;
+  //   }
+  //   const priorities = this.getPriorities(engine, char);
+  //   const nexts = Object.keys(priorities).sort(
+  //     (a, b) => priorities[a] - priorities[b]
+  //   );
+  //   // console.log(nexts);
+  //   for (let next of nexts) {
+  //     // console.log(next);
+  //     const nextEngine = this.getReducedEngine(
+  //       engine.copy([next]).update(),
+  //       next.at(engine.rule.tailIdx)!
+  //     );
+  //     // console.log(nextEngine.words);
+  //     if (!this.isWin(nextEngine, next.at(engine.rule.tailIdx)!)) {
+  //       return true;
+  //     }
+  //     console.log(nextEngine, next);
+  //   }
+  //   return false;
+  // }
 }
 
 export function objToInstance(obj: WCEngine): WCEngine {
   const result = new WCEngine(obj.rule, obj.words);
   result.wordGraph = objToMultiDiGraph(obj.wordGraph);
   result.chanGraph = objToMultiDiGraph(obj.chanGraph);
+
   result.returnWordGraph = objToMultiDiGraph(obj.returnWordGraph);
-  result.loopWordGraph = objToMultiDiGraph(obj.loopWordGraph);
-  result.solutionGraph = objToMultiDiGraph(obj.solutionGraph);
-  result.charInfo = obj.charInfo;
   return result;
 }

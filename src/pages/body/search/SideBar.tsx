@@ -68,20 +68,7 @@ function Frequency() {
     if (!engine) {
       return;
     }
-    const result = arrayToKeyMap(Object.keys(engine.charInfo), () => 0);
-    for (let word of engine.words) {
-      changeableMap[engine.rule.changeableIdx](
-        word.at(engine.rule.tailIdx)!
-      ).forEach((char) => {
-        result[char]++;
-      });
-    }
-    for (let char of engine.chanGraph.nodes) {
-      result[char] = Object.keys(engine.wordGraph._pred[char]).reduce(
-        (acc, curr) => engine.wordGraph._pred[char][curr] + acc,
-        0
-      );
-    }
+    const result = WCDisplay.frequency(engine);
 
     return result;
   }, [engine]);
@@ -93,11 +80,11 @@ function Frequency() {
             <CharBox>
               <CharBadge>{`승리`}</CharBadge>
               <CharContent>
-                {Object.keys(engine.charInfo)
+                {Object.keys(engine.chanGraph.nodes)
                   .filter(
                     (e) =>
-                      engine.charInfo[e].type === "win" ||
-                      engine.charInfo[e].type === "wincir"
+                      engine.chanGraph.nodes[e].type === "win" ||
+                      engine.chanGraph.nodes[e].type === "wincir"
                   )
                   .sort((a, b) => inWordsLen[b] - inWordsLen[a])
                   .map((char) => (
@@ -123,11 +110,11 @@ function Frequency() {
             <CharBox>
               <CharBadge>{`패배`}</CharBadge>
               <CharContent>
-                {Object.keys(engine.charInfo)
+                {Object.keys(engine.chanGraph.nodes)
                   .filter(
                     (e) =>
-                      engine.charInfo[e].type === "los" ||
-                      engine.charInfo[e].type === "loscir"
+                      engine.chanGraph.nodes[e].type === "los" ||
+                      engine.chanGraph.nodes[e].type === "loscir"
                   )
                   .sort((a, b) => inWordsLen[b] - inWordsLen[a])
                   .map((char) => (
@@ -154,8 +141,8 @@ function Frequency() {
             <CharBox>
               <CharBadge>{`루트`}</CharBadge>
               <CharContent>
-                {Object.keys(engine.charInfo)
-                  .filter((e) => engine.charInfo[e].type === "route")
+                {Object.keys(engine.chanGraph.nodes)
+                  .filter((e) => engine.chanGraph.nodes[e].type === "route")
                   .sort((a, b) => inWordsLen[b] - inWordsLen[a])
                   .map((char) => (
                     <div className="flex flex-col items-center" key={char}>

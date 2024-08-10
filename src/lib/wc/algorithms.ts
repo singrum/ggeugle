@@ -306,3 +306,54 @@ export function getSCC(
 
   return SCC;
 }
+
+export function getReachableNodes(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  char: string
+) {
+  const visited: Set<string> = new Set();
+
+  const dfs = (char: string) => {
+    visited.add(char);
+    const nextWords = chanGraph.successors(char);
+    nextWords.forEach((char) => visited.add(char));
+
+    const nextChans = nextWords
+      .map((e) => [
+        ...wordGraph.successors(e),
+        ...(wordGraph.nodes[e].loop ? [wordGraph.nodes[e].loop as string] : []),
+      ])
+      .flat()
+      .filter((e) => !visited.has(e));
+
+    for (let next of nextChans) {
+      dfs(next);
+    }
+  };
+
+  dfs(char);
+
+  console.log(visited);
+  return visited;
+}
+
+function isWin(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  currChar: Char
+) {
+  if (
+    chanGraph.nodes[currChar].type === "win" ||
+    chanGraph.nodes[currChar].type === "wincir"
+  ) {
+    return true;
+  }
+  if (
+    chanGraph.nodes[currChar].type === "los" ||
+    chanGraph.nodes[currChar].type === "loscir"
+  ) {
+    return false;
+  }
+  
+}

@@ -104,7 +104,7 @@ export function WordButton({
     >
       <div>{children}</div>
       {returning && <RefreshCcw className="w-4 h-4" />}
-      {!returning && engine!.loopWordGraph.hasEdge(head, tail) && (
+      {!returning && engine!.wordGraph.nodes[head].loop === tail && (
         <RotateCcw className="w-4 h-4" />
       )}
     </div>

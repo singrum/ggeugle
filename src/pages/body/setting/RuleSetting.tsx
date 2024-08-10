@@ -393,12 +393,15 @@ function RegexFilterSetting() {
   return (
     <SettnigMenu name="단어 필터">
       <div>
-        <Input
-          value={ruleForm.regexFilter}
-          onChange={(e) =>
-            setRuleForm({ ...ruleForm, regexFilter: e.target.value })
-          }
-        />
+        <div className="flex flex-col gap-2">
+          <div className="text-muted-foreground text-xs">Regex 문법</div>
+          <Input
+            value={ruleForm.regexFilter}
+            onChange={(e) =>
+              setRuleForm({ ...ruleForm, regexFilter: e.target.value })
+            }
+          />
+        </div>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none mx-1">
             <AccordionTrigger className="text-sm pb-0">예시</AccordionTrigger>

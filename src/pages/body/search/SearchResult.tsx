@@ -21,8 +21,6 @@ import React from "react";
 export default function SearchResult() {
   return (
     <>
-      {/* <CharResult /> */}
-
       <WordsResult />
       <div className="h-[50vh]" />
     </>
@@ -228,14 +226,14 @@ function WordsResult() {
                             className="py-1 px-3 text-transparent rounded-full text-sm"
                             key={i}
                           >
-                            싱그럼
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           </Skeleton>
                         ) : (
                           <Skeleton
                             className="py-1 px-3 text-transparent rounded-full text-sm"
                             key={i}
                           >
-                            끄글
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           </Skeleton>
                         )
                       )}

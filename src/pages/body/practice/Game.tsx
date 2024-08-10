@@ -50,7 +50,7 @@ export default function Game() {
         ref={scrollRef}
         onScroll={handleOnScroll}
       >
-        <div className="flex flex-col p-3 pb-2 flex-1 gap-1">
+        <div className="flex flex-col p-3 pb-2 flex-1 gap-1 justify-end">
           {currGame!.chats.map(({ isMy, content }, i) => (
             <Chat key={i} isMy={isMy}>
               {content}
@@ -66,7 +66,6 @@ export default function Game() {
                         -e * 0.15
                       }s_infinite] absolute inline-flex h-full w-full rounded-full bg-foreground/70`}
                     />
-                    {/* <span className="relative inline-flex rounded-full h-3 w-3 bg-foreground"></span> */}
                   </span>
                 ))}
               </div>

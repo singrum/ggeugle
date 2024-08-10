@@ -1,26 +1,5 @@
-// export class DiGraph {
-//   _succ: Record<string, Set<string>>;
-//   _pred: Record<string, Set<string>>;
-//   nodes: Set<string>;
-//   constructor() {
-//     this._succ = {};
-//     this._pred = {};
-//     this.nodes = new Set();
-//   }
-//   addEdge(start: string, end: string) {
-//     this.nodes.add(start).add(end);
-//     if (!this.nodes.has(start)) {
-//       this._succ[start] = new Set();
-//       this._pred[start] = new Set();
-//     }
-//     if (!this.nodes.has(end)) {
-//       this._succ[end] = new Set();
-//       this._pred[end] = new Set();
-//     }
-//     this._succ[start].add(end)
-//     this._pred[end].add(start)
-//   }
-// }
+import { cloneDeep } from "lodash";
+import { arrayToKeyMap } from "../utils";
 
 export class MultiDiGraph {
   _succ: Record<string, Record<string, number>>;
@@ -161,6 +140,30 @@ export class MultiDiGraph {
       );
     }
     return sum;
+  }
+  copy() {
+    const result = new MultiDiGraph();
+    result._pred = cloneDeep(this._pred);
+    result._succ = cloneDeep(this._succ);
+    result.nodes = { ...this.nodes };
+    return result;
+  }
+  getSubgraph(nodes: Set<string>) {
+    
+    const result = new MultiDiGraph();
+    for (let node of nodes) {
+      result.nodes[node] = this.nodes[node];
+
+      result._pred[node] = arrayToKeyMap(
+        Object.keys(this._pred[node]).filter((e) => nodes.has(e)),
+        (e) => this._pred[node][e]
+      );
+      result._succ[node] = arrayToKeyMap(
+        Object.keys(this._succ[node]).filter((e) => nodes.has(e)),
+        (e) => this._succ[node][e]
+      );
+    }
+    return result;
   }
 }
 export function objToMultiDiGraph(obj: MultiDiGraph): MultiDiGraph {

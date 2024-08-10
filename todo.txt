@@ -1,12 +1,2 @@
 manner룰 추가
-빈도순 시 루트
-
-
-
-
-
-
-
-
-wordGraph
-chanGraph
+띄어쓰기로 구분, 엔터로 추가
