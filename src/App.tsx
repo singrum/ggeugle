@@ -18,6 +18,7 @@ import Setting from "./pages/body/setting/Setting";
 import Statistics from "./pages/body/statistics/Statistics";
 import Logo from "./pages/header/Logo";
 import Header from "./pages/header/Header";
+import Etc from "./pages/body/etc/Etc";
 
 function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -43,9 +44,6 @@ function App() {
 
                   <NavBar />
                 </div>
-                <div className="flex flex-col items-center lg:items-start">
-                  <EtcDropdown />
-                </div>
               </div>
             )}
 
@@ -56,8 +54,10 @@ function App() {
                 <Practice />
               ) : menu.index === 2 ? (
                 <Statistics />
-              ) : (
+              ) : menu.index === 3 ? (
                 <Setting />
+              ) : (
+                <Etc />
               )}
             </div>
           </div>
@@ -67,43 +67,43 @@ function App() {
     </>
   );
 }
-export function EtcDropdown() {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className="focus-visible:outline-none">
-        <div>
-          <div className="lg:static lg:block hidden absolute">
-            <MenuBtn
-              icon={<CircleEllipsis strokeWidth={1.5} />}
-              name={"더보기"}
-            />
-          </div>
+// export function EtcDropdown() {
+//   return (
+//     <DropdownMenu>
+//       <DropdownMenuTrigger className="focus-visible:outline-none">
+//         <div>
+//           <div className="lg:static lg:block hidden absolute">
+//             <MenuBtn
+//               icon={<CircleEllipsis strokeWidth={1.5} />}
+//               name={"더보기"}
+//             />
+//           </div>
 
-          <div className="hidden absolute md:static md:block lg:hidden lg:absolute md:p-2">
-            <CircleEllipsis strokeWidth={1.5} />
-          </div>
-          <div className="block md:hidden md:absolute md:p-2">
-            <Menu strokeWidth={1.5} />
-          </div>
-        </div>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuItem
-          onClick={() => open("https://singrum.github.io/ggeugle_old")}
-        >
-          <History className="h-4 w-4" />
-          이전 버전
-        </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={() => open("https://github.com/singrum/ggeugle")}
-        >
-          <VscGithubInverted size={15} />
-          깃허브
-        </DropdownMenuItem>
-        {/* <DropdownMenuSeparator /> */}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
+//           <div className="hidden absolute md:static md:block lg:hidden lg:absolute md:p-2">
+//             <CircleEllipsis strokeWidth={1.5} />
+//           </div>
+//           <div className="block md:hidden md:absolute md:p-2">
+//             <Menu strokeWidth={1.5} />
+//           </div>
+//         </div>
+//       </DropdownMenuTrigger>
+//       <DropdownMenuContent>
+//         <DropdownMenuItem
+//           onClick={() => open("https://singrum.github.io/ggeugle_old")}
+//         >
+//           <History className="h-4 w-4" />
+//           이전 버전
+//         </DropdownMenuItem>
+//         <DropdownMenuItem
+//           onClick={() => open("https://github.com/singrum/ggeugle")}
+//         >
+//           <VscGithubInverted size={15} />
+//           깃허브
+//         </DropdownMenuItem>
+//         {/* <DropdownMenuSeparator /> */}
+//       </DropdownMenuContent>
+//     </DropdownMenu>
+//   );
+// }
 
 export default App;

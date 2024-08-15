@@ -1,3 +1,4 @@
+import { Menu } from "lucide-react";
 import { ReactElement } from "react";
 import {
   RiPieChartFill,
@@ -23,12 +24,12 @@ export const menus: Menu[] = [
     icon: <RiSearchLine className="w-5 h-5" />,
     focusedIcon: <RiSearchFill className="w-5 h-5" />,
   },
-  {
-    index: 1,
-    name: "플레이",
-    icon: <RiRobot2Line className="w-5 h-5" />,
-    focusedIcon: <RiRobot2Fill className="w-5 h-5" />,
-  },
+  // {
+  //   index: 1,
+  //   name: "플레이",
+  //   icon: <RiRobot2Line className="w-5 h-5" />,
+  //   focusedIcon: <RiRobot2Fill className="w-5 h-5" />,
+  // },
   {
     index: 2,
     name: "통계",
@@ -40,6 +41,12 @@ export const menus: Menu[] = [
     name: "설정",
     icon: <RiSettings3Line className="w-5 h-5" />,
     focusedIcon: <RiSettings3Fill className="w-5 h-5" />,
+  },
+  {
+    index: 4,
+    name: "더보기",
+    icon: <Menu className="w-5 h-5" />,
+    focusedIcon: <Menu className="w-5 h-5" />,
   },
 ];
 export interface MenuInfo {

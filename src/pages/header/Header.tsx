@@ -1,7 +1,7 @@
 import { useMenu } from "@/lib/store/useMenu";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
-import { EtcDropdown } from "@/App";
+
 export default function Header() {
   const menu = useMenu((e) => e.menu);
   return (
@@ -20,7 +20,6 @@ export default function Header() {
             끝말잇기 검색기
           </div>
         </div>
-        <EtcDropdown />
       </div>
     </div>
   );

@@ -43,7 +43,7 @@ export function WordContent({
     <div className="flex flex-wrap gap-x-1 gap-y-1 justify-center font-normal">
       {wordInfo.map((e) => (
         <WordButton
-          className={`border border-${e.type}/30 text-${e.type} hover:bg-${e.type}/10`}
+          className={`bg-${e.type}/10 text-${e.type}`}
           key={e.word}
           returning={e.returning}
           endsWith={endsWith}
@@ -92,7 +92,6 @@ export function WordButton({
         if (!endsWith) {
           setValue(tail);
           setSearchInputValue(tail);
-          
         } else {
           setValue(head);
           setSearchInputValue(head);

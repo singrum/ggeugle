@@ -1,16 +1,30 @@
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useWC } from "@/lib/store/useWC";
 import { josa } from "es-hangul";
 
 export function ChangedCharsDialog({}: {}) {
-  const changeInfo = useWC((e) => e.changeInfo);
+  const [changeInfo, setValue, setSearchInputValue] = useWC((e) => [
+    e.changeInfo,
+    e.setValue,
+    e.setSearchInputValue,
+  ]);
   const changedChars = Object.keys(changeInfo).sort();
 
   return (
@@ -19,7 +33,7 @@ export function ChangedCharsDialog({}: {}) {
       <DialogTrigger>
         <div className="absolute hidden" id="changed-char-dialog-open" />
       </DialogTrigger>
-      <DialogContent className="max-h-[80vh] min-h-0 overflow-auto w-[400px] scrollbar-thin">
+      <DialogContent className="max-h-[80vh] min-h-0 overflow-auto  scrollbar-thin">
         <DialogHeader>
           <DialogTitle>변경된 글자</DialogTitle>
           <DialogDescription className="">
@@ -28,42 +42,77 @@ export function ChangedCharsDialog({}: {}) {
         </DialogHeader>
 
         {changedChars.length > 0 ? (
-          <div className="flex flex-col border border-border rounded-md p-2 w-full items-center gap-2 text-muted-foreground">
-            {changedChars.map((char) => (
-              <div key={char}>
-                <span className="text-foreground">{char}</span>
-                {josa(char, "이/가").at(-1)}{" "}
-                <span className={`text-${changeInfo[char].prevType}`}>
-                  {changeInfo[char].prevType === "route"
-                    ? "루트"
-                    : changeInfo[char].prevType === "win"
-                    ? "승리"
-                    : "패배"}
-                </span>
-                에서{" "}
-                {changeInfo[char].currType !== "deleted" ? (
-                  <>
-                    <span className={`text-${changeInfo[char].currType}`}>
-                      {changeInfo[char].currType === "route"
-                        ? "루트"
-                        : changeInfo[char].currType === "win"
-                        ? "승리"
-                        : "패배"}
-                    </span>
-                    {"로 변경"}
-                  </>
-                ) : (
-                  "삭제됨"
-                )}
-              </div>
-            ))}
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">글자</TableHead>
+                <TableHead>변경 전</TableHead>
+                <TableHead>변경 후</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {changedChars.map((char) => (
+                <TableRow
+                  key={char}
+                  className="cursor-pointer"
+                  onClick={() => {
+                    setValue(char);
+                    setSearchInputValue(char);
+                    document
+                      .getElementById("changed-chars-dialog-close")
+                      ?.click();
+                  }}
+                >
+                  <TableCell className="font-medium">{char}</TableCell>
+                  <TableCell>
+                    <div className="flex items-center justify-start">
+                      <div
+                        className={`flex items-center justify-center py-1 px-2 bg-${changeInfo[char].prevType} bg-${changeInfo[char].prevType}/10 rounded-full text-${changeInfo[char].prevType}`}
+                      >
+                        {changeInfo[char].prevType === "route"
+                          ? "루트"
+                          : changeInfo[char].prevType === "win"
+                          ? "승리"
+                          : "패배"}
+                      </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center justify-start">
+                      <div
+                        className={`flex items-center justify-center py-1 px-2 bg-${
+                          changeInfo[char].currType
+                        } bg-${
+                          changeInfo[char].currType
+                        }/10 rounded-full text-${changeInfo[char].currType} ${
+                          changeInfo[char].currType === "deleted"
+                            ? "muted-foreground"
+                            : changeInfo[char].currType
+                        }`}
+                      >
+                        {changeInfo[char].currType === "route"
+                          ? "루트"
+                          : changeInfo[char].currType === "win"
+                          ? "승리"
+                          : changeInfo[char].currType === "los"
+                          ? "패배"
+                          : "삭제됨"}
+                      </div>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
         ) : (
           <div className="flex items-center justify-center border border-border rounded-md p-2 w-full gap-2 h-[10rem]">
             <div className="text-muted-foreground">변경된 글자가 없습니다.</div>
           </div>
         )}
       </DialogContent>
+      <DialogClose asChild>
+        <button className="absolute hidden" id="changed-chars-dialog-close" />
+      </DialogClose>
     </Dialog>
   );
 }

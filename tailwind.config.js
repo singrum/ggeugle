@@ -43,8 +43,17 @@ module.exports = {
     "border-route",
     "border-muted-forground",
     "bg-win/60",
+
     "bg-los/60",
     "bg-route/60",
+    "bg-win/30",
+    "bg-los/30",
+    "bg-route/30",
+    "bg-win/10",
+    "bg-los/10",
+    "bg-route/10",
+    "bg-muted-foreground/10",
+
     "bg-muted-forground/60",
     "animate-[chat-loading_0.7s_ease-in-out_0s_infinite]",
     "animate-[chat-loading_0.7s_ease-in-out_-0.15s_infinite]",

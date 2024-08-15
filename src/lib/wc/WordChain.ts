@@ -34,14 +34,16 @@ export class WCEngine {
   wordGraph: MultiDiGraph;
   chanGraph: MultiDiGraph;
   returnWordGraph: MultiDiGraph;
+  
 
-  constructor(rule: WCRule, words?: Word[]) {
+  constructor(rule: WCRule, words?: Word[], manner?: false) {
     this.rule = rule;
     this.wordMap = new WordMap();
     this.words = words ? words : [];
     this.wordGraph = new MultiDiGraph();
     this.chanGraph = new MultiDiGraph();
     this.returnWordGraph = undefined!;
+    
   }
 
   update() {

@@ -185,13 +185,14 @@ function RouteCharTypeChart() {
 function StatisticsHeader() {
   const originalEngine = useWC((e) => e.originalEngine);
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 items-center">
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
           {originalEngine?.words.length.toLocaleString()}
         </div>
         <div>단어</div>
       </div>
+      <div className="text-2xl">/</div>
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
           {Object.keys(originalEngine!.chanGraph.nodes).length.toLocaleString()}

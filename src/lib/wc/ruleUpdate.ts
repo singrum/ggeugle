@@ -75,8 +75,17 @@ export async function getEngine(ruleForm: RuleForm) {
         .concat(ruleForm.addedWords.split(/\s+/).filter((e) => e.length > 0))
     )
   );
-
   wce.update();
+  if (r.manner) {
+    const hanbang = wce.words.filter((e) => {
+      const temp = wce.chanGraph.nodes[e.at(wce.rule.tailIdx)!];
+
+      return temp.endNum === 0 && temp.type === "los";
+    });
+
+    wce = wce.copy(hanbang);
+  }
+
   console.log("음절 분류 완료");
   return wce;
 }

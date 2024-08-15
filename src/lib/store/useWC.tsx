@@ -1,6 +1,7 @@
 import { josa } from "es-hangul";
 import toast from "react-hot-toast";
 import { create } from "zustand";
+import Cookies from "js-cookie";
 import {
   Char,
   CharType,
@@ -10,20 +11,202 @@ import {
   WCEngine,
   Word,
 } from "../wc/wordChain";
+import { choice } from "../utils";
 
-// const debugRule = {
-//   dict: 2,
-//   pos: [true, true, true, true, true, true, true, true],
-//   cate: [true, true, true, true],
-//   chan: 2,
-//   headDir: 0,
-//   headIdx: 1,
-//   tailDir: 1,
-//   tailIdx: 1,
-//   manner: false,
-//   regexFilter: ".*",
-//   addedWords: "",
-// };
+const sampleRules: { name: string; ruleForm: RuleForm }[] = [
+  {
+    name: "구엜룰",
+    ruleForm: {
+      dict: 0,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, true, true, true],
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+  {
+    name: "신엜룰",
+    ruleForm: {
+      dict: 1,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, true, true, true],
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+  {
+    name: "앞말잇기",
+    ruleForm: {
+      dict: 0,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, true, true, true],
+      chan: 0,
+      headDir: 1,
+      headIdx: 1,
+      tailDir: 0,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+  {
+    name: "노룰",
+    ruleForm: {
+      dict: 0,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, true, true, true],
+      chan: 0,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+  {
+    name: "쿵쿵따",
+    ruleForm: {
+      dict: 0,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, true, true, true],
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: "(.{3})",
+      addedWords: "",
+    },
+  },
+  {
+    name: "반전룰",
+    ruleForm: {
+      dict: 0,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, true, true, true],
+      chan: 4,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+  {
+    name: "첸룰",
+    ruleForm: {
+      dict: 0,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, true, true, true],
+      chan: 5,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+  {
+    name: "듭2룰",
+    ruleForm: {
+      dict: 0,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, true, true, true],
+      chan: 6,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+  {
+    name: "표샘룰",
+    ruleForm: {
+      dict: 2,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, false, false, false],
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+  {
+    name: "두샘룰",
+    ruleForm: {
+      dict: 2,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, false, false, false],
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: "(.{2})",
+      addedWords: "",
+    },
+  },
+  {
+    name: "옛두샘룰",
+    ruleForm: {
+      dict: 2,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, false, false, true],
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: "(.{2})",
+      addedWords: "",
+    },
+  },
+  {
+    name: "천도룰",
+    ruleForm: {
+      dict: 1,
+      pos: [true, false, false, false, false, false, false, true],
+      cate: [true, false, false, true],
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: true,
+      regexFilter: "(.{3})",
+      addedWords: "",
+    },
+  },
+];
 const guelrule = {
   dict: 0,
   pos: [true, false, false, false, false, false, false, false],
@@ -37,7 +220,6 @@ const guelrule = {
   regexFilter: ".*",
   addedWords: "",
 };
-
 export type changeInfo = Record<Char, { prevType: string; currType: string }>;
 
 export const dicts = ["(구)표국대", "(신)표국대", "우리말샘"];
@@ -113,6 +295,8 @@ export interface WCInfo {
   ruleForm: RuleForm;
   setRuleForm: (ruleForm: RuleForm) => void;
   updateRule: () => void;
+  sampleRules: { name: string; ruleForm: RuleForm }[];
+  setSampleRules: (sampleRules: { name: string; ruleForm: RuleForm }[]) => void;
 
   // 연습
   currGame?: GameInfo;
@@ -171,16 +355,29 @@ export const useWC = create<WCInfo>((set, get) => ({
       switch (data.action) {
         case "getEngine":
           const engine = objToInstance(data.data as WCEngine);
+
           const prevEngine = get().engine;
           const originalEngine = get().originalEngine;
+          const random = choice(Object.keys(engine.chanGraph.nodes));
 
           set(() => ({
             prevEngine,
             engine,
             isLoading: false,
-            searchResult: WCDisplay.searchResult(engine!, get().value),
+            searchResult: WCDisplay.searchResult(
+              engine!,
+              get().value.length !== 0 || prevEngine ? get().value : random
+            ),
+            ...(get().value.length === 0 && !prevEngine
+              ? {
+                  value: random ? random : "",
+                  searchInputValue: random ? random : "",
+                }
+              : {}),
+
             ...(originalEngine ? {} : { originalEngine: engine }),
           }));
+
           if (engine && prevEngine) {
             let exist = false;
             const changeInfo: Record<
@@ -347,9 +544,9 @@ export const useWC = create<WCInfo>((set, get) => ({
       engine: undefined,
       prevEngine: undefined,
       originalEngine: undefined,
+      changeInfo: {},
       exceptWords: [],
       isLoading: true,
-
       rule: ruleForm,
     }));
     const worker = get().worker;
@@ -362,6 +559,16 @@ export const useWC = create<WCInfo>((set, get) => ({
       data: ruleForm,
     });
   },
+  sampleRules: sampleRules,
+  setSampleRules: (
+    sampleRules: {
+      name: string;
+      ruleForm: RuleForm;
+    }[]
+  ) => {
+    set({ sampleRules });
+  },
+
   currGame: undefined,
   setCurrGame: (gameInfo?: GameInfo) => {
     set(() => ({ currGame: gameInfo }));
@@ -448,11 +655,10 @@ export const useWC = create<WCInfo>((set, get) => ({
     set(() => ({
       games,
     })),
-  isAutoExcept: true,
+  isAutoExcept: Cookies.get("auto-except") === "true" ? true : false,
   setIsAutoExcept: (isAutoExcept: boolean) => {
+    Cookies.set("auto-except", `${isAutoExcept}`);
     set({ isAutoExcept });
   },
-  startAnalysis: () => {
-    
-  },
+  startAnalysis: () => {},
 }));

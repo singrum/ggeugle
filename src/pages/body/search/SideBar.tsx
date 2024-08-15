@@ -14,6 +14,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { charMenuList, useCharMenu } from "@/lib/store/useCharMenu";
+import { useSheet } from "@/lib/store/useSheet";
 
 import { useWC } from "@/lib/store/useWC";
 import { arrayToKeyMap, cn } from "@/lib/utils";
@@ -293,20 +294,33 @@ export function CharMenu() {
     e.charMenu,
     e.setCharMenu,
   ]);
+  const [sheetRef] = useSheet((e) => [e.sheetRef]);
   return (
     <ul className="grid grid-cols-3 justify-center">
       {charMenuList.map((e, i) => (
         <React.Fragment key={i}>
           <div
-            onClick={() => setCharMenu(i)}
+            onClick={() => {
+              setCharMenu(i);
+              if (
+                sheetRef.current &&
+                sheetRef.current.height > 70 &&
+                charMenu === i
+              ) {
+                sheetRef.current.snapTo(
+                  ({ snapPoints }: { snapPoints: number[] }) => snapPoints[2],
+                  {}
+                );
+              }
+            }}
             className={cn(
               "flex justify-center items-center cursor-pointer py-2 border-b border-border overflow-hidden whitespace-nowrap",
-              { [`border-${e.color}`]: charMenu === i }
+              { [`border-b-2 border-${e.color}`]: charMenu === i }
             )}
           >
             <div
-              className={cn("text-muted-foreground", {
-                [`text-${e.color} font-bold`]: charMenu === i,
+              className={cn("py-1 px-4 rounded-full text-muted-foreground", {
+                [`bg-${e.color}/10 text-${e.color}`]: charMenu === i,
               })}
             >
               {charMenuList[i].name}

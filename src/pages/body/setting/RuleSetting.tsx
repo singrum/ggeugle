@@ -16,54 +16,114 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useMenu } from "@/lib/store/useMenu";
-import { cates, dicts, poses, useWC } from "@/lib/store/useWC";
+import { cates, dicts, poses, RuleForm, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import React from "react";
+import React, { Fragment, ReactNode, useRef, useState } from "react";
 import { SettnigMenu } from "./SettingMenu";
+import { ChevronLeft } from "lucide-react";
+
+const ruleGroup: { name: string; children: ReactNode[] }[] = [
+  {
+    name: "단어 설정",
+    children: [
+      <DictSetting />,
+      <PosSetting />,
+      <CateSetting />,
+      <RegexFilterSetting />,
+    ],
+  },
+  {
+    name: "연결 방법",
+    children: [<ChanSetting />, <HeadIdxSetting />, <TailIdxSetting />],
+  },
+  { name: "후처리", children: [<AddedWordsSetting />, <MannerSetting />] },
+];
+
 export function RuleSetting() {
-  const [rule, setRuleForm, updateRule] = useWC((state) => [
-    state.rule,
-    state.setRuleForm,
-    state.updateRule,
-  ]);
+  const [rule, setRuleForm, updateRule, sampleRules, setSampleRules] = useWC(
+    (state) => [
+      state.rule,
+      state.setRuleForm,
+      state.updateRule,
+      state.sampleRules,
+      state.setSampleRules,
+    ]
+  );
 
   const setMenu = useMenu((state) => state.setMenu);
+  const [ruleGroupMenu, setRuleGroupMenu] = useState<number>(0);
+
+  const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   return (
-    <div className="flex flex-col">
-      <DictSetting />
-      <Separator className="my-4" />
-      <PosSetting />
-      <Separator className="my-4" />
-      <CateSetting />
-      <Separator className="my-4" />
-      <ChanSetting />
-      <Separator className="my-4" />
-      <HeadIdxSetting />
-      <Separator className="my-4" />
-      <TailIdxSetting />
-      <Separator className="my-4" />
-      <RegexFilterSetting />
-      <Separator className="my-4" />
-      <AddedWordsSetting />
-      <Separator className="my-4" />
-      <div className="flex justify-end gap-2">
-        <Button
-          variant={"ghost"}
-          onClick={() => {
-            setRuleForm({ ...rule });
-          }}
-        >
-          되돌리기
-        </Button>
-        <Button
-          onClick={() => {
-            updateRule();
-            setMenu(0);
-          }}
-        >
-          저장
-        </Button>
+    <div className="flex flex-col gap-4 md:gap-8">
+      <div className="flex items-center gap-2">
+        <div className="overflow-auto relative" ref={scrollRef}>
+          <div className="flex w-full min-w-0 gap-2 whitespace-nowrap pb-2">
+            {sampleRules.map(({ name, ruleForm }) => (
+              <Fragment key={name}>
+                <div
+                  onClick={() => {
+                    setRuleForm(ruleForm);
+                    updateRule();
+                    setMenu(0);
+                  }}
+                  className="flex items-center justify-center rounded-full py-1 px-3 border border-border cursor-pointer hover:bg-muted transition-colors"
+                >
+                  {name}
+                </div>
+              </Fragment>
+            ))}
+          </div>
+        </div>
+      </div>
+      {/* <Separator /> */}
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="md:w-[200px] flex gap-3 md:gap-2 flex-row md:flex-col">
+          {ruleGroup.map(({ name }, i) => (
+            <div
+              key={i}
+              className={cn(
+                "text-lg md:text-base text-muted-foreground cursor-pointer pb-1",
+                {
+                  "transition-colors text-foreground font-semibold border-foreground border-b-2 md:border-b-0 ":
+                    ruleGroupMenu === i,
+                }
+              )}
+              onClick={() => setRuleGroupMenu(i)}
+            >
+              {name}
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col md:flex-1">
+          {ruleGroup[ruleGroupMenu].children.map((e, i) => (
+            <Fragment key={i}>
+              {e}
+              <Separator className="my-4" />
+            </Fragment>
+          ))}
+
+          <div className="flex justify-end gap-2">
+            <Button
+              variant={"ghost"}
+              onClick={() => {
+                setRuleForm({ ...rule });
+              }}
+            >
+              되돌리기
+            </Button>
+            <Button
+              onClick={() => {
+                updateRule();
+                setMenu(0);
+              }}
+            >
+              저장
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -75,7 +135,7 @@ function DictSetting() {
   return (
     <SettnigMenu name="사전">
       <Select
-        defaultValue={ruleForm.dict.toString()}
+        value={ruleForm.dict.toString()}
         onValueChange={(e) => {
           switch (parseInt(e)) {
             case 0:
@@ -195,7 +255,7 @@ function ChanSetting() {
   return (
     <SettnigMenu name="두음법칙">
       <Select
-        defaultValue={ruleForm.chan.toString()}
+        value={ruleForm.chan.toString()}
         onValueChange={(e) => setRuleForm({ ...ruleForm, chan: parseInt(e) })}
       >
         <SelectTrigger className="w-[180px] text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
@@ -228,7 +288,7 @@ function HeadIdxSetting() {
     <SettnigMenu name="첫 글자">
       <div className="flex gap-1 items-center">
         <Select
-          defaultValue={ruleForm.headDir.toString()}
+          value={ruleForm.headDir.toString()}
           onValueChange={(e) =>
             setRuleForm({ ...ruleForm, headDir: parseInt(e) as 0 | 1 })
           }
@@ -266,7 +326,7 @@ function TailIdxSetting() {
     <SettnigMenu name="끝 글자">
       <div className="flex gap-1 items-center">
         <Select
-          defaultValue={ruleForm.tailDir.toString()}
+          value={ruleForm.tailDir.toString()}
           onValueChange={(e) =>
             setRuleForm({ ...ruleForm, tailDir: parseInt(e) as 0 | 1 })
           }
@@ -305,7 +365,7 @@ function MannerSetting() {
       <div className="flex items-center space-x-2 px-1">
         <Checkbox
           id="manner"
-          defaultChecked={ruleForm.manner}
+          checked={ruleForm.manner}
           onCheckedChange={(e: boolean) => {
             setRuleForm({ ...ruleForm, manner: e });
           }}
@@ -345,16 +405,44 @@ const RegexExamples = [
     content: String.raw`.*`,
   },
   {
-    title: "'가', '나', '다'로 시작하지 않는 단어",
+    title: "'가'로 시작하지 않는 단어",
+    content: String.raw`[^가].*`,
+  },
+  {
+    title: "'가'또는 '나'로 시작하지 않는 단어",
     content: String.raw`[^가나다].*`,
   },
   {
-    title: "'가', '나', '다'로 끝나지 않는 단어",
+    title: "'가'로 끝나지 않는 단어",
     content: String.raw`.*[^가나다]`,
   },
   {
-    title: "첫 글자와 끝 글자가 같은 단어",
+    title: "'가'와 '나'로 끝나지 않는 단어",
+    content: String.raw`.*[^가나다]`,
+  },
+  {
+    title: "'가'를 포함하는 단어",
+    content: String.raw`.*[가].*`,
+  },
+  {
+    title: "'가' 또는 '나'를 포함하는 단어",
+    content: String.raw`.*[가나].*`,
+  },
+  {
+    title: "'가'를 포함하지 않는 단어",
+    content: String.raw`.*[^가나].*`,
+  },
+  {
+    title: "'가'와 '나'를 포함하지 않는 단어",
+    content: String.raw`.*[^가나].*`,
+  },
+  {
+    title: "첫 글자와 끝 글자가 다른 단어",
     content: String.raw`(.).*(?!\1).`,
+  },
+  {
+    title: "2글자 단어",
+    content: String.raw`(.{2}|.{5})`,
   },
   {
     title: "2글자 또는 5글자 단어",
@@ -377,12 +465,12 @@ const RegexExamples = [
     content: String.raw`.(..)*`,
   },
   {
-    title: "'가' 또는 '나'를 포함하는 단어",
-    content: String.raw`.*[가나].*`,
+    title: "ab를 제외한 단어",
+    content: String.raw`(?!(ab)$).*`,
   },
   {
-    title: "'가' 또는 '나'를 포함하지 않는 단어",
-    content: String.raw`.*[^가나].*`,
+    title: "ab, cd, ef를 제외한 단어",
+    content: String.raw`(?!(ab|cd|ef)$).*`,
   },
 ];
 
@@ -394,7 +482,7 @@ function RegexFilterSetting() {
     <SettnigMenu name="단어 필터">
       <div>
         <div className="flex flex-col gap-2">
-          <div className="text-muted-foreground text-xs">Regex 문법</div>
+          <div className="text-muted-foreground text-xs">Regex로 작성</div>
           <Input
             value={ruleForm.regexFilter}
             onChange={(e) =>
@@ -429,24 +517,3 @@ function RegexFilterSetting() {
     </SettnigMenu>
   );
 }
-
-// function SettnigMenu({
-//   name,
-//   children,
-// }: {
-//   name: string;
-//   children: React.ReactNode;
-// }) {
-//   return (
-//     <div className="flex flex-col gap-2">
-//       <div className="text-md">
-//         <div className="flex gap-1 items-center">
-//           <ChevronRight className="w-4 h-4" />
-//           <div className="font-semibold">{name}</div>
-//         </div>
-//       </div>
-
-//       {children}
-//     </div>
-//   );
-// }

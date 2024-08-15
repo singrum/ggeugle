@@ -22,10 +22,6 @@ import SolutionTree from "./SolutionTree";
 import { changeableMap } from "@/lib/wc/hangul";
 
 export default function SearchResult() {
-  const [engine, searchInputValue] = useWC((e) => [
-    e.engine,
-    e.searchInputValue,
-  ]);
   return (
     <>
       <WordsResult />
