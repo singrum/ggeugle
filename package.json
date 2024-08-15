@@ -29,6 +29,7 @@
     "bootstrap": "^5.3.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "d3": "^7.9.0",
     "es-hangul": "^1.4.5",
     "hangul-js": "^0.2.6",
     "lucide-react": "^0.395.0",
@@ -52,6 +53,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
     "@types/lodash": "^4.17.7",
     "@types/node": "^20.14.6",
     "@types/react": "^18.2.66",

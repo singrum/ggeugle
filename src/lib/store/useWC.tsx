@@ -132,6 +132,9 @@ export interface WCInfo {
   // 단어 클릭시 자동 금지단어 추가
   isAutoExcept: boolean;
   setIsAutoExcept: (isAutoExcept: boolean) => void;
+
+  // 탐색
+  startAnalysis: () => void;
 }
 
 export const useWC = create<WCInfo>((set, get) => ({
@@ -448,5 +451,8 @@ export const useWC = create<WCInfo>((set, get) => ({
   isAutoExcept: true,
   setIsAutoExcept: (isAutoExcept: boolean) => {
     set({ isAutoExcept });
+  },
+  startAnalysis: () => {
+    
   },
 }));

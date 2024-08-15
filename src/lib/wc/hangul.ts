@@ -277,7 +277,7 @@ export const changeableMap: ((char: string) => string[])[] = [
 
     for (let chan1 of choChan) {
       for (let chan2 of jongChan) {
-        result.push(Hangul.assemble([chan1, jung, chan2]));
+        result.push(Hangul.assemble([chan1, jung, chan2].filter((e) => e)));
       }
     }
 

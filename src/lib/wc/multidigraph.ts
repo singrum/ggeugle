@@ -1,6 +1,44 @@
 import { cloneDeep } from "lodash";
 import { arrayToKeyMap } from "../utils";
 
+export class WordMap {
+  _succ: Record<string, Record<string, string[]>>;
+  _pred: Record<string, Record<string, string[]>>;
+
+  constructor() {
+    this._succ = {};
+    this._pred = {};
+  }
+
+  addWord(start: string, end: string, word: string) {
+    if (!this._succ[start]) {
+      this._succ[start] = {};
+      this._pred[start] = {};
+    }
+    if (!this._succ[end]) {
+      this._succ[end] = {};
+      this._pred[end] = {};
+    }
+    if (!this._succ[start][end]) {
+      this._succ[start][end] = [];
+    }
+    if (!this._pred[end][start]) {
+      this._pred[end][start] = [];
+    }
+    this._succ[start][end].push(word);
+    this._pred[end][start].push(word);
+  }
+  select(start: string, end: string) {
+    return this._succ[start][end];
+  }
+  outWords(start: string) {
+    return Object.values(this._succ[start]).flat();
+  }
+  inWords(end: string) {
+    return Object.values(this._pred[end]).flat();
+  }
+}
+
 export class MultiDiGraph {
   _succ: Record<string, Record<string, number>>;
   _pred: Record<string, Record<string, number>>;
@@ -47,6 +85,25 @@ export class MultiDiGraph {
           })
         ),
       ];
+    }
+  }
+
+  forEachPreds(
+    nodes: string | string[],
+    callback: (node: string, pred: string, num: number) => void
+  ) {
+    if (typeof nodes === "string") {
+      nodes = [nodes];
+    }
+    const visited = new Set();
+    for (let node of nodes) {
+      for (let pred in this._pred[node]) {
+        if (visited.has(pred)) {
+          continue;
+        }
+        visited.add(pred);
+        callback(node, pred, this._pred[node][pred]);
+      }
     }
   }
 
@@ -139,6 +196,9 @@ export class MultiDiGraph {
         0
       );
     }
+
+    sum += Object.keys(this.nodes).filter((e) => this.nodes[e].loop).length;
+
     return sum;
   }
   copy() {
@@ -149,7 +209,6 @@ export class MultiDiGraph {
     return result;
   }
   getSubgraph(nodes: Set<string>) {
-    
     const result = new MultiDiGraph();
     for (let node of nodes) {
       result.nodes[node] = this.nodes[node];
@@ -165,11 +224,28 @@ export class MultiDiGraph {
     }
     return result;
   }
+  clearNodeInfo() {
+    for (let node in this.nodes) {
+      if (this.nodes[node].loop) {
+        this.addEdge(node, this.nodes[node].loop as string);
+      }
+    }
+    for (let node in this.nodes) {
+      this.nodes[node] = {};
+    }
+  }
 }
+
 export function objToMultiDiGraph(obj: MultiDiGraph): MultiDiGraph {
   const result = new MultiDiGraph();
   result._pred = obj._pred;
   result._succ = obj._succ;
   result.nodes = obj.nodes;
+  return result;
+}
+export function ObjToWordMap(obj: WordMap): WordMap {
+  const result = new WordMap();
+  result._pred = obj._pred;
+  result._succ = obj._succ;
   return result;
 }

@@ -17,8 +17,15 @@ import {
 } from "@/lib/wc/wordChain";
 import { CircleHelp } from "lucide-react";
 import React from "react";
+import Analysis from "./Analysis";
+import SolutionTree from "./SolutionTree";
+import { changeableMap } from "@/lib/wc/hangul";
 
 export default function SearchResult() {
+  const [engine, searchInputValue] = useWC((e) => [
+    e.engine,
+    e.searchInputValue,
+  ]);
   return (
     <>
       <WordsResult />
@@ -28,12 +35,17 @@ export default function SearchResult() {
 }
 
 function WordsResult() {
-  const [searchResult, engine] = useWC((e) => [e.searchResult, e.engine]);
+  const [searchResult, engine, searchInputValue] = useWC((e) => [
+    e.searchResult,
+    e.engine,
+    e.searchInputValue,
+    e.setValue,
+  ]);
 
   return (
     <Tabs
       defaultValue="startsWith"
-      className="w-full flex flex-col items-center"
+      className="w-full flex flex-col items-center h-full"
     >
       <TabsList className="h-auto">
         <TabsTrigger
@@ -44,6 +56,10 @@ function WordsResult() {
           className="text-xs"
           value="endsWith"
         >{`~로 끝나는 단어`}</TabsTrigger>
+
+        <TabsTrigger className="text-xs" value="solutionTree">
+          탐색
+        </TabsTrigger>
       </TabsList>
 
       <>
@@ -125,7 +141,7 @@ function WordsResult() {
                                 </WordBadge>
                               </PopoverTrigger>
                               <PopoverContent className="text-sm">
-                                되돌림 단어의 유무는 승패에 영향을 주지
+                                되돌림 단어들의 유무는 승패에 영향을 주지
                                 않습니다.
                               </PopoverContent>
                             </Popover>
@@ -367,6 +383,18 @@ function WordsResult() {
                 <Separator className="my-2" />
               </>
             </div>
+          )}
+        </TabsContent>
+        <TabsContent value="solutionTree" className="w-full">
+          {engine &&
+          engine!.chanGraph.nodes[searchInputValue]?.type === "route" ? (
+            <Analysis />
+          ) : (
+            engine &&
+            (engine.chanGraph.nodes[searchInputValue]?.type === "win" ||
+              engine.chanGraph.nodes[searchInputValue]?.type === "los") && (
+              <SolutionTree />
+            )
           )}
         </TabsContent>
       </>

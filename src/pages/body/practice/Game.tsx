@@ -4,7 +4,7 @@ import { strengths, useWC } from "@/lib/store/useWC";
 import { Input } from "@/components/ui/input";
 import { BotIcon, ChevronRight, Flag, Plus, SendHorizonal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { chatSplit, cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -50,25 +50,27 @@ export default function Game() {
         ref={scrollRef}
         onScroll={handleOnScroll}
       >
-        <div className="flex flex-col p-3 pb-2 flex-1 gap-1 justify-end">
-          {currGame!.chats.map(({ isMy, content }, i) => (
+        <div className="flex flex-col p-3 pb-2 flex-1 gap-2 justify-end">
+          {chatSplit(currGame!.chats).map(({ isMy, contents }, i) => (
             <Chat key={i} isMy={isMy}>
-              {content}
+              {contents}
             </Chat>
           ))}
           {isChatLoading && (
             <Chat isMy={false}>
-              <div className="flex gap-2 p-2">
-                {[2, 1, 0].map((e) => (
-                  <span className="relative flex h-3 w-3" key={e}>
-                    <span
-                      className={`animate-[chat-loading_0.7s_ease-in-out_${
-                        -e * 0.15
-                      }s_infinite] absolute inline-flex h-full w-full rounded-full bg-foreground/70`}
-                    />
-                  </span>
-                ))}
-              </div>
+              {[
+                <div className="flex gap-2 p-2">
+                  {[2, 1, 0].map((e) => (
+                    <span className="relative flex h-3 w-3" key={e}>
+                      <span
+                        className={`animate-[chat-loading_0.7s_ease-in-out_${
+                          -e * 0.15
+                        }s_infinite] absolute inline-flex h-full w-full rounded-full bg-foreground/70`}
+                      />
+                    </span>
+                  ))}
+                </div>,
+              ]}
             </Chat>
           )}
         </div>

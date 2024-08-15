@@ -92,6 +92,7 @@ export function WordButton({
         if (!endsWith) {
           setValue(tail);
           setSearchInputValue(tail);
+          
         } else {
           setValue(head);
           setSearchInputValue(head);

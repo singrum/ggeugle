@@ -1,15 +1,15 @@
 import { RuleForm } from "../store/useWC";
 import { choice } from "../utils";
+import {
+  getNextWords,
+  getReachableNodes,
+  isWin,
+  pruningWinLos,
+  pruningWinLosCir,
+} from "../wc/algorithms";
 
 import { getEngine } from "../wc/ruleUpdate";
-import {
-  Char,
-  RouteAnalyzer,
-  WCDisplay,
-  WCEngine,
-  Word,
-  WordType,
-} from "../wc/wordChain";
+import { Char, WCDisplay, WCEngine, Word, WordType } from "../wc/wordChain";
 
 export type payload = {
   action: "getEngine" | "setWords" | "getComputerMove";
@@ -64,14 +64,16 @@ const getComputerMove = ({
       switch (engine?.chanGraph.nodes[currChar].type!) {
         case "wincir":
         case "win":
-          nextWords = engine!
-            .getNextWords(currChar)
-            .filter(
-              (word) =>
-                WCDisplay.reduceWordtype(
-                  WCDisplay.getWordType(engine!, word).type as WordType
-                ) === "win"
-            );
+          const head = engine!.chanGraph.nodes[currChar].solution as Char;
+          const tail = engine!.wordGraph.nodes[head as string].solution as Char;
+
+          nextWords = engine!.wordMap.select(head, tail);
+
+          // engine!.words.filter(
+          //   (e) =>
+          //     e.at(engine!.rule.headIdx) === head &&
+          //     e.at(engine!.rule.tailIdx) === tail
+          // );
 
           break;
         case "los":
@@ -97,7 +99,7 @@ const getComputerMove = ({
                 (word) =>
                   WCDisplay.getWordType(engine!, word).type === "loscir_return"
               );
-            if (!nextWords) {
+            if (nextWords.length === 0) {
               nextWords = engine!
                 .getNextWords(currChar)
                 .filter(
@@ -111,16 +113,66 @@ const getComputerMove = ({
 
         case "route":
           if (strength === 1) {
-            nextWords = engine!
-              .getNextWords(currChar)
-              .filter(
-                (word) =>
-                  WCDisplay.reduceWordtype(
-                    WCDisplay.getWordType(engine!, word).type as WordType
-                  ) === "route"
-              );
+            nextWords = getNextWords(
+              engine!.chanGraph,
+              engine!.wordGraph,
+              currChar
+            ).flatMap(({ word }) => {
+              const head = word[0];
+              const tail = word[1];
+              return engine!.wordMap.select(head, tail);
+              // return engine!.words.filter(
+              //   (word) =>
+              //     word.at(engine!.rule.headIdx)! === head &&
+              //     word.at(engine!.rule.tailIdx)! === tail
+              // );
+            });
           } else if (strength === 2) {
-            new RouteAnalyzer(engine!, currChar);
+            const reacheable = getReachableNodes(
+              engine!.chanGraph,
+              engine!.wordGraph,
+              currChar
+            );
+            const rootChanGraph = engine!.chanGraph.getSubgraph(reacheable);
+            const rootWordGraph = engine!.wordGraph.getSubgraph(reacheable);
+            pruningWinLos(rootChanGraph, rootWordGraph);
+            pruningWinLosCir(rootChanGraph, rootWordGraph);
+
+            const winWord = isWin(rootChanGraph, rootWordGraph, currChar);
+
+            if (winWord) {
+              console.log("승리 확정");
+              nextWords = engine!.wordMap.select(
+                winWord[0] as Char,
+                winWord[1] as Char
+              );
+              // nextWords = engine!.words.filter(
+              //   (e) =>
+              //     e.at(engine!.rule.headIdx) === winWord[0] &&
+              //     e.at(engine!.rule.tailIdx) === winWord[1] &&
+              //     !exceptWords.includes(e)
+              // );
+            } else {
+              console.log("패배 확정");
+              const word = choice(
+                getNextWords(
+                  engine!.chanGraph,
+                  engine!.wordGraph,
+                  currChar
+                ).map(({ word }) => word)
+              );
+              nextWords = engine!.wordMap.select(
+                word[0] as Char,
+                word[1] as Char
+              );
+              // nextWords = engine!.words.filter(
+              //   (e) =>
+              //     e.at(engine!.rule.headIdx) === word[0] &&
+              //     e.at(engine!.rule.tailIdx) === word[1] &&
+              //     !exceptWords.includes(e)
+              // );
+              // console.log(nextWords);
+            }
           }
           break;
       }

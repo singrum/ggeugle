@@ -107,17 +107,19 @@ function CompareRoute() {
           Object.keys(originalEngine.wordGraph._succ[curr]).reduce(
             (acc2, curr2) => originalEngine.wordGraph._succ[curr][curr2] + acc2,
             0
-          ) + acc,
+          ) +
+          (originalEngine.wordGraph.nodes[curr].loop ? 1 : 0) +
+          acc,
         0
       );
 
       return [
         { data: "글자", "현재 룰": chars, 구엜룰: 88 },
-        { data: "단어", "현재 룰": words, 구엜룰: 582 },
+        { data: "단어", "현재 룰": words, 구엜룰: 597 },
         {
           data: "단어/글자",
           "현재 룰": chars > 0 ? Math.round((words / chars) * 1000) / 1000 : 0,
-          구엜룰: 6.614,
+          구엜룰: 6.784,
         },
       ];
     }

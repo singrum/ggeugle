@@ -1,6 +1,7 @@
+import { cloneDeep } from "lodash";
 import { arrayToKeyMap } from "../utils";
 import { MultiDiGraph } from "./multidigraph";
-import { Char } from "./wordChain";
+import { Char, Word } from "./wordChain";
 
 export function pruningWinLos(
   chanGraph: MultiDiGraph,
@@ -22,25 +23,42 @@ export function pruningWinLos(
   let chanLos = Object.keys(chanGraph.nodes).filter(
     (e) => chanGraph.successors(e).length === 0
   );
+
   chanLos.forEach((e) => {
     chanGraph.nodes[e].type = "los";
     chanGraph.nodes[e].endNum = endNum;
   });
 
   while (true) {
-    const wordWin = wordGraph.predecessors(chanLos);
+    const wordWinSet: Set<string> = new Set();
+    for (const cl of chanLos) {
+      const preds = wordGraph.predecessors(cl);
+      preds.forEach((e) => {
+        wordWinSet.add(e);
+        wordGraph.nodes[e].solution = cl;
+
+        wordGraph.nodes[e].type = "win";
+        wordGraph.nodes[e].endNum = endNum;
+      });
+    }
+    const wordWin = [...wordWinSet];
     if (wordWin.length === 0) break;
-    wordWin.forEach((e) => {
-      wordGraph.nodes[e].type = "win";
-      wordGraph.nodes[e].endNum = endNum;
-    });
     wordGraph.removeOutEdge(wordWin);
-    const chanWin = chanGraph.predecessors(wordWin);
+
+    const chanWinSet: Set<string> = new Set();
+
+    for (const ww of wordWin) {
+      const preds = chanGraph.predecessors(ww);
+      preds.forEach((e) => {
+        chanWinSet.add(e);
+        chanGraph.nodes[e].solution = ww;
+        chanGraph.nodes[e].type = "win";
+        chanGraph.nodes[e].endNum = endNum;
+      });
+    }
+    const chanWin = [...chanWinSet];
+
     if (chanWin.length === 0) break;
-    chanWin.forEach((e) => {
-      chanGraph.nodes[e].type = "win";
-      chanGraph.nodes[e].endNum = endNum;
-    });
     chanGraph.removeOutEdge(chanWin);
 
     endNum++;
@@ -111,8 +129,6 @@ export function pruningWinLosCir(
 
   const returnWordGraph = new MultiDiGraph();
 
-  // const solutionGraph = new MultiDiGraph();
-
   for (let head of chars) {
     for (let tail of wordGraph.successors(head)) {
       const returnPair = pair(head, tail);
@@ -173,16 +189,17 @@ export function pruningWinLosCir(
     wordGraph.nodes[char].type = "wincir";
   });
   wordLos.forEach((char) => {
-    wordGraph.nodes[char].type = "winlos";
+    wordGraph.nodes[char].type = "loscir";
   });
 
-  let chanWin = chanGraph.predecessors(wordWin);
+  let chanWin: string[] = [];
+
+  chanGraph.forEachPreds(wordWin, (node, pred) => {
+    chanWin.push(pred);
+    chanGraph.nodes[pred].type = "wincir";
+    chanGraph.nodes[pred].solution = node;
+  });
   chanGraph.removeOutEdge(chanWin);
-
-  chanWin.forEach((char) => {
-    chanGraph.nodes[char].type = "wincir";
-  });
-  // wordGraph.removeInEdge(chanWin);
 
   chanGraph.removeInEdge(wordLos);
   let chanLos = Object.keys(chanGraph.nodes).filter(
@@ -200,7 +217,7 @@ export function pruningWinLosCir(
     wordSinks = preds.filter((e) => wordGraph.successors(e).length === 0);
     wordLos = wordSinks.filter((e) => !wordGraph.nodes[e].loop);
     wordLos.forEach((char) => {
-      wordGraph.nodes[char].type = "winlos";
+      wordGraph.nodes[char].type = "loscir";
     });
 
     const wordWinLoop = wordSinks.filter((e) => wordGraph.nodes[e].loop);
@@ -220,16 +237,26 @@ export function pruningWinLosCir(
     }
     wordWin = [...wordWinLoop, ...wordWinNoLoop];
 
-    chanWin = chanGraph.predecessors(wordWin);
+    //
+    // chanWin = chanGraph.predecessors(wordWin);
+    // chanGraph.removeOutEdge(chanWin);
+    // chanWin.forEach((e) => {
+    //   chanGraph.nodes[e].type = "wincir";
+    // });
+    //
+
+    chanWin = [];
+    chanGraph.forEachPreds(wordWin, (node, pred) => {
+      chanWin.push(pred);
+      chanGraph.nodes[pred].type = "wincir";
+      chanGraph.nodes[pred].solution = node;
+    });
     chanGraph.removeOutEdge(chanWin);
 
     preds = chanGraph.predecessors(wordLos);
     chanGraph.removeInEdge(wordLos);
     chanLos = preds.filter((e) => chanGraph.successors(e).length === 0);
 
-    chanWin.forEach((e) => {
-      chanGraph.nodes[e].type = "wincir";
-    });
     chanLos.forEach((e) => {
       chanGraph.nodes[e].type = "loscir";
     });
@@ -312,20 +339,20 @@ export function getReachableNodes(
   wordGraph: MultiDiGraph,
   char: string
 ) {
-  const visited: Set<string> = new Set();
+  const chanVisited: Set<string> = new Set();
+  const wordVisited: Set<string> = new Set();
 
   const dfs = (char: string) => {
-    visited.add(char);
+    chanVisited.add(char);
     const nextWords = chanGraph.successors(char);
-    nextWords.forEach((char) => visited.add(char));
+    nextWords.forEach((char) => wordVisited.add(char));
 
     const nextChans = nextWords
-      .map((e) => [
+      .flatMap((e) => [
         ...wordGraph.successors(e),
         ...(wordGraph.nodes[e].loop ? [wordGraph.nodes[e].loop as string] : []),
       ])
-      .flat()
-      .filter((e) => !visited.has(e));
+      .filter((e) => !chanVisited.has(e));
 
     for (let next of nextChans) {
       dfs(next);
@@ -334,20 +361,77 @@ export function getReachableNodes(
 
   dfs(char);
 
-  console.log(visited);
-  return visited;
+  return new Set([...chanVisited, ...wordVisited]);
 }
 
-function isWin(
+export function getNextWords(
   chanGraph: MultiDiGraph,
   wordGraph: MultiDiGraph,
-  currChar: Char
+  currChar: Char,
+  withMoveNum?: boolean
+) {
+  const chanSucc = chanGraph.successors(currChar);
+  const nextWords: {
+    word: Char[];
+    isLoop: boolean;
+    moveNum?: number;
+  }[] = [];
+
+  for (let chan of chanSucc) {
+    for (let word of wordGraph.successors(chan)) {
+      const nextWordInfo: {
+        word: Char[];
+        isLoop: boolean;
+
+        moveNum?: number;
+      } = {
+        word: [chan, word],
+        isLoop: false,
+      };
+
+      if (withMoveNum) {
+        nextWordInfo.moveNum = getNextWords(chanGraph, wordGraph, word).length;
+      }
+      nextWords.push(nextWordInfo);
+    }
+    if (wordGraph.nodes[chan].loop) {
+      const nextWordInfo: {
+        word: Char[];
+        isLoop: boolean;
+        moveNum?: number;
+      } = {
+        word: [chan, wordGraph.nodes[chan].loop as Char],
+        isLoop: true,
+      };
+      if (withMoveNum) {
+        nextWordInfo.moveNum = getNextWords(
+          chanGraph,
+          wordGraph,
+          wordGraph.nodes[chan].loop as string
+        ).length;
+      }
+      nextWords.push(nextWordInfo);
+    }
+  }
+  return nextWords;
+}
+
+export function isWin(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  currChar: Char,
+
+  pushCallback?: (head?: Char, tail?: Char) => void,
+  popCallback?: (head?: Char, tail?: Char, win?: boolean) => void
 ) {
   if (
     chanGraph.nodes[currChar].type === "win" ||
     chanGraph.nodes[currChar].type === "wincir"
   ) {
-    return true;
+    const word = chanGraph.nodes[currChar].solution;
+    const nextChan = wordGraph.nodes[word as string].solution;
+
+    return [word, nextChan];
   }
   if (
     chanGraph.nodes[currChar].type === "los" ||
@@ -355,5 +439,48 @@ function isWin(
   ) {
     return false;
   }
-  
+
+  const nextWords = getNextWords(chanGraph, wordGraph, currChar, true);
+  nextWords.sort((a, b) => {
+    return a.moveNum! - b.moveNum!;
+  });
+
+  for (let { word, isLoop } of nextWords) {
+    const nextChanGraph = chanGraph.copy();
+    const nextWordGraph = wordGraph.copy();
+    // 단어 삭제
+    if (pushCallback) {
+      pushCallback(word[0], word[1]);
+    }
+    if (isLoop) {
+      nextWordGraph.nodes[word[0]].loop = undefined;
+    } else {
+      nextWordGraph.removeEdge(word[0], word[1], 1);
+    }
+    nextWordGraph.clearNodeInfo();
+    nextChanGraph.clearNodeInfo();
+    pruningWinLos(nextChanGraph, nextWordGraph);
+    pruningWinLosCir(nextChanGraph, nextWordGraph);
+
+    const win = isWin(
+      nextChanGraph,
+      nextWordGraph,
+      word[1],
+      pushCallback,
+      popCallback
+    );
+
+    if (!win) {
+      if (popCallback) {
+        popCallback(word[0], word[1], true);
+      }
+      return word;
+    } else {
+      if (popCallback) {
+        popCallback(word[0], word[1], false);
+      }
+    }
+  }
+
+  return false;
 }
