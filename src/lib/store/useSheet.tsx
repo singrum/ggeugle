@@ -5,6 +5,6 @@ export interface SheetInfo {
   sheetRef: any;
 }
 
-export const useSheet = create<SheetInfo>((set) => ({
+export const useSheet = create<SheetInfo>(() => ({
   sheetRef: createRef()!,
 }));

@@ -86,7 +86,7 @@ export function RuleSetting() {
               <div
                 key={i}
                 className={cn(
-                  "text-base text-muted-foreground cursor-pointer px-2 pb-1 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent",
+                  "text-base text-muted-foreground cursor-pointer px-2 pb-1 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent select-none",
                   {
                     "transition-colors text-foreground font-semibold border-foreground md:border-b-0 md:bg-accent":
                       ruleGroupMenu === i,

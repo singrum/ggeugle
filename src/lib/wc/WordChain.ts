@@ -1,9 +1,5 @@
 import { arrayToKeyMap, pushObject } from "../utils";
-import {
-  getSCC,
-  pruningWinLos,
-  pruningWinLosCir
-} from "./algorithms";
+import { getSCC, pruningWinLos, pruningWinLosCir } from "./algorithms";
 import { changeableMap, reverseChangeableMap } from "./hangul";
 import {
   MultiDiGraph,
@@ -33,7 +29,7 @@ export class WCEngine {
   chanGraph: MultiDiGraph;
   returnWordGraph: MultiDiGraph;
 
-  constructor(rule: WCRule, words?: Word[], manner?: false) {
+  constructor(rule: WCRule, words?: Word[]) {
     this.rule = rule;
     this.wordMap = new WordMap();
     this.words = words ? words : [];
@@ -660,7 +656,7 @@ export class WCDisplay {
           }
         })
         .filter(
-          (word, i, arr) =>
+          (word, _, arr) =>
             arr.find(
               (e) =>
                 e.at(engine.rule.headIdx) === word.at(engine.rule.headIdx) &&

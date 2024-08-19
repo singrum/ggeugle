@@ -21,7 +21,7 @@ const etcMenu = [
     name: "이전 버전",
     icon: <History />,
     onClick_: () => {
-      open("https://singrum.github.io/ggeugle_old");
+      open("https://singrum.github.io/ggeugle-old");
     },
   },
   {
@@ -42,7 +42,7 @@ const etcMenu = [
 export default function Etc() {
   return (
     <>
-      <div className="flex p-5 text-xl h-full w-full items-center justify-center bg-muted/40">
+      <div className="flex p-5 text-xl h-full w-full items-center justify-center bg-muted/40 select-none">
         <div className="flex flex-col gap-5">
           {etcMenu.map(({ name, icon, onClick_ }) => (
             <div

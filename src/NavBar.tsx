@@ -44,7 +44,9 @@ export const MenuBtn = forwardRef(
         )}
       >
         {icon}
-        <div className="text-[10px] lg:text-sm lg:text-foreground">{name}</div>
+        <div className="text-[10px] lg:text-sm lg:text-foreground select-none">
+          {name}
+        </div>
       </div>
     );
   }

@@ -305,7 +305,7 @@ export function CharMenu() {
   ]);
   const [sheetRef] = useSheet((e) => [e.sheetRef]);
   return (
-    <ul className="grid grid-cols-3 justify-center border-b border-border">
+    <ul className="grid grid-cols-3 justify-center border-b border-border select-none">
       {charMenuList.map((e, i) => (
         <React.Fragment key={i}>
           <div

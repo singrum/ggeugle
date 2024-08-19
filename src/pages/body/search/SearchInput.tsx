@@ -31,6 +31,10 @@ export default function SearchInput() {
           placeholder="글자 또는 단어를 입력하세요."
           onKeyDown={(e) => {
             if (e.code == "Enter") {
+              
+              if (e.nativeEvent.isComposing) {
+                return;
+              }
               if (engine) {
                 setValue("");
                 setSearchInputValue("");

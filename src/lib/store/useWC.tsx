@@ -389,14 +389,14 @@ export const useWC = create<WCInfo>((set, get) => ({
               const changedChars = Object.keys(changeInfo);
               toast(
                 <div
-                  className="flex flex-col text-muted-foreground cursor-pointer gap-1 "
+                  className="flex flex-col text-black cursor-pointer gap-1 "
                   onClick={() =>
                     document.getElementById("changed-char-dialog-open")?.click()
                   }
                 >
                   {changedChars.slice(0, 1).map((char) => (
                     <div key={char}>
-                      <span className="text-foreground">{char}</span>
+                      <span className="text-black">{char}</span>
                       {josa(char, "이/가").at(-1)}{" "}
                       <span className={`text-${changeInfo[char].prevType}`}>
                         {changeInfo[char].prevType === "route"
@@ -423,7 +423,7 @@ export const useWC = create<WCInfo>((set, get) => ({
                     </div>
                   ))}
                   {changedChars.length > 1 && (
-                    <div className="hover:underline hover:text-foreground">
+                    <div className="">
                       외 {changedChars.length - 1}개 더보기
                     </div>
                   )}

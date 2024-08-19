@@ -63,43 +63,5 @@ function App() {
     </>
   );
 }
-// export function EtcDropdown() {
-//   return (
-//     <DropdownMenu>
-//       <DropdownMenuTrigger className="focus-visible:outline-none">
-//         <div>
-//           <div className="lg:static lg:block hidden absolute">
-//             <MenuBtn
-//               icon={<CircleEllipsis strokeWidth={1.5} />}
-//               name={"더보기"}
-//             />
-//           </div>
-
-//           <div className="hidden absolute md:static md:block lg:hidden lg:absolute md:p-2">
-//             <CircleEllipsis strokeWidth={1.5} />
-//           </div>
-//           <div className="block md:hidden md:absolute md:p-2">
-//             <Menu strokeWidth={1.5} />
-//           </div>
-//         </div>
-//       </DropdownMenuTrigger>
-//       <DropdownMenuContent>
-//         <DropdownMenuItem
-//           onClick={() => open("https://singrum.github.io/ggeugle_old")}
-//         >
-//           <History className="h-4 w-4" />
-//           이전 버전
-//         </DropdownMenuItem>
-//         <DropdownMenuItem
-//           onClick={() => open("https://github.com/singrum/ggeugle")}
-//         >
-//           <VscGithubInverted size={15} />
-//           깃허브
-//         </DropdownMenuItem>
-//         {/* <DropdownMenuSeparator /> */}
-//       </DropdownMenuContent>
-//     </DropdownMenu>
-//   );
-// }
 
 export default App;

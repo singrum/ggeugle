@@ -2,12 +2,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import {
-  Clipboard,
-  LoaderCircle,
-  Trash2,
-  X
-} from "lucide-react";
+import { Clipboard, LoaderCircle, Trash2, X } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 import { TbStatusChange } from "react-icons/tb";
 import { ChangedCharsDialog } from "./ChangedCharsDialog";
@@ -90,7 +85,7 @@ export default function ExceptWordsDisplay() {
                 setSearchInputValue(tail);
               }}
             >
-              <div className="pl-2 text-muted-foreground">{e}</div>
+              <div className="pl-2 text-muted-foreground select-none">{e}</div>
               <div
                 className="flex items-center justify-center rounded-full h-7 w-7 text-muted-foreground hover:text-foreground cursor-pointer"
                 onClick={(evt) => {
@@ -116,7 +111,7 @@ export default function ExceptWordsDisplay() {
         containerClassName={cn({ hidden: !showToast })}
         position={isDesktop ? "bottom-right" : "top-right"}
         toastOptions={{
-          className: "bg-background border border-border text-foreground ",
+          className: "border border-border text-foreground ",
         }}
       />
     </div>

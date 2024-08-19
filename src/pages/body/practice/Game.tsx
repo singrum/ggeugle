@@ -196,7 +196,7 @@ function GameInput() {
             placeholder="단어를 입력해 주세요."
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            onKeyDown={async (e) => {
+            onKeyDown={(e) => {
               if (e.key === "Enter") {
                 if (e.nativeEvent.isComposing) {
                   return;

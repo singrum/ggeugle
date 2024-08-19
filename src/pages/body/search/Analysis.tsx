@@ -6,12 +6,7 @@ import { getNextWords } from "@/lib/wc/algorithms";
 import { Word } from "@/lib/wc/wordChain";
 import { josa } from "es-hangul";
 import { ChevronRight } from "lucide-react";
-import {
-  Fragment,
-  useEffect,
-  useRef,
-  useState
-} from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { FaRegPlayCircle } from "react-icons/fa";
 export default function Analysis() {
   const [
@@ -62,7 +57,7 @@ export default function Analysis() {
           const { win } = data.data;
 
           const endedWordIdx = nextRoutesInfo.findIndex(
-            ({ word, win }) => win === undefined
+            ({ win }) => win === undefined
           );
           setWordStack([]);
           setNextRoutesInfo((e) => {
@@ -148,10 +143,9 @@ export default function Analysis() {
   }, [searchInputValue, engine]);
 
   const firstUndefIdx =
-    nextRoutesInfo &&
-    nextRoutesInfo.findIndex(({ word, win }) => win === undefined);
+    nextRoutesInfo && nextRoutesInfo.findIndex(({ win }) => win === undefined);
   const firstWinIdx =
-    nextRoutesInfo && nextRoutesInfo.findIndex(({ word, win }) => win);
+    nextRoutesInfo && nextRoutesInfo.findIndex(({ win }) => win);
 
   return (
     nextRoutesInfo && (
@@ -215,7 +209,7 @@ export default function Analysis() {
             0,
             firstUndefIdx === -1 ? nextRoutesInfo.length : firstUndefIdx
           )
-          .map(({ word, win }, i) => (
+          .map(({ word, win }) => (
             <div key={word}>
               <span
                 className="underline cursor-pointer"
