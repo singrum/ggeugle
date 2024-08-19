@@ -1,7 +1,6 @@
-import { Waypoints } from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
 import DarkLogo from "/logo/dark.png";
 import LightLogo from "/logo/light.png";
-import { useTheme } from "@/components/theme-provider";
 export default function Logo() {
   const theme = useTheme();
   const currTheme =

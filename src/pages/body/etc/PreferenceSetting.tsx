@@ -10,9 +10,8 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
-import { useWC } from "@/lib/store/useWC";
-import { SettnigMenu } from "../setting/SettingMenu";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
+import { SettnigMenu } from "../setting/SettingMenu";
 
 export default function PreferenceSetting() {
   const theme = useTheme();

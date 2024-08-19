@@ -1,17 +1,14 @@
 import {
-  getNextWords,
   getReachableNodes,
   isWin,
   pruningWinLos,
-  pruningWinLosCir,
+  pruningWinLosCir
 } from "../wc/algorithms";
 import {
   MultiDiGraph,
-  objToMultiDiGraph,
-  ObjToWordMap,
-  WordMap,
+  objToMultiDiGraph
 } from "../wc/multidigraph";
-import { Char, objToInstance, TreeData, WCEngine, Word } from "../wc/wordChain";
+import { Char } from "../wc/wordChain";
 
 export type payload = {
   action: "startAnalysis";

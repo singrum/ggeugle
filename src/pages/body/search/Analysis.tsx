@@ -1,22 +1,18 @@
-import { Button } from "@/components/ui/button";
-import { useWC } from "@/lib/store/useWC";
-import { Char, Word } from "@/lib/wc/wordChain";
-import { search } from "hangul-js";
-import React, {
-  Fragment,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { FaPlay, FaStop, FaRegPlayCircle } from "react-icons/fa";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { ChevronRight, LoaderCircle, RocketIcon } from "lucide-react";
-import { josa } from "es-hangul";
+import { useCookieSettings } from "@/lib/store/useCookieSettings";
+import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { getNextWords } from "@/lib/wc/algorithms";
-import { useCookieSettings } from "@/lib/store/useCookieSettings";
+import { Word } from "@/lib/wc/wordChain";
+import { josa } from "es-hangul";
+import { ChevronRight } from "lucide-react";
+import {
+  Fragment,
+  useEffect,
+  useRef,
+  useState
+} from "react";
+import { FaRegPlayCircle } from "react-icons/fa";
 export default function Analysis() {
   const [
     searchInputValue,

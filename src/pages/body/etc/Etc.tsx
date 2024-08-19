@@ -7,7 +7,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Code, Database, History, LinkIcon, Settings } from "lucide-react";
-import { RiSettings3Line } from "react-icons/ri";
 import PreferenceSetting from "./PreferenceSetting";
 const etcMenu = [
   {
@@ -43,7 +42,7 @@ const etcMenu = [
 export default function Etc() {
   return (
     <>
-      <div className="flex p-5 text-xl h-full w-full items-center justify-center">
+      <div className="flex p-5 text-xl h-full w-full items-center justify-center bg-muted/40">
         <div className="flex flex-col gap-5">
           {etcMenu.map(({ name, icon, onClick_ }) => (
             <div

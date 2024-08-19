@@ -2,9 +2,6 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { strengths, turns, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { Bot } from "lucide-react";
-import React from "react";
-import { BsCpuFill } from "react-icons/bs";
 import { RiRobot2Fill } from "react-icons/ri";
 
 export default function GameSetting() {

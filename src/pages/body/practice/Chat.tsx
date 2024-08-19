@@ -1,6 +1,5 @@
 import { strengths, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { BotIcon } from "lucide-react";
 import React from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 

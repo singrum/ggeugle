@@ -1,24 +1,15 @@
 import Search from "./pages/body/search/Search";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { CircleEllipsis, History, Menu } from "lucide-react";
 import { useEffect } from "react";
-import { VscGithubInverted } from "react-icons/vsc";
 import { useMediaQuery } from "./hooks/use-media-query";
 import { useMenu } from "./lib/store/useMenu";
 import { useWC } from "./lib/store/useWC";
-import NavBar, { MenuBtn } from "./NavBar";
+import NavBar from "./NavBar";
+import Etc from "./pages/body/etc/Etc";
 import Practice from "./pages/body/practice/Practice";
 import Setting from "./pages/body/setting/Setting";
 import Statistics from "./pages/body/statistics/Statistics";
 import Logo from "./pages/header/Logo";
-import Header from "./pages/header/Header";
-import Etc from "./pages/body/etc/Etc";
 
 function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");

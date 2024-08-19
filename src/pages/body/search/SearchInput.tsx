@@ -1,7 +1,6 @@
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { useWC } from "@/lib/store/useWC";
-import { ArrowUp, CornerRightUp, Search } from "lucide-react";
+import { CornerRightUp, Search } from "lucide-react";
 import { useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -59,7 +58,8 @@ export default function SearchInput() {
             setValue(e.target.value);
           }}
         />
-        <Search className="text-foreground w-[1.2rem] h-[1.2rem] absolute left-3 top-[calc(50%-0.6rem)]" />
+
+        <Search className="text-muted-foreground w-[1.2rem] h-[1.2rem] absolute left-3 top-[calc(50%-0.6rem)]" />
         <div className="flex items-center absolute right-3 top-[calc(50%-0.6rem)] gap-2">
           <CornerRightUp
             className="text-foreground w-[1.2rem] h-[1.2rem] cursor-pointer "

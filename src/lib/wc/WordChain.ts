@@ -1,11 +1,8 @@
-import { cloneDeep } from "lodash";
 import { arrayToKeyMap, pushObject } from "../utils";
 import {
-  getReachableNodes,
   getSCC,
-  isWin,
   pruningWinLos,
-  pruningWinLosCir,
+  pruningWinLosCir
 } from "./algorithms";
 import { changeableMap, reverseChangeableMap } from "./hangul";
 import {
@@ -145,6 +142,19 @@ export type TreeData = {
 };
 
 export class WCDisplay {
+  static getCharType(engine: WCEngine, char: Char) {
+    const types = changeableMap[engine.rule.changeableIdx](char)
+      .filter((e) => engine.wordGraph.nodes[e])
+      .map((e) =>
+        WCDisplay.reduceWordtype(engine.wordGraph.nodes[e].type as WordType)
+      );
+    return types.includes("win")
+      ? "win"
+      : types.includes("route")
+      ? "route"
+      : "los";
+  }
+
   static routeCharTypeChartData(engine: WCEngine) {
     const routeChars = Object.keys(engine.chanGraph.nodes).filter(
       (e) => engine.chanGraph.nodes[e].type === "route"

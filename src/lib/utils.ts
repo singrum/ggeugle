@@ -1,7 +1,7 @@
 import { type ClassValue, clsx } from "clsx";
+import { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import { Chat } from "./store/useWC";
-import { ReactNode } from "react";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

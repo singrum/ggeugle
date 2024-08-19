@@ -21,15 +21,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useWC } from "@/lib/store/useWC";
-import { cn } from "@/lib/utils";
 import { getSCC } from "@/lib/wc/algorithms";
 import { WCDisplay, WCEngine } from "@/lib/wc/wordChain";
 import Header from "@/pages/header/Header";
 import { useMemo } from "react";
 import { Bar, BarChart, Pie, PieChart, XAxis, YAxis } from "recharts";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function Statistics() {
   const [originalEngine, engine, exceptWords] = useWC((e) => [
     e.originalEngine,

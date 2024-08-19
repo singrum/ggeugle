@@ -1,29 +1,16 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
-import { TbStatusChange } from "react-icons/tb";
+import { cn } from "@/lib/utils";
 import {
-  Ban,
   Clipboard,
-  Ellipsis,
-  EllipsisVertical,
   LoaderCircle,
-  Replace,
   Trash2,
-  X,
+  X
 } from "lucide-react";
 import { Toaster } from "react-hot-toast";
+import { TbStatusChange } from "react-icons/tb";
 import { ChangedCharsDialog } from "./ChangedCharsDialog";
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { cn } from "@/lib/utils";
-import { useCookieSettings } from "@/lib/store/useCookieSettings";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Fragment } from "react/jsx-runtime";
 
 export default function ExceptWordsDisplay() {
   const [

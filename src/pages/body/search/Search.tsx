@@ -4,15 +4,13 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import { useMenu } from "@/lib/store/useMenu";
+import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import Header from "@/pages/header/Header";
 import CharSheet from "./CharSheet";
 import ExceptWordsDisplay from "./ExceptWordsDisplay";
 import SearchInput from "./SearchInput";
 import SearchResult from "./SearchResult";
 import { SideBar } from "./SideBar";
-import { useWC } from "@/lib/store/useWC";
-import { useCookieSettings } from "@/lib/store/useCookieSettings";
 export default function Search() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const isSearchFlip = useCookieSettings((e) => e.isSearchFlip);

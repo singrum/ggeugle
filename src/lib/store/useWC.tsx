@@ -1,7 +1,7 @@
 import { josa } from "es-hangul";
 import toast from "react-hot-toast";
 import { create } from "zustand";
-import Cookies from "js-cookie";
+import { choice } from "../utils";
 import {
   Char,
   CharType,
@@ -11,7 +11,6 @@ import {
   WCEngine,
   Word,
 } from "../wc/wordChain";
-import { choice } from "../utils";
 
 export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
   {
@@ -208,19 +207,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
     },
   },
 ];
-const guelrule = {
-  dict: 0,
-  pos: [true, false, false, false, false, false, false, false],
-  cate: [true, true, true, true],
-  chan: 1,
-  headDir: 0,
-  headIdx: 1,
-  tailDir: 1,
-  tailIdx: 1,
-  manner: false,
-  regexFilter: ".*",
-  addedWords: "",
-};
+
 export type changeInfo = Record<Char, { prevType: string; currType: string }>;
 
 export const dicts = ["(구)표준국어대사전", "(신)표준국어대사전", "우리말샘"];
@@ -350,7 +337,15 @@ export const useWC = create<WCInfo>((set, get) => ({
 
           const prevEngine = get().engine;
           const originalEngine = get().originalEngine;
-          const random = choice(Object.keys(engine.chanGraph.nodes));
+          const random =
+            choice(
+              Object.keys(engine.chanGraph.nodes).filter(
+                (e) =>
+                  engine.chanGraph.nodes[e].type === "win" ||
+                  engine.chanGraph.nodes[e].type === "wincir" ||
+                  engine.chanGraph.nodes[e].type === "route"
+              )
+            ) || "";
 
           set(() => ({
             prevEngine,

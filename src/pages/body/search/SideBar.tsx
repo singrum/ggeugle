@@ -17,8 +17,7 @@ import { charMenuList, useCharMenu } from "@/lib/store/useCharMenu";
 import { useSheet } from "@/lib/store/useSheet";
 
 import { useWC } from "@/lib/store/useWC";
-import { arrayToKeyMap, cn } from "@/lib/utils";
-import { changeableMap } from "@/lib/wc/hangul";
+import { cn } from "@/lib/utils";
 import { WCDisplay } from "@/lib/wc/wordChain";
 import React, { useMemo, useState } from "react";
 

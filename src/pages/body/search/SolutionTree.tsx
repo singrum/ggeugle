@@ -1,7 +1,7 @@
 import { useWC } from "@/lib/store/useWC";
 import { TreeData, WCDisplay } from "@/lib/wc/wordChain";
 import React, { useEffect, useMemo, useRef } from "react";
-
+// @ts-ignore
 import { Tree } from "./Tree";
 
 export default function SolutionTree() {

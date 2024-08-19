@@ -7,20 +7,20 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWC } from "@/lib/store/useWC";
+import { cn } from "@/lib/utils";
+import { changeableMap, reverseChangeableMap } from "@/lib/wc/hangul";
 import {
   CharSearchResult,
   NoncharSearchResult,
   WCDisplay,
   WordType,
 } from "@/lib/wc/wordChain";
+import { josa } from "es-hangul";
 import { CircleHelp } from "lucide-react";
 import React, { useState } from "react";
 import Analysis from "./Analysis";
 import SolutionTree from "./SolutionTree";
-import { changeableMap } from "@/lib/wc/hangul";
-import { cn } from "@/lib/utils";
 
 export default function SearchResult() {
   return (
@@ -48,7 +48,7 @@ function WordsResult() {
   const [tab, setTab] = useState<number>(0);
   return (
     <>
-      <div className="border-b px-4 flex bg-background">
+      <div className="border-b px-4 flex bg-background whitespace-nowrap overflow-auto">
         {tabInfo.map(({ name }, i) => (
           <div
             key={i}
@@ -387,13 +387,11 @@ function WordsResult() {
           </div>
         ))}
 
-      {tab === 2 && (
+      {tab === 2 && engine && (
         <div className="p-2 md:p-4">
-          {engine &&
-          engine!.chanGraph.nodes[searchInputValue]?.type === "route" ? (
+          {engine.chanGraph.nodes[searchInputValue]?.type === "route" ? (
             <Analysis />
           ) : (
-            engine &&
             (engine.chanGraph.nodes[searchInputValue]?.type === "win" ||
               engine.chanGraph.nodes[searchInputValue]?.type === "los" ||
               engine.chanGraph.nodes[searchInputValue]?.type === "wincir" ||
@@ -403,8 +401,43 @@ function WordsResult() {
           )}
         </div>
       )}
-      {tab === 3 &&(
-        <div></div>
+      {tab === 3 && engine && searchInputValue.length === 1 && (
+        <div className="flex-1 min-h-0 p-2 md:px-4 md:py-2">
+          <WordBox>
+            <WordBadge>{`${searchInputValue}에서 변환 가능한 글자`}</WordBadge>
+            <WordContent
+              wordInfo={changeableMap[engine.rule.changeableIdx](
+                searchInputValue
+              ).map((char) => ({
+                word: char,
+                type: engine.wordGraph.nodes[char]
+                  ? WCDisplay.reduceWordtype(
+                      engine.wordGraph.nodes[char].type as WordType
+                    )
+                  : "los",
+              }))}
+            />
+          </WordBox>
+          <Separator className="my-2" />
+          <WordBox>
+            <WordBadge>{`${josa(
+              searchInputValue,
+              "으로/로"
+            )} 변환 가능한 글자`}</WordBadge>
+            <WordContent
+              wordInfo={reverseChangeableMap[engine.rule.changeableIdx](
+                searchInputValue
+              ).map((char) => ({
+                word: char,
+                type: engine.wordGraph.nodes[char]
+                  ? (WCDisplay.reduceWordtype(
+                      engine.chanGraph.nodes[char].type as WordType
+                    ) as "win" | "los" | "route")
+                  : WCDisplay.getCharType(engine, char),
+              }))}
+            />
+          </WordBox>
+        </div>
       )}
     </>
   );

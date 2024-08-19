@@ -206,7 +206,7 @@ export const changeableMap: ((char: string) => string[])[] = [
 
     if (jung && jung in banjeonMap) {
       disassembled[1] = banjeonMap[jung];
-      // console.log(disassembled, char);
+      // @ts-ignore
       result.push(Hangul.assemble(disassembled));
     }
     return result;
@@ -247,6 +247,7 @@ export const changeableMap: ((char: string) => string[])[] = [
     if (cho && jong && Hangul.isCho(cho) && Hangul.isJong(jong)) {
       disassembled[0] = jong;
       disassembled[2] = cho;
+      // @ts-ignore
       result.push(Hangul.assemble(disassembled));
     }
     return result;
@@ -277,6 +278,7 @@ export const changeableMap: ((char: string) => string[])[] = [
 
     for (let chan1 of choChan) {
       for (let chan2 of jongChan) {
+        // @ts-ignore
         result.push(Hangul.assemble([chan1, jung, chan2].filter((e) => e)));
       }
     }
@@ -414,6 +416,7 @@ export const reverseChangeableMap: ((char: string) => string[])[] = [
 
     if (jung && jung in banjeonMap) {
       disassembled[1] = banjeonMap[jung];
+      // @ts-ignore
       result.push(Hangul.assemble(disassembled));
     }
     return result;
@@ -458,6 +461,7 @@ export const reverseChangeableMap: ((char: string) => string[])[] = [
     ) {
       disassembled[0] = jong;
       disassembled[2] = cho;
+      // @ts-ignore
       result.push(Hangul.assemble(disassembled));
     }
     return result;

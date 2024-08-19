@@ -59,12 +59,16 @@ export function WordButton({
   children,
   className,
   returning,
+
   endsWith,
+  loop,
 }: {
   children: string;
   className?: string;
   returning?: boolean;
+
   endsWith?: boolean;
+  loop?: boolean;
 }) {
   const [setExceptWords, exceptWords, setValue, engine, setSearchInputValue] =
     useWC((e) => [
@@ -99,9 +103,11 @@ export function WordButton({
     >
       <div>{children}</div>
       {returning && <RefreshCcw className="w-4 h-4" />}
-      {!returning && engine!.wordGraph.nodes[head].loop === tail && (
-        <RotateCcw className="w-4 h-4" />
-      )}
+      {loop === false &&
+        !returning &&
+        engine!.wordGraph.nodes[head].loop === tail && (
+          <RotateCcw className="w-4 h-4" />
+        )}
     </div>
   );
 }

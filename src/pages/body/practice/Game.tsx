@@ -1,10 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import Chat from "./Chat";
-import { strengths, useWC } from "@/lib/store/useWC";
-import { Input } from "@/components/ui/input";
-import { BotIcon, ChevronRight, Flag, Plus, SendHorizonal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { chatSplit, cn } from "@/lib/utils";
 import {
   Dialog,
   DialogContent,
@@ -14,9 +8,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { DialogClose } from "@radix-ui/react-dialog";
+import { Input } from "@/components/ui/input";
+import { strengths, useWC } from "@/lib/store/useWC";
+import { chatSplit, cn } from "@/lib/utils";
 import { changeableMap } from "@/lib/wc/hangul";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { ChevronRight, Flag, Plus, SendHorizonal } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
+import Chat from "./Chat";
 export default function Game() {
   const [currGame, isChatLoading] = useWC((e) => [e.currGame, e.isChatLoading]);
 

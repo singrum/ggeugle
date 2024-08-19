@@ -4,9 +4,8 @@ import { choice } from "../utils";
 import {
   getNextWords,
   getReachableNodes,
-  isWin,
   pruningWinLos,
-  pruningWinLosCir,
+  pruningWinLosCir
 } from "../wc/algorithms";
 
 import { getEngine } from "../wc/ruleUpdate";

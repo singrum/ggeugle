@@ -10,14 +10,12 @@ import {
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 } from "@/components/ui/table";
 import { useWC } from "@/lib/store/useWC";
-import { josa } from "es-hangul";
 
 export function ChangedCharsDialog({}: {}) {
   const [changeInfo, setValue, setSearchInputValue] = useWC((e) => [
