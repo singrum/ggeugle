@@ -2,6 +2,7 @@ import { strengths, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { BotIcon } from "lucide-react";
 import React from "react";
+import { RiRobot2Fill } from "react-icons/ri";
 
 export default function Chat({
   isMy,
@@ -19,7 +20,7 @@ export default function Chat({
           strengths[currGame!.strength].color
         )}
       >
-        <BotIcon />
+        <RiRobot2Fill className="h-6 w-6" />
       </div>
       <div className="flex-1 flex flex-col gap-1">
         <div className="text-xs text-muted-foreground">끄글봇</div>
@@ -27,7 +28,7 @@ export default function Chat({
           {children.map((e, i) => (
             <ChatContent
               key={i}
-              className={cn(`bg-muted text-foreground rounded-l-none`, {
+              className={cn(`bg-muted text-foreground rounded-l-sm`, {
                 "rounded-tl-xl": i === 0,
                 "rounded-bl-xl": i === children.length - 1,
               })}
@@ -43,7 +44,7 @@ export default function Chat({
       {children.map((e, i) => (
         <ChatContent
           key={i}
-          className={cn("bg-foreground text-background rounded-r-none", {
+          className={cn("bg-foreground text-background rounded-r-sm", {
             "rounded-tr-xl": i === 0,
             "rounded-br-xl": i === children.length - 1,
           })}

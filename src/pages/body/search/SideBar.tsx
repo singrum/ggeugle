@@ -38,7 +38,7 @@ export function SideBar() {
 export function Content() {
   const [order, setOrder] = useState<string>("0");
   return (
-    <div className="flex-1 overflow-auto px-2 pb-2 bg-background h-full">
+    <div className="flex-1 overflow-auto px-2 pb-2 bg-background h-full ">
       <div className="flex gap-2 justify-end pt-3">
         <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
           <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1">
@@ -199,18 +199,21 @@ function EndInN() {
                   <Separator className="my-2" />
                 </React.Fragment>
               ))}
-
-              <CharBox>
-                <CharBadge>{`조건부 승리`}</CharBadge>
-                <CharContent>
-                  {wcd.wincir.map((char) => (
-                    <CharButton type="win" key={char} className="text-win">
-                      {char}
-                    </CharButton>
-                  ))}
-                </CharContent>
-              </CharBox>
-              <Separator className="my-2" />
+              {wcd.wincir.length > 0 && (
+                <>
+                  <CharBox>
+                    <CharBadge>{`조건부 승리`}</CharBadge>
+                    <CharContent>
+                      {wcd.wincir.map((char) => (
+                        <CharButton type="win" key={char} className="text-win">
+                          {char}
+                        </CharButton>
+                      ))}
+                    </CharContent>
+                  </CharBox>
+                  <Separator className="my-2" />
+                </>
+              )}
             </div>
           )}
           {charMenu === 1 && (
@@ -230,46 +233,53 @@ function EndInN() {
                   <Separator className="my-2" />
                 </React.Fragment>
               ))}
-
-              <CharBox>
-                <CharBadge>{`조건부 패배`}</CharBadge>
-                <CharContent>
-                  {wcd.loscir.map((char) => (
-                    <CharButton type="los" key={char} className="text-los">
-                      {char}
-                    </CharButton>
-                  ))}
-                </CharContent>
-              </CharBox>
-              <Separator className="my-2" />
+              {wcd.loscir.length > 0 && (
+                <>
+                  <CharBox>
+                    <CharBadge>{`조건부 패배`}</CharBadge>
+                    <CharContent>
+                      {wcd.loscir.map((char) => (
+                        <CharButton type="los" key={char} className="text-los">
+                          {char}
+                        </CharButton>
+                      ))}
+                    </CharContent>
+                  </CharBox>
+                  <Separator className="my-2" />
+                </>
+              )}
             </div>
           )}
           {charMenu === 2 && (
             <div className="" id="route">
-              <CharBox>
-                <CharBadge>{`루트`}</CharBadge>
-                <CharContent className="gap-x-0 items-center">
-                  {wcd.route.map((scc, index) => (
-                    <React.Fragment key={index}>
-                      {scc.map((char, i) => (
-                        <CharButton
-                          type="route"
-                          className={cn(`text-route mr-1`, {
-                            "mr-0": i === scc.length - 1,
-                          })}
-                          key={char}
-                        >
-                          {char}
-                        </CharButton>
+              {wcd.route.length > 0 && (
+                <>
+                  <CharBox>
+                    <CharBadge>{`루트`}</CharBadge>
+                    <CharContent className="gap-x-0 items-center">
+                      {wcd.route.map((scc, index) => (
+                        <React.Fragment key={index}>
+                          {scc.map((char, i) => (
+                            <CharButton
+                              type="route"
+                              className={cn(`text-route mr-1`, {
+                                "mr-0": i === scc.length - 1,
+                              })}
+                              key={char}
+                            >
+                              {char}
+                            </CharButton>
+                          ))}
+                          <div className="text-muted-foreground/40">
+                            {index !== wcd.route.length - 1 ? `/` : undefined}
+                          </div>
+                        </React.Fragment>
                       ))}
-                      <div className="text-muted-foreground/40">
-                        {index !== wcd.route.length - 1 ? `/` : undefined}
-                      </div>
-                    </React.Fragment>
-                  ))}
-                </CharContent>
-              </CharBox>
-              <Separator className="my-2" />
+                    </CharContent>
+                  </CharBox>
+                  <Separator className="my-2" />
+                </>
+              )}
             </div>
           )}
         </>
@@ -296,7 +306,7 @@ export function CharMenu() {
   ]);
   const [sheetRef] = useSheet((e) => [e.sheetRef]);
   return (
-    <ul className="grid grid-cols-3 justify-center">
+    <ul className="grid grid-cols-3 justify-center border-b border-border">
       {charMenuList.map((e, i) => (
         <React.Fragment key={i}>
           <div
@@ -314,8 +324,8 @@ export function CharMenu() {
               }
             }}
             className={cn(
-              "flex justify-center items-center cursor-pointer py-2 border-b border-border overflow-hidden whitespace-nowrap",
-              { [`border-b-2 border-${e.color}`]: charMenu === i }
+              "flex justify-center items-center cursor-pointer border-b-2 border-transparent py-2 overflow-hidden whitespace-nowrap",
+              { [` border-${e.color}`]: charMenu === i }
             )}
           >
             <div

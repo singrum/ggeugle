@@ -77,13 +77,14 @@ export async function getEngine(ruleForm: RuleForm) {
   );
   wce.update();
   if (r.manner) {
-    const hanbang = wce.words.filter((e) => {
+    const mannerWords = wce.words.filter((e) => {
       const temp = wce.chanGraph.nodes[e.at(wce.rule.tailIdx)!];
 
-      return temp.endNum === 0 && temp.type === "los";
+      return !(temp.endNum === 0 && temp.type === "los");
     });
-
-    wce = wce.copy(hanbang);
+    wce = new WCEngine(r);
+    wce.words = mannerWords;
+    wce.update();
   }
 
   console.log("음절 분류 완료");

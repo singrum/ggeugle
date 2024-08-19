@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { changeableMap } from "@/lib/wc/hangul";
+import { RiRobot2Fill } from "react-icons/ri";
 export default function Game() {
   const [currGame, isChatLoading] = useWC((e) => [e.currGame, e.isChatLoading]);
 
@@ -229,7 +230,7 @@ function GameHeader() {
               strengths[currGame!.strength].color
             )}
           >
-            <BotIcon className="w-5 h-5" />
+            <RiRobot2Fill className="h-5 w-5" />
           </div>
           <div className="flex flex-col text-muted-foreground text-sm">
             {currGame!.strength === 0

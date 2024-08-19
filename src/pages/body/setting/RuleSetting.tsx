@@ -16,88 +16,91 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useMenu } from "@/lib/store/useMenu";
-import { cates, dicts, poses, RuleForm, useWC } from "@/lib/store/useWC";
+import { cates, dicts, poses, sampleRules, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import React, { Fragment, ReactNode, useRef, useState } from "react";
+import React, { Fragment, ReactNode, useState } from "react";
 import { SettnigMenu } from "./SettingMenu";
-import { ChevronLeft } from "lucide-react";
 
 const ruleGroup: { name: string; children: ReactNode[] }[] = [
   {
-    name: "단어 설정",
+    name: "단어",
     children: [
       <DictSetting />,
+      <RegexFilterSetting />,
       <PosSetting />,
       <CateSetting />,
-      <RegexFilterSetting />,
     ],
   },
   {
-    name: "연결 방법",
+    name: "연결 규칙",
     children: [<ChanSetting />, <HeadIdxSetting />, <TailIdxSetting />],
   },
   { name: "후처리", children: [<AddedWordsSetting />, <MannerSetting />] },
 ];
 
 export function RuleSetting() {
-  const [rule, setRuleForm, updateRule, sampleRules, setSampleRules] = useWC(
-    (state) => [
-      state.rule,
-      state.setRuleForm,
-      state.updateRule,
-      state.sampleRules,
-      state.setSampleRules,
-    ]
-  );
+  const [rule, setRuleForm, updateRule] = useWC((state) => [
+    state.rule,
+    state.setRuleForm,
+    state.updateRule,
+  ]);
 
   const setMenu = useMenu((state) => state.setMenu);
   const [ruleGroupMenu, setRuleGroupMenu] = useState<number>(0);
 
-  const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-
   return (
-    <div className="flex flex-col gap-4 md:gap-8">
-      <div className="flex items-center gap-2">
-        <div className="overflow-auto relative" ref={scrollRef}>
-          <div className="flex w-full min-w-0 gap-2 whitespace-nowrap pb-2">
+    <div className="flex flex-col ">
+      <div className="flex flex-col gap-3 bg-background py-4 md:py-4">
+        <div className="overflow-auto relative min-w-0">
+          <div className="flex w-full min-w-0 gap-2 whitespace-nowrap pb-2 px-2">
             {sampleRules.map(({ name, ruleForm }) => (
               <Fragment key={name}>
-                <div
+                <Button
+                  size="sm"
+                  className="gap-1"
+                  variant="secondary"
                   onClick={() => {
                     setRuleForm(ruleForm);
                     updateRule();
                     setMenu(0);
                   }}
-                  className="flex items-center justify-center rounded-full py-1 px-3 border border-border cursor-pointer hover:bg-muted transition-colors"
                 >
                   {name}
-                </div>
+                </Button>
               </Fragment>
             ))}
           </div>
         </div>
       </div>
-      {/* <Separator /> */}
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="md:w-[200px] flex gap-3 md:gap-2 flex-row md:flex-col">
+
+      <div className="flex flex-col md:flex-row">
+        <div className="md:w-[200px] flex gap-0 flex-row md:flex-col border-b border-border md:border-none px-4 md:px-0 bg-background">
           {ruleGroup.map(({ name }, i) => (
-            <div
-              key={i}
-              className={cn(
-                "text-lg md:text-base text-muted-foreground cursor-pointer pb-1",
-                {
-                  "transition-colors text-foreground font-semibold border-foreground border-b-2 md:border-b-0 ":
-                    ruleGroupMenu === i,
-                }
-              )}
-              onClick={() => setRuleGroupMenu(i)}
-            >
-              {name}
+            <div className="flex items-center">
+              <div
+                className={cn("w-1 rounded-full h-3/4 mr-1 hidden md:block", {
+                  "bg-primary": ruleGroupMenu === i,
+                })}
+              />
+
+              <div
+                key={i}
+                className={cn(
+                  "text-base text-muted-foreground cursor-pointer px-2 pb-1 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent",
+                  {
+                    "transition-colors text-foreground font-semibold border-foreground md:border-b-0 md:bg-accent":
+                      ruleGroupMenu === i,
+                  }
+                )}
+                onClick={() => setRuleGroupMenu(i)}
+              >
+                {name}
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-1">
+        <div className="flex flex-col md:flex-1 px-4 bg-muted/40 md:bg-background py-2 md:py-0">
           {ruleGroup[ruleGroupMenu].children.map((e, i) => (
             <Fragment key={i}>
               {e}
@@ -215,7 +218,7 @@ function CateSetting() {
   return (
     <SettnigMenu name="범주">
       <div>
-        <div className="text-sm text-muted-foreground mb-2">
+        <div className="text-xs text-muted-foreground mb-2">
           우리말샘일 때만 설정 가능
         </div>
         <div className="flex flex-wrap gap-1">
@@ -270,6 +273,7 @@ function ChanSetting() {
             "반전룰",
             "첸룰",
             "듭2룰",
+            "강제표준두음",
           ].map((e, i) => (
             <SelectItem className="text-xs" value={`${i}`} key={i}>
               {e}
@@ -361,7 +365,7 @@ function MannerSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettnigMenu name="매너">
+    <SettnigMenu name="한방단어 제거">
       <div className="flex items-center space-x-2 px-1">
         <Checkbox
           id="manner"
@@ -374,7 +378,7 @@ function MannerSetting() {
           htmlFor="manner"
           className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          한방단어 제거
+          적용
         </label>
       </div>
     </SettnigMenu>
@@ -442,7 +446,7 @@ const RegexExamples = [
   },
   {
     title: "2글자 단어",
-    content: String.raw`(.{2}|.{5})`,
+    content: String.raw`(.{2})`,
   },
   {
     title: "2글자 또는 5글자 단어",

@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 import { useWC } from "@/lib/store/useWC";
-import { Search } from "lucide-react";
+import { ArrowUp, CornerRightUp, Search } from "lucide-react";
 import { useEffect } from "react";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -20,41 +21,71 @@ export default function SearchInput() {
   useEffect(() => {
     debounced.cancel();
   }, [searchInputValue]);
-  return (
-    <div className="flex flex-col gap-2 relative">
-      <Input
-        className="rounded-full bg-muted text-md pl-10 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:bg-background focus-visible:border-primary"
-        value={value}
-        type="search"
-        placeholder="글자 또는 단어를 입력하세요."
-        onChange={(e) => {
-          e.preventDefault();
-          if (e.target.value[e.target.value.length - 1] === " ") {
-            if (engine) {
-              setValue("");
-              setSearchInputValue("");
-              const newExcept = value
-                .split(" ")
-                .filter(
-                  (word, i, arr) =>
-                    word.length > 0 &&
-                    arr.indexOf(word) === i &&
-                    !exceptWords.includes(word) &&
-                    engine!.words.includes(word)
-                );
-              if (newExcept.length > 0) {
-                const exceptWords_ = [...exceptWords, ...newExcept];
 
-                setExceptWords(exceptWords_);
+  return (
+    <div className="p-4 bg-background ">
+      <div className="relative">
+        <Input
+          className="drop-shadow-md border-none rounded-lg h-12 bg-accent text-md pl-10 pr-10 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-primary"
+          value={value}
+          type="search"
+          placeholder="글자 또는 단어를 입력하세요."
+          onKeyDown={(e) => {
+            if (e.code == "Enter") {
+              if (engine) {
+                setValue("");
+                setSearchInputValue("");
+                const newExcept = value
+                  .split(" ")
+                  .filter(
+                    (word, i, arr) =>
+                      word.length > 0 &&
+                      arr.indexOf(word) === i &&
+                      !exceptWords.includes(word) &&
+                      engine!.words.includes(word)
+                  );
+                if (newExcept.length > 0) {
+                  const exceptWords_ = [...exceptWords, ...newExcept];
+
+                  setExceptWords(exceptWords_);
+                }
               }
             }
-          } else {
-            debounced(e.target.value);
+          }}
+          onChange={(e) => {
+            e.preventDefault();
+
+            debounced(e.target.value.split(" ").at(-1));
             setValue(e.target.value);
-          }
-        }}
-      />
-      <Search className="text-foreground w-[1.2rem] h-[1.2rem] absolute left-3 top-[calc(50%-0.6rem)]" />
+          }}
+        />
+        <Search className="text-foreground w-[1.2rem] h-[1.2rem] absolute left-3 top-[calc(50%-0.6rem)]" />
+        <div className="flex items-center absolute right-3 top-[calc(50%-0.6rem)] gap-2">
+          <CornerRightUp
+            className="text-foreground w-[1.2rem] h-[1.2rem] cursor-pointer "
+            onClick={() => {
+              if (engine) {
+                setValue("");
+                setSearchInputValue("");
+                const newExcept = value
+                  .split(" ")
+                  .filter(
+                    (word, i, arr) =>
+                      word.length > 0 &&
+                      arr.indexOf(word) === i &&
+                      !exceptWords.includes(word) &&
+                      engine!.words.includes(word)
+                  );
+                if (newExcept.length > 0) {
+                  const exceptWords_ = [...exceptWords, ...newExcept];
+
+                  setExceptWords(exceptWords_);
+                }
+              }
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }

@@ -2,8 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { strengths, turns, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
+import { Bot } from "lucide-react";
 import React from "react";
 import { BsCpuFill } from "react-icons/bs";
+import { RiRobot2Fill } from "react-icons/ri";
 
 export default function GameSetting() {
   const [gameSettingForm, setGameSettingForm, getStarted] = useWC((e) => [
@@ -22,7 +24,13 @@ export default function GameSetting() {
             className={`rounded-lg p-2 flex items-center justify-center gap-2`}
           >
             <div>난이도:</div>
-            <div className={`${strengths[gameSettingForm.strength].color}`}>
+
+            <div
+              className={`${
+                strengths[gameSettingForm.strength].color
+              } flex gap-1 items-center`}
+            >
+              <RiRobot2Fill className="h-5 w-5" />
               {strengths[gameSettingForm.strength].name}
             </div>
           </div>

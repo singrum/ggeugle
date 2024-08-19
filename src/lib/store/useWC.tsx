@@ -13,7 +13,7 @@ import {
 } from "../wc/wordChain";
 import { choice } from "../utils";
 
-const sampleRules: { name: string; ruleForm: RuleForm }[] = [
+export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
   {
     name: "구엜룰",
     ruleForm: {
@@ -95,54 +95,6 @@ const sampleRules: { name: string; ruleForm: RuleForm }[] = [
     },
   },
   {
-    name: "반전룰",
-    ruleForm: {
-      dict: 0,
-      pos: [true, false, false, false, false, false, false, false],
-      cate: [true, true, true, true],
-      chan: 4,
-      headDir: 0,
-      headIdx: 1,
-      tailDir: 1,
-      tailIdx: 1,
-      manner: false,
-      regexFilter: ".*",
-      addedWords: "",
-    },
-  },
-  {
-    name: "첸룰",
-    ruleForm: {
-      dict: 0,
-      pos: [true, false, false, false, false, false, false, false],
-      cate: [true, true, true, true],
-      chan: 5,
-      headDir: 0,
-      headIdx: 1,
-      tailDir: 1,
-      tailIdx: 1,
-      manner: false,
-      regexFilter: ".*",
-      addedWords: "",
-    },
-  },
-  {
-    name: "듭2룰",
-    ruleForm: {
-      dict: 0,
-      pos: [true, false, false, false, false, false, false, false],
-      cate: [true, true, true, true],
-      chan: 6,
-      headDir: 0,
-      headIdx: 1,
-      tailDir: 1,
-      tailIdx: 1,
-      manner: false,
-      regexFilter: ".*",
-      addedWords: "",
-    },
-  },
-  {
     name: "표샘룰",
     ruleForm: {
       dict: 2,
@@ -191,11 +143,60 @@ const sampleRules: { name: string; ruleForm: RuleForm }[] = [
     },
   },
   {
+    name: "반전룰",
+    ruleForm: {
+      dict: 0,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, true, true, true],
+      chan: 4,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+  {
+    name: "첸룰",
+    ruleForm: {
+      dict: 0,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, true, true, true],
+      chan: 5,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+  {
+    name: "듭2룰",
+    ruleForm: {
+      dict: 0,
+      pos: [true, false, false, false, false, false, false, false],
+      cate: [true, true, true, true],
+      chan: 6,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+
+  {
     name: "천도룰",
     ruleForm: {
       dict: 1,
       pos: [true, false, false, false, false, false, false, true],
-      cate: [true, false, false, true],
+      cate: [true, false, false, false],
       chan: 1,
       headDir: 0,
       headIdx: 1,
@@ -222,7 +223,7 @@ const guelrule = {
 };
 export type changeInfo = Record<Char, { prevType: string; currType: string }>;
 
-export const dicts = ["(구)표국대", "(신)표국대", "우리말샘"];
+export const dicts = ["(구)표준국어대사전", "(신)표준국어대사전", "우리말샘"];
 
 export const poses = [
   "명사",
@@ -295,8 +296,6 @@ export interface WCInfo {
   ruleForm: RuleForm;
   setRuleForm: (ruleForm: RuleForm) => void;
   updateRule: () => void;
-  sampleRules: { name: string; ruleForm: RuleForm }[];
-  setSampleRules: (sampleRules: { name: string; ruleForm: RuleForm }[]) => void;
 
   // 연습
   currGame?: GameInfo;
@@ -312,13 +311,6 @@ export interface WCInfo {
 
   games: GameInfo[];
   setGames: (games: GameInfo[]) => void;
-
-  // 단어 클릭시 자동 금지단어 추가
-  isAutoExcept: boolean;
-  setIsAutoExcept: (isAutoExcept: boolean) => void;
-
-  // 탐색
-  startAnalysis: () => void;
 }
 
 export const useWC = create<WCInfo>((set, get) => ({
@@ -407,7 +399,7 @@ export const useWC = create<WCInfo>((set, get) => ({
                     document.getElementById("changed-char-dialog-open")?.click()
                   }
                 >
-                  {changedChars.slice(0, 3).map((char) => (
+                  {changedChars.slice(0, 1).map((char) => (
                     <div key={char}>
                       <span className="text-foreground">{char}</span>
                       {josa(char, "이/가").at(-1)}{" "}
@@ -435,9 +427,9 @@ export const useWC = create<WCInfo>((set, get) => ({
                       )}
                     </div>
                   ))}
-                  {changedChars.length > 3 && (
+                  {changedChars.length > 1 && (
                     <div className="hover:underline hover:text-foreground">
-                      외 {changedChars.length - 3}개 더보기
+                      외 {changedChars.length - 1}개 더보기
                     </div>
                   )}
                 </div>
@@ -534,8 +526,8 @@ export const useWC = create<WCInfo>((set, get) => ({
     }));
   },
 
-  rule: guelrule,
-  ruleForm: guelrule,
+  rule: sampleRules[0].ruleForm,
+  ruleForm: sampleRules[0].ruleForm,
   setRuleForm: (ruleForm: RuleForm) => set({ ruleForm }),
   updateRule: () => {
     const ruleForm = get().ruleForm;
@@ -558,15 +550,6 @@ export const useWC = create<WCInfo>((set, get) => ({
       action: "getEngine",
       data: ruleForm,
     });
-  },
-  sampleRules: sampleRules,
-  setSampleRules: (
-    sampleRules: {
-      name: string;
-      ruleForm: RuleForm;
-    }[]
-  ) => {
-    set({ sampleRules });
   },
 
   currGame: undefined,
@@ -617,6 +600,7 @@ export const useWC = create<WCInfo>((set, get) => ({
         },
       });
       set({
+        isChatLoading: true,
         currGame: {
           isFirst,
           strength: gameSettingForm.strength,
@@ -655,10 +639,4 @@ export const useWC = create<WCInfo>((set, get) => ({
     set(() => ({
       games,
     })),
-  isAutoExcept: Cookies.get("auto-except") === "true" ? true : false,
-  setIsAutoExcept: (isAutoExcept: boolean) => {
-    Cookies.set("auto-except", `${isAutoExcept}`);
-    set({ isAutoExcept });
-  },
-  startAnalysis: () => {},
 }));

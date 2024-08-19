@@ -14,9 +14,9 @@ export default function CharSheet() {
         skipInitialTransition
         defaultSnap={57}
         snapPoints={({ maxHeight }) => [
-          maxHeight - maxHeight / 15,
-          maxHeight * 0.4,
-          62,
+          maxHeight - maxHeight / 17.5,
+          maxHeight * 0.45,
+          66,
         ]}
         header={
           <div

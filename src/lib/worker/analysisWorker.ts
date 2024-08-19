@@ -19,11 +19,13 @@ export type payload = {
 };
 
 const analysis = ({
+  withStack,
   chanGraph,
   wordGraph,
   startChar,
   exceptWord,
 }: {
+  withStack: boolean;
   chanGraph: MultiDiGraph;
   wordGraph: MultiDiGraph;
   startChar: Char;
@@ -48,24 +50,27 @@ const analysis = ({
 
   const wordStack: Char[][] = [];
 
-  const winWord = isWin(
-    chanGraph,
-    wordGraph,
-    startChar,
-    (head, tail) => {
-      wordStack.push([head!, tail!]);
-      self.postMessage({ action: "stackChange", data: wordStack });
-    },
-    () => {
-      wordStack.pop();
-      self.postMessage({ action: "stackChange", data: wordStack });
-    }
-  );
+  const winWord = withStack
+    ? isWin(
+        chanGraph,
+        wordGraph,
+        startChar,
+        (head, tail) => {
+          wordStack.push([head!, tail!]);
+          self.postMessage({ action: "stackChange", data: wordStack });
+        },
+        () => {
+          wordStack.pop();
+          self.postMessage({ action: "stackChange", data: wordStack });
+        }
+      )
+    : isWin(chanGraph, wordGraph, startChar);
   //승리
   if (winWord) {
     self.postMessage({
       action: "end",
       data: {
+        word: exceptWord,
         win: true,
       },
     });
@@ -75,7 +80,7 @@ const analysis = ({
     self.postMessage({
       action: "end",
       data: {
-        // treeData,
+        word: exceptWord,
         win: false,
       },
     });
@@ -89,6 +94,7 @@ self.onmessage = (event) => {
     case "startAnalysis":
       analysis(
         data as {
+          withStack: boolean;
           chanGraph: MultiDiGraph;
           wordGraph: MultiDiGraph;
           startChar: Char;

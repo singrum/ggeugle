@@ -25,104 +25,206 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { getSCC } from "@/lib/wc/algorithms";
-import { WCDisplay } from "@/lib/wc/wordChain";
+import { WCDisplay, WCEngine } from "@/lib/wc/wordChain";
 import Header from "@/pages/header/Header";
 import { useMemo } from "react";
 import { Bar, BarChart, Pie, PieChart, XAxis, YAxis } from "recharts";
-
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function Statistics() {
-  const originalEngine = useWC((e) => e.originalEngine);
-  const isDesktop = useMediaQuery("(min-width: 768px)");
-  return originalEngine ? (
-    <>
-      <div className=" h-full bg-muted/40 min-h-0 overflow-auto">
-        {!isDesktop && <Header />}
-        <div className="flex flex-col p-5 gap-5">
-          <StatisticsHeader />
+  const [originalEngine, engine, exceptWords] = useWC((e) => [
+    e.originalEngine,
+    e.engine,
+    e.exceptWords,
+  ]);
 
-          <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-2">
-            {[
-              {
-                title: "글자 유형",
-                desc: "승리, 패배, 루트 글자로 분류",
-                content: <CharTypeChart />,
-              },
-              {
-                title: "승리 글자 세부 유형",
-                desc: "n턴 후 승리, 조건부 승리로 분류",
-                content: <WinCharTypeChart />,
-              },
-              {
-                title: "패배 글자 세부 유형",
-                desc: "n턴 후 패배, 조건부 패배로 분류",
-                content: <LosCharTypeChart />,
-              },
-              {
-                title: "루트 글자 세부 유형",
-                desc: "주요 루트 글자, 희귀 루트 글자로 분류",
-                content: <RouteCharTypeChart />,
-              },
-              {
-                title: "루트 수치 비교",
-                desc: "현재 룰과 구엜룰 비교",
-                content: <CompareRoute />,
-              },
-            ].map(({ title, desc, content }, i) => (
-              <Card className="flex flex-col gap-2" key={i}>
-                <CardHeader className="items-center pb-0">
-                  <CardTitle>{title}</CardTitle>
-                  <CardDescription>{desc}</CardDescription>
-                </CardHeader>
-                <CardContent className="flex items-center flex-1 justify-center">
-                  {content}
-                </CardContent>
-              </Card>
-            ))}
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  return (
+    originalEngine &&
+    engine && (
+      <>
+        <div className=" h-full bg-muted/40 min-h-0 overflow-auto">
+          {!isDesktop && <Header />}
+          <div className="flex w-full text-left p-3 md:p-5 justify-center">
+            {exceptWords.length > 0 ? (
+              <Tabs defaultValue="except" className="w-full">
+                <TabsList>
+                  <TabsTrigger value="except">단어 제외 시</TabsTrigger>
+                  <TabsTrigger value="original">원본 룰</TabsTrigger>
+                </TabsList>
+                <TabsContent value="except" className="p-0">
+                  <div className="flex flex-col gap-3 md:gap-5">
+                    <StatisticsHeader engine={engine} />
+
+                    <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-3">
+                      {[
+                        {
+                          title: "루트 수치 비교",
+                          desc: "현재 룰과 구엜룰 간 루트 글자 수, 루트 단어 수 비교",
+                          content: <CompareRoute engine={engine} />,
+                        },
+                        {
+                          title: "글자 유형",
+                          desc: "승리, 패배, 루트 글자로 분류",
+                          content: <CharTypeChart engine={engine} />,
+                        },
+                        {
+                          title: "승리 글자 세부 유형",
+                          desc: "n턴 후 승리, 조건부 승리로 분류",
+                          content: <WinCharTypeChart engine={engine} />,
+                        },
+                        {
+                          title: "패배 글자 세부 유형",
+                          desc: "n턴 후 패배, 조건부 패배로 분류",
+                          content: <LosCharTypeChart engine={engine} />,
+                        },
+                        {
+                          title: "루트 글자 세부 유형",
+                          desc: "주요 루트 글자, 희귀 루트 글자로 분류",
+                          content: <RouteCharTypeChart engine={engine} />,
+                        },
+                      ].map(({ title, desc, content }, i) => (
+                        <Card className="flex flex-col gap-2" key={i}>
+                          <CardHeader className="items-center pb-0">
+                            <CardTitle>{title}</CardTitle>
+                            <CardDescription>{desc}</CardDescription>
+                          </CardHeader>
+                          <CardContent className="flex items-center flex-1 justify-center">
+                            {content}
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                </TabsContent>
+                <TabsContent value="original" className="p-0">
+                  <div className="flex flex-col gap-3 md:gap-5">
+                    <StatisticsHeader engine={originalEngine} />
+
+                    <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-3">
+                      {[
+                        {
+                          title: "루트 수치 비교",
+                          desc: "현재 룰과 구엜룰 간 루트 글자 수, 루트 단어 수 비교",
+                          content: <CompareRoute engine={originalEngine} />,
+                        },
+                        {
+                          title: "글자 유형",
+                          desc: "승리, 패배, 루트 글자로 분류",
+                          content: <CharTypeChart engine={originalEngine} />,
+                        },
+                        {
+                          title: "승리 글자 세부 유형",
+                          desc: "n턴 후 승리, 조건부 승리로 분류",
+                          content: <WinCharTypeChart engine={originalEngine} />,
+                        },
+                        {
+                          title: "패배 글자 세부 유형",
+                          desc: "n턴 후 패배, 조건부 패배로 분류",
+                          content: <LosCharTypeChart engine={originalEngine} />,
+                        },
+                        {
+                          title: "루트 글자 세부 유형",
+                          desc: "주요 루트 글자, 희귀 루트 글자로 분류",
+                          content: (
+                            <RouteCharTypeChart engine={originalEngine} />
+                          ),
+                        },
+                      ].map(({ title, desc, content }, i) => (
+                        <Card className="flex flex-col gap-2" key={i}>
+                          <CardHeader className="items-center pb-0">
+                            <CardTitle>{title}</CardTitle>
+                            <CardDescription>{desc}</CardDescription>
+                          </CardHeader>
+                          <CardContent className="flex items-center flex-1 justify-center">
+                            {content}
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
+            ) : (
+              <div className="flex flex-col gap-3 md:gap-5 w-full">
+                <StatisticsHeader engine={originalEngine} />
+
+                <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-3">
+                  {[
+                    {
+                      title: "루트 수치 비교",
+                      desc: "현재 룰과 구엜룰 간 루트 글자 수, 루트 단어 수 비교",
+                      content: <CompareRoute engine={originalEngine} />,
+                    },
+                    {
+                      title: "글자 유형",
+                      desc: "승리, 패배, 루트 글자로 분류",
+                      content: <CharTypeChart engine={originalEngine} />,
+                    },
+                    {
+                      title: "승리 글자 세부 유형",
+                      desc: "n턴 후 승리, 조건부 승리로 분류",
+                      content: <WinCharTypeChart engine={originalEngine} />,
+                    },
+                    {
+                      title: "패배 글자 세부 유형",
+                      desc: "n턴 후 패배, 조건부 패배로 분류",
+                      content: <LosCharTypeChart engine={originalEngine} />,
+                    },
+                    {
+                      title: "루트 글자 세부 유형",
+                      desc: "주요 루트 글자, 희귀 루트 글자로 분류",
+                      content: <RouteCharTypeChart engine={originalEngine} />,
+                    },
+                  ].map(({ title, desc, content }, i) => (
+                    <Card className="flex flex-col gap-2" key={i}>
+                      <CardHeader className="items-center pb-0">
+                        <CardTitle>{title}</CardTitle>
+                        <CardDescription>{desc}</CardDescription>
+                      </CardHeader>
+                      <CardContent className="flex items-center flex-1 justify-center">
+                        {content}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
-      </div>
-    </>
-  ) : (
-    <></>
+      </>
+    )
   );
 }
 
-function CompareRoute() {
-  const originalEngine = useWC((e) => e.originalEngine);
+function CompareRoute({ engine }: { engine: WCEngine }) {
   const data = useMemo(() => {
-    if (originalEngine) {
-      const routeChars = Object.keys(originalEngine.chanGraph.nodes).filter(
-        (e) => originalEngine.chanGraph.nodes[e].type === "route"
-      );
-      const scc = getSCC(
-        originalEngine.chanGraph,
-        originalEngine.wordGraph,
-        routeChars
-      );
-      const maxRouteChars = scc.filter((e) => e.length >= 3).flat();
-      const heads = originalEngine.chanGraph.successors(maxRouteChars);
-      const chars = maxRouteChars.length;
-      const words = heads.reduce(
-        (acc, curr) =>
-          Object.keys(originalEngine.wordGraph._succ[curr]).reduce(
-            (acc2, curr2) => originalEngine.wordGraph._succ[curr][curr2] + acc2,
-            0
-          ) +
-          (originalEngine.wordGraph.nodes[curr].loop ? 1 : 0) +
-          acc,
-        0
-      );
+    const routeChars = Object.keys(engine.chanGraph.nodes).filter(
+      (e) => engine.chanGraph.nodes[e].type === "route"
+    );
+    const scc = getSCC(engine.chanGraph, engine.wordGraph, routeChars);
+    const maxRouteChars = scc.filter((e) => e.length >= 3).flat();
+    const heads = engine.chanGraph.successors(maxRouteChars);
+    const chars = maxRouteChars.length;
+    const words = heads.reduce(
+      (acc, curr) =>
+        Object.keys(engine.wordGraph._succ[curr]).reduce(
+          (acc2, curr2) => engine.wordGraph._succ[curr][curr2] + acc2,
+          0
+        ) +
+        (engine.wordGraph.nodes[curr].loop ? 1 : 0) +
+        acc,
+      0
+    );
 
-      return [
-        { data: "글자", "현재 룰": chars, 구엜룰: 88 },
-        { data: "단어", "현재 룰": words, 구엜룰: 597 },
-        {
-          data: "단어/글자",
-          "현재 룰": chars > 0 ? Math.round((words / chars) * 1000) / 1000 : 0,
-          구엜룰: 6.784,
-        },
-      ];
-    }
+    return [
+      { data: "글자", "현재 룰": chars, 구엜룰: 88 },
+      { data: "단어", "현재 룰": words, 구엜룰: 597 },
+      {
+        data: "단어/글자",
+        "현재 룰": chars > 0 ? Math.round((words / chars) * 1000) / 1000 : 0,
+        구엜룰: 6.784,
+      },
+    ];
   }, []);
   return (
     data && (
@@ -148,11 +250,10 @@ function CompareRoute() {
   );
 }
 
-function RouteCharTypeChart() {
-  const originalEngine = useWC((e) => e.originalEngine);
+function RouteCharTypeChart({ engine }: { engine: WCEngine }) {
   const chartData = useMemo(() => {
-    return originalEngine && WCDisplay.routeCharTypeChartData(originalEngine!);
-  }, [originalEngine]);
+    return WCDisplay.routeCharTypeChartData(engine);
+  }, [engine]);
   return (
     chartData &&
     (chartData.data[0].num > 0 || chartData.data[1].num > 0 ? (
@@ -182,20 +283,19 @@ function RouteCharTypeChart() {
   );
 }
 
-function StatisticsHeader() {
-  const originalEngine = useWC((e) => e.originalEngine);
+function StatisticsHeader({ engine }: { engine: WCEngine }) {
   return (
     <div className="flex gap-2 items-center">
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
-          {originalEngine?.words.length.toLocaleString()}
+          {engine.words.length.toLocaleString()}
         </div>
         <div>단어</div>
       </div>
       <div className="text-2xl">/</div>
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
-          {Object.keys(originalEngine!.chanGraph.nodes).length.toLocaleString()}
+          {Object.keys(engine.chanGraph.nodes).length.toLocaleString()}
         </div>
         <div>글자</div>
       </div>
@@ -203,11 +303,10 @@ function StatisticsHeader() {
   );
 }
 
-function CharTypeChart() {
-  const originalEngine = useWC((e) => e.originalEngine);
+function CharTypeChart({ engine }: { engine: WCEngine }) {
   const chartData = useMemo(() => {
-    return originalEngine && WCDisplay.charTypeChartData(originalEngine!);
-  }, [originalEngine]);
+    return WCDisplay.charTypeChartData(engine);
+  }, [engine]);
 
   const chartConfig: Record<string, { label: string; color?: string }> = {
     win: {
@@ -223,30 +322,35 @@ function CharTypeChart() {
     },
   } satisfies ChartConfig;
   return (
-    <ChartContainer
-      config={chartConfig}
-      className="aspect-square max-w-[300px] w-full"
-    >
-      <PieChart>
-        <ChartTooltip
-          cursor={false}
-          content={<ChartTooltipContent hideLabel />}
-        />
-        <ChartLegend content={<ChartLegendContent />} />
-        <Pie data={chartData!} dataKey="num" nameKey="type" strokeWidth={5} />
-      </PieChart>
-    </ChartContainer>
+    chartData &&
+    (!chartData.every(({ num }) => num === 0) ? (
+      <ChartContainer
+        config={chartConfig}
+        className="aspect-square max-w-[300px] w-full"
+      >
+        <PieChart>
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent hideLabel />}
+          />
+          <ChartLegend content={<ChartLegendContent />} />
+          <Pie data={chartData!} dataKey="num" nameKey="type" strokeWidth={5} />
+        </PieChart>
+      </ChartContainer>
+    ) : (
+      <div className="text-muted-foreground">글자가 없습니다.</div>
+    ))
   );
 }
 
-function WinCharTypeChart() {
-  const originalEngine = useWC((e) => e.originalEngine);
+function WinCharTypeChart({ engine }: { engine: WCEngine }) {
   const chartData = useMemo(() => {
-    return originalEngine && WCDisplay.winCharTypeChartData(originalEngine!);
-  }, [originalEngine]);
+    return WCDisplay.winCharTypeChartData(engine);
+  }, [engine]);
 
   return (
-    chartData && (
+    chartData &&
+    (!(chartData.data[0].endNum === "-1" && chartData.data[0].num === 0) ? (
       <ChartContainer config={chartData!.config} className="w-full">
         <BarChart
           accessibilityLayer
@@ -274,17 +378,19 @@ function WinCharTypeChart() {
           <Bar dataKey="num" radius={5} />
         </BarChart>
       </ChartContainer>
-    )
+    ) : (
+      <div className="text-muted-foreground">승리 글자가 없습니다.</div>
+    ))
   );
 }
-function LosCharTypeChart() {
-  const originalEngine = useWC((e) => e.originalEngine);
+function LosCharTypeChart({ engine }: { engine: WCEngine }) {
   const chartData = useMemo(() => {
-    return originalEngine && WCDisplay.losCharTypeChartData(originalEngine!);
-  }, [originalEngine]);
+    return WCDisplay.losCharTypeChartData(engine);
+  }, [engine]);
 
   return (
-    chartData && (
+    chartData &&
+    (!(chartData.data[0].endNum === "-1" && chartData.data[0].num === 0) ? (
       <ChartContainer config={chartData!.config} className="w-full">
         <BarChart
           accessibilityLayer
@@ -312,35 +418,8 @@ function LosCharTypeChart() {
           <Bar dataKey="num" radius={5} />
         </BarChart>
       </ChartContainer>
-    )
-  );
-}
-
-function ChartBox({
-  children,
-  className,
-  name,
-  description,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  name?: string;
-  description?: string;
-}) {
-  return (
-    <div
-      className={cn(
-        "border-border border rounded-lg bg-background p-3 flex flex-col h-[300px] gap-2",
-        className
-      )}
-    >
-      <div>
-        <div className="font-semibold">{name}</div>
-        <div className="text-muted-foreground text-sm">{description}</div>
-      </div>
-      <div className="min-h-0 h-full flex-1 flex justify-center flex-col">
-        {children}
-      </div>
-    </div>
+    ) : (
+      <div className="text-muted-foreground">패배 글자가 없습니다.</div>
+    ))
   );
 }

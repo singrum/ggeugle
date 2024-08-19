@@ -35,19 +35,19 @@ export function ChangedCharsDialog({}: {}) {
       </DialogTrigger>
       <DialogContent className="max-h-[80vh] min-h-0 overflow-auto  scrollbar-thin">
         <DialogHeader>
-          <DialogTitle>변경된 글자</DialogTitle>
+          <DialogTitle>최근에 변경된 글자</DialogTitle>
           <DialogDescription className="">
-            단어 추가 및 제외에 의해 유형이 변경된 글자들입니다.
+            단어 추가 및 제외에 의해 최근에 유형이 변경된 글자들입니다.
           </DialogDescription>
         </DialogHeader>
 
         {changedChars.length > 0 ? (
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">글자</TableHead>
-                <TableHead>변경 전</TableHead>
-                <TableHead>변경 후</TableHead>
+              <TableRow >
+                <TableHead className="w-[100px] text-center">글자</TableHead>
+                <TableHead className="text-center">변경 전</TableHead>
+                <TableHead className="text-center">변경 후</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -63,9 +63,11 @@ export function ChangedCharsDialog({}: {}) {
                       ?.click();
                   }}
                 >
-                  <TableCell className="font-medium">{char}</TableCell>
+                  <TableCell className="font-medium text-center">
+                    {char}
+                  </TableCell>
                   <TableCell>
-                    <div className="flex items-center justify-start">
+                    <div className="flex items-center justify-center">
                       <div
                         className={`flex items-center justify-center py-1 px-2 bg-${changeInfo[char].prevType} bg-${changeInfo[char].prevType}/10 rounded-full text-${changeInfo[char].prevType}`}
                       >
@@ -78,7 +80,7 @@ export function ChangedCharsDialog({}: {}) {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center justify-start">
+                    <div className="flex items-center justify-center">
                       <div
                         className={`flex items-center justify-center py-1 px-2 bg-${
                           changeInfo[char].currType

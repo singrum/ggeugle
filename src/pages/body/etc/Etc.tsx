@@ -6,8 +6,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Code, Database, History, LinkIcon } from "lucide-react";
+import { Code, Database, History, LinkIcon, Settings } from "lucide-react";
+import { RiSettings3Line } from "react-icons/ri";
+import PreferenceSetting from "./PreferenceSetting";
 const etcMenu = [
+  {
+    name: "환경 설정",
+    icon: <Settings />,
+    onClick_: () => {
+      document.getElementById("preference-setting-dialog-trigger")?.click();
+    },
+  },
+
   {
     name: "이전 버전",
     icon: <History />,
@@ -34,7 +44,7 @@ export default function Etc() {
   return (
     <>
       <div className="flex p-5 text-xl h-full w-full items-center justify-center">
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-5">
           {etcMenu.map(({ name, icon, onClick_ }) => (
             <div
               key={name}
@@ -48,6 +58,7 @@ export default function Etc() {
         </div>
       </div>
       <DBDilog />
+      <PreferenceDialog />
     </>
   );
 }
@@ -93,6 +104,26 @@ function DBDilog() {
             </div>
           ))}
         </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function PreferenceDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <button
+          id="preference-setting-dialog-trigger"
+          className="absolute hidden"
+        />
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>환경 설정</DialogTitle>
+          <DialogDescription></DialogDescription>
+        </DialogHeader>
+        <PreferenceSetting />
       </DialogContent>
     </Dialog>
   );

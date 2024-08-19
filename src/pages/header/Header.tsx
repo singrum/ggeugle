@@ -14,7 +14,12 @@ export default function Header() {
       )}
     >
       <div className="flex w-full justify-between p-2">
-        <div className="flex items-end gap-1">
+        <div
+          className="flex items-end gap-1"
+          onClick={() => {
+            location.reload();
+          }}
+        >
           <Logo />
           <div className="text-muted-foreground mb-1 text-xs">
             끝말잇기 검색기

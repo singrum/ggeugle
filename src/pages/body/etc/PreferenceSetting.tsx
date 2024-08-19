@@ -11,19 +11,47 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useWC } from "@/lib/store/useWC";
-import { SettnigMenu } from "./SettingMenu";
+import { SettnigMenu } from "../setting/SettingMenu";
+import { useCookieSettings } from "@/lib/store/useCookieSettings";
 
 export default function PreferenceSetting() {
-  const [isAutoExcept, setIsAutoExcept] = useWC((e) => [
+  const theme = useTheme();
+  const [
+    isAutoExcept,
+    setIsAutoExcept,
+    isSearchFlip,
+    setIsSearchFlip,
+    showToast,
+    setShowToast,
+  ] = useCookieSettings((e) => [
     e.isAutoExcept,
     e.setIsAutoExcept,
+    e.isSearchFlip,
+    e.setIsSearchFlip,
+    e.showToast,
+    e.setShowToast,
   ]);
 
   return (
     <div>
       <div className="flex flex-col">
         <SettnigMenu name="테마">
-          <ThemeDropdown />
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="theme"
+              onCheckedChange={(e: boolean) => {
+                theme.setTheme(e ? "dark" : "light");
+              }}
+              checked={
+                (theme.theme === "system"
+                  ? window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "dark"
+                    : "light"
+                  : theme.theme) === "dark"
+              }
+            />
+            <Label htmlFor="theme">다크모드</Label>
+          </div>
         </SettnigMenu>
         <Separator className="my-4" />
         <SettnigMenu name="단어 클릭 시 금지단어에 추가">
@@ -36,6 +64,32 @@ export default function PreferenceSetting() {
               checked={isAutoExcept}
             />
             <Label htmlFor="autoExcept">사용</Label>
+          </div>
+        </SettnigMenu>
+        <Separator className="my-4" />
+        <SettnigMenu name="검색 레이아웃 좌우반전">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="flip"
+              onCheckedChange={(e: boolean) => {
+                setIsSearchFlip(e);
+              }}
+              checked={isSearchFlip}
+            />
+            <Label htmlFor="flip">사용</Label>
+          </div>
+        </SettnigMenu>
+        <Separator className="my-4" />
+        <SettnigMenu name="글자 변경 시 알림창 보이기">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="showToast"
+              onCheckedChange={(e: boolean) => {
+                setShowToast(e);
+              }}
+              checked={showToast}
+            />
+            <Label htmlFor="showToast">사용</Label>
           </div>
         </SettnigMenu>
       </div>

@@ -5,6 +5,7 @@ import { RefreshCcw, RotateCcw } from "lucide-react";
 import { useWC } from "@/lib/store/useWC";
 
 import { WCDisplay } from "@/lib/wc/wordChain";
+import { useCookieSettings } from "@/lib/store/useCookieSettings";
 
 export function WordBox({
   children,
@@ -65,21 +66,15 @@ export function WordButton({
   returning?: boolean;
   endsWith?: boolean;
 }) {
-  const [
-    setExceptWords,
-    exceptWords,
-    setValue,
-    engine,
-    setSearchInputValue,
-    isAutoExcept,
-  ] = useWC((e) => [
-    e.setExceptWords,
-    e.exceptWords,
-    e.setValue,
-    e.engine,
-    e.setSearchInputValue,
-    e.isAutoExcept,
-  ]);
+  const [setExceptWords, exceptWords, setValue, engine, setSearchInputValue] =
+    useWC((e) => [
+      e.setExceptWords,
+      e.exceptWords,
+      e.setValue,
+      e.engine,
+      e.setSearchInputValue,
+    ]);
+  const [isAutoExcept] = useCookieSettings((e) => [e.isAutoExcept]);
   const head = children.at(engine!.rule.headIdx)!;
   const tail = children.at(engine!.rule.tailIdx)!;
   return (

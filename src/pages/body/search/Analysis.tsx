@@ -16,13 +16,13 @@ import { ChevronRight, LoaderCircle, RocketIcon } from "lucide-react";
 import { josa } from "es-hangul";
 import { cn } from "@/lib/utils";
 import { getNextWords } from "@/lib/wc/algorithms";
+import { useCookieSettings } from "@/lib/store/useCookieSettings";
 export default function Analysis() {
   const [
     searchInputValue,
     engine,
     setValue,
     setSearchInputValue,
-    isAutoExcept,
     exceptWords,
     setExceptWords,
   ] = useWC((e) => [
@@ -30,17 +30,16 @@ export default function Analysis() {
     e.engine,
     e.setValue,
     e.setSearchInputValue,
-    e.isAutoExcept,
     e.exceptWords,
     e.setExceptWords,
   ]);
+  const [isAutoExcept] = useCookieSettings((e) => [e.isAutoExcept]);
 
   const [wordStack, setWordStack] = useState<Word[]>([]);
 
   const [nextRoutesInfo, setNextRoutesInfo] = useState<
     { word: Word; win?: boolean }[] | undefined
   >();
-  const [currWord, setCurrWord] = useState<Word>();
   const worker = useRef<Worker>(null!);
 
   useEffect(() => {
@@ -79,6 +78,7 @@ export default function Analysis() {
             worker.current.postMessage({
               action: "startAnalysis",
               data: {
+                withStack: true,
                 chanGraph: engine!.chanGraph,
                 wordGraph: engine!.wordGraph,
                 startChar: nextRoutesInfo[endedWordIdx + 1].word.at(
@@ -135,6 +135,7 @@ export default function Analysis() {
     worker.current.postMessage({
       action: "startAnalysis",
       data: {
+        withStack: true,
         chanGraph: engine!.chanGraph,
         wordGraph: engine!.wordGraph,
         startChar: nextRoutesInfo_[0].word.at(engine!.rule.tailIdx),
@@ -158,7 +159,7 @@ export default function Analysis() {
 
   return (
     nextRoutesInfo && (
-      <div className="flex flex-col items-start gap-1">
+      <div className="flex flex-col items-start gap-1 mb-2">
         <Alert>
           <FaRegPlayCircle className="h-5 w-5" />
           <AlertTitle className="font-normal">
@@ -276,7 +277,7 @@ export default function Analysis() {
                 (e, i) => (
                   <Fragment key={i}>
                     <div>{e}</div>
-                    {i !== wordStack.length - 1 && (
+                    {i !== wordStack.length && (
                       <ChevronRight
                         className="text-muted-foreground w-4"
                         strokeWidth={1}

@@ -1,3 +1,4 @@
+import { shuffle } from "lodash";
 import { RuleForm } from "../store/useWC";
 import { choice } from "../utils";
 import {
@@ -37,6 +38,25 @@ const setWords = (exceptWords: Word[]) => {
   });
 };
 
+const postWord = (nextWords: Word[], exceptWords: Word[]) => {
+  const result = choice(nextWords!);
+  let isLos = false;
+
+  if (
+    exceptWords.length !== 0 &&
+    result &&
+    originalEngine!
+      .getNextWords(result.at(originalEngine!.rule.tailIdx))
+      .filter((e) => !exceptWords.includes(e) && e !== result).length === 0
+  ) {
+    isLos = true;
+  }
+  self.postMessage({
+    action: "getComputerMove",
+    data: { word: result, isLos },
+  });
+};
+
 const getComputerMove = ({
   exceptWords,
   currChar,
@@ -46,74 +66,189 @@ const getComputerMove = ({
   currChar: Char;
   strength: 0 | 1 | 2;
 }) => {
-  let nextWords: Word[];
   if (strength === 0) {
     if (currChar) {
-      nextWords = originalEngine!
+      const nextWords = originalEngine!
         .getNextWords(currChar)
         .filter((e) => !exceptWords.includes(e));
       if (exceptWords.length === 1) {
         nextWords.push(exceptWords[0]);
       }
+      postWord(nextWords, exceptWords);
+      return;
     } else {
-      nextWords = originalEngine!.words;
+      postWord(originalEngine!.words, exceptWords);
+      return;
     }
   } else {
     const engine = originalEngine?.copy(exceptWords);
-    if (currChar) {
-      switch (engine?.chanGraph.nodes[currChar].type!) {
-        case "wincir":
-        case "win":
-          const head = engine!.chanGraph.nodes[currChar].solution as Char;
-          const tail = engine!.wordGraph.nodes[head as string].solution as Char;
+    const analysisStart = (wordList: Word[]) => {
+      const nextRoutesInfo: { word: string; win?: string }[] = wordList.map(
+        (word) => ({ word })
+      );
+      const analysisWorker = new Worker(
+        new URL("./analysisWorker.ts", import.meta.url),
+        {
+          type: "module",
+        }
+      );
 
-          nextWords = engine!.wordMap.select(head, tail);
+      let timeout: undefined | NodeJS.Timeout;
 
-          // engine!.words.filter(
-          //   (e) =>
-          //     e.at(engine!.rule.headIdx) === head &&
-          //     e.at(engine!.rule.tailIdx) === tail
-          // );
-
-          break;
-        case "los":
+      const analysisNext = (
+        nextRoutesInfo: { word: Word; win?: string }[],
+        win: string
+      ) => {
+        const endedWordIdx = nextRoutesInfo.findIndex(
+          ({ win }) => win === undefined
+        );
+        // console.log(nextRoutesInfo, endedWordIdx);
+        if (endedWordIdx === -1) {
           if (exceptWords.length === 1) {
-            // 1턴 째일 때 단어 뺏기
-            nextWords = exceptWords;
+            postWord(exceptWords, exceptWords);
           } else {
-            nextWords = engine!
-              .getNextWords(currChar)
-              .filter(
-                (word) => WCDisplay.getWordType(engine!, word).type === "los"
-              );
+            postWord(
+              nextRoutesInfo.map((e) => e.word),
+              exceptWords
+            );
           }
-          break;
-        case "loscir":
-          if (exceptWords.length === 1) {
-            // 1턴 째일 때 단어 뺏기
-            nextWords = exceptWords;
-          } else {
-            nextWords = engine!
-              .getNextWords(currChar)
-              .filter(
-                (word) =>
-                  WCDisplay.getWordType(engine!, word).type === "loscir_return"
+
+          return;
+        }
+        nextRoutesInfo[endedWordIdx].win = win;
+        switch (nextRoutesInfo[endedWordIdx].win) {
+          case "true":
+          case "idk":
+            if (timeout) {
+              clearTimeout(timeout);
+            }
+
+            postWord([nextRoutesInfo[endedWordIdx].word], exceptWords);
+            analysisWorker.terminate();
+            return;
+          case "false":
+            if (timeout) {
+              clearTimeout(timeout);
+            }
+            timeout = setTimeout(() => {
+              analysisWorker.terminate();
+              analysisNext(nextRoutesInfo, "idk");
+            }, 3000);
+            if (endedWordIdx !== nextRoutesInfo.length - 1) {
+              analysisWorker.postMessage({
+                action: "startAnalysis",
+                data: {
+                  withStack: false,
+                  chanGraph: engine!.chanGraph,
+                  wordGraph: engine!.wordGraph,
+                  startChar: nextRoutesInfo[endedWordIdx + 1].word.at(
+                    engine!.rule.tailIdx
+                  ),
+                  exceptWord: [
+                    nextRoutesInfo[endedWordIdx + 1].word.at(
+                      engine!.rule.headIdx
+                    ),
+                    nextRoutesInfo[endedWordIdx + 1].word.at(
+                      engine!.rule.tailIdx
+                    ),
+                  ],
+                },
+              });
+            }
+            return;
+        }
+      };
+
+      analysisWorker.onmessage = ({ data }) => {
+        switch (data.action) {
+          case "end":
+            analysisNext(nextRoutesInfo, data.data.win ? "false" : "true");
+            return;
+        }
+      };
+
+      analysisWorker.postMessage({
+        action: "startAnalysis",
+        data: {
+          withStack: false,
+          chanGraph: engine!.chanGraph,
+          wordGraph: engine!.wordGraph,
+          startChar: nextRoutesInfo[0].word.at(engine!.rule.tailIdx),
+          exceptWord: [
+            nextRoutesInfo[0].word.at(engine!.rule.headIdx),
+            nextRoutesInfo[0].word.at(engine!.rule.tailIdx),
+          ],
+        },
+      });
+
+      timeout = setTimeout(() => {
+        analysisWorker.terminate();
+        analysisNext(nextRoutesInfo, "idk");
+      }, 3000);
+    };
+    if (currChar) {
+      if (!(engine?.chanGraph.nodes[currChar].type! === "route")) {
+        switch (engine?.chanGraph.nodes[currChar].type!) {
+          case "wincir":
+          case "win":
+            const head = engine!.chanGraph.nodes[currChar].solution as Char;
+            const tail = engine!.wordGraph.nodes[head as string]
+              .solution as Char;
+
+            postWord(engine!.wordMap.select(head, tail), exceptWords);
+            return;
+
+          case "los":
+            if (exceptWords.length === 1) {
+              // 1턴 째일 때 단어 뺏기
+
+              postWord(exceptWords, exceptWords);
+              return;
+            } else {
+              postWord(
+                engine!
+                  .getNextWords(currChar)
+                  .filter(
+                    (word) =>
+                      WCDisplay.getWordType(engine!, word).type === "los"
+                  ),
+                exceptWords
               );
-            if (nextWords.length === 0) {
-              nextWords = engine!
+              return;
+            }
+
+          case "loscir":
+            if (exceptWords.length === 1) {
+              // 1턴 째일 때 단어 뺏기
+
+              postWord(exceptWords, exceptWords);
+              return;
+            } else {
+              let nextWords = engine!
                 .getNextWords(currChar)
                 .filter(
                   (word) =>
-                    WCDisplay.getWordType(engine!, word).type === "loscir"
+                    WCDisplay.getWordType(engine!, word).type ===
+                    "loscir_return"
                 );
+
+              if (nextWords.length === 0) {
+                nextWords = engine!
+                  .getNextWords(currChar)
+                  .filter(
+                    (word) =>
+                      WCDisplay.getWordType(engine!, word).type === "loscir"
+                  );
+              }
+              postWord(nextWords, exceptWords);
             }
-          }
 
-          break;
-
-        case "route":
-          if (strength === 1) {
-            nextWords = getNextWords(
+            break;
+        }
+      } else {
+        if (strength === 1) {
+          postWord(
+            getNextWords(
               engine!.chanGraph,
               engine!.wordGraph,
               currChar
@@ -121,98 +256,68 @@ const getComputerMove = ({
               const head = word[0];
               const tail = word[1];
               return engine!.wordMap.select(head, tail);
-              // return engine!.words.filter(
-              //   (word) =>
-              //     word.at(engine!.rule.headIdx)! === head &&
-              //     word.at(engine!.rule.tailIdx)! === tail
-              // );
-            });
-          } else if (strength === 2) {
-            const reacheable = getReachableNodes(
-              engine!.chanGraph,
-              engine!.wordGraph,
-              currChar
-            );
-            const rootChanGraph = engine!.chanGraph.getSubgraph(reacheable);
-            const rootWordGraph = engine!.wordGraph.getSubgraph(reacheable);
-            pruningWinLos(rootChanGraph, rootWordGraph);
-            pruningWinLosCir(rootChanGraph, rootWordGraph);
+            }),
+            exceptWords
+          );
+        } else if (strength === 2) {
+          const reacheable = getReachableNodes(
+            engine!.chanGraph,
+            engine!.wordGraph,
+            currChar
+          );
+          const rootChanGraph = engine!.chanGraph.getSubgraph(reacheable);
+          const rootWordGraph = engine!.wordGraph.getSubgraph(reacheable);
+          pruningWinLos(rootChanGraph, rootWordGraph);
+          pruningWinLosCir(rootChanGraph, rootWordGraph);
 
-            const winWord = isWin(rootChanGraph, rootWordGraph, currChar);
-
-            if (winWord) {
-              console.log("승리 확정");
-              nextWords = engine!.wordMap.select(
-                winWord[0] as Char,
-                winWord[1] as Char
-              );
-              // nextWords = engine!.words.filter(
-              //   (e) =>
-              //     e.at(engine!.rule.headIdx) === winWord[0] &&
-              //     e.at(engine!.rule.tailIdx) === winWord[1] &&
-              //     !exceptWords.includes(e)
-              // );
-            } else {
-              console.log("패배 확정");
-              const word = choice(
-                getNextWords(
-                  engine!.chanGraph,
-                  engine!.wordGraph,
-                  currChar
-                ).map(({ word }) => word)
-              );
-              nextWords = engine!.wordMap.select(
-                word[0] as Char,
-                word[1] as Char
-              );
-              // nextWords = engine!.words.filter(
-              //   (e) =>
-              //     e.at(engine!.rule.headIdx) === word[0] &&
-              //     e.at(engine!.rule.tailIdx) === word[1] &&
-              //     !exceptWords.includes(e)
-              // );
-              // console.log(nextWords);
-            }
-          }
-          break;
+          analysisStart(
+            getNextWords(engine!.chanGraph, engine!.wordGraph, currChar, true)
+              .sort((a, b) => {
+                return a.moveNum! - b.moveNum!;
+              })
+              .map((e) => e.word)
+              .map(([head, tail]) => engine!.wordMap.select(head, tail)[0])
+          );
+        }
       }
     } else {
       // 컴퓨터가 선공인 경우
       if (strength === 1) {
-        nextWords = Object.keys(engine!.chanGraph.nodes).flatMap((char) =>
-          engine!.chanGraph.nodes[char].type === "route"
-            ? engine!
-                .getNextWords(char)
-                .filter(
-                  (word) =>
-                    WCDisplay.reduceWordtype(
-                      WCDisplay.getWordType(engine!, word).type as WordType
-                    ) === "route"
-                )
-            : []
+        postWord(
+          Object.keys(engine!.chanGraph.nodes).flatMap((char) =>
+            engine!.chanGraph.nodes[char].type === "route"
+              ? engine!
+                  .getNextWords(char)
+                  .filter(
+                    (word) =>
+                      WCDisplay.reduceWordtype(
+                        WCDisplay.getWordType(engine!, word).type as WordType
+                      ) === "route"
+                  )
+              : []
+          ),
+          exceptWords
         );
       } else if (strength === 2) {
+        const routeChars = new Set([
+          ...Object.keys(engine!.chanGraph.nodes),
+          ...Object.keys(engine!.wordGraph.nodes),
+        ]);
+        engine!.chanGraph.getSubgraph(routeChars);
+        engine!.wordGraph.getSubgraph(routeChars);
+
+        analysisStart(
+          shuffle(
+            engine!.wordGraph
+              .edges()
+              .map(([head, tail]) => engine!.wordMap.select(head, tail)[0])
+          )
+        );
       }
     }
   }
 
   // 다음으로 올 단어가 없는지 체크(사용자가 패배했는지 체크)
-  const result = choice(nextWords!);
-  let isLos = false;
-
-  if (
-    result &&
-    originalEngine!
-      .getNextWords(result.at(originalEngine!.rule.tailIdx))
-      .filter((e) => !exceptWords.includes(e)).length === 0
-  ) {
-    isLos = true;
-  }
-
-  self.postMessage({
-    action: "getComputerMove",
-    data: { word: result, isLos },
-  });
 };
 
 self.onmessage = (event) => {

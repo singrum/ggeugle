@@ -35,7 +35,12 @@ function App() {
             {isDesktop && (
               <div className="flex flex-col h-full items-center lg:items-start justify-between border-border border-r prevent-select p-2 overflow-auto scrollbar-none min-h-0">
                 <div className="flex flex-col items-center lg:items-start">
-                  <div className=" mb-1">
+                  <div
+                    className=" mb-1"
+                    onClick={() => {
+                      location.reload();
+                    }}
+                  >
                     <Logo />
                     <div className="hidden lg:block text-muted-foreground mb-1 text-xs">
                       끝말잇기 검색기

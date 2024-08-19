@@ -5,9 +5,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useWC } from "@/lib/store/useWC";
+import { TbStatusChange } from "react-icons/tb";
 import {
   Ban,
   Clipboard,
+  Ellipsis,
   EllipsisVertical,
   LoaderCircle,
   Replace,
@@ -16,6 +18,13 @@ import {
 } from "lucide-react";
 import { Toaster } from "react-hot-toast";
 import { ChangedCharsDialog } from "./ChangedCharsDialog";
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
+import { useCookieSettings } from "@/lib/store/useCookieSettings";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Fragment } from "react/jsx-runtime";
+
 export default function ExceptWordsDisplay() {
   const [
     setValue,
@@ -24,6 +33,7 @@ export default function ExceptWordsDisplay() {
     setExceptWords,
     engine,
     isLoading,
+    changeInfo,
   ] = useWC((e) => [
     e.setValue,
     e.setSearchInputValue,
@@ -31,68 +41,61 @@ export default function ExceptWordsDisplay() {
     e.setExceptWords,
     e.engine,
     e.isLoading,
+    e.changeInfo,
   ]);
-  return (
-    <div className="border border-border rounded-xl flex flex-col">
-      <div className="flex justify-between p-2 items-center">
-        <div className="flex gap-1 ">
-          <div className="gap-2 pl-8 relative">
-            <Ban
-              className="w-4 h-4 absolute top-[0.5rem] left-[0.5rem]"
-              strokeWidth={1.5}
-            />
-            <div className="flex flex-col">
-              <div>제외된 단어 목록</div>
-              <div className="text-muted-foreground text-sm">
-                띄어쓰기로 구분, 엔터로 추가
-              </div>
-            </div>
-          </div>
-        </div>
+  const [showToast] = useCookieSettings((e) => [e.showToast]);
 
-        <ChangedCharsDialog />
-        <DropdownMenu>
-          <DropdownMenuTrigger className="relative focus-visible:outline-none w-6 h-8 flex items-center">
-            <div className="w-6 h-8">
-              <EllipsisVertical strokeWidth={1.5} className="w-6 h-6" />
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem
-              onClick={() =>
-                exceptWords.length > 0 && engine && setExceptWords([])
-              }
-            >
-              <Trash2 className="w-4 h-4" />
-              비우기
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  return (
+    <div className="flex flex-col gap-2 px-3 md:p-4 py-2 bg-background">
+      <div className="flex justify-between gap-1 items-center">
+        <div>
+          <ChangedCharsDialog />
+          제외된 단어
+        </div>
+        <div className="flex items-center gap-2">
+          {[
+            {
+              icon: <Trash2 className="w-[1.1rem] h-[1.1rem]" />,
+              onClick: () => {
+                exceptWords.length > 0 && engine && setExceptWords([]);
+              },
+            },
+            {
+              icon: <Clipboard className="w-[1.1rem] h-[1.1rem]" />,
+              onClick: () => {
                 if (exceptWords.length > 0) {
                   navigator.clipboard.writeText(exceptWords.join(" "));
                 }
-              }}
-            >
-              <Clipboard className="w-4 h-4" />
-              클립보드에 복사
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
+              },
+            },
+            {
+              icon: <TbStatusChange className="w-[1.1rem] h-[1.1rem]" />,
+              onClick: () => {
                 document.getElementById("changed-char-dialog-open")?.click();
-              }}
-            >
-              <Replace className="w-4 h-4" />
-              변경된 글자 보기
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+              },
+            },
+          ].map(({ icon, onClick }, i) => (
+            <div key={i} className="relative">
+              <div
+                className="cursor-pointer hover:bg-accent p-[0.375rem] rounded-md border border-border transition-colors text-muted-foreground"
+                onClick={onClick}
+              >
+                {icon}
+              </div>
+              {i === 2 && Object.keys(changeInfo).length > 0 && (
+                <div className="absolute w-2 h-2 rounded-full bg-primary top-0" />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="flex flex-wrap gap-x-1 gap-y-1 items-center p-2">
+      <div className="flex flex-wrap gap-x-1 gap-y-1 items-center">
         {exceptWords.length > 0 ? (
           exceptWords.map((e) => (
             <div
-              className="transition-colors hover:border-foreground  rounded-full flex px-1 items-center gap-1 border border-foreground/40 cursor-pointer"
+              className="transition-colors hover:border-foreground  rounded-full flex px-1 items-center border border-foreground/40 cursor-pointer"
               key={e}
               onClick={() => {
                 const tail = e.at(engine!.rule.tailIdx)!;
@@ -123,7 +126,8 @@ export default function ExceptWordsDisplay() {
         )}
       </div>
       <Toaster
-        position={"top-right"}
+        containerClassName={cn({ hidden: !showToast })}
+        position={isDesktop ? "bottom-right" : "top-right"}
         toastOptions={{
           className: "bg-background border border-border text-foreground ",
         }}

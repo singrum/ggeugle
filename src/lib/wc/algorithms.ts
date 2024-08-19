@@ -1,7 +1,6 @@
-import { cloneDeep } from "lodash";
-import { arrayToKeyMap } from "../utils";
+import { arraysEqual, arrayToKeyMap } from "../utils";
 import { MultiDiGraph } from "./multidigraph";
-import { Char, Word } from "./wordChain";
+import { Char } from "./wordChain";
 
 export function pruningWinLos(
   chanGraph: MultiDiGraph,
@@ -91,6 +90,21 @@ export function pruningWinLos(
   return;
 }
 
+export function getSingleChars(chanGraph: MultiDiGraph) {
+  const chars = Object.keys(chanGraph.nodes).filter(
+    (e) => !chanGraph.nodes[e].type
+  );
+  return chars.filter((char) => {
+    const temp = chanGraph
+      .predecessors(char)
+      .map((pred) =>
+        chanGraph.successors(pred).filter((e) => !chanGraph.nodes[e].type)
+      )
+      .sort();
+    return temp.every((arr) => arraysEqual(arr, temp[0]));
+  });
+}
+
 export function pruningWinLosCir(
   chanGraph: MultiDiGraph,
   wordGraph: MultiDiGraph
@@ -113,19 +127,7 @@ export function pruningWinLosCir(
     (e) => !wordGraph.nodes[e].type
   );
 
-  const singleCharCounter = arrayToKeyMap(
-    Object.keys(chanGraph.nodes).filter((e) => !chanGraph.nodes[e].type),
-    (e: string) => chanGraph.predecessors(e).length
-  );
-
-  for (let char in singleCharCounter) {
-    if (
-      chanGraph.successors(char).filter((e) => !chanGraph.nodes[e].type)
-        .length === 1
-    ) {
-      singleCharCounter[chanGraph.successors(char)[0]]--;
-    }
-  }
+  const singleChars: Set<string> = new Set(getSingleChars(chanGraph));
 
   const returnWordGraph = new MultiDiGraph();
 
@@ -135,8 +137,8 @@ export function pruningWinLosCir(
 
       if (
         !returnPair ||
-        singleCharCounter[head] !== 0 ||
-        singleCharCounter[returnPair[0]] !== 0
+        !singleChars.has(head) ||
+        !singleChars.has(returnPair[0])
       )
         continue;
       const [pairHead, pairTail] = returnPair;
@@ -237,14 +239,6 @@ export function pruningWinLosCir(
     }
     wordWin = [...wordWinLoop, ...wordWinNoLoop];
 
-    //
-    // chanWin = chanGraph.predecessors(wordWin);
-    // chanGraph.removeOutEdge(chanWin);
-    // chanWin.forEach((e) => {
-    //   chanGraph.nodes[e].type = "wincir";
-    // });
-    //
-
     chanWin = [];
     chanGraph.forEachPreds(wordWin, (node, pred) => {
       chanWin.push(pred);
@@ -261,9 +255,6 @@ export function pruningWinLosCir(
       chanGraph.nodes[e].type = "loscir";
     });
   }
-  // Object.keys(chanGraph).forEach((char) => {
-  //   !chanGraph.nodes[char].type;
-  // });
   for (let char in chanGraph.nodes) {
     if (!chanGraph.nodes[char].type) {
       chanGraph.nodes[char].type = "route";
@@ -420,7 +411,6 @@ export function isWin(
   chanGraph: MultiDiGraph,
   wordGraph: MultiDiGraph,
   currChar: Char,
-
   pushCallback?: (head?: Char, tail?: Char) => void,
   popCallback?: (head?: Char, tail?: Char, win?: boolean) => void
 ) {
@@ -441,6 +431,7 @@ export function isWin(
   }
 
   const nextWords = getNextWords(chanGraph, wordGraph, currChar, true);
+
   nextWords.sort((a, b) => {
     return a.moveNum! - b.moveNum!;
   });

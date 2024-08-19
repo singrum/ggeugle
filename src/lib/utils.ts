@@ -43,3 +43,27 @@ export function chatSplit(chats: Chat[]) {
 
   return result;
 }
+
+export function mex(arr: number[]) {
+  const seen = new Set();
+
+  for (let i = 0; i < arr.length; i++) {
+    seen.add(arr[i]);
+  }
+
+  for (let i = 1; i <= arr.length + 1; i++) {
+    if (!seen.has(i)) return i;
+  }
+
+  return 1;
+}
+
+export function arraysEqual(a: string[], b: string[]) {
+  if (a === b) return true;
+  if (a.length !== b.length) return false;
+
+  for (var i = 0; i < a.length; ++i) {
+    if (a[i] !== b[i]) return false;
+  }
+  return true;
+}

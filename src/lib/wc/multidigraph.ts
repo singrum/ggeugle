@@ -28,6 +28,16 @@ export class WordMap {
     this._succ[start][end].push(word);
     this._pred[end][start].push(word);
   }
+  removeWord(start: string, end: string, word: string) {
+    this._succ[start][end] = this._succ[start][end].filter((e) => e !== word);
+    this._pred[end][start] = this._succ[end][start].filter((e) => e !== word);
+    if (this._succ[start][end].length === 0) {
+      delete this._succ[start][end];
+    }
+    if (this._pred[end][start].length === 0) {
+      delete this._pred[end][start];
+    }
+  }
   select(start: string, end: string) {
     return this._succ[start][end];
   }
@@ -48,7 +58,11 @@ export class MultiDiGraph {
     this._pred = {};
     this.nodes = {};
   }
-
+  edges() {
+    return Object.keys(this.nodes).flatMap((node) =>
+      Object.keys(this._succ[node]).map((tail) => [node, tail])
+    );
+  }
   addEdge(start: string, end: string, num: number = 1) {
     this.nodes[start] = {};
     this.nodes[end] = {};
@@ -69,6 +83,20 @@ export class MultiDiGraph {
     }
     this._succ[start][end] += num;
     this._pred[end][start] += num;
+  }
+  addNode(node: string | string[]) {
+    if (typeof node === "string") {
+      node = [node];
+    }
+    node.forEach((n) => {
+      if (!this.nodes[n]) {
+        this.nodes[n] = {};
+        if (!this._succ[n]) {
+          this._succ[n] = {};
+          this._pred[n] = {};
+        }
+      }
+    });
   }
 
   predecessors(node: string | string[]) {

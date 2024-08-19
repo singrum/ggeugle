@@ -1,3 +1,4 @@
+import { cloneDeep } from "lodash";
 import { arrayToKeyMap, pushObject } from "../utils";
 import {
   getReachableNodes,
@@ -34,7 +35,6 @@ export class WCEngine {
   wordGraph: MultiDiGraph;
   chanGraph: MultiDiGraph;
   returnWordGraph: MultiDiGraph;
-  
 
   constructor(rule: WCRule, words?: Word[], manner?: false) {
     this.rule = rule;
@@ -43,7 +43,6 @@ export class WCEngine {
     this.wordGraph = new MultiDiGraph();
     this.chanGraph = new MultiDiGraph();
     this.returnWordGraph = undefined!;
-    
   }
 
   update() {
@@ -55,8 +54,9 @@ export class WCEngine {
     }
 
     for (let char in this.wordGraph.nodes) {
+      this.chanGraph.addNode(char);
       changeableMap[this.rule.changeableIdx](char)
-        .filter((e) => this.wordGraph.nodes[e])
+        .filter((e) => this.wordGraph.nodes[e] !== undefined)
         .forEach((chan) => {
           this.chanGraph.addEdge(char, chan);
         });
@@ -73,12 +73,32 @@ export class WCEngine {
       .filter((e) => this.chanGraph.nodes[e])
       .flatMap((char) => this.wordMap.outWords(char));
   }
+  getBestNextLosWord(char: Char) {
+    const nexts = this.getNextWords(char);
+
+    return nexts.filter(
+      (e) => this.chanGraph.nodes[e.at(this.rule.tailIdx)!].type === "route"
+    );
+  }
 
   copy(except?: string[]): WCEngine {
     const engine = new WCEngine(this.rule, this.words);
 
     if (except && except.length > 0) {
       engine.words = this.words!.filter((e) => !except.includes(e));
+      engine.chanGraph.addNode(
+        except.flatMap((word) => [
+          word.at(this.rule.headIdx)!,
+          word.at(this.rule.tailIdx)!,
+        ])
+      );
+      engine.wordGraph.addNode(
+        except.flatMap((word) => [
+          word.at(this.rule.headIdx)!,
+          word.at(this.rule.tailIdx)!,
+        ])
+      );
+
       engine.update();
     } else {
       engine.wordGraph = this.wordGraph;
@@ -600,17 +620,44 @@ export class WCDisplay {
     }
 
     function getWincirTree(
-      winWord: Word // winWord
+      winWord: Word, // winWord
+      exceptWords: string[]
     ) {
       const tree: TreeData = { name: winWord, children: [] };
+
       const tail = winWord.at(engine.rule.tailIdx)!;
+      const chanSucc = changeableMap[engine.rule.changeableIdx](char).filter(
+        (e) => engine.chanGraph.nodes[e]
+      );
+
+      const returnWords: Record<Char, number> = [...chanSucc].reduce(
+        (acc, curr) => ({ ...acc, ...engine.returnWordGraph._succ[curr] }),
+        {}
+      );
+
       const losWords = engine
         .getNextWords(tail)
         .filter(
           (e) =>
-            engine.chanGraph.nodes[e.at(engine.rule.tailIdx)!].type ===
-              "wincir" && e !== winWord
-        );
+            engine.chanGraph.nodes[e.at(engine.rule.tailIdx)!].type === "wincir"
+        )
+        .filter((word) => {
+          if (returnWords[word.at(engine.rule.tailIdx)!]) {
+            returnWords[word.at(engine.rule.tailIdx)!]--;
+            return false;
+          } else {
+            return true;
+          }
+        })
+        .filter(
+          (word, i, arr) =>
+            arr.find(
+              (e) =>
+                e.at(engine.rule.headIdx) === word.at(engine.rule.headIdx) &&
+                e.at(engine.rule.tailIdx) === word.at(engine.rule.tailIdx)
+            ) === word
+        )
+        .filter((word) => !exceptWords.includes(word));
 
       losWords.sort(
         (a, b) =>
@@ -620,7 +667,7 @@ export class WCDisplay {
       );
 
       for (let losWord of losWords) {
-        tree.children!.push(getLoscirTree(losWord));
+        tree.children!.push(getLoscirTree(losWord, [...exceptWords, losWord]));
       }
       if (losWords.length === 0) {
         delete tree.children;
@@ -628,15 +675,14 @@ export class WCDisplay {
       return tree;
     }
 
-    function getLoscirTree(losWord: Word): TreeData {
-      console.log(losWord);
+    function getLoscirTree(losWord: Word, exceptWords: string[]): TreeData {
       const tree: TreeData = { name: losWord, children: [] };
       const tail = losWord.at(engine.rule.tailIdx)!;
       const chanSol = engine.chanGraph.nodes[tail].solution as Char;
       const wordSol = engine.wordGraph.nodes[chanSol].solution as Char;
       const winWord = engine.wordMap.select(chanSol, wordSol)[0];
-      console.log(winWord);
-      tree.children!.push(getWincirTree(winWord));
+
+      tree.children!.push(getWincirTree(winWord, [...exceptWords, winWord]));
       return tree;
     }
 
@@ -646,98 +692,12 @@ export class WCDisplay {
       case "los":
         return getWinTree(char);
       case "wincir":
-        return getLoscirTree(char);
+        return getLoscirTree(char, []);
       case "loscir":
-        return getWincirTree(char);
+        return getWincirTree(char, []);
     }
   }
 }
-
-// export class RouteAnalyzer {
-//   rootChanGraph: MultiDiGraph;
-//   rootWordGraph: MultiDiGraph;
-//   rootEngine: WCEngine;
-//   currChar: Char;
-
-//   constructor(engine: WCEngine, char: Char) {
-//     this.currChar = char;
-//     this.rootEngine = engine;
-//     const reacheable = getReachableNodes(
-//       engine.chanGraph,
-//       engine.wordGraph,
-//       char
-//     );
-//     this.rootChanGraph = engine.chanGraph.getSubgraph(reacheable);
-//     this.rootWordGraph = engine.wordGraph.getSubgraph(reacheable);
-//     this.rootChanGraph.clearNodeInfo();
-//     this.rootWordGraph.clearNodeInfo();
-//     pruningWinLos(this.rootChanGraph, this.rootWordGraph);
-//     pruningWinLosCir(this.rootChanGraph, this.rootWordGraph);
-//     console.log(this.rootChanGraph);
-
-//     // const win = isWin(this.rootChanGraph, this.rootWordGraph, char);
-//   }
-
-//   // getPriorities(engine: WCEngine, char: string) {
-//   //   const result: Record<Word, number> = {};
-
-//   //   for (let word of engine.charInfo[char].outWords) {
-//   //     result[word] = Infinity;
-//   //   }
-
-//   //   const paths = engine.getShortestPaths(char);
-
-//   //   for (let goal of Object.keys(engine.charInfo)) {
-//   //     if (paths[goal].pathStart) {
-//   //       const value =
-//   //         engine.charInfo[goal].outWords.filter(
-//   //           (e) =>
-//   //             !engine.charInfo[goal].returnWords?.has(e) &&
-//   //             !engine.charInfo[goal].loopWords?.has(e)
-//   //         ).length + paths[goal].length!;
-
-//   //       if (result[paths[goal].pathStart] > value) {
-//   //         result[paths[goal].pathStart] = value;
-//   //       }
-//   //     }
-//   //   }
-//   //   return result;
-//   // }
-//   // isWin(engine: WCEngine, char: string) {
-//   //   if (!engine.charInfo[char]) {
-//   //     console.log(engine, char);
-//   //   }
-//   //   if (
-//   //     engine.charInfo[char].type === "win" ||
-//   //     engine.charInfo[char].type === "wincir"
-//   //   ) {
-//   //     return true;
-//   //   } else if (
-//   //     engine.charInfo[char].type === "los" ||
-//   //     engine.charInfo[char].type === "loscir"
-//   //   ) {
-//   //     return false;
-//   //   }
-//   //   const priorities = this.getPriorities(engine, char);
-//   //   const nexts = Object.keys(priorities).sort(
-//   //     (a, b) => priorities[a] - priorities[b]
-//   //   );
-//   //   // console.log(nexts);
-//   //   for (let next of nexts) {
-//   //     // console.log(next);
-//   //     const nextEngine = this.getReducedEngine(
-//   //       engine.copy([next]).update(),
-//   //       next.at(engine.rule.tailIdx)!
-//   //     );
-//   //     // console.log(nextEngine.words);
-//   //     if (!this.isWin(nextEngine, next.at(engine.rule.tailIdx)!)) {
-//   //       return true;
-//   //     }
-//   //     console.log(nextEngine, next);
-//   //   }
-//   //   return false;
-//   // }
-// }
 
 export function objToInstance(obj: WCEngine): WCEngine {
   const result = new WCEngine(obj.rule, obj.words);

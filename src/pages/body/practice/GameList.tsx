@@ -2,12 +2,13 @@ import { GameInfo, strengths, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { Bot, ChevronRight, Clipboard, ClipboardCheck, X } from "lucide-react";
 import React, { useState } from "react";
+import { RiRobot2Fill } from "react-icons/ri";
 
 export default function GameList() {
   const [currGame, games] = useWC((e) => [e.currGame, e.games]);
   return (
     <div
-      className={cn("w-full flex flex-col-reverse gap-2 p-3 md:p-5", {
+      className={cn("w-full flex flex-col-reverse gap-2 p-3 md:p-5 md:pl-0", {
         "items-center justify-center": games.length === 0 && !currGame,
       })}
     >
@@ -45,7 +46,10 @@ function GameButton({
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1">
-          <Bot className={cn("h-5 w-5", strengths[gameInfo.strength].color)} />
+          <RiRobot2Fill
+            className={cn("h-5 w-5", strengths[gameInfo.strength].color)}
+          />
+
           <div>{strengths[gameInfo.strength].name}</div>
           <div className="">{","}</div>
           <div>{gameInfo.isFirst ? "선공" : "후공"}</div>
