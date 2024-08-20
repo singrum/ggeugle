@@ -8,9 +8,12 @@ export default function GameList() {
   const [currGame, games] = useWC((e) => [e.currGame, e.games]);
   return (
     <div
-      className={cn("w-full flex flex-col-reverse gap-2 p-3 md:p-5", {
-        "items-center justify-center": games.length === 0 && !currGame,
-      })}
+      className={cn(
+        "w-full flex flex-col-reverse gap-2 p-3 pb-[100px] md:p-5",
+        {
+          "items-center justify-center": games.length === 0 && !currGame,
+        }
+      )}
     >
       {games.length === 0 && !currGame && (
         <div className="text-muted-foreground">플레이한 게임이 없습니다.</div>

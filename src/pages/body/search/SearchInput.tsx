@@ -2,6 +2,7 @@ import { Input } from "@/components/ui/input";
 import { useWC } from "@/lib/store/useWC";
 import { CornerRightUp, Search } from "lucide-react";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
 
 export default function SearchInput() {
@@ -30,8 +31,7 @@ export default function SearchInput() {
           type="search"
           placeholder="글자 또는 단어를 입력하세요."
           onKeyDown={(e) => {
-            if (e.code == "Enter") {
-              
+            if (e.key == "Enter") {
               if (e.nativeEvent.isComposing) {
                 return;
               }

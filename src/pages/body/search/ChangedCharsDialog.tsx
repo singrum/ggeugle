@@ -13,7 +13,7 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@/components/ui/table";
 import { useWC } from "@/lib/store/useWC";
 
@@ -42,7 +42,7 @@ export function ChangedCharsDialog({}: {}) {
         {changedChars.length > 0 ? (
           <Table>
             <TableHeader>
-              <TableRow >
+              <TableRow>
                 <TableHead className="w-[100px] text-center">글자</TableHead>
                 <TableHead className="text-center">변경 전</TableHead>
                 <TableHead className="text-center">변경 후</TableHead>

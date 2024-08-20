@@ -76,7 +76,7 @@ export function RuleSetting() {
       <div className="flex flex-col md:flex-row">
         <div className="md:w-[200px] flex gap-0 flex-row md:flex-col border-b border-border md:border-none px-4 md:px-0 bg-background">
           {ruleGroup.map(({ name }, i) => (
-            <div className="flex items-center">
+            <div className="flex items-center" key={i}>
               <div
                 className={cn("w-1 rounded-full h-3/4 mr-1 hidden md:block", {
                   "bg-primary": ruleGroupMenu === i,
@@ -100,7 +100,7 @@ export function RuleSetting() {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-1 px-4 bg-muted/40 md:bg-background py-2 md:py-0">
+        <div className="flex flex-col md:flex-1 px-4 bg-muted/40 md:bg-background py-4 md:py-0 mb-[100px] md:mb-0">
           {ruleGroup[ruleGroupMenu].children.map((e, i) => (
             <Fragment key={i}>
               {e}

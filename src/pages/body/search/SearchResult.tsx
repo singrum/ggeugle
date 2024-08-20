@@ -404,7 +404,7 @@ function WordsResult() {
       {tab === 3 && engine && searchInputValue.length === 1 && (
         <div className="flex-1 min-h-0 p-2 md:px-4 md:py-2">
           <WordBox>
-            <WordBadge>{`${searchInputValue}에서 변환 가능한 글자`}</WordBadge>
+            <WordBadge>{`${searchInputValue}에서 바꿀 수 있는 글자`}</WordBadge>
             <WordContent
               wordInfo={changeableMap[engine.rule.changeableIdx](
                 searchInputValue
@@ -423,7 +423,7 @@ function WordsResult() {
             <WordBadge>{`${josa(
               searchInputValue,
               "으로/로"
-            )} 변환 가능한 글자`}</WordBadge>
+            )} 바꿀 수 있는 글자`}</WordBadge>
             <WordContent
               wordInfo={reverseChangeableMap[engine.rule.changeableIdx](
                 searchInputValue

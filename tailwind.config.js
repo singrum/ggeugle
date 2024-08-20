@@ -58,6 +58,11 @@ module.exports = {
     "animate-[chat-loading_0.7s_ease-in-out_0s_infinite]",
     "animate-[chat-loading_0.7s_ease-in-out_-0.15s_infinite]",
     "animate-[chat-loading_0.7s_ease-in-out_-0.3s_infinite]",
+
+    "text-sky-600",
+    "text-rose-600",
+    "text-green-600",
+    "text-black",
   ],
   prefix: "",
   theme: {

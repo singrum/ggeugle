@@ -11,6 +11,7 @@ import {
   WCEngine,
   Word,
 } from "../wc/wordChain";
+import { X } from "lucide-react";
 
 export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
   {
@@ -387,48 +388,77 @@ export const useWC = create<WCInfo>((set, get) => ({
             }
             if (exist) {
               const changedChars = Object.keys(changeInfo);
-              toast(
+              toast((t) => (
                 <div
-                  className="flex flex-col text-black cursor-pointer gap-1 "
+                  className="flex items-start text-black gap-1"
                   onClick={() =>
                     document.getElementById("changed-char-dialog-open")?.click()
                   }
                 >
-                  {changedChars.slice(0, 1).map((char) => (
-                    <div key={char}>
-                      <span className="text-black">{char}</span>
-                      {josa(char, "이/가").at(-1)}{" "}
-                      <span className={`text-${changeInfo[char].prevType}`}>
-                        {changeInfo[char].prevType === "route"
-                          ? "루트"
-                          : changeInfo[char].prevType === "win"
-                          ? "승리"
-                          : "패배"}
-                      </span>
-                      에서{" "}
-                      {changeInfo[char].currType !== "deleted" ? (
-                        <>
-                          <span className={`text-${changeInfo[char].currType}`}>
-                            {changeInfo[char].currType === "route"
-                              ? "루트"
-                              : changeInfo[char].currType === "win"
-                              ? "승리"
-                              : "패배"}
-                          </span>
-                          {"로 변경"}
-                        </>
-                      ) : (
-                        "삭제됨"
-                      )}
-                    </div>
-                  ))}
-                  {changedChars.length > 1 && (
-                    <div className="">
-                      외 {changedChars.length - 1}개 더보기
-                    </div>
-                  )}
+                  <div className="flex flex-col cursor-pointer gap-1">
+                    {changedChars.slice(0, 1).map((char) => (
+                      <div key={char}>
+                        <span>{char}</span>
+                        {josa(char, "이/가").at(-1)}{" "}
+                        <span
+                          className={`text-${
+                            changeInfo[char].prevType === "win"
+                              ? "sky-600"
+                              : changeInfo[char].prevType === "los"
+                              ? "rose-600"
+                              : "green-600"
+                          }`}
+                        >
+                          {changeInfo[char].prevType === "route"
+                            ? "루트"
+                            : changeInfo[char].prevType === "win"
+                            ? "승리"
+                            : "패배"}
+                        </span>
+                        에서{" "}
+                        {changeInfo[char].currType !== "deleted" ? (
+                          <>
+                            <span
+                              className={`text-${
+                                changeInfo[char].currType === "win"
+                                  ? "sky-600"
+                                  : changeInfo[char].currType === "los"
+                                  ? "rose-600"
+                                  : changeInfo[char].currType === "route"
+                                  ? "green-600"
+                                  : "black"
+                              }`}
+                            >
+                              {changeInfo[char].currType === "route"
+                                ? "루트"
+                                : changeInfo[char].currType === "win"
+                                ? "승리"
+                                : "패배"}
+                            </span>
+                            {"로 변경"}
+                          </>
+                        ) : (
+                          "삭제됨"
+                        )}
+                      </div>
+                    ))}
+                    {changedChars.length > 1 && (
+                      <div className="">
+                        외 {changedChars.length - 1}개 더보기
+                      </div>
+                    )}
+                  </div>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toast.dismiss(t.id);
+                    }}
+                    className="text-[hsl(240,3.8%,46.1%)] hover:bg-[hsl(240,4.8%,95.9%)] hover:text-black flex justify-center items-center p-1 rounded-full cursor-pointer"
+                  >
+                    <X className="w-4 h-4" />
+                  </div>
                 </div>
-              );
+              ));
             }
             set(() => ({ changeInfo }));
           }
@@ -551,7 +581,7 @@ export const useWC = create<WCInfo>((set, get) => ({
   setCurrGame: (gameInfo?: GameInfo) => {
     set(() => ({ currGame: gameInfo }));
   },
-  gameSettingForm: { strength: 2, turn: 0 },
+  gameSettingForm: { strength: 1, turn: 1 },
   setGameSettingForm: (form: { strength: 0 | 1 | 2; turn: 0 | 1 | 2 }) =>
     set(() => ({ gameSettingForm: form })),
 

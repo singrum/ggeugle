@@ -17,6 +17,7 @@ import { ChevronRight, Flag, Plus, SendHorizonal } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 import Chat from "./Chat";
+
 export default function Game() {
   const [currGame, isChatLoading] = useWC((e) => [e.currGame, e.isChatLoading]);
 
@@ -201,6 +202,7 @@ function GameInput() {
                 if (e.nativeEvent.isComposing) {
                   return;
                 }
+
                 onSend();
               }
             }}

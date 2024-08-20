@@ -107,11 +107,12 @@ export default function ExceptWordsDisplay() {
           <LoaderCircle className="w-6 h-6 animate-spin" />
         )}
       </div>
+
       <Toaster
         containerClassName={cn({ hidden: !showToast })}
         position={isDesktop ? "bottom-right" : "top-right"}
         toastOptions={{
-          className: "border border-border text-foreground ",
+          className: "bg-white border border-border text-black",
         }}
       />
     </div>
