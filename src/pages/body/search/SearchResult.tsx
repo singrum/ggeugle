@@ -48,7 +48,7 @@ function WordsResult() {
   const [tab, setTab] = useState<number>(0);
   return (
     <>
-      <div className="border-b px-4 flex bg-background whitespace-nowrap overflow-auto">
+      <div className="border-b px-3 md:px-4 flex bg-background whitespace-nowrap overflow-auto">
         {tabInfo.map(({ name }, i) => (
           <div
             key={i}
