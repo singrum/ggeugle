@@ -36,9 +36,11 @@ export function WordBadge({ children }: { children: React.ReactNode }) {
 export function WordContent({
   wordInfo,
   endsWith,
+  notExcept,
 }: {
   wordInfo: { word: string; type: string; returning?: boolean }[];
   endsWith?: boolean;
+  notExcept?: boolean;
 }) {
   return (
     <div className="flex flex-wrap gap-x-1 gap-y-1 justify-center font-normal">
@@ -48,6 +50,7 @@ export function WordContent({
           key={e.word}
           returning={e.returning}
           endsWith={endsWith}
+          notExcept={true}
         >
           {e.word}
         </WordButton>
@@ -61,12 +64,13 @@ export function WordButton({
   returning,
 
   endsWith,
+  notExcept,
   loop,
 }: {
   children: string;
   className?: string;
   returning?: boolean;
-
+  notExcept?: boolean;
   endsWith?: boolean;
   loop?: boolean;
 }) {
@@ -96,7 +100,12 @@ export function WordButton({
           setSearchInputValue(head);
         }
 
-        if (isAutoExcept && !endsWith && !exceptWords.includes(children)) {
+        if (
+          isAutoExcept &&
+          !notExcept &&
+          !endsWith &&
+          !exceptWords.includes(children)
+        ) {
           setExceptWords([...exceptWords, children]);
         }
       }}

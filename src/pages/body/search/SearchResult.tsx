@@ -406,6 +406,7 @@ function WordsResult() {
           <WordBox>
             <WordBadge>{`${searchInputValue}에서 바꿀 수 있는 글자`}</WordBadge>
             <WordContent
+              notExcept={true}
               wordInfo={changeableMap[engine.rule.changeableIdx](
                 searchInputValue
               ).map((char) => ({
@@ -425,6 +426,7 @@ function WordsResult() {
               "으로/로"
             )} 바꿀 수 있는 글자`}</WordBadge>
             <WordContent
+              notExcept={true}
               wordInfo={reverseChangeableMap[engine.rule.changeableIdx](
                 searchInputValue
               ).map((char) => ({
