@@ -50,7 +50,7 @@ export function WordContent({
           key={e.word}
           returning={e.returning}
           endsWith={endsWith}
-          notExcept={true}
+          notExcept={notExcept}
         >
           {e.word}
         </WordButton>
