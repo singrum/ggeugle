@@ -79,7 +79,7 @@ export default function PreferenceSetting() {
           </div>
         </SettnigMenu>
         <Separator className="my-4" />
-        <SettnigMenu name="글자 변경 시 알림창 보이기">
+        <SettnigMenu name="글자 유형 변경 시 알림">
           <div className="flex items-center space-x-2">
             <Switch
               id="showToast"

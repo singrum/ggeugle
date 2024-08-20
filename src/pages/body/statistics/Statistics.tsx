@@ -57,8 +57,8 @@ export default function Statistics() {
                     <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-3">
                       {[
                         {
-                          title: "루트 수치 비교",
-                          desc: "현재 룰과 구엜룰 간 루트 글자 수, 루트 단어 수 비교",
+                          title: "주요 루트 수치 비교",
+                          desc: "현재 룰과 구엜룰 간 주요 루트 글자 수, 루트 단어 수 비교",
                           content: <CompareRoute engine={engine} />,
                         },
                         {
@@ -102,8 +102,8 @@ export default function Statistics() {
                     <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-3">
                       {[
                         {
-                          title: "루트 수치 비교",
-                          desc: "현재 룰과 구엜룰 간 루트 글자 수, 루트 단어 수 비교",
+                          title: "주요 루트 수치 비교",
+                          desc: "현재 룰과 구엜룰 간 주요 루트 글자 수, 루트 단어 수 비교",
                           content: <CompareRoute engine={originalEngine} />,
                         },
                         {
@@ -150,8 +150,8 @@ export default function Statistics() {
                 <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-3">
                   {[
                     {
-                      title: "루트 수치 비교",
-                      desc: "현재 룰과 구엜룰 간 루트 글자 수, 루트 단어 수 비교",
+                      title: "주요 루트 수치 비교",
+                      desc: "현재 룰과 구엜룰 간 주요 루트 글자 수, 루트 단어 수 비교",
                       content: <CompareRoute engine={originalEngine} />,
                     },
                     {

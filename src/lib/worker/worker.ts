@@ -5,7 +5,7 @@ import {
   getNextWords,
   getReachableNodes,
   pruningWinLos,
-  pruningWinLosCir
+  pruningWinLosCir,
 } from "../wc/algorithms";
 
 import { getEngine } from "../wc/ruleUpdate";
@@ -115,46 +115,48 @@ const getComputerMove = ({
           return;
         }
         nextRoutesInfo[endedWordIdx].win = win;
-        switch (nextRoutesInfo[endedWordIdx].win) {
-          case "true":
-          case "idk":
-            if (timeout) {
-              clearTimeout(timeout);
-            }
 
-            postWord([nextRoutesInfo[endedWordIdx].word], exceptWords);
+        if (
+          (nextRoutesInfo[endedWordIdx].win === "true" &&
+            exceptWords.length !== 0) ||
+          nextRoutesInfo[endedWordIdx].win === "idk"
+        ) {
+          if (timeout) {
+            clearTimeout(timeout);
+          }
+
+          postWord([nextRoutesInfo[endedWordIdx].word], exceptWords);
+          analysisWorker.terminate();
+          return;
+        } else {
+          if (timeout) {
+            clearTimeout(timeout);
+          }
+          timeout = setTimeout(() => {
             analysisWorker.terminate();
-            return;
-          case "false":
-            if (timeout) {
-              clearTimeout(timeout);
-            }
-            timeout = setTimeout(() => {
-              analysisWorker.terminate();
-              analysisNext(nextRoutesInfo, "idk");
-            }, 3000);
-            if (endedWordIdx !== nextRoutesInfo.length - 1) {
-              analysisWorker.postMessage({
-                action: "startAnalysis",
-                data: {
-                  withStack: false,
-                  chanGraph: engine!.chanGraph,
-                  wordGraph: engine!.wordGraph,
-                  startChar: nextRoutesInfo[endedWordIdx + 1].word.at(
+            analysisNext(nextRoutesInfo, "idk");
+          }, 3000);
+          if (endedWordIdx !== nextRoutesInfo.length - 1) {
+            analysisWorker.postMessage({
+              action: "startAnalysis",
+              data: {
+                withStack: false,
+                chanGraph: engine!.chanGraph,
+                wordGraph: engine!.wordGraph,
+                startChar: nextRoutesInfo[endedWordIdx + 1].word.at(
+                  engine!.rule.tailIdx
+                ),
+                exceptWord: [
+                  nextRoutesInfo[endedWordIdx + 1].word.at(
+                    engine!.rule.headIdx
+                  ),
+                  nextRoutesInfo[endedWordIdx + 1].word.at(
                     engine!.rule.tailIdx
                   ),
-                  exceptWord: [
-                    nextRoutesInfo[endedWordIdx + 1].word.at(
-                      engine!.rule.headIdx
-                    ),
-                    nextRoutesInfo[endedWordIdx + 1].word.at(
-                      engine!.rule.tailIdx
-                    ),
-                  ],
-                },
-              });
-            }
-            return;
+                ],
+              },
+            });
+          }
         }
       };
 
