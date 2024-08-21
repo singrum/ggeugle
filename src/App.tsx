@@ -24,10 +24,10 @@ function App() {
         <div className="flex flex-col flex-1 min-h-0">
           <div className="flex-1 md:flex min-h-0 overflow-auto">
             {isDesktop && (
-              <div className="flex flex-col h-full items-center lg:items-start justify-between border-border border-r prevent-select p-2 overflow-auto scrollbar-none min-h-0">
-                <div className="flex flex-col items-center lg:items-start">
+              <div className="flex flex-col h-full items-center lg:items-start justify-between border-border border-r prevent-select p-2 lg:p-3 overflow-auto scrollbar-none min-h-0">
+                <div className="flex flex-col items-center lg:items-start md:gap-2">
                   <div
-                    className=" mb-1"
+                    className="p-1"
                     onClick={() => {
                       location.reload();
                     }}

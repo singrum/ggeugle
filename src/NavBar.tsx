@@ -6,7 +6,7 @@ export default function NavBar() {
   const menu = useMenu((e) => e.menu);
   return (
     <>
-      <div className="flex md:flex-col gap-1 items-center justify-around bg-background border-t border-border md:border-none relative z-50">
+      <div className="flex md:flex-col gap-1 lg:gap-0 items-center justify-around bg-background border-t border-border md:border-none relative z-50">
         {menus.map((e, i) => (
           <MenuBtn
             key={i}
@@ -39,12 +39,12 @@ export const MenuBtn = forwardRef(
         ref={ref}
         {...props}
         className={cn(
-          "whitespace-nowrap w-full h-12 md:h-12 md:w-12 lg:w-[140px] lg:h-auto lg:p-2 flex flex-col lg:flex-row lg:gap-4 justify-center lg:justify-start items-center cursor-pointer text-muted-foreground lg:hover:text-foreground lg:hover:bg-accent rounded-lg p-1 transition-colors",
+          "whitespace-nowrap w-full h-12 md:h-12 md:w-12 lg:w-[150px] lg:h-10 lg:p-3 flex flex-col lg:flex-row lg:gap-4 justify-center lg:justify-start items-center cursor-pointer text-muted-foreground lg:hover:text-foreground lg:hover:bg-accent rounded-lg p-1 transition-colors",
           className
         )}
       >
         {icon}
-        <div className="text-[10px] lg:text-sm lg:text-foreground select-none">
+        <div className="text-[10px] lg:text-base lg:text-foreground select-none">
           {name}
         </div>
       </div>

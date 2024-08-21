@@ -8,7 +8,7 @@ import {
   RiSearch2Fill,
   RiSearch2Line,
   RiSettings3Fill,
-  RiSettings3Line
+  RiSettings3Line,
 } from "react-icons/ri";
 import { create } from "zustand";
 export type Menu = {
