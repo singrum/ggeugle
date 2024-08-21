@@ -180,7 +180,7 @@ export default function Statistics() {
                         <CardTitle>{title}</CardTitle>
                         <CardDescription>{desc}</CardDescription>
                       </CardHeader>
-                      <CardContent className="flex items-center flex-1 justify-center">
+                      <CardContent className="flex items-center flex-1 justify-center select-none">
                         {content}
                       </CardContent>
                     </Card>
