@@ -255,6 +255,7 @@ export type Chat = {
 export type GameInfo = {
   strength: 0 | 1 | 2;
   isFirst: boolean;
+  steal?: boolean;
   chats: Chat[];
   moves: Word[];
   isPlaying: boolean;
@@ -291,8 +292,13 @@ export interface WCInfo {
   gameSettingForm: {
     strength: 0 | 1 | 2;
     turn: 0 | 1 | 2;
+    steal: boolean;
   };
-  setGameSettingForm: (form: { strength: 0 | 1 | 2; turn: 0 | 1 | 2 }) => void;
+  setGameSettingForm: (form: {
+    strength: 0 | 1 | 2;
+    turn: 0 | 1 | 2;
+    steal: boolean;
+  }) => void;
   makeMyMove: (move: Word) => void;
   isChatLoading: boolean;
   getStarted: () => void;
@@ -581,9 +587,12 @@ export const useWC = create<WCInfo>((set, get) => ({
   setCurrGame: (gameInfo?: GameInfo) => {
     set(() => ({ currGame: gameInfo }));
   },
-  gameSettingForm: { strength: 1, turn: 1 },
-  setGameSettingForm: (form: { strength: 0 | 1 | 2; turn: 0 | 1 | 2 }) =>
-    set(() => ({ gameSettingForm: form })),
+  gameSettingForm: { strength: 1, turn: 1, steal: true },
+  setGameSettingForm: (form: {
+    strength: 0 | 1 | 2;
+    turn: 0 | 1 | 2;
+    steal: boolean;
+  }) => set(() => ({ gameSettingForm: form })),
 
   getStarted: () => {
     const gameSettingForm = get().gameSettingForm;
@@ -599,6 +608,7 @@ export const useWC = create<WCInfo>((set, get) => ({
         currGame: {
           isFirst,
           strength: gameSettingForm.strength,
+          steal: gameSettingForm.steal,
           chats: [
             {
               isMy: false,
@@ -622,6 +632,7 @@ export const useWC = create<WCInfo>((set, get) => ({
           exceptWords: [],
           currChar: undefined,
           strength: gameSettingForm.strength,
+          steal: true,
         },
       });
       set({
@@ -654,6 +665,7 @@ export const useWC = create<WCInfo>((set, get) => ({
         exceptWords: moves,
         currChar: move.at(get().engine!.rule.tailIdx),
         strength: get().currGame!.strength,
+        steal: get().currGame!.steal,
       },
     });
   },

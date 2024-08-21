@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
 import { strengths, turns, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
@@ -53,18 +54,44 @@ export default function GameSetting() {
                 {
                   "text-foreground ring-2 ring-ring":
                     gameSettingForm.turn === i,
+                  "hover:bg-background hover:text-auto opacity-50 cursor-not-allowed":
+                    !gameSettingForm.steal,
                 }
               )}
               onClick={() => {
-                setGameSettingForm({
-                  ...gameSettingForm,
-                  turn: i as 0 | 1 | 2,
-                });
+                if (gameSettingForm.steal) {
+                  setGameSettingForm({
+                    ...gameSettingForm,
+
+                    turn: i as 0 | 1 | 2,
+                  });
+                }
               }}
             >
               {e}
             </div>
           ))}
+        </div>
+
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="steal"
+            checked={gameSettingForm.steal}
+            onCheckedChange={(e) =>
+              setGameSettingForm({
+                ...gameSettingForm,
+
+                steal: e as boolean,
+                ...(e === false ? { turn: 0 } : {}),
+              })
+            }
+          />
+          <label
+            htmlFor="steal"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            첫턴 단어 뺏기 허용
+          </label>
         </div>
       </div>
       <div className="flex items-center justify-center w-full h-12">

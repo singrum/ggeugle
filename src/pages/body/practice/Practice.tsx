@@ -1,12 +1,14 @@
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useWC } from "@/lib/store/useWC";
 import Header from "@/pages/header/Header";
+
 import Game from "./Game";
 import GameList from "./GameList";
 import GameSetting from "./GameSetting";
 
 export default function Practice() {
   const [currGame] = useWC((e) => [e.currGame]);
+
   const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
     <div className="bg-muted/40 h-full md:h-full md:flex md:min-h-0 min-w-0 w-full overflow-auto">

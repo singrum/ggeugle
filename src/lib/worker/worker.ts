@@ -60,17 +60,19 @@ const getComputerMove = ({
   exceptWords,
   currChar,
   strength,
+  steal,
 }: {
   exceptWords: string[];
   currChar: Char;
   strength: 0 | 1 | 2;
+  steal?: boolean;
 }) => {
   if (strength === 0) {
     if (currChar) {
       const nextWords = originalEngine!
         .getNextWords(currChar)
         .filter((e) => !exceptWords.includes(e));
-      if (exceptWords.length === 1) {
+      if (exceptWords.length === 1 && steal) {
         nextWords.push(exceptWords[0]);
       }
       postWord(nextWords, exceptWords);
@@ -103,7 +105,7 @@ const getComputerMove = ({
         );
         // console.log(nextRoutesInfo, endedWordIdx);
         if (endedWordIdx === -1) {
-          if (exceptWords.length === 1) {
+          if (exceptWords.length === 1 && steal) {
             postWord(exceptWords, exceptWords);
           } else {
             postWord(
@@ -200,7 +202,7 @@ const getComputerMove = ({
             return;
 
           case "los":
-            if (exceptWords.length === 1) {
+            if (exceptWords.length === 1 && steal) {
               // 1턴 째일 때 단어 뺏기
 
               postWord(exceptWords, exceptWords);
@@ -219,7 +221,7 @@ const getComputerMove = ({
             }
 
           case "loscir":
-            if (exceptWords.length === 1) {
+            if (exceptWords.length === 1 && steal) {
               // 1턴 째일 때 단어 뺏기
 
               postWord(exceptWords, exceptWords);

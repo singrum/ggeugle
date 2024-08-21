@@ -56,6 +56,10 @@ function GameButton({
           <div>{strengths[gameInfo.strength].name}</div>
           <div className="">{","}</div>
           <div>{gameInfo.isFirst ? "선공" : "후공"}</div>
+          <div className="">{","}</div>
+          <div>
+            {gameInfo.steal ? "첫턴 단어 뺏기 허용" : "첫턴 단어 뺏기 불가"}
+          </div>
         </div>
         <div className="flex gap">
           <div
