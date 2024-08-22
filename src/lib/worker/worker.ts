@@ -103,7 +103,7 @@ const getComputerMove = ({
         const endedWordIdx = nextRoutesInfo.findIndex(
           ({ win }) => win === undefined
         );
-        // console.log(nextRoutesInfo, endedWordIdx);
+
         if (endedWordIdx === -1) {
           if (exceptWords.length === 1 && steal) {
             postWord(exceptWords, exceptWords);

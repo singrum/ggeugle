@@ -42,10 +42,10 @@ export class WordMap {
     return this._succ[start][end];
   }
   outWords(start: string) {
-    return Object.values(this._succ[start]).flat();
+    return Object.values(this._succ[start] || {}).flat();
   }
   inWords(end: string) {
-    return Object.values(this._pred[end]).flat();
+    return Object.values(this._pred[end] || {}).flat();
   }
 }
 

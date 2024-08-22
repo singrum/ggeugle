@@ -485,10 +485,10 @@ export class WCDisplay {
       const chanPred = reverseChangeableMap[engine.rule.changeableIdx](
         input
       ).filter((e) => e in engine.wordGraph.nodes);
-
+      
       const nextWords = chanSucc.flatMap((e) => engine.wordMap.outWords(e));
       const prevWords = chanPred.flatMap((e) => engine.wordMap.inWords(e));
-
+      
       const result: CharSearchResult = {
         startsWith: {
           win: [],
