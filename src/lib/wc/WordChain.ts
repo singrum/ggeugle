@@ -485,10 +485,10 @@ export class WCDisplay {
       const chanPred = reverseChangeableMap[engine.rule.changeableIdx](
         input
       ).filter((e) => e in engine.wordGraph.nodes);
-      
+
       const nextWords = chanSucc.flatMap((e) => engine.wordMap.outWords(e));
       const prevWords = chanPred.flatMap((e) => engine.wordMap.inWords(e));
-      
+
       const result: CharSearchResult = {
         startsWith: {
           win: [],
@@ -597,7 +597,8 @@ export class WCDisplay {
       winWord: Word // winWord
     ) {
       const tree: TreeData = { name: winWord, children: [] };
-      const tail = winWord.at(engine.rule.tailIdx)!;
+      const tail =
+        winWord.length === 1 ? winWord : winWord.at(engine.rule.tailIdx)!;
 
       const losWords = engine.getNextWords(tail);
       losWords.sort(
@@ -616,7 +617,8 @@ export class WCDisplay {
     }
     function getLosTree(losWord: Word): TreeData {
       const tree: TreeData = { name: losWord, children: [] };
-      const tail = losWord.at(engine.rule.tailIdx)!;
+      const tail =
+        losWord.length === 1 ? losWord : losWord.at(engine.rule.tailIdx)!;
       const chanSol = engine.chanGraph.nodes[tail].solution as Char;
       const wordSol = engine.wordGraph.nodes[chanSol].solution as Char;
       const winWord = engine.wordMap.select(chanSol, wordSol)[0];
@@ -631,7 +633,8 @@ export class WCDisplay {
     ) {
       const tree: TreeData = { name: winWord, children: [] };
 
-      const tail = winWord.at(engine.rule.tailIdx)!;
+      const tail =
+        winWord.length === 1 ? winWord : winWord.at(engine.rule.tailIdx)!;
       const chanSucc = changeableMap[engine.rule.changeableIdx](char).filter(
         (e) => engine.chanGraph.nodes[e]
       );
@@ -683,7 +686,8 @@ export class WCDisplay {
 
     function getLoscirTree(losWord: Word, exceptWords: string[]): TreeData {
       const tree: TreeData = { name: losWord, children: [] };
-      const tail = losWord.at(engine.rule.tailIdx)!;
+      const tail =
+        losWord.length === 1 ? losWord : losWord.at(engine.rule.tailIdx)!;
       const chanSol = engine.chanGraph.nodes[tail].solution as Char;
       const wordSol = engine.wordGraph.nodes[chanSol].solution as Char;
       const winWord = engine.wordMap.select(chanSol, wordSol)[0];
