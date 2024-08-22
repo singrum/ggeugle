@@ -74,36 +74,38 @@ export default function ExceptWordsDisplay() {
       </div>
 
       <div className="flex flex-wrap gap-x-1 gap-y-1 items-start border-border border rounded-lg p-2">
-        {exceptWords.length > 0 ? (
-          exceptWords.map((e) => (
-            <div
-              className="transition-colors hover:border-foreground  rounded-full flex px-1 items-center border border-foreground/40 cursor-pointer"
-              key={e}
-              onClick={() => {
-                const tail = e.at(engine!.rule.tailIdx)!;
-                setValue(tail);
-                setSearchInputValue(tail);
-              }}
-            >
-              <div className="pl-2 text-muted-foreground select-none">{e}</div>
+        {exceptWords.length > 0
+          ? exceptWords.map((e) => (
               <div
-                className="flex items-center justify-center rounded-full h-7 w-7 text-muted-foreground hover:text-foreground cursor-pointer"
-                onClick={(evt) => {
-                  evt.stopPropagation();
-                  setExceptWords([...exceptWords.filter((ex) => ex !== e)]);
+                className="transition-colors hover:border-foreground  rounded-full flex px-1 items-center border border-foreground/40 cursor-pointer"
+                key={e}
+                onClick={() => {
+                  const tail = e.at(engine!.rule.tailIdx)!;
+                  setValue(tail);
+                  setSearchInputValue(tail);
                 }}
               >
-                <X className="h-5 w-5" />
+                <div className="pl-2 text-muted-foreground select-none">
+                  {e}
+                </div>
+                <div
+                  className="flex items-center justify-center rounded-full h-7 w-7 text-muted-foreground hover:text-foreground cursor-pointer"
+                  onClick={(evt) => {
+                    evt.stopPropagation();
+                    setExceptWords([...exceptWords.filter((ex) => ex !== e)]);
+                  }}
+                >
+                  <X className="h-5 w-5" />
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <div className="flex justify-center items-center w-full h-12">
-            <div className="text-muted-foreground text-sm">
-              제외된 단어가 없습니다.
-            </div>
-          </div>
-        )}
+            ))
+          : !(engine && isLoading) && (
+              <div className="flex justify-center items-center w-full h-12">
+                <div className="text-muted-foreground text-sm">
+                  제외된 단어가 없습니다.
+                </div>
+              </div>
+            )}
 
         {engine && isLoading && (
           <LoaderCircle className="w-6 h-6 animate-spin" />
