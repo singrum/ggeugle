@@ -29,9 +29,9 @@ export default function ExceptWordsDisplay() {
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
-    <div className="flex flex-col gap-2 px-3 md:p-4 py-2 bg-background">
+    <div className="flex flex-col gap-2 px-3 py-2 md:p-4 bg-background">
       <div className="flex justify-between gap-1 items-center">
-        <div>
+        <div className="pl-1">
           <ChangedCharsDialog />
           제외된 단어
         </div>
@@ -73,7 +73,7 @@ export default function ExceptWordsDisplay() {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-x-1 gap-y-1 items-center">
+      <div className="flex flex-wrap gap-x-1 gap-y-1 items-start border-border border rounded-lg p-2">
         {exceptWords.length > 0 ? (
           exceptWords.map((e) => (
             <div
@@ -98,8 +98,10 @@ export default function ExceptWordsDisplay() {
             </div>
           ))
         ) : (
-          <div className="text-muted-foreground text-sm">
-            제외된 단어가 없습니다.
+          <div className="flex justify-center items-center w-full h-12">
+            <div className="text-muted-foreground text-sm">
+              제외된 단어가 없습니다.
+            </div>
           </div>
         )}
 
