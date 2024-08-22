@@ -396,10 +396,13 @@ export const useWC = create<WCInfo>((set, get) => ({
               const changedChars = Object.keys(changeInfo);
               toast((t) => (
                 <div
-                  className="flex items-start text-black gap-1"
-                  onClick={() =>
-                    document.getElementById("changed-char-dialog-open")?.click()
-                  }
+                  className="text-black gap-1 pr-4"
+                  onClick={() => {
+                    document
+                      .getElementById("changed-char-dialog-open")
+                      ?.click();
+                    toast.dismiss(t.id);
+                  }}
                 >
                   <div className="flex flex-col cursor-pointer gap-1">
                     {changedChars.slice(0, 1).map((char) => (
@@ -459,7 +462,7 @@ export const useWC = create<WCInfo>((set, get) => ({
                       e.stopPropagation();
                       toast.dismiss(t.id);
                     }}
-                    className="text-[hsl(240,3.8%,46.1%)] hover:bg-[hsl(240,4.8%,95.9%)] hover:text-black flex justify-center items-center p-1 rounded-full cursor-pointer"
+                    className="text-[hsl(240,3.8%,46.1%)] hover:bg-[hsl(240,4.8%,95.9%)] hover:text-black flex justify-center items-center p-1 rounded-full cursor-pointer absolute right-2 top-2"
                   >
                     <X className="w-4 h-4" />
                   </div>
