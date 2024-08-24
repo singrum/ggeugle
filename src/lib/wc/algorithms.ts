@@ -150,7 +150,13 @@ export function pruningWinLosCir(
           returnWordGraph.addEdge(head, tail, maximumEven);
         }
         if (outdeg % 2 === 1) {
-          wordGraph.nodes[head].loop = tail;
+          if (
+            chanGraph
+              .predecessors(head)
+              .every((e) => chanGraph.successors(e).length === 1)
+          ) {
+            wordGraph.nodes[head].loop = tail;
+          }
         }
       }
       // 늠축 - 축보름
@@ -201,6 +207,7 @@ export function pruningWinLosCir(
     chanGraph.nodes[pred].type = "wincir";
     chanGraph.nodes[pred].solution = node;
   });
+
   chanGraph.removeOutEdge(chanWin);
 
   chanGraph.removeInEdge(wordLos);
@@ -245,6 +252,7 @@ export function pruningWinLosCir(
       chanGraph.nodes[pred].type = "wincir";
       chanGraph.nodes[pred].solution = node;
     });
+
     chanGraph.removeOutEdge(chanWin);
 
     preds = chanGraph.predecessors(wordLos);
