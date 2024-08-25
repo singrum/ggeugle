@@ -1,6 +1,8 @@
 import { Menu } from "lucide-react";
 import { ReactElement } from "react";
 import {
+  RiMenu2Fill,
+  RiMenu2Line,
   RiPieChartFill,
   RiPieChartLine,
   RiRobot2Fill,
@@ -46,8 +48,8 @@ export const menus: Menu[] = [
   {
     index: 4,
     name: "더보기",
-    icon: <Menu className="w-6 h-6 md:w-5 md:h-5" />,
-    focusedIcon: <Menu className="w-6 h-6 md:w-5 md:h-5" />,
+    icon: <RiMenu2Line className="w-6 h-6 md:w-5 md:h-5" />,
+    focusedIcon: <RiMenu2Fill className="w-6 h-6 md:w-5 md:h-5" />,
   },
 ];
 export interface MenuInfo {
