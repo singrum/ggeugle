@@ -209,7 +209,10 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
   },
 ];
 
-export type changeInfo = Record<Char, { prevType: string; currType: string }>;
+export type changeInfo = {
+  compPrev: Record<Char, { prevType: string; currType: string }>;
+  compOrigin: Record<Char, { prevType: string; currType: string }>;
+};
 
 export const dicts = ["(구)표준국어대사전", "(신)표준국어대사전", "우리말샘"];
 
@@ -374,26 +377,34 @@ export const useWC = create<WCInfo>((set, get) => ({
 
           if (engine && prevEngine) {
             let exist = false;
-            const changeInfo: Record<
-              Char,
-              { prevType: string; currType: string }
-            > = {};
-            for (let char in prevEngine!.chanGraph.nodes) {
-              const prevType = WCDisplay.reduceWordtype(
-                prevEngine!.chanGraph.nodes[char].type as CharType
-              );
-              const currType = engine!.chanGraph.nodes[char]
-                ? WCDisplay.reduceWordtype(
-                    engine!.chanGraph.nodes[char].type as CharType
-                  )
-                : "deleted";
-              if (prevType !== currType) {
-                changeInfo[char] = { prevType, currType };
-                exist = true;
+            const changeInfo: changeInfo = { compPrev: {}, compOrigin: {} };
+            for (let { changeType, compEngine } of [
+              { changeType: "compPrev", compEngine: prevEngine! },
+              { changeType: "compOrigin", compEngine: originalEngine! },
+            ]) {
+              for (let char in compEngine.chanGraph.nodes) {
+                const prevType = WCDisplay.reduceWordtype(
+                  compEngine!.chanGraph.nodes[char].type as CharType
+                );
+                const currType = engine!.chanGraph.nodes[char]
+                  ? WCDisplay.reduceWordtype(
+                      engine!.chanGraph.nodes[char].type as CharType
+                    )
+                  : "deleted";
+                if (prevType !== currType) {
+                  changeInfo[changeType as "compPrev" | "compOrigin"][char] = {
+                    prevType,
+                    currType,
+                  };
+                  if (changeType === "compPrev") {
+                    exist = true;
+                  }
+                }
               }
             }
+
             if (exist) {
-              const changedChars = Object.keys(changeInfo);
+              const changedChars = Object.keys(changeInfo.compPrev);
               toast((t) => (
                 <div
                   className="text-black gap-1 pr-4"
@@ -411,36 +422,37 @@ export const useWC = create<WCInfo>((set, get) => ({
                         {josa(char, "이/가").at(-1)}{" "}
                         <span
                           className={`text-${
-                            changeInfo[char].prevType === "win"
+                            changeInfo.compPrev[char].prevType === "win"
                               ? "sky-600"
-                              : changeInfo[char].prevType === "los"
+                              : changeInfo.compPrev[char].prevType === "los"
                               ? "rose-600"
                               : "green-600"
                           }`}
                         >
-                          {changeInfo[char].prevType === "route"
+                          {changeInfo.compPrev[char].prevType === "route"
                             ? "루트"
-                            : changeInfo[char].prevType === "win"
+                            : changeInfo.compPrev[char].prevType === "win"
                             ? "승리"
                             : "패배"}
                         </span>
                         에서{" "}
-                        {changeInfo[char].currType !== "deleted" ? (
+                        {changeInfo.compPrev[char].currType !== "deleted" ? (
                           <>
                             <span
                               className={`text-${
-                                changeInfo[char].currType === "win"
+                                changeInfo.compPrev[char].currType === "win"
                                   ? "sky-600"
-                                  : changeInfo[char].currType === "los"
+                                  : changeInfo.compPrev[char].currType === "los"
                                   ? "rose-600"
-                                  : changeInfo[char].currType === "route"
+                                  : changeInfo.compPrev[char].currType ===
+                                    "route"
                                   ? "green-600"
                                   : "black"
                               }`}
                             >
-                              {changeInfo[char].currType === "route"
+                              {changeInfo.compPrev[char].currType === "route"
                                 ? "루트"
-                                : changeInfo[char].currType === "win"
+                                : changeInfo.compPrev[char].currType === "win"
                                 ? "승리"
                                 : "패배"}
                             </span>
@@ -553,7 +565,7 @@ export const useWC = create<WCInfo>((set, get) => ({
     };
   },
   isLoading: true,
-  changeInfo: {},
+  changeInfo: { compPrev: {}, compOrigin: {} },
   setChangeInfo: (changeInfo) => {
     set(() => ({
       changeInfo,
@@ -570,7 +582,7 @@ export const useWC = create<WCInfo>((set, get) => ({
       engine: undefined,
       prevEngine: undefined,
       originalEngine: undefined,
-      changeInfo: {},
+      changeInfo: { compPrev: {}, compOrigin: {} },
       exceptWords: [],
       isLoading: true,
       rule: ruleForm,

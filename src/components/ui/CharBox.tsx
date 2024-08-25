@@ -77,7 +77,7 @@ export function CharButton({
         setSearchInputValue(children);
       }}
     >
-      {changeInfo[children] && (
+      {changeInfo.compPrev[children] && (
         <div
           className={`absolute h-[7px] w-[7px] bg-${type} top-1 left-1 rounded-full`}
         />

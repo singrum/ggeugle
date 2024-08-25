@@ -13,6 +13,10 @@ export interface CookieSettingsInfo {
   // toaster 표시
   showToast: boolean;
   setShowToast: (showToast: boolean) => void;
+
+  // 단어 제외 방법
+  exceptBy: "space" | "enter";
+  setExceptBy: (exceptBy: "space" | "enter") => void;
 }
 
 export const useCookieSettings = create<CookieSettingsInfo>((set) => ({
@@ -32,5 +36,11 @@ export const useCookieSettings = create<CookieSettingsInfo>((set) => ({
   setShowToast: (showToast: boolean) => {
     Cookies.set("show-toast", `${showToast}`);
     set({ showToast });
+  },
+
+  exceptBy: Cookies.get("exceptBy") === "enter" ? "enter" : "space",
+  setExceptBy: (exceptBy: "enter" | "space") => {
+    Cookies.set("exceptBy", `${exceptBy}`);
+    set({ exceptBy });
   },
 }));

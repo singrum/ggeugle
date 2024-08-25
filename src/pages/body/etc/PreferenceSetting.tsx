@@ -22,6 +22,8 @@ export default function PreferenceSetting() {
     setIsSearchFlip,
     showToast,
     setShowToast,
+    exceptBy,
+    setExceptBy,
   ] = useCookieSettings((e) => [
     e.isAutoExcept,
     e.setIsAutoExcept,
@@ -29,6 +31,8 @@ export default function PreferenceSetting() {
     e.setIsSearchFlip,
     e.showToast,
     e.setShowToast,
+    e.exceptBy,
+    e.setExceptBy,
   ]);
 
   return (
@@ -90,6 +94,21 @@ export default function PreferenceSetting() {
             />
             <Label htmlFor="showToast">사용</Label>
           </div>
+        </SettnigMenu>
+        <Separator className="my-4" />
+        <SettnigMenu name="제외된 단어에 추가하기">
+          <Select
+            value={exceptBy}
+            onValueChange={(value: "space" | "enter") => setExceptBy(value)}
+          >
+            <SelectTrigger className="w-[230px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="space">공백(스페이스)으로 추가</SelectItem>
+              <SelectItem value="enter">엔터로 추가</SelectItem>
+            </SelectContent>
+          </Select>
         </SettnigMenu>
       </div>
     </div>

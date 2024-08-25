@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input";
+import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
 import { CornerRightUp, Search } from "lucide-react";
 import { useEffect } from "react";
@@ -6,13 +7,25 @@ import toast from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
 
 export default function SearchInput() {
-  const value = useWC((e) => e.value);
-  const setValue = useWC((e) => e.setValue);
-  const setSearchInputValue = useWC((e) => e.setSearchInputValue);
-  const exceptWords = useWC((e) => e.exceptWords);
-  const setExceptWords = useWC((e) => e.setExceptWords);
-  const engine = useWC((e) => e.engine);
-  const searchInputValue = useWC((e) => e.searchInputValue);
+  const [
+    value,
+    setValue,
+    setSearchInputValue,
+    exceptWords,
+    setExceptWords,
+    engine,
+    searchInputValue,
+  ] = useWC((e) => [
+    e.value,
+    e.setValue,
+    e.setSearchInputValue,
+    e.exceptWords,
+    e.setExceptWords,
+    e.engine,
+    e.searchInputValue,
+  ]);
+  const [exceptBy] = useCookieSettings((e) => [e.exceptBy]);
+
   const debounced = useDebouncedCallback((value) => {
     if (engine) {
       setSearchInputValue(value);
@@ -21,6 +34,27 @@ export default function SearchInput() {
   useEffect(() => {
     debounced.cancel();
   }, [searchInputValue]);
+
+  const onExceptTriggered = () => {
+    if (engine) {
+      setValue("");
+      setSearchInputValue("");
+      const newExcept = value
+        .split(" ")
+        .filter(
+          (word, i, arr) =>
+            word.length > 0 &&
+            arr.indexOf(word) === i &&
+            !exceptWords.includes(word) &&
+            engine!.words.includes(word)
+        );
+      if (newExcept.length > 0) {
+        const exceptWords_ = [...exceptWords, ...newExcept];
+
+        setExceptWords(exceptWords_);
+      }
+    }
+  };
 
   return (
     <div className="px-3 py-2 md:px-4 bg-background ">
@@ -35,31 +69,20 @@ export default function SearchInput() {
               if (e.nativeEvent.isComposing) {
                 return;
               }
-              if (engine) {
-                setValue("");
-                setSearchInputValue("");
-                const newExcept = value
-                  .split(" ")
-                  .filter(
-                    (word, i, arr) =>
-                      word.length > 0 &&
-                      arr.indexOf(word) === i &&
-                      !exceptWords.includes(word) &&
-                      engine!.words.includes(word)
-                  );
-                if (newExcept.length > 0) {
-                  const exceptWords_ = [...exceptWords, ...newExcept];
-
-                  setExceptWords(exceptWords_);
-                }
-              }
+              onExceptTriggered();
             }
           }}
           onChange={(e) => {
             e.preventDefault();
-
-            debounced(e.target.value.split(" ").at(-1));
-            setValue(e.target.value);
+            if (
+              exceptBy === "space" &&
+              e.target.value[e.target.value.length - 1] === " "
+            ) {
+              onExceptTriggered();
+            } else {
+              debounced(e.target.value.split(" ").at(-1));
+              setValue(e.target.value);
+            }
           }}
         />
 

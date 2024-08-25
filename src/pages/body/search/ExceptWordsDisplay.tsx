@@ -65,7 +65,7 @@ export default function ExceptWordsDisplay() {
               >
                 {icon}
               </div>
-              {i === 2 && Object.keys(changeInfo).length > 0 && (
+              {i === 2 && Object.keys(changeInfo.compPrev).length > 0 && (
                 <div className="absolute w-2 h-2 rounded-full bg-primary top-0" />
               )}
             </div>
