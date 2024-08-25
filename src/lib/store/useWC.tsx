@@ -590,7 +590,7 @@ export const useWC = create<WCInfo>((set, get) => ({
   setCurrGame: (gameInfo?: GameInfo) => {
     set(() => ({ currGame: gameInfo }));
   },
-  gameSettingForm: { strength: 1, turn: 1, steal: true },
+  gameSettingForm: { strength: 2, turn: 1, steal: true },
   setGameSettingForm: (form: {
     strength: 0 | 1 | 2;
     turn: 0 | 1 | 2;
