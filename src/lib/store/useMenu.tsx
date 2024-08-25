@@ -21,33 +21,33 @@ export const menus: Menu[] = [
   {
     index: 0,
     name: "검색",
-    icon: <RiSearch2Line className="w-5 h-5" />,
-    focusedIcon: <RiSearch2Fill className="w-5 h-5" />,
+    icon: <RiSearch2Line className="w-6 h-6 md:w-5 md:h-5" />,
+    focusedIcon: <RiSearch2Fill className="w-6 h-6 md:w-5 md:h-5" />,
   },
 
   {
     index: 2,
     name: "통계",
-    icon: <RiPieChartLine className="w-5 h-5" />,
-    focusedIcon: <RiPieChartFill className="w-5 h-5" />,
+    icon: <RiPieChartLine className="w-6 h-6 md:w-5 md:h-5" />,
+    focusedIcon: <RiPieChartFill className="w-6 h-6 md:w-5 md:h-5" />,
   },
   {
     index: 1,
     name: "플레이",
-    icon: <RiRobot2Line className="w-5 h-5" />,
-    focusedIcon: <RiRobot2Fill className="w-5 h-5" />,
+    icon: <RiRobot2Line className="w-6 h-6 md:w-5 md:h-5" />,
+    focusedIcon: <RiRobot2Fill className="w-6 h-6 md:w-5 md:h-5" />,
   },
   {
     index: 3,
     name: "룰 설정",
-    icon: <RiSettings3Line className="w-5 h-5" />,
-    focusedIcon: <RiSettings3Fill className="w-5 h-5" />,
+    icon: <RiSettings3Line className="w-6 h-6 md:w-5 md:h-5" />,
+    focusedIcon: <RiSettings3Fill className="w-6 h-6 md:w-5 md:h-5" />,
   },
   {
     index: 4,
     name: "더보기",
-    icon: <Menu className="w-5 h-5" />,
-    focusedIcon: <Menu className="w-5 h-5" />,
+    icon: <Menu className="w-6 h-6 md:w-5 md:h-5" />,
+    focusedIcon: <Menu className="w-6 h-6 md:w-5 md:h-5" />,
   },
 ];
 export interface MenuInfo {

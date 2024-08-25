@@ -39,7 +39,7 @@ export const MenuBtn = forwardRef(
         ref={ref}
         {...props}
         className={cn(
-          "whitespace-nowrap w-full h-12 md:h-12 md:w-12 lg:w-[150px] lg:h-10 lg:p-3 flex flex-col lg:flex-row lg:gap-4 justify-center lg:justify-start items-center cursor-pointer text-muted-foreground lg:hover:text-foreground lg:hover:bg-accent rounded-lg p-1 transition-colors",
+          "whitespace-nowrap w-full h-14 md:h-12 md:w-12 lg:w-[150px] lg:h-10 lg:p-3 flex flex-col lg:flex-row lg:gap-4 justify-center lg:justify-start items-center cursor-pointer text-muted-foreground lg:hover:text-foreground lg:hover:bg-accent rounded-lg p-1 transition-colors",
           className
         )}
       >
