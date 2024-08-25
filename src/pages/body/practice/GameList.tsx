@@ -6,6 +6,7 @@ import { RiRobot2Fill } from "react-icons/ri";
 
 export default function GameList() {
   const [currGame, games] = useWC((e) => [e.currGame, e.games]);
+
   return (
     <div
       className={cn(
@@ -40,6 +41,7 @@ function GameButton({
     e.setGames,
     e.setCurrGame,
   ]);
+
   return (
     <div
       className={cn(
@@ -57,9 +59,7 @@ function GameButton({
           <div className="">{","}</div>
           <div>{gameInfo.isFirst ? "선공" : "후공"}</div>
           <div className="">{","}</div>
-          <div>
-            {gameInfo.steal ? "첫턴 단어 뺏기 허용" : "첫턴 단어 뺏기 불가"}
-          </div>
+          <div>{gameInfo.steal ? "단어 뺏기 가능" : "단어 뺏기 불가"}</div>
         </div>
         <div className="flex gap">
           <div

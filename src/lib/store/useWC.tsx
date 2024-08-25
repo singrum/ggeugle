@@ -643,6 +643,7 @@ export const useWC = create<WCInfo>((set, get) => ({
         currGame: {
           isFirst,
           strength: gameSettingForm.strength,
+          steal: gameSettingForm.steal,
           chats: [
             {
               isMy: false,

@@ -90,7 +90,7 @@ export default function GameSetting() {
             htmlFor="steal"
             className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
           >
-            첫턴 단어 뺏기 허용
+            첫 수 단어 뺏기 허용
           </label>
         </div>
       </div>
