@@ -16,12 +16,12 @@ export default function CharSheet() {
         snapPoints={({ maxHeight }) => [
           maxHeight - maxHeight / 17.5,
           maxHeight * 0.45,
-          66,
+          75,
         ]}
         header={
           <div
             onClick={() => {
-              if (sheetRef.current.height < 70) {
+              if (sheetRef.current.height < 85) {
                 sheetRef.current.snapTo(
                   ({ snapPoints }: { snapPoints: number[] }) => snapPoints[1],
                   {}
