@@ -34,7 +34,16 @@ export function Tree(
   // to convert tabular data to a hierarchy; otherwise we assume that the data is
   // specified as an object {children} with nested objects (a.k.a. the “flare.json”
   // format), and use d3.hierarchy.
-
+  if (!data) {
+    return d3
+      .create("div")
+      .attr(
+        "class",
+        "flex items-center justify-center h-full text-muted-foreground"
+      )
+      .text("크기가 너무 커서 로드할 수 없습니다.")
+      .node();
+  }
   const root =
     path != null
       ? d3.stratify().path(path)(data)

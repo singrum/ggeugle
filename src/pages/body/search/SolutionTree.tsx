@@ -3,6 +3,7 @@ import { TreeData, WCDisplay } from "@/lib/wc/wordChain";
 import React, { useEffect, useMemo, useRef } from "react";
 // @ts-ignore
 import { Tree } from "./Tree";
+import * as d3 from "d3";
 
 export default function SolutionTree() {
   const [engine, searchInputValue] = useWC((e) => [
@@ -18,6 +19,7 @@ export default function SolutionTree() {
     while (containerRef.current.lastChild) {
       containerRef.current.removeChild(containerRef.current.lastChild);
     }
+
     const treeElement = Tree(data, {
       label: (d: TreeData) => d.name,
       // width: 100,

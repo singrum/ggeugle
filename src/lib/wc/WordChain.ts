@@ -1,3 +1,4 @@
+import { indexOf } from "lodash";
 import { arrayToKeyMap, pushObject } from "../utils";
 import { getSCC, pruningWinLos, pruningWinLosCir } from "./algorithms";
 import { changeableMap, reverseChangeableMap } from "./hangul";
@@ -627,10 +628,15 @@ export class WCDisplay {
       return tree;
     }
 
+    let counter = 0;
     function getWincirTree(
       winWord: Word, // winWord
       exceptWords: string[]
-    ) {
+    ): TreeData | undefined {
+      counter += 1;
+      if (counter > 500) {
+        return undefined;
+      }
       const tree: TreeData = { name: winWord, children: [] };
 
       const tail =
@@ -676,7 +682,12 @@ export class WCDisplay {
       );
 
       for (let losWord of losWords) {
-        tree.children!.push(getLoscirTree(losWord, [...exceptWords, losWord]));
+        const loscirTree = getLoscirTree(losWord, [...exceptWords, losWord]);
+        if (loscirTree) {
+          tree.children!.push(loscirTree);
+        } else {
+          return undefined;
+        }
       }
       if (losWords.length === 0) {
         delete tree.children;
@@ -684,7 +695,14 @@ export class WCDisplay {
       return tree;
     }
 
-    function getLoscirTree(losWord: Word, exceptWords: string[]): TreeData {
+    function getLoscirTree(
+      losWord: Word,
+      exceptWords: string[]
+    ): TreeData | undefined {
+      counter += 1;
+      if (counter > 500) {
+        return undefined;
+      }
       const tree: TreeData = { name: losWord, children: [] };
       const tail =
         losWord.length === 1 ? losWord : losWord.at(engine.rule.tailIdx)!;
@@ -692,7 +710,13 @@ export class WCDisplay {
       const wordSol = engine.wordGraph.nodes[chanSol].solution as Char;
       const winWord = engine.wordMap.select(chanSol, wordSol)[0];
 
-      tree.children!.push(getWincirTree(winWord, [...exceptWords, winWord]));
+      const wincirTree = getWincirTree(winWord, [...exceptWords, winWord]);
+      if (wincirTree) {
+        tree.children!.push(wincirTree);
+      } else {
+        return undefined;
+      }
+
       return tree;
     }
 
