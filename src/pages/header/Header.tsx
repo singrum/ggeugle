@@ -24,7 +24,7 @@ export default function Header({ className }: { className?: string }) {
         >
           <Logo />
           <div className="text-muted-foreground mb-1 text-xs">
-            끝말잇기 검색기
+            끝말잇기 검색엔진
           </div>
         </div>
       </div>
