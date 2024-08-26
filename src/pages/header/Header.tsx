@@ -2,14 +2,16 @@ import { useMenu } from "@/lib/store/useMenu";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 
-export default function Header() {
+export default function Header({ className }: { className?: string }) {
   const menu = useMenu((e) => e.menu);
   return (
     <div
       className={cn(
-        "top-0 flex flex-col min-h-9 z-10 sticky bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border",
+        "top-0 flex flex-col min-h-9 z-10 sticky bg-background backdrop-blur supports-[backdrop-filter]:bg-background/60 px-1",
+        className,
         {
-          "bg-muted/40": menu.index === 1 || menu.index === 2,
+          "bg-muted/40 supports-[backdrop-filter]:bg-muted-40":
+            menu.index === 1 || menu.index === 2 || menu.index === 4,
         }
       )}
     >

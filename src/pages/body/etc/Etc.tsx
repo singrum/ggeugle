@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/dialog";
 import { Code, Database, History, LinkIcon, Settings } from "lucide-react";
 import PreferenceSetting from "./PreferenceSetting";
+import Header from "@/pages/header/Header";
 const etcMenu = [
   {
     name: "환경 설정",
@@ -42,18 +43,22 @@ const etcMenu = [
 export default function Etc() {
   return (
     <>
-      <div className="flex p-5 text-xl h-full w-full items-center justify-center bg-muted/40 select-none">
-        <div className="flex flex-col gap-5">
-          {etcMenu.map(({ name, icon, onClick_ }) => (
-            <div
-              key={name}
-              className="flex gap-2 items-center cursor-pointer hover:text-muted-foreground transition-colors"
-              onClick={onClick_}
-            >
-              {icon}
-              <div>{name}</div>
-            </div>
-          ))}
+      <div className="flex flex-col h-full">
+        <Header />
+
+        <div className="flex p-5 text-xl h-full w-full items-center justify-center bg-muted/40 select-none flex-1">
+          <div className="flex flex-col gap-5">
+            {etcMenu.map(({ name, icon, onClick_ }) => (
+              <div
+                key={name}
+                className="flex gap-2 items-center cursor-pointer hover:text-muted-foreground transition-colors"
+                onClick={onClick_}
+              >
+                {icon}
+                <div>{name}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <DBDilog />
