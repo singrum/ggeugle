@@ -274,6 +274,8 @@ function ChanSetting() {
             "첸룰",
             "듭2룰",
             "강제표준두음",
+            "역표준두음",
+            "강제역표준두음"
           ].map((e, i) => (
             <SelectItem className="text-xs" value={`${i}`} key={i}>
               {e}
