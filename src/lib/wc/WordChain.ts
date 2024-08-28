@@ -26,6 +26,7 @@ export class WCEngine {
   rule: WCRule;
   words: Word[];
   wordMap: WordMap;
+  returnWordMap: WordMap;
   wordGraph: MultiDiGraph;
   chanGraph: MultiDiGraph;
   returnWordGraph: MultiDiGraph;
@@ -33,6 +34,7 @@ export class WCEngine {
   constructor(rule: WCRule, words?: Word[]) {
     this.rule = rule;
     this.wordMap = new WordMap();
+    this.returnWordMap = new WordMap();
     this.words = words ? words : [];
     this.wordGraph = new MultiDiGraph();
     this.chanGraph = new MultiDiGraph();
@@ -59,6 +61,22 @@ export class WCEngine {
     pruningWinLos(this.chanGraph, this.wordGraph);
     this.returnWordGraph = pruningWinLosCir(this.chanGraph, this.wordGraph);
 
+    // returnWord 분리
+
+    for (let head of Object.keys(this.returnWordGraph.nodes)) {
+      for (let tail of this.returnWordGraph.successors(head)) {
+        for (let word of this.wordMap
+          .select(head, tail)
+          .slice(0, this.returnWordGraph._succ[head][tail])) {
+          this.returnWordMap.addWord(head, tail, word);
+        }
+      }
+    }
+    // console.log(
+    //   WCDisplay.reduceWordtypeWithReturn(
+    //     WCDisplay.getWordType(this, "톱날지붕").type as WordType
+    //   )
+    // );
     return this;
   }
 
@@ -404,7 +422,12 @@ export class WCDisplay {
     const head = word.at(engine.rule.headIdx)!;
     const tail = word.at(engine.rule.tailIdx)!;
 
-    if (engine.wordGraph.nodes[head].type === "win") {
+    if (
+      engine.returnWordMap.hasEdge(head, tail) &&
+      engine.returnWordMap.select(head, tail).includes(word)
+    ) {
+      return { type: "return" };
+    } else if (engine.wordGraph.nodes[head].type === "win") {
       if (engine.chanGraph.nodes[tail].type === "win") {
         return {
           type: "los",
@@ -516,31 +539,22 @@ export class WCDisplay {
         WCDisplay.compareWord(engine, a, b)
       );
 
-      const returnWords: Record<Char, number> = [...chanSucc].reduce(
-        (acc, curr) => ({ ...acc, ...engine.returnWordGraph._succ[curr] }),
-        {}
-      );
-
       for (let word of startWords) {
-        if (returnWords[word.at(engine.rule.tailIdx)!]) {
-          returnWords[word.at(engine.rule.tailIdx)!]--;
-          result.startsWith["return"].push(word);
-        } else {
-          const { type, endNum } = WCDisplay.getWordType(engine, word);
-          switch (type) {
-            case "win":
-              pushObject(startWin, endNum!, word);
-              break;
-            case "los":
-              pushObject(startLos, endNum!, word);
-              break;
-            default:
-              (
-                result.startsWith[
-                  type as keyof typeof result.startsWith
-                ] as Word[]
-              ).push(word);
-          }
+        const { type, endNum } = WCDisplay.getWordType(engine, word);
+        switch (type) {
+          case "win":
+            pushObject(startWin, endNum!, word);
+            break;
+          case "los":
+            pushObject(startLos, endNum!, word);
+            break;
+          default:
+            (
+              result.startsWith[
+                type as keyof typeof result.startsWith
+              ] as Word[]
+            ).push(word);
+          // }
         }
       }
 
@@ -592,7 +606,22 @@ export class WCDisplay {
         return "route";
     }
   }
-
+  static reduceWordtypeWithReturn(
+    wordType: WordType | CharType
+  ): "win" | "los" | "route" | "return" {
+    switch (wordType) {
+      case "win":
+      case "wincir":
+        return "win";
+      case "los":
+      case "loscir":
+        return "los";
+      case "route":
+        return "route";
+      case "return":
+        return "return";
+    }
+  }
   static getSolutionTree(engine: WCEngine, char: Char) {
     function getWinTree(
       winWord: Word // winWord
@@ -738,6 +767,7 @@ export function objToInstance(obj: WCEngine): WCEngine {
   result.wordGraph = objToMultiDiGraph(obj.wordGraph);
   result.chanGraph = objToMultiDiGraph(obj.chanGraph);
   result.wordMap = ObjToWordMap(obj.wordMap);
+  result.returnWordMap = ObjToWordMap(obj.returnWordMap);
   result.returnWordGraph = objToMultiDiGraph(obj.returnWordGraph);
   return result;
 }

@@ -38,9 +38,19 @@ export class WordMap {
       delete this._pred[end][start];
     }
   }
+  hasEdge(start: string, end: string) {
+    if (!this._succ[start]) {
+      return false;
+    } else if (!this._succ[start][end]) {
+      return false;
+    } else {
+      return true;
+    }
+  }
   select(start: string, end: string) {
     return this._succ[start][end];
   }
+
   outWords(start: string) {
     return Object.values(this._succ[start] || {}).flat();
   }

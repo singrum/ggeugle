@@ -46,9 +46,11 @@ export function WordContent({
     <div className="flex flex-wrap gap-x-1 gap-y-1 justify-center font-normal">
       {wordInfo.map((e) => (
         <WordButton
-          className={`bg-${e.type}/10 text-${e.type}`}
+          className={`bg-${
+            e.type === "return" ? "muted-foreground" : e.type
+          }/10 text-${e.type === "return" ? "muted-foreground" : e.type}`}
           key={e.word}
-          returning={e.returning}
+          returning={e.returning || e.type === "return"}
           endsWith={endsWith}
           notExcept={notExcept}
         >

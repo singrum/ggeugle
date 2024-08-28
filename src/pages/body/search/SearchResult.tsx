@@ -280,7 +280,7 @@ function WordsResult() {
                               searchResult.result as CharSearchResult
                             ).endsWith.head_los.map((word) => ({
                               word,
-                              type: WCDisplay.reduceWordtype(
+                              type: WCDisplay.reduceWordtypeWithReturn(
                                 WCDisplay.getWordType(engine!, word)
                                   .type as WordType
                               ),
@@ -301,7 +301,7 @@ function WordsResult() {
                               searchResult.result as CharSearchResult
                             ).endsWith.head_route.map((word) => ({
                               word,
-                              type: WCDisplay.reduceWordtype(
+                              type: WCDisplay.reduceWordtypeWithReturn(
                                 WCDisplay.getWordType(engine!, word)
                                   .type as WordType
                               ),
@@ -321,7 +321,7 @@ function WordsResult() {
                               searchResult.result as CharSearchResult
                             ).endsWith.rest.map((word) => ({
                               word,
-                              type: WCDisplay.reduceWordtype(
+                              type: WCDisplay.reduceWordtypeWithReturn(
                                 WCDisplay.getWordType(engine!, word)
                                   .type as WordType
                               ),
