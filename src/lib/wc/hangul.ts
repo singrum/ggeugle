@@ -285,6 +285,7 @@ export const changeableMap: ((char: string) => string[])[] = [
 
     return result;
   },
+  // 강제표준두음
   function (char: string) {
     let code = char2code(char);
     if (
@@ -314,6 +315,7 @@ export const changeableMap: ((char: string) => string[])[] = [
       return [code2char(code + char2code("아") - char2code("나"))];
     return [char];
   },
+  // 역표준두음
   function (char: string) {
     let code = char2code(char);
     if (
@@ -343,13 +345,14 @@ export const changeableMap: ((char: string) => string[])[] = [
       ];
     return [char];
   },
+  // 강제역표준두음
   function (char: string) {
     let code = char2code(char);
     if (
       (code >= char2code("야") && code <= char2code("얗")) ||
       (code >= char2code("예") && code <= char2code("옣"))
     )
-      return [char, code2char(code + char2code("라") - char2code("아"))];
+      return [code2char(code + char2code("라") - char2code("아"))];
     else if (
       (code >= char2code("나") && code <= char2code("낳")) ||
       (code >= char2code("내") && code <= char2code("냏")) ||
@@ -358,7 +361,7 @@ export const changeableMap: ((char: string) => string[])[] = [
       (code >= char2code("느") && code <= char2code("늫")) ||
       (code >= char2code("뇌") && code <= char2code("뇧"))
     )
-      return [char, code2char(code + char2code("라") - char2code("나"))];
+      return [code2char(code + char2code("라") - char2code("나"))];
     else if (
       (code >= char2code("여") && code <= char2code("옇")) ||
       (code >= char2code("요") && code <= char2code("욯")) ||
@@ -370,31 +373,6 @@ export const changeableMap: ((char: string) => string[])[] = [
         code2char(code + char2code("나") - char2code("아")),
         code2char(code + char2code("라") - char2code("아")),
       ];
-    else if (
-      (code >= char2code("랴") && code <= char2code("럏")) ||
-      (code >= char2code("려") && code <= char2code("렿")) ||
-      (code >= char2code("료") && code <= char2code("룧")) ||
-      (code >= char2code("류") && code <= char2code("륳")) ||
-      (code >= char2code("리") && code <= char2code("맇")) ||
-      (code >= char2code("례") && code <= char2code("롛"))
-    )
-      return [];
-    else if (
-      (code >= char2code("라") && code <= char2code("랗")) ||
-      (code >= char2code("래") && code <= char2code("랳")) ||
-      (code >= char2code("로") && code <= char2code("롷")) ||
-      (code >= char2code("루") && code <= char2code("뤃")) ||
-      (code >= char2code("르") && code <= char2code("릏")) ||
-      (code >= char2code("뢰") && code <= char2code("룋"))
-    )
-      return [];
-    else if (
-      (code >= char2code("녀") && code <= char2code("녛")) ||
-      (code >= char2code("뇨") && code <= char2code("눃")) ||
-      (code >= char2code("뉴") && code <= char2code("늏")) ||
-      (code >= char2code("니") && code <= char2code("닣"))
-    )
-      return [];
     return [char];
   },
 ];
@@ -550,6 +528,7 @@ export const reverseChangeableMap: ((char: string) => string[])[] = [
     return result;
   },
   changeableMap[6],
+  // 강제표준두음
   function (char: string) {
     let code = char2code(char);
     if (
@@ -604,14 +583,13 @@ export const reverseChangeableMap: ((char: string) => string[])[] = [
       return [];
     return [char];
   },
+  // 역표준두음
+  changeableMap[1],
+  // 강제역표준두음
   function (char: string) {
     let code = char2code(char);
     if (
       (code >= char2code("랴") && code <= char2code("럏")) ||
-      (code >= char2code("려") && code <= char2code("렿")) ||
-      (code >= char2code("료") && code <= char2code("룧")) ||
-      (code >= char2code("류") && code <= char2code("륳")) ||
-      (code >= char2code("리") && code <= char2code("맇")) ||
       (code >= char2code("례") && code <= char2code("롛"))
     )
       return [char, code2char(code + char2code("아") - char2code("라"))];
@@ -625,41 +603,37 @@ export const reverseChangeableMap: ((char: string) => string[])[] = [
     )
       return [char, code2char(code + char2code("나") - char2code("라"))];
     else if (
-      (code >= char2code("녀") && code <= char2code("녛")) ||
-      (code >= char2code("뇨") && code <= char2code("눃")) ||
-      (code >= char2code("뉴") && code <= char2code("늏")) ||
-      (code >= char2code("니") && code <= char2code("닣"))
-    )
-      return [char, code2char(code + char2code("아") - char2code("나"))];
-    return [char];
-  },
-  function (char: string) {
-    let code = char2code(char);
-    if (
-      (code >= char2code("랴") && code <= char2code("럏")) ||
       (code >= char2code("려") && code <= char2code("렿")) ||
       (code >= char2code("료") && code <= char2code("룧")) ||
       (code >= char2code("류") && code <= char2code("륳")) ||
-      (code >= char2code("리") && code <= char2code("맇")) ||
-      (code >= char2code("례") && code <= char2code("롛"))
+      (code >= char2code("리") && code <= char2code("맇"))
     )
-      return [code2char(code + char2code("아") - char2code("라"))];
-    else if (
-      (code >= char2code("라") && code <= char2code("랗")) ||
-      (code >= char2code("래") && code <= char2code("랳")) ||
-      (code >= char2code("로") && code <= char2code("롷")) ||
-      (code >= char2code("루") && code <= char2code("뤃")) ||
-      (code >= char2code("르") && code <= char2code("릏")) ||
-      (code >= char2code("뢰") && code <= char2code("룋"))
-    )
-      return [code2char(code + char2code("나") - char2code("라"))];
+      return [
+        char,
+        code2char(code + char2code("라") - char2code("아")),
+      ];
     else if (
       (code >= char2code("녀") && code <= char2code("녛")) ||
       (code >= char2code("뇨") && code <= char2code("눃")) ||
       (code >= char2code("뉴") && code <= char2code("늏")) ||
       (code >= char2code("니") && code <= char2code("닣"))
     )
-      return [code2char(code + char2code("아") - char2code("나"))];
+      return [
+        char,
+        code2char(code + char2code("나") - char2code("아")),
+        code2char(code + char2code("라") - char2code("아")),
+      ];
+    else if (
+      (code >= char2code("fu") && code <= char2code("옇")) ||
+      (code >= char2code("요") && code <= char2code("욯")) ||
+      (code >= char2code("유") && code <= char2code("윻")) ||
+      (code >= char2code("이") && code <= char2code("잏"))
+    )
+      return [
+        char,
+        code2char(code + char2code("나") - char2code("아")),
+        code2char(code + char2code("라") - char2code("아")),
+      ];
     return [char];
   },
 ];
