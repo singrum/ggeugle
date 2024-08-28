@@ -225,23 +225,7 @@ function GameHeader() {
   return (
     <>
       <div className="w-full flex items-center p-2 pl-3 justify-between border-b border-border">
-        <div className="flex items-center gap-1">
-          <div
-            className={cn(
-              "flex items-center justify-center",
-              strengths[currGame!.strength].color
-            )}
-          >
-            <RiRobot2Fill className="h-5 w-5" />
-          </div>
-          <div className="flex flex-col text-muted-foreground text-sm">
-            {currGame!.strength === 0
-              ? "쉬움"
-              : currGame!.strength === 1
-              ? "보통"
-              : "어려움"}
-          </div>
-        </div>
+        <div className="flex items-center gap-1">게임 중</div>
 
         <div className="flex gap-1">
           <div
