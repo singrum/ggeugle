@@ -18,6 +18,7 @@ function App() {
   useEffect(() => {
     updateRule();
   }, []);
+
   return (
     <>
       <div className="relative overflow-auto h-full flex flex-col min-h-0 justify-between">

@@ -21,7 +21,7 @@ export default function NavBar() {
     e.ruleForm,
     e.updateRule,
   ]);
-
+  const [toGo, setToGo] = useState<undefined | number>();
   return (
     <>
       <AlertDialog>
@@ -39,12 +39,21 @@ export default function NavBar() {
             <AlertDialogDescription>저장 하시겠습니까?</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>취소</AlertDialogCancel>
+            <AlertDialogCancel
+              onClick={() => {
+                if (toGo !== undefined) {
+                  setMenu(toGo);
+                }
+              }}
+            >
+              취소
+            </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
                 updateRule();
-
-                setMenu(0);
+                if (toGo !== undefined) {
+                  setMenu(0);
+                }
               }}
             >
               저장
@@ -63,6 +72,7 @@ export default function NavBar() {
             })}
             onClick={() => {
               if (menu === 3 && i !== 3 && !isEqual(rule, ruleForm)) {
+                setToGo(i);
                 document
                   .getElementById("rule-not-saved-dialog-trigger")
                   ?.click();
