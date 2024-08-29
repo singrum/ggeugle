@@ -36,7 +36,7 @@ export default function NavBar() {
             <AlertDialogTitle>
               설정한 룰이 저장되지 않았습니다.
             </AlertDialogTitle>
-            <AlertDialogDescription>저장 하시겠습니까?</AlertDialogDescription>
+            <AlertDialogDescription>저장하시겠습니까?</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel
