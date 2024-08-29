@@ -53,7 +53,7 @@ function WordsResult() {
           <div
             key={i}
             className={cn(
-              "text-muted-foreground cursor-pointer transition-colors border-b-2 border-transparent py-2 text-sm px-2 md:px-3 select-none",
+              "text-muted-foreground cursor-pointer transition-colors border-b-2 border-transparent py-2 text-base px-2 md:px-3 select-none",
               {
                 "text-foreground font-semibold border-primary": tab === i,
               }

@@ -25,7 +25,10 @@ export default function ExceptWordsDisplay() {
     e.isLoading,
     e.changeInfo,
   ]);
-  const [showToast] = useCookieSettings((e) => [e.showToast]);
+  const [showToast, exceptBy] = useCookieSettings((e) => [
+    e.showToast,
+    e.exceptBy,
+  ]);
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
@@ -33,7 +36,10 @@ export default function ExceptWordsDisplay() {
       <div className="flex justify-between gap-1 items-center">
         <div className="pl-1">
           <ChangedCharsDialog />
-          제외된 단어
+          <span className="font-semibold">제외된 단어</span>
+          <span className="text-muted-foreground">
+            {exceptBy === "space" ? ` (띄어쓰기로 추가)` : " (엔터로 추가)"}
+          </span>
         </div>
         <div className="flex items-center gap-2">
           {[

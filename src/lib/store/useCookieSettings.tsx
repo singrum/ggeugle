@@ -20,7 +20,7 @@ export interface CookieSettingsInfo {
 }
 
 export const useCookieSettings = create<CookieSettingsInfo>((set) => ({
-  isAutoExcept: Cookies.get("auto-except") === "false" ? false : true,
+  isAutoExcept: Cookies.get("auto-except") === "true" ? true : false,
   setIsAutoExcept: (isAutoExcept: boolean) => {
     Cookies.set("auto-except", `${isAutoExcept}`);
     set({ isAutoExcept });
