@@ -11,7 +11,7 @@ export default function Header({ className }: { className?: string }) {
         className,
         {
           "bg-muted/40 supports-[backdrop-filter]:bg-muted-40":
-            menu.index === 1 || menu.index === 2 || menu.index === 4,
+            menu === 1 || menu === 2 || menu === 4,
         }
       )}
     >

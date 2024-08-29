@@ -1,11 +1,57 @@
-import React, { ForwardedRef, forwardRef, ReactNode } from "react";
+import React, { ForwardedRef, forwardRef, ReactNode, useState } from "react";
 import { menus, useMenu } from "./lib/store/useMenu";
 import { cn } from "./lib/utils";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useWC } from "./lib/store/useWC";
+import { isEqual } from "lodash";
 export default function NavBar() {
-  const setMenu = useMenu((e) => e.setMenu);
-  const menu = useMenu((e) => e.menu);
+  const [setMenu, menu] = useMenu((e) => [e.setMenu, e.menu]);
+  const [rule, ruleForm, updateRule] = useWC((e) => [
+    e.rule,
+    e.ruleForm,
+    e.updateRule,
+  ]);
+
   return (
     <>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <button
+            className="absolute hidden"
+            id="rule-not-saved-dialog-trigger"
+          />
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              설정한 룰이 저장되지 않았습니다.
+            </AlertDialogTitle>
+            <AlertDialogDescription>저장 하시겠습니까?</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>취소</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                updateRule();
+
+                setMenu(0);
+              }}
+            >
+              저장
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
       <div className="flex md:flex-col md:gap-2 lg:gap-0 items-center justify-around text-muted-foreground/70 md:text-muted-foreground bg-background border-t border-border md:border-none relative z-50">
         {menus.map((e, i) => (
           <MenuBtn
@@ -13,9 +59,17 @@ export default function NavBar() {
             icon={e.icon}
             name={e.name}
             className={cn({
-              "md:bg-accent text-foreground": menu.index === e.index,
+              "md:bg-accent text-foreground": i === menu,
             })}
-            onClick={() => setMenu(i)}
+            onClick={() => {
+              if (menu === 3 && i !== 3 && !isEqual(rule, ruleForm)) {
+                document
+                  .getElementById("rule-not-saved-dialog-trigger")
+                  ?.click();
+              } else {
+                setMenu(i);
+              }
+            }}
           />
         ))}
       </div>

@@ -34,7 +34,7 @@ function App() {
                   >
                     <Logo />
                     <div className="hidden lg:block text-muted-foreground mb-1 text-xs">
-                      끝말잇기 검색기
+                      끝말잇기 검색엔진
                     </div>
                   </div>
 
@@ -44,13 +44,13 @@ function App() {
             )}
 
             <div className="flex-1 h-full min-h-0 min-w-0 w-full">
-              {menu.index === 0 ? (
+              {menu === 0 ? (
                 <Search />
-              ) : menu.index === 1 ? (
-                <Practice />
-              ) : menu.index === 2 ? (
+              ) : menu === 1 ? (
                 <Statistics />
-              ) : menu.index === 3 ? (
+              ) : menu === 2 ? (
+                <Practice />
+              ) : menu === 3 ? (
                 <Setting />
               ) : (
                 <Etc />
