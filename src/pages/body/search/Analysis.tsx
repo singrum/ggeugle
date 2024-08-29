@@ -24,7 +24,6 @@ export default function Analysis() {
     e.exceptWords,
     e.setExceptWords,
   ]);
-  const [isAutoExcept] = useCookieSettings((e) => [e.isAutoExcept]);
 
   const [wordStack, setWordStack] = useState<Word[]>([]);
 
@@ -166,7 +165,7 @@ export default function Analysis() {
                       onClick={() => {
                         setValue(word.at(engine!.rule.tailIdx)!);
                         setSearchInputValue(word.at(engine!.rule.tailIdx)!);
-                        if (isAutoExcept && !exceptWords.includes(word)) {
+                        if (!exceptWords.includes(word)) {
                           setExceptWords([...exceptWords, word]);
                         }
                       }}
@@ -187,10 +186,7 @@ export default function Analysis() {
                     setSearchInputValue(
                       nextRoutesInfo[0].word.at(engine!.rule.tailIdx)!
                     );
-                    if (
-                      isAutoExcept &&
-                      !exceptWords.includes(nextRoutesInfo[0].word)
-                    ) {
+                    if (!exceptWords.includes(nextRoutesInfo[0].word)) {
                       setExceptWords([...exceptWords, nextRoutesInfo[0].word]);
                     }
                   }}
@@ -216,7 +212,7 @@ export default function Analysis() {
                 onClick={() => {
                   setValue(word.at(engine!.rule.tailIdx)!);
                   setSearchInputValue(word.at(engine!.rule.tailIdx)!);
-                  if (isAutoExcept && !exceptWords.includes(word)) {
+                  if (!exceptWords.includes(word)) {
                     setExceptWords([...exceptWords, word]);
                   }
                 }}
@@ -247,7 +243,6 @@ export default function Analysis() {
                     )!
                   );
                   if (
-                    isAutoExcept &&
                     !exceptWords.includes(nextRoutesInfo[firstUndefIdx!].word)
                   ) {
                     setExceptWords([

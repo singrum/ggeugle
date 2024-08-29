@@ -57,7 +57,7 @@ export default function PreferenceSetting() {
           </div>
         </SettnigMenu>
         <Separator className="my-4" />
-        <SettnigMenu name="단어 클릭 시 금지단어에 추가">
+        <SettnigMenu name="단어 클릭 시 제외 단어에 추가">
           <div className="flex items-center space-x-2">
             <Switch
               id="autoExcept"
@@ -96,7 +96,7 @@ export default function PreferenceSetting() {
           </div>
         </SettnigMenu>
         <Separator className="my-4" />
-        <SettnigMenu name="제외된 단어에 추가하기">
+        <SettnigMenu name="제외 단어에 추가하기">
           <Select
             value={exceptBy}
             onValueChange={(value: "space" | "enter") => setExceptBy(value)}
