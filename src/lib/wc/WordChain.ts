@@ -391,7 +391,40 @@ export class WCDisplay {
 
     return result;
   }
-  static frequency(engine: WCEngine) {
+
+  static startsWithNum(engine: WCEngine) {
+    const result = arrayToKeyMap(Object.keys(engine.chanGraph.nodes), () => 0);
+
+    for (let word of engine.words) {
+      changeableMap[engine.rule.changeableIdx](
+        word.at(engine.rule.headIdx)!
+      ).forEach((char) => {
+        result[char]++;
+      });
+    }
+
+    const routes = Object.keys(engine.chanGraph.nodes).filter(
+      (e) => engine.chanGraph.nodes[e].type === "route"
+    );
+    for (let char of routes) {
+      result[char] = engine.chanGraph
+        .successors(char)
+        .reduce(
+          (acc1, head) =>
+            acc1 +
+            engine.wordGraph
+              .successors(head)
+              .reduce(
+                (acc2, curr) => engine.wordGraph._succ[head][curr] + acc2,
+                0
+              ),
+          0
+        );
+    }
+
+    return result;
+  }
+  static endsWithNum(engine: WCEngine) {
     const result = arrayToKeyMap(Object.keys(engine.chanGraph.nodes), () => 0);
 
     for (let word of engine.words) {

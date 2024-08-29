@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 import { WCDisplay } from "@/lib/wc/wordChain";
 import React, { useMemo, useState } from "react";
 
-const orders = ["n턴 후 승리", "빈도 순"];
+const orders = ["n턴 후 승리", "끝나는 단어 개수", "시작 단어 개수"];
 
 export function SideBar() {
   return (
@@ -53,28 +53,33 @@ export function Content() {
           </SelectContent>
         </Select>
       </div>
-      <div id="scrollspy-root">
-        {order === "0" ? <EndInN /> : <Frequency />}
+      <div>
+        {order === "0" ? (
+          <EndInN />
+        ) : order === "1" ? (
+          <EndsWithNum />
+        ) : (
+          <StartsWithNum />
+        )}
       </div>
     </div>
   );
 }
-
-function Frequency() {
+function StartsWithNum() {
   const engine = useWC((e) => e.engine);
   const charMenu = useCharMenu((e) => e.charMenu);
-  const charSort = useCharMenu((e) => e.charSort);
+
   const inWordsLen = useMemo(() => {
     if (!engine) {
       return;
     }
-    const result = WCDisplay.frequency(engine);
+    const result = WCDisplay.startsWithNum(engine);
 
     return result;
   }, [engine]);
   return (
     <>
-      <div className="mb-2">
+      <div className="mt-2">
         {engine && inWordsLen && charMenu === 0 && (
           <>
             <CharBox>
@@ -104,7 +109,7 @@ function Frequency() {
           </>
         )}
       </div>
-      <div className="mb-2" id="los">
+      <div className="">
         {engine && inWordsLen && charMenu === 1 && (
           <>
             <CharBox>
@@ -135,7 +140,111 @@ function Frequency() {
         )}
       </div>
 
-      <div className="" id="route">
+      <div className="">
+        {engine && inWordsLen && charMenu === 2 && (
+          <>
+            <CharBox>
+              <CharBadge>{`루트`}</CharBadge>
+              <CharContent>
+                {Object.keys(engine.chanGraph.nodes)
+                  .filter((e) => engine.chanGraph.nodes[e].type === "route")
+                  .sort((a, b) => inWordsLen[b] - inWordsLen[a])
+                  .map((char) => (
+                    <div className="flex flex-col items-center" key={char}>
+                      <CharButton type="route" className={`text-route`}>
+                        {char}
+                      </CharButton>
+                      <div className="text-muted-foreground text-xs">
+                        {inWordsLen[char].toLocaleString()}
+                      </div>
+                    </div>
+                  ))}
+              </CharContent>
+            </CharBox>
+
+            <Separator className="my-2" />
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+function EndsWithNum() {
+  const engine = useWC((e) => e.engine);
+  const charMenu = useCharMenu((e) => e.charMenu);
+
+  const inWordsLen = useMemo(() => {
+    if (!engine) {
+      return;
+    }
+    const result = WCDisplay.endsWithNum(engine);
+
+    return result;
+  }, [engine]);
+  return (
+    <>
+      <div className="mt-2">
+        {engine && inWordsLen && charMenu === 0 && (
+          <>
+            <CharBox>
+              <CharBadge>{`승리`}</CharBadge>
+              <CharContent>
+                {Object.keys(engine.chanGraph.nodes)
+                  .filter(
+                    (e) =>
+                      engine.chanGraph.nodes[e].type === "win" ||
+                      engine.chanGraph.nodes[e].type === "wincir"
+                  )
+                  .sort((a, b) => inWordsLen[b] - inWordsLen[a])
+                  .map((char) => (
+                    <div className="flex flex-col items-center" key={char}>
+                      <CharButton type="win" className={`text-win`}>
+                        {char}
+                      </CharButton>
+                      <div className="text-muted-foreground text-xs">
+                        {inWordsLen[char].toLocaleString()}
+                      </div>
+                    </div>
+                  ))}
+              </CharContent>
+            </CharBox>
+
+            <Separator className="my-2" />
+          </>
+        )}
+      </div>
+      <div className="">
+        {engine && inWordsLen && charMenu === 1 && (
+          <>
+            <CharBox>
+              <CharBadge>{`패배`}</CharBadge>
+              <CharContent>
+                {Object.keys(engine.chanGraph.nodes)
+                  .filter(
+                    (e) =>
+                      engine.chanGraph.nodes[e].type === "los" ||
+                      engine.chanGraph.nodes[e].type === "loscir"
+                  )
+                  .sort((a, b) => inWordsLen[b] - inWordsLen[a])
+                  .map((char) => (
+                    <div className="flex flex-col items-center" key={char}>
+                      <CharButton type="los" className={`text-los`}>
+                        {char}
+                      </CharButton>
+                      <div className="text-muted-foreground text-xs">
+                        {inWordsLen[char].toLocaleString()}
+                      </div>
+                    </div>
+                  ))}
+              </CharContent>
+            </CharBox>
+
+            <Separator className="my-2" />
+          </>
+        )}
+      </div>
+
+      <div className="">
         {engine && inWordsLen && charMenu === 2 && (
           <>
             <CharBox>
