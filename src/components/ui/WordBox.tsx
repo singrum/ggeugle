@@ -1,10 +1,9 @@
-import React from "react";
-import { Badge } from "./badge";
+import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { RefreshCcw, RotateCcw } from "lucide-react";
-import { useWC } from "@/lib/store/useWC";
+import React from "react";
+import { Badge } from "./badge";
 
-import { WCDisplay } from "@/lib/wc/wordChain";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
 
 export function WordBox({
