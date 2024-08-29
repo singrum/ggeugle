@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { changeableMap, reverseChangeableMap } from "@/lib/wc/hangul";
+import { changeableMap, reverseChangeableMap } from "@/lib/wc/changeables";
 import {
   CharSearchResult,
   NoncharSearchResult,

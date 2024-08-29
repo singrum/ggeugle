@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { strengths, useWC } from "@/lib/store/useWC";
 import { chatSplit, cn } from "@/lib/utils";
-import { changeableMap } from "@/lib/wc/hangul";
+import { changeableMap } from "@/lib/wc/changeables";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { ChevronRight, Flag, Plus, SendHorizonal } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
