@@ -152,8 +152,8 @@ export default function Analysis() {
         <Alert>
           <FaRegPlayCircle className="h-5 w-5" />
           <AlertTitle className="font-normal">
-            <span className="underline">{searchInputValue}</span>에서 필승 전략
-            탐색을 시작합니다.
+            <span className="font-semibold">{searchInputValue}</span>에서 필승
+            전략 탐색을 시작합니다.
           </AlertTitle>
           <AlertDescription>
             {nextRoutesInfo.length >= 2 ? (
@@ -275,7 +275,7 @@ export default function Analysis() {
           </>
         ) : (
           <div>
-            따라서 <span className="underline">{searchInputValue}</span>는{" "}
+            따라서 <span className="font-semibold">{searchInputValue}</span>는{" "}
             <span
               className={cn({
                 "text-win": firstWinIdx !== -1,

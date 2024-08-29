@@ -41,7 +41,7 @@ export default function Statistics() {
     originalEngine &&
     engine && (
       <>
-        <div className=" h-full bg-muted/40 min-h-0 overflow-auto">
+        <div className=" h-full  min-h-0 overflow-auto">
           {!isDesktop && <Header />}
           <div className="flex w-full text-left p-3 md:p-5 justify-center">
             {exceptWords.length > 0 ? (
@@ -175,7 +175,7 @@ export default function Statistics() {
                       content: <RouteCharTypeChart engine={originalEngine} />,
                     },
                   ].map(({ title, desc, content }, i) => (
-                    <Card className="flex flex-col gap-2" key={i}>
+                    <Card className="flex flex-col gap-2 bg-muted/40" key={i}>
                       <CardHeader className="items-center pb-0">
                         <CardTitle>{title}</CardTitle>
                         <CardDescription>{desc}</CardDescription>

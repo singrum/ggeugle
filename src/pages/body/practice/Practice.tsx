@@ -11,7 +11,7 @@ export default function Practice() {
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
-    <div className="bg-muted/40 h-full md:h-full md:flex md:min-h-0 min-w-0 w-full overflow-auto">
+    <div className="h-full md:h-full md:flex md:min-h-0 min-w-0 w-full overflow-auto">
       {!isDesktop && <Header />}
       <div className="md:w-1/2 flex flex-col p-3 md:p-5 md:pr-0 gap-5 h-[calc(100%-44px)] md:h-full max-w-screen-sm">
         <div className="flex-1 min-h-0">

@@ -50,7 +50,7 @@ export function RuleSetting() {
 
   return (
     <div className="flex flex-col ">
-      <div className="flex flex-col gap-3 bg-background py-4 md:py-4">
+      <div className="flex flex-col bg-background py-4 md:py-4">
         <div className="overflow-auto relative min-w-0">
           <div className="flex w-full min-w-0 gap-2 whitespace-nowrap pb-2 px-2">
             {sampleRules.map(({ name, ruleForm }) => (
@@ -86,7 +86,7 @@ export function RuleSetting() {
               <div
                 key={i}
                 className={cn(
-                  "text-base text-muted-foreground cursor-pointer px-2 pb-1 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent select-none",
+                  "text-base text-muted-foreground cursor-pointer px-2 py-2 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent select-none",
                   {
                     "transition-colors text-foreground font-semibold border-foreground md:border-b-0 md:bg-accent":
                       ruleGroupMenu === i,

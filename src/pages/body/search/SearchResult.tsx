@@ -326,6 +326,7 @@ function WordsResult() {
                                   .type as WordType
                               ),
                             }))}
+                            endsWith={true}
                           />
                         </WordBox>
                         <Separator className="my-2" />
@@ -347,6 +348,7 @@ function WordsResult() {
                                 .type as WordType
                             ),
                           }))}
+                          endsWith={true}
                         />
                       </WordBox>
                       <Separator className="my-2" />
