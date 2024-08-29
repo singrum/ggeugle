@@ -396,7 +396,7 @@ export class WCDisplay {
     const result = arrayToKeyMap(Object.keys(engine.chanGraph.nodes), () => 0);
 
     for (let word of engine.words) {
-      changeableMap[engine.rule.changeableIdx](
+      reverseChangeableMap[engine.rule.changeableIdx](
         word.at(engine.rule.headIdx)!
       ).forEach((char) => {
         result[char]++;

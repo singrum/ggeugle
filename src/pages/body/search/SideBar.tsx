@@ -79,7 +79,7 @@ function StartsWithNum() {
   }, [engine]);
   return (
     <>
-      <div className="mt-2">
+      <div className="md:mt-2">
         {engine && inWordsLen && charMenu === 0 && (
           <>
             <CharBox>
@@ -183,7 +183,7 @@ function EndsWithNum() {
   }, [engine]);
   return (
     <>
-      <div className="mt-2">
+      <div className="md:mt-2">
         {engine && inWordsLen && charMenu === 0 && (
           <>
             <CharBox>
@@ -291,7 +291,7 @@ function EndInN() {
       {engine && wcd ? (
         <>
           {charMenu === 0 && (
-            <div className="mb-2" id="win">
+            <div className="md:mt-2">
               {wcd.win.map((e) => (
                 <React.Fragment key={e.endNum}>
                   <CharBox>
@@ -325,7 +325,7 @@ function EndInN() {
             </div>
           )}
           {charMenu === 1 && (
-            <div className="mb-2" id="los">
+            <div className="md:mt-2">
               {wcd.los.map((e) => (
                 <React.Fragment key={e.endNum}>
                   <CharBox>
@@ -359,7 +359,7 @@ function EndInN() {
             </div>
           )}
           {charMenu === 2 && (
-            <div className="" id="route">
+            <div className="md:mt-2">
               {wcd.route.length > 0 && (
                 <>
                   <CharBox>
