@@ -1,7 +1,16 @@
 import { useMenu } from "@/lib/store/useMenu";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
-
+import { Settings } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import PreferenceSetting from "../body/etc/PreferenceSetting";
 export default function Header({ className }: { className?: string }) {
   return (
     <div
@@ -10,9 +19,9 @@ export default function Header({ className }: { className?: string }) {
         className
       )}
     >
-      <div className="flex w-full justify-between p-2">
+      <div className="flex w-full justify-between items-center">
         <div
-          className="flex items-end gap-1"
+          className="flex items-end gap-1 p-2"
           onClick={() => {
             location.reload();
           }}
@@ -22,7 +31,38 @@ export default function Header({ className }: { className?: string }) {
             끝말잇기 검색엔진
           </div>
         </div>
+
+        <div
+          className="flex justify-center items-center cursor-pointer transition-colors p-2 hover:bg-accent rounded-lg"
+          onClick={() =>
+            document
+              .getElementById("preference-setting-dialog-trigger")
+              ?.click()
+          }
+        >
+          <Settings className="w-5 h-5" />
+          <PreferenceDialog />
+        </div>
       </div>
     </div>
+  );
+}
+function PreferenceDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <button
+          id="preference-setting-dialog-trigger"
+          className="absolute hidden"
+        />
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>환경 설정</DialogTitle>
+          <DialogDescription></DialogDescription>
+        </DialogHeader>
+        <PreferenceSetting />
+      </DialogContent>
+    </Dialog>
   );
 }

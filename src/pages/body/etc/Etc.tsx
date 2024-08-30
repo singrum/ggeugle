@@ -10,7 +10,7 @@ import {
 import { useMediaQuery } from "@/hooks/use-media-query";
 import Header from "@/pages/header/Header";
 import { Code, Database, History, LinkIcon, Settings } from "lucide-react";
-import PreferenceSetting from "./PreferenceSetting";
+
 import DarkLogo from "/logo/dark.png";
 import LightLogo from "/logo/light.png";
 import { useTheme } from "@/components/theme-provider";
@@ -96,7 +96,7 @@ export default function Etc() {
         </div>
       </div>
       <DBDilog />
-      <PreferenceDialog />
+      
     </>
   );
 }
@@ -147,22 +147,3 @@ function DBDilog() {
   );
 }
 
-function PreferenceDialog() {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button
-          id="preference-setting-dialog-trigger"
-          className="absolute hidden"
-        />
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>환경 설정</DialogTitle>
-          <DialogDescription></DialogDescription>
-        </DialogHeader>
-        <PreferenceSetting />
-      </DialogContent>
-    </Dialog>
-  );
-}
