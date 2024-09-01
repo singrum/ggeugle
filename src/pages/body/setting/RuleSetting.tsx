@@ -49,7 +49,7 @@ export function RuleSetting() {
   const [ruleGroupMenu, setRuleGroupMenu] = useState<number>(0);
 
   return (
-    <div className="flex flex-col bg-muted dark:bg-background md:bg-background">
+    <div className="flex flex-col bg-muted/40 dark:bg-background md:bg-background">
       <div className="flex flex-col  bg-background dark:bg-muted/40 md:bg-background py-4 md:py-4">
         <div className="overflow-auto relative min-w-0">
           <div className="flex w-full min-w-0 gap-2 whitespace-nowrap pb-2 px-2">
