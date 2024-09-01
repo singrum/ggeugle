@@ -2,7 +2,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { getNextWords } from "@/lib/wc/algorithms";
-import { Word } from "@/lib/wc/wordChain";
+import { Word } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
 import { ChevronRight } from "lucide-react";
 import { Fragment, useEffect, useRef, useState } from "react";

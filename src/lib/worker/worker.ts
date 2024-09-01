@@ -9,7 +9,7 @@ import {
 } from "../wc/algorithms";
 
 import { getEngine } from "../wc/ruleUpdate";
-import { Char, WCDisplay, WCEngine, Word, WordType } from "../wc/wordChain";
+import { Char, WCDisplay, WCEngine, Word, WordType } from "../wc/WordChain";
 
 export type payload = {
   action: "getEngine" | "setWords" | "getComputerMove";

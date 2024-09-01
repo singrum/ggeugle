@@ -3,7 +3,7 @@ import { Badge } from "./badge";
 import { cn } from "@/lib/utils";
 
 import { useWC } from "@/lib/store/useWC";
-import { WCDisplay } from "@/lib/wc/wordChain";
+import { WCDisplay } from "@/lib/wc/WordChain";
 import { useSheet } from "@/lib/store/useSheet";
 
 export function CharBox({

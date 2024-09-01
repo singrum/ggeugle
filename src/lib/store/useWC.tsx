@@ -10,7 +10,7 @@ import {
   WCDisplay,
   WCEngine,
   Word,
-} from "../wc/wordChain";
+} from "../wc/WordChain";
 import { X } from "lucide-react";
 
 export const sampleRules: { name: string; ruleForm: RuleForm }[] = [

@@ -1,5 +1,5 @@
 import { useWC } from "@/lib/store/useWC";
-import { TreeData, WCDisplay } from "@/lib/wc/wordChain";
+import { TreeData, WCDisplay } from "@/lib/wc/WordChain";
 import React, { useEffect, useMemo, useRef } from "react";
 // @ts-ignore
 import { Tree } from "./Tree";

@@ -18,7 +18,7 @@ import { useSheet } from "@/lib/store/useSheet";
 
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { WCDisplay } from "@/lib/wc/wordChain";
+import { WCDisplay } from "@/lib/wc/WordChain";
 import React, { useMemo, useState } from "react";
 
 const orders = ["n턴 후 승리", "끝나는 단어 개수", "시작 단어 개수"];

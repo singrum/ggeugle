@@ -2,13 +2,10 @@ import {
   getReachableNodes,
   isWin,
   pruningWinLos,
-  pruningWinLosCir
+  pruningWinLosCir,
 } from "../wc/algorithms";
-import {
-  MultiDiGraph,
-  objToMultiDiGraph
-} from "../wc/multidigraph";
-import { Char } from "../wc/wordChain";
+import { MultiDiGraph, objToMultiDiGraph } from "../wc/multidigraph";
+import { Char } from "../wc/WordChain";
 
 export type payload = {
   action: "startAnalysis";

@@ -1,6 +1,6 @@
 import { arraysEqual, arrayToKeyMap } from "../utils";
 import { MultiDiGraph } from "./multidigraph";
-import { Char } from "./wordChain";
+import { Char } from "./WordChain";
 
 export function pruningWinLos(
   chanGraph: MultiDiGraph,

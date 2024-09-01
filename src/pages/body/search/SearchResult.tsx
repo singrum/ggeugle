@@ -15,7 +15,7 @@ import {
   NoncharSearchResult,
   WCDisplay,
   WordType,
-} from "@/lib/wc/wordChain";
+} from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
 import { CircleHelp } from "lucide-react";
 import React, { useState } from "react";
