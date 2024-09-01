@@ -38,7 +38,7 @@ export function SideBar() {
 export function Content() {
   const [order, setOrder] = useState<string>("0");
   return (
-    <ScrollArea className="px-2">
+    <ScrollArea className="px-2 bg-background">
       {/* <div className="flex-1 overflow-auto px-2 pb-2 bg-background h-full "> */}
       <div className="flex gap-2 justify-end pt-3">
         <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
@@ -417,7 +417,7 @@ export function CharMenu() {
   ]);
   const [sheetRef] = useSheet((e) => [e.sheetRef]);
   return (
-    <ul className="grid grid-cols-3 justify-center border-b border-border select-none">
+    <ul className="grid grid-cols-3 justify-center border-b border-border select-none bg-background">
       {charMenuList.map((e, i) => (
         <React.Fragment key={i}>
           <div

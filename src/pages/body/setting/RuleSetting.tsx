@@ -73,16 +73,10 @@ export function RuleSetting() {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row ">
-        <div className="md:w-[200px] flex gap-0 flex-row md:flex-col border-b border-border md:border-none px-4 md:px-0 bg-background dark:bg-muted/40 md:dark:bg-background">
+      <div className="flex flex-col md:flex-row min-h-dvh md:min-h-0">
+        <div className="md:w-[200px] flex gap-0 flex-row md:flex-col border-b border-border md:border-none px-4 md:px-0 bg-background dark:bg-muted/40 md:dark:bg-background h-full">
           {ruleGroup.map(({ name }, i) => (
             <div className="flex items-center" key={i}>
-              <div
-                className={cn("w-1 rounded-full h-3/4 mr-1 hidden md:block", {
-                  "bg-primary": ruleGroupMenu === i,
-                })}
-              />
-
               <div
                 key={i}
                 className={cn(

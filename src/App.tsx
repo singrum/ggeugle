@@ -61,7 +61,7 @@ function App() {
         ) : (
           <Header
             className={cn({
-              "bg-muted/40 dark:bg-background": menu === 1,
+              "bg-muted/40 dark:bg-background": menu === 1 || menu === 2,
               "bg-background dark:bg-muted/40": menu === 0 || menu === 3,
             })}
           />
