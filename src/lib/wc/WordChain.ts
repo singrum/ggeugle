@@ -116,6 +116,7 @@ export class WCEngine {
       engine.chanGraph = this.chanGraph;
       engine.returnWordGraph = this.returnWordGraph;
       engine.wordMap = this.wordMap;
+      engine.returnWordMap = this.returnWordMap;
     }
 
     return engine;
