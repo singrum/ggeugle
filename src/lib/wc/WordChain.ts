@@ -1,4 +1,3 @@
-import { indexOf } from "lodash";
 import { arrayToKeyMap, pushObject } from "../utils";
 import { getSCC, pruningWinLos, pruningWinLosCir } from "./algorithms";
 import { changeableMap, reverseChangeableMap } from "./changeables";
