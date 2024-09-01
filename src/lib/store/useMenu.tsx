@@ -28,11 +28,6 @@ export const menus: Menu[] = [
     name: "룰 설정",
     icon: <RiSettings3Fill className="w-6 h-6 md:w-5 md:h-5" />,
   },
-  {
-    name: "더보기",
-    icon: <RiMenu2Fill className="w-6 h-6 md:w-5 md:h-5" />,
-    // focusedIcon: <RiMenu2Fill className="w-6 h-6 md:w-5 md:h-5" />,
-  },
 ];
 export interface MenuInfo {
   menu: number;

@@ -49,8 +49,8 @@ export function RuleSetting() {
   const [ruleGroupMenu, setRuleGroupMenu] = useState<number>(0);
 
   return (
-    <div className="flex flex-col ">
-      <div className="flex flex-col bg-background py-4 md:py-4">
+    <div className="flex flex-col bg-muted dark:bg-background md:bg-background">
+      <div className="flex flex-col  bg-background dark:bg-muted/40 md:bg-background py-4 md:py-4">
         <div className="overflow-auto relative min-w-0">
           <div className="flex w-full min-w-0 gap-2 whitespace-nowrap pb-2 px-2">
             {sampleRules.map(({ name, ruleForm }) => (
@@ -73,8 +73,8 @@ export function RuleSetting() {
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row">
-        <div className="md:w-[200px] flex gap-0 flex-row md:flex-col border-b border-border md:border-none px-4 md:px-0 bg-background">
+      <div className="flex flex-col md:flex-row ">
+        <div className="md:w-[200px] flex gap-0 flex-row md:flex-col border-b border-border md:border-none px-4 md:px-0 bg-background dark:bg-muted/40 md:dark:bg-background">
           {ruleGroup.map(({ name }, i) => (
             <div className="flex items-center" key={i}>
               <div
@@ -88,7 +88,7 @@ export function RuleSetting() {
                 className={cn(
                   "text-base text-muted-foreground cursor-pointer px-2 py-2 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent select-none",
                   {
-                    "transition-colors text-foreground font-semibold border-foreground md:border-b-0 md:bg-accent":
+                    "transition-colors text-foreground font-semibold border-foreground md:border-b-0 md:bg-accent ":
                       ruleGroupMenu === i,
                   }
                 )}
@@ -100,15 +100,15 @@ export function RuleSetting() {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-1 px-4 bg-muted/40 md:bg-background py-4 md:py-0 mb-[100px] md:mb-0">
+        <div className="flex flex-col md:flex-1 gap-2 md:gap-0 md:px-4 dark:bg-background p-0 md:py-0 mb-[100px] md:mb-0">
           {ruleGroup[ruleGroupMenu].children.map((e, i) => (
             <Fragment key={i}>
               {e}
-              <Separator className="my-4" />
+              <Separator className="my-4 hidden md:block" />
             </Fragment>
           ))}
 
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-2 px-4 py-2">
             <Button
               variant={"ghost"}
               onClick={() => {
@@ -190,7 +190,7 @@ function PosSetting() {
           <React.Fragment key={i}>
             <div
               className={cn(
-                "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer",
+                "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer bg-background",
                 {
                   "bg-foreground text-background hover:bg-foreground hover:text-background":
                     ruleForm.pos[i],
@@ -226,7 +226,7 @@ function CateSetting() {
             <React.Fragment key={i}>
               <div
                 className={cn(
-                  "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer",
+                  "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer ",
                   {
                     "bg-foreground text-background hover:bg-foreground hover:text-background":
                       ruleForm.cate[i],

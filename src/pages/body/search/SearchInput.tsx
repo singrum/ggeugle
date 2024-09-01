@@ -57,7 +57,7 @@ export default function SearchInput() {
   };
 
   return (
-    <div className="px-3 py-2 md:px-4 bg-background ">
+    <div className="px-3 py-2 md:px-4  bg-background dark:bg-muted/40">
       <div className="relative">
         <Input
           className="drop-shadow-md border-none rounded-lg h-12 bg-accent text-md pl-10 pr-10 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-primary"

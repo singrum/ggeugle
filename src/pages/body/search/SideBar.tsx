@@ -4,6 +4,7 @@ import {
   CharButton,
   CharContent,
 } from "@/components/ui/CharBox";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -37,7 +38,8 @@ export function SideBar() {
 export function Content() {
   const [order, setOrder] = useState<string>("0");
   return (
-    <div className="flex-1 overflow-auto px-2 pb-2 bg-background h-full ">
+    <ScrollArea className="px-2">
+      {/* <div className="flex-1 overflow-auto px-2 pb-2 bg-background h-full "> */}
       <div className="flex gap-2 justify-end pt-3">
         <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
           <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1">
@@ -62,7 +64,8 @@ export function Content() {
           <StartsWithNum />
         )}
       </div>
-    </div>
+      {/* </div> */}
+    </ScrollArea>
   );
 }
 function StartsWithNum() {

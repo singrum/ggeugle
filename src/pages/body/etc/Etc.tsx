@@ -8,7 +8,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import Header from "@/pages/header/Header";
+
 import { Code, Database, History, LinkIcon, Settings } from "lucide-react";
 
 import DarkLogo from "/logo/dark.png";
@@ -61,8 +61,6 @@ export default function Etc() {
   return (
     <>
       <div className="flex flex-col h-full">
-        {isDesktop || <Header />}
-
         <div className="flex md:p-10 text-xl h-full w-full items-center justify-center select-none flex-1">
           <div className="flex flex-col md:gap-20 lg:gap-[10rem] md:flex-row items-center justify-center border-border md:border rounded-xl w-full h-full">
             {isDesktop &&
@@ -96,7 +94,6 @@ export default function Etc() {
         </div>
       </div>
       <DBDilog />
-      
     </>
   );
 }
@@ -146,4 +143,3 @@ function DBDilog() {
     </Dialog>
   );
 }
-

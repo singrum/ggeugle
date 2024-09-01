@@ -1,24 +1,20 @@
-import { useMenu } from "@/lib/store/useMenu";
 import { cn } from "@/lib/utils";
+import { CgMenuRight } from "react-icons/cg";
 import Logo from "./Logo";
-import { Settings } from "lucide-react";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import PreferenceSetting from "../body/etc/PreferenceSetting";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
+import { etcMenu } from "@/EtcNavBar";
+
 export default function Header({ className }: { className?: string }) {
   return (
-    <div
-      className={cn(
-        "top-0 flex flex-col min-h-9 z-10 sticky bg-background backdrop-blur supports-[backdrop-filter]:bg-background/60 px-1",
-        className
-      )}
-    >
+    <div className={cn("flex flex-col min-h-9 z-10 px-1", className)}>
       <div className="flex w-full justify-between items-center">
         <div
           className="flex items-end gap-1 p-2"
@@ -31,38 +27,32 @@ export default function Header({ className }: { className?: string }) {
             끝말잇기 검색엔진
           </div>
         </div>
-
-        <div
-          className="flex justify-center items-center cursor-pointer transition-colors p-2 hover:bg-accent rounded-lg"
-          onClick={() =>
-            document
-              .getElementById("preference-setting-dialog-trigger")
-              ?.click()
-          }
-        >
-          <Settings className="w-5 h-5" />
-          <PreferenceDialog />
-        </div>
+        <Sheet>
+          <SheetTrigger asChild>
+            <div className="flex justify-center items-center cursor-pointer transition-colors p-2 hover:bg-accent rounded-lg">
+              <CgMenuRight className="w-6 h-6" />
+            </div>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle></SheetTitle>
+              <SheetDescription></SheetDescription>
+            </SheetHeader>
+            <div className="flex flex-col gap-4">
+              {etcMenu.map(({ name, icon, onClick_ }) => (
+                <div
+                  key={name}
+                  className="flex gap-2 items-center cursor-pointer hover:text-muted-foreground transition-colors"
+                  onClick={onClick_}
+                >
+                  {icon}
+                  <div>{name}</div>
+                </div>
+              ))}
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </div>
-  );
-}
-function PreferenceDialog() {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <button
-          id="preference-setting-dialog-trigger"
-          className="absolute hidden"
-        />
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>환경 설정</DialogTitle>
-          <DialogDescription></DialogDescription>
-        </DialogHeader>
-        <PreferenceSetting />
-      </DialogContent>
-    </Dialog>
   );
 }

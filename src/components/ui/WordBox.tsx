@@ -15,7 +15,10 @@ export function WordBox({
 }) {
   return (
     <div
-      className={cn("flex flex-col gap-3 py-2 items-center pt-2", className)}
+      className={cn(
+        "flex flex-col gap-3 py-4 px-2 items-center bg-background dark:bg-muted/40 ",
+        className
+      )}
     >
       {children}
     </div>

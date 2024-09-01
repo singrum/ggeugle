@@ -48,7 +48,7 @@ function WordsResult() {
   const [tab, setTab] = useState<number>(0);
   return (
     <>
-      <div className="border-b px-3 md:px-4 flex bg-background whitespace-nowrap overflow-auto">
+      <div className="border-b px-3 md:px-4 flex  bg-background dark:bg-muted/40 whitespace-nowrap overflow-auto ">
         {tabInfo.map(({ name }, i) => (
           <div
             key={i}
@@ -69,7 +69,7 @@ function WordsResult() {
         (engine ? (
           searchResult && (
             <>
-              <div className="flex-1 min-h-0 p-2 md:px-4 md:py-2">
+              <div className="flex-1 min-h-0 flex flex-col gap-2">
                 {searchResult.isChar ? (
                   <>
                     {(searchResult.result as CharSearchResult).startsWith.win
@@ -87,7 +87,6 @@ function WordsResult() {
                               }))}
                             />
                           </WordBox>
-                          <Separator className="my-2" />
                         </React.Fragment>
                       ))}
                     {(searchResult.result as CharSearchResult).startsWith.wincir
@@ -106,7 +105,6 @@ function WordsResult() {
                               }))}
                             />
                           </WordBox>
-                          <Separator className="my-2" />
                         </React.Fragment>
                       )}
                     {(searchResult.result as CharSearchResult).startsWith.route
@@ -128,7 +126,6 @@ function WordsResult() {
                             }
                           />
                         </WordBox>
-                        <Separator className="my-2" />
                       </>
                     )}
                     {(searchResult.result as CharSearchResult).startsWith.return
@@ -162,7 +159,6 @@ function WordsResult() {
                             }
                           />
                         </WordBox>
-                        <Separator className="my-2" />
                       </>
                     )}
 
@@ -185,7 +181,6 @@ function WordsResult() {
                             }
                           />
                         </WordBox>
-                        <Separator className="my-2" />
                       </>
                     )}
                     {(searchResult.result as CharSearchResult).startsWith.los
@@ -203,7 +198,6 @@ function WordsResult() {
                               }))}
                             />
                           </WordBox>
-                          <Separator className="my-2" />
                         </React.Fragment>
                       ))}
                   </>
@@ -224,7 +218,6 @@ function WordsResult() {
                           }))}
                         />
                       </WordBox>
-                      <Separator className="my-2" />
                     </>
                   )
                 )}
@@ -257,7 +250,6 @@ function WordsResult() {
                     )}
                 </div>
               </WordBox>
-              <Separator className="my-2" />
             </>
           </div>
         ))}
@@ -268,7 +260,7 @@ function WordsResult() {
         (engine ? (
           searchResult && (
             <>
-              <div className="flex-1 min-h-0 p-2 md:px-4 md:py-2">
+              <div className="flex-1 min-h-0 flex flex-col gap-2">
                 {searchResult.isChar === true ? (
                   <>
                     {(searchResult.result as CharSearchResult).endsWith.head_los
@@ -288,7 +280,6 @@ function WordsResult() {
                             endsWith={true}
                           />
                         </WordBox>
-                        <Separator className="my-2" />
                       </React.Fragment>
                     )}
                     {(searchResult.result as CharSearchResult).endsWith
@@ -309,7 +300,6 @@ function WordsResult() {
                             endsWith={true}
                           />
                         </WordBox>
-                        <Separator className="my-2" />
                       </React.Fragment>
                     )}
                     {(searchResult.result as CharSearchResult).endsWith.rest
@@ -329,7 +319,6 @@ function WordsResult() {
                             endsWith={true}
                           />
                         </WordBox>
-                        <Separator className="my-2" />
                       </>
                     )}
                   </>
@@ -351,7 +340,6 @@ function WordsResult() {
                           endsWith={true}
                         />
                       </WordBox>
-                      <Separator className="my-2" />
                     </>
                   )
                 )}
@@ -384,7 +372,6 @@ function WordsResult() {
                     )}
                 </div>
               </WordBox>
-              <Separator className="my-2" />
             </>
           </div>
         ))}
@@ -404,7 +391,7 @@ function WordsResult() {
         </div>
       )}
       {tab === 3 && engine && searchInputValue.length === 1 && (
-        <div className="flex-1 min-h-0 p-2 md:px-4 md:py-2">
+        <div className="flex-1 min-h-0 flex flex-col gap-2">
           <WordBox>
             <WordBadge>{`${searchInputValue}에서 바꿀 수 있는 글자`}</WordBadge>
             <WordContent
@@ -421,7 +408,7 @@ function WordsResult() {
               }))}
             />
           </WordBox>
-          <Separator className="my-2" />
+
           <WordBox>
             <WordBadge>{`${josa(
               searchInputValue,

@@ -41,12 +41,11 @@ export default function Statistics() {
     originalEngine &&
     engine && (
       <>
-        <div className=" h-full  min-h-0 overflow-auto">
-          {!isDesktop && <Header />}
-          <div className="flex w-full text-left p-3 md:p-5 justify-center">
+        <div className=" h-full  min-h-0 overflow-auto bg-muted/40 dark:bg-background">
+          <div className="flex w-full text-left md:p-5 justify-center mb-[200px] md:mb-0">
             {exceptWords.length > 0 ? (
               <Tabs defaultValue="except" className="w-full">
-                <TabsList>
+                <TabsList className="m-3 mb-0 md:m-0">
                   <TabsTrigger value="except">단어 제외 시</TabsTrigger>
                   <TabsTrigger value="original">원본 룰</TabsTrigger>
                 </TabsList>
@@ -82,7 +81,10 @@ export default function Statistics() {
                           content: <RouteCharTypeChart engine={engine} />,
                         },
                       ].map(({ title, desc, content }, i) => (
-                        <Card className="flex flex-col gap-2" key={i}>
+                        <Card
+                          className="flex flex-col gap-2 rounded-none md:rounded-lg shadow-none md:shadow-sm border-0 md:border dark:bg-muted/40"
+                          key={i}
+                        >
                           <CardHeader className="items-center pb-0">
                             <CardTitle>{title}</CardTitle>
                             <CardDescription>{desc}</CardDescription>
@@ -129,7 +131,10 @@ export default function Statistics() {
                           ),
                         },
                       ].map(({ title, desc, content }, i) => (
-                        <Card className="flex flex-col gap-2" key={i}>
+                        <Card
+                          className="flex flex-col gap-2 rounded-none md:rounded-lg shadow-none md:shadow-sm border-0 md:border dark:bg-muted/40"
+                          key={i}
+                        >
                           <CardHeader className="items-center pb-0">
                             <CardTitle>{title}</CardTitle>
                             <CardDescription>{desc}</CardDescription>
@@ -175,7 +180,10 @@ export default function Statistics() {
                       content: <RouteCharTypeChart engine={originalEngine} />,
                     },
                   ].map(({ title, desc, content }, i) => (
-                    <Card className="flex flex-col gap-2 bg-muted/40" key={i}>
+                    <Card
+                      className="flex flex-col gap-2 rounded-none md:rounded-lg shadow-none md:shadow-sm border-0 md:border dark:bg-muted/40"
+                      key={i}
+                    >
                       <CardHeader className="items-center pb-0">
                         <CardTitle>{title}</CardTitle>
                         <CardDescription>{desc}</CardDescription>
@@ -284,7 +292,7 @@ function RouteCharTypeChart({ engine }: { engine: WCEngine }) {
 
 function StatisticsHeader({ engine }: { engine: WCEngine }) {
   return (
-    <div className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center px-4 py-2 md:p-0">
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
           {engine.words.length.toLocaleString()}

@@ -38,7 +38,7 @@ export default function PreferenceSetting() {
   return (
     <div>
       <div className="flex flex-col">
-        <SettnigMenu name="테마">
+        <SettnigMenu name="테마" className="dark:bg-background">
           <div className="flex items-center space-x-2">
             <Switch
               id="theme"
@@ -56,8 +56,11 @@ export default function PreferenceSetting() {
             <Label htmlFor="theme">다크모드</Label>
           </div>
         </SettnigMenu>
-        <Separator className="my-4" />
-        <SettnigMenu name="단어 클릭 시 제외 단어에 추가">
+        <Separator className="my-2 md:my-4" />
+        <SettnigMenu
+          name="단어 클릭 시 제외 단어에 추가"
+          className="dark:bg-background"
+        >
           <div className="flex items-center space-x-2">
             <Switch
               id="autoExcept"
@@ -69,8 +72,11 @@ export default function PreferenceSetting() {
             <Label htmlFor="autoExcept">사용</Label>
           </div>
         </SettnigMenu>
-        <Separator className="my-4" />
-        <SettnigMenu name="검색 레이아웃 좌우반전">
+        <Separator className="my-2 md:my-4" />
+        <SettnigMenu
+          name="검색 레이아웃 좌우반전"
+          className="dark:bg-background"
+        >
           <div className="flex items-center space-x-2">
             <Switch
               id="flip"
@@ -82,8 +88,11 @@ export default function PreferenceSetting() {
             <Label htmlFor="flip">사용</Label>
           </div>
         </SettnigMenu>
-        <Separator className="my-4" />
-        <SettnigMenu name="글자 유형 변경 시 알림">
+        <Separator className="my-2 md:my-4" />
+        <SettnigMenu
+          name="글자 유형 변경 시 알림"
+          className="dark:bg-background"
+        >
           <div className="flex items-center space-x-2">
             <Switch
               id="showToast"
@@ -95,8 +104,8 @@ export default function PreferenceSetting() {
             <Label htmlFor="showToast">사용</Label>
           </div>
         </SettnigMenu>
-        <Separator className="my-4" />
-        <SettnigMenu name="제외 단어에 추가하기">
+        <Separator className="my-2 md:my-4" />
+        <SettnigMenu name="제외 단어에 추가하기" className="dark:bg-background">
           <Select
             value={exceptBy}
             onValueChange={(value: "space" | "enter") => setExceptBy(value)}
@@ -112,33 +121,5 @@ export default function PreferenceSetting() {
         </SettnigMenu>
       </div>
     </div>
-  );
-}
-function ThemeDropdown() {
-  const theme = useTheme();
-  return (
-    <Select
-      defaultValue={theme.theme}
-      onValueChange={(e: "dark" | "light" | "system") => {
-        theme.setTheme(e);
-      }}
-    >
-      <SelectTrigger className="w-[180px] text-xs h-fit focus:ring-offset-1 focus:ring-1 ">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectItem className="text-xs" value="system">
-            자동
-          </SelectItem>
-          <SelectItem className="text-xs" value="light">
-            밝음
-          </SelectItem>
-          <SelectItem className="text-xs" value="dark">
-            어두움
-          </SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
   );
 }

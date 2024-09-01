@@ -32,7 +32,7 @@ export default function ExceptWordsDisplay() {
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
-    <div className="flex flex-col gap-2 px-3 py-2 md:p-4 bg-background">
+    <div className="flex flex-col gap-2 px-3 py-2 md:p-4 bg-background dark:bg-muted/40">
       <div className="flex justify-between gap-1 items-center">
         <div className="pl-1">
           <ChangedCharsDialog />
