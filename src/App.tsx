@@ -22,6 +22,7 @@ import PreferenceSetting from "./pages/body/etc/PreferenceSetting";
 import Header from "./pages/header/Header";
 import { LinkIcon } from "lucide-react";
 import { etcMenu, EtcNavBar } from "./EtcNavBar";
+import { cn } from "./lib/utils";
 
 function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -54,11 +55,16 @@ function App() {
               <NavBar />
             </div>
             <div className="flex flex-col items-center lg:items-start md:gap-2">
-              <EtcNavBar/>
+              <EtcNavBar />
             </div>
           </div>
         ) : (
-          <Header />
+          <Header
+            className={cn({
+              "bg-muted/40 dark:bg-background": menu === 1,
+              "bg-background dark:bg-muted/40": menu === 0 || menu === 3,
+            })}
+          />
         )}
         <div className="md:flex-1 md:h-full min-h-0 min-w-0 w-full">
           {menu === 0 ? (
