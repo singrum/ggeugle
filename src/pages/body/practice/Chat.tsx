@@ -43,7 +43,7 @@ export default function Chat({
       {children.map((e, i) => (
         <ChatContent
           key={i}
-          className={cn("bg-foreground text-background rounded-r-sm", {
+          className={cn("bg-primary text-background rounded-r-sm", {
             "rounded-tr-xl": i === 0,
             "rounded-br-xl": i === children.length - 1,
           })}

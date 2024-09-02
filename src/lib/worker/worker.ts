@@ -29,7 +29,10 @@ const getEngine_ = async (ruleForm: RuleForm) => {
 };
 
 const setWords = (exceptWords: Word[]) => {
-  const mainEngine = originalEngine?.copy(exceptWords);
+  const mainEngine =
+    exceptWords.length === 0
+      ? originalEngine
+      : originalEngine?.copy(exceptWords);
 
   self.postMessage({
     action: "getEngine",

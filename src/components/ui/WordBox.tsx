@@ -14,12 +14,7 @@ export function WordBox({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-3 py-4 px-2 items-center bg-background dark:bg-muted/40 ",
-        className
-      )}
-    >
+    <div className={cn("flex flex-col gap-3 py-4 items-center ", className)}>
       {children}
     </div>
   );
@@ -92,7 +87,7 @@ export function WordButton({
   return (
     <div
       className={cn(
-        "rounded-full flex items-center transition-colors py-1 px-3 text-background cursor-pointer prevent-select gap-1 hover:font-semibold",
+        "rounded-full flex items-center transition-colors py-1 px-3 text-background cursor-pointer prevent-select gap-1",
         className
       )}
       onClick={() => {

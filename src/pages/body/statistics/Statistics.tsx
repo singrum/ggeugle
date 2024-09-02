@@ -41,19 +41,19 @@ export default function Statistics() {
     originalEngine &&
     engine && (
       <>
-        <div className=" h-full  min-h-0 overflow-auto bg-muted/40 dark:bg-background">
+        <div className=" h-full min-h-0 overflow-auto ">
           <div className="flex w-full text-left md:p-5 justify-center mb-[200px] md:mb-0">
             {exceptWords.length > 0 ? (
               <Tabs defaultValue="except" className="w-full">
                 <TabsList className="m-3 mb-0 md:m-0">
-                  <TabsTrigger value="except">단어 제외 시</TabsTrigger>
+                  <TabsTrigger value="except">단어 제거 시</TabsTrigger>
                   <TabsTrigger value="original">원본 룰</TabsTrigger>
                 </TabsList>
                 <TabsContent value="except" className="p-0">
                   <div className="flex flex-col gap-3 md:gap-5">
                     <StatisticsHeader engine={engine} />
 
-                    <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-3">
+                    <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4">
                       {[
                         {
                           title: "주요 루트 수치 비교",
@@ -82,7 +82,7 @@ export default function Statistics() {
                         },
                       ].map(({ title, desc, content }, i) => (
                         <Card
-                          className="flex flex-col gap-2 rounded-none md:rounded-lg shadow-none md:shadow-sm border-0 md:border dark:bg-muted/40"
+                          className="flex flex-col gap-2 rounded-none md:rounded-lg"
                           key={i}
                         >
                           <CardHeader className="items-center pb-0">
@@ -101,7 +101,7 @@ export default function Statistics() {
                   <div className="flex flex-col gap-3 md:gap-5">
                     <StatisticsHeader engine={originalEngine} />
 
-                    <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-3">
+                    <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4">
                       {[
                         {
                           title: "주요 루트 수치 비교",
@@ -132,7 +132,7 @@ export default function Statistics() {
                         },
                       ].map(({ title, desc, content }, i) => (
                         <Card
-                          className="flex flex-col gap-2 rounded-none md:rounded-lg shadow-none md:shadow-sm border-0 md:border dark:bg-muted/40"
+                          className="flex flex-col gap-2 rounded-none md:rounded-lg border-border "
                           key={i}
                         >
                           <CardHeader className="items-center pb-0">
@@ -152,7 +152,7 @@ export default function Statistics() {
               <div className="flex flex-col gap-3 md:gap-5 w-full">
                 <StatisticsHeader engine={originalEngine} />
 
-                <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-3">
+                <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4">
                   {[
                     {
                       title: "주요 루트 수치 비교",
@@ -181,7 +181,7 @@ export default function Statistics() {
                     },
                   ].map(({ title, desc, content }, i) => (
                     <Card
-                      className="flex flex-col gap-2 rounded-none md:rounded-lg shadow-none md:shadow-sm border-0 md:border dark:bg-muted/40"
+                      className="flex flex-col gap-2 rounded-none md:rounded-lg "
                       key={i}
                     >
                       <CardHeader className="items-center pb-0">
@@ -292,7 +292,7 @@ function RouteCharTypeChart({ engine }: { engine: WCEngine }) {
 
 function StatisticsHeader({ engine }: { engine: WCEngine }) {
   return (
-    <div className="flex gap-2 items-center px-4 py-2 md:p-0">
+    <div className="flex gap-2 items-center px-4 py-2 pt-4 md:p-0">
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
           {engine.words.length.toLocaleString()}

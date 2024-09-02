@@ -13,7 +13,7 @@ import {
 export const etcMenu = [
   {
     name: "환경 설정",
-    icon: <Settings className="md:h-4 md:w-4" />,
+    icon: <Settings className="md:h-4 md:w-4" strokeWidth={1.5} />,
     onClick_: () => {
       document.getElementById("preference-setting-dialog-trigger")?.click();
     },
@@ -21,21 +21,21 @@ export const etcMenu = [
 
   {
     name: "이전 버전",
-    icon: <History className="md:h-4 md:w-4" />,
+    icon: <History className="md:h-4 md:w-4" strokeWidth={1.5} />,
     onClick_: () => {
       open("https://singrum.github.io/ggeugle-old");
     },
   },
   {
     name: "깃허브",
-    icon: <Github className="md:h-4 md:w-4" />,
+    icon: <Github className="md:h-4 md:w-4" strokeWidth={1.5} />,
     onClick_: () => {
       open("https://github.com/singrum/ggeugle");
     },
   },
   {
     name: "DB 출처",
-    icon: <Database className="md:h-4 md:w-4" />,
+    icon: <Database className="md:h-4 md:w-4" strokeWidth={1.5} />,
     onClick_: () => {
       document.getElementById("db-dialog-trigger")?.click();
     },

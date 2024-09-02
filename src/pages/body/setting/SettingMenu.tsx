@@ -10,12 +10,7 @@ export function SettnigMenu({
   children: React.ReactNode;
 }) {
   return (
-    <div
-      className={cn(
-        "flex flex-col gap-2 p-4 md:p-0 bg-background dark:bg-muted/40 md:dark:bg-background",
-        className
-      )}
-    >
+    <div className={cn("flex flex-col gap-4 py-4 bg-background", className)}>
       <div className="text-base font-semibold">{name}</div>
 
       {children}

@@ -13,7 +13,7 @@ export default function GameSetting() {
   ]);
 
   return (
-    <div className="flex flex-col items-center p-3 h-full justify-between bg-background dark:bg-muted/40 rounded-xl">
+    <div className="flex flex-col items-center p-3 h-full justify-between rounded-xl">
       <div className="flex-1 flex flex-col justify-center w-full items-center gap-8">
         <div className="text-xl font-semibold">게임 설정</div>
 
