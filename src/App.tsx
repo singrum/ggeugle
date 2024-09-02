@@ -23,6 +23,7 @@ import Header from "./pages/header/Header";
 import { LinkIcon } from "lucide-react";
 import { etcMenu, EtcNavBar } from "./EtcNavBar";
 import { cn } from "./lib/utils";
+import { ChangedCharsDialog } from "./pages/body/search/ChangedCharsDialog";
 
 function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -34,6 +35,7 @@ function App() {
 
   return (
     <>
+      <ChangedCharsDialog />
       <PreferenceDialog />
       <DBDilog />
       <div className="md:flex h-full overflow-auto relative">
@@ -59,12 +61,7 @@ function App() {
             </div>
           </div>
         ) : (
-          <Header
-            className={cn({
-              "bg-muted/40 dark:bg-background": menu === 1 || menu === 2,
-              "bg-background dark:bg-muted/40": menu === 0 || menu === 3,
-            })}
-          />
+          <Header />
         )}
         <div className="md:flex-1 md:h-full min-h-0 min-w-0 w-full">
           {menu === 0 ? (

@@ -27,7 +27,7 @@ const orders = ["n턴 후 승리", "끝나는 단어 개수", "시작 단어 개
 export function SideBar() {
   return (
     <>
-      <div className="h-full w-full flex flex-col">
+      <div className="h-full w-full flex flex-col border border-border rounded-xl">
         <CharMenu />
         <Content />
       </div>
@@ -38,8 +38,7 @@ export function SideBar() {
 export function Content() {
   const [order, setOrder] = useState<string>("0");
   return (
-    <ScrollArea className="px-2 bg-background">
-      {/* <div className="flex-1 overflow-auto px-2 pb-2 bg-background h-full "> */}
+    <div className="px-2 bg-background rounded-b-xl overflow-auto scrollbar-none">
       <div className="flex gap-2 justify-end pt-3">
         <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
           <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1">
@@ -64,8 +63,7 @@ export function Content() {
           <StartsWithNum />
         )}
       </div>
-      {/* </div> */}
-    </ScrollArea>
+    </div>
   );
 }
 function StartsWithNum() {
@@ -417,7 +415,7 @@ export function CharMenu() {
   ]);
   const [sheetRef] = useSheet((e) => [e.sheetRef]);
   return (
-    <ul className="grid grid-cols-3 justify-center border-b border-border select-none bg-background">
+    <ul className="grid grid-cols-3 justify-center border-b border-border select-none rounded-t-xl">
       {charMenuList.map((e, i) => (
         <React.Fragment key={i}>
           <div
@@ -435,13 +433,13 @@ export function CharMenu() {
               }
             }}
             className={cn(
-              "flex justify-center items-center cursor-pointer border-b-2 border-transparent py-2 overflow-hidden whitespace-nowrap",
+              "flex justify-center items-center cursor-pointer border-b border-transparent py-2 overflow-hidden whitespace-nowrap",
               { [` border-${e.color}`]: charMenu === i }
             )}
           >
             <div
               className={cn("py-1 px-4 rounded-full text-muted-foreground", {
-                [`bg-${e.color}/10 text-${e.color}`]: charMenu === i,
+                [`text-${e.color}`]: charMenu === i,
               })}
             >
               {charMenuList[i].name}
