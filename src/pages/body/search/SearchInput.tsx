@@ -32,11 +32,13 @@ export default function SearchInput() {
 }
 
 function SearchTitle() {
+  const [exceptBy] = useCookieSettings((e) => [e.exceptBy]);
   return (
     <div className="flex flex-col gap-2">
       <span className="font-semibold text-xl">검색</span>
       <div className="text-sm text-muted-foreground">
-        단어를 입력 후 띄어쓰기나 + 버튼을 클릭하면 단어를 제거할 수 있습니다.
+        단어를 입력 후 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나 + 버튼을
+        클릭하면 단어를 제거할 수 있습니다.
       </div>
     </div>
   );

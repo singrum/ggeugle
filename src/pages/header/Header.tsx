@@ -44,7 +44,9 @@ export default function Header({ className }: { className?: string }) {
                 <div
                   key={name}
                   className="flex gap-2 items-center cursor-pointer hover:text-muted-foreground transition-colors"
-                  onClick={onClick_}
+                  onClick={() => {
+                    onClick_();
+                  }}
                 >
                   {icon}
                   <div>{name}</div>
