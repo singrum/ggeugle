@@ -32,10 +32,10 @@ export default function SearchResult() {
 }
 
 const tabInfo = [
-  { name: "~로 시작하는" },
-  { name: "~로 끝나는" },
-  { name: "탐색" },
-  { name: "두음법칙" },
+  { name: "첫 글자" },
+  { name: "끝 글자" },
+  { name: "전략 탐색" },
+  { name: "두음 법칙" },
 ];
 
 function WordsResult() {
@@ -48,14 +48,14 @@ function WordsResult() {
   const [tab, setTab] = useState<number>(0);
   return (
     <>
-      <div className="border-b px-3 md:px-4 flex  bg-background dark:bg-muted/40 whitespace-nowrap overflow-auto ">
+      <div className="border-b px-4 flex whitespace-nowrap overflow-auto gap-4">
         {tabInfo.map(({ name }, i) => (
           <div
             key={i}
             className={cn(
-              "text-muted-foreground cursor-pointer transition-colors border-b-2 border-transparent py-2 text-base px-2 md:px-3 select-none",
+              "text-muted-foreground cursor-pointer transition-colors border-b border-transparent py-2 text-base select-none hover:text-foreground",
               {
-                "text-foreground font-semibold border-primary": tab === i,
+                "text-foreground border-foreground": tab === i,
               }
             )}
             onClick={() => setTab(i)}
@@ -69,7 +69,7 @@ function WordsResult() {
         (engine ? (
           searchResult && (
             <>
-              <div className="flex-1 min-h-0 flex flex-col gap-2">
+              <div className="flex-1 min-h-0 flex flex-col px-4">
                 {searchResult.isChar ? (
                   <>
                     {(searchResult.result as CharSearchResult).startsWith.win
@@ -87,6 +87,8 @@ function WordsResult() {
                               }))}
                             />
                           </WordBox>
+
+                          <Separator />
                         </React.Fragment>
                       ))}
                     {(searchResult.result as CharSearchResult).startsWith.wincir
@@ -105,6 +107,7 @@ function WordsResult() {
                               }))}
                             />
                           </WordBox>
+                          <Separator />
                         </React.Fragment>
                       )}
                     {(searchResult.result as CharSearchResult).startsWith.route
@@ -125,6 +128,7 @@ function WordsResult() {
                                 : []
                             }
                           />
+                          <Separator />
                         </WordBox>
                       </>
                     )}
@@ -159,6 +163,7 @@ function WordsResult() {
                             }
                           />
                         </WordBox>
+                        <Separator />
                       </>
                     )}
 
@@ -181,6 +186,7 @@ function WordsResult() {
                             }
                           />
                         </WordBox>
+                        <Separator />
                       </>
                     )}
                     {(searchResult.result as CharSearchResult).startsWith.los
@@ -198,6 +204,7 @@ function WordsResult() {
                               }))}
                             />
                           </WordBox>
+                          <Separator />
                         </React.Fragment>
                       ))}
                   </>
@@ -218,6 +225,7 @@ function WordsResult() {
                           }))}
                         />
                       </WordBox>
+                      <Separator />
                     </>
                   )
                 )}
@@ -260,7 +268,7 @@ function WordsResult() {
         (engine ? (
           searchResult && (
             <>
-              <div className="flex-1 min-h-0 flex flex-col gap-2">
+              <div className="flex-1 min-h-0 flex flex-col px-4">
                 {searchResult.isChar === true ? (
                   <>
                     {(searchResult.result as CharSearchResult).endsWith.head_los
@@ -280,6 +288,7 @@ function WordsResult() {
                             endsWith={true}
                           />
                         </WordBox>
+                        <Separator />
                       </React.Fragment>
                     )}
                     {(searchResult.result as CharSearchResult).endsWith
@@ -300,6 +309,7 @@ function WordsResult() {
                             endsWith={true}
                           />
                         </WordBox>
+                        <Separator />
                       </React.Fragment>
                     )}
                     {(searchResult.result as CharSearchResult).endsWith.rest
@@ -319,6 +329,7 @@ function WordsResult() {
                             endsWith={true}
                           />
                         </WordBox>
+                        <Separator />
                       </>
                     )}
                   </>
@@ -340,6 +351,7 @@ function WordsResult() {
                           endsWith={true}
                         />
                       </WordBox>
+                      <Separator />
                     </>
                   )
                 )}
@@ -347,7 +359,7 @@ function WordsResult() {
             </>
           )
         ) : (
-          <div className="flex-1 min-h-0">
+          <div className="flex-1 min-h-0 px-4">
             <>
               <WordBox>
                 <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
@@ -391,7 +403,7 @@ function WordsResult() {
         </div>
       )}
       {tab === 3 && engine && searchInputValue.length === 1 && (
-        <div className="flex-1 min-h-0 flex flex-col gap-2">
+        <div className="flex-1 min-h-0 flex flex-col px-4">
           <WordBox>
             <WordBadge>{`${searchInputValue}에서 바꿀 수 있는 글자`}</WordBadge>
             <WordContent
@@ -408,6 +420,7 @@ function WordsResult() {
               }))}
             />
           </WordBox>
+          <Separator />
 
           <WordBox>
             <WordBadge>{`${josa(
@@ -428,6 +441,7 @@ function WordsResult() {
               }))}
             />
           </WordBox>
+          <Separator />
         </div>
       )}
     </>

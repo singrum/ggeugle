@@ -10,7 +10,7 @@ export default function GameList() {
   return (
     <div
       className={cn(
-        "w-full flex flex-col-reverse gap-2 p-3 pb-[100px] md:p-5",
+        "w-full flex flex-col-reverse gap-4 p-0 pb-[200px] pt-10 md:p-5",
         {
           "items-center justify-center": games.length === 0 && !currGame,
         }
@@ -45,8 +45,8 @@ function GameButton({
   return (
     <div
       className={cn(
-        "w-full flex flex-col border-border border rounded-lg p-3 gap-1 bg-background dark:bg-muted/40",
-        { "ring-2 ring-ring": gameInfo.isPlaying }
+        "w-full flex flex-col border-border border md:rounded-lg p-3 gap-1 bg-muted/40",
+        { " md:ring-2 md:ring-ring": gameInfo.isPlaying }
       )}
     >
       <div className="flex items-center justify-between">

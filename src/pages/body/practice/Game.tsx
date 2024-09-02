@@ -17,6 +17,7 @@ import { ChevronRight, Flag, Plus, SendHorizonal } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 import Chat from "./Chat";
+import { Separator } from "@/components/ui/separator";
 
 export default function Game() {
   const [currGame, isChatLoading] = useWC((e) => [e.currGame, e.isChatLoading]);
@@ -159,11 +160,11 @@ function GameInput() {
   }, [currGame!.moves]);
 
   return (
-    <div className="sticky w-full bottom-0 flex flex-col border-t border-border">
+    <div className="sticky w-full bottom-0 flex flex-col border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 rounded-b-xl">
       {currGame!.moves.length > 0 && (
         <div
           ref={ref}
-          className="flex gap-1 bg-none p-2 items-center min-w-0 overflow-auto scrollbar-none bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+          className="flex gap-1 bg-none p-2 items-center min-w-0 overflow-auto scrollbar-none border-t "
         >
           {currGame!.moves.map((e, i) => (
             <React.Fragment key={i}>
@@ -187,12 +188,12 @@ function GameInput() {
           ))}
         </div>
       )}
-
-      <div className="p-2 pt-1 bg-background rounded-b-xl">
+      <Separator />
+      <div className="p-1 bg-muted/40 md:rounded-b-xl">
         <div className="relative">
           <Input
             disabled={!currGame!.isPlaying}
-            className="bg-accent focus-visible:ring-offset-0 pr-12 relative h-12"
+            className="bg-transparent border-none outline-none focus-visible:ring-offset-0 focus-visible:border-none focus-visible:outline-none focus-visible:ring-0 pr-12 relative h-12 text-base"
             type="search"
             placeholder="단어를 입력해 주세요."
             value={value}
@@ -210,7 +211,7 @@ function GameInput() {
           <Button
             disabled={!currGame!.isPlaying}
             size="icon"
-            className="absolute right-1 w-[2.4rem] h-[2.4rem] top-[calc(50%-1.2rem)] flex items-center justify-center "
+            className="absolute right-1 w-[2.4rem] h-[2.4rem] top-[calc(50%-1.2rem)] flex items-center justify-center rounded-full"
           >
             <SendHorizonal className="w-[1.2rem] h-[1.2rem]" onClick={onSend} />
           </Button>
@@ -224,7 +225,7 @@ function GameHeader() {
   const [currGame, setCurrGame] = useWC((e) => [e.currGame, e.setCurrGame]);
   return (
     <>
-      <div className="w-full flex items-center p-2 pl-3 justify-between border-b border-border bg-muted/40 rounded-t-xl">
+      <div className="w-full flex items-center p-2 pl-3 justify-between border-b border-border bg-accent md:rounded-t-xl">
         <div className="flex items-center gap-1">플레이 중</div>
 
         <div className="flex gap-1">

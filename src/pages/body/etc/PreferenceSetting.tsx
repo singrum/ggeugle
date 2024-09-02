@@ -56,9 +56,9 @@ export default function PreferenceSetting() {
             <Label htmlFor="theme">다크모드</Label>
           </div>
         </SettnigMenu>
-        <Separator className="my-2 md:my-4" />
+        <Separator />
         <SettnigMenu
-          name="단어 클릭 시 제외 단어에 추가"
+          name="단어 클릭 시 자동 제거"
           className="dark:bg-background"
         >
           <div className="flex items-center space-x-2">
@@ -72,7 +72,7 @@ export default function PreferenceSetting() {
             <Label htmlFor="autoExcept">사용</Label>
           </div>
         </SettnigMenu>
-        <Separator className="my-2 md:my-4" />
+        <Separator />
         <SettnigMenu
           name="검색 레이아웃 좌우반전"
           className="dark:bg-background"
@@ -88,7 +88,7 @@ export default function PreferenceSetting() {
             <Label htmlFor="flip">사용</Label>
           </div>
         </SettnigMenu>
-        <Separator className="my-2 md:my-4" />
+        <Separator />
         <SettnigMenu
           name="글자 유형 변경 시 알림"
           className="dark:bg-background"
@@ -104,8 +104,11 @@ export default function PreferenceSetting() {
             <Label htmlFor="showToast">사용</Label>
           </div>
         </SettnigMenu>
-        <Separator className="my-2 md:my-4" />
-        <SettnigMenu name="제외 단어에 추가하기" className="dark:bg-background">
+        <Separator />
+        <SettnigMenu
+          name="제거된 단어에 추가하기"
+          className="dark:bg-background"
+        >
           <Select
             value={exceptBy}
             onValueChange={(value: "space" | "enter") => setExceptBy(value)}
@@ -114,7 +117,7 @@ export default function PreferenceSetting() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="space">공백(스페이스)으로 추가</SelectItem>
+              <SelectItem value="space">띄어쓰기로 추가</SelectItem>
               <SelectItem value="enter">엔터로 추가</SelectItem>
             </SelectContent>
           </Select>
