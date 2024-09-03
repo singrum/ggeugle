@@ -1,3 +1,4 @@
+import { Separator } from "@/components/ui/separator";
 import { GameInfo, strengths, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { ChevronRight, Clipboard, ClipboardCheck, X } from "lucide-react";
@@ -45,7 +46,7 @@ function GameButton({
   return (
     <div
       className={cn(
-        "w-full flex flex-col border-border border md:rounded-lg p-3 gap-1 bg-muted/40",
+        "w-full flex flex-col border-border border md:rounded-lg px-4 py-3 pr-3 gap-2 bg-muted/40",
         { " md:ring-2 md:ring-ring": gameInfo.isPlaying }
       )}
     >
@@ -61,7 +62,7 @@ function GameButton({
           <div className="">{","}</div>
           <div>{gameInfo.steal ? "단어 뺏기 가능" : "단어 뺏기 불가"}</div>
         </div>
-        <div className="flex gap">
+        <div className="flex gap-1">
           <div
             className="p-1 rounded-md hover:bg-accent cursor-pointer"
             onClick={() => {
@@ -76,9 +77,9 @@ function GameButton({
             }}
           >
             {clipComplete ? (
-              <ClipboardCheck className="w-5 h-5" />
+              <ClipboardCheck className="w-5 h-5" strokeWidth={1.5} />
             ) : (
-              <Clipboard className="w-5 h-5" />
+              <Clipboard className="w-5 h-5" strokeWidth={1.5} />
             )}
           </div>
           <div
@@ -91,23 +92,24 @@ function GameButton({
               }
             }}
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5" strokeWidth={1.5} />
           </div>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-1 items-center text-ellipsis">
-        {gameInfo.moves.map((move, i) => (
-          <React.Fragment key={i}>
-            <div className="text-xs text-foreground">{move}</div>
-            {i !== gameInfo.moves.length - 1 && (
-              <div className="text-muted-foreground">
-                <ChevronRight className="w-3 h-3" />
-              </div>
-            )}
-          </React.Fragment>
-        ))}
-      </div>
+      {gameInfo.moves.length >= 1 && (
+        <div className="flex flex-wrap gap-1 items-center text-ellipsis">
+          {gameInfo.moves.map((move, i) => (
+            <React.Fragment key={i}>
+              <div className="text-sm text-foreground">{move}</div>
+              {i !== gameInfo.moves.length - 1 && (
+                <ChevronRight className="w-3 h-3 text-muted-foreground" />
+              )}
+            </React.Fragment>
+          ))}
+        </div>
+      )}
+
       {gameInfo.isPlaying ? (
         <div className="">플레이 중</div>
       ) : gameInfo.winner === "me" ? (

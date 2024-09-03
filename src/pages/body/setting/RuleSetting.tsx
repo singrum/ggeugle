@@ -50,7 +50,7 @@ export function RuleSetting() {
   const [ruleGroupMenu, setRuleGroupMenu] = useState<number>(0);
 
   return (
-    <div className="flex flex-col min-w-0">
+    <div className="flex flex-col min-w-0 mb-[200px] md:mb-0">
       <div className="flex flex-col min-w-0 gap-4 p-4 pb-0 bg-muted/40 md:rounded-xl md:border border-border">
         <div className="font-semibold">바로가기</div>
         <ScrollArea className="w-full pb-4">
@@ -76,7 +76,7 @@ export function RuleSetting() {
         </ScrollArea>
       </div>
 
-      <div className="flex flex-col md:flex-row min-h-dvh md:min-h-0 pt-4">
+      <div className="flex flex-col md:flex-row md:min-h-0 pt-4">
         <div className="md:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col border-b border-border md:border-none px-4 md:px-0 h-full">
           {ruleGroup.map(({ name }, i) => (
             <div className="flex items-center" key={i}>

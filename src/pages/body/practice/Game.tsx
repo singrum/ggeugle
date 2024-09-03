@@ -225,8 +225,8 @@ function GameHeader() {
   const [currGame, setCurrGame] = useWC((e) => [e.currGame, e.setCurrGame]);
   return (
     <>
-      <div className="w-full flex items-center p-2 pl-3 justify-between border-b border-border bg-accent md:rounded-t-xl">
-        <div className="flex items-center gap-1">플레이 중</div>
+      <div className="w-full flex items-center px-2 py-1 justify-between border-b border-border bg-accent md:rounded-t-xl">
+        <div className="flex items-center gap-1 px-2 py-2">플레이 중</div>
 
         <div className="flex gap-1">
           <div
