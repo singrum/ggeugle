@@ -185,7 +185,8 @@ const banjeon_rev = banjeon;
 
 function chanRule(char: string) {
   const [cho, jung, jong] = disassemble(char);
-  if (cho && jong && Hangul.isCho(cho) && Hangul.isJong(jong))
+
+  if (cho && jong && Hangul.isJong(cho) && Hangul.isCho(jong))
     return [char, assembleHangul([jong, jung!, cho])];
   else return [char];
 }

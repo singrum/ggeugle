@@ -55,7 +55,7 @@ export function EtcNavBar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {etcMenu.map(({ icon, name, onClick_ }) => (
-              <DropdownMenuItem onClick={onClick_}>
+              <DropdownMenuItem onClick={onClick_} key={name}>
                 <div>{icon}</div>
                 <div>{name}</div>
               </DropdownMenuItem>
