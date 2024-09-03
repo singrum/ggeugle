@@ -240,7 +240,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
     },
   },
   {
-    name: "첸룰",
+    name: "챈룰",
     ruleForm: {
       dict: 0,
       pos: Object.assign({}, [
