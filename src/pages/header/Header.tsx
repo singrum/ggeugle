@@ -15,10 +15,10 @@ import { Menu } from "lucide-react";
 
 export default function Header({ className }: { className?: string }) {
   return (
-    <div className={cn("flex flex-col min-h-9 z-10 px-1", className)}>
+    <div className={cn("flex flex-col min-h-9 z-10", className)}>
       <div className="flex w-full justify-between items-center">
         <div
-          className="flex items-end gap-1 p-2"
+          className="flex items-end gap-1 px-4 py-2"
           onClick={() => {
             location.reload();
           }}
@@ -30,7 +30,7 @@ export default function Header({ className }: { className?: string }) {
         </div>
         <Sheet>
           <SheetTrigger asChild>
-            <div className="flex justify-center items-center cursor-pointer transition-colors p-2 hover:bg-accent rounded-lg">
+            <div className="flex justify-center items-center cursor-pointer transition-colors p-2 my-1 mx-1 hover:bg-accent rounded-lg">
               <Menu className="w-6 h-6" strokeWidth={1.5} />
             </div>
           </SheetTrigger>
