@@ -413,15 +413,15 @@ const RegexExamples = [
   },
   {
     title: "'가'또는 '나'로 시작하지 않는 단어",
-    content: String.raw`[^가나다].*`,
+    content: String.raw`[^가나].*`,
   },
   {
     title: "'가'로 끝나지 않는 단어",
-    content: String.raw`.*[^가나다]`,
+    content: String.raw`.*[^가]`,
   },
   {
     title: "'가'와 '나'로 끝나지 않는 단어",
-    content: String.raw`.*[^가나다]`,
+    content: String.raw`.*[^가나]`,
   },
   {
     title: "'가'를 포함하는 단어",
