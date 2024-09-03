@@ -77,13 +77,13 @@ export function RuleSetting() {
       </div>
 
       <div className="flex flex-col md:flex-row min-h-dvh md:min-h-0 pt-4">
-        <div className="md:w-[200px] flex gap-0 flex-row md:flex-col border-b border-border md:border-none px-4 md:px-0 h-full">
+        <div className="md:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col border-b border-border md:border-none px-4 md:px-0 h-full">
           {ruleGroup.map(({ name }, i) => (
             <div className="flex items-center" key={i}>
               <div
                 key={i}
                 className={cn(
-                  "text-base text-muted-foreground cursor-pointer px-2 py-2 md:pb-0 md:py-1 md:rounded-md flex-1 border-b border-transparent select-none",
+                  "text-base text-muted-foreground cursor-pointer py-2 md:p-2 md:pb-0 md:py-1 md:rounded-md flex-1 border-b border-transparent select-none",
                   {
                     "transition-colors text-foreground md:font-semibold border-foreground md:border-b-0 md:bg-accent":
                       ruleGroupMenu === i,

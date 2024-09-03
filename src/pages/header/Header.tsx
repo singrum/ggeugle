@@ -15,7 +15,12 @@ import { Menu } from "lucide-react";
 
 export default function Header({ className }: { className?: string }) {
   return (
-    <div className={cn("flex flex-col min-h-9 z-10 px-1 border-b", className)}>
+    <div
+      className={cn(
+        "flex flex-col min-h-9 z-10 px-1 border-b bg-accent",
+        className
+      )}
+    >
       <div className="flex w-full justify-between items-center">
         <div
           className="flex items-end gap-1 p-2"

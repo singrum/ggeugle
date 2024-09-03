@@ -147,7 +147,7 @@ export default function Analysis() {
 
   return (
     nextRoutesInfo && (
-      <div className="flex flex-col items-start gap-1 mb-2">
+      <div className="flex flex-col items-start gap-4 mb-2">
         <Alert>
           <FaRegPlayCircle className="h-5 w-5" />
           <AlertTitle className="font-normal">
@@ -198,94 +198,95 @@ export default function Analysis() {
             )}
           </AlertDescription>
         </Alert>
+        <div className="flex flex-col items-start gap-1">
+          {nextRoutesInfo
+            .slice(
+              0,
+              firstUndefIdx === -1 ? nextRoutesInfo.length : firstUndefIdx
+            )
+            .map(({ word, win }) => (
+              <div key={word}>
+                <span
+                  className="underline cursor-pointer"
+                  onClick={() => {
+                    setValue(word.at(engine!.rule.tailIdx)!);
+                    setSearchInputValue(word.at(engine!.rule.tailIdx)!);
+                    if (!exceptWords.includes(word)) {
+                      setExceptWords([...exceptWords, word]);
+                    }
+                  }}
+                >
+                  {word}
+                </span>
+                {josa(word, "은/는").at(-1)}{" "}
+                <span className={cn({ "text-win": win, "text-los": !win })}>
+                  {win ? "승리" : "패배"}
+                </span>
+                합니다.
+              </div>
+            ))}
+          {firstWinIdx === -1 && firstUndefIdx !== -1 ? (
+            <>
+              <div>
+                <span
+                  className="underline cursor-pointer"
+                  onClick={() => {
+                    setValue(
+                      nextRoutesInfo[firstUndefIdx!].word.at(
+                        engine!.rule.tailIdx
+                      )!
+                    );
+                    setSearchInputValue(
+                      nextRoutesInfo[firstUndefIdx!].word.at(
+                        engine!.rule.tailIdx
+                      )!
+                    );
+                    if (
+                      !exceptWords.includes(nextRoutesInfo[firstUndefIdx!].word)
+                    ) {
+                      setExceptWords([
+                        ...exceptWords,
+                        nextRoutesInfo[firstUndefIdx!].word,
+                      ]);
+                    }
+                  }}
+                >
+                  {nextRoutesInfo[firstUndefIdx!].word}
+                </span>{" "}
+                탐색 중...
+              </div>
 
-        {nextRoutesInfo
-          .slice(
-            0,
-            firstUndefIdx === -1 ? nextRoutesInfo.length : firstUndefIdx
-          )
-          .map(({ word, win }) => (
-            <div key={word}>
+              <div className="flex flex-wrap gap-0 items-center text-xs">
+                {[nextRoutesInfo[firstUndefIdx!].word, ...wordStack].map(
+                  (e, i) => (
+                    <Fragment key={i}>
+                      <div>{e}</div>
+                      {i !== wordStack.length && (
+                        <ChevronRight
+                          className="text-muted-foreground w-4"
+                          strokeWidth={1}
+                        />
+                      )}
+                    </Fragment>
+                  )
+                )}
+              </div>
+            </>
+          ) : (
+            <div>
+              따라서 <span className="font-semibold">{searchInputValue}</span>는{" "}
               <span
-                className="underline cursor-pointer"
-                onClick={() => {
-                  setValue(word.at(engine!.rule.tailIdx)!);
-                  setSearchInputValue(word.at(engine!.rule.tailIdx)!);
-                  if (!exceptWords.includes(word)) {
-                    setExceptWords([...exceptWords, word]);
-                  }
-                }}
+                className={cn({
+                  "text-win": firstWinIdx !== -1,
+                  "text-los": firstWinIdx === -1,
+                })}
               >
-                {word}
-              </span>
-              {josa(word, "은/는").at(-1)}{" "}
-              <span className={cn({ "text-win": win, "text-los": !win })}>
-                {win ? "승리" : "패배"}
+                {firstWinIdx !== -1 ? "승리" : "패배"}
               </span>
               합니다.
             </div>
-          ))}
-        {firstWinIdx === -1 && firstUndefIdx !== -1 ? (
-          <>
-            <div>
-              <span
-                className="underline cursor-pointer"
-                onClick={() => {
-                  setValue(
-                    nextRoutesInfo[firstUndefIdx!].word.at(
-                      engine!.rule.tailIdx
-                    )!
-                  );
-                  setSearchInputValue(
-                    nextRoutesInfo[firstUndefIdx!].word.at(
-                      engine!.rule.tailIdx
-                    )!
-                  );
-                  if (
-                    !exceptWords.includes(nextRoutesInfo[firstUndefIdx!].word)
-                  ) {
-                    setExceptWords([
-                      ...exceptWords,
-                      nextRoutesInfo[firstUndefIdx!].word,
-                    ]);
-                  }
-                }}
-              >
-                {nextRoutesInfo[firstUndefIdx!].word}
-              </span>{" "}
-              탐색 중...
-            </div>
-
-            <div className="flex flex-wrap gap-0 items-center text-xs">
-              {[nextRoutesInfo[firstUndefIdx!].word, ...wordStack].map(
-                (e, i) => (
-                  <Fragment key={i}>
-                    <div>{e}</div>
-                    {i !== wordStack.length && (
-                      <ChevronRight
-                        className="text-muted-foreground w-4"
-                        strokeWidth={1}
-                      />
-                    )}
-                  </Fragment>
-                )
-              )}
-            </div>
-          </>
-        ) : (
-          <div>
-            따라서 <span className="font-semibold">{searchInputValue}</span>는{" "}
-            <span
-              className={cn({
-                "text-win": firstWinIdx !== -1,
-                "text-los": firstWinIdx === -1,
-              })}
-            >
-              {firstWinIdx !== -1 ? "승리" : "패배"}
-            </span>
-            합니다.
-          </div>
-        )}
+          )}
+        </div>
       </div>
     )
   );

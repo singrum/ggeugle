@@ -389,9 +389,11 @@ function WordsResult() {
         ))}
 
       {tab === 2 && engine && (
-        <div className="p-2 md:p-4">
+        <>
           {engine.chanGraph.nodes[searchInputValue]?.type === "route" ? (
-            <Analysis />
+            <div className="p-4">
+              <Analysis />
+            </div>
           ) : (
             (engine.chanGraph.nodes[searchInputValue]?.type === "win" ||
               engine.chanGraph.nodes[searchInputValue]?.type === "los" ||
@@ -400,7 +402,7 @@ function WordsResult() {
               <SolutionTree />
             )
           )}
-        </div>
+        </>
       )}
       {tab === 3 && engine && searchInputValue.length === 1 && (
         <div className="flex-1 min-h-0 flex flex-col px-4">

@@ -32,7 +32,7 @@ export default function SolutionTree() {
   }, [containerRef.current?.lastChild]);
 
   return (
-    <div className="h-[400px] overflow-hidden resize-y border-border border rounded-lg">
+    <div className="h-[400px] overflow-hidden resize-y border-b">
       <div
         className={`h-full min-w-[${
           (engine!.chanGraph.nodes[searchInputValue].endNum as number) * 900
