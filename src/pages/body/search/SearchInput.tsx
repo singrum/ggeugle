@@ -38,7 +38,7 @@ function SearchTitle() {
       <span className="font-semibold text-xl">검색</span>
       <div className="text-sm text-muted-foreground">
         단어를 입력 후 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나 + 버튼을
-        클릭하면 단어를 제거할 수 있습니다.
+        클릭하여 단어를 제거할 수 있습니다.
       </div>
     </div>
   );
@@ -72,7 +72,7 @@ function ExceptWordsDisplay() {
     <>
       <div className="grid grid-cols-3 justify-center items-center w-full p-3 rounded-t-lg bg-accent">
         <div />
-        <div className="flex justify-center text-foreground text-base">
+        <div className="flex justify-center text-foreground text-base font-semibold">
           제거된 단어
         </div>
         <div className="flex items-center gap-2 justify-end">
