@@ -43,7 +43,7 @@ export default function Header({ className }: { className?: string }) {
               {etcMenu.map(({ name, icon, onClick_ }) => (
                 <div
                   key={name}
-                  className="flex gap-2 items-center cursor-pointer hover:text-muted-foreground transition-colors"
+                  className="flex gap-4 items-center cursor-pointer hover:text-muted-foreground transition-colors text-xl"
                   onClick={() => {
                     onClick_();
                   }}

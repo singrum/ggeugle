@@ -146,10 +146,15 @@ function ExceptWordsDisplay() {
                         exceptWords.length > 0 && engine && setExceptWords([]);
                       },
                     },
-                  ].map(({ name, onClick }) => (
+                  ].map(({ name, onClick }, i) => (
                     <div
                       key={name}
-                      className="text-muted-foreground hover:text-foreground cursor-pointer select-none"
+                      className={cn(
+                        "text-muted-foreground hover:text-foreground cursor-pointer select-none",
+                        {
+                          "text-destructive hover:text-destructive/75": i === 1,
+                        }
+                      )}
                       onClick={onClick}
                     >
                       {name}

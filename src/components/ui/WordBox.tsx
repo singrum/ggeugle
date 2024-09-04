@@ -1,10 +1,11 @@
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { RefreshCcw, RotateCcw } from "lucide-react";
+import { CirclePlus, Plus, RefreshCcw, RotateCcw, X } from "lucide-react";
 import React from "react";
 import { Badge } from "./badge";
 
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
+import { Separator } from "./separator";
 
 export function WordBox({
   children,
@@ -35,7 +36,7 @@ export function WordContent({
   endsWith,
   notExcept,
 }: {
-  wordInfo: { word: string; type: string; returning?: boolean }[];
+  wordInfo: { word: string; type: string }[];
   endsWith?: boolean;
   notExcept?: boolean;
 }) {
@@ -47,7 +48,6 @@ export function WordContent({
             e.type === "return" ? "muted-foreground" : e.type
           }/10 text-${e.type === "return" ? "muted-foreground" : e.type}`}
           key={e.word}
-          returning={e.returning || e.type === "return"}
           endsWith={endsWith}
           notExcept={notExcept}
         >
@@ -60,18 +60,14 @@ export function WordContent({
 export function WordButton({
   children,
   className,
-  returning,
-
   endsWith,
   notExcept,
-  loop,
 }: {
   children: string;
   className?: string;
-  returning?: boolean;
+
   notExcept?: boolean;
   endsWith?: boolean;
-  loop?: boolean;
 }) {
   const [setExceptWords, exceptWords, setValue, engine, setSearchInputValue] =
     useWC((e) => [
@@ -81,13 +77,14 @@ export function WordButton({
       e.engine,
       e.setSearchInputValue,
     ]);
-  const [isAutoExcept] = useCookieSettings((e) => [e.isAutoExcept]);
+
   const head = children.at(engine!.rule.headIdx)!;
   const tail = children.at(engine!.rule.tailIdx)!;
+
   return (
     <div
       className={cn(
-        "rounded-full flex items-center transition-colors py-1 px-3 text-background cursor-pointer prevent-select gap-1",
+        "rounded-full flex items-center transition-colors text-background cursor-pointer prevent-select",
         className
       )}
       onClick={() => {
@@ -98,24 +95,22 @@ export function WordButton({
           setValue(head);
           setSearchInputValue(head);
         }
-
-        if (
-          isAutoExcept &&
-          !notExcept &&
-          !endsWith &&
-          !exceptWords.includes(children)
-        ) {
-          setExceptWords([...exceptWords, children]);
-        }
       }}
     >
-      <div>{children}</div>
-      {returning && <RefreshCcw className="w-4 h-4" />}
-      {loop === false &&
-        !returning &&
-        engine!.wordGraph.nodes[head].loop === tail && (
-          <RotateCcw className="w-4 h-4" />
-        )}
+      <div className={cn("py-1 pl-3", { "pr-3": notExcept })}>{children}</div>
+
+      {notExcept || (
+        <div
+          className="flex items-center justify-center rounded-full cursor-pointer py-2 pl-1.5 pr-2.5 "
+          onClick={() => {
+            if (!exceptWords.includes(children)) {
+              setExceptWords([...exceptWords, children]);
+            }
+          }}
+        >
+          <CirclePlus className="w-4 h-4" strokeWidth={2.0} />
+        </div>
+      )}
     </div>
   );
 }

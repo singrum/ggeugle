@@ -157,7 +157,6 @@ function WordsResult() {
                                   ).startsWith.return.map((word) => ({
                                     word,
                                     type: "muted-foreground",
-                                    returning: true,
                                   }))
                                 : []
                             }

@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { useMediaQuery } from "./hooks/use-media-query";
 import { useMenu } from "./lib/store/useMenu";
 import { useWC } from "./lib/store/useWC";
-import NavBar, { MenuBtn } from "./NavBar";
-import Etc from "./pages/body/etc/Etc";
+import NavBar from "./NavBar";
+
 import Practice from "./pages/body/practice/Practice";
 import Setting from "./pages/body/setting/Setting";
 import Statistics from "./pages/body/statistics/Statistics";
@@ -70,10 +70,8 @@ function App() {
             <Statistics />
           ) : menu === 2 ? (
             <Practice />
-          ) : menu === 3 ? (
-            <Setting />
           ) : (
-            <Etc />
+            <Setting />
           )}
         </div>
         {!isDesktop && <NavBar />}
