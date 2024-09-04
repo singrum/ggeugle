@@ -25,8 +25,8 @@ export default function PreferenceSetting() {
     exceptBy,
     setExceptBy,
   ] = useCookieSettings((e) => [
-    e.isAutoExcept,
-    e.setIsAutoExcept,
+    // e.isAutoExcept,
+    // e.setIsAutoExcept,
     e.isSearchFlip,
     e.setIsSearchFlip,
     e.showToast,
@@ -57,7 +57,7 @@ export default function PreferenceSetting() {
           </div>
         </SettnigMenu>
         <Separator />
-        <SettnigMenu
+        {/* <SettnigMenu
           name="단어 클릭 시 자동 제거"
           className="dark:bg-background"
         >
@@ -72,7 +72,7 @@ export default function PreferenceSetting() {
             <Label htmlFor="autoExcept">사용</Label>
           </div>
         </SettnigMenu>
-        <Separator />
+        <Separator /> */}
         <SettnigMenu
           name="검색 레이아웃 좌우반전"
           className="dark:bg-background"

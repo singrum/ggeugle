@@ -2,9 +2,9 @@ import Cookies from "js-cookie";
 import { create } from "zustand";
 
 export interface CookieSettingsInfo {
-  // 단어 클릭시 자동 금지단어 추가
-  isAutoExcept: boolean;
-  setIsAutoExcept: (isAutoExcept: boolean) => void;
+  // // 단어 클릭시 자동 금지단어 추가
+  // isAutoExcept: boolean;
+  // setIsAutoExcept: (isAutoExcept: boolean) => void;
 
   // 검색 레이아웃 좌우 반전
   isSearchFlip: boolean;
@@ -20,11 +20,11 @@ export interface CookieSettingsInfo {
 }
 
 export const useCookieSettings = create<CookieSettingsInfo>((set) => ({
-  isAutoExcept: Cookies.get("auto-except") === "true" ? true : false,
-  setIsAutoExcept: (isAutoExcept: boolean) => {
-    Cookies.set("auto-except", `${isAutoExcept}`);
-    set({ isAutoExcept });
-  },
+  // isAutoExcept: Cookies.get("auto-except") === "true" ? true : false,
+  // setIsAutoExcept: (isAutoExcept: boolean) => {
+  //   Cookies.set("auto-except", `${isAutoExcept}`);
+  //   set({ isAutoExcept });
+  // },
 
   isSearchFlip: Cookies.get("search-flip") === "true" ? true : false,
   setIsSearchFlip: (isSearchFlip: boolean) => {
