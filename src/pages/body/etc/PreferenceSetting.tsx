@@ -16,8 +16,6 @@ import { SettnigMenu } from "../setting/SettingMenu";
 export default function PreferenceSetting() {
   const theme = useTheme();
   const [
-    isAutoExcept,
-    setIsAutoExcept,
     isSearchFlip,
     setIsSearchFlip,
     showToast,
@@ -25,8 +23,6 @@ export default function PreferenceSetting() {
     exceptBy,
     setExceptBy,
   ] = useCookieSettings((e) => [
-    // e.isAutoExcept,
-    // e.setIsAutoExcept,
     e.isSearchFlip,
     e.setIsSearchFlip,
     e.showToast,
@@ -57,22 +53,6 @@ export default function PreferenceSetting() {
           </div>
         </SettnigMenu>
         <Separator />
-        {/* <SettnigMenu
-          name="단어 클릭 시 자동 제거"
-          className="dark:bg-background"
-        >
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="autoExcept"
-              onCheckedChange={(e: boolean) => {
-                setIsAutoExcept(e);
-              }}
-              checked={isAutoExcept}
-            />
-            <Label htmlFor="autoExcept">사용</Label>
-          </div>
-        </SettnigMenu>
-        <Separator /> */}
         <SettnigMenu
           name="검색 레이아웃 좌우반전"
           className="dark:bg-background"
