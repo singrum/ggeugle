@@ -1,11 +1,8 @@
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { CirclePlus, Plus, RefreshCcw, RotateCcw, X } from "lucide-react";
+import { CirclePlus } from "lucide-react";
 import React from "react";
 import { Badge } from "./badge";
-
-import { useCookieSettings } from "@/lib/store/useCookieSettings";
-import { Separator } from "./separator";
 
 export function WordBox({
   children,
@@ -109,6 +106,8 @@ export function WordButton({
           }}
         >
           <CirclePlus className="w-4 h-4" strokeWidth={2.0} />
+
+          {/* + */}
         </div>
       )}
     </div>
