@@ -105,9 +105,7 @@ export function WordButton({
             }
           }}
         >
-          <CirclePlus className="w-4 h-4" strokeWidth={2.0} />
-
-          {/* + */}
+          <CirclePlus className="w-4 h-4" strokeWidth={1.75} />
         </div>
       )}
     </div>
