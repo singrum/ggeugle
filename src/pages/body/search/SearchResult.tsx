@@ -17,8 +17,8 @@ import {
   WordType,
 } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
-import { CircleHelp } from "lucide-react";
-import React, { useState } from "react";
+import { ChevronDown, CircleHelp } from "lucide-react";
+import React, { useEffect, useState } from "react";
 import Analysis from "./Analysis";
 import SolutionTree from "./SolutionTree";
 
@@ -43,9 +43,16 @@ function WordsResult() {
     e.searchResult,
     e.engine,
     e.searchInputValue,
-    e.setValue,
   ]);
   const [tab, setTab] = useState<number>(0);
+  const [isMoreOpen, setIsMoreOpen] = useState<boolean>(false);
+  const charType =
+    engine &&
+    searchInputValue &&
+    WCDisplay.getCharType(engine, searchInputValue);
+  useEffect(() => {
+    setIsMoreOpen(false);
+  }, [searchInputValue]);
   return (
     <>
       <div className="border-b px-4 flex whitespace-nowrap overflow-auto gap-4">
@@ -110,102 +117,120 @@ function WordsResult() {
                           <Separator />
                         </React.Fragment>
                       )}
-                    {(searchResult.result as CharSearchResult).startsWith.route
-                      .length > 0 && (
+                    {(charType !== "win" || isMoreOpen) && (
                       <>
-                        <WordBox>
-                          <WordBadge>{`루트 단어`}</WordBadge>
-                          <WordContent
-                            wordInfo={
-                              (searchResult.result as CharSearchResult)
-                                .startsWith.route
-                                ? (
-                                    searchResult.result as CharSearchResult
-                                  ).startsWith.route.map((word) => ({
-                                    word,
-                                    type: "route",
-                                  }))
-                                : []
-                            }
-                          />
-                          <Separator />
-                        </WordBox>
+                        {(searchResult.result as CharSearchResult).startsWith
+                          .route.length > 0 && (
+                          <>
+                            <WordBox>
+                              <WordBadge>{`루트 단어`}</WordBadge>
+                              <WordContent
+                                wordInfo={
+                                  (searchResult.result as CharSearchResult)
+                                    .startsWith.route
+                                    ? (
+                                        searchResult.result as CharSearchResult
+                                      ).startsWith.route.map((word) => ({
+                                        word,
+                                        type: "route",
+                                      }))
+                                    : []
+                                }
+                              />
+                            </WordBox>
+                            <Separator />
+                          </>
+                        )}
+                        {(searchResult.result as CharSearchResult).startsWith
+                          .return.length > 0 && (
+                          <>
+                            <WordBox>
+                              <Popover>
+                                <PopoverTrigger>
+                                  <WordBadge>
+                                    {`되돌림 단어`}
+                                    <CircleHelp className="w-4 h-4" />
+                                  </WordBadge>
+                                </PopoverTrigger>
+                                <PopoverContent className="text-sm">
+                                  되돌림 단어들의 유무는 승패 여부에 영향을 주지
+                                  않습니다.
+                                </PopoverContent>
+                              </Popover>
+                              <WordContent
+                                wordInfo={
+                                  (searchResult.result as CharSearchResult)
+                                    .startsWith.return
+                                    ? (
+                                        searchResult.result as CharSearchResult
+                                      ).startsWith.return.map((word) => ({
+                                        word,
+                                        type: "muted-foreground",
+                                      }))
+                                    : []
+                                }
+                              />
+                            </WordBox>
+                            <Separator />
+                          </>
+                        )}
+                        {(charType !== "route" || isMoreOpen) && (
+                          <>
+                            {(searchResult.result as CharSearchResult)
+                              .startsWith.loscir.length > 0 && (
+                              <>
+                                <WordBox>
+                                  <WordBadge>{`조건부 패배`}</WordBadge>
+                                  <WordContent
+                                    wordInfo={
+                                      (searchResult.result as CharSearchResult)
+                                        .startsWith.loscir
+                                        ? (
+                                            searchResult.result as CharSearchResult
+                                          ).startsWith.loscir.map((word) => ({
+                                            word,
+                                            type: "los",
+                                          }))
+                                        : []
+                                    }
+                                  />
+                                </WordBox>
+                                <Separator />
+                              </>
+                            )}
+                            {(searchResult.result as CharSearchResult)
+                              .startsWith.los.length > 0 &&
+                              (
+                                searchResult.result as CharSearchResult
+                              ).startsWith.los.map((e, i) => (
+                                <React.Fragment key={i}>
+                                  <WordBox>
+                                    <WordBadge>{`${e.endNum}턴 후 패배`}</WordBadge>
+                                    <WordContent
+                                      wordInfo={e.words.map((word) => ({
+                                        word,
+                                        type: "los",
+                                      }))}
+                                    />
+                                  </WordBox>
+                                  <Separator />
+                                </React.Fragment>
+                              ))}
+                          </>
+                        )}
                       </>
                     )}
-                    {(searchResult.result as CharSearchResult).startsWith.return
-                      .length > 0 && (
-                      <>
-                        <WordBox>
-                          <Popover>
-                            <PopoverTrigger>
-                              <WordBadge>
-                                {`되돌림 단어`}
-                                <CircleHelp className="w-4 h-4" />
-                              </WordBadge>
-                            </PopoverTrigger>
-                            <PopoverContent className="text-sm">
-                              되돌림 단어들의 유무는 승패 여부에 영향을 주지
-                              않습니다.
-                            </PopoverContent>
-                          </Popover>
-                          <WordContent
-                            wordInfo={
-                              (searchResult.result as CharSearchResult)
-                                .startsWith.return
-                                ? (
-                                    searchResult.result as CharSearchResult
-                                  ).startsWith.return.map((word) => ({
-                                    word,
-                                    type: "muted-foreground",
-                                  }))
-                                : []
-                            }
-                          />
-                        </WordBox>
-                        <Separator />
-                      </>
+                    {!isMoreOpen && charType !== "los" && (
+                      <div
+                        className="p-4 flex justify-center text-primary items-center gap-1 select-none cursor-pointer hover:opacity-75"
+                        onClick={() => setIsMoreOpen(true)}
+                      >
+                        {charType === "win"
+                          ? "루트 단어, 패배 단어 펼치기"
+                          : "패배 단어 펼치기"}
+                        <ChevronDown className="w-5 h-5" />
+                      </div>
                     )}
-
-                    {(searchResult.result as CharSearchResult).startsWith.loscir
-                      .length > 0 && (
-                      <>
-                        <WordBox>
-                          <WordBadge>{`조건부 패배`}</WordBadge>
-                          <WordContent
-                            wordInfo={
-                              (searchResult.result as CharSearchResult)
-                                .startsWith.loscir
-                                ? (
-                                    searchResult.result as CharSearchResult
-                                  ).startsWith.loscir.map((word) => ({
-                                    word,
-                                    type: "los",
-                                  }))
-                                : []
-                            }
-                          />
-                        </WordBox>
-                        <Separator />
-                      </>
-                    )}
-                    {(searchResult.result as CharSearchResult).startsWith.los
-                      .length > 0 &&
-                      (
-                        searchResult.result as CharSearchResult
-                      ).startsWith.los.map((e, i) => (
-                        <React.Fragment key={i}>
-                          <WordBox>
-                            <WordBadge>{`${e.endNum}턴 후 패배`}</WordBadge>
-                            <WordContent
-                              wordInfo={e.words.map((word) => ({
-                                word,
-                                type: "los",
-                              }))}
-                            />
-                          </WordBox>
-                          <Separator />
-                        </React.Fragment>
-                      ))}
                   </>
                 ) : (
                   (searchResult.result as NoncharSearchResult).startsWith
@@ -294,7 +319,6 @@ function WordsResult() {
                       .head_route.length > 0 && (
                       <React.Fragment>
                         <WordBox>
-                          {/* <WordBadge>{``}</WordBadge> */}
                           <WordContent
                             wordInfo={(
                               searchResult.result as CharSearchResult

@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import useOnScreen from "@/hooks/useOnScreen";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
@@ -13,7 +14,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { TbStatusChange } from "react-icons/tb";
 import { useDebouncedCallback } from "use-debounce";
@@ -23,7 +24,7 @@ export default function SearchInput() {
     <div className="p-4">
       <SearchTitle />
 
-      <div className="mt-4 min-h-12 w-full rounded-lg mb-4 border-border border">
+      <div className="mt-4 min-h-12 w-full rounded-lg border-border border">
         <ExceptWordsDisplay />
       </div>
       <WordInput />
@@ -62,10 +63,7 @@ function ExceptWordsDisplay() {
     e.isLoading,
     e.changeInfo,
   ]);
-  const [showToast, exceptBy] = useCookieSettings((e) => [
-    e.showToast,
-    e.exceptBy,
-  ]);
+  const [showToast] = useCookieSettings((e) => [e.showToast]);
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   return (
@@ -208,6 +206,14 @@ function WordInput() {
     e.searchInputValue,
   ]);
   const [exceptBy] = useCookieSettings((e) => [e.exceptBy]);
+  const ref = useRef<HTMLDivElement>(null!);
+  const isVisible = useOnScreen(ref);
+
+  useEffect(() => {
+    if (ref && !isVisible) {
+      ref.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [searchInputValue]);
 
   const debounced = useDebouncedCallback((value) => {
     if (engine) {
@@ -239,7 +245,7 @@ function WordInput() {
     }
   };
   return (
-    <>
+    <div ref={ref} className="pt-4">
       <div className="relative">
         <Input
           className="border border-border rounded-lg h-12 bg-background text-md pl-10 pr-14 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 "
@@ -295,6 +301,6 @@ function WordInput() {
           <Plus className="w-5 h-5" />
         </div>
       </div>
-    </>
+    </div>
   );
 }
