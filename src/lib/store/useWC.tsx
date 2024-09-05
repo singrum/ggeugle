@@ -367,6 +367,7 @@ export type GameInfo = {
   strength: 0 | 1 | 2;
   isFirst: boolean;
   steal?: boolean;
+
   chats: Chat[];
   moves: Word[];
   isPlaying: boolean;
@@ -744,6 +745,7 @@ export const useWC = create<WCInfo>((set, get) => ({
               ),
             },
           ],
+
           moves: [],
           isPlaying: true,
         },

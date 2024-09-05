@@ -257,11 +257,11 @@ function WordsResult() {
             </>
           )
         ) : (
-          <div className="flex-1 min-h-0">
+          <div className="flex-1 min-h-0 flex flex-col px-4">
             <>
               <WordBox>
                 <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
-                  {Array(100)
+                  {Array(20)
                     .fill(0)
                     .map((_, i) =>
                       Math.random() < 0.5 ? (
@@ -269,19 +269,68 @@ function WordsResult() {
                           className="py-1 px-3 text-transparent rounded-full text-sm"
                           key={i}
                         >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </Skeleton>
                       ) : (
                         <Skeleton
                           className="py-1 px-3 text-transparent rounded-full text-sm"
                           key={i}
                         >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </Skeleton>
                       )
                     )}
                 </div>
               </WordBox>
+              <Separator />
+              <WordBox>
+                <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
+                  {Array(20)
+                    .fill(0)
+                    .map((_, i) =>
+                      Math.random() < 0.5 ? (
+                        <Skeleton
+                          className="py-1 px-3 text-transparent rounded-full text-sm"
+                          key={i}
+                        >
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Skeleton>
+                      ) : (
+                        <Skeleton
+                          className="py-1 px-3 text-transparent rounded-full text-sm"
+                          key={i}
+                        >
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Skeleton>
+                      )
+                    )}
+                </div>
+              </WordBox>
+              <Separator />
+              <WordBox>
+                <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
+                  {Array(20)
+                    .fill(0)
+                    .map((_, i) =>
+                      Math.random() < 0.5 ? (
+                        <Skeleton
+                          className="py-1 px-3 text-transparent rounded-full text-sm"
+                          key={i}
+                        >
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Skeleton>
+                      ) : (
+                        <Skeleton
+                          className="py-1 px-3 text-transparent rounded-full text-sm"
+                          key={i}
+                        >
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Skeleton>
+                      )
+                    )}
+                </div>
+              </WordBox>
+              <Separator />
             </>
           </div>
         ))}
@@ -382,11 +431,11 @@ function WordsResult() {
             </>
           )
         ) : (
-          <div className="flex-1 min-h-0 px-4">
+          <div className="flex-1 min-h-0 flex flex-col px-4">
             <>
               <WordBox>
                 <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
-                  {Array(100)
+                  {Array(20)
                     .fill(0)
                     .map((_, i) =>
                       Math.random() < 0.5 ? (
@@ -394,19 +443,68 @@ function WordsResult() {
                           className="py-1 px-3 text-transparent rounded-full text-sm"
                           key={i}
                         >
-                          싱그럼
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </Skeleton>
                       ) : (
                         <Skeleton
                           className="py-1 px-3 text-transparent rounded-full text-sm"
                           key={i}
                         >
-                          끄글
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </Skeleton>
                       )
                     )}
                 </div>
               </WordBox>
+              <Separator />
+              <WordBox>
+                <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
+                  {Array(20)
+                    .fill(0)
+                    .map((_, i) =>
+                      Math.random() < 0.5 ? (
+                        <Skeleton
+                          className="py-1 px-3 text-transparent rounded-full text-sm"
+                          key={i}
+                        >
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Skeleton>
+                      ) : (
+                        <Skeleton
+                          className="py-1 px-3 text-transparent rounded-full text-sm"
+                          key={i}
+                        >
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Skeleton>
+                      )
+                    )}
+                </div>
+              </WordBox>
+              <Separator />
+              <WordBox>
+                <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
+                  {Array(20)
+                    .fill(0)
+                    .map((_, i) =>
+                      Math.random() < 0.5 ? (
+                        <Skeleton
+                          className="py-1 px-3 text-transparent rounded-full text-sm"
+                          key={i}
+                        >
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Skeleton>
+                      ) : (
+                        <Skeleton
+                          className="py-1 px-3 text-transparent rounded-full text-sm"
+                          key={i}
+                        >
+                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </Skeleton>
+                      )
+                    )}
+                </div>
+              </WordBox>
+              <Separator />
             </>
           </div>
         ))}
