@@ -210,7 +210,7 @@ function WordInput() {
   const isVisible = useOnScreen(ref);
 
   useEffect(() => {
-    if (ref && !isVisible) {
+    if (ref && !isVisible && searchInputValue) {
       ref.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [searchInputValue]);
