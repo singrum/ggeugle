@@ -94,11 +94,13 @@ export function WordButton({
         }
       }}
     >
-      <div className={cn("py-1 pl-3", { "pr-3": notExcept })}>{children}</div>
+      <div className={cn("py-1 pl-3 pr-1.5", { "pr-3": notExcept })}>
+        {children}
+      </div>
 
       {notExcept || (
         <div
-          className="flex items-center justify-center rounded-full cursor-pointer py-2 pl-1.5 pr-2.5 "
+          className="flex items-center justify-center rounded-full cursor-pointer py-2 pr-2.5 "
           onClick={() => {
             if (!exceptWords.includes(children)) {
               setExceptWords([...exceptWords, children]);
