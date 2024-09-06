@@ -1,5 +1,10 @@
 import { arrayToKeyMap, pushObject } from "../utils";
-import { getSCC, pruningWinLos, pruningWinLosCir } from "./algorithms";
+import {
+  getMaxMinComponents,
+  getSCC,
+  pruningWinLos,
+  pruningWinLosCir,
+} from "./algorithms";
 import { changeableMap, reverseChangeableMap } from "./changeables";
 import {
   MultiDiGraph,
@@ -174,9 +179,11 @@ export class WCDisplay {
     const routeChars = Object.keys(engine.chanGraph.nodes).filter(
       (e) => engine.chanGraph.nodes[e].type === "route"
     );
-    const scc = getSCC(engine.wordGraph, engine.chanGraph, routeChars);
-    const maxRouteChars = scc.filter((e) => e.length >= 3).flat();
-    const minRouteChars = scc.filter((e) => e.length < 3).flat();
+    const [maxRouteChars, minRouteChars] = getMaxMinComponents(
+      engine.wordGraph,
+      engine.chanGraph,
+      routeChars
+    );
     const data = [
       {
         name: "maxRouteChars",
@@ -335,13 +342,13 @@ export class WCDisplay {
       los: { endNum: number; chars: Char[] }[];
       wincir: Char[];
       loscir: Char[];
-      route: Char[][];
+      route: { maxComp: Char[]; minComp: Char[] };
     } = {
       win: [],
       los: [],
       wincir: [],
       loscir: [],
-      route: [],
+      route: { maxComp: [], minComp: [] },
     };
     const win: Record<string, Char[]> = {};
     const los: Record<string, Char[]> = {};
@@ -365,19 +372,13 @@ export class WCDisplay {
       }
     }
 
-    const SCC = getSCC(
+    [result.route.maxComp, result.route.minComp] = getMaxMinComponents(
       engine.chanGraph,
       engine.wordGraph,
       Object.keys(engine.chanGraph.nodes).filter(
         (e) => engine.chanGraph.nodes[e].type === "route"
       )
-    );
-    for (let scc of SCC!) {
-      scc.sort();
-    }
-    result.route = SCC!.sort((a, b) =>
-      b.length === a.length ? (a[0] > b[0] ? 1 : -1) : b.length - a.length
-    );
+    ).map((e) => e.sort());
 
     result.win = Object.keys(win)
       .map((e) => parseInt(e))

@@ -287,6 +287,7 @@ function EndInN() {
       return;
     }
   }, [engine]);
+
   return (
     <>
       {engine && wcd ? (
@@ -299,7 +300,7 @@ function EndInN() {
                     <CharBadge>{`${e.endNum}턴 후 승리`}</CharBadge>
                     <CharContent>
                       {e.chars.map((char) => (
-                        <CharButton type="win" key={char} className="text-win">
+                        <CharButton type="win" key={char}>
                           {char}
                         </CharButton>
                       ))}
@@ -314,7 +315,7 @@ function EndInN() {
                     <CharBadge>{`조건부 승리`}</CharBadge>
                     <CharContent>
                       {wcd.wincir.map((char) => (
-                        <CharButton type="win" key={char} className="text-win">
+                        <CharButton type="win" key={char}>
                           {char}
                         </CharButton>
                       ))}
@@ -333,7 +334,7 @@ function EndInN() {
                     <CharBadge>{`${e.endNum}턴 후 패배`}</CharBadge>
                     <CharContent>
                       {e.chars.map((char) => (
-                        <CharButton type="los" key={char} className="text-los">
+                        <CharButton type="los" key={char}>
                           {char}
                         </CharButton>
                       ))}
@@ -348,7 +349,7 @@ function EndInN() {
                     <CharBadge>{`조건부 패배`}</CharBadge>
                     <CharContent>
                       {wcd.loscir.map((char) => (
-                        <CharButton type="los" key={char} className="text-los">
+                        <CharButton type="los" key={char}>
                           {char}
                         </CharButton>
                       ))}
@@ -361,28 +362,30 @@ function EndInN() {
           )}
           {charMenu === 2 && (
             <div className="md:mt-2">
-              {wcd.route.length > 0 && (
+              {wcd.route.maxComp.length > 0 && (
                 <>
                   <CharBox>
-                    <CharBadge>{`루트`}</CharBadge>
-                    <CharContent className="gap-x-0 items-center">
-                      {wcd.route.map((scc, index) => (
-                        <React.Fragment key={index}>
-                          {scc.map((char, i) => (
-                            <CharButton
-                              type="route"
-                              className={cn(`text-route mr-1`, {
-                                "mr-0": i === scc.length - 1,
-                              })}
-                              key={char}
-                            >
-                              {char}
-                            </CharButton>
-                          ))}
-                          <div className="text-muted-foreground/40">
-                            {index !== wcd.route.length - 1 ? `/` : undefined}
-                          </div>
-                        </React.Fragment>
+                    <CharBadge>{`주요 루트`}</CharBadge>
+                    <CharContent>
+                      {wcd.route.maxComp.map((char) => (
+                        <CharButton type="route" key={char}>
+                          {char}
+                        </CharButton>
+                      ))}
+                    </CharContent>
+                  </CharBox>
+                  <Separator className="my-2" />
+                </>
+              )}
+              {wcd.route.minComp.length > 0 && (
+                <>
+                  <CharBox>
+                    <CharBadge>{`희귀 루트`}</CharBadge>
+                    <CharContent>
+                      {wcd.route.minComp.map((char) => (
+                        <CharButton type="route" key={char}>
+                          {char}
+                        </CharButton>
                       ))}
                     </CharContent>
                   </CharBox>
