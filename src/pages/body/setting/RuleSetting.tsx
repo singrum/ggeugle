@@ -494,14 +494,16 @@ function RegexFilterSetting() {
           />
         </div>
         <Accordion type="single" collapsible className="w-full">
-          <AccordionItem value="item-1" className="border-none mx-1">
-            <AccordionTrigger className="text-sm pb-0">예시</AccordionTrigger>
-            <AccordionContent className="font-semibold">
-              <div className="flex flex-col gap-2 py-2">
+          <AccordionItem value="item-1" className="border-none">
+            <AccordionTrigger className="text-sm px-1 pt-4 pb-2">
+              예시
+            </AccordionTrigger>
+            <AccordionContent className="font-semibold px-1">
+              <div className="flex flex-col gap-2">
                 {RegexExamples.map((e, i) => (
                   <div
                     key={i}
-                    className="px-1 hover:bg-accent cursor-pointer transition-colors"
+                    className=" hover:bg-accent cursor-pointer transition-colors"
                     onClick={() => {
                       setRuleForm({ ...ruleForm, regexFilter: e.content });
                     }}
