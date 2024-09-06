@@ -24,7 +24,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useWC } from "@/lib/store/useWC";
-import { getMaxMinComponents, getSCC } from "@/lib/wc/algorithms";
+import { getMaxMinComponents } from "@/lib/wc/algorithms";
 
 import { WCDisplay, WCEngine } from "@/lib/wc/WordChain";
 

@@ -1,7 +1,6 @@
 import { arrayToKeyMap, pushObject } from "../utils";
 import {
   getMaxMinComponents,
-  getSCC,
   pruningWinLos,
   pruningWinLosCir,
 } from "./algorithms";

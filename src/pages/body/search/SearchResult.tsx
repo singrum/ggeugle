@@ -1,4 +1,3 @@
-import { WordBadge, WordBox, WordContent } from "@/components/ui/WordBox";
 import {
   Popover,
   PopoverContent,
@@ -6,6 +5,7 @@ import {
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { WordBadge, WordBox, WordContent } from "@/components/ui/WordBox";
 
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";

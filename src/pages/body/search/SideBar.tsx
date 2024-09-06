@@ -4,7 +4,6 @@ import {
   CharButton,
   CharContent,
 } from "@/components/ui/CharBox";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
