@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -68,7 +69,7 @@ function ExceptWordsDisplay() {
 
   return (
     <>
-      <div className="grid grid-cols-3 justify-center items-center w-full p-3 rounded-t-lg bg-accent">
+      <div className="grid grid-cols-3 justify-center items-center w-full py-3 px-4 rounded-t-lg bg-accent">
         <div />
         <div className="flex justify-center text-foreground text-base font-semibold">
           제거된 단어
@@ -84,22 +85,23 @@ function ExceptWordsDisplay() {
           ].map(({ name, onClick }, i) => (
             <div key={i}>
               <div
-                className="cursor-pointer hover:text-foreground transition-colors text-muted-foreground flex items-center"
+                className="cursor-pointer hover:text-foreground transition-colors flex items-center"
                 onClick={onClick}
               >
                 {i === 0 && Object.keys(changeInfo.compPrev).length > 0 && (
-                  <div className="mr-2 rounded-md bg-primary px-1.5 py-0.5 text-xs leading-none text-primary-foreground no-underline group-hover:no-underline">
+                  <div className="mr-1.5 rounded-md bg-primary px-1.5 py-0.5 text-xs leading-none text-primary-foreground no-underline group-hover:no-underline">
                     {Object.keys(changeInfo.compPrev).length}
                   </div>
                 )}
-                {name}
+
+                <div className="text-primary">{name}</div>
               </div>
             </div>
           ))}
         </div>
       </div>
       <Separator />
-      <div className="bg-muted/40 rounded-b-lg ">
+      <div className=" rounded-b-lg ">
         <div className="flex flex-wrap gap-x-1 gap-y-1 items-center p-3 ">
           {exceptWords.length > 0 ? (
             <>

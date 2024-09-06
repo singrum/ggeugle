@@ -415,7 +415,7 @@ export function CharMenu() {
   ]);
   const [sheetRef] = useSheet((e) => [e.sheetRef]);
   return (
-    <ul className="grid grid-cols-3 justify-center border-b border-border select-none rounded-t-xl">
+    <ul className="grid grid-cols-3 justify-center border-b border-border select-none rounded-t-xl md:bg-muted">
       {charMenuList.map((e, i) => (
         <React.Fragment key={i}>
           <div
@@ -433,7 +433,7 @@ export function CharMenu() {
               }
             }}
             className={cn(
-              "flex justify-center items-center cursor-pointer border-b border-transparent py-2 overflow-hidden whitespace-nowrap",
+              "flex justify-center items-center cursor-pointer border-b-2 border-transparent py-2 overflow-hidden whitespace-nowrap",
               { [` border-${e.color}`]: charMenu === i }
             )}
           >

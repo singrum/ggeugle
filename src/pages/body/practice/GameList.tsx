@@ -46,7 +46,7 @@ function GameButton({
   return (
     <div
       className={cn(
-        "w-full flex flex-col border-border border md:rounded-lg px-4 py-3 pr-3 gap-2 bg-muted/40",
+        "w-full flex flex-col border-border md:border md:rounded-lg px-4 py-3 pr-3 gap-2 bg-muted/40",
         { " md:ring-2 md:ring-ring": gameInfo.isPlaying }
       )}
     >

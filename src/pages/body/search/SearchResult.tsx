@@ -257,82 +257,7 @@ function WordsResult() {
             </>
           )
         ) : (
-          <div className="flex-1 min-h-0 flex flex-col px-4">
-            <>
-              <WordBox>
-                <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
-                  {Array(20)
-                    .fill(0)
-                    .map((_, i) =>
-                      Math.random() < 0.5 ? (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      ) : (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      )
-                    )}
-                </div>
-              </WordBox>
-              <Separator />
-              <WordBox>
-                <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
-                  {Array(20)
-                    .fill(0)
-                    .map((_, i) =>
-                      Math.random() < 0.5 ? (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      ) : (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      )
-                    )}
-                </div>
-              </WordBox>
-              <Separator />
-              <WordBox>
-                <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
-                  {Array(20)
-                    .fill(0)
-                    .map((_, i) =>
-                      Math.random() < 0.5 ? (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      ) : (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      )
-                    )}
-                </div>
-              </WordBox>
-              <Separator />
-            </>
-          </div>
+          <WordSkeleton />
         ))}
 
       {/* 끝나는 */}
@@ -431,82 +356,7 @@ function WordsResult() {
             </>
           )
         ) : (
-          <div className="flex-1 min-h-0 flex flex-col px-4">
-            <>
-              <WordBox>
-                <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
-                  {Array(20)
-                    .fill(0)
-                    .map((_, i) =>
-                      Math.random() < 0.5 ? (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      ) : (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      )
-                    )}
-                </div>
-              </WordBox>
-              <Separator />
-              <WordBox>
-                <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
-                  {Array(20)
-                    .fill(0)
-                    .map((_, i) =>
-                      Math.random() < 0.5 ? (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      ) : (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      )
-                    )}
-                </div>
-              </WordBox>
-              <Separator />
-              <WordBox>
-                <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
-                  {Array(20)
-                    .fill(0)
-                    .map((_, i) =>
-                      Math.random() < 0.5 ? (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      ) : (
-                        <Skeleton
-                          className="py-1 px-3 text-transparent rounded-full text-sm"
-                          key={i}
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        </Skeleton>
-                      )
-                    )}
-                </div>
-              </WordBox>
-              <Separator />
-            </>
-          </div>
+          <WordSkeleton />
         ))}
 
       {tab === 2 && engine && (
@@ -568,5 +418,86 @@ function WordsResult() {
         </div>
       )}
     </>
+  );
+}
+
+function WordSkeleton() {
+  return (
+    <div className="flex-1 min-h-0 flex flex-col px-4">
+      <>
+        <WordBox>
+          <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
+            {Array(20)
+              .fill(0)
+              .map((_, i) =>
+                Math.random() < 0.5 ? (
+                  <Skeleton
+                    className="py-1 px-3 text-transparent rounded-full text-sm"
+                    key={i}
+                  >
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </Skeleton>
+                ) : (
+                  <Skeleton
+                    className="py-1 px-3 text-transparent rounded-full text-sm"
+                    key={i}
+                  >
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </Skeleton>
+                )
+              )}
+          </div>
+        </WordBox>
+        <Separator />
+        <WordBox>
+          <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
+            {Array(20)
+              .fill(0)
+              .map((_, i) =>
+                Math.random() < 0.5 ? (
+                  <Skeleton
+                    className="py-1 px-3 text-transparent rounded-full text-sm"
+                    key={i}
+                  >
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </Skeleton>
+                ) : (
+                  <Skeleton
+                    className="py-1 px-3 text-transparent rounded-full text-sm"
+                    key={i}
+                  >
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </Skeleton>
+                )
+              )}
+          </div>
+        </WordBox>
+        <Separator />
+        <WordBox>
+          <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
+            {Array(20)
+              .fill(0)
+              .map((_, i) =>
+                Math.random() < 0.5 ? (
+                  <Skeleton
+                    className="py-1 px-3 text-transparent rounded-full text-sm"
+                    key={i}
+                  >
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </Skeleton>
+                ) : (
+                  <Skeleton
+                    className="py-1 px-3 text-transparent rounded-full text-sm"
+                    key={i}
+                  >
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </Skeleton>
+                )
+              )}
+          </div>
+        </WordBox>
+        <Separator />
+      </>
+    </div>
   );
 }
