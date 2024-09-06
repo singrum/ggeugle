@@ -333,6 +333,18 @@ export function getSCC(
   return SCC;
 }
 
+export function getMaxMinComponents(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  seeds: string[]
+) {
+  const scc = getSCC(chanGraph, wordGraph, seeds);
+  const maxComp = scc.filter((e) => e.length >= 3).flat();
+  const minComp = scc.filter((e) => e.length < 3).flat();
+
+  return [maxComp, minComp];
+}
+
 export function getReachableNodes(
   chanGraph: MultiDiGraph,
   wordGraph: MultiDiGraph,

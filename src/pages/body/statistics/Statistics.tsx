@@ -24,9 +24,10 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useWC } from "@/lib/store/useWC";
-import { getSCC } from "@/lib/wc/algorithms";
+import { getMaxMinComponents, getSCC } from "@/lib/wc/algorithms";
+
 import { WCDisplay, WCEngine } from "@/lib/wc/WordChain";
-import Header from "@/pages/header/Header";
+
 import { useMemo } from "react";
 import { Bar, BarChart, Pie, PieChart, XAxis, YAxis } from "recharts";
 export default function Statistics() {
@@ -208,8 +209,12 @@ function CompareRoute({ engine }: { engine: WCEngine }) {
     const routeChars = Object.keys(engine.chanGraph.nodes).filter(
       (e) => engine.chanGraph.nodes[e].type === "route"
     );
-    const scc = getSCC(engine.chanGraph, engine.wordGraph, routeChars);
-    const maxRouteChars = scc.filter((e) => e.length >= 3).flat();
+
+    const [maxRouteChars, _] = getMaxMinComponents(
+      engine.chanGraph,
+      engine.wordGraph,
+      routeChars
+    );
     const heads = engine.chanGraph.successors(maxRouteChars);
     const chars = maxRouteChars.length;
     const words = heads.reduce(
