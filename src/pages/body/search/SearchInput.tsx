@@ -7,6 +7,7 @@ import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import {
+  CirclePlus,
   Clipboard,
   CornerRightUp,
   LoaderCircle,
@@ -250,7 +251,7 @@ function WordInput() {
     <div ref={ref} className="pt-4">
       <div className="relative">
         <Input
-          className="border border-border rounded-lg h-12 bg-background text-md pl-10 pr-14 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 "
+          className="border border-border rounded-lg h-12 bg-background text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 "
           value={value}
           type="search"
           placeholder="글자 또는 단어를 입력하세요."
@@ -276,31 +277,34 @@ function WordInput() {
           }}
         />
 
-        <Search className="text-muted-foreground w-[1.2rem] h-[1.2rem] absolute left-3 top-[calc(50%-0.6rem)]" />
-        <div
-          className="flex items-center justify-center absolute right-2 top-[calc(50%-1.0rem)] gap-2 rounded-full bg-foreground text-background w-[2.0rem] h-[2.0rem] cursor-pointer"
-          onClick={() => {
-            if (engine) {
-              setValue("");
-              setSearchInputValue("");
-              const newExcept = value
-                .split(" ")
-                .filter(
-                  (word, i, arr) =>
-                    word.length > 0 &&
-                    arr.indexOf(word) === i &&
-                    !exceptWords.includes(word) &&
-                    engine!.words.includes(word)
-                );
-              if (newExcept.length > 0) {
-                const exceptWords_ = [...exceptWords, ...newExcept];
+        <Search className="w-[1.2rem] h-[1.2rem] absolute left-3 top-[calc(50%-0.6rem)] text-muted-foreground" />
 
-                setExceptWords(exceptWords_);
+        <div className="flex items-center justify-center gap-2 absolute right-3 top-[calc(50%-0.75rem)] w-[1.5rem] h-[1.5rem]">
+          <div
+            className="flex items-center justify-center rounded-full w-[2.0rem] h-[2.0rem] cursor-pointer text-muted-foreground hover:text-foreground transition-colors"
+            onClick={() => {
+              if (engine) {
+                setValue("");
+                setSearchInputValue("");
+                const newExcept = value
+                  .split(" ")
+                  .filter(
+                    (word, i, arr) =>
+                      word.length > 0 &&
+                      arr.indexOf(word) === i &&
+                      !exceptWords.includes(word) &&
+                      engine!.words.includes(word)
+                  );
+                if (newExcept.length > 0) {
+                  const exceptWords_ = [...exceptWords, ...newExcept];
+
+                  setExceptWords(exceptWords_);
+                }
               }
-            }
-          }}
-        >
-          <Plus className="w-5 h-5" />
+            }}
+          >
+            <CirclePlus className="w-[1.5rem] h-[1.5rem]" strokeWidth={1.5} />
+          </div>
         </div>
       </div>
     </div>
