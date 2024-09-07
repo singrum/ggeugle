@@ -72,7 +72,7 @@ function ExceptWordsDisplay() {
     <>
       <div className="grid grid-cols-3 justify-center items-center w-full py-3 px-4 rounded-t-lg bg-accent">
         <div />
-        <div className="flex justify-center text-foreground text-base font-semibold">
+        <div className="flex justify-center text-accent-foreground text-base font-semibold">
           제거된 단어
         </div>
         <div className="flex items-center gap-2 justify-end">
