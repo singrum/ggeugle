@@ -1,6 +1,4 @@
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { useWC } from "@/lib/store/useWC";
-import Header from "@/pages/header/Header";
 
 import Game from "./Game";
 import GameList from "./GameList";
@@ -11,7 +9,7 @@ export default function Practice() {
 
   return (
     <div className="h-full md:h-full md:flex md:min-h-0 min-w-0 w-full overflow-auto">
-      <div className="md:w-1/2 flex flex-col p-0 md:p-5 md:pr-0 gap-5 h-[calc(100vh-100px)] md:h-full md:max-w-screen-sm">
+      <div className="md:w-1/2 flex flex-col p-0 md:p-4 md:pr-0 h-[calc(100vh-100px)] md:h-full md:max-w-screen-sm">
         <div className="flex-1 min-h-0">
           <div className="h-full w-full bg-background border-y md:border border-border md:rounded-xl">
             {!currGame ? <GameSetting /> : <Game />}

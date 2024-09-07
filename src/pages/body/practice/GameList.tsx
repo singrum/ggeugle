@@ -1,4 +1,3 @@
-import { Separator } from "@/components/ui/separator";
 import { GameInfo, strengths, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { ChevronRight, Clipboard, ClipboardCheck, X } from "lucide-react";
@@ -11,7 +10,7 @@ export default function GameList() {
   return (
     <div
       className={cn(
-        "w-full flex flex-col-reverse gap-4 p-0 pb-[200px] pt-10 md:p-5",
+        "w-full flex flex-col-reverse gap-2 md:gap-4 p-0 pb-[200px] pt-10 md:p-4",
         {
           "items-center justify-center": games.length === 0 && !currGame,
         }
@@ -46,7 +45,7 @@ function GameButton({
   return (
     <div
       className={cn(
-        "w-full flex flex-col border-border md:border md:rounded-lg px-4 py-3 pr-3 gap-2 bg-muted/40",
+        "w-full flex flex-col md:rounded-xl px-4 py-3 pr-3 gap-2 bg-accent text-accent-foreground",
         { " md:ring-2 md:ring-ring": gameInfo.isPlaying }
       )}
     >

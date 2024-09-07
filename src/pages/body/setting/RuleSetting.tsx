@@ -51,7 +51,7 @@ export function RuleSetting() {
 
   return (
     <div className="flex flex-col min-w-0 mb-[200px] md:mb-0">
-      <div className="flex flex-col min-w-0 gap-4 p-4 pb-0 bg-muted/40 md:rounded-xl md:border border-border">
+      <div className="flex flex-col min-w-0 gap-4 p-4 pb-0 md:border border-border md:rounded-xl ">
         <div className="font-semibold">바로가기</div>
         <ScrollArea className="w-full pb-4">
           <div className="flex w-full min-w-0 gap-2 whitespace-nowrap ">

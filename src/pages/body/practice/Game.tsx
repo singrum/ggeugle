@@ -9,15 +9,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { strengths, useWC } from "@/lib/store/useWC";
+import { Separator } from "@/components/ui/separator";
+import { useWC } from "@/lib/store/useWC";
 import { chatSplit, cn } from "@/lib/utils";
 import { changeableMap } from "@/lib/wc/changeables";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { ChevronRight, Flag, Plus, SendHorizonal } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
-import { RiRobot2Fill } from "react-icons/ri";
 import Chat from "./Chat";
-import { Separator } from "@/components/ui/separator";
 
 export default function Game() {
   const [currGame, isChatLoading] = useWC((e) => [e.currGame, e.isChatLoading]);
@@ -225,7 +224,7 @@ function GameHeader() {
   const [currGame, setCurrGame] = useWC((e) => [e.currGame, e.setCurrGame]);
   return (
     <>
-      <div className="w-full flex items-center px-2 py-1 justify-between border-b border-border bg-accent md:rounded-t-xl">
+      <div className="w-full flex items-center px-2 py-1 justify-between border-b border-border bg-accent md:rounded-t-xl text-accent-foreground">
         <div className="flex items-center gap-1 px-2 py-2">플레이 중</div>
 
         <div className="flex gap-1">
