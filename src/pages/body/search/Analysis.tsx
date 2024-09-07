@@ -160,7 +160,7 @@ export default function Analysis() {
                 {nextRoutesInfo.map(({ word }, i) => (
                   <Fragment key={word}>
                     <span
-                      className="underline cursor-pointer"
+                      className=" bg-accent cursor-pointer"
                       onClick={() => {
                         setValue(word.at(engine!.rule.tailIdx)!);
                         setSearchInputValue(word.at(engine!.rule.tailIdx)!);
@@ -179,7 +179,7 @@ export default function Analysis() {
             ) : (
               <>
                 <span
-                  className="underline cursor-pointer"
+                  className=" bg-accent cursor-pointer"
                   onClick={() => {
                     setValue(nextRoutesInfo[0].word.at(engine!.rule.tailIdx)!);
                     setSearchInputValue(
@@ -207,7 +207,7 @@ export default function Analysis() {
             .map(({ word, win }) => (
               <div key={word}>
                 <span
-                  className="underline cursor-pointer"
+                  className=" bg-accent cursor-pointer"
                   onClick={() => {
                     setValue(word.at(engine!.rule.tailIdx)!);
                     setSearchInputValue(word.at(engine!.rule.tailIdx)!);
@@ -229,7 +229,7 @@ export default function Analysis() {
             <>
               <div>
                 <span
-                  className="underline cursor-pointer"
+                  className=" bg-accent cursor-pointer"
                   onClick={() => {
                     setValue(
                       nextRoutesInfo[firstUndefIdx!].word.at(
