@@ -25,10 +25,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useWC } from "@/lib/store/useWC";
 import { getMaxMinComponents } from "@/lib/wc/algorithms";
-
 import { WCDisplay, WCEngine } from "@/lib/wc/WordChain";
-
 import { useMemo } from "react";
+
 import { Bar, BarChart, Pie, PieChart, XAxis, YAxis } from "recharts";
 export default function Statistics() {
   const [originalEngine, engine, exceptWords] = useWC((e) => [
@@ -43,7 +42,7 @@ export default function Statistics() {
     engine && (
       <>
         <div className=" h-full min-h-0 overflow-auto ">
-          <div className="flex w-full text-left md:p-5 justify-center mb-[200px] md:mb-0">
+          <div className="flex w-full text-left md:p-4 justify-center mb-[200px] md:mb-0">
             {exceptWords.length > 0 ? (
               <Tabs defaultValue="except" className="w-full">
                 <TabsList className="m-3 mb-0 md:m-0">
@@ -51,156 +50,70 @@ export default function Statistics() {
                   <TabsTrigger value="original">원본 룰</TabsTrigger>
                 </TabsList>
                 <TabsContent value="except" className="p-0">
-                  <div className="flex flex-col gap-3 md:gap-5">
-                    <StatisticsHeader engine={engine} />
-
-                    <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4">
-                      {[
-                        {
-                          title: "주요 루트 수치 비교",
-                          desc: "현재 룰과 구엜룰 간 주요 루트 글자 수, 루트 단어 수 비교",
-                          content: <CompareRoute engine={engine} />,
-                        },
-                        {
-                          title: "글자 유형",
-                          desc: "승리, 패배, 루트 글자로 분류",
-                          content: <CharTypeChart engine={engine} />,
-                        },
-                        {
-                          title: "승리 글자 세부 유형",
-                          desc: "n턴 후 승리, 조건부 승리로 분류",
-                          content: <WinCharTypeChart engine={engine} />,
-                        },
-                        {
-                          title: "패배 글자 세부 유형",
-                          desc: "n턴 후 패배, 조건부 패배로 분류",
-                          content: <LosCharTypeChart engine={engine} />,
-                        },
-                        {
-                          title: "루트 글자 세부 유형",
-                          desc: "주요 루트 글자, 희귀 루트 글자로 분류",
-                          content: <RouteCharTypeChart engine={engine} />,
-                        },
-                      ].map(({ title, desc, content }, i) => (
-                        <Card
-                          className="flex flex-col gap-2 rounded-none md:rounded-lg"
-                          key={i}
-                        >
-                          <CardHeader className="items-center pb-0">
-                            <CardTitle>{title}</CardTitle>
-                            <CardDescription>{desc}</CardDescription>
-                          </CardHeader>
-                          <CardContent className="flex items-center flex-1 justify-center">
-                            {content}
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>
+                  <Cards engine={engine} />
                 </TabsContent>
                 <TabsContent value="original" className="p-0">
-                  <div className="flex flex-col gap-3 md:gap-5">
-                    <StatisticsHeader engine={originalEngine} />
-
-                    <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4">
-                      {[
-                        {
-                          title: "주요 루트 수치 비교",
-                          desc: "현재 룰과 구엜룰 간 주요 루트 글자 수, 루트 단어 수 비교",
-                          content: <CompareRoute engine={originalEngine} />,
-                        },
-                        {
-                          title: "글자 유형",
-                          desc: "승리, 패배, 루트 글자로 분류",
-                          content: <CharTypeChart engine={originalEngine} />,
-                        },
-                        {
-                          title: "승리 글자 세부 유형",
-                          desc: "n턴 후 승리, 조건부 승리로 분류",
-                          content: <WinCharTypeChart engine={originalEngine} />,
-                        },
-                        {
-                          title: "패배 글자 세부 유형",
-                          desc: "n턴 후 패배, 조건부 패배로 분류",
-                          content: <LosCharTypeChart engine={originalEngine} />,
-                        },
-                        {
-                          title: "루트 글자 세부 유형",
-                          desc: "주요 루트 글자, 희귀 루트 글자로 분류",
-                          content: (
-                            <RouteCharTypeChart engine={originalEngine} />
-                          ),
-                        },
-                      ].map(({ title, desc, content }, i) => (
-                        <Card
-                          className="flex flex-col gap-2 rounded-none md:rounded-lg border-border "
-                          key={i}
-                        >
-                          <CardHeader className="items-center pb-0">
-                            <CardTitle>{title}</CardTitle>
-                            <CardDescription>{desc}</CardDescription>
-                          </CardHeader>
-                          <CardContent className="flex items-center flex-1 justify-center">
-                            {content}
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </div>
+                  <Cards engine={originalEngine} />
                 </TabsContent>
               </Tabs>
             ) : (
-              <div className="flex flex-col gap-3 md:gap-5 w-full">
-                <StatisticsHeader engine={originalEngine} />
-
-                <div className="flex-1 grid lg:grid-cols-3 lg:gap-5 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4">
-                  {[
-                    {
-                      title: "주요 루트 수치 비교",
-                      desc: "현재 룰과 구엜룰 간 주요 루트 글자 수, 루트 단어 수 비교",
-                      content: <CompareRoute engine={originalEngine} />,
-                    },
-                    {
-                      title: "글자 유형",
-                      desc: "승리, 패배, 루트 글자로 분류",
-                      content: <CharTypeChart engine={originalEngine} />,
-                    },
-                    {
-                      title: "승리 글자 세부 유형",
-                      desc: "n턴 후 승리, 조건부 승리로 분류",
-                      content: <WinCharTypeChart engine={originalEngine} />,
-                    },
-                    {
-                      title: "패배 글자 세부 유형",
-                      desc: "n턴 후 패배, 조건부 패배로 분류",
-                      content: <LosCharTypeChart engine={originalEngine} />,
-                    },
-                    {
-                      title: "루트 글자 세부 유형",
-                      desc: "주요 루트 글자, 희귀 루트 글자로 분류",
-                      content: <RouteCharTypeChart engine={originalEngine} />,
-                    },
-                  ].map(({ title, desc, content }, i) => (
-                    <Card
-                      className="flex flex-col gap-2 rounded-none md:rounded-lg "
-                      key={i}
-                    >
-                      <CardHeader className="items-center pb-0">
-                        <CardTitle>{title}</CardTitle>
-                        <CardDescription>{desc}</CardDescription>
-                      </CardHeader>
-                      <CardContent className="flex items-center flex-1 justify-center select-none">
-                        {content}
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
+              <Cards engine={engine} />
             )}
           </div>
         </div>
       </>
     )
+  );
+}
+
+function Cards({ engine }: { engine: WCEngine }) {
+  return (
+    <div className="flex flex-col gap-3 md:gap-4 w-full">
+      <StatisticsHeader engine={engine} />
+
+      <div className="flex-1 grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 md:gap-3 grid-cols-1 gap-2">
+        {[
+          {
+            title: "주요 루트 수치 비교",
+            desc: "현재 룰과 구엜룰 간 주요 루트 글자 수, 루트 단어 수 비교",
+            content: <CompareRoute engine={engine} />,
+          },
+          {
+            title: "글자 유형",
+            desc: "승리, 패배, 루트 글자로 분류",
+            content: <CharTypeChart engine={engine} />,
+          },
+          {
+            title: "승리 글자 세부 유형",
+            desc: "n턴 후 승리, 조건부 승리로 분류",
+            content: <WinCharTypeChart engine={engine} />,
+          },
+          {
+            title: "패배 글자 세부 유형",
+            desc: "n턴 후 패배, 조건부 패배로 분류",
+            content: <LosCharTypeChart engine={engine} />,
+          },
+          {
+            title: "루트 글자 세부 유형",
+            desc: "주요 루트 글자, 희귀 루트 글자로 분류",
+            content: <RouteCharTypeChart engine={engine} />,
+          },
+        ].map(({ title, desc, content }, i) => (
+          <Card
+            className="flex flex-col gap-2 rounded-none md:rounded-lg bg-accent"
+            key={i}
+          >
+            <CardHeader className="items-center pb-0 text-accent-foreground">
+              <CardTitle>{title}</CardTitle>
+              <CardDescription>{desc}</CardDescription>
+            </CardHeader>
+            <CardContent className="flex items-center flex-1 justify-center">
+              {content}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </div>
   );
 }
 

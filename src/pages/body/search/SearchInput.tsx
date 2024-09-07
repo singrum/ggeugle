@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -9,16 +8,13 @@ import { cn } from "@/lib/utils";
 import {
   CirclePlus,
   Clipboard,
-  CornerRightUp,
   LoaderCircle,
-  Plus,
   Search,
   Trash2,
   X,
 } from "lucide-react";
 import { useEffect, useRef } from "react";
-import toast, { Toaster } from "react-hot-toast";
-import { TbStatusChange } from "react-icons/tb";
+import { Toaster } from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
 
 export default function SearchInput() {
