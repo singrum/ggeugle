@@ -135,6 +135,7 @@ function ExceptWordsDisplay() {
                   {[
                     {
                       name: "복사",
+                      icon: <Clipboard className="w-5 h-5" strokeWidth={1.5} />,
                       onClick: () => {
                         if (exceptWords.length > 0) {
                           navigator.clipboard.writeText(exceptWords.join(" "));
@@ -143,22 +144,23 @@ function ExceptWordsDisplay() {
                     },
                     {
                       name: "초기화",
+                      icon: <Trash2 className="w-5 h-5" strokeWidth={1.5} />,
                       onClick: () => {
                         exceptWords.length > 0 && engine && setExceptWords([]);
                       },
                     },
-                  ].map(({ name, onClick }, i) => (
+                  ].map(({ name, icon, onClick }, i) => (
                     <div
                       key={name}
                       className={cn(
-                        "text-muted-foreground hover:text-foreground cursor-pointer select-none",
+                        "text-muted-foreground  cursor-pointer select-none",
                         {
-                          "text-destructive hover:text-destructive/75": i === 1,
+                          "text-destructive": i === 1,
                         }
                       )}
                       onClick={onClick}
                     >
-                      {name}
+                      {icon}
                     </div>
                   ))}
                 </div>
@@ -175,7 +177,7 @@ function ExceptWordsDisplay() {
           )}
 
           {engine && isLoading && (
-            <LoaderCircle className="w-6 h-6 animate-spin" />
+            <LoaderCircle className="ml-1 w-6 h-6 animate-spin text-muted-foreground" />
           )}
         </div>
       </div>
