@@ -7,14 +7,12 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import CharSheet from "./CharSheet";
 
-import { useRef } from "react";
 import SearchInput from "./SearchInput";
 import SearchResult from "./SearchResult";
 import { SideBar } from "./SideBar";
 export default function Search() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const isSearchFlip = useCookieSettings((e) => e.isSearchFlip);
-  const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
 
   return (
     <>
@@ -25,10 +23,7 @@ export default function Search() {
               <>
                 <ResizablePanel className="min-h-0 pr-4">
                   <div className="min-h-0 h-full">
-                    <div
-                      className="flex flex-col min-h-0 h-full overflow-auto "
-                      ref={scrollRef}
-                    >
+                    <div className="flex flex-col min-h-0 h-full overflow-auto ">
                       <SearchInput />
                       <SearchResult />
                     </div>
@@ -51,10 +46,7 @@ export default function Search() {
                 <ResizableHandle withHandle />
                 <ResizablePanel className="min-h-0 ">
                   <div className="min-h-0 h-full">
-                    <div
-                      className="flex flex-col min-h-0 h-full overflow-auto "
-                      ref={scrollRef}
-                    >
+                    <div className="flex flex-col min-h-0 h-full overflow-auto ">
                       <SearchInput />
 
                       <SearchResult />
@@ -66,10 +58,7 @@ export default function Search() {
           </ResizablePanelGroup>
         </div>
       ) : (
-        <div
-          className="flex flex-col h-full min-h-0 flex-1 relative z-10"
-          ref={scrollRef}
-        >
+        <div className="flex flex-col h-full min-h-0 flex-1 relative z-10">
           <div className="min-h-0 h-full w-full ">
             <div className="flex flex-col mb-10">
               <SearchInput />

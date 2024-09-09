@@ -61,6 +61,7 @@ const analysis = ({
     : isWin(chanGraph, wordGraph, startChar);
   //승리
   if (winWord) {
+    
     self.postMessage({
       action: "end",
       data: {
