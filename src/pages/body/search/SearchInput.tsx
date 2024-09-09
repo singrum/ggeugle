@@ -1,7 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
-import useOnScreen from "@/hooks/useOnScreen";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
@@ -13,7 +12,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -207,14 +206,6 @@ function WordInput() {
     e.searchInputValue,
   ]);
   const [exceptBy] = useCookieSettings((e) => [e.exceptBy]);
-  const ref = useRef<HTMLDivElement>(null!);
-  const isVisible = useOnScreen(ref);
-
-  useEffect(() => {
-    if (ref && !isVisible && searchInputValue) {
-      ref.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [searchInputValue]);
 
   const debounced = useDebouncedCallback((value) => {
     if (engine) {
@@ -246,7 +237,7 @@ function WordInput() {
     }
   };
   return (
-    <div ref={ref} className="pt-4">
+    <div className="pt-4">
       <div className="relative">
         <Input
           className="border border-border rounded-lg h-12 bg-background text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 "
