@@ -457,9 +457,10 @@ export function isWin(
   });
 
   for (let { word, isLoop } of nextWords) {
-    // console.log(nextWords.map((e) => e.word.join()));
     // 승패 글자의 변화가 생김 (breaking === true)
-    const breaking = wordGraph._succ[word[0]][word[1]] === 1;
+    const breaking =
+      (isLoop && wordGraph._succ[word[0]][word[1]] === 0) ||
+      (!isLoop && wordGraph._succ[word[0]][word[1]] === 1);
 
     const nextChanGraph = breaking ? chanGraph.copy() : chanGraph;
     const nextWordGraph = breaking ? wordGraph.copy() : wordGraph;
