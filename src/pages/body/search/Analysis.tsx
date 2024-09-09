@@ -151,8 +151,10 @@ export default function Analysis() {
         <Alert>
           <FaRegPlayCircle className="h-5 w-5" />
           <AlertTitle className="font-normal">
-            <span className="font-semibold">{searchInputValue}</span>에서 필승
-            전략 탐색을 시작합니다.
+            <span className="underline decoration-dotted cursor-pointer hover:no-underline">
+              {searchInputValue}
+            </span>
+            에서 필승 전략 탐색을 시작합니다.
           </AlertTitle>
           <AlertDescription>
             {nextRoutesInfo.length >= 2 ? (
@@ -160,7 +162,7 @@ export default function Analysis() {
                 {nextRoutesInfo.map(({ word }, i) => (
                   <Fragment key={word}>
                     <span
-                      className=" bg-accent cursor-pointer"
+                      className="underline decoration-dotted cursor-pointer hover:no-underline"
                       onClick={() => {
                         setValue(word.at(engine!.rule.tailIdx)!);
                         setSearchInputValue(word.at(engine!.rule.tailIdx)!);
@@ -179,7 +181,7 @@ export default function Analysis() {
             ) : (
               <>
                 <span
-                  className=" bg-accent cursor-pointer"
+                  className="underline decoration-dotted cursor-pointer hover:no-underline"
                   onClick={() => {
                     setValue(nextRoutesInfo[0].word.at(engine!.rule.tailIdx)!);
                     setSearchInputValue(
@@ -207,7 +209,7 @@ export default function Analysis() {
             .map(({ word, win }) => (
               <div key={word}>
                 <span
-                  className=" bg-accent cursor-pointer"
+                  className="underline decoration-dotted cursor-pointer hover:no-underline"
                   onClick={() => {
                     setValue(word.at(engine!.rule.tailIdx)!);
                     setSearchInputValue(word.at(engine!.rule.tailIdx)!);
@@ -229,7 +231,7 @@ export default function Analysis() {
             <>
               <div>
                 <span
-                  className=" bg-accent cursor-pointer"
+                  className="underline decoration-dotted cursor-pointer hover:no-underline"
                   onClick={() => {
                     setValue(
                       nextRoutesInfo[firstUndefIdx!].word.at(
@@ -274,7 +276,11 @@ export default function Analysis() {
             </>
           ) : (
             <div>
-              따라서 <span className="font-semibold">{searchInputValue}</span>는{" "}
+              따라서{" "}
+              <span className="underline decoration-dotted cursor-pointer hover:no-underline">
+                {searchInputValue}
+              </span>
+              {josa(searchInputValue, "은/는").at(-1)}{" "}
               <span
                 className={cn({
                   "text-win": firstWinIdx !== -1,
