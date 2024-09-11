@@ -1,4 +1,5 @@
 import { josa } from "es-hangul";
+import { X } from "lucide-react";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import { choice } from "../utils";
@@ -11,7 +12,6 @@ import {
   WCEngine,
   Word,
 } from "../wc/WordChain";
-import { X } from "lucide-react";
 
 export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
   {
@@ -109,7 +109,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       headIdx: 1,
       tailDir: 1,
       tailIdx: 1,
-      manner: false,
+      manner: true,
       regexFilter: ".*",
       addedWords: "",
     },
