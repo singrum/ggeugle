@@ -3,7 +3,6 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -22,6 +21,8 @@ export default function PreferenceSetting() {
     setShowToast,
     exceptBy,
     setExceptBy,
+    showAllWords,
+    setShowAllWords,
   ] = useCookieSettings((e) => [
     e.isSearchFlip,
     e.setIsSearchFlip,
@@ -29,6 +30,8 @@ export default function PreferenceSetting() {
     e.setShowToast,
     e.exceptBy,
     e.setExceptBy,
+    e.showAllWords,
+    e.setShowAllWords,
   ]);
 
   return (
@@ -53,10 +56,7 @@ export default function PreferenceSetting() {
           </div>
         </SettnigMenu>
         <Separator />
-        <SettnigMenu
-          name="검색 레이아웃 좌우반전"
-          className="dark:bg-background"
-        >
+        <SettnigMenu name="검색 레이아웃 좌우반전">
           <div className="flex items-center space-x-2">
             <Switch
               id="flip"
@@ -69,10 +69,7 @@ export default function PreferenceSetting() {
           </div>
         </SettnigMenu>
         <Separator />
-        <SettnigMenu
-          name="글자 유형 변경 시 알림"
-          className="dark:bg-background"
-        >
+        <SettnigMenu name="글자 유형 변경 시 알림">
           <div className="flex items-center space-x-2">
             <Switch
               id="showToast"
@@ -85,10 +82,20 @@ export default function PreferenceSetting() {
           </div>
         </SettnigMenu>
         <Separator />
-        <SettnigMenu
-          name="제거된 단어에 추가하기"
-          className="dark:bg-background"
-        >
+        <SettnigMenu name="모든 단어 항상 펼치기">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="showAllWords"
+              onCheckedChange={(e: boolean) => {
+                setShowAllWords(e);
+              }}
+              checked={showAllWords}
+            />
+            <Label htmlFor="showAllWords">사용</Label>
+          </div>
+        </SettnigMenu>
+        <Separator />
+        <SettnigMenu name="제거된 단어에 추가하기">
           <Select
             value={exceptBy}
             onValueChange={(value: "space" | "enter") => setExceptBy(value)}
