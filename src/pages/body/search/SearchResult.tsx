@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { WordBadge, WordBox, WordContent } from "@/components/ui/WordBox";
 
+import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { changeableMap, reverseChangeableMap } from "@/lib/wc/changeables";
@@ -44,6 +45,10 @@ function WordsResult() {
     e.engine,
     e.searchInputValue,
   ]);
+  const [showAllWords, setShowAllWords] = useCookieSettings((e) => [
+    e.showAllWords,
+    e.setShowAllWords,
+  ]);
   const [tab, setTab] = useState<number>(0);
   const [isMoreOpen, setIsMoreOpen] = useState<boolean>(false);
   const charType =
@@ -53,6 +58,7 @@ function WordsResult() {
   useEffect(() => {
     setIsMoreOpen(false);
   }, [searchInputValue]);
+
   return (
     <>
       <div className="border-b px-4 flex whitespace-nowrap overflow-auto gap-4">
@@ -117,7 +123,7 @@ function WordsResult() {
                           <Separator />
                         </React.Fragment>
                       )}
-                    {(charType !== "win" || isMoreOpen) && (
+                    {(charType !== "win" || isMoreOpen || showAllWords) && (
                       <>
                         {(searchResult.result as CharSearchResult).startsWith
                           .route.length > 0 && (
@@ -174,7 +180,9 @@ function WordsResult() {
                             <Separator />
                           </>
                         )}
-                        {(charType !== "route" || isMoreOpen) && (
+                        {(charType !== "route" ||
+                          isMoreOpen ||
+                          showAllWords) && (
                           <>
                             {(searchResult.result as CharSearchResult)
                               .startsWith.loscir.length > 0 && (
@@ -220,7 +228,7 @@ function WordsResult() {
                         )}
                       </>
                     )}
-                    {!isMoreOpen && charType !== "los" && (
+                    {!showAllWords && !isMoreOpen && charType !== "los" && (
                       <div
                         className="p-4 flex justify-center text-primary items-center gap-1 select-none cursor-pointer hover:opacity-75"
                         onClick={() => setIsMoreOpen(true)}
