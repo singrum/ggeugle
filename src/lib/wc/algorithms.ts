@@ -431,6 +431,7 @@ export function isWin(
   chanGraph: MultiDiGraph,
   wordGraph: MultiDiGraph,
   currChar: Char,
+
   pushCallback?: (head?: Char, tail?: Char) => void,
   popCallback?: (head?: Char, tail?: Char, win?: boolean) => void
 ) {
@@ -512,4 +513,133 @@ export function isWin(
   }
 
   return false;
+}
+
+export function isWinWithDepth(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  currChar: Char,
+  depth: number,
+  maxDepth: number,
+  pushCallback?: (head?: Char, tail?: Char) => void,
+  popCallback?: (head?: Char, tail?: Char, win?: boolean) => void
+) {
+  if (depth >= maxDepth) {
+    return undefined;
+  }
+  if (
+    chanGraph.nodes[currChar].type === "win" ||
+    chanGraph.nodes[currChar].type === "wincir"
+  ) {
+    const word = chanGraph.nodes[currChar].solution;
+    const nextChan = wordGraph.nodes[word as string].solution;
+
+    return [word, nextChan];
+  }
+  if (
+    chanGraph.nodes[currChar].type === "los" ||
+    chanGraph.nodes[currChar].type === "loscir"
+  ) {
+    return false;
+  }
+
+  const nextWords = getNextWords(chanGraph, wordGraph, currChar, true);
+
+  nextWords.sort((a, b) => {
+    return a.moveNum! - b.moveNum!;
+  });
+
+  let dontknow = false;
+  for (let { word, isLoop } of nextWords) {
+    // 승패 글자의 변화가 생김 (breaking === true)
+    const breaking =
+      (isLoop && wordGraph._succ[word[0]][word[1]] === 0) ||
+      (!isLoop && wordGraph._succ[word[0]][word[1]] === 1);
+
+    const nextChanGraph = breaking ? chanGraph.copy() : chanGraph;
+    const nextWordGraph = breaking ? wordGraph.copy() : wordGraph;
+
+    // 단어 삭제
+    if (pushCallback) {
+      pushCallback(word[0], word[1]);
+    }
+    if (isLoop) {
+      nextWordGraph.nodes[word[0]].loop = undefined;
+    } else {
+      nextWordGraph.removeEdge(word[0], word[1], 1);
+    }
+
+    if (breaking) {
+      nextWordGraph.clearNodeInfo();
+      nextChanGraph.clearNodeInfo();
+
+      pruningWinLos(nextChanGraph, nextWordGraph);
+      pruningWinLosCir(nextChanGraph, nextWordGraph);
+    }
+
+    const win = isWinWithDepth(
+      nextChanGraph,
+      nextWordGraph,
+      word[1],
+      depth + 1,
+      maxDepth,
+      pushCallback,
+      popCallback
+    );
+    if (win === false) {
+      if (popCallback) {
+        popCallback(word[0], word[1], true);
+      }
+      return word;
+    } else {
+      if (popCallback) {
+        popCallback(word[0], word[1], false);
+      }
+      if (win === undefined) {
+        dontknow = true;
+      }
+    }
+
+    if (!breaking) {
+      if (isLoop) {
+        nextWordGraph.nodes[word[0]].loop = word[1];
+      } else {
+        nextWordGraph.addEdge(word[0], word[1], 1);
+      }
+    }
+  }
+
+  return dontknow ? undefined : false;
+}
+
+export function IDS(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  currChar: Char,
+  maxDepth: number,
+  pushCallback?: (head?: Char, tail?: Char) => void,
+  popCallback?: (head?: Char, tail?: Char, win?: boolean) => void,
+  nextDepthCallback?: (depth?: number) => void,
+  detphEndCallback?: (depth?: number, isWin?: any) => void
+) {
+  let depth = 0;
+  while (true) {
+    depth++;
+    if (nextDepthCallback) nextDepthCallback(depth);
+    const isWin = isWinWithDepth(
+      chanGraph,
+      wordGraph,
+      currChar,
+      0,
+      maxDepth,
+      pushCallback,
+      popCallback
+    );
+    if (detphEndCallback) {
+      detphEndCallback(depth, isWin);
+    }
+    if (isWin !== false && isWin !== undefined) {
+      break;
+    }
+  }
 }

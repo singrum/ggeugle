@@ -49,7 +49,7 @@ function WordsResult() {
     e.showAllWords,
     e.setShowAllWords,
   ]);
-  const [tab, setTab] = useState<number>(0);
+  const [tab, setTab] = useState<number>(2);
   const [isMoreOpen, setIsMoreOpen] = useState<boolean>(false);
   const charType =
     engine &&

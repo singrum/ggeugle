@@ -477,7 +477,8 @@ export const useWC = create<WCInfo>((set, get) => ({
             ...(get().value.length === 0 && !prevEngine
               ? {
                   value: random ? random : "",
-                  searchInputValue: random ? random : "",
+                  // searchInputValue: random ? random : "",
+                  searchInputValue: "업",
                 }
               : {}),
 
