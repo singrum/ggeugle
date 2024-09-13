@@ -153,7 +153,7 @@ const DBSource = [
   {
     name: "우리말샘",
     href: "https://opendict.korean.go.kr/main",
-    last: "2024.04",
+    last: "2024.09",
   },
 ];
 
