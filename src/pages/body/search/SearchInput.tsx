@@ -35,8 +35,12 @@ function SearchTitle() {
     <div className="flex flex-col gap-2">
       <span className="font-semibold text-xl">검색</span>
       <div className="text-sm text-muted-foreground">
-        단어를 입력 후 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나 + 버튼을
-        클릭하여 단어를 제거할 수 있습니다.
+        단어를 입력하고 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나{" "}
+        <CirclePlus
+          className="inline w-4 h-4 align-text-middle"
+          strokeWidth={1.75}
+        />{" "}
+        버튼을 클릭하여 단어를 제거할 수 있습니다.
       </div>
     </div>
   );
