@@ -1,6 +1,3 @@
-import React, { ForwardedRef, forwardRef, ReactNode, useState } from "react";
-import { menus, useMenu } from "./lib/store/useMenu";
-import { cn } from "./lib/utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,8 +9,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useWC } from "./lib/store/useWC";
 import { isEqual } from "lodash";
+import React, { ForwardedRef, forwardRef, ReactNode, useState } from "react";
+import { menus, useMenu } from "./lib/store/useMenu";
+import { useWC } from "./lib/store/useWC";
+import { cn } from "./lib/utils";
 export default function NavBar() {
   const [setMenu, menu] = useMenu((e) => [e.setMenu, e.menu]);
   const [rule, ruleForm, updateRule] = useWC((e) => [
