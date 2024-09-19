@@ -274,7 +274,10 @@ function WordInput() {
 
         <div className="flex items-center justify-center gap-2 absolute right-3 top-[calc(50%-0.75rem)] w-[1.5rem] h-[1.5rem]">
           <div
-            className="flex items-center justify-center rounded-full w-[2.0rem] h-[2.0rem] cursor-pointer text-muted-foreground hover:text-foreground transition-colors"
+            className={cn(
+              "flex items-center justify-center rounded-full w-[2.0rem] h-[2.0rem] cursor-pointer text-muted-foreground transition-colors",
+              { "text-foreground": value.length > 0 }
+            )}
             onClick={() => {
               if (engine) {
                 setValue("");
