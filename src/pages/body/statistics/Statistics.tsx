@@ -68,10 +68,10 @@ export default function Statistics() {
 
 function Cards({ engine }: { engine: WCEngine }) {
   return (
-    <div className="flex flex-col gap-3 md:gap-4 w-full">
+    <div className="flex flex-col md:gap-4 w-full">
       <StatisticsHeader engine={engine} />
 
-      <div className="flex-1 grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 md:gap-3 grid-cols-1 gap-2">
+      <div className="flex-1 grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4 p-4 md:p-0">
         {[
           {
             title: "주요 루트 수치 비교",
@@ -99,12 +99,9 @@ function Cards({ engine }: { engine: WCEngine }) {
             content: <RouteCharTypeChart engine={engine} />,
           },
         ].map(({ title, desc, content }, i) => (
-          <Card
-            className="flex flex-col gap-2 rounded-none md:rounded-lg bg-accent"
-            key={i}
-          >
-            <CardHeader className="items-center pb-0 text-accent-foreground">
-              <CardTitle>{title}</CardTitle>
+          <Card key={i}>
+            <CardHeader className="items-center">
+              <CardTitle className="text-lg font-semibold">{title}</CardTitle>
               <CardDescription>{desc}</CardDescription>
             </CardHeader>
             <CardContent className="flex items-center flex-1 justify-center">
@@ -210,7 +207,7 @@ function RouteCharTypeChart({ engine }: { engine: WCEngine }) {
 
 function StatisticsHeader({ engine }: { engine: WCEngine }) {
   return (
-    <div className="flex gap-2 items-center px-4 py-2 pt-4 md:p-0">
+    <div className="flex gap-2 items-center px-6 py-2 md:px-2 md:py-0">
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
           {engine.words.length.toLocaleString()}

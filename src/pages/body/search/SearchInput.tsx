@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -5,6 +6,8 @@ import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import {
+  Ban,
+  Check,
   CirclePlus,
   Clipboard,
   LoaderCircle,
@@ -12,18 +15,18 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
 
 export default function SearchInput() {
   return (
     <div className="p-4">
-      <SearchTitle />
-
-      <div className="mt-4 min-h-12 w-full rounded-lg border-border border">
-        <ExceptWordsDisplay />
+      <div className="px-2">
+        <SearchTitle />
       </div>
+      <ExceptWordsDisplay />
+
       <WordInput />
     </div>
   );
@@ -66,38 +69,69 @@ function ExceptWordsDisplay() {
   ]);
   const [showToast] = useCookieSettings((e) => [e.showToast]);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-
+  const [clipComplete, setClipComplete] = useState(false);
   return (
-    <>
-      <div className="grid grid-cols-3 justify-center items-center w-full py-3 px-4 rounded-t-lg bg-accent">
-        <div />
-        <div className="flex justify-center text-accent-foreground text-base font-semibold">
-          제거된 단어
+    <div className="mt-4 min-h-12 w-full rounded-lg border-border border shadow">
+      <div className="flex items-center justify-between w-full py-2.5 px-3">
+        <div className="flex items-center gap-2 text-muted-foreground text-sm">
+          <Ban className="w-3.5 h-3.5" />
+          <div className="flex justify-center">제거된 단어</div>
         </div>
-        <div className="flex items-center gap-2 justify-end">
+        <div className="flex items-center gap-2">
           {[
             {
-              name: "비교",
+              name: "복사",
+              icon: clipComplete ? (
+                <Check className="w-3 h-3" />
+              ) : (
+                <Clipboard className="w-3 h-3" />
+              ),
               onClick: () => {
-                document.getElementById("changed-char-dialog-open")?.click();
+                if (exceptWords.length > 0) {
+                  navigator.clipboard.writeText(exceptWords.join(" "));
+                }
+                setClipComplete(true);
+
+                setTimeout(() => {
+                  setClipComplete(false);
+                }, 2000);
               },
             },
-          ].map(({ name, onClick }, i) => (
-            <div key={i}>
-              <div
-                className="cursor-pointer hover:text-foreground transition-colors flex items-center"
-                onClick={onClick}
-              >
-                {i === 0 && Object.keys(changeInfo.compPrev).length > 0 && (
-                  <div className="mr-1.5 rounded-md bg-primary px-1.5 py-0.5 text-xs leading-none text-primary-foreground no-underline group-hover:no-underline">
-                    {Object.keys(changeInfo.compPrev).length}
-                  </div>
-                )}
-
-                <div className="text-primary">{name}</div>
-              </div>
-            </div>
+            {
+              name: "초기화",
+              icon: <Trash2 className="w-3 h-3" />,
+              onClick: () => {
+                exceptWords.length > 0 && engine && setExceptWords([]);
+              },
+            },
+          ].map(({ name, icon, onClick }) => (
+            <Button
+              key={name}
+              size={"icon"}
+              className="h-6 w-6 "
+              variant={"outline"}
+              onClick={onClick}
+            >
+              {icon}
+            </Button>
           ))}
+          <Separator orientation="vertical" className="h-5" />
+          <Button
+            className={cn("h-6 px-2 text-xs", {
+              "pr-1": Object.keys(changeInfo.compPrev).length > 0,
+            })}
+            variant={"outline"}
+            onClick={() =>
+              document.getElementById("changed-char-dialog-open")?.click()
+            }
+          >
+            비교
+            {Object.keys(changeInfo.compPrev).length > 0 && (
+              <div className="ml-1.5 rounded-md bg-primary px-1.5 py-0.5 text-xs leading-none text-primary-foreground no-underline group-hover:no-underline">
+                {Object.keys(changeInfo.compPrev).length}
+              </div>
+            )}
+          </Button>
         </div>
       </div>
       <Separator />
@@ -107,7 +141,7 @@ function ExceptWordsDisplay() {
             <>
               {exceptWords.map((e) => (
                 <div
-                  className="transition-colors hover:border-foreground rounded-full flex px-1 items-center border border-foreground/40 cursor-pointer"
+                  className="transition-colors rounded-full flex px-1 items-center border border-foreground/40 cursor-pointer"
                   key={e}
                   onClick={() => {
                     const head = e.at(engine!.rule.headIdx)!;
@@ -130,39 +164,7 @@ function ExceptWordsDisplay() {
                 </div>
               ))}
               {exceptWords.length > 0 && !(engine && isLoading) && (
-                <div className=" flex justify-end items-center gap-2 pb-0 ml-2">
-                  {[
-                    {
-                      name: "복사",
-                      icon: <Clipboard className="w-5 h-5" strokeWidth={1.5} />,
-                      onClick: () => {
-                        if (exceptWords.length > 0) {
-                          navigator.clipboard.writeText(exceptWords.join(" "));
-                        }
-                      },
-                    },
-                    {
-                      name: "초기화",
-                      icon: <Trash2 className="w-5 h-5" strokeWidth={1.5} />,
-                      onClick: () => {
-                        exceptWords.length > 0 && engine && setExceptWords([]);
-                      },
-                    },
-                  ].map(({ name, icon, onClick }, i) => (
-                    <div
-                      key={name}
-                      className={cn(
-                        "text-muted-foreground  cursor-pointer select-none",
-                        {
-                          "text-destructive": i === 1,
-                        }
-                      )}
-                      onClick={onClick}
-                    >
-                      {icon}
-                    </div>
-                  ))}
-                </div>
+                <div className=" flex justify-end items-center gap-2 pb-0 ml-2"></div>
               )}
             </>
           ) : (
@@ -187,7 +189,7 @@ function ExceptWordsDisplay() {
           className: "bg-white border border-border text-black",
         }}
       />
-    </>
+    </div>
   );
 }
 
@@ -244,7 +246,7 @@ function WordInput() {
     <div className="pt-4">
       <div className="relative">
         <Input
-          className="border border-border rounded-lg h-12 bg-background text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 "
+          className="border border-border rounded-lg h-12 bg-background text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 shadow"
           value={value}
           type="search"
           placeholder="글자 또는 단어를 입력하세요."

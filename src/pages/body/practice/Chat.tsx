@@ -22,7 +22,7 @@ export default function Chat({
         <RiRobot2Fill className="h-6 w-6" />
       </div>
       <div className="flex-1 flex flex-col gap-1">
-        <div className="text-xs text-muted-foreground">끄글봇</div>
+        <div className="text-xs">끄글봇</div>
         <div className="flex flex-col items-start gap-1">
           {children.map((e, i) => (
             <ChatContent

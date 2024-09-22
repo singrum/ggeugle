@@ -208,7 +208,7 @@ function GameInput() {
             }}
           />
           <Button
-            disabled={!currGame!.isPlaying}
+            disabled={!currGame!.isPlaying || value.trim().length === 0}
             size="icon"
             className="absolute right-1 w-[2.4rem] h-[2.4rem] top-[calc(50%-1.2rem)] flex items-center justify-center rounded-full"
           >
@@ -224,8 +224,10 @@ function GameHeader() {
   const [currGame, setCurrGame] = useWC((e) => [e.currGame, e.setCurrGame]);
   return (
     <>
-      <div className="w-full flex items-center px-2 py-1 justify-between border-b border-border bg-accent md:rounded-t-xl text-accent-foreground">
-        <div className="flex items-center gap-1 px-2 py-2">플레이 중</div>
+      <div className="w-full flex items-center px-2 py-1 justify-between border-b border-border text-accent-foreground">
+        <div className="flex items-center gap-1 px-2 py-2 font-semibold ">
+          플레이 중
+        </div>
 
         <div className="flex gap-1">
           <div

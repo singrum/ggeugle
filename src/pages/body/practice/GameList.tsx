@@ -1,6 +1,6 @@
 import { GameInfo, strengths, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { ChevronRight, Clipboard, ClipboardCheck, X } from "lucide-react";
+import { Check, ChevronRight, Clipboard, X } from "lucide-react";
 import React, { useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 
@@ -10,7 +10,7 @@ export default function GameList() {
   return (
     <div
       className={cn(
-        "w-full flex flex-col-reverse gap-2 md:gap-4 p-0 pb-[200px] pt-10 md:p-4",
+        "w-full flex flex-col-reverse gap-2 md:gap-4 pt-10 p-4 pb-[200px] md:pb-4",
         {
           "items-center justify-center": games.length === 0 && !currGame,
         }
@@ -45,8 +45,8 @@ function GameButton({
   return (
     <div
       className={cn(
-        "w-full flex flex-col md:rounded-xl px-4 py-3 pr-3 gap-2 bg-accent text-accent-foreground",
-        { " md:ring-2 md:ring-ring": gameInfo.isPlaying }
+        "w-full flex flex-col md:rounded-xl px-4 py-3 pr-3 gap-2 border border-border rounded-lg",
+        { "ring-2 ring-ring": gameInfo.isPlaying }
       )}
     >
       <div className="flex items-center justify-between">
@@ -76,7 +76,7 @@ function GameButton({
             }}
           >
             {clipComplete ? (
-              <ClipboardCheck className="w-5 h-5" strokeWidth={1.5} />
+              <Check className="w-5 h-5" strokeWidth={1.5} />
             ) : (
               <Clipboard className="w-5 h-5" strokeWidth={1.5} />
             )}
