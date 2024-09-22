@@ -52,7 +52,7 @@ export function RuleSetting() {
   return (
     <div className="flex flex-col min-w-0 mb-[200px] md:mb-0">
       <div className="flex flex-col min-w-0 gap-4 p-4 pb-0 md:border border-border md:rounded-xl ">
-        <div className="font-semibold">바로가기</div>
+        <div className="font-semibold px-2">바로가기</div>
         <ScrollArea className="w-full pb-4">
           <div className="flex w-full min-w-0 gap-2 whitespace-nowrap ">
             {sampleRules.map(({ name, ruleForm }) => (
@@ -77,7 +77,7 @@ export function RuleSetting() {
       </div>
 
       <div className="flex flex-col md:flex-row md:min-h-0 pt-4">
-        <div className="md:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col border-b border-border md:border-none px-4 md:px-0 h-full">
+        <div className="md:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col border-b border-border md:border-none px-6 md:px-0 h-full">
           {ruleGroup.map(({ name }, i) => (
             <div className="flex items-center" key={i}>
               <div
@@ -97,7 +97,7 @@ export function RuleSetting() {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-1 px-4">
+        <div className="flex flex-col md:flex-1 px-6 py-2 md:py-0">
           {ruleGroup[ruleGroupMenu].children.map((e, i) => (
             <Fragment key={i}>
               {e}
