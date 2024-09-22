@@ -71,7 +71,7 @@ function ExceptWordsDisplay() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [clipComplete, setClipComplete] = useState(false);
   return (
-    <div className="mt-4 min-h-12 w-full rounded-lg border-border border shadow">
+    <div className="mt-4 min-h-12 w-full rounded-lg border-border border shadow-sm">
       <div className="flex items-center justify-between w-full py-2.5 px-3">
         <div className="flex items-center gap-2 text-muted-foreground text-sm">
           <Ban className="w-3.5 h-3.5" />
@@ -246,7 +246,7 @@ function WordInput() {
     <div className="pt-4">
       <div className="relative">
         <Input
-          className="border border-border rounded-lg h-12 bg-background text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 shadow"
+          className="border border-border rounded-lg h-12 bg-background text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 shadow-sm"
           value={value}
           type="search"
           placeholder="글자 또는 단어를 입력하세요."
