@@ -315,6 +315,31 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       addedWords: "",
     },
   },
+  {
+    name: "연결룰",
+    ruleForm: {
+      dict: 0,
+      pos: Object.assign({}, [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ]),
+      cate: Object.assign({}, [true, false, false, false]),
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: "(?!(붕어톱|궤휼|잎뽕)$).*",
+      addedWords: "",
+    },
+  },
 ];
 
 export type changeInfo = {
