@@ -768,11 +768,13 @@ export const useWC = create<WCInfo>((set, get) => ({
 
     if (isFirst) {
       set({
+        isChatLoading: false,
         currGame: {
           isFirst,
           strength: gameSettingForm.strength,
           steal: gameSettingForm.steal,
           debug: gameSettingForm.debug,
+
           chats: [
             {
               isMy: false,
