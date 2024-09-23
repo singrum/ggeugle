@@ -81,10 +81,10 @@ export default function GameSetting() {
               <Separator />
 
               <div className="pt-6 pb-2 px-2">
-                <div className="flex items-center space-x-2 pb-2 justify-between gap-4">
+                <div className="flex items-center space-x-2 pb-6 justify-between gap-4">
                   <Label htmlFor="steal w-full">
-                    <div className="mb-1">첫 수 단어 뺏기</div>
-                    <div className="font-normal text-muted-foreground leading-normal text-xs">
+                    <div className="mb-2">첫 수 단어 뺏기</div>
+                    <div className="font-normal text-muted-foreground leading-snug text-xs">
                       후공은 선공이 맨 처음 말한 단어를 빼앗을 수 있습니다.
                     </div>
                   </Label>
@@ -104,7 +104,10 @@ export default function GameSetting() {
 
                 <div className="flex items-center space-x-2 justify-between gap-4">
                   <Label htmlFor="debug-mode" className="w-full">
-                    디버그 모드
+                    <div className="mb-2">디버그 모드</div>
+                    <div className="font-normal text-muted-foreground leading-snug text-xs">
+                      디버그 모드를 사용합니다.
+                    </div>
                   </Label>
                   <Switch
                     id="debug-mode"
