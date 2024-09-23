@@ -43,6 +43,29 @@ export default function Game() {
       setUserScrolled(isScroll);
     }
   };
+  const splitedChats = chatSplit(
+    !isChatLoading
+      ? currGame!.chats
+      : [
+          ...currGame!.chats,
+          {
+            isMy: false,
+            content: (
+              <div className="flex gap-2 px-2 py-1.5">
+                {[2, 1, 0].map((e) => (
+                  <span className="relative flex h-3 w-3" key={e}>
+                    <span
+                      className={`animate-[chat-loading_0.7s_ease-in-out_${
+                        -e * 0.15
+                      }s_infinite] absolute inline-flex h-full w-full rounded-full bg-foreground/70`}
+                    />
+                  </span>
+                ))}
+              </div>
+            ),
+          },
+        ]
+  );
 
   return (
     <div className="flex flex-col min-h-0 h-full">
@@ -53,28 +76,14 @@ export default function Game() {
         onScroll={handleOnScroll}
       >
         <div className="flex flex-col p-3 pb-2 flex-1 gap-2 justify-end">
-          {chatSplit(currGame!.chats).map(({ isMy, contents }, i) => (
-            <Chat key={i} isMy={isMy}>
-              {contents}
-            </Chat>
-          ))}
-          {isChatLoading && (
-            <Chat isMy={false}>
-              {[
-                <div className="flex gap-2 p-2">
-                  {[2, 1, 0].map((e) => (
-                    <span className="relative flex h-3 w-3" key={e}>
-                      <span
-                        className={`animate-[chat-loading_0.7s_ease-in-out_${
-                          -e * 0.15
-                        }s_infinite] absolute inline-flex h-full w-full rounded-full bg-foreground/70`}
-                      />
-                    </span>
-                  ))}
-                </div>,
-              ]}
-            </Chat>
-          )}
+          {splitedChats.map(({ isMy, contents }, i) => {
+            console.log(splitedChats.length - 1, i);
+            return (
+              <Chat key={i} isMy={isMy}>
+                {contents}
+              </Chat>
+            );
+          })}
         </div>
         <GameInput />
       </div>

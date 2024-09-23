@@ -64,11 +64,13 @@ const getComputerMove = ({
   currChar,
   strength,
   steal,
+  debug,
 }: {
   exceptWords: string[];
   currChar: Char;
   strength: 0 | 1 | 2;
-  steal?: boolean;
+  steal: boolean;
+  debug: boolean;
 }) => {
   if (strength === 0) {
     if (currChar) {
@@ -109,8 +111,24 @@ const getComputerMove = ({
 
         if (endedWordIdx === -1) {
           if (exceptWords.length === 1 && steal) {
+            if (debug) {
+              self.postMessage({
+                action: "debug",
+                data: {
+                  messages: [`[Debug] 단어 뺏기`, `[Debug] 승리 확정`],
+                },
+              });
+            }
             postWord(exceptWords, exceptWords);
           } else {
+            if (debug) {
+              self.postMessage({
+                action: "debug",
+                data: {
+                  messages: [`[Debug] 패배 확정`],
+                },
+              });
+            }
             postWord(
               nextRoutesInfo.map((e) => e.word),
               exceptWords
@@ -126,6 +144,29 @@ const getComputerMove = ({
             exceptWords.length !== 0) ||
           nextRoutesInfo[endedWordIdx].win === "idk"
         ) {
+          if (debug) {
+            if (nextRoutesInfo[endedWordIdx].win === "true") {
+              self.postMessage({
+                action: "debug",
+                data: {
+                  messages: [
+                    `[Debug] ${nextRoutesInfo[endedWordIdx].word} : 승리`,
+                    "[Debug] 승리 확정",
+                  ],
+                },
+              });
+            } else {
+              self.postMessage({
+                action: "debug",
+                data: {
+                  messages: [
+                    `[Debug] ${nextRoutesInfo[endedWordIdx].word} : 알 수 없음`,
+                  ],
+                },
+              });
+            }
+          }
+
           if (timeout) {
             clearTimeout(timeout);
           }
@@ -134,6 +175,17 @@ const getComputerMove = ({
           analysisWorker.terminate();
           return;
         } else {
+          if (debug) {
+            self.postMessage({
+              action: "debug",
+              data: {
+                messages: [
+                  `[Debug] ${nextRoutesInfo[endedWordIdx].word} : 패배`,
+                ],
+              },
+            });
+          }
+
           if (timeout) {
             clearTimeout(timeout);
           }
@@ -200,17 +252,49 @@ const getComputerMove = ({
             const head = engine!.chanGraph.nodes[currChar].solution as Char;
             const tail = engine!.wordGraph.nodes[head as string]
               .solution as Char;
-
+            if (debug) {
+              self.postMessage({
+                action: "debug",
+                data: {
+                  messages: [
+                    `[Debug] ${currChar} : 승리 글자`,
+                    "[Debug] 승리 확정",
+                  ],
+                },
+              });
+            }
             postWord(engine!.wordMap.select(head, tail), exceptWords);
             return;
 
           case "los":
             if (exceptWords.length === 1 && steal) {
               // 1턴 째일 때 단어 뺏기
-
+              if (debug) {
+                self.postMessage({
+                  action: "debug",
+                  data: {
+                    messages: [
+                      `[Debug] ${currChar} : 패배 글자`,
+                      `[Debug] 단어 뺏기`,
+                      "[Debug] 승리 확정",
+                    ],
+                  },
+                });
+              }
               postWord(exceptWords, exceptWords);
               return;
             } else {
+              if (debug) {
+                self.postMessage({
+                  action: "debug",
+                  data: {
+                    messages: [
+                      `[Debug] ${currChar} : 패배 글자`,
+                      "[Debug] 패배 확정",
+                    ],
+                  },
+                });
+              }
               postWord(
                 engine!
                   .getNextWords(currChar)
@@ -226,10 +310,32 @@ const getComputerMove = ({
           case "loscir":
             if (exceptWords.length === 1 && steal) {
               // 1턴 째일 때 단어 뺏기
-
+              if (debug) {
+                self.postMessage({
+                  action: "debug",
+                  data: {
+                    messages: [
+                      `[Debug] ${currChar} : 조건부 패배 글자`,
+                      `[Debug] 단어 뺏기`,
+                      "[Debug] 승리 확정",
+                    ],
+                  },
+                });
+              }
               postWord(exceptWords, exceptWords);
               return;
             } else {
+              if (debug) {
+                self.postMessage({
+                  action: "debug",
+                  data: {
+                    messages: [
+                      `[Debug] ${currChar} : 조건부 패배 글자`,
+                      "[Debug] 패배 확정",
+                    ],
+                  },
+                });
+              }
               let nextWords = engine!
                 .getNextWords(currChar)
                 .filter(
@@ -253,6 +359,14 @@ const getComputerMove = ({
         }
       } else {
         if (strength === 1) {
+          if (debug) {
+            self.postMessage({
+              action: "debug",
+              data: {
+                messages: [`[Debug] 랜덤 루트`],
+              },
+            });
+          }
           postWord(
             getNextWords(
               engine!.chanGraph,
@@ -289,6 +403,14 @@ const getComputerMove = ({
     } else {
       // 컴퓨터가 선공인 경우
       if (strength === 1) {
+        if (debug) {
+          self.postMessage({
+            action: "debug",
+            data: {
+              messages: [`[Debug] 랜덤 루트`],
+            },
+          });
+        }
         postWord(
           Object.keys(engine!.chanGraph.nodes).flatMap((char) =>
             engine!.chanGraph.nodes[char].type === "route"
@@ -338,7 +460,13 @@ self.onmessage = (event) => {
       return;
     case "getComputerMove":
       getComputerMove(
-        data as { exceptWords: string[]; currChar: Char; strength: 0 | 1 | 2 }
+        data as {
+          exceptWords: string[];
+          currChar: Char;
+          strength: 0 | 1 | 2;
+          steal: boolean;
+          debug: boolean;
+        }
       );
       return;
   }

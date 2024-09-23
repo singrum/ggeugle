@@ -50,20 +50,22 @@ function GameButton({
       )}
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-1 text-sm font-semibold">
           <RiRobot2Fill
             className={cn("h-5 w-5", strengths[gameInfo.strength].color)}
           />
 
           <div>{strengths[gameInfo.strength].name}</div>
-          <div className="">{","}</div>
+
+          <div className="text-muted-foreground">{"/"}</div>
           <div>{gameInfo.isFirst ? "선공" : "후공"}</div>
-          <div className="">{","}</div>
+          <div className="text-muted-foreground">{"/"}</div>
+
           <div>{gameInfo.steal ? "단어 뺏기 가능" : "단어 뺏기 불가"}</div>
         </div>
         <div className="flex gap-1">
           <div
-            className="p-1 rounded-md hover:bg-accent cursor-pointer"
+            className="p-1 rounded-md hover:bg-accent cursor-pointer w-6 h-6 flex items-center justify-center"
             onClick={() => {
               if (gameInfo.moves.length > 0) {
                 navigator.clipboard.writeText(gameInfo.moves.join(" "));
@@ -76,13 +78,13 @@ function GameButton({
             }}
           >
             {clipComplete ? (
-              <Check className="w-5 h-5" strokeWidth={1.5} />
+              <Check className="w-4 h-4" strokeWidth={1.5} />
             ) : (
-              <Clipboard className="w-5 h-5" strokeWidth={1.5} />
+              <Clipboard className="w-4 h-4" strokeWidth={1.5} />
             )}
           </div>
           <div
-            className="p-1 rounded-md hover:bg-accent cursor-pointer"
+            className="p-1 rounded-md hover:bg-accent cursor-pointer w-6 h-6 flex items-center justify-center"
             onClick={() => {
               if (gameInfo.isPlaying) {
                 setCurrGame(undefined);
@@ -112,9 +114,9 @@ function GameButton({
       {gameInfo.isPlaying ? (
         <div className="">플레이 중</div>
       ) : gameInfo.winner === "me" ? (
-        <div className="text-win">승리</div>
+        <div className="text-win text-sm font-semibold">승리</div>
       ) : (
-        <div className="text-los">패배</div>
+        <div className="text-los text-sm font-semibold">패배</div>
       )}
     </div>
   );
