@@ -1,12 +1,13 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Separator } from "@/components/ui/separator";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { getNextWords } from "@/lib/wc/algorithms";
 import { Word } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Play } from "lucide-react";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { FaRegPlayCircle } from "react-icons/fa";
+
 export default function Analysis() {
   const [
     searchInputValue,
@@ -25,9 +26,8 @@ export default function Analysis() {
   ]);
 
   const [wordStack, setWordStack] = useState<Word[]>([]);
-
   const [nextRoutesInfo, setNextRoutesInfo] = useState<
-    { word: Word; win?: boolean }[] | undefined
+    { word: Word; win?: boolean; maxStack?: Word[] }[] | undefined
   >();
   const worker = useRef<Worker>(null!);
 
@@ -52,7 +52,7 @@ export default function Analysis() {
           return;
 
         case "end":
-          const { win } = data.data;
+          const { win, maxStack } = data.data;
 
           const endedWordIdx = nextRoutesInfo.findIndex(
             ({ win }) => win === undefined
@@ -60,7 +60,21 @@ export default function Analysis() {
           setWordStack([]);
           setNextRoutesInfo((e) => {
             const result = [...e!];
+
             result[endedWordIdx].win = !win;
+
+            const specifiedMaxStack: Word[] = [];
+
+            for (const [head, tail] of maxStack) {
+              specifiedMaxStack.push(
+                engine!.wordMap
+                  .select(head, tail)
+                  .find((word) => !specifiedMaxStack.includes(word))!
+              );
+            }
+
+            result[endedWordIdx].maxStack = specifiedMaxStack;
+            console.log(specifiedMaxStack);
             return result;
           });
           if (endedWordIdx !== nextRoutesInfo.length - 1 && win) {
@@ -149,7 +163,7 @@ export default function Analysis() {
     nextRoutesInfo && (
       <div className="flex flex-col items-start gap-4 mb-2">
         <Alert>
-          <FaRegPlayCircle className="h-5 w-5" />
+          <Play className="h-5 w-5" strokeWidth={1.5} />
           <AlertTitle className="font-normal">
             <span className="underline decoration-dotted cursor-pointer hover:no-underline">
               {searchInputValue}
@@ -200,36 +214,52 @@ export default function Analysis() {
             )}
           </AlertDescription>
         </Alert>
-        <div className="flex flex-col items-start gap-1">
+        <div className="w-full">
           {nextRoutesInfo
             .slice(
               0,
               firstUndefIdx === -1 ? nextRoutesInfo.length : firstUndefIdx
             )
-            .map(({ word, win }) => (
+            .map(({ word, win, maxStack }) => (
               <div key={word}>
-                <span
-                  className="underline decoration-dotted cursor-pointer hover:no-underline"
-                  onClick={() => {
-                    setValue(word.at(engine!.rule.tailIdx)!);
-                    setSearchInputValue(word.at(engine!.rule.tailIdx)!);
-                    if (!exceptWords.includes(word)) {
-                      setExceptWords([...exceptWords, word]);
-                    }
-                  }}
-                >
-                  {word}
-                </span>
-                {josa(word, "은/는").at(-1)}{" "}
-                <span className={cn({ "text-win": win, "text-los": !win })}>
-                  {win ? "승리" : "패배"}
-                </span>
-                합니다.
+                <div className="w-full mb-1">
+                  <span
+                    className="underline decoration-dotted cursor-pointer hover:no-underline"
+                    onClick={() => {
+                      setValue(word.at(engine!.rule.tailIdx)!);
+                      setSearchInputValue(word.at(engine!.rule.tailIdx)!);
+                      if (!exceptWords.includes(word)) {
+                        setExceptWords([...exceptWords, word]);
+                      }
+                    }}
+                  >
+                    {word}
+                  </span>
+                  {josa(word, "은/는").at(-1)}{" "}
+                  <span className={cn({ "text-win": win, "text-los": !win })}>
+                    {win ? "승리" : "패배"}
+                  </span>
+                  합니다.
+                </div>
+                <div className="flex flex-wrap gap-0 items-center text-xs">
+                  {[word, ...maxStack!].map((e, i) => (
+                    <Fragment key={i}>
+                      <div className="flex items-center h-6">{e}</div>
+                      {i !== maxStack!.length && (
+                        <ChevronRight
+                          className="text-muted-foreground w-4"
+                          strokeWidth={1}
+                        />
+                      )}
+                    </Fragment>
+                  ))}
+                </div>
+                <Separator className="my-2" />
               </div>
             ))}
           {firstWinIdx === -1 && firstUndefIdx !== -1 ? (
-            <>
-              <div>
+            <div>
+              <div className="mb-1">
                 <span
                   className="underline decoration-dotted cursor-pointer hover:no-underline"
                   onClick={() => {
@@ -262,7 +292,7 @@ export default function Analysis() {
                 {[nextRoutesInfo[firstUndefIdx!].word, ...wordStack].map(
                   (e, i) => (
                     <Fragment key={i}>
-                      <div>{e}</div>
+                      <div className="flex items-center h-6">{e}</div>
                       {i !== wordStack.length && (
                         <ChevronRight
                           className="text-muted-foreground w-4"
@@ -273,7 +303,7 @@ export default function Analysis() {
                   )
                 )}
               </div>
-            </>
+            </div>
           ) : (
             <div>
               따라서{" "}

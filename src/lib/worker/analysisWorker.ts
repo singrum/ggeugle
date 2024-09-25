@@ -43,13 +43,16 @@ const analysis = ({
   pruningWinLosCir(chanGraph, wordGraph);
 
   const wordStack: Char[][] = [];
-
+  let maxStack: Char[][] = [];
   const winWord = withStack
     ? isWin(
         chanGraph,
         wordGraph,
         startChar,
         (head, tail) => {
+          if (wordStack.length > maxStack.length) {
+            maxStack = wordStack.slice();
+          }
           wordStack.push([head!, tail!]);
           self.postMessage({ action: "stackChange", data: wordStack });
         },
@@ -61,11 +64,11 @@ const analysis = ({
     : isWin(chanGraph, wordGraph, startChar);
   //승리
   if (winWord) {
-    
     self.postMessage({
       action: "end",
       data: {
         word: exceptWord,
+        maxStack: maxStack,
         win: true,
       },
     });
@@ -76,6 +79,7 @@ const analysis = ({
       action: "end",
       data: {
         word: exceptWord,
+        maxStack: maxStack,
         win: false,
       },
     });
