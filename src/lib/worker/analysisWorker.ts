@@ -50,10 +50,11 @@ const analysis = ({
         wordGraph,
         startChar,
         (head, tail) => {
+          
+          wordStack.push([head!, tail!]);
           if (wordStack.length > maxStack.length) {
             maxStack = wordStack.slice();
           }
-          wordStack.push([head!, tail!]);
           self.postMessage({ action: "stackChange", data: wordStack });
         },
         () => {
