@@ -457,14 +457,8 @@ export function isWin(
   });
 
   for (let { word, isLoop } of nextWords) {
-    // 승패 글자의 변화가 생김 (breaking === true)
-    const breaking =
-      (isLoop && wordGraph._succ[word[0]][word[1]] === 0) ||
-      (!isLoop && wordGraph._succ[word[0]][word[1]] === 1);
-
-    const nextChanGraph = breaking ? chanGraph.copy() : chanGraph;
-    const nextWordGraph = breaking ? wordGraph.copy() : wordGraph;
-
+    const nextChanGraph = chanGraph.copy();
+    const nextWordGraph = wordGraph.copy();
     // 단어 삭제
     if (pushCallback) {
       pushCallback(word[0], word[1]);
@@ -474,14 +468,10 @@ export function isWin(
     } else {
       nextWordGraph.removeEdge(word[0], word[1], 1);
     }
-
-    if (breaking) {
-      nextWordGraph.clearNodeInfo();
-      nextChanGraph.clearNodeInfo();
-
-      pruningWinLos(nextChanGraph, nextWordGraph);
-      pruningWinLosCir(nextChanGraph, nextWordGraph);
-    }
+    nextWordGraph.clearNodeInfo();
+    nextChanGraph.clearNodeInfo();
+    pruningWinLos(nextChanGraph, nextWordGraph);
+    pruningWinLosCir(nextChanGraph, nextWordGraph);
 
     const win = isWin(
       nextChanGraph,
@@ -499,14 +489,6 @@ export function isWin(
     } else {
       if (popCallback) {
         popCallback(word[0], word[1], false);
-      }
-    }
-
-    if (!breaking) {
-      if (isLoop) {
-        nextWordGraph.nodes[word[0]].loop = word[1];
-      } else {
-        nextWordGraph.addEdge(word[0], word[1], 1);
       }
     }
   }
