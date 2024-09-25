@@ -74,7 +74,7 @@ export default function Analysis() {
             }
 
             result[endedWordIdx].maxStack = specifiedMaxStack;
-            console.log(specifiedMaxStack);
+
             return result;
           });
           if (endedWordIdx !== nextRoutesInfo.length - 1 && win) {

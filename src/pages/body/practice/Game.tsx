@@ -77,7 +77,6 @@ export default function Game() {
       >
         <div className="flex flex-col p-3 pb-2 flex-1 gap-2 justify-end">
           {splitedChats.map(({ isMy, contents }, i) => {
-            console.log(splitedChats.length - 1, i);
             return (
               <Chat key={i} isMy={isMy}>
                 {contents}
