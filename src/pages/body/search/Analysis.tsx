@@ -161,7 +161,7 @@ export default function Analysis() {
 
   return (
     nextRoutesInfo && (
-      <div className="flex flex-col items-start gap-4 mb-2">
+      <div className="flex flex-col items-start gap-4 mb-2 w-full">
         <Alert>
           <Play className="h-5 w-5" strokeWidth={1.5} />
           <AlertTitle className="font-normal">
@@ -221,8 +221,8 @@ export default function Analysis() {
               firstUndefIdx === -1 ? nextRoutesInfo.length : firstUndefIdx
             )
             .map(({ word, win, maxStack }) => (
-              <div key={word} className="w-full">
-                <div key={word} className="w-full mx-2">
+              <div key={word} className="w-full px-2">
+                <div key={word} className="w-full">
                   <div className="w-full mb-1">
                     <span
                       className="underline decoration-dotted cursor-pointer hover:no-underline"
@@ -242,7 +242,7 @@ export default function Analysis() {
                     </span>
                     합니다.
                   </div>
-                  <div className="flex flex-wrap gap-0 items-center text-xs">
+                  <div className="flex flex-wrap gap-0 items-center text-xs ">
                     {[word, ...maxStack!].map((e, i) => (
                       <Fragment key={i}>
                         <div className="flex items-center h-6">{e}</div>
@@ -260,7 +260,7 @@ export default function Analysis() {
               </div>
             ))}
           {firstWinIdx === -1 && firstUndefIdx !== -1 ? (
-            <div className="w-full mx-2">
+            <div className="w-full px-2">
               <div className="mb-1">
                 <span
                   className="underline decoration-dotted cursor-pointer hover:no-underline"
