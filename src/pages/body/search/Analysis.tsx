@@ -221,8 +221,8 @@ export default function Analysis() {
               firstUndefIdx === -1 ? nextRoutesInfo.length : firstUndefIdx
             )
             .map(({ word, win, maxStack }) => (
-              <div key={word} className="w-full px-2">
-                <div key={word} className="w-full">
+              <div key={word} className="w-full">
+                <div key={word} className="w-full px-2">
                   <div className="w-full mb-1">
                     <span
                       className="underline decoration-dotted cursor-pointer hover:no-underline"
