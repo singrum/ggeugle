@@ -221,44 +221,46 @@ export default function Analysis() {
               firstUndefIdx === -1 ? nextRoutesInfo.length : firstUndefIdx
             )
             .map(({ word, win, maxStack }) => (
-              <div key={word}>
-                <div className="w-full mb-1">
-                  <span
-                    className="underline decoration-dotted cursor-pointer hover:no-underline"
-                    onClick={() => {
-                      setValue(word.at(engine!.rule.tailIdx)!);
-                      setSearchInputValue(word.at(engine!.rule.tailIdx)!);
-                      if (!exceptWords.includes(word)) {
-                        setExceptWords([...exceptWords, word]);
-                      }
-                    }}
-                  >
-                    {word}
-                  </span>
-                  {josa(word, "은/는").at(-1)}{" "}
-                  <span className={cn({ "text-win": win, "text-los": !win })}>
-                    {win ? "승리" : "패배"}
-                  </span>
-                  합니다.
-                </div>
-                <div className="flex flex-wrap gap-0 items-center text-xs">
-                  {[word, ...maxStack!].map((e, i) => (
-                    <Fragment key={i}>
-                      <div className="flex items-center h-6">{e}</div>
-                      {i !== maxStack!.length && (
-                        <ChevronRight
-                          className="text-muted-foreground w-4"
-                          strokeWidth={1}
-                        />
-                      )}
-                    </Fragment>
-                  ))}
+              <div key={word} className="w-full">
+                <div key={word} className="w-full mx-2">
+                  <div className="w-full mb-1">
+                    <span
+                      className="underline decoration-dotted cursor-pointer hover:no-underline"
+                      onClick={() => {
+                        setValue(word.at(engine!.rule.tailIdx)!);
+                        setSearchInputValue(word.at(engine!.rule.tailIdx)!);
+                        if (!exceptWords.includes(word)) {
+                          setExceptWords([...exceptWords, word]);
+                        }
+                      }}
+                    >
+                      {word}
+                    </span>
+                    {josa(word, "은/는").at(-1)}{" "}
+                    <span className={cn({ "text-win": win, "text-los": !win })}>
+                      {win ? "승리" : "패배"}
+                    </span>
+                    합니다.
+                  </div>
+                  <div className="flex flex-wrap gap-0 items-center text-xs">
+                    {[word, ...maxStack!].map((e, i) => (
+                      <Fragment key={i}>
+                        <div className="flex items-center h-6">{e}</div>
+                        {i !== maxStack!.length && (
+                          <ChevronRight
+                            className="text-muted-foreground w-4"
+                            strokeWidth={1}
+                          />
+                        )}
+                      </Fragment>
+                    ))}
+                  </div>
                 </div>
                 <Separator className="my-2" />
               </div>
             ))}
           {firstWinIdx === -1 && firstUndefIdx !== -1 ? (
-            <div>
+            <div className="w-full mx-2">
               <div className="mb-1">
                 <span
                   className="underline decoration-dotted cursor-pointer hover:no-underline"
@@ -305,7 +307,7 @@ export default function Analysis() {
               </div>
             </div>
           ) : (
-            <div>
+            <div className="mx-2">
               따라서{" "}
               <span className="underline decoration-dotted cursor-pointer hover:no-underline">
                 {searchInputValue}
