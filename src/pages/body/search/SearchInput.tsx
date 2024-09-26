@@ -39,10 +39,7 @@ function SearchTitle() {
       <span className="font-semibold text-xl">검색</span>
       <div className="text-sm text-muted-foreground">
         단어를 입력하고 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나{" "}
-        <CirclePlus
-          className="inline w-4 h-4 align-text-middle"
-          strokeWidth={1.75}
-        />{" "}
+        <CirclePlus className="inline w-3.5 h-3.5 mb-0.5" strokeWidth={1.75} />{" "}
         버튼을 클릭하여 단어를 제거할 수 있습니다.
       </div>
     </div>
@@ -71,7 +68,7 @@ function ExceptWordsDisplay() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [clipComplete, setClipComplete] = useState(false);
   return (
-    <div className="mt-4 min-h-12 w-full rounded-xl border-border border shadow-sm">
+    <div className="mt-4 min-h-12 w-full rounded-xl border-border border">
       <div className="flex items-center justify-between w-full py-2.5 px-3">
         <div className="flex items-center gap-2 text-sm font-semibold">
           <Ban className="w-3.5 h-3.5" />
