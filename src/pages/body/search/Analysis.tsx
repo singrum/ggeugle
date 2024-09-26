@@ -242,15 +242,12 @@ export default function Analysis() {
                     </span>
                     합니다.
                   </div>
-                  <div className="flex flex-wrap gap-0 items-center text-xs ">
+                  <div className="flex flex-wrap gap-y-1 items-center text-xs text-muted-foreground">
                     {[word, ...maxStack!].map((e, i) => (
                       <Fragment key={i}>
-                        <div className="flex items-center h-6">{e}</div>
+                        <div className="flex items-center">{e}</div>
                         {i !== maxStack!.length && (
-                          <ChevronRight
-                            className="text-muted-foreground w-4"
-                            strokeWidth={1}
-                          />
+                          <ChevronRight className="w-4 h-4" strokeWidth={1} />
                         )}
                       </Fragment>
                     ))}
@@ -261,7 +258,7 @@ export default function Analysis() {
             ))}
           {firstWinIdx === -1 && firstUndefIdx !== -1 ? (
             <div className="w-full px-2">
-              <div className="mb-1">
+              <div className="mb-2">
                 <span
                   className="underline decoration-dotted cursor-pointer hover:no-underline"
                   onClick={() => {
@@ -290,16 +287,13 @@ export default function Analysis() {
                 탐색 중...
               </div>
 
-              <div className="flex flex-wrap gap-0 items-center text-xs">
+              <div className="flex flex-wrap gap-y-1 items-center text-xs text-muted-foreground">
                 {[nextRoutesInfo[firstUndefIdx!].word, ...wordStack].map(
                   (e, i) => (
                     <Fragment key={i}>
-                      <div className="flex items-center h-6">{e}</div>
+                      <div className="flex items-center">{e}</div>
                       {i !== wordStack.length && (
-                        <ChevronRight
-                          className="text-muted-foreground w-4"
-                          strokeWidth={1}
-                        />
+                        <ChevronRight className="w-4 h-4" strokeWidth={1} />
                       )}
                     </Fragment>
                   )

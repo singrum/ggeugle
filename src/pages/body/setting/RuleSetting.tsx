@@ -7,6 +7,7 @@ import {
 import { Button } from "@/components/ui/button.js";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Select,
@@ -373,12 +374,7 @@ function MannerSetting() {
             setRuleForm({ ...ruleForm, manner: e });
           }}
         />
-        <label
-          htmlFor="manner"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          적용
-        </label>
+        <Label htmlFor="manner">적용</Label>
       </div>
     </SettnigMenu>
   );
