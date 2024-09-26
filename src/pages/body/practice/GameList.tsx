@@ -1,6 +1,6 @@
 import { GameInfo, strengths, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { Check, ChevronRight, Clipboard, X } from "lucide-react";
+import { Check, ChevronRight, Clipboard, Dot, X } from "lucide-react";
 import React, { useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 
@@ -50,19 +50,20 @@ function GameButton({
       )}
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 text-sm font-semibold">
+        <div className="flex items-center text-sm font-semibold">
           <RiRobot2Fill
-            className={cn("h-5 w-5", strengths[gameInfo.strength].color)}
+            className={cn("h-5 w-5 mr-1", strengths[gameInfo.strength].color)}
           />
 
           <div>{strengths[gameInfo.strength].name}</div>
 
-          <div className="text-muted-foreground">{"/"}</div>
+          <Dot className="w-4 h-4" />
           <div>{gameInfo.isFirst ? "선공" : "후공"}</div>
-          <div className="text-muted-foreground">{"/"}</div>
+          <Dot className="w-4 h-4" />
 
           <div>{gameInfo.steal ? "단어 뺏기 가능" : "단어 뺏기 불가"}</div>
         </div>
+
         <div className="flex gap-1">
           <div
             className="p-1 rounded-md hover:bg-accent cursor-pointer w-6 h-6 flex items-center justify-center"
@@ -99,12 +100,15 @@ function GameButton({
       </div>
 
       {gameInfo.moves.length >= 1 && (
-        <div className="flex flex-wrap gap-1 items-center text-ellipsis">
+        <div className="flex flex-wrap gap-x-0.5 gap-y-1 items-center text-ellipsis">
           {gameInfo.moves.map((move, i) => (
             <React.Fragment key={i}>
               <div className="text-sm text-foreground">{move}</div>
               {i !== gameInfo.moves.length - 1 && (
-                <ChevronRight className="w-3 h-3 text-muted-foreground" />
+                <ChevronRight
+                  className="w-3 h-3 text-muted-foreground"
+                  strokeWidth={1}
+                />
               )}
             </React.Fragment>
           ))}
@@ -112,7 +116,7 @@ function GameButton({
       )}
 
       {gameInfo.isPlaying ? (
-        <div className="">플레이 중</div>
+        <div className="text-sm font-semibold">플레이 중</div>
       ) : gameInfo.winner === "me" ? (
         <div className="text-win text-sm font-semibold">승리</div>
       ) : (

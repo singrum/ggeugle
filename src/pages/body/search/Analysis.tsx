@@ -223,7 +223,7 @@ export default function Analysis() {
             .map(({ word, win, maxStack }) => (
               <div key={word} className="w-full">
                 <div key={word} className="w-full px-2">
-                  <div className="w-full mb-1">
+                  <div className="w-full mb-2">
                     <span
                       className="underline decoration-dotted cursor-pointer hover:no-underline"
                       onClick={() => {
@@ -242,12 +242,12 @@ export default function Analysis() {
                     </span>
                     합니다.
                   </div>
-                  <div className="flex flex-wrap gap-y-1 items-center text-xs text-muted-foreground">
+                  <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs text-muted-foreground">
                     {[word, ...maxStack!].map((e, i) => (
                       <Fragment key={i}>
                         <div className="flex items-center">{e}</div>
                         {i !== maxStack!.length && (
-                          <ChevronRight className="w-4 h-4" strokeWidth={1} />
+                          <ChevronRight className="w-3 h-3" strokeWidth={1} />
                         )}
                       </Fragment>
                     ))}
@@ -287,13 +287,13 @@ export default function Analysis() {
                 탐색 중...
               </div>
 
-              <div className="flex flex-wrap gap-y-1 items-center text-xs text-muted-foreground">
+              <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs text-muted-foreground">
                 {[nextRoutesInfo[firstUndefIdx!].word, ...wordStack].map(
                   (e, i) => (
                     <Fragment key={i}>
                       <div className="flex items-center">{e}</div>
                       {i !== wordStack.length && (
-                        <ChevronRight className="w-4 h-4" strokeWidth={1} />
+                        <ChevronRight className="w-3 h-3" strokeWidth={1} />
                       )}
                     </Fragment>
                   )

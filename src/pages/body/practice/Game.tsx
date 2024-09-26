@@ -171,7 +171,7 @@ function GameInput() {
       {currGame!.moves.length > 0 && (
         <div
           ref={ref}
-          className="flex gap-1 bg-none p-2 items-center min-w-0 overflow-auto scrollbar-none border-t "
+          className="flex gap-0.5 bg-none p-2 items-center min-w-0 overflow-auto scrollbar-none border-t "
         >
           {currGame!.moves.map((e, i) => (
             <React.Fragment key={i}>
@@ -188,7 +188,7 @@ function GameInput() {
               </div>
               {i !== currGame!.moves.length - 1 && (
                 <div className="text-muted-foreground">
-                  <ChevronRight className="w-3 h-3" />
+                  <ChevronRight className="w-3 h-3" strokeWidth={1} />
                 </div>
               )}
             </React.Fragment>
