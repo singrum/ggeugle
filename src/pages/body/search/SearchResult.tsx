@@ -61,7 +61,7 @@ function WordsResult() {
 
   return (
     <>
-      <div className="border-b px-6 flex whitespace-nowrap overflow-auto gap-4">
+      <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 flex whitespace-nowrap overflow-auto gap-4">
         {tabInfo.map(({ name }, i) => (
           <div
             key={i}

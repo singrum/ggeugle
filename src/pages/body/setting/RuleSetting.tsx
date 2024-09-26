@@ -78,7 +78,7 @@ export function RuleSetting() {
       </div>
 
       <div className="flex flex-col md:flex-row md:min-h-0 pt-4">
-        <div className="md:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col border-b border-border md:border-none px-6 md:px-0 h-full">
+        <div className="md:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col shadow-[inset_0_-1px_0_0_hsl(var(--border))] md:shadow-none px-6 md:px-0 h-full">
           {ruleGroup.map(({ name }, i) => (
             <div className="flex items-center" key={i}>
               <div
