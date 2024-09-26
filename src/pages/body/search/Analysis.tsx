@@ -165,7 +165,7 @@ export default function Analysis() {
         <Alert>
           <Play className="h-5 w-5" strokeWidth={1.5} />
           <AlertTitle className="font-normal">
-            <span className="underline decoration-dotted cursor-pointer hover:no-underline">
+            <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline">
               {searchInputValue}
             </span>
             에서 필승 전략 탐색을 시작합니다.
@@ -176,7 +176,7 @@ export default function Analysis() {
                 {nextRoutesInfo.map(({ word }, i) => (
                   <Fragment key={word}>
                     <span
-                      className="underline decoration-dotted cursor-pointer hover:no-underline"
+                      className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline"
                       onClick={() => {
                         setValue(word.at(engine!.rule.tailIdx)!);
                         setSearchInputValue(word.at(engine!.rule.tailIdx)!);
@@ -195,7 +195,7 @@ export default function Analysis() {
             ) : (
               <>
                 <span
-                  className="underline decoration-dotted cursor-pointer hover:no-underline"
+                  className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline"
                   onClick={() => {
                     setValue(nextRoutesInfo[0].word.at(engine!.rule.tailIdx)!);
                     setSearchInputValue(
@@ -225,7 +225,7 @@ export default function Analysis() {
                 <div key={word} className="w-full px-2">
                   <div className="w-full mb-2">
                     <span
-                      className="underline decoration-dotted cursor-pointer hover:no-underline"
+                      className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline"
                       onClick={() => {
                         setValue(word.at(engine!.rule.tailIdx)!);
                         setSearchInputValue(word.at(engine!.rule.tailIdx)!);
@@ -260,7 +260,7 @@ export default function Analysis() {
             <div className="w-full px-2">
               <div className="mb-2">
                 <span
-                  className="underline decoration-dotted cursor-pointer hover:no-underline"
+                  className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline"
                   onClick={() => {
                     setValue(
                       nextRoutesInfo[firstUndefIdx!].word.at(
@@ -303,7 +303,7 @@ export default function Analysis() {
           ) : (
             <div className="mx-2">
               따라서{" "}
-              <span className="underline decoration-dotted cursor-pointer hover:no-underline">
+              <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline">
                 {searchInputValue}
               </span>
               {josa(searchInputValue, "은/는").at(-1)}{" "}
