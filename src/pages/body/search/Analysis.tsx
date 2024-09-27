@@ -242,12 +242,15 @@ export default function Analysis() {
                     </span>
                     합니다.
                   </div>
-                  <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs text-muted-foreground">
+                  <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs">
                     {[word, ...maxStack!].map((e, i) => (
                       <Fragment key={i}>
                         <div className="flex items-center">{e}</div>
                         {i !== maxStack!.length && (
-                          <ChevronRight className="w-3 h-3" strokeWidth={1} />
+                          <ChevronRight
+                            className="text-muted-foreground w-3 h-3"
+                            strokeWidth={1}
+                          />
                         )}
                       </Fragment>
                     ))}
@@ -287,13 +290,16 @@ export default function Analysis() {
                 탐색 중...
               </div>
 
-              <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs text-muted-foreground">
+              <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs">
                 {[nextRoutesInfo[firstUndefIdx!].word, ...wordStack].map(
                   (e, i) => (
                     <Fragment key={i}>
                       <div className="flex items-center">{e}</div>
                       {i !== wordStack.length && (
-                        <ChevronRight className="w-3 h-3" strokeWidth={1} />
+                        <ChevronRight
+                          className="text-muted-foreground w-3 h-3"
+                          strokeWidth={1}
+                        />
                       )}
                     </Fragment>
                   )
