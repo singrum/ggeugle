@@ -429,11 +429,11 @@ const RegexExamples = [
   },
   {
     title: "'가'를 포함하지 않는 단어",
-    content: String.raw`.*[^가나].*`,
+    content: String.raw`[^가]*`,
   },
   {
     title: "'가'와 '나'를 포함하지 않는 단어",
-    content: String.raw`.*[^가나].*`,
+    content: String.raw`[^가나]*`,
   },
   {
     title: "첫 글자와 끝 글자가 다른 단어",
