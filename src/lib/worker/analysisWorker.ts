@@ -43,48 +43,51 @@ const analysis = ({
   pruningWinLosCir(chanGraph, wordGraph);
 
   const wordStack: Char[][] = [];
-  let maxStack: Char[][] = [];
-  const winWord = withStack
+  const maxBranch: (Char[][] | undefined)[] = [];
+
+  const win = withStack
     ? isWin(
         chanGraph,
         wordGraph,
         startChar,
         (head, tail) => {
-          
           wordStack.push([head!, tail!]);
-          if (wordStack.length > maxStack.length) {
-            maxStack = wordStack.slice();
-          }
           self.postMessage({ action: "stackChange", data: wordStack });
         },
-        () => {
-          wordStack.pop();
+        (win) => {
+          const word = wordStack.pop()!;
+
+          if (win) {
+            const branch = (maxBranch[wordStack.length + 1] || []).concat([
+              word,
+            ]);
+            maxBranch[wordStack.length + 1] = undefined;
+            maxBranch[wordStack.length] = branch;
+          } else {
+            const branch = (maxBranch[wordStack.length + 1] || []).concat([
+              word,
+            ]);
+            maxBranch[wordStack.length + 1] = undefined;
+            if (
+              !maxBranch[wordStack.length] ||
+              maxBranch[wordStack.length]!.length < branch.length
+            ) {
+              maxBranch[wordStack.length] = branch;
+            }
+          }
+
           self.postMessage({ action: "stackChange", data: wordStack });
         }
       )
     : isWin(chanGraph, wordGraph, startChar);
-  //승리
-  if (winWord) {
-    self.postMessage({
-      action: "end",
-      data: {
-        word: exceptWord,
-        maxStack: maxStack,
-        win: true,
-      },
-    });
-  }
-  //패배
-  else {
-    self.postMessage({
-      action: "end",
-      data: {
-        word: exceptWord,
-        maxStack: maxStack,
-        win: false,
-      },
-    });
-  }
+  self.postMessage({
+    action: "end",
+    data: {
+      word: exceptWord,
+      maxStack: (maxBranch[0] || []).reverse(),
+      win,
+    },
+  });
 };
 
 self.onmessage = (event) => {
