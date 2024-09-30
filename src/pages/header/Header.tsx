@@ -1,6 +1,3 @@
-import { cn } from "@/lib/utils";
-import { CgMenuRight } from "react-icons/cg";
-import Logo from "./Logo";
 import {
   Sheet,
   SheetContent,
@@ -9,13 +6,29 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
+import Logo from "./Logo";
 
 import { etcMenu } from "@/EtcNavBar";
 import { Menu } from "lucide-react";
+import { useState } from "react";
 
 export default function Header({ className }: { className?: string }) {
+  const [showAlert, setShowAlert] = useState(true);
+
   return (
     <div className={cn("flex flex-col min-h-9 z-10", className)}>
+      {showAlert && (
+        <div
+          className="text-xs flex items-center justify-center gap-2 text-white p-1 bg-[#19ce60] cursor-pointer"
+          onClick={() => setShowAlert(false)}
+        >
+          <div className=" rounded-md bg-white  px-1.5 py-0.5 text-xs leading-none text-[#19ce60] no-underline group-hover:no-underline">
+            Update
+          </div>
+          네이버 국어사전 추가
+        </div>
+      )}
       <div className="flex w-full justify-between items-center">
         <div
           className="flex items-end gap-1 px-4 py-2"

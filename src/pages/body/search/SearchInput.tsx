@@ -183,7 +183,7 @@ function ExceptWordsDisplay() {
         containerClassName={cn({ hidden: !showToast })}
         position={isDesktop ? "bottom-right" : "top-right"}
         toastOptions={{
-          className: "bg-white border border-border text-black",
+          className: "bg-white text-black",
         }}
       />
     </div>

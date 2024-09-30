@@ -55,6 +55,19 @@ export async function getEngine(ruleForm: RuleForm) {
       ).flat();
 
       break;
+    case 3:
+      words = (
+        await Promise.all(
+          poses
+            .filter((_, i) => ruleForm.pos[i])
+            .map((pos) =>
+              fetchWords(
+                `https://singrum.github.io/KoreanDict/naverdict/db/${pos}`
+              )
+            )
+        )
+      ).flat();
+      break;
   }
 
   console.log("데이터 로드 완료");
