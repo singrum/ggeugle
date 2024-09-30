@@ -41,7 +41,7 @@ function App() {
       <div className="md:flex md:flex-col md:h-full md:min-h-0 h-full">
         {isDesktop && showAlert && (
           <div
-            className="text-xs flex items-center justify-center gap-2 text-white p-1 bg-[#19ce60] cursor-pointer"
+            className="text-xs flex items-center justify-center gap-2 text-white p-1 bg-[#19ce60] cursor-pointer font-semibold"
             onClick={() => setShowAlert(false)}
           >
             <div className=" rounded-md bg-white  px-1.5 py-0.5 text-xs leading-none text-[#19ce60]  no-underline group-hover:no-underline">

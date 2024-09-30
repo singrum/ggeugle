@@ -25,13 +25,7 @@ export default function Chat({
         <div className="text-xs">끄글봇</div>
         <div className="flex flex-col items-start gap-1">
           {children.map((e, i) => (
-            <ChatContent
-              key={i}
-              className={cn(`bg-muted text-foreground rounded-l-sm`, {
-                "rounded-tl-xl": i === 0,
-                "rounded-bl-xl": i === children.length - 1,
-              })}
-            >
+            <ChatContent key={i} className="bg-muted text-foreground">
               {e}
             </ChatContent>
           ))}
@@ -41,13 +35,7 @@ export default function Chat({
   ) : (
     <div className="flex flex-col w-full items-end gap-1">
       {children.map((e, i) => (
-        <ChatContent
-          key={i}
-          className={cn("bg-primary text-background rounded-r-sm", {
-            "rounded-tr-xl": i === 0,
-            "rounded-br-xl": i === children.length - 1,
-          })}
-        >
+        <ChatContent key={i} className="bg-primary text-background">
           {e}
         </ChatContent>
       ))}

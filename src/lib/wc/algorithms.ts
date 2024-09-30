@@ -432,16 +432,13 @@ export function isWin(
   wordGraph: MultiDiGraph,
   currChar: Char,
   pushCallback?: (head?: Char, tail?: Char) => void,
-  popCallback?: (head?: Char, tail?: Char, win?: boolean) => void
+  popCallback?: (win: boolean) => void
 ) {
   if (
     chanGraph.nodes[currChar].type === "win" ||
     chanGraph.nodes[currChar].type === "wincir"
   ) {
-    const word = chanGraph.nodes[currChar].solution;
-    const nextChan = wordGraph.nodes[word as string].solution;
-
-    return [word, nextChan];
+    return true;
   }
   if (
     chanGraph.nodes[currChar].type === "los" ||
@@ -483,12 +480,12 @@ export function isWin(
 
     if (!win) {
       if (popCallback) {
-        popCallback(word[0], word[1], true);
+        popCallback(true);
       }
-      return word;
+      return true;
     } else {
       if (popCallback) {
-        popCallback(word[0], word[1], false);
+        popCallback(false);
       }
     }
   }
