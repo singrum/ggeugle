@@ -39,6 +39,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       addedWords: "",
     },
   },
+
   {
     name: "신엜룰",
     ruleForm: {
@@ -55,6 +56,31 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       ]),
       cate: Object.assign({}, [true, true, true, true]),
       chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: false,
+      regexFilter: ".*",
+      addedWords: "",
+    },
+  },
+  {
+    name: "넶룰",
+    ruleForm: {
+      dict: 3,
+      pos: Object.assign({}, [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ]),
+      cate: Object.assign({}, [true, true, true, true]),
+      chan: 5,
       headDir: 0,
       headIdx: 1,
       tailDir: 1,
@@ -347,7 +373,12 @@ export type changeInfo = {
   compOrigin: Record<Char, { prevType: string; currType: string }>;
 };
 
-export const dicts = ["(구)표준국어대사전", "(신)표준국어대사전", "우리말샘"];
+export const dicts = [
+  "(구)표준국어대사전",
+  "(신)표준국어대사전",
+  "우리말샘",
+  "네이버 국어사전",
+];
 
 export const poses = [
   "명사",
@@ -370,7 +401,7 @@ export const strengths = [
 export const turns = ["선공", "랜덤", "후공"];
 
 export interface RuleForm {
-  dict: number;
+  dict: number; // 4
   pos: boolean[]; // 8
   cate: boolean[]; // 4
   chan: number;

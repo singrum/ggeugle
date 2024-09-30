@@ -60,7 +60,7 @@ export function RuleSetting() {
               <Fragment key={name}>
                 <Button
                   size="sm"
-                  className="gap-1"
+                  className={cn("gap-1")}
                   variant="secondary"
                   onClick={() => {
                     setRuleForm(ruleForm);
@@ -159,6 +159,13 @@ function DictSetting() {
                 dict: parseInt(e),
               });
               break;
+            case 3:
+              setRuleForm({
+                ...ruleForm,
+                dict: parseInt(e),
+                cate: [true, true, true, true],
+              });
+              break;
           }
         }}
       >
@@ -168,7 +175,14 @@ function DictSetting() {
         <SelectContent>
           {dicts.map((dict, i) => (
             <SelectItem className="text-xs" value={`${i}`} key={i}>
-              {dict}
+              <div className="flex gap-1">
+                {dict}
+                {i === 3 && (
+                  <div className=" rounded-md bg-[#19ce60]  px-1.5 py-0.5 text-xs leading-none text-background  no-underline group-hover:no-underline">
+                    New
+                  </div>
+                )}
+              </div>
             </SelectItem>
           ))}
         </SelectContent>
@@ -228,7 +242,10 @@ function CateSetting() {
                   {
                     "bg-foreground text-background hover:bg-foreground hover:text-background":
                       ruleForm.cate[i],
-                    "opacity-50": ruleForm.dict === 0 || ruleForm.dict === 1,
+                    "opacity-50":
+                      ruleForm.dict === 0 ||
+                      ruleForm.dict === 1 ||
+                      ruleForm.dict === 3,
                   }
                 )}
                 onClick={() => {

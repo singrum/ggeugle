@@ -1,15 +1,11 @@
 import Search from "./pages/body/search/Search";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMediaQuery } from "./hooks/use-media-query";
 import { useMenu } from "./lib/store/useMenu";
 import { useWC } from "./lib/store/useWC";
 import NavBar from "./NavBar";
 
-import Practice from "./pages/body/practice/Practice";
-import Setting from "./pages/body/setting/Setting";
-import Statistics from "./pages/body/statistics/Statistics";
-import Logo from "./pages/header/Logo";
 import {
   Dialog,
   DialogContent,
@@ -18,17 +14,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import PreferenceSetting from "./pages/body/etc/PreferenceSetting";
-import Header from "./pages/header/Header";
 import { LinkIcon } from "lucide-react";
-import { etcMenu, EtcNavBar } from "./EtcNavBar";
-import { cn } from "./lib/utils";
+import { EtcNavBar } from "./EtcNavBar";
+import PreferenceSetting from "./pages/body/etc/PreferenceSetting";
+import Practice from "./pages/body/practice/Practice";
 import { ChangedCharsDialog } from "./pages/body/search/ChangedCharsDialog";
+import Setting from "./pages/body/setting/Setting";
+import Statistics from "./pages/body/statistics/Statistics";
+import Header from "./pages/header/Header";
+import Logo from "./pages/header/Logo";
 
 function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const menu = useMenu((e) => e.menu);
   const updateRule = useWC((e) => e.updateRule);
+  const [showAlert, setShowAlert] = useState(true);
   useEffect(() => {
     updateRule();
   }, []);
@@ -38,86 +38,58 @@ function App() {
       <ChangedCharsDialog />
       <PreferenceDialog />
       <DBDilog />
-      <div className="md:flex h-full overflow-auto relative">
-        {isDesktop ? (
-          <div className="flex flex-col h-full items-center lg:items-start justify-between border-border border-r prevent-select p-2 lg:p-2 overflow-auto scrollbar-none min-h-0">
-            <div className="flex flex-col items-center lg:items-start md:gap-2">
-              <div
-                className="md:p-1 lg:px-4 lg:pt-3"
-                onClick={() => {
-                  location.reload();
-                }}
-              >
-                <Logo />
-                <div className="hidden lg:block text-muted-foreground mb-1 text-xs">
-                  끝말잇기 검색엔진
-                </div>
-              </div>
-
-              <NavBar />
+      <div className="md:flex md:flex-col md:h-full md:min-h-0 h-full">
+        {isDesktop && showAlert && (
+          <div
+            className="text-xs flex items-center justify-center gap-2 text-white p-1 bg-[#19ce60] cursor-pointer"
+            onClick={() => setShowAlert(false)}
+          >
+            <div className=" rounded-md bg-white  px-1.5 py-0.5 text-xs leading-none text-[#19ce60]  no-underline group-hover:no-underline">
+              Update
             </div>
-            <div className="flex flex-col items-center lg:items-start md:gap-2">
-              <EtcNavBar />
-            </div>
+            네이버 국어사전 추가
           </div>
-        ) : (
-          <Header />
         )}
-        <div className="md:flex-1 md:h-full min-h-0 min-w-0 w-full">
-          {menu === 0 ? (
-            <Search />
-          ) : menu === 1 ? (
-            <Statistics />
-          ) : menu === 2 ? (
-            <Practice />
-          ) : (
-            <Setting />
-          )}
-        </div>
-        {!isDesktop && <NavBar />}
-      </div>
 
-      {/* <div className="overflow-auto h-full flex flex-col min-h-0 justify-between">
-        <div className="flex flex-col flex-1 min-h-0">
-          <div className="flex-1 md:flex min-h-0 overflow-auto">
-            <PreferenceDialog />
-            {isDesktop && (
-              <div className="flex flex-col h-full items-center lg:items-start justify-between border-border border-r prevent-select p-2 lg:p-2 overflow-auto scrollbar-none min-h-0">
-                <div className="flex flex-col items-center lg:items-start md:gap-2">
-                  <div
-                    className="md:p-1 lg:px-4 lg:pt-3"
-                    onClick={() => {
-                      location.reload();
-                    }}
-                  >
-                    <Logo />
-                    <div className="hidden lg:block text-muted-foreground mb-1 text-xs">
-                      끝말잇기 검색엔진
-                    </div>
+        <div className="md:flex h-full overflow-auto relative">
+          {isDesktop ? (
+            <div className="flex flex-col h-full items-center lg:items-start justify-between border-border border-r prevent-select p-2 lg:p-2 overflow-auto scrollbar-none min-h-0">
+              <div className="flex flex-col items-center lg:items-start md:gap-2">
+                <div
+                  className="md:p-1 lg:px-4 lg:pt-3"
+                  onClick={() => {
+                    location.reload();
+                  }}
+                >
+                  <Logo />
+                  <div className="hidden lg:block text-muted-foreground mb-1 text-xs">
+                    끝말잇기 검색엔진
                   </div>
-
-                  <NavBar />
                 </div>
-              </div>
-            )}
 
-            <div className="flex-1 h-full min-h-0 min-w-0 w-full">
-              {menu === 0 ? (
-                <Search />
-              ) : menu === 1 ? (
-                <Statistics />
-              ) : menu === 2 ? (
-                <Practice />
-              ) : menu === 3 ? (
-                <Setting />
-              ) : (
-                <Etc />
-              )}
+                <NavBar />
+              </div>
+              <div className="flex flex-col items-center lg:items-start md:gap-2">
+                <EtcNavBar />
+              </div>
             </div>
+          ) : (
+            <Header />
+          )}
+          <div className="md:flex-1 md:h-full min-h-0 min-w-0 w-full">
+            {menu === 0 ? (
+              <Search />
+            ) : menu === 1 ? (
+              <Statistics />
+            ) : menu === 2 ? (
+              <Practice />
+            ) : (
+              <Setting />
+            )}
           </div>
+          {!isDesktop && <NavBar />}
         </div>
-        {!isDesktop && <NavBar />}
-      </div> */}
+      </div>
     </>
   );
 }
@@ -153,6 +125,11 @@ const DBSource = [
   {
     name: "우리말샘",
     href: "https://opendict.korean.go.kr/main",
+    last: "2024.09",
+  },
+  {
+    name: "네이버 국어사전",
+    href: "https://ko.dict.naver.com/#/main",
     last: "2024.09",
   },
 ];
