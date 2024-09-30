@@ -164,6 +164,7 @@ function DictSetting() {
                 ...ruleForm,
                 dict: parseInt(e),
                 cate: [true, true, true, true],
+                pos: { ...ruleForm.pos, "7": false },
               });
               break;
           }
@@ -206,13 +207,16 @@ function PosSetting() {
                 {
                   "bg-foreground text-background hover:bg-foreground hover:text-background":
                     ruleForm.pos[i],
+                  "opacity-50": ruleForm.dict === 3 && i === 7,
                 }
               )}
               onClick={() => {
-                setRuleForm({
-                  ...ruleForm,
-                  pos: { ...ruleForm.pos, [i]: !ruleForm.pos[i] },
-                });
+                if (!(ruleForm.dict === 3 && i === 7)) {
+                  setRuleForm({
+                    ...ruleForm,
+                    pos: { ...ruleForm.pos, [i]: !ruleForm.pos[i] },
+                  });
+                }
               }}
             >
               {e}
