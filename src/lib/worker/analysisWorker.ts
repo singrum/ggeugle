@@ -34,7 +34,7 @@ const analysis = ({
   }
 
   const reacheable = getReachableNodes(chanGraph, wordGraph, startChar);
-
+  
   chanGraph = chanGraph.getSubgraph(reacheable);
   wordGraph = wordGraph.getSubgraph(reacheable);
   chanGraph.clearNodeInfo();
