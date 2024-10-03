@@ -477,16 +477,11 @@ export function isWin(
       pushCallback,
       popCallback
     );
-
+    if (popCallback) {
+      popCallback(!win);
+    }
     if (!win) {
-      if (popCallback) {
-        popCallback(true);
-      }
       return true;
-    } else {
-      if (popCallback) {
-        popCallback(false);
-      }
     }
   }
 
