@@ -424,6 +424,7 @@ export function getNextWords(
       nextWords.push(nextWordInfo);
     }
   }
+
   return nextWords;
 }
 
