@@ -243,7 +243,7 @@ export class MultiDiGraph {
     const result = new MultiDiGraph();
     result._pred = cloneDeep(this._pred);
     result._succ = cloneDeep(this._succ);
-    result.nodes = { ...this.nodes };
+    result.nodes = cloneDeep(this.nodes);
     return result;
   }
   getSubgraph(nodes: Set<string>) {
