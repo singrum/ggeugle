@@ -160,8 +160,8 @@ body,
 [data-rsbs-header] {
   text-align: center;
   user-select: none;
-  box-shadow: 0 1px 0
-    rgba(46, 59, 66, calc(var(--rsbs-content-opacity) * 0.125));
+  /* box-shadow: 0 1px 0
+    rgba(46, 59, 66, calc(var(--rsbs-content-opacity) * 0.125)); */
   z-index: 1;
   padding-top: calc(20px + env(safe-area-inset-top));
   /* padding-bottom: 8px; */
