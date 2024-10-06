@@ -65,12 +65,13 @@ export default function Search() {
               <SearchInput />
               <SearchResult />
             </div>
-            <div className="fixed bottom-14 w-full flex justify-end p-3">
+            <div className="fixed bottom-14 w-full flex justify-center p-3">
               <div
-                className="bg-foreground rounded-full h-14 w-14 flex items-center justify-center shadow-md cursor-pointer"
+                className="bg-muted text-muted-foreground rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow-md cursor-pointer"
                 onClick={() => setOpen(true)}
               >
-                <LayoutGrid className="text-background w-6 h-6" />
+                <LayoutGrid className="w-5 h-5" />
+                <div>글자 목록 보기</div>
               </div>
             </div>
           </div>
