@@ -79,9 +79,9 @@ function GameButton({
             }}
           >
             {clipComplete ? (
-              <Check className="w-4 h-4" strokeWidth={1.5} />
+              <Check className="w-4 h-4" />
             ) : (
-              <Clipboard className="w-4 h-4" strokeWidth={1.5} />
+              <Clipboard className="w-4 h-4" />
             )}
           </div>
           <div
@@ -94,7 +94,7 @@ function GameButton({
               }
             }}
           >
-            <X className="w-5 h-5" strokeWidth={1.5} />
+            <X className="w-4 h-4" />
           </div>
         </div>
       </div>
