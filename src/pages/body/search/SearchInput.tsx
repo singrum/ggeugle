@@ -6,7 +6,6 @@ import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import {
-  Ban,
   Check,
   CirclePlus,
   Clipboard,
@@ -15,7 +14,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
 
@@ -69,55 +68,58 @@ function ExceptWordsDisplay() {
   const [clipComplete, setClipComplete] = useState(false);
   return (
     <div className="mt-4 min-h-12 w-full rounded-xl border-border border">
-      <div className="flex items-center justify-between w-full py-2.5 px-3">
+      <div className="flex items-center justify-between w-full py-2 px-2 pl-3 bg-muted/40 rounded-t-xl">
         <div className="flex items-center gap-2 text-sm font-semibold">
-          <Ban className="w-3.5 h-3.5" />
           <div className="flex justify-center">제거된 단어</div>
         </div>
         <div className="flex items-center gap-2">
-          {[
-            {
-              name: "복사",
-              icon: clipComplete ? (
-                <Check className="w-3 h-3" />
-              ) : (
-                <Clipboard className="w-3 h-3" />
-              ),
-              onClick: () => {
-                if (exceptWords.length > 0) {
-                  navigator.clipboard.writeText(exceptWords.join(" "));
-                }
-                setClipComplete(true);
+          <div className="flex items-center gap-1 border border-border rounded-md h-8 px-1 bg-background">
+            {[
+              {
+                name: "복사",
+                icon: clipComplete ? (
+                  <Check className="w-4 h-4" />
+                ) : (
+                  <Clipboard className="w-4 h-4" />
+                ),
+                onClick: () => {
+                  if (exceptWords.length > 0) {
+                    navigator.clipboard.writeText(exceptWords.join(" "));
+                  }
+                  setClipComplete(true);
 
-                setTimeout(() => {
-                  setClipComplete(false);
-                }, 2000);
+                  setTimeout(() => {
+                    setClipComplete(false);
+                  }, 2000);
+                },
               },
-            },
-            {
-              name: "초기화",
-              icon: <Trash2 className="w-3 h-3" />,
-              onClick: () => {
-                exceptWords.length > 0 && engine && setExceptWords([]);
+              {
+                name: "초기화",
+                icon: <Trash2 className="w-4 h-4" />,
+                onClick: () => {
+                  exceptWords.length > 0 && engine && setExceptWords([]);
+                },
               },
-            },
-          ].map(({ name, icon, onClick }) => (
-            <Button
-              key={name}
-              size={"icon"}
-              className="h-6 w-6 "
-              variant={"outline"}
-              onClick={onClick}
-            >
-              {icon}
-            </Button>
-          ))}
-          <Separator orientation="vertical" className="h-5" />
+            ].map(({ name, icon, onClick }, i) => (
+              <React.Fragment key={name}>
+                <Button
+                  size={"icon"}
+                  className="h-6 w-6 border-none"
+                  variant={"outline"}
+                  onClick={onClick}
+                >
+                  {icon}
+                </Button>
+                {i === 0 && (
+                  <Separator orientation="vertical" className="h-5" />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+
           <Button
-            className={cn("h-6 px-2 text-xs", {
-              "pr-1": Object.keys(changeInfo.compPrev).length > 0,
-            })}
-            variant={"outline"}
+            className="h-8 px-2 text-sm"
+            variant="outline"
             onClick={() =>
               document.getElementById("changed-char-dialog-open")?.click()
             }

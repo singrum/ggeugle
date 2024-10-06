@@ -214,7 +214,7 @@ function StatisticsHeader({ engine }: { engine: WCEngine }) {
         </div>
         <div>단어</div>
       </div>
-      <div className="text-2xl">/</div>
+      <div className="text-2xl font-thin text-muted-foreground">/</div>
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
           {Object.keys(engine.chanGraph.nodes).length.toLocaleString()}

@@ -1,10 +1,9 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 import { Badge } from "./badge";
-import { cn } from "@/lib/utils";
 
-import { useWC } from "@/lib/store/useWC";
-import { WCDisplay } from "@/lib/wc/WordChain";
 import { useSheet } from "@/lib/store/useSheet";
+import { useWC } from "@/lib/store/useWC";
 
 export function CharBox({
   children,
@@ -59,7 +58,7 @@ export function CharButton({
   const setValue = useWC((e) => e.setValue);
   const setSearchInputValue = useWC((e) => e.setSearchInputValue);
   const changeInfo = useWC((e) => e.changeInfo);
-  const sheetRef = useSheet((e) => e.sheetRef);
+  const [sheetRef, setOpen] = useSheet((e) => [e.sheetRef, e.setOpen]);
   return (
     <div
       className={cn(
@@ -68,10 +67,7 @@ export function CharButton({
       )}
       onClick={() => {
         if (sheetRef.current && sheetRef.current.height > 600) {
-          sheetRef.current.snapTo(
-            ({ snapPoints }: { snapPoints: number[] }) => snapPoints[2],
-            {}
-          );
+          setOpen(false);
         }
         setValue(children);
         setSearchInputValue(children);

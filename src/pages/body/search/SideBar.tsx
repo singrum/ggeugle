@@ -414,7 +414,7 @@ export function CharMenu() {
     e.charMenu,
     e.setCharMenu,
   ]);
-  const [sheetRef] = useSheet((e) => [e.sheetRef]);
+  const [sheetRef, setOpen] = useSheet((e) => [e.sheetRef, e.setOpen]);
   return (
     <>
       <ul className="grid grid-cols-3 justify-center select-none border-border border-b py-1.5 px-1.5">
@@ -428,10 +428,7 @@ export function CharMenu() {
                   sheetRef.current.height > 70 &&
                   charMenu === i
                 ) {
-                  sheetRef.current.snapTo(
-                    ({ snapPoints }: { snapPoints: number[] }) => snapPoints[2],
-                    {}
-                  );
+                  setOpen(false);
                 }
               }}
               className={cn(
