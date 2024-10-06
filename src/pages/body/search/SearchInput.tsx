@@ -68,11 +68,11 @@ function ExceptWordsDisplay() {
   const [clipComplete, setClipComplete] = useState(false);
   return (
     <div className="mt-4 min-h-12 w-full rounded-xl border-border border">
-      <div className="flex items-center justify-between w-full py-2 px-2 pl-3 bg-muted/40 rounded-t-xl">
+      <div className="flex items-center justify-between w-full py-2 px-2 pl-3 rounded-t-xl">
         <div className="flex items-center gap-2 text-sm font-semibold">
           <div className="flex justify-center">제거된 단어</div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 md:gap-2">
           <div className="flex items-center gap-1 border border-border rounded-md h-8 px-1 bg-background">
             {[
               {
