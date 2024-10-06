@@ -67,10 +67,10 @@ export default function Search() {
             </div>
             <div className="fixed bottom-14 w-full flex justify-end p-3">
               <div
-                className="bg-primary rounded-full h-12 w-12 flex items-center justify-center shadow-md cursor-pointer"
+                className="bg-foreground rounded-full h-14 w-14 flex items-center justify-center shadow-md cursor-pointer"
                 onClick={() => setOpen(true)}
               >
-                <LayoutGrid className="text-background w-5 h-5" />
+                <LayoutGrid className="text-background w-6 h-6" />
               </div>
             </div>
           </div>
