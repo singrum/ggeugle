@@ -21,7 +21,7 @@ export default function Search() {
           <ResizablePanelGroup direction="horizontal">
             {isSearchFlip ? (
               <>
-                <ResizablePanel className="min-h-0 pr-4">
+                <ResizablePanel className="min-h-0">
                   <div className="min-h-0 h-full">
                     <div className="flex flex-col min-h-0 h-full overflow-auto ">
                       <SearchInput />
@@ -31,7 +31,7 @@ export default function Search() {
                 </ResizablePanel>
                 <ResizableHandle withHandle />
                 <ResizablePanel defaultSize={30}>
-                  <div className="h-full p-4 pl-0">
+                  <div className="h-full">
                     <SideBar />
                   </div>
                 </ResizablePanel>
@@ -39,14 +39,14 @@ export default function Search() {
             ) : (
               <>
                 <ResizablePanel defaultSize={30}>
-                  <div className="h-full p-4 pr-0">
+                  <div className="h-full ">
                     <SideBar />
                   </div>
                 </ResizablePanel>
                 <ResizableHandle withHandle />
-                <ResizablePanel className="min-h-0 ">
+                <ResizablePanel className="min-h-0">
                   <div className="min-h-0 h-full">
-                    <div className="flex flex-col min-h-0 h-full overflow-auto ">
+                    <div className="flex flex-col min-h-0 h-full overflow-auto">
                       <SearchInput />
 
                       <SearchResult />

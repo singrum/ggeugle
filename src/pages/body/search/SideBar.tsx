@@ -20,13 +20,12 @@ import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { WCDisplay } from "@/lib/wc/WordChain";
 import React, { useMemo, useState } from "react";
-
 const orders = ["n턴 후 승리", "끝나는 단어 개수", "시작 단어 개수"];
 
 export function SideBar() {
   return (
     <>
-      <div className="h-full w-full flex flex-col border border-border rounded-xl">
+      <div className="h-full w-full flex flex-col">
         <CharMenu />
         <Content />
       </div>
@@ -37,7 +36,7 @@ export function SideBar() {
 export function Content() {
   const [order, setOrder] = useState<string>("0");
   return (
-    <div className="px-2 bg-background rounded-b-xl overflow-auto scrollbar-none">
+    <div className="px-2 bg-background overflow-auto scrollbar-none">
       <div className="flex gap-2 justify-end pt-3">
         <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
           <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1">
@@ -417,38 +416,48 @@ export function CharMenu() {
   ]);
   const [sheetRef] = useSheet((e) => [e.sheetRef]);
   return (
-    <ul className="grid grid-cols-3 justify-center border-b border-border select-none rounded-t-xl md:bg-muted">
-      {charMenuList.map((e, i) => (
-        <React.Fragment key={i}>
-          <div
-            onClick={() => {
-              setCharMenu(i);
-              if (
-                sheetRef.current &&
-                sheetRef.current.height > 70 &&
-                charMenu === i
-              ) {
-                sheetRef.current.snapTo(
-                  ({ snapPoints }: { snapPoints: number[] }) => snapPoints[2],
-                  {}
-                );
-              }
-            }}
-            className={cn(
-              "flex justify-center items-center cursor-pointer border-b-2 border-transparent py-2 overflow-hidden whitespace-nowrap",
-              { [` border-${e.color}`]: charMenu === i }
-            )}
-          >
+    <>
+      <ul className="grid grid-cols-3 justify-center select-none border-border border-b py-1.5 px-1.5">
+        {charMenuList.map((e, i) => (
+          <React.Fragment key={i}>
             <div
-              className={cn("py-1 px-4 rounded-full text-muted-foreground", {
-                [`text-${e.color}`]: charMenu === i,
-              })}
+              onClick={() => {
+                setCharMenu(i);
+                if (
+                  sheetRef.current &&
+                  sheetRef.current.height > 70 &&
+                  charMenu === i
+                ) {
+                  sheetRef.current.snapTo(
+                    ({ snapPoints }: { snapPoints: number[] }) => snapPoints[2],
+                    {}
+                  );
+                }
+              }}
+              className={cn(
+                "flex justify-center items-center cursor-pointer overflow-hidden whitespace-nowrap"
+              )}
             >
-              {charMenuList[i].name}
+              <div
+                className={cn("w-full py-1.5 rounded-md text-center", {
+                  [`bg-${e.color}/10 px-2`]: charMenu === i,
+                })}
+              >
+                <div
+                  className={cn("text-muted-foreground", {
+                    [`text-${e.color} font-semibold`]: charMenu === i,
+                  })}
+                >
+                  {charMenuList[i].name}
+                </div>
+              </div>
+              {/* {((charMenu === 0 && i == 1) || (charMenu === 2 && i == 0)) && (
+                <Separator orientation="vertical" className="h-6" />
+              )} */}
             </div>
-          </div>
-        </React.Fragment>
-      ))}
-    </ul>
+          </React.Fragment>
+        ))}
+      </ul>
+    </>
   );
 }
