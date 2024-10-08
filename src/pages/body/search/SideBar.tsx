@@ -432,25 +432,26 @@ export function CharMenu() {
                 }
               }}
               className={cn(
-                "flex justify-center items-center cursor-pointer overflow-hidden whitespace-nowrap"
+                "flex justify-center items-center cursor-pointer whitespace-nowrap"
               )}
             >
               <div
-                className={cn("w-full py-1.5 rounded-md text-center", {
-                  [`bg-${e.color}/10 px-2`]: charMenu === i,
+                className={cn("w-full py-2 rounded-lg text-center text-md", {
+                  [`outline outline-${e.color} shadow bg-${e.color}/10`]:
+                    charMenu === i,
                 })}
               >
                 <div
                   className={cn("text-muted-foreground", {
-                    [`text-${e.color} font-semibold`]: charMenu === i,
+                    [`text-${e.color}`]: charMenu === i,
                   })}
                 >
                   {charMenuList[i].name}
                 </div>
               </div>
-              {/* {((charMenu === 0 && i == 1) || (charMenu === 2 && i == 0)) && (
+              {((charMenu === 0 && i == 1) || (charMenu === 2 && i == 0)) && (
                 <Separator orientation="vertical" className="h-6" />
-              )} */}
+              )}
             </div>
           </React.Fragment>
         ))}

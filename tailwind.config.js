@@ -63,6 +63,10 @@ module.exports = {
     "text-rose-600",
     "text-green-600",
     "text-black",
+
+    "outline-win",
+    "outline-los",
+    "outline-route",
   ],
   prefix: "",
   theme: {

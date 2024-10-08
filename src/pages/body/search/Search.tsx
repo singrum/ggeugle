@@ -6,6 +6,7 @@ import {
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useSheet } from "@/lib/store/useSheet";
+import { cn } from "@/lib/utils";
 import { LayoutGrid } from "lucide-react";
 import CharSheet from "./CharSheet";
 import SearchInput from "./SearchInput";
@@ -14,7 +15,7 @@ import { SideBar } from "./SideBar";
 export default function Search() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const isSearchFlip = useCookieSettings((e) => e.isSearchFlip);
-  const [setOpen] = useSheet((e) => [e.setOpen]);
+  const [setOpen, open] = useSheet((e) => [e.setOpen, e.open]);
   return (
     <>
       {isDesktop ? (
@@ -65,9 +66,17 @@ export default function Search() {
               <SearchInput />
               <SearchResult />
             </div>
-            <div className="fixed bottom-14 w-full flex justify-center p-3">
+
+            <div
+              className={cn(
+                "fixed bottom-14 w-full flex justify-center p-3 transition-opacity",
+                {
+                  "opacity-0 scale-95": open,
+                }
+              )}
+            >
               <div
-                className="bg-muted text-muted-foreground rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow-md cursor-pointer"
+                className="bg-primary text-primary-foreground rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow-md cursor-pointer"
                 onClick={() => setOpen(true)}
               >
                 <LayoutGrid className="w-5 h-5" />
