@@ -151,12 +151,14 @@ function DictSetting() {
                 ...ruleForm,
                 dict: parseInt(e),
                 cate: [true, false, false, false],
+                pos: { ...ruleForm.pos, "8": false },
               });
               break;
             case 2:
               setRuleForm({
                 ...ruleForm,
                 dict: parseInt(e),
+                pos: { ...ruleForm.pos, "8": false },
               });
               break;
             case 3:
@@ -164,7 +166,7 @@ function DictSetting() {
                 ...ruleForm,
                 dict: parseInt(e),
                 cate: [true, true, true, true],
-                pos: { ...ruleForm.pos, "7": false },
+                pos: { ...ruleForm.pos, "7": false, "8": false },
               });
               break;
           }
@@ -207,11 +209,24 @@ function PosSetting() {
                 {
                   "bg-foreground text-background hover:bg-foreground hover:text-background":
                     ruleForm.pos[i],
-                  "opacity-50": ruleForm.dict === 3 && i === 7,
+                  "opacity-50":
+                    (ruleForm.dict === 3 && i === 7) ||
+                    ((ruleForm.dict === 1 ||
+                      ruleForm.dict === 2 ||
+                      ruleForm.dict === 3) &&
+                      i === 8),
                 }
               )}
               onClick={() => {
-                if (!(ruleForm.dict === 3 && i === 7)) {
+                if (
+                  !(
+                    (ruleForm.dict === 3 && i === 7) ||
+                    ((ruleForm.dict === 1 ||
+                      ruleForm.dict === 2 ||
+                      ruleForm.dict === 3) &&
+                      i === 8)
+                  )
+                ) {
                   setRuleForm({
                     ...ruleForm,
                     pos: { ...ruleForm.pos, [i]: !ruleForm.pos[i] },
