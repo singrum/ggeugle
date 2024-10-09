@@ -23,11 +23,9 @@ export default function CharSheet() {
           maxHeight * 0.45,
         ]}
         header={
-          
-            <div>
-              <CharMenu />
-            </div>
-          
+          <div>
+            <CharMenu />
+          </div>
         }
       >
         <Content />
