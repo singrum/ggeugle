@@ -76,7 +76,7 @@ export default function Search() {
               )}
             >
               <div
-                className="bg-primary text-primary-foreground rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow-md cursor-pointer"
+                className="bg-foreground text-background rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow-md cursor-pointer"
                 onClick={() => setOpen(true)}
               >
                 <LayoutGrid className="w-5 h-5" />

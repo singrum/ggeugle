@@ -14,7 +14,7 @@ import { Menu } from "lucide-react";
 import { useState } from "react";
 
 export default function Header({ className }: { className?: string }) {
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
 
   return (
     <div className={cn("flex flex-col min-h-9 z-10", className)}>
