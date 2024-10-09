@@ -71,12 +71,12 @@ export default function Search() {
               className={cn(
                 "fixed bottom-14 w-full flex justify-center p-3 transition-opacity",
                 {
-                  "opacity-0 scale-95": open,
+                  "opacity-0 scale-90": open,
                 }
               )}
             >
               <div
-                className="bg-foreground text-background rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow-md cursor-pointer"
+                className="bg-muted text-muted-foreground rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow cursor-pointer"
                 onClick={() => setOpen(true)}
               >
                 <LayoutGrid className="w-5 h-5" />
