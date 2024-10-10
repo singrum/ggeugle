@@ -417,7 +417,7 @@ export function CharMenu() {
   const [sheetRef, setOpen] = useSheet((e) => [e.sheetRef, e.setOpen]);
   return (
     <>
-      <ul className="grid grid-cols-3 justify-center select-none border-border border-b py-1.5 px-1.5">
+      <ul className="grid grid-cols-3 justify-center select-none border-border border-b  p-1.5 md:p-2">
         {charMenuList.map((e, i) => (
           <React.Fragment key={i}>
             <div
@@ -432,14 +432,23 @@ export function CharMenu() {
                 }
               }}
               className={cn(
-                "flex justify-center items-center cursor-pointer whitespace-nowrap"
+                "flex justify-center items-center cursor-pointer whitespace-nowrap relative"
               )}
             >
+              {(i === 1 || i === 2) && (
+                <Separator
+                  orientation="vertical"
+                  className="h-6 relative z-0"
+                />
+              )}
               <div
-                className={cn("w-full py-2 rounded-lg text-center text-md", {
-                  [`outline outline-${e.color} shadow bg-${e.color}/10`]:
-                    charMenu === i,
-                })}
+                className={cn(
+                  "w-full py-2 rounded-lg text-center text-md relative z-10",
+                  {
+                    [`outline outline-${e.color} shadow bg-${e.color}/10`]:
+                      charMenu === i,
+                  }
+                )}
               >
                 <div
                   className={cn("text-muted-foreground", {
@@ -449,9 +458,6 @@ export function CharMenu() {
                   {charMenuList[i].name}
                 </div>
               </div>
-              {((charMenu === 0 && i == 1) || (charMenu === 2 && i == 0)) && (
-                <Separator orientation="vertical" className="h-6" />
-              )}
             </div>
           </React.Fragment>
         ))}
