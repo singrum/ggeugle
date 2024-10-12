@@ -17,11 +17,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useMediaQuery } from "@/hooks/use-media-query";
 import { useMenu } from "@/lib/store/useMenu";
 import { cates, dicts, poses, sampleRules, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { isEqual } from "lodash";
-import { CircleAlert } from "lucide-react";
 import React, { Fragment, ReactNode, useState } from "react";
 import { SettnigMenu } from "./SettingMenu";
 
@@ -49,6 +49,7 @@ export function RuleSetting() {
     state.setRuleForm,
     state.updateRule,
   ]);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const setMenu = useMenu((state) => state.setMenu);
   const [ruleGroupMenu, setRuleGroupMenu] = useState<number>(0);
@@ -114,15 +115,17 @@ export function RuleSetting() {
           className="flex justify-center fixed bottom-14 md:bottom-4 transition-opacity p-2 w-full"
           style={{ maxWidth: "inherit" }}
         >
-          <div className="border border-border rounded-lg flex pl-4 pr-2 py-2 bg-background items-center w-full md:w-auto md:min-w-[500px] justify-between">
+          <div className="border border-border rounded-lg flex p-2 bg-background items-center w-full md:w-auto md:min-w-[500px] justify-between shadow">
             <div className="flex items-center">
-              <CircleAlert className="w-4 h-4" />
-              <div className="mx-2 text-sm">변경 사항이 있습니다.</div>
+              {/* <CircleAlert className="w-4 h-4" /> */}
+              <div className="mx-2 text-sm md:text-base">
+                변경 사항이 있습니다.
+              </div>
             </div>
             <div className="flex">
               <Button
                 className="text-foreground"
-                size="sm"
+                size={isDesktop ? "default" : "sm"}
                 variant={"link"}
                 onClick={() => {
                   setRuleForm({ ...rule });
@@ -132,9 +135,7 @@ export function RuleSetting() {
               </Button>
 
               <Button
-                size="sm"
-                // variant={"ghost"}
-                // className=""
+                size={isDesktop ? "default" : "sm"}
                 onClick={() => {
                   updateRule();
                   setMenu(0);
