@@ -20,6 +20,8 @@ import { Separator } from "@/components/ui/separator";
 import { useMenu } from "@/lib/store/useMenu";
 import { cates, dicts, poses, sampleRules, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
+import { isEqual } from "lodash";
+import { CircleAlert } from "lucide-react";
 import React, { Fragment, ReactNode, useState } from "react";
 import { SettnigMenu } from "./SettingMenu";
 
@@ -41,17 +43,18 @@ const ruleGroup: { name: string; children: ReactNode[] }[] = [
 ];
 
 export function RuleSetting() {
-  const [rule, setRuleForm, updateRule] = useWC((state) => [
+  const [rule, ruleForm, setRuleForm, updateRule] = useWC((state) => [
     state.rule,
+    state.ruleForm,
     state.setRuleForm,
     state.updateRule,
   ]);
 
   const setMenu = useMenu((state) => state.setMenu);
   const [ruleGroupMenu, setRuleGroupMenu] = useState<number>(0);
-
+  const isChanged = !isEqual(rule, ruleForm);
   return (
-    <div className="flex flex-col min-w-0 mb-[200px] md:mb-0">
+    <div className="flex flex-col min-w-0 mb-[200px] relative w-full max-w-full">
       <div className="flex flex-col min-w-0 gap-4 p-4 pb-0 md:border border-border md:rounded-xl ">
         <div className="font-semibold px-2">바로가기</div>
         <ScrollArea className="w-full pb-4">
@@ -76,7 +79,6 @@ export function RuleSetting() {
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
-
       <div className="flex flex-col md:flex-row md:min-h-0 pt-4">
         <div className="md:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col shadow-[inset_0_-1px_0_0_hsl(var(--border))] md:shadow-none px-6 md:px-0 h-full">
           {ruleGroup.map(({ name }, i) => (
@@ -84,7 +86,7 @@ export function RuleSetting() {
               <div
                 key={i}
                 className={cn(
-                  "text-base text-muted-foreground cursor-pointer py-2 md:p-2 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent select-none  md:border-b-0",
+                  "text-base text-muted-foreground md:text-foreground cursor-pointer py-2 md:p-2 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent select-none  md:border-b-0",
                   {
                     "transition-colors text-foreground border-foreground md:bg-accent":
                       ruleGroupMenu === i,
@@ -105,27 +107,45 @@ export function RuleSetting() {
               <Separator />
             </Fragment>
           ))}
-
-          <div className="flex justify-end gap-2 py-2">
-            <Button
-              variant={"ghost"}
-              onClick={() => {
-                setRuleForm({ ...rule });
-              }}
-            >
-              되돌리기
-            </Button>
-            <Button
-              onClick={() => {
-                updateRule();
-                setMenu(0);
-              }}
-            >
-              저장
-            </Button>
-          </div>
         </div>
       </div>
+      {isChanged && (
+        <div
+          className="flex justify-center fixed bottom-14 md:bottom-4 transition-opacity p-2 w-full"
+          style={{ maxWidth: "inherit" }}
+        >
+          <div className="border border-border rounded-lg flex pl-4 pr-2 py-2 bg-background items-center w-full md:w-auto md:min-w-[500px] justify-between">
+            <div className="flex items-center">
+              <CircleAlert className="w-4 h-4" />
+              <div className="mx-2 text-sm">변경 사항이 있습니다.</div>
+            </div>
+            <div className="flex">
+              <Button
+                className="text-foreground"
+                size="sm"
+                variant={"link"}
+                onClick={() => {
+                  setRuleForm({ ...rule });
+                }}
+              >
+                되돌리기
+              </Button>
+
+              <Button
+                size="sm"
+                // variant={"ghost"}
+                // className=""
+                onClick={() => {
+                  updateRule();
+                  setMenu(0);
+                }}
+              >
+                저장
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
