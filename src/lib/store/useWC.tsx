@@ -116,7 +116,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       tailIdx: 1,
       manner: false,
       regexFilter:
-        "(?!(난장맞을|난장칠|넨장맞을|넨장칠|떡을할|빌어먹을|염병할|제미붙을|제밀할|젠장맞을|젠장칠)$).*",
+        "(?!(넨장맞을|넨장칠)$).*",
       addedWords: "",
     },
   },
@@ -143,7 +143,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       tailIdx: 1,
       manner: true,
       regexFilter:
-        "(?!(난장맞을|난장칠|넨장맞을|넨장칠|떡을할|빌어먹을|염병할|제미붙을|제밀할|젠장맞을|젠장칠)$).*",
+        "(?!(넨장맞을|넨장칠)$).*",
       addedWords: "",
     },
   },
