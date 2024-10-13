@@ -116,7 +116,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       tailIdx: 1,
       manner: false,
       regexFilter:
-        "(?!(넨장맞을|넨장칠)$).*",
+        "(?!(난장맞을|난장칠|네째|넨장맞을|넨장칠|데따우|데끔|두째|둘찌|떡을할|마끔|마마치|마마큼|마만치|마만큼|마콤|마쿰|만춤|빌어먹을|염병할|왜서|제미붙을|제밀할|젠장맞을|젠장칠)$).*",
       addedWords: "",
     },
   },
@@ -143,7 +143,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       tailIdx: 1,
       manner: true,
       regexFilter:
-        "(?!(넨장맞을|넨장칠)$).*",
+        "(?!(난장맞을|난장칠|네째|넨장맞을|넨장칠|데따우|데끔|두째|둘찌|떡을할|마끔|마마치|마마큼|마만치|마만큼|마콤|마쿰|만춤|빌어먹을|염병할|왜서|제미붙을|제밀할|젠장맞을|젠장칠)$).*",
       addedWords: "",
     },
   },
