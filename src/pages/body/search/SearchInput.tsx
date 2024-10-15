@@ -67,7 +67,7 @@ function ExceptWordsDisplay() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [clipComplete, setClipComplete] = useState(false);
   return (
-    <div className="mt-4 min-h-12 w-full rounded-xl border-border border">
+    <div className="mt-4 min-h-12 w-full rounded-xl border-border border shadow">
       <div className="flex items-center justify-between w-full py-2 px-2 pl-3 rounded-t-xl">
         <div className="flex items-center gap-2 text-sm font-semibold">
           <div className="flex justify-center">제거된 단어</div>

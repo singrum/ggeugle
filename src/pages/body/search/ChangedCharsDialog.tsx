@@ -154,7 +154,7 @@ export function ChangedCharsDialog({}: {}) {
                   </TableBody>
                 </Table>
               ) : (
-                <div className="flex items-center justify-center border border-border rounded-md p-2 w-full gap-2 h-[10rem]">
+                <div className="flex items-center justify-center border border-border border-dashed rounded-md p-2 w-full gap-2 h-[10rem]">
                   <div className="text-muted-foreground">
                     변경된 글자가 없습니다.
                   </div>
