@@ -57,7 +57,7 @@ export function RuleSetting() {
   return (
     <div className="flex flex-col min-w-0 mb-[200px] relative w-full max-w-full">
       <div className="flex flex-col min-w-0 gap-4 p-4 pb-0 md:border border-border md:rounded-xl ">
-        <div className="font-semibold px-2">바로가기</div>
+        <div className="font-semibold ">바로가기</div>
         <ScrollArea className="w-full pb-4">
           <div className="flex w-full min-w-0 gap-2 whitespace-nowrap ">
             {sampleRules.map(({ name, ruleForm }) => (

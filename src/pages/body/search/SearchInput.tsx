@@ -135,12 +135,16 @@ function ExceptWordsDisplay() {
       </div>
       <Separator />
       <div className=" rounded-b-xl ">
-        <div className="flex flex-wrap gap-x-1 gap-y-1 items-center p-3 ">
+        <div
+          className={cn("flex flex-wrap gap-x-1 gap-y-1 items-center p-3", {
+            "p-2": exceptWords.length > 0,
+          })}
+        >
           {exceptWords.length > 0 ? (
             <>
               {exceptWords.map((e) => (
                 <div
-                  className="transition-colors rounded-full flex px-1 items-center border border-foreground/40 cursor-pointer"
+                  className="transition-colors rounded-full flex items-center border border-foreground/40 cursor-pointer"
                   key={e}
                   onClick={() => {
                     const head = e.at(engine!.rule.headIdx)!;
@@ -148,17 +152,19 @@ function ExceptWordsDisplay() {
                     setSearchInputValue(head);
                   }}
                 >
-                  <div className="pl-2 text-muted-foreground select-none hover:text-foreground">
+                  <div className="py-0.5 pl-3 pr-1.5 text-muted-foreground select-none hover:text-foreground">
                     {e}
                   </div>
                   <div
-                    className="flex items-center justify-center rounded-full h-7 w-7 text-muted-foreground hover:text-foreground cursor-pointer"
+                    className="flex items-center justify-center rounded-full cursor-pointer py-1 pr-1.5 text-muted-foreground hover:text-foreground"
                     onClick={(evt) => {
                       evt.stopPropagation();
                       setExceptWords([...exceptWords.filter((ex) => ex !== e)]);
                     }}
                   >
-                    <X className="h-4 w-4" />
+                    <div className="flex items-center justify-center rounded-full h-5 w-5">
+                      <X className="h-4 w-4" />
+                    </div>
                   </div>
                 </div>
               ))}
@@ -245,7 +251,7 @@ function WordInput() {
     <div className="pt-4">
       <div className="relative">
         <Input
-          className="border border-border rounded-xl h-12 bg-background text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 shadow-sm"
+          className="border border-border rounded-xl h-12 text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 shadow"
           value={value}
           type="search"
           placeholder="글자 또는 단어를 입력하세요."

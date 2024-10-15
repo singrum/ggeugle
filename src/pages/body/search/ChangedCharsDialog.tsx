@@ -7,7 +7,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
   TableBody,
@@ -16,9 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWC } from "@/lib/store/useWC";
-import { cn } from "@/lib/utils";
-import { useState } from "react";
 
 const changeTypeList = [{ name: "최근과 비교" }, { name: "원본과 비교" }];
 
@@ -41,7 +39,7 @@ export function ChangedCharsDialog({}: {}) {
         <DialogHeader>
           <DialogTitle>글자 유형 비교</DialogTitle>
           <DialogDescription className="">
-            단어를 제거하거나 추가하기 이전 룰과 글자 유형을 비교합니다.
+            단어를 제거하거나 추가하기 이전과 글자 유형을 비교합니다.
           </DialogDescription>
         </DialogHeader>
         <Tabs defaultValue="compPrev" className="w-full">

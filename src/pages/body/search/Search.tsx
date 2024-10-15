@@ -76,11 +76,11 @@ export default function Search() {
               )}
             >
               <div
-                className="bg-muted text-muted-foreground rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow cursor-pointer"
+                className="bg-accent text-accent-foreground rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow cursor-pointer"
                 onClick={() => setOpen(true)}
               >
-                <LayoutGrid className="w-5 h-5" />
-                <div>글자 목록 보기</div>
+                <LayoutGrid className="w-5 h-5" strokeWidth={1.5} />
+                <div className="mb-0.5">글자 목록 보기</div>
               </div>
             </div>
           </div>

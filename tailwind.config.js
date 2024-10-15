@@ -14,6 +14,9 @@ module.exports = {
     "bg-win",
     "bg-los",
     "bg-route",
+    "hover:text-win",
+    "hover:text-los",
+    "hover:text-route",
     "hover:bg-win/20",
     "hover:bg-los/20",
     "hover:bg-route/20",
@@ -52,6 +55,10 @@ module.exports = {
     "bg-win/10",
     "bg-los/10",
     "bg-route/10",
+    "text-win/10",
+    "text-los/10",
+    "text-route/10",
+
     "bg-muted-foreground/10",
 
     "bg-muted-forground/60",
