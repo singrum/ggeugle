@@ -75,11 +75,6 @@ export class WCEngine {
         }
       }
     }
-    // console.log(
-    //   WCDisplay.reduceWordtypeWithReturn(
-    //     WCDisplay.getWordType(this, "톱날지붕").type as WordType
-    //   )
-    // );
     return this;
   }
 
