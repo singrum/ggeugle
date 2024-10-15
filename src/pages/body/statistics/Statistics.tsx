@@ -46,8 +46,8 @@ export default function Statistics() {
             {exceptWords.length > 0 ? (
               <Tabs defaultValue="except" className="w-full">
                 <TabsList className="m-3 mb-0 md:m-0">
-                  <TabsTrigger value="except">단어 제거 시</TabsTrigger>
-                  <TabsTrigger value="original">원본 룰</TabsTrigger>
+                  <TabsTrigger value="except">단어 제거 후</TabsTrigger>
+                  <TabsTrigger value="original">원본</TabsTrigger>
                 </TabsList>
                 <TabsContent value="except" className="p-0">
                   <Cards engine={engine} />
@@ -99,7 +99,7 @@ function Cards({ engine }: { engine: WCEngine }) {
             content: <RouteCharTypeChart engine={engine} />,
           },
         ].map(({ title, desc, content }, i) => (
-          <Card key={i}>
+          <Card key={i} className="flex flex-col">
             <CardHeader className="items-center">
               <CardTitle className="text-lg font-semibold">{title}</CardTitle>
               <CardDescription>{desc}</CardDescription>

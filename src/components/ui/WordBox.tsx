@@ -1,6 +1,6 @@
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { CirclePlus } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 import React from "react";
 import { Badge } from "./badge";
 
@@ -47,6 +47,7 @@ export function WordContent({
           key={e.word}
           endsWith={endsWith}
           notExcept={notExcept}
+          type={e.type}
         >
           {e.word}
         </WordButton>
@@ -59,12 +60,14 @@ export function WordButton({
   className,
   endsWith,
   notExcept,
+  type,
 }: {
   children: string;
   className?: string;
 
   notExcept?: boolean;
   endsWith?: boolean;
+  type?: string;
 }) {
   const [setExceptWords, exceptWords, setValue, engine, setSearchInputValue] =
     useWC((e) => [
@@ -94,21 +97,27 @@ export function WordButton({
         }
       }}
     >
-      <div className={cn("py-1 pl-3 pr-1.5", { "pr-3": notExcept })}>
+      <div className={cn("py-1 pl-3 pr-1.5 mb-0.5", { "pr-3": notExcept })}>
         {children}
       </div>
 
       {notExcept || (
-        <div
-          className="flex items-center justify-center rounded-full cursor-pointer py-2 pr-2.5 "
-          onClick={() => {
-            if (!exceptWords.includes(children)) {
-              setExceptWords([...exceptWords, children]);
-            }
-          }}
-        >
-          <CirclePlus className="w-4 h-4" strokeWidth={1.75} />
-        </div>
+        <>
+          <div
+            className="flex items-center justify-center rounded-full cursor-pointer py-1.5 pr-1.5 "
+            onClick={() => {
+              if (!exceptWords.includes(children)) {
+                setExceptWords([...exceptWords, children]);
+              }
+            }}
+          >
+            <div
+              className={`rounded-full w-5 h-5 flex items-center justify-center text-${type}`}
+            >
+              <PlusCircle className={`w-4 h-4`} />
+            </div>
+          </div>
+        </>
       )}
     </div>
   );

@@ -443,20 +443,15 @@ export function CharMenu() {
               )}
               <div
                 className={cn(
-                  "w-full py-2 rounded-lg text-center text-md relative z-10",
+                  `w-full py-2 rounded-lg text-center text-md relative z-10 text-muted-foreground `,
                   {
                     [`outline outline-${e.color} shadow bg-${e.color}/10`]:
                       charMenu === i,
+                    [`text-${e.color}`]: charMenu === i,
                   }
                 )}
               >
-                <div
-                  className={cn("text-muted-foreground", {
-                    [`text-${e.color}`]: charMenu === i,
-                  })}
-                >
-                  {charMenuList[i].name}
-                </div>
+                {charMenuList[i].name}
               </div>
             </div>
           </React.Fragment>
