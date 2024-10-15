@@ -1,15 +1,12 @@
-import React from "react";
-import { MenuBtn } from "./NavBar";
-import { Code, Database, Github, History, Settings } from "lucide-react";
-import { RiMoreFill } from "react-icons/ri";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Database, Github, History, Settings } from "lucide-react";
+import { RiMoreFill } from "react-icons/ri";
+import { MenuBtn } from "./NavBar";
 export const etcMenu = [
   {
     name: "환경 설정",
@@ -20,7 +17,7 @@ export const etcMenu = [
   },
 
   {
-    name: "이전 버전",
+    name: "구버전",
     icon: <History className="md:h-4 md:w-4" strokeWidth={1.5} />,
     onClick_: () => {
       open("https://singrum.github.io/ggeugle-old");
