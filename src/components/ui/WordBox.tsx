@@ -97,7 +97,7 @@ export function WordButton({
         }
       }}
     >
-      <div className={cn("py-1 pl-3 pr-1.5 mb-0.5", { "pr-3": notExcept })}>
+      <div className={cn("py-1 pl-3 pr-1.5", { "pr-3": notExcept })}>
         {children}
       </div>
 
