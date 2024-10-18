@@ -53,7 +53,7 @@ export function CharButton({
 }: {
   children: string;
   className?: string;
-  type: string;
+  type: string
 }) {
   const setValue = useWC((e) => e.setValue);
   const setSearchInputValue = useWC((e) => e.setSearchInputValue);

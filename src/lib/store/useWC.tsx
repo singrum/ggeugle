@@ -96,7 +96,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
   {
     name: "끄투 노인정",
     ruleForm: {
-      dict: 0,
+      dict: 4,
       pos: Object.assign({}, [
         true,
         true,
@@ -115,15 +115,14 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       tailDir: 1,
       tailIdx: 1,
       manner: false,
-      regexFilter:
-        "(?!(난장맞을|난장칠|네째|넨장맞을|넨장칠|데따우|데끔|두째|둘찌|떡을할|마끔|마마치|마마큼|마만치|마만큼|마콤|마쿰|만춤|빌어먹을|염병할|왜서|제미붙을|제밀할|젠장맞을|젠장칠)$).*",
+      regexFilter: ".*",
       addedWords: "",
     },
   },
   {
     name: "끄투 노인정 매너",
     ruleForm: {
-      dict: 0,
+      dict: 4,
       pos: Object.assign({}, [
         true,
         true,
@@ -142,8 +141,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       tailDir: 1,
       tailIdx: 1,
       manner: true,
-      regexFilter:
-        "(?!(난장맞을|난장칠|네째|넨장맞을|넨장칠|데따우|데끔|두째|둘찌|떡을할|마끔|마마치|마마큼|마만치|마만큼|마콤|마쿰|만춤|빌어먹을|염병할|왜서|제미붙을|제밀할|젠장맞을|젠장칠)$).*",
+      regexFilter: ".*",
       addedWords: "",
     },
   },
@@ -446,6 +444,8 @@ export const dicts = [
   "(신)표준국어대사전",
   "우리말샘",
   "네이버 국어사전",
+  "끄투 노인정",
+  "끄투 어인정",
 ];
 
 export const poses = [
@@ -457,7 +457,7 @@ export const poses = [
   "관형사",
   "감탄사",
   "구",
-  "어근",
+  "무품사",
 ];
 
 export const cates = ["일반어", "방언", "북한어", "옛말"];

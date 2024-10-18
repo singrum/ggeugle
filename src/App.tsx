@@ -132,6 +132,10 @@ const DBSource = [
     href: "https://ko.dict.naver.com/#/main",
     last: "2024.09",
   },
+  {
+    name: "끄투",
+    href: "https://github.com/JJoriping/KKuTu",
+  },
 ];
 
 function DBDilog() {

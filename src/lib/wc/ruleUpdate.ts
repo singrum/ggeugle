@@ -2,9 +2,11 @@ import { cates, poses, RuleForm } from "../store/useWC";
 import { WCEngine, WCRule } from "./WordChain";
 
 async function fetchWords(url: string) {
-  let response = await fetch(url);
-  let text = await response.text();
-  return text.split("\n").map((x) => x.trim());
+  const response = await fetch(url);
+  const text = await response.text();
+  const result = text.split("\n").map((x) => x.trim());
+
+  return result;
 }
 
 export async function getEngine(ruleForm: RuleForm) {
@@ -68,6 +70,16 @@ export async function getEngine(ruleForm: RuleForm) {
         )
       ).flat();
       break;
+    case 4:
+      words = await fetchWords(
+        `https://singrum.github.io/KoreanDict/kkutu/db/노인정`
+      );
+      break;
+    case 5:
+      words = await fetchWords(
+        `https://singrum.github.io/KoreanDict/kkutu/db/어인정`
+      );
+      break;
   }
 
   console.log("데이터 로드 완료");
@@ -81,6 +93,7 @@ export async function getEngine(ruleForm: RuleForm) {
   let wce = new WCEngine(r);
 
   const re = new RegExp(`^${ruleForm.regexFilter}$`);
+
   wce.words = Array.from(
     new Set(
       words
@@ -88,6 +101,7 @@ export async function getEngine(ruleForm: RuleForm) {
         .concat(ruleForm.addedWords.split(/\s+/).filter((e) => e.length > 0))
     )
   );
+
   wce.update();
   if (r.manner) {
     const mannerWords = wce.words.filter((e) => {
@@ -101,5 +115,6 @@ export async function getEngine(ruleForm: RuleForm) {
   }
 
   console.log("음절 분류 완료");
+
   return wce;
 }

@@ -190,23 +190,36 @@ function DictSetting() {
                 pos: { ...ruleForm.pos, "7": false, "8": false },
               });
               break;
+            case 4:
+              setRuleForm({
+                ...ruleForm,
+                dict: parseInt(e),
+                cate: [true, true, true, true],
+                pos: [true, true, true, true, true, true, true, true, true],
+              });
+              break;
+            case 5:
+              setRuleForm({
+                ...ruleForm,
+                dict: parseInt(e),
+                cate: [true, true, true, true],
+                pos: [true, true, true, true, true, true, true, true, true],
+              });
+              break;
           }
         }}
       >
         <SelectTrigger className="w-[180px] text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent
+          ref={(ref) =>
+            ref?.addEventListener("touchend", (e) => e.preventDefault())
+          }
+        >
           {dicts.map((dict, i) => (
             <SelectItem className="text-xs" value={`${i}`} key={i}>
-              <div className="flex gap-1">
-                {dict}
-                {i === 3 && (
-                  <div className=" rounded-md bg-[#19ce60]  px-1.5 py-0.5 text-xs leading-none text-background  no-underline group-hover:no-underline">
-                    New
-                  </div>
-                )}
-              </div>
+              <div className="flex gap-1">{dict}</div>
             </SelectItem>
           ))}
         </SelectContent>
@@ -235,7 +248,9 @@ function PosSetting() {
                     ((ruleForm.dict === 1 ||
                       ruleForm.dict === 2 ||
                       ruleForm.dict === 3) &&
-                      i === 8),
+                      i === 8) ||
+                    ruleForm.dict === 4 ||
+                    ruleForm.dict === 5,
                 }
               )}
               onClick={() => {
@@ -245,7 +260,9 @@ function PosSetting() {
                     ((ruleForm.dict === 1 ||
                       ruleForm.dict === 2 ||
                       ruleForm.dict === 3) &&
-                      i === 8)
+                      i === 8) ||
+                    ruleForm.dict === 4 ||
+                    ruleForm.dict === 5
                   )
                 ) {
                   setRuleForm({
@@ -285,7 +302,9 @@ function CateSetting() {
                     "opacity-50":
                       ruleForm.dict === 0 ||
                       ruleForm.dict === 1 ||
-                      ruleForm.dict === 3,
+                      ruleForm.dict === 3 ||
+                      ruleForm.dict === 4 ||
+                      ruleForm.dict === 5,
                   }
                 )}
                 onClick={() => {
@@ -319,7 +338,11 @@ function ChanSetting() {
         <SelectTrigger className="w-[180px] text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent
+          ref={(ref) =>
+            ref?.addEventListener("touchend", (e) => e.preventDefault())
+          }
+        >
           {[
             "없음",
             "표준두음",
@@ -357,7 +380,11 @@ function HeadIdxSetting() {
           <SelectTrigger className="w-fit text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent
+            ref={(ref) =>
+              ref?.addEventListener("touchend", (e) => e.preventDefault())
+            }
+          >
             <SelectItem className="text-xs" value="0">
               앞에서
             </SelectItem>
@@ -395,7 +422,11 @@ function TailIdxSetting() {
           <SelectTrigger className="w-fit text-xs h-fit px-3 py-2 focus:ring-offset-1 focus:ring-1">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent
+            ref={(ref) =>
+              ref?.addEventListener("touchend", (e) => e.preventDefault())
+            }
+          >
             <SelectItem className="text-xs" value="0">
               앞에서
             </SelectItem>
