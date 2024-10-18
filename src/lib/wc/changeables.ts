@@ -257,22 +257,31 @@ function forceRevStd_rev(char: string) {
 export const changeableMap: ((char: string) => string[])[] = [
   // 0 : 없음
   noDu,
+
   // 1 : 표준
   std,
+
   // 2 : 강제표준두음
   forceStd,
+
   // 3 : 역표준두음
   revStd,
+
   // 4 : 강제역표준두음
   forceRevStd,
-  // 5 : ㄹ->ㄴ->ㅇ
+
+  // 5 : 자유두음
   oneWay,
-  // 6 : ㄹ<->ㄴ<->ㅇ
+
+  // 6 : 자유양방향두음
   twoWay,
+
   // 7 : 반전룰
   banjeon,
+
   // 8 : 챈룰
   chanRule,
+
   // 9 : 듭2룰
   dpRule,
 ];
@@ -280,22 +289,31 @@ export const changeableMap: ((char: string) => string[])[] = [
 export const reverseChangeableMap: ((char: string) => string[])[] = [
   // 0 : 없음
   noDu_rev,
+
   // 1 : 표준
   std_rev,
+
   // 2 : 강제표준두음
   forceStd_rev,
+
   // 3 : 역표준두음
   revStd_rev,
+
   // 4 : 강제역표준두음
   forceRevStd_rev,
+
   // 5 : ㄹ->ㄴ->ㅇ
   oneWay_rev,
+
   // 6 : ㄹ<->ㄴ<->ㅇ
   twoWay_rev,
+
   // 7 : 반전룰
   banjeon_rev,
+
   // 8 : 챈룰
   chanRule_rev,
+
   // 9 : 듭2룰
   dpRule_rev,
 ];

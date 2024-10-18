@@ -103,7 +103,11 @@ export default function PreferenceSetting() {
             <SelectTrigger className="w-[230px]">
               <SelectValue />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent
+              ref={(ref) =>
+                ref?.addEventListener("touchend", (e) => e.preventDefault())
+              }
+            >
               <SelectItem value="space">띄어쓰기로 추가</SelectItem>
               <SelectItem value="enter">엔터로 추가</SelectItem>
             </SelectContent>

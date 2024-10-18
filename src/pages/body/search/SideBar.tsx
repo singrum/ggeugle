@@ -43,7 +43,11 @@ export function Content() {
             <div className="text-muted-foreground mr-1">정렬:</div>
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent
+            ref={(ref) =>
+              ref?.addEventListener("touchend", (e) => e.preventDefault())
+            }
+          >
             {orders.map((e, i) => (
               <SelectItem value={`${i}`} key={i} className="text-xs">
                 {e}
