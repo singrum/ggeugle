@@ -2,7 +2,6 @@ import { josa } from "es-hangul";
 import { X } from "lucide-react";
 import toast from "react-hot-toast";
 import { create } from "zustand";
-import { choice } from "../utils";
 import {
   Char,
   CharType,
@@ -584,30 +583,11 @@ export const useWC = create<WCInfo>((set, get) => ({
 
         const prevEngine = get().engine;
         const originalEngine = get().originalEngine;
-        const random =
-          choice(
-            Object.keys(engine.chanGraph.nodes).filter(
-              (e) =>
-                engine.chanGraph.nodes[e].type === "win" ||
-                engine.chanGraph.nodes[e].type === "wincir" ||
-                engine.chanGraph.nodes[e].type === "route"
-            )
-          ) || "";
 
         set(() => ({
           prevEngine,
           engine,
           isLoading: false,
-          searchResult: WCDisplay.searchResult(
-            engine!,
-            get().value.length !== 0 || prevEngine ? get().value : random
-          ),
-          ...(get().value.length === 0 && !prevEngine
-            ? {
-                value: random ? random : "",
-                searchInputValue: random ? random : "",
-              }
-            : {}),
 
           ...(originalEngine ? {} : { originalEngine: engine }),
         }));
