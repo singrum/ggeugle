@@ -80,6 +80,24 @@ export async function getEngine(ruleForm: RuleForm) {
         `https://singrum.github.io/KoreanDict/kkutu/db/어인정`
       );
       break;
+    case 6:
+      const pairs_ = [];
+
+      for (let cate of cates)
+        for (let pos of poses.slice(0, poses.length - 1))
+          pairs_.push([cate, pos]);
+
+      words = (
+        await Promise.all([
+          fetchWords(`https://singrum.github.io/KoreanDict/kkutu/db/어인정`),
+          ...pairs_.map((e) =>
+            fetchWords(
+              `https://singrum.github.io/KoreanDict/opendict/db/${e[0]}/${e[1]}`
+            )
+          ),
+        ])
+      ).flat();
+      break;
   }
 
   console.log("데이터 로드 완료");

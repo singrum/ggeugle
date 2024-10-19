@@ -445,7 +445,8 @@ export const dicts = [
   "우리말샘",
   "네이버 국어사전",
   "끄투 노인정",
-  "끄투 어인정",
+  "끄투 어인정 구버전",
+  "test",
 ];
 
 export const poses = [
