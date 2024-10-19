@@ -228,7 +228,7 @@ function WordInput() {
   }, [searchInputValue]);
 
   const onExceptTriggered = () => {
-    if (engine) {
+    if (engine && value.length > 1) {
       setValue("");
       setSearchInputValue("");
       const newExcept = value
@@ -283,27 +283,10 @@ function WordInput() {
           <div
             className={cn(
               "flex items-center justify-center rounded-full w-[2.0rem] h-[2.0rem] cursor-pointer text-muted-foreground transition-colors",
-              { "text-foreground": value.length > 0 }
+              { "text-foreground": value.length > 1 }
             )}
             onClick={() => {
-              if (engine) {
-                setValue("");
-                setSearchInputValue("");
-                const newExcept = value
-                  .split(" ")
-                  .filter(
-                    (word, i, arr) =>
-                      word.length > 0 &&
-                      arr.indexOf(word) === i &&
-                      !exceptWords.includes(word) &&
-                      engine!.words.includes(word)
-                  );
-                if (newExcept.length > 0) {
-                  const exceptWords_ = [...exceptWords, ...newExcept];
-
-                  setExceptWords(exceptWords_);
-                }
-              }
+              onExceptTriggered();
             }}
           >
             <CirclePlus className="w-[1.5rem] h-[1.5rem]" strokeWidth={1.5} />

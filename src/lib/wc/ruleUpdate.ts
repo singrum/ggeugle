@@ -131,6 +131,7 @@ export async function getEngine(ruleForm: RuleForm) {
     wce.words = mannerWords;
     wce.update();
   }
+  
 
   console.log("음절 분류 완료");
 

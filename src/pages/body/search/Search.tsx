@@ -68,19 +68,15 @@ export default function Search() {
             </div>
 
             <div
-              className={cn(
-                "fixed bottom-14 w-full flex justify-center p-3 transition-opacity",
-                {
-                  "opacity-0 scale-90": open,
-                }
-              )}
+              className={cn("fixed bottom-14 w-full flex justify-center p-3 ")}
             >
               <div
-                className="bg-accent text-accent-foreground rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow cursor-pointer"
+                className="bg-background text-foreground border border-border rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow cursor-pointer"
                 onClick={() => setOpen(true)}
               >
                 <LayoutGrid className="w-5 h-5" strokeWidth={1.5} />
-                <div className="mb-0.5">글자 목록 보기</div>
+                {/* <ChevronUp className="w-5 h-5" strokeWidth={1.5} /> */}
+                <div className="mb-0.5">글자 목록</div>
               </div>
             </div>
           </div>
