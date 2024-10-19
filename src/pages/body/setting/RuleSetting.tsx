@@ -206,6 +206,14 @@ function DictSetting() {
                 pos: [true, true, true, true, true, true, true, true, true],
               });
               break;
+            case 6:
+              setRuleForm({
+                ...ruleForm,
+                dict: parseInt(e),
+                cate: [true, true, true, true],
+                pos: [true, true, true, true, true, true, true, true, true],
+              });
+              break;
           }
         }}
       >
@@ -250,7 +258,8 @@ function PosSetting() {
                       ruleForm.dict === 3) &&
                       i === 8) ||
                     ruleForm.dict === 4 ||
-                    ruleForm.dict === 5,
+                    ruleForm.dict === 5 ||
+                    ruleForm.dict === 6,
                 }
               )}
               onClick={() => {
@@ -262,7 +271,8 @@ function PosSetting() {
                       ruleForm.dict === 3) &&
                       i === 8) ||
                     ruleForm.dict === 4 ||
-                    ruleForm.dict === 5
+                    ruleForm.dict === 5 ||
+                    ruleForm.dict === 6
                   )
                 ) {
                   setRuleForm({
@@ -304,7 +314,8 @@ function CateSetting() {
                       ruleForm.dict === 1 ||
                       ruleForm.dict === 3 ||
                       ruleForm.dict === 4 ||
-                      ruleForm.dict === 5,
+                      ruleForm.dict === 5 ||
+                      ruleForm.dict === 6,
                   }
                 )}
                 onClick={() => {
@@ -474,12 +485,31 @@ function AddedWordsSetting() {
   return (
     <SettnigMenu name="단어 추가">
       <div className="flex flex-col gap-2">
-        <div className="text-muted-foreground text-xs">띄어쓰기로 구분</div>
+        <Label htmlFor="picture">
+          직접 입력{` `}
+          <span className="text-muted-foreground">(띄어쓰기로 구분)</span>
+        </Label>
         <Input
           value={ruleForm.addedWords}
           onChange={(e) =>
             setRuleForm({ ...ruleForm, addedWords: e.target.value })
           }
+        />
+      </div>
+      <div className="grid w-full max-w-sm items-center gap-1.5">
+        <Label htmlFor="picture">
+          파일로 입력 {` `}
+          <span className="text-muted-foreground">
+            (띄어쓰기 및 공백으로 구분)
+          </span>
+        </Label>
+        <Input
+          id="picture"
+          type="file"
+          disabled
+          onChange={(e) => {
+            console.log(e);
+          }}
         />
       </div>
     </SettnigMenu>
