@@ -1071,7 +1071,7 @@ function WordsResult() {
             >
               <span className="font-semibold">{startMenuInfo.winChar}</span>
               {josa(startMenuInfo.winChar, "으로/로").slice(1)} 시작하는
-              공격단어 검색
+              공격 단어
             </ShowcaseBtn>
             <ShowcaseBtn
               onClick={() => {
@@ -1082,8 +1082,7 @@ function WordsResult() {
               }}
             >
               <span className="font-semibold">{startMenuInfo.losChar}</span>
-              {josa(startMenuInfo.losChar, "으로/로").slice(1)} 끝나는 단어 모두
-              보기
+              {josa(startMenuInfo.losChar, "으로/로").slice(1)} 끝나는 단어
             </ShowcaseBtn>
             <ShowcaseBtn
               onClick={() => {
@@ -1094,8 +1093,7 @@ function WordsResult() {
               }}
             >
               <span className="font-semibold">{startMenuInfo.route}</span>
-              {josa(startMenuInfo.route, "으로/로").slice(1)} 시작하는 루트단어
-              검색
+              {josa(startMenuInfo.route, "으로/로").slice(1)} 시작하는 루트 단어
             </ShowcaseBtn>
             <ShowcaseBtn
               onClick={() => {
@@ -1107,7 +1105,7 @@ function WordsResult() {
               }}
             >
               <span className="font-semibold">굉굉 - 굉업 - 업시름</span> 이후
-              필승 전략 탐색
+              필승 전략
             </ShowcaseBtn>
           </div>
         </>
