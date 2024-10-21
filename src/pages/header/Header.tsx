@@ -26,7 +26,7 @@ export default function Header({ className }: { className?: string }) {
           <div className=" rounded-md bg-black  px-1.5 py-0.5 text-xs leading-none text-[#F3D368] no-underline group-hover:no-underline">
             New
           </div>
-          끄투코리아 어인정&노인정 단어팩 추가
+          끄투코리아 단어팩 추가
         </div>
       )}
       <div className="flex w-full justify-between items-center">
