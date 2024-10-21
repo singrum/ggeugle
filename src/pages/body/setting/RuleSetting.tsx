@@ -6,6 +6,12 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button.js";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
@@ -29,9 +35,9 @@ import {
 } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { isEqual } from "lodash";
+import { ChevronDown } from "lucide-react";
 import React, { Fragment, ReactNode, useState } from "react";
 import { SettnigMenu } from "./SettingMenu";
-
 const ruleGroup: { name: string; children: ReactNode[] }[] = [
   {
     name: "단어",
@@ -61,71 +67,62 @@ export function RuleSetting() {
   const setMenu = useMenu((state) => state.setMenu);
   const [ruleGroupMenu, setRuleGroupMenu] = useState<number>(0);
   const isChanged = !isEqual(rule, ruleForm);
-  const [isKkutu, setIsKkutu] = useState(false);
+
   return (
     <div className="flex flex-col min-w-0 mb-[200px] relative w-full max-w-full">
       <div className="flex flex-col min-w-0 p-4 pb-0 md:border border-border md:rounded-xl ">
         <div className="flex gap-4 items-center mb-4 justify-between md:justify-start">
           <div className="font-semibold">바로가기</div>
-          <Separator orientation="vertical" className="h-5 hidden md:block" />
-          <div className="flex items-center space-x-2">
-            <Checkbox
-              onCheckedChange={(e) => setIsKkutu(e as boolean)}
-              id="kkutu"
-            />
-            <label
-              htmlFor="kkutu"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              끄투
-            </label>
-          </div>
         </div>
-        {!isKkutu ? (
-          <ScrollArea className="w-full pb-4">
-            <div className="flex w-full min-w-0 gap-2 whitespace-nowrap ">
-              {sampleRules.map(({ name, ruleForm }) => (
-                <Fragment key={name}>
-                  <Button
-                    size="sm"
-                    className={cn("gap-1")}
-                    variant="secondary"
-                    onClick={() => {
-                      setRuleForm(ruleForm);
-                      updateRule();
-                      setMenu(0);
-                    }}
-                  >
-                    {name}
-                  </Button>
-                </Fragment>
-              ))}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        ) : (
-          <ScrollArea className="w-full pb-4">
-            <div className="flex w-full min-w-0 gap-2 whitespace-nowrap ">
-              {kkutuRules.map(({ name, ruleForm }) => (
-                <Fragment key={name}>
-                  <Button
-                    size="sm"
-                    className={cn("gap-1")}
-                    variant="secondary"
-                    onClick={() => {
-                      setRuleForm(ruleForm);
-                      updateRule();
-                      setMenu(0);
-                    }}
-                  >
-                    {name}
-                  </Button>
-                </Fragment>
-              ))}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        )}
+
+        <ScrollArea className="w-full pb-4">
+          <div className="flex w-full min-w-0 gap-2 whitespace-nowrap ">
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                asChild
+                className="focus-visible:ring-offset-1 focus-visible:ring-0"
+              >
+                <Button size="sm" className="pr-2 gap-2" variant="secondary">
+                  끄투룰
+                  <ChevronDown className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                {kkutuRules.map(({ name, ruleForm }) => (
+                  <Fragment key={name}>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setRuleForm(ruleForm);
+                        updateRule();
+                        setMenu(0);
+                      }}
+                    >
+                      {name}
+                    </DropdownMenuItem>
+                  </Fragment>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {sampleRules.map(({ name, ruleForm }) => (
+              <Fragment key={name}>
+                <Button
+                  size="sm"
+                  className={cn("gap-1")}
+                  variant="secondary"
+                  onClick={() => {
+                    setRuleForm(ruleForm);
+                    updateRule();
+                    setMenu(0);
+                  }}
+                >
+                  {name}
+                </Button>
+              </Fragment>
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
       <div className="flex flex-col md:flex-row md:min-h-0 pt-4">
         <div className="md:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col shadow-[inset_0_-1px_0_0_hsl(var(--border))] md:shadow-none px-6 md:px-0 h-full">
