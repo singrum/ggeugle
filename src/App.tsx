@@ -47,7 +47,7 @@ function App() {
             <div className=" rounded-md bg-black  px-1.5 py-0.5 text-xs leading-none text-[#F3D368]  no-underline group-hover:no-underline">
               New
             </div>
-            끄투코리아 어인정&노인정 단어팩 추가
+            끄투코리아 단어팩 추가
           </div>
         )}
 
@@ -133,8 +133,12 @@ const DBSource = [
     last: "2024.09",
   },
   {
-    name: "끄투",
+    name: "끄투 노인정",
     href: "https://github.com/JJoriping/KKuTu",
+  },
+  {
+    name: "끄투 어인정",
+    href: "https://kkutudic.pythonanywhere.com/",
   },
 ];
 
