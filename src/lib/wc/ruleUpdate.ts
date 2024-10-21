@@ -76,9 +76,10 @@ export async function getEngine(ruleForm: RuleForm) {
       );
       break;
     case 5:
-      words = await fetchWords(
-        `https://singrum.github.io/KoreanDict/kkutu/db/어인정`
-      );
+      words = (await Promise.all([
+        fetchWords(`https://singrum.github.io/KoreanDict/kkutu/db/노인정`),
+        fetchWords(`https://singrum.github.io/KoreanDict/kkutu/db/어인정`),
+      ])).flat();
       break;
     case 6:
       const pairs_ = [];
@@ -131,7 +132,6 @@ export async function getEngine(ruleForm: RuleForm) {
     wce.words = mannerWords;
     wce.update();
   }
-  
 
   console.log("음절 분류 완료");
 
