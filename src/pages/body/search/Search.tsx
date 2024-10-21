@@ -76,7 +76,7 @@ export default function Search() {
               >
                 <LayoutGrid className="w-5 h-5" strokeWidth={1.5} />
                 {/* <ChevronUp className="w-5 h-5" strokeWidth={1.5} /> */}
-                <div className="mb-0.5">글자 목록</div>
+                <div className="mb-0.5 select-none">글자 목록</div>
               </div>
             </div>
           </div>

@@ -644,7 +644,7 @@ export const useWC = create<WCInfo>((set, get) => ({
           prevEngine,
           engine,
           isLoading: false,
-
+          searchResult: WCDisplay.searchResult(engine, get().searchInputValue),
           ...(originalEngine ? {} : { originalEngine: engine }),
         }));
 
