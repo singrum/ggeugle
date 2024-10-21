@@ -18,7 +18,7 @@ export default function Logo() {
         <img src={LightLogo} alt="logo" className="max-w-5 md:max-w-6" />
       )}
 
-      <div className="">끄글</div>
+      <div className="font-semibold">끄글</div>
     </div>
   );
 }

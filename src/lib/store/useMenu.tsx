@@ -1,5 +1,4 @@
 import {
-  RiMenu2Fill,
   RiPieChartFill,
   RiRobot2Fill,
   RiSearch2Fill,
