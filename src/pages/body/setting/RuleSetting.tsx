@@ -19,7 +19,14 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useMenu } from "@/lib/store/useMenu";
-import { cates, dicts, poses, sampleRules, useWC } from "@/lib/store/useWC";
+import {
+  cates,
+  dicts,
+  kkutuRules,
+  poses,
+  sampleRules,
+  useWC,
+} from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { isEqual } from "lodash";
 import React, { Fragment, ReactNode, useState } from "react";
@@ -54,31 +61,71 @@ export function RuleSetting() {
   const setMenu = useMenu((state) => state.setMenu);
   const [ruleGroupMenu, setRuleGroupMenu] = useState<number>(0);
   const isChanged = !isEqual(rule, ruleForm);
+  const [isKkutu, setIsKkutu] = useState(false);
   return (
     <div className="flex flex-col min-w-0 mb-[200px] relative w-full max-w-full">
-      <div className="flex flex-col min-w-0 gap-4 p-4 pb-0 md:border border-border md:rounded-xl ">
-        <div className="font-semibold ">바로가기</div>
-        <ScrollArea className="w-full pb-4">
-          <div className="flex w-full min-w-0 gap-2 whitespace-nowrap ">
-            {sampleRules.map(({ name, ruleForm }) => (
-              <Fragment key={name}>
-                <Button
-                  size="sm"
-                  className={cn("gap-1")}
-                  variant="secondary"
-                  onClick={() => {
-                    setRuleForm(ruleForm);
-                    updateRule();
-                    setMenu(0);
-                  }}
-                >
-                  {name}
-                </Button>
-              </Fragment>
-            ))}
+      <div className="flex flex-col min-w-0 p-4 pb-0 md:border border-border md:rounded-xl ">
+        <div className="flex gap-4 items-center mb-4 justify-between md:justify-start">
+          <div className="font-semibold">바로가기</div>
+          <Separator orientation="vertical" className="h-5 hidden md:block" />
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              onCheckedChange={(e) => setIsKkutu(e as boolean)}
+              id="kkutu"
+            />
+            <label
+              htmlFor="kkutu"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              끄투
+            </label>
           </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
+        </div>
+        {!isKkutu ? (
+          <ScrollArea className="w-full pb-4">
+            <div className="flex w-full min-w-0 gap-2 whitespace-nowrap ">
+              {sampleRules.map(({ name, ruleForm }) => (
+                <Fragment key={name}>
+                  <Button
+                    size="sm"
+                    className={cn("gap-1")}
+                    variant="secondary"
+                    onClick={() => {
+                      setRuleForm(ruleForm);
+                      updateRule();
+                      setMenu(0);
+                    }}
+                  >
+                    {name}
+                  </Button>
+                </Fragment>
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        ) : (
+          <ScrollArea className="w-full pb-4">
+            <div className="flex w-full min-w-0 gap-2 whitespace-nowrap ">
+              {kkutuRules.map(({ name, ruleForm }) => (
+                <Fragment key={name}>
+                  <Button
+                    size="sm"
+                    className={cn("gap-1")}
+                    variant="secondary"
+                    onClick={() => {
+                      setRuleForm(ruleForm);
+                      updateRule();
+                      setMenu(0);
+                    }}
+                  >
+                    {name}
+                  </Button>
+                </Fragment>
+              ))}
+            </div>
+            <ScrollBar orientation="horizontal" />
+          </ScrollArea>
+        )}
       </div>
       <div className="flex flex-col md:flex-row md:min-h-0 pt-4">
         <div className="md:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col shadow-[inset_0_-1px_0_0_hsl(var(--border))] md:shadow-none px-6 md:px-0 h-full">
@@ -227,7 +274,14 @@ function DictSetting() {
         >
           {dicts.map((dict, i) => (
             <SelectItem className="text-xs" value={`${i}`} key={i}>
-              <div className="flex gap-1">{dict}</div>
+              <div className="flex gap-1">
+                {dict}
+                {(i === 4 || i === 5) && (
+                  <div className=" rounded-md bg-[#F3D368]  px-1.5 py-0.5 text-xs leading-none text-black font-semibold no-underline group-hover:no-underline">
+                    New
+                  </div>
+                )}
+              </div>
             </SelectItem>
           ))}
         </SelectContent>
