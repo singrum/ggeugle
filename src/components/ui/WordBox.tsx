@@ -96,6 +96,10 @@ export function WordButton({
           setSearchInputValue(head);
         }
       }}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        navigator.clipboard.writeText(children);
+      }}
     >
       <div className={cn("py-1 pl-3 pr-1.5", { "pr-3": notExcept })}>
         {children}
