@@ -488,3 +488,107 @@ export function isWin(
 
   return false;
 }
+
+export function iterativeDeepeningSearch(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  currChar: Char,
+  callback?: (action: string, data?: any) => void
+) {
+  let depth = 24;
+
+  while (1) {
+    if (callback) callback("newDepth", depth);
+    const result = depthLimitedSearch(
+      chanGraph,
+      wordGraph,
+      currChar,
+      depth,
+      undefined,
+      callback
+    );
+
+    if (result !== "cutoff") {
+      return result;
+    } else {
+      if (callback) callback("cutoff");
+    }
+    depth++;
+  }
+}
+
+function depthLimitedSearch(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  currChar: Char,
+  depth: number,
+  firstBranch: Char[] | undefined,
+  callback?: (action: string, data?: any) => void
+) {
+  if (
+    chanGraph.nodes[currChar].type === "win" ||
+    chanGraph.nodes[currChar].type === "wincir"
+  ) {
+    return true;
+  }
+  if (
+    chanGraph.nodes[currChar].type === "los" ||
+    chanGraph.nodes[currChar].type === "loscir"
+  ) {
+    return false;
+  }
+  if (depth === 0) {
+    return "cutoff";
+  }
+
+  const nextWords = getNextWords(chanGraph, wordGraph, currChar, true);
+
+  nextWords.sort((a, b) => {
+    return a.moveNum! - b.moveNum!;
+  });
+
+  let isChildCutoff = false;
+
+  for (let { word, isLoop } of nextWords) {
+    if (callback) {
+      callback("push", word);
+    }
+    const nextChanGraph = chanGraph.copy();
+    const nextWordGraph = wordGraph.copy();
+
+    if (isLoop) {
+      nextWordGraph.nodes[word[0]].loop = undefined;
+    } else {
+      nextWordGraph.removeEdge(word[0], word[1], 1);
+    }
+    nextWordGraph.clearNodeInfo();
+    nextChanGraph.clearNodeInfo();
+    pruningWinLos(nextChanGraph, nextWordGraph);
+    pruningWinLosCir(nextChanGraph, nextWordGraph);
+
+    const win = depthLimitedSearch(
+      nextChanGraph,
+      nextWordGraph,
+      word[1],
+      depth - 1,
+      firstBranch ? word : firstBranch,
+      callback
+    );
+
+    if (callback) {
+      callback("pop");
+    }
+    if (win === false) {
+      return firstBranch === undefined ? firstBranch : true;
+    }
+    if (win === "cutoff") {
+      isChildCutoff = true;
+    }
+  }
+
+  if (isChildCutoff) {
+    return "cutoff";
+  } else {
+    return false;
+  }
+}

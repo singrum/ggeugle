@@ -1,6 +1,7 @@
 import {
   getReachableNodes,
   isWin,
+  iterativeDeepeningSearch,
   pruningWinLos,
   pruningWinLosCir,
 } from "../wc/algorithms";
@@ -8,7 +9,7 @@ import { MultiDiGraph, objToMultiDiGraph } from "../wc/multidigraph";
 import { Char } from "../wc/WordChain";
 
 export type payload = {
-  action: "startAnalysis";
+  action: "startAnalysis" | "IDS:startAnalysis";
   data: unknown;
 };
 
@@ -92,6 +93,67 @@ const analysis = ({
   });
 };
 
+const IDSAnalysis = ({
+  withStack,
+  chanGraph,
+  wordGraph,
+  startChar,
+}: {
+  withStack: boolean;
+  chanGraph: MultiDiGraph;
+  wordGraph: MultiDiGraph;
+  startChar: Char;
+}) => {
+  chanGraph = objToMultiDiGraph(chanGraph);
+  wordGraph = objToMultiDiGraph(wordGraph);
+  // const nextRoutes = getNextWords(chanGraph, wordGraph, startChar, true)
+  //   .sort((a, b) => {
+  //     return a.moveNum! - b.moveNum!;
+  //   })
+  //   .map((e) => e.word);
+
+  // self.postMessage({
+  //   action: "IDS:setNextRoutes",
+  //   data: nextRoutes,
+  // });
+
+  const reacheable = getReachableNodes(chanGraph, wordGraph, startChar);
+
+  chanGraph = chanGraph.getSubgraph(reacheable);
+  wordGraph = wordGraph.getSubgraph(reacheable);
+  chanGraph.clearNodeInfo();
+  wordGraph.clearNodeInfo();
+  pruningWinLos(chanGraph, wordGraph);
+  pruningWinLosCir(chanGraph, wordGraph);
+
+  const wordStack: Char[][] = [];
+  const maxBranch: (Char[][] | undefined)[] = [];
+
+  const win = withStack
+    ? iterativeDeepeningSearch(
+        chanGraph,
+        wordGraph,
+        startChar,
+        (action: string, data?: any) => {
+          if (action === "pop") {
+            self.postMessage({ action: "IDS:pop" });
+          } else if (action === "push") {
+            self.postMessage({ action: "IDS:push", data });
+          } else if (action === "newDepth") {
+            self.postMessage({ action: "IDS:newDepth", data });
+          }
+        }
+      )
+    : iterativeDeepeningSearch(chanGraph, wordGraph, startChar);
+
+  self.postMessage({
+    action: "IDS:end",
+    data: {
+      maxStack: (maxBranch[0] || []).reverse(),
+      win,
+    },
+  });
+};
 self.onmessage = (event) => {
   const { action, data }: payload = event.data;
 
@@ -104,6 +166,16 @@ self.onmessage = (event) => {
           wordGraph: MultiDiGraph;
           startChar: Char;
           exceptWord: Char[];
+        }
+      );
+      return;
+    case "IDS:startAnalysis":
+      IDSAnalysis(
+        data as {
+          withStack: boolean;
+          chanGraph: MultiDiGraph;
+          wordGraph: MultiDiGraph;
+          startChar: Char;
         }
       );
       return;
