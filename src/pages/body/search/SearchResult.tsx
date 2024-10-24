@@ -10,7 +10,7 @@ import { WordBadge, WordBox, WordContent } from "@/components/ui/WordBox";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useMenu } from "@/lib/store/useMenu";
-import { sampleRules, useWC } from "@/lib/store/useWC";
+import { useWC } from "@/lib/store/useWC";
 import { choice, cn } from "@/lib/utils";
 import { changeableMap, reverseChangeableMap } from "@/lib/wc/changeables";
 import {
@@ -25,6 +25,7 @@ import { AlertCircle, ArrowRight, ChevronDown, CircleHelp } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
 import Analysis from "./Analysis";
 import SolutionTree from "./SolutionTree";
+import { sampleRules } from "@/lib/wc/rules";
 
 export default function SearchResult() {
   return (
