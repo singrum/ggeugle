@@ -9,7 +9,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -25,15 +26,9 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useMenu } from "@/lib/store/useMenu";
-import {
-  cates,
-  dicts,
-  kkutuRules,
-  poses,
-  sampleRules,
-  useWC,
-} from "@/lib/store/useWC";
+import { cates, dicts, poses, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
+import { sampleRules } from "@/lib/wc/rules";
 import { isEqual } from "lodash";
 import { ChevronDown } from "lucide-react";
 import React, { Fragment, ReactNode, useState } from "react";
@@ -77,33 +72,7 @@ export function RuleSetting() {
 
         <ScrollArea className="w-full pb-4">
           <div className="flex w-full min-w-0 gap-2 whitespace-nowrap ">
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                asChild
-                className="focus-visible:ring-offset-1 focus-visible:ring-0"
-              >
-                <Button size="sm" className="pr-2 gap-2" variant="secondary">
-                  끄투룰
-                  <ChevronDown className="w-4 h-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {kkutuRules.map(({ name, ruleForm }) => (
-                  <Fragment key={name}>
-                    <DropdownMenuItem
-                      onClick={() => {
-                        setRuleForm(ruleForm);
-                        updateRule();
-                        setMenu(0);
-                      }}
-                    >
-                      {name}
-                    </DropdownMenuItem>
-                  </Fragment>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
+            <KkutuRuleSelectBtn />
             {sampleRules.map(({ name, ruleForm }) => (
               <Fragment key={name}>
                 <Button
@@ -264,11 +233,7 @@ function DictSetting() {
         <SelectTrigger className="w-[180px]">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent
-          ref={(ref) =>
-            ref?.addEventListener("touchend", (e) => e.preventDefault())
-          }
-        >
+        <SelectContent>
           {dicts.map((dict, i) => (
             <SelectItem className="text-xs" value={`${i}`} key={i}>
               <div className="flex gap-1">
@@ -400,11 +365,7 @@ function ChanSetting() {
         <SelectTrigger className="w-[180px]">
           <SelectValue />
         </SelectTrigger>
-        <SelectContent
-          ref={(ref) =>
-            ref?.addEventListener("touchend", (e) => e.preventDefault())
-          }
-        >
+        <SelectContent>
           {[
             "없음",
             "표준두음",
@@ -442,11 +403,7 @@ function HeadIdxSetting() {
           <SelectTrigger className="w-fit">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent
-            ref={(ref) =>
-              ref?.addEventListener("touchend", (e) => e.preventDefault())
-            }
-          >
+          <SelectContent>
             <SelectItem className="text-xs" value="0">
               앞에서
             </SelectItem>
@@ -484,11 +441,7 @@ function TailIdxSetting() {
           <SelectTrigger className="">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent
-            ref={(ref) =>
-              ref?.addEventListener("touchend", (e) => e.preventDefault())
-            }
-          >
+          <SelectContent>
             <SelectItem className="text-xs" value="0">
               앞에서
             </SelectItem>
@@ -685,5 +638,118 @@ function RegexFilterSetting() {
         </Accordion>
       </div>
     </SettnigMenu>
+  );
+}
+
+const kkutuInfo = { gameType: ["끝말잇기", "쿵쿵따", "앞말잇기"] };
+
+function KkutuRuleSelectBtn() {
+  const [setRuleForm, updateRule] = useWC((e) => [e.setRuleForm, e.updateRule]);
+  const setMenu = useMenu((e) => e.setMenu);
+  const [gameType, setGameType] = useState<number>(0);
+  const [manner, setManner] = useState<boolean>(false);
+  const [injeong, setInjeong] = useState<boolean>(false);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        asChild
+        className="focus-visible:ring-offset-1 focus-visible:ring-0"
+      >
+        <Button size="sm" className="pr-2 gap-2" variant="secondary">
+          끄투룰
+          <ChevronDown className="w-4 h-4" />
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent>
+        <DropdownMenuLabel>끄투 룰 설정</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <div className="p-2">
+          <div className="grid grid-cols-2 mb-2 gap-y-4">
+            <div className="text-sm pt-2">게임 유형</div>
+            <Select
+              value={gameType.toString()}
+              onValueChange={(val) => setGameType(parseInt(val))}
+            >
+              <SelectTrigger className="text-xs w-[100px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {kkutuInfo.gameType.map((e, i) => (
+                  <SelectItem value={i.toString()} key={e}>
+                    {e}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <div className="text-sm">특수 규칙</div>
+
+            <div className="flex flex-col gap-2 mb-2">
+              <div className="flex w-full">
+                <Checkbox
+                  id="kkutu-manner"
+                  checked={manner}
+                  onCheckedChange={(e) => setManner(e as boolean)}
+                />
+                <Label htmlFor="kkutu-manner" className="flex-1 ml-2">
+                  매너
+                </Label>
+              </div>
+              <div className="flex w-full">
+                <Checkbox
+                  id="kkutu-injeong"
+                  checked={injeong}
+                  onCheckedChange={(e) => setInjeong(e as boolean)}
+                />
+                <Label htmlFor="kkutu-injeong" className="flex-1 ml-2">
+                  어인정
+                </Label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <DropdownMenuSeparator />
+        <div className="p-1">
+          <Button
+            className="w-full"
+            onClick={() => {
+              setRuleForm({
+                dict: injeong ? 5 : 4,
+                pos: Object.assign({}, [
+                  true,
+                  true,
+                  true,
+                  true,
+                  true,
+                  true,
+                  true,
+                  true,
+                  true,
+                ]),
+                cate: Object.assign({}, [true, true, true, true]),
+                chan: 1,
+                headDir: gameType === 2 ? 1 : 0,
+                headIdx: 1,
+                tailDir: gameType === 2 ? 0 : 1,
+                tailIdx: 1,
+                manner: injeong,
+                regexFilter:
+                  gameType === 1
+                    ? "(.{3})"
+                    : gameType === 0 && manner && !injeong
+                    ? "(?!(껏구리)$).*"
+                    : ".*",
+                addedWords: "",
+              });
+              updateRule();
+              setMenu(0);
+            }}
+          >
+            저장
+          </Button>
+        </div>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

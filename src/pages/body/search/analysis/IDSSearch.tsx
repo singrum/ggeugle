@@ -3,20 +3,9 @@ import { ChevronRight } from "lucide-react";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 export default function IDSSearch() {
-  const [
-    searchInputValue,
-    engine,
-    setValue,
-    setSearchInputValue,
-    exceptWords,
-    setExceptWords,
-  ] = useWC((e) => [
+  const [searchInputValue, engine] = useWC((e) => [
     e.searchInputValue,
     e.engine,
-    e.setValue,
-    e.setSearchInputValue,
-    e.exceptWords,
-    e.setExceptWords,
   ]);
 
   const [wordStack, setWordStack] = useState<string[]>([]);

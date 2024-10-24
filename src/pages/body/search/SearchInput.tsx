@@ -33,15 +33,67 @@ export default function SearchInput() {
 
 function SearchTitle() {
   const [exceptBy] = useCookieSettings((e) => [e.exceptBy]);
+  const [engine] = useWC((e) => [e.engine]);
   return (
-    <div className="flex flex-col gap-2">
-      <span className="font-semibold text-xl">검색</span>
-      <div className="text-sm text-muted-foreground">
-        단어를 입력하고 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나{" "}
-        <CirclePlus className="inline w-3.5 h-3.5 mb-0.5" strokeWidth={1.75} />{" "}
-        버튼을 클릭하여 단어를 제거할 수 있습니다.
+    <>
+      <div className="flex flex-col gap-2">
+        <span className="font-semibold text-xl">검색</span>
+        <div className="text-sm text-muted-foreground">
+          단어를 입력하고 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나{" "}
+          <CirclePlus
+            className="inline w-3.5 h-3.5 mb-0.5"
+            strokeWidth={1.75}
+          />{" "}
+          버튼을 클릭하여 단어를 제거할 수 있습니다.
+        </div>
       </div>
-    </div>
+      {/* <div className="mt-2 flex gap-2">
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Badge
+              variant={"secondary"}
+              className="gap-1 cursor-pointer select-none"
+            >
+              단어장 다운로드 <Download className="h-3 w-3" />
+            </Badge>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => {
+                if (!engine) {
+                  return;
+                }
+
+                const link = document.createElement("a");
+                link.download = "모든단어.txt";
+                const blob = new Blob([engine!.words.sort().join("\n")], {
+                  type: "text/plain",
+                });
+                link.href = window.URL.createObjectURL(blob);
+                link.click();
+              }}
+            >
+              <Download className="w-4 h-4" />
+              모든 단어
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer">
+              <Download className="w-4 h-4" />
+              공격 단어
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <Download className="w-4 h-4" />
+              방어 단어
+            </DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              <Download className="w-4 h-4" />
+              루트 단어
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div> */}
+    </>
   );
 }
 
@@ -67,7 +119,7 @@ function ExceptWordsDisplay() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [clipComplete, setClipComplete] = useState(false);
   return (
-    <div className="mt-4 min-h-12 w-full rounded-xl border-border border shadow">
+    <div className="mt-6 min-h-12 w-full rounded-xl border-border border">
       <div className="flex items-center justify-between w-full py-2 px-2 pl-3 rounded-t-xl">
         <div className="flex items-center gap-2 text-sm font-semibold">
           <div className="flex justify-center">제거된 단어</div>
@@ -251,10 +303,10 @@ function WordInput() {
     <div className="pt-4">
       <div className="relative">
         <Input
-          className="border border-border rounded-xl h-12 text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 shadow"
+          className="border border-border rounded-xl h-12 text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 bg-muted/50 transition-colors"
           value={value}
           type="search"
-          placeholder="글자 또는 단어를 입력하세요."
+          placeholder="글자 또는 단어를 입력해주세요."
           onKeyDown={(e) => {
             if (e.key == "Enter") {
               if (e.nativeEvent.isComposing) {
@@ -282,7 +334,7 @@ function WordInput() {
         <div className="flex items-center justify-center gap-2 absolute right-3 top-[calc(50%-0.75rem)] w-[1.5rem] h-[1.5rem]">
           <div
             className={cn(
-              "flex items-center justify-center rounded-full w-[2.0rem] h-[2.0rem] cursor-pointer text-muted-foreground transition-colors",
+              "flex items-center justify-center rounded-full w-[2.0rem] h-[2.0rem] cursor-pointer text-muted-foreground ",
               { "text-foreground": value.length > 1 }
             )}
             onClick={() => {
