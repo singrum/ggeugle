@@ -733,7 +733,7 @@ function KkutuRuleSelectBtn() {
                 headIdx: 1,
                 tailDir: gameType === 2 ? 0 : 1,
                 tailIdx: 1,
-                manner: injeong,
+                manner: manner,
                 regexFilter:
                   gameType === 1
                     ? "(.{3})"
