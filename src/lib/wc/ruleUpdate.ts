@@ -93,7 +93,7 @@ export async function getEngine(ruleForm: RuleForm) {
           fetchWords(
             `https://singrum.github.io/KoreanDict/kkutu/db/어인정올품사`
           ),
-          fetchWords(`https://singrum.github.io/KoreanDict/kkutu/db/노인정`),
+
           ...pairs_.map((e) =>
             fetchWords(
               `https://singrum.github.io/KoreanDict/opendict/db/${e[0]}/${e[1]}`
