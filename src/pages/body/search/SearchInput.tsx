@@ -1,4 +1,11 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -9,6 +16,7 @@ import {
   Check,
   CirclePlus,
   Clipboard,
+  Download,
   LoaderCircle,
   Search,
   Trash2,
@@ -47,7 +55,7 @@ function SearchTitle() {
           버튼을 클릭하여 단어를 제거할 수 있습니다.
         </div>
       </div>
-      {/* <div className="mt-2 flex gap-2">
+      <div className="mt-2 flex gap-2">
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Badge
@@ -77,7 +85,7 @@ function SearchTitle() {
               <Download className="w-4 h-4" />
               모든 단어
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer">
               <Download className="w-4 h-4" />
               공격 단어
@@ -89,10 +97,10 @@ function SearchTitle() {
             <DropdownMenuItem className="cursor-pointer">
               <Download className="w-4 h-4" />
               루트 단어
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
           </DropdownMenuContent>
         </DropdownMenu>
-      </div> */}
+      </div>
     </>
   );
 }

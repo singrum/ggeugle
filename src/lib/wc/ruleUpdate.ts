@@ -76,10 +76,10 @@ export async function getEngine(ruleForm: RuleForm) {
       );
       break;
     case 5:
-      words = (await Promise.all([
-        fetchWords(`https://singrum.github.io/KoreanDict/kkutu/db/노인정`),
-        fetchWords(`https://singrum.github.io/KoreanDict/kkutu/db/어인정`),
-      ])).flat();
+      words = await fetchWords(
+        `https://singrum.github.io/KoreanDict/kkutu/db/어인정`
+      );
+
       break;
     case 6:
       const pairs_ = [];
@@ -90,7 +90,10 @@ export async function getEngine(ruleForm: RuleForm) {
 
       words = (
         await Promise.all([
-          fetchWords(`https://singrum.github.io/KoreanDict/kkutu/db/어인정`),
+          fetchWords(
+            `https://singrum.github.io/KoreanDict/kkutu/db/어인정올품사`
+          ),
+          fetchWords(`https://singrum.github.io/KoreanDict/kkutu/db/노인정`),
           ...pairs_.map((e) =>
             fetchWords(
               `https://singrum.github.io/KoreanDict/opendict/db/${e[0]}/${e[1]}`
