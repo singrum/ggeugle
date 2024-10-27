@@ -133,11 +133,15 @@ const DBSource = [
     last: "2024.09",
   },
   {
-    name: "끄투 노인정",
+    name: "KKuTu Github",
     href: "https://github.com/JJoriping/KKuTu",
   },
   {
-    name: "끄투 어인정",
+    name: "끄투코리아",
+    href: "https://kkutu.co.kr/",
+  },
+  {
+    name: "끄투코리아 단어사전 v6",
     href: "https://kkutudic.pythonanywhere.com/",
   },
 ];

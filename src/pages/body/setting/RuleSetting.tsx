@@ -657,13 +657,13 @@ function KkutuRuleSelectBtn() {
         className="focus-visible:ring-offset-1 focus-visible:ring-0"
       >
         <Button size="sm" className="pr-2 gap-2" variant="secondary">
-          끄투룰
+          끄투코리아
           <ChevronDown className="w-4 h-4" />
         </Button>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent>
-        <DropdownMenuLabel>끄투 룰 설정</DropdownMenuLabel>
+        <DropdownMenuLabel>끄투코리아 룰 설정</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <div className="p-2">
           <div className="grid grid-cols-2 mb-2 gap-y-4">
