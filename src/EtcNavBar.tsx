@@ -5,6 +5,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Database, Github, History, Settings } from "lucide-react";
+import { useState } from "react";
 import { RiMoreFill } from "react-icons/ri";
 import { MenuBtn } from "./NavBar";
 export const etcMenu = [
@@ -40,10 +41,11 @@ export const etcMenu = [
 ];
 
 export function EtcNavBar() {
+  const [open, setOpen] = useState<boolean>(false);
   return (
     <>
       <div className="w-auto flex md:flex-col items-center justify-around text-muted-foreground/70 md:text-muted-foreground bg-background border-t border-border md:border-none md:relative z-50">
-        <DropdownMenu>
+        <DropdownMenu open={open} onOpenChange={(e) => setOpen(e)}>
           <DropdownMenuTrigger asChild>
             <MenuBtn
               icon={<RiMoreFill className="w-6 h-6 md:w-5 md:h-5" />}
@@ -52,7 +54,13 @@ export function EtcNavBar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             {etcMenu.map(({ icon, name, onClick_ }) => (
-              <DropdownMenuItem onClick={onClick_} key={name}>
+              <DropdownMenuItem
+                onClick={() => {
+                  setOpen(false);
+                  onClick_();
+                }}
+                key={name}
+              >
                 <div>{icon}</div>
                 <div>{name}</div>
               </DropdownMenuItem>
