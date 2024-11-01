@@ -238,11 +238,11 @@ function DictSetting() {
             <SelectItem className="text-xs" value={`${i}`} key={i}>
               <div className="flex gap-1">
                 {dict}
-                {(i === 4 || i === 5) && (
+                {/* {(i === 4 || i === 5) && (
                   <div className=" rounded-md bg-[#F3D368]  px-1.5 py-0.5 text-xs leading-none text-black font-semibold no-underline group-hover:no-underline">
                     New
                   </div>
-                )}
+                )} */}
               </div>
             </SelectItem>
           ))}
