@@ -28,7 +28,7 @@ function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const menu = useMenu((e) => e.menu);
   const updateRule = useWC((e) => e.updateRule);
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   useEffect(() => {
     updateRule();
   }, []);
