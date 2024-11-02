@@ -25,6 +25,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: ".*",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
 
@@ -52,6 +53,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: ".*",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
   {
@@ -78,6 +80,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: ".*",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
 
@@ -105,6 +108,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: ".*",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
   {
@@ -131,6 +135,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: true,
       regexFilter: ".*",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
   {
@@ -157,6 +162,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: "(.{3})",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
   {
@@ -183,6 +189,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: ".*",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
   {
@@ -209,6 +216,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: "(.{2})",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
   {
@@ -235,6 +243,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: "(.{2})",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
   {
@@ -261,6 +270,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: ".*",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
   {
@@ -287,6 +297,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: ".*",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
   {
@@ -313,6 +324,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: ".*",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
 
@@ -340,6 +352,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: true,
       regexFilter: "(.{3})",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
   {
@@ -366,114 +379,7 @@ export const sampleRules: { name: string; ruleForm: RuleForm }[] = [
       manner: false,
       regexFilter: "(?!(붕어톱|궤휼|잎뽕)$).*",
       addedWords: "",
+      removeHeadTailDuplication: false,
     },
   },
 ];
-
-export const kkutuRules: { name: string; ruleForm: RuleForm }[] = [
-  {
-    name: "어인정",
-    ruleForm: {
-      dict: 5,
-      pos: Object.assign({}, [
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-      ]),
-      cate: Object.assign({}, [true, true, true, true]),
-      chan: 1,
-      headDir: 0,
-      headIdx: 1,
-      tailDir: 1,
-      tailIdx: 1,
-      manner: false,
-      regexFilter: ".*",
-      addedWords: "",
-    },
-  },
-  {
-    name: "어인정 매너",
-    ruleForm: {
-      dict: 5,
-      pos: Object.assign({}, [
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-      ]),
-      cate: Object.assign({}, [true, true, true, true]),
-      chan: 1,
-      headDir: 0,
-      headIdx: 1,
-      tailDir: 1,
-      tailIdx: 1,
-      manner: true,
-      regexFilter: "(?!(껏구리)$).*",
-      addedWords: "",
-    },
-  },
-  {
-    name: "노인정",
-    ruleForm: {
-      dict: 4,
-      pos: Object.assign({}, [
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-      ]),
-      cate: Object.assign({}, [true, true, true, true]),
-      chan: 1,
-      headDir: 0,
-      headIdx: 1,
-      tailDir: 1,
-      tailIdx: 1,
-      manner: false,
-      regexFilter: ".*",
-      addedWords: "",
-    },
-  },
-  {
-    name: "노인정 매너",
-    ruleForm: {
-      dict: 4,
-      pos: Object.assign({}, [
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-      ]),
-      cate: Object.assign({}, [true, true, true, true]),
-      chan: 1,
-      headDir: 0,
-      headIdx: 1,
-      tailDir: 1,
-      tailIdx: 1,
-      manner: true,
-      regexFilter: "(?!(껏구리)$).*",
-      addedWords: "",
-    },
-  },
-];
-

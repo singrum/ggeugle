@@ -41,6 +41,7 @@ const ruleGroup: { name: string; children: ReactNode[] }[] = [
       <RegexFilterSetting />,
       <PosSetting />,
       <CateSetting />,
+      <HeadTailDuplicationSetting />,
     ],
   },
   {
@@ -311,11 +312,8 @@ function CateSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettnigMenu name="범주">
+    <SettnigMenu name="범주" description="우리말샘일 때만 설정 가능">
       <div>
-        <div className="text-xs text-muted-foreground mb-2">
-          우리말샘일 때만 설정 가능
-        </div>
         <div className="flex flex-wrap gap-1">
           {cates.map((e, i) => (
             <React.Fragment key={i}>
@@ -350,6 +348,30 @@ function CateSetting() {
         </div>
       </div>
     </SettnigMenu>
+  );
+}
+
+function HeadTailDuplicationSetting() {
+  const ruleForm = useWC((e) => e.ruleForm);
+  const setRuleForm = useWC((e) => e.setRuleForm);
+  return (
+    <>
+      <SettnigMenu
+        name="첫 글자, 끝 글자 중복 제거"
+        description="글자 a에서 글자 b로 끝나는 단어가 여러 개이면 하나만 남기고 삭제합니다."
+      >
+        <div className="flex items-center space-x-2 px-1">
+          <Checkbox
+            id="remove_head_tail_duplication"
+            checked={ruleForm.removeHeadTailDuplication}
+            onCheckedChange={(e: boolean) => {
+              setRuleForm({ ...ruleForm, removeHeadTailDuplication: e });
+            }}
+          />
+          <Label htmlFor="manner">적용</Label>
+        </div>
+      </SettnigMenu>
+    </>
   );
 }
 
@@ -600,10 +622,9 @@ function RegexFilterSetting() {
   const setRuleForm = useWC((e) => e.setRuleForm);
 
   return (
-    <SettnigMenu name="단어 필터">
+    <SettnigMenu name="단어 필터" description="Regex로 작성">
       <div>
         <div className="flex flex-col gap-2">
-          <div className="text-muted-foreground text-xs">Regex로 작성</div>
           <Input
             value={ruleForm.regexFilter}
             onChange={(e) =>
@@ -741,6 +762,7 @@ function KkutuRuleSelectBtn() {
                     ? "(?!(껏구리)$).*"
                     : ".*",
                 addedWords: "",
+                removeHeadTailDuplication: false,
               });
               updateRule();
               setMenu(0);
