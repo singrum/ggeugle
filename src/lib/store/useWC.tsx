@@ -54,6 +54,7 @@ export interface RuleForm {
   pos: boolean[]; // 8
   cate: boolean[]; // 4
   chan: number;
+  removeHeadTailDuplication: boolean;
   headDir: number;
   tailDir: number;
   headIdx: number;

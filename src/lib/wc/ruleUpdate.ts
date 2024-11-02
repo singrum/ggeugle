@@ -103,7 +103,6 @@ export async function getEngine(ruleForm: RuleForm) {
       ).flat();
       break;
   }
-
   console.log("데이터 로드 완료");
 
   let r: WCRule = {
@@ -124,6 +123,14 @@ export async function getEngine(ruleForm: RuleForm) {
     )
   );
 
+  if (ruleForm.removeHeadTailDuplication) {
+    wce.words = removeHeadTailDuplication(
+      wce.words,
+      wce.rule.headIdx,
+      wce.rule.tailIdx
+    );
+  }
+
   wce.update();
   if (r.manner) {
     const mannerWords = wce.words.filter((e) => {
@@ -139,4 +146,26 @@ export async function getEngine(ruleForm: RuleForm) {
   console.log("음절 분류 완료");
 
   return wce;
+}
+
+function removeHeadTailDuplication(
+  words: string[],
+  headIdx: number,
+  tailIdx: number
+) {
+  const cache: Set<string> = new Set();
+  const result = [];
+  for (const word of words) {
+    const head = word.at(headIdx)!;
+    const tail = word.at(tailIdx)!;
+    const reducedWord = head.concat(tail);
+    if (cache.has(reducedWord)) {
+      continue;
+    } else {
+      cache.add(reducedWord);
+    }
+    result.push(word);
+  }
+
+  return result;
 }
