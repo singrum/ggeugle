@@ -788,6 +788,99 @@ export class WCDisplay {
         return getWincirTree(char, []);
     }
   }
+  static downloadWinWords(engine: WCEngine) {
+    return Object.keys(engine.chanGraph.nodes)
+      .filter(
+        (e) =>
+          engine.chanGraph.nodes[e].type == "win" ||
+          engine.chanGraph.nodes[e].type == "wincir"
+      )
+      .sort()
+      .map((winChar) => {
+        const result = (
+          this.searchResult(engine, winChar)!.result as CharSearchResult
+        ).startsWith;
+        let charInfo = `[${winChar}]\n`;
+        for (const { endNum, words } of result.win) {
+          charInfo = charInfo.concat(`${endNum}턴 : ${words.join(", ")}\n`);
+        }
+        if (result.wincir.length > 0) {
+          charInfo = charInfo.concat(`조건부 : ${result.wincir.join(", ")}\n`);
+        }
+
+        return charInfo;
+      })
+      .join("\n");
+  }
+  static downloadWinWordsEssential(engine: WCEngine) {
+    return Object.keys(engine.chanGraph.nodes)
+      .filter(
+        (e) =>
+          engine.chanGraph.nodes[e].type == "win" ||
+          engine.chanGraph.nodes[e].type == "wincir"
+      )
+      .sort()
+      .map((winChar) => {
+        const chanSol = engine.chanGraph.nodes[winChar].solution as Char;
+        const wordSol = engine.wordGraph.nodes[
+          engine.chanGraph.nodes[chanSol].solution as Char
+        ].solution as Char;
+
+        let charInfo = `${winChar} : ${
+          engine.wordMap.select(chanSol, wordSol)[0]
+        }`;
+
+        return charInfo;
+      })
+      .join("\n");
+  }
+  static downloadLosWords(engine: WCEngine) {
+    return Object.keys(engine.chanGraph.nodes)
+      .filter(
+        (e) =>
+          engine.chanGraph.nodes[e].type == "los" ||
+          engine.chanGraph.nodes[e].type == "loscir"
+      )
+      .sort()
+      .map((losChar) => {
+        const result = (
+          this.searchResult(engine, losChar)!.result as CharSearchResult
+        ).startsWith;
+        let charInfo = `[${losChar}]\n`;
+        if (result.return.length > 0) {
+          charInfo = charInfo.concat(`되돌림 : ${result.return.join(", ")}\n`);
+        }
+        if (result.loscir.length > 0) {
+          charInfo = charInfo.concat(`조건부 : ${result.loscir.join(", ")}\n`);
+        }
+        for (const { endNum, words } of result.los) {
+          charInfo = charInfo.concat(`${endNum}턴 : ${words.join(", ")}\n`);
+        }
+
+        return charInfo;
+      })
+      .join("\n");
+  }
+  static downloadRouteWords(engine: WCEngine) {
+    return Object.keys(engine.chanGraph.nodes)
+      .filter((e) => engine.chanGraph.nodes[e].type == "route")
+      .sort()
+      .map((losChar) => {
+        const result = (
+          this.searchResult(engine, losChar)!.result as CharSearchResult
+        ).startsWith;
+        let charInfo = `[${losChar}]\n`;
+        if (result.route.length > 0) {
+          charInfo = charInfo.concat(`루트 : ${result.route.join(", ")}\n`);
+        }
+        if (result.return.length > 0) {
+          charInfo = charInfo.concat(`되돌림 : ${result.return.join(", ")}\n`);
+        }
+
+        return charInfo;
+      })
+      .join("\n");
+  }
 }
 
 export function objToInstance(obj: WCEngine): WCEngine {
