@@ -1,11 +1,4 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
@@ -16,7 +9,6 @@ import {
   Check,
   CirclePlus,
   Clipboard,
-  Download,
   LoaderCircle,
   Search,
   Trash2,
@@ -25,6 +17,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
+import DownloadDialog from "./DownloadDialog";
 
 export default function SearchInput() {
   return (
@@ -56,50 +49,7 @@ function SearchTitle() {
         </div>
       </div>
       <div className="mt-2 flex gap-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Badge
-              variant={"secondary"}
-              className="gap-1 cursor-pointer select-none"
-            >
-              단어장 다운로드 <Download className="h-3 w-3" />
-            </Badge>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => {
-                if (!engine) {
-                  return;
-                }
-
-                const link = document.createElement("a");
-                link.download = "모든단어.txt";
-                const blob = new Blob([engine!.words.sort().join("\n")], {
-                  type: "text/plain",
-                });
-                link.href = window.URL.createObjectURL(blob);
-                link.click();
-              }}
-            >
-              <Download className="w-4 h-4" />
-              모든 단어
-            </DropdownMenuItem>
-            {/* <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
-              <Download className="w-4 h-4" />
-              공격 단어
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              <Download className="w-4 h-4" />
-              방어 단어
-            </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
-              <Download className="w-4 h-4" />
-              루트 단어
-            </DropdownMenuItem> */}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <DownloadDialog />
       </div>
     </>
   );
