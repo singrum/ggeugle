@@ -368,7 +368,7 @@ function HeadTailDuplicationSetting() {
               setRuleForm({ ...ruleForm, removeHeadTailDuplication: e });
             }}
           />
-          <Label htmlFor="manner">적용</Label>
+          <Label htmlFor="remove_head_tail_duplication">적용</Label>
         </div>
       </SettnigMenu>
     </>

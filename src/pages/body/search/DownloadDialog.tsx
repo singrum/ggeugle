@@ -101,7 +101,7 @@ export default function DownloadDialog() {
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
-          {downloadOptions.map(({ name, description, action }, i) => (
+          {downloadOptions.map(({ name, action }, i) => (
             <React.Fragment key={name}>
               <div className="flex w-full gap-2 items-center px-2">
                 <div className="flex-1">
