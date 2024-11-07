@@ -56,9 +56,7 @@ function App() {
               className="flex  gap-1 items-center  p-1"
               onClick={(e) => {
                 e.stopPropagation();
-                open(
-                  "https://discord.com/channels/1303916879559004261/1303916880767221784"
-                );
+                open("https://discord.gg/bkHgyajx89");
               }}
             >
               <SquareArrowOutUpRight className="h-3 w-3" strokeWidth="2.5" />
