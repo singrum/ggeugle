@@ -14,7 +14,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { LinkIcon } from "lucide-react";
+import { SquareArrowOutUpRight, X } from "lucide-react";
 import { EtcNavBar } from "./EtcNavBar";
 import PreferenceSetting from "./pages/body/etc/PreferenceSetting";
 import Practice from "./pages/body/practice/Practice";
@@ -28,7 +28,7 @@ function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const menu = useMenu((e) => e.menu);
   const updateRule = useWC((e) => e.updateRule);
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(true);
   useEffect(() => {
     updateRule();
   }, []);
@@ -41,13 +41,32 @@ function App() {
       <div className="md:flex md:flex-col md:h-full md:min-h-0 h-full">
         {isDesktop && showAlert && (
           <div
-            className="text-xs flex items-center justify-center gap-2 text-black p-1 bg-[#F3D368] cursor-pointer font-semibold"
-            onClick={() => setShowAlert(false)}
+            className="text-xs flex justify-between text-white bg-[#5865F2] cursor-pointer font-semibold items-center"
+            onClick={() => {
+              setShowAlert(false);
+            }}
           >
-            <div className=" rounded-md bg-black  px-1.5 py-0.5 text-xs leading-none text-[#F3D368]  no-underline group-hover:no-underline">
+            {/* <div className=" rounded-md bg-white  px-1.5 py-0.5 text-xs leading-none text-[#5865F2]  no-underline group-hover:no-underline">
               New
+            </div> */}
+            <div className="p-1 invisible">
+              <X className="w-4 h-4" />
             </div>
-            끄투코리아 단어팩 추가
+            <div
+              className="flex  gap-1 items-center  p-1"
+              onClick={(e) => {
+                e.stopPropagation();
+                open(
+                  "https://discord.com/channels/1303916879559004261/1303916880767221784"
+                );
+              }}
+            >
+              <SquareArrowOutUpRight className="h-3 w-3" strokeWidth="2.5" />
+              끄글 디스코드가 개설되었습니다.
+            </div>
+            <div className="p-1">
+              <X className="w-4 h-4" />
+            </div>
           </div>
         )}
 
@@ -157,14 +176,14 @@ function DBDilog() {
           <DialogTitle>DB 출처</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col items-start">
+        <div className="flex flex-col items-start gap-2">
           {DBSource.map(({ name, href, last }) => (
             <div
               key={name}
-              className="flex items-center gap-1 cursor-pointer hover:bg-accent py-1 px-2 rounded-md"
+              className="flex items-center gap-2 cursor-pointer hover:underline "
               onClick={() => open(href)}
             >
-              <LinkIcon className="h-4 w-4" />
+              <SquareArrowOutUpRight className="h-4 w-4" />
               <div>{name}</div>
               {last && <div className="text-muted-foreground">({last})</div>}
             </div>

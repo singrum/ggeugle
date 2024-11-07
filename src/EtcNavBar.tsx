@@ -4,8 +4,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Database, Github, History, Settings } from "lucide-react";
+import {
+  Database,
+  Github,
+  Settings,
+  SquareArrowOutUpRight,
+} from "lucide-react";
 import { useState } from "react";
+import { FaDiscord } from "react-icons/fa6";
 import { RiMoreFill } from "react-icons/ri";
 import { MenuBtn } from "./NavBar";
 export const etcMenu = [
@@ -16,10 +22,18 @@ export const etcMenu = [
       document.getElementById("preference-setting-dialog-trigger")?.click();
     },
   },
-
+  {
+    name: "디스코드",
+    icon: <FaDiscord className="h-6 w-6 md:h-4 md:w-4" strokeWidth={1.5} />,
+    onClick_: () => {
+      open(
+        "https://discord.com/channels/1303916879559004261/1303916880767221784"
+      );
+    },
+  },
   {
     name: "구버전",
-    icon: <History className="md:h-4 md:w-4" strokeWidth={1.5} />,
+    icon: <SquareArrowOutUpRight className="md:h-4 md:w-4" strokeWidth={1.5} />,
     onClick_: () => {
       open("https://singrum.github.io/ggeugle-old");
     },
