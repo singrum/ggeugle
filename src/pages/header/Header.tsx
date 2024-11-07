@@ -10,23 +10,42 @@ import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 
 import { etcMenu } from "@/EtcNavBar";
-import { Menu } from "lucide-react";
+import { Menu, SquareArrowOutUpRight, X } from "lucide-react";
 import { useState } from "react";
 
 export default function Header({ className }: { className?: string }) {
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(true);
 
   return (
     <div className={cn("flex flex-col min-h-9 z-10", className)}>
       {showAlert && (
         <div
-          className="text-xs flex items-center justify-center gap-2 text-black p-1 bg-[#F3D368] cursor-pointer font-semibold"
-          onClick={() => setShowAlert(false)}
+          className="text-xs flex justify-between text-white bg-[#5865F2] cursor-pointer font-semibold items-center"
+          onClick={() => {
+            setShowAlert(false);
+          }}
         >
-          <div className=" rounded-md bg-black  px-1.5 py-0.5 text-xs leading-none text-[#F3D368] no-underline group-hover:no-underline">
-            New
+          {/* <div className=" rounded-md bg-white  px-1.5 py-0.5 text-xs leading-none text-[#5865F2]  no-underline group-hover:no-underline">
+          New
+        </div> */}
+          <div className="p-1 invisible">
+            <X className="w-4 h-4" />
           </div>
-          끄투코리아 단어팩 추가
+          <div
+            className="flex  gap-1 items-center  p-1"
+            onClick={(e) => {
+              e.stopPropagation();
+              open(
+                "https://discord.com/channels/1303916879559004261/1303916880767221784"
+              );
+            }}
+          >
+            <SquareArrowOutUpRight className="h-3 w-3" strokeWidth="2.5" />
+            끄글 디스코드가 개설되었습니다.
+          </div>
+          <div className="p-1">
+            <X className="w-4 h-4" />
+          </div>
         </div>
       )}
       <div className="flex w-full justify-between items-center">
