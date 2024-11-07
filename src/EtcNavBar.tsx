@@ -26,9 +26,7 @@ export const etcMenu = [
     name: "디스코드",
     icon: <FaDiscord className="h-6 w-6 md:h-4 md:w-4" strokeWidth={1.5} />,
     onClick_: () => {
-      open(
-        "https://discord.com/channels/1303916879559004261/1303916880767221784"
-      );
+      open("https://discord.gg/bkHgyajx89");
     },
   },
   {
