@@ -91,13 +91,10 @@ export async function getEngine(ruleForm: RuleForm) {
       words = (
         await Promise.all([
           fetchWords(
-            `https://singrum.github.io/KoreanDict/kkutu/db/어인정올품사`
+            `https://paback2.github.io/xsipaback/%EC%96%B4%EC%9D%B8%EC%A0%95%EC%98%AC%ED%92%88%EC%82%AC`
           ),
-
-          ...pairs_.map((e) =>
-            fetchWords(
-              `https://singrum.github.io/KoreanDict/opendict/db/${e[0]}/${e[1]}`
-            )
+          fetchWords(
+            `https://paback2.github.io/xsipaback/%EC%9A%B0%EC%83%98.txt`
           ),
         ])
       ).flat();
