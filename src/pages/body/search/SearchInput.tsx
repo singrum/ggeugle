@@ -232,7 +232,7 @@ function WordInput() {
     if (engine) {
       setSearchInputValue(value);
     }
-  }, 300);
+  }, 150);
   useEffect(() => {
     debounced.cancel();
   }, [searchInputValue]);
