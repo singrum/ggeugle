@@ -229,9 +229,7 @@ function WordInput() {
   const [exceptBy] = useCookieSettings((e) => [e.exceptBy]);
 
   const debounced = useDebouncedCallback((value) => {
-    if (engine) {
-      setSearchInputValue(value);
-    }
+    setSearchInputValue(value);
   }, 150);
   useEffect(() => {
     debounced.cancel();

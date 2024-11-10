@@ -133,9 +133,12 @@ export const useWC = create<WCInfo>((set, get) => ({
   setValue: (value: string) => set(() => ({ value })),
   searchInputValue: "",
   setSearchInputValue: (searchInputValue: string) => {
+    const engine = get().engine;
     set(() => ({
       searchInputValue,
-      searchResult: WCDisplay.searchResult(get().engine!, searchInputValue),
+      ...(engine
+        ? { searchResult: WCDisplay.searchResult(engine, searchInputValue) }
+        : {}),
     }));
   },
   exceptWords: [],
@@ -164,7 +167,7 @@ export const useWC = create<WCInfo>((set, get) => ({
 
         const prevEngine = get().engine;
         const originalEngine = get().originalEngine;
-
+        
         set(() => ({
           prevEngine,
           engine,
