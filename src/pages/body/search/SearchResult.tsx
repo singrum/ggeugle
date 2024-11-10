@@ -13,7 +13,6 @@ import { useMenu } from "@/lib/store/useMenu";
 import { useWC } from "@/lib/store/useWC";
 import { choice, cn } from "@/lib/utils";
 import { changeableMap, reverseChangeableMap } from "@/lib/wc/changeables";
-import { sampleRules } from "@/lib/wc/rules";
 import {
   CharSearchResult,
   NoncharSearchResult,
@@ -21,7 +20,6 @@ import {
   WordType,
 } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
-import { isEqual } from "lodash";
 import { AlertCircle, ArrowRight, ChevronDown, CircleHelp } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
 import Analysis from "./Analysis";
@@ -974,6 +972,7 @@ const routes = [
 
 function WordsResult() {
   const [
+    isGuel,
     searchResult,
     engine,
     searchInputValue,
@@ -982,8 +981,8 @@ function WordsResult() {
     setValue,
     exceptWords,
     setExceptWords,
-    rule,
   ] = useWC((e) => [
+    e.isGuel,
     e.searchResult,
     e.engine,
     e.searchInputValue,
@@ -991,7 +990,6 @@ function WordsResult() {
     e.setValue,
     e.exceptWords,
     e.setExceptWords,
-    e.rule,
   ]);
   const [setMenu] = useMenu((e) => [e.setMenu]);
   const [showAllWords] = useCookieSettings((e) => [e.showAllWords]);
@@ -1013,12 +1011,8 @@ function WordsResult() {
     }),
     [searchInputValue.length === 0]
   );
-  const isGuelrule = useMemo(
-    () => isEqual(sampleRules[0].ruleForm, rule),
-    [rule]
-  );
   const showShowcase =
-    isGuelrule && searchInputValue.length === 0 && exceptWords.length === 0;
+    isGuel && searchInputValue.length === 0 && exceptWords.length === 0;
   return (
     <>
       <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 flex whitespace-nowrap overflow-auto gap-4 w-full min-h-1">

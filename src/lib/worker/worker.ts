@@ -8,6 +8,7 @@ import {
   pruningWinLosCir,
 } from "../wc/algorithms";
 
+import { precedenceMap } from "../wc/analysisPrecedence";
 import { getEngine } from "../wc/ruleUpdate";
 import { Char, WCDisplay, WCEngine, Word, WordType } from "../wc/WordChain";
 
@@ -60,12 +61,14 @@ const postWord = (nextWords: Word[], exceptWords: Word[]) => {
 };
 
 const getComputerMove = ({
+  isGuel,
   exceptWords,
   currChar,
   strength,
   steal,
   debug,
 }: {
+  isGuel: boolean;
   exceptWords: string[];
   currChar: Char;
   strength: 0 | 1 | 2;
@@ -197,6 +200,7 @@ const getComputerMove = ({
             analysisWorker.postMessage({
               action: "startAnalysis",
               data: {
+                isGuel: isGuel,
                 withStack: false,
                 chanGraph: engine!.chanGraph,
                 wordGraph: engine!.wordGraph,
@@ -228,6 +232,7 @@ const getComputerMove = ({
       analysisWorker.postMessage({
         action: "startAnalysis",
         data: {
+          isGuel: isGuel,
           withStack: false,
           chanGraph: engine!.chanGraph,
           wordGraph: engine!.wordGraph,
@@ -393,6 +398,12 @@ const getComputerMove = ({
           analysisStart(
             getNextWords(engine!.chanGraph, engine!.wordGraph, currChar, true)
               .sort((a, b) => {
+                if (isGuel && precedenceMap[a.word[0]] === a.word[1]) {
+                  return -1;
+                }
+                if (isGuel && precedenceMap[b.word[0]] === b.word[1]) {
+                  return 1;
+                }
                 return a.moveNum! - b.moveNum!;
               })
               .map((e) => e.word)
@@ -461,6 +472,7 @@ self.onmessage = (event) => {
     case "getComputerMove":
       getComputerMove(
         data as {
+          isGuel: boolean;
           exceptWords: string[];
           currChar: Char;
           strength: 0 | 1 | 2;

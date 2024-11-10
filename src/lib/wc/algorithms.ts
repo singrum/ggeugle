@@ -1,4 +1,5 @@
 import { arraysEqual, arrayToKeyMap } from "../utils";
+import { precedenceMap } from "./analysisPrecedence";
 import { MultiDiGraph } from "./multidigraph";
 import { Char } from "./WordChain";
 
@@ -429,6 +430,7 @@ export function getNextWords(
 }
 
 export function isWin(
+  isGuel: boolean,
   chanGraph: MultiDiGraph,
   wordGraph: MultiDiGraph,
   currChar: Char,
@@ -451,6 +453,12 @@ export function isWin(
   const nextWords = getNextWords(chanGraph, wordGraph, currChar, true);
 
   nextWords.sort((a, b) => {
+    if (isGuel && precedenceMap[a.word[0]] === a.word[1]) {
+      return -1;
+    }
+    if (isGuel && precedenceMap[b.word[0]] === b.word[1]) {
+      return 1;
+    }
     return a.moveNum! - b.moveNum!;
   });
 
@@ -472,6 +480,7 @@ export function isWin(
     pruningWinLosCir(nextChanGraph, nextWordGraph);
 
     const win = isWin(
+      isGuel,
       nextChanGraph,
       nextWordGraph,
       word[1],

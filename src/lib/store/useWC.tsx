@@ -1,4 +1,5 @@
 import { josa } from "es-hangul";
+import { isEqual } from "lodash";
 import { X } from "lucide-react";
 import toast from "react-hot-toast";
 import { create } from "zustand";
@@ -82,6 +83,8 @@ export type GameInfo = {
 };
 
 export interface WCInfo {
+  isGuel: boolean;
+
   value: string;
   setValue: (value: string) => void;
   searchInputValue: string;
@@ -129,6 +132,8 @@ export interface WCInfo {
 }
 
 export const useWC = create<WCInfo>((set, get) => ({
+  isGuel: true,
+
   value: "",
   setValue: (value: string) => set(() => ({ value })),
   searchInputValue: "",
@@ -167,7 +172,7 @@ export const useWC = create<WCInfo>((set, get) => ({
 
         const prevEngine = get().engine;
         const originalEngine = get().originalEngine;
-        
+
         set(() => ({
           prevEngine,
           engine,
@@ -398,7 +403,9 @@ export const useWC = create<WCInfo>((set, get) => ({
       exceptWords: [],
       isLoading: true,
       rule: ruleForm,
+      isGuel: isEqual(sampleRules[0].ruleForm, ruleForm),
     }));
+
     const worker = get().worker;
     if (!worker) {
       get().initWorker();
