@@ -13,6 +13,7 @@ import { useMenu } from "@/lib/store/useMenu";
 import { useWC } from "@/lib/store/useWC";
 import { choice, cn } from "@/lib/utils";
 import { changeableMap, reverseChangeableMap } from "@/lib/wc/changeables";
+import { sampleRules } from "@/lib/wc/rules";
 import {
   CharSearchResult,
   NoncharSearchResult,
@@ -25,7 +26,6 @@ import { AlertCircle, ArrowRight, ChevronDown, CircleHelp } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
 import Analysis from "./Analysis";
 import SolutionTree from "./SolutionTree";
-import { sampleRules } from "@/lib/wc/rules";
 
 export default function SearchResult() {
   return (
@@ -1064,19 +1064,19 @@ function WordsResult() {
           <div className="m-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <ShowcaseBtn
               onClick={() => {
-                if (!engine) return;
+                // if (!engine) return;
                 setSearchInputValue(startMenuInfo.winChar);
                 setValue(startMenuInfo.winChar);
                 setTab(0);
               }}
             >
               <span className="font-semibold">{startMenuInfo.winChar}</span>
-              {josa(startMenuInfo.winChar, "으로/로").slice(1)} 시작하는
-              공격 단어
+              {josa(startMenuInfo.winChar, "으로/로").slice(1)} 시작하는 공격
+              단어
             </ShowcaseBtn>
             <ShowcaseBtn
               onClick={() => {
-                if (!engine) return;
+                // if (!engine) return;
                 setSearchInputValue(startMenuInfo.losChar);
                 setValue(startMenuInfo.losChar);
                 setTab(1);
@@ -1087,7 +1087,7 @@ function WordsResult() {
             </ShowcaseBtn>
             <ShowcaseBtn
               onClick={() => {
-                if (!engine) return;
+                // if (!engine) return;
                 setSearchInputValue(startMenuInfo.route);
                 setValue(startMenuInfo.route);
                 setTab(0);
@@ -1098,7 +1098,7 @@ function WordsResult() {
             </ShowcaseBtn>
             <ShowcaseBtn
               onClick={() => {
-                if (!engine) return;
+                // if (!engine) return;
                 setSearchInputValue("름");
                 setValue("름");
                 setTab(2);
