@@ -1,8 +1,11 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { getNextWords } from "@/lib/wc/algorithms";
+import { precedenceMap } from "@/lib/wc/analysisPrecedence";
 import { Word } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
 import { ChevronRight, Play } from "lucide-react";
@@ -10,6 +13,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 
 export default function DFSSearch() {
   const [
+    isGuel,
     searchInputValue,
     engine,
     setValue,
@@ -17,6 +21,7 @@ export default function DFSSearch() {
     exceptWords,
     setExceptWords,
   ] = useWC((e) => [
+    e.isGuel,
     e.searchInputValue,
     e.engine,
     e.setValue,
@@ -28,7 +33,8 @@ export default function DFSSearch() {
   const [wordStack, setWordStack] = useState<Word[]>([]);
   const [nextRoutesInfo, setNextRoutesInfo] = useState<
     { word: Word; win?: boolean; maxStack?: Word[] }[] | undefined
-  >();  
+  >();
+  const [isGuelPrecedence, setIsGuelPrecedence] = useState<boolean>(false);
   const worker = useRef<Worker>(null!);
 
   useEffect(() => {
@@ -77,10 +83,12 @@ export default function DFSSearch() {
 
             return result;
           });
+
           if (endedWordIdx !== nextRoutesInfo.length - 1 && win) {
             worker.current.postMessage({
               action: "startAnalysis",
               data: {
+                isGuel: isGuel,
                 withStack: true,
                 chanGraph: engine!.chanGraph,
                 wordGraph: engine!.wordGraph,
@@ -115,6 +123,12 @@ export default function DFSSearch() {
       true
     )
       .sort((a, b) => {
+        if (isGuel && precedenceMap[a.word[0]] === a.word[1]) {
+          return -1;
+        }
+        if (isGuel && precedenceMap[b.word[0]] === b.word[1]) {
+          return 1;
+        }
         return a.moveNum! - b.moveNum!;
       })
       .map((e) => e.word)
@@ -138,6 +152,7 @@ export default function DFSSearch() {
     worker.current.postMessage({
       action: "startAnalysis",
       data: {
+        isGuel: isGuelPrecedence,
         withStack: true,
         chanGraph: engine!.chanGraph,
         wordGraph: engine!.wordGraph,
@@ -152,7 +167,7 @@ export default function DFSSearch() {
     return () => {
       worker.current.terminate();
     };
-  }, [searchInputValue, engine]);
+  }, [searchInputValue, engine, isGuelPrecedence]);
 
   const firstUndefIdx =
     nextRoutesInfo && nextRoutesInfo.findIndex(({ win }) => win === undefined);
@@ -214,6 +229,18 @@ export default function DFSSearch() {
             )}
           </AlertDescription>
         </Alert>
+        {isGuel && (
+          <div className="flex justify-start w-full pl-2">
+            <div className="space-x-2 flex">
+              <Checkbox
+                id="prec"
+                onCheckedChange={(e) => setIsGuelPrecedence(e as boolean)}
+              />
+              <Label htmlFor="prec">우선 순위 최적화</Label>
+            </div>
+          </div>
+        )}
+
         <div className="w-full">
           {nextRoutesInfo
             .slice(

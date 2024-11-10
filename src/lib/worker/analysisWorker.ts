@@ -14,12 +14,14 @@ export type payload = {
 };
 
 const analysis = ({
+  isGuel,
   withStack,
   chanGraph,
   wordGraph,
   startChar,
   exceptWord,
 }: {
+  isGuel: boolean;
   withStack: boolean;
   chanGraph: MultiDiGraph;
   wordGraph: MultiDiGraph;
@@ -49,6 +51,7 @@ const analysis = ({
 
   const win = withStack
     ? isWin(
+        isGuel,
         chanGraph,
         wordGraph,
         startChar,
@@ -81,7 +84,7 @@ const analysis = ({
           self.postMessage({ action: "stackChange", data: wordStack });
         }
       )
-    : isWin(chanGraph, wordGraph, startChar);
+    : isWin(isGuel, chanGraph, wordGraph, startChar);
 
   self.postMessage({
     action: "end",
@@ -106,16 +109,6 @@ const IDSAnalysis = ({
 }) => {
   chanGraph = objToMultiDiGraph(chanGraph);
   wordGraph = objToMultiDiGraph(wordGraph);
-  // const nextRoutes = getNextWords(chanGraph, wordGraph, startChar, true)
-  //   .sort((a, b) => {
-  //     return a.moveNum! - b.moveNum!;
-  //   })
-  //   .map((e) => e.word);
-
-  // self.postMessage({
-  //   action: "IDS:setNextRoutes",
-  //   data: nextRoutes,
-  // });
 
   const reacheable = getReachableNodes(chanGraph, wordGraph, startChar);
 
@@ -154,6 +147,7 @@ const IDSAnalysis = ({
     },
   });
 };
+
 self.onmessage = (event) => {
   const { action, data }: payload = event.data;
 
@@ -161,6 +155,7 @@ self.onmessage = (event) => {
     case "startAnalysis":
       analysis(
         data as {
+          isGuel: boolean;
           withStack: boolean;
           chanGraph: MultiDiGraph;
           wordGraph: MultiDiGraph;
