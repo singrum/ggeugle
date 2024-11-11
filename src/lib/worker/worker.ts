@@ -398,13 +398,18 @@ const getComputerMove = ({
           analysisStart(
             getNextWords(engine!.chanGraph, engine!.wordGraph, currChar, true)
               .sort((a, b) => {
-                if (isGuel && precedenceMap[a.word[0]] === a.word[1]) {
-                  return -1;
+                let a_key, b_key;
+                if (isGuel && precedenceMap[a.word[0]]?.[a.word[1]]) {
+                  a_key = -precedenceMap[a.word[0]][a.word[1]];
+                } else {
+                  a_key = a.moveNum;
                 }
-                if (isGuel && precedenceMap[b.word[0]] === b.word[1]) {
-                  return 1;
+                if (isGuel && precedenceMap[a.word[0]]?.[a.word[1]]) {
+                  b_key = -precedenceMap[b.word[0]][b.word[1]];
+                } else {
+                  b_key = b.moveNum;
                 }
-                return a.moveNum! - b.moveNum!;
+                return a_key! - b_key!
               })
               .map((e) => e.word)
               .map(([head, tail]) => engine!.wordMap.select(head, tail)[0])
