@@ -11,7 +11,7 @@ export type Menu = {
 };
 export const menus: Menu[] = [
   {
-    name: "검색",
+  name: "검색",
     icon: <RiSearch2Fill className="w-6 h-6 md:w-5 md:h-5" />,
   },
 
