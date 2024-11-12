@@ -881,6 +881,41 @@ export class WCDisplay {
       })
       .join("\n");
   }
+  static downloadCharInfo(engine: WCEngine) {
+    const info = this.endInN(engine);
+    return info.win
+      .map(({ endNum, chars }) => `[${endNum}턴 후 승리]\n${chars.join(" ")}`)
+      .join("\n\n")
+
+      .concat(
+        info.wincir.length > 0
+          ? "\n\n".concat("[조건부 승리]\n").concat(info.wincir.join(" "))
+          : ""
+      )
+      .concat("\n\n")
+      .concat(
+        info.los
+          .map(
+            ({ endNum, chars }) => `[${endNum}턴 후 패배]\n${chars.join(" ")}`
+          )
+          .join("\n\n")
+      )
+      .concat(
+        info.loscir.length > 0
+          ? "\n\n".concat("[조건부 패배]\n").concat(info.loscir.join(" "))
+          : ""
+      )
+      .concat(
+        info.route.maxComp.length > 0
+          ? "\n\n".concat(`[주요 루트]\n${info.route.maxComp.join(" ")}`)
+          : ""
+      )
+      .concat(
+        info.route.minComp.length > 0
+          ? "\n\n".concat(`[희귀 루트]\n${info.route.minComp.join(" ")}`)
+          : ""
+      );
+  }
 }
 
 export function objToInstance(obj: WCEngine): WCEngine {

@@ -17,12 +17,25 @@ import React from "react";
 
 const downloadOptions = [
   {
-    name: "모든 단어",
+    name: "모든 단어 목록",
     description: "사전에 있는 모든 단어 목록",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
-      link.download = `[끄글]모든단어_${getCurrentDateTime()}.txt`;
+      link.download = `끄글_모든단어_${getCurrentDateTime()}.txt`;
       const blob = new Blob([engine!.words.sort().join("\n")], {
+        type: "text/plain",
+      });
+      link.href = window.URL.createObjectURL(blob);
+      link.click();
+    },
+  },
+  {
+    name: "모든 글자 목록",
+    description: "글자 속성(승리, 패배, 루트)에 따른 분류",
+    action: (engine: WCEngine) => {
+      const link = document.createElement("a");
+      link.download = `끄글_모든글자_${getCurrentDateTime()}.txt`;
+      const blob = new Blob([WCDisplay.downloadCharInfo(engine)], {
         type: "text/plain",
       });
       link.href = window.URL.createObjectURL(blob);
@@ -34,7 +47,7 @@ const downloadOptions = [
     description: "루트 글자에 대한 루트 단어, 되돌림 단어 사전",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
-      link.download = `[끄글]루트단어_${getCurrentDateTime()}.txt`;
+      link.download = `끄글_루트단어_${getCurrentDateTime()}.txt`;
       const blob = new Blob([WCDisplay.downloadRouteWords(engine)], {
         type: "text/plain",
       });
@@ -47,7 +60,7 @@ const downloadOptions = [
     description: "승리 글자에 대한 승리 단어 사전",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
-      link.download = `[끄글]승리단어_${getCurrentDateTime()}.txt`;
+      link.download = `끄글_승리단어_${getCurrentDateTime()}.txt`;
       const blob = new Blob([WCDisplay.downloadWinWords(engine)], {
         type: "text/plain",
       });
@@ -60,7 +73,7 @@ const downloadOptions = [
     description: "승리 글자에 대한 한 개의 승리 단어 사전",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
-      link.download = `[끄글]필수승리단어_${getCurrentDateTime()}.txt`;
+      link.download = `끄글_필수승리단어_${getCurrentDateTime()}.txt`;
       const blob = new Blob([WCDisplay.downloadWinWordsEssential(engine)], {
         type: "text/plain",
       });
@@ -73,7 +86,7 @@ const downloadOptions = [
     description: "패배 글자에 대한 패배 단어 사전",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
-      link.download = `[끄글]패배단어_${getCurrentDateTime()}.txt`;
+      link.download = `끄글_패배단어_${getCurrentDateTime()}.txt`;
       const blob = new Blob([WCDisplay.downloadLosWords(engine)], {
         type: "text/plain",
       });
