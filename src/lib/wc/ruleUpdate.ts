@@ -91,7 +91,7 @@ export async function getEngine(ruleForm: RuleForm) {
       words = (
         await Promise.all([
           fetchWords(
-            `https://paback2.github.io/xsipaback/%EC%96%B4%EC%9D%B8%EC%A0%95%EC%98%AC%ED%92%88%EC%82%AC`
+            `https://paback2.github.io/xsipaback/%EC%96%B4%EC%9D%B8%EC%A0%95%EC%98%AC%ED%92%88%EC%82%AC.txt`
           ),
           fetchWords(
             `https://paback2.github.io/xsipaback/%EC%9A%B0%EC%83%98.txt`
