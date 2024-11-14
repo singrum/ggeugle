@@ -406,12 +406,11 @@ export const useWC = create<WCInfo>((set, get) => ({
       isGuel: isEqual(sampleRules[0].ruleForm, ruleForm),
     }));
 
-    const worker = get().worker;
-    if (!worker) {
-      get().initWorker();
-    }
-
-    get().worker!.postMessage({
+    let worker = get().worker;
+    if (worker) worker!.terminate();
+    get().initWorker();
+    worker = get().worker;
+    worker!.postMessage({
       action: "getEngine",
       data: ruleForm,
     });
