@@ -499,21 +499,49 @@ function MannerSetting() {
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
     <SettnigMenu name="한방단어 제거">
-      <Select
-        value={ruleForm.manner.toString()}
-        onValueChange={(e) => setRuleForm({ ...ruleForm, manner: parseInt(e) })}
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {manners.map((e, i) => (
-            <SelectItem className="text-xs" value={`${i}`} key={i}>
-              {e}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <div className="flex flex-col gap-2">
+        <Select
+          value={ruleForm.manner.toString()}
+          onValueChange={(e) =>
+            setRuleForm({ ...ruleForm, manner: parseInt(e) })
+          }
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {manners.map((e, i) => (
+              <SelectItem className="text-xs" value={`${i}`} key={i}>
+                {e}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <div className="text-sm">
+          {ruleForm.manner === 1 && (
+            <>
+              <div>
+                한방단어를 한 번만 제거합니다.
+                <span className="text-muted-foreground">
+                  {` `}(끄투의 매너 규칙과 동일)
+                </span>
+              </div>
+            </>
+          )}
+
+          {ruleForm.manner === 2 && (
+            <>
+              <div>
+                한방단어를 제거함으로써 생기는 한방단어를 모두 제거합니다.
+                <span className="text-muted-foreground">
+                  {` `}(노룰,천도룰에 적용)
+                </span>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
     </SettnigMenu>
   );
 }

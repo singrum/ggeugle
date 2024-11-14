@@ -43,7 +43,7 @@ export const poses = [
 
 export const cates = ["일반어", "방언", "북한어", "옛말"];
 
-export const manners = ["없음", "1회만 제거", "연속적으로 제거"];
+export const manners = ["없음", "한 번만 제거", "모두 제거"];
 
 export const strengths = [
   { name: "쉬움", color: "text-blue-500 dark:text-blue-400" },
