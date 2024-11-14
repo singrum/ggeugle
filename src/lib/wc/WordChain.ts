@@ -16,7 +16,7 @@ export type WCRule = {
   changeableIdx: number;
   headIdx: number;
   tailIdx: number;
-  manner: boolean;
+  manner: number;
 };
 
 export type Char = string;

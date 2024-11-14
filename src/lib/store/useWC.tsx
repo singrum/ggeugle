@@ -43,6 +43,8 @@ export const poses = [
 
 export const cates = ["일반어", "방언", "북한어", "옛말"];
 
+export const manners = ["없음", "1회만 제거", "연속적으로 제거"];
+
 export const strengths = [
   { name: "쉬움", color: "text-blue-500 dark:text-blue-400" },
   { name: "보통", color: "text-yellow-600 dark:text-yellow-400" },
@@ -60,9 +62,10 @@ export interface RuleForm {
   tailDir: number;
   headIdx: number;
   tailIdx: number;
-  manner: boolean;
+  manner: number; // 0 : 없음, 1 : 제거, 2 : 연속적으로 제거
   regexFilter: string;
-  addedWords: string;
+  addedWords1: string;
+  addedWords2: string;
 }
 
 export type Chat = {
