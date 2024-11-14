@@ -116,7 +116,7 @@ export async function getEngine(ruleForm: RuleForm) {
     new Set(
       words
         .filter((x) => re.test(x) && x.length > 1)
-        .concat(ruleForm.addedWords.split(/\s+/).filter((e) => e.length > 0))
+        .concat(ruleForm.addedWords1.split(/\s+/).filter((e) => e.length > 1))
     )
   );
 
@@ -129,7 +129,8 @@ export async function getEngine(ruleForm: RuleForm) {
   }
 
   wce.update();
-  if (r.manner) {
+
+  if (r.manner === 1) {
     const mannerWords = wce.words.filter((e) => {
       const temp = wce.chanGraph.nodes[e.at(wce.rule.tailIdx)!];
 
@@ -137,6 +138,34 @@ export async function getEngine(ruleForm: RuleForm) {
     });
     wce = new WCEngine(r);
     wce.words = mannerWords;
+    wce.update();
+  }
+
+  if (r.manner === 2) {
+    while (1) {
+      const mannerWords = wce.words.filter((e) => {
+        const temp = wce.chanGraph.nodes[e.at(wce.rule.tailIdx)!];
+
+        return !(temp.endNum === 0 && temp.type === "los");
+      });
+
+      if (mannerWords.length === wce.words.length) {
+        break;
+      }
+      wce = new WCEngine(r);
+      wce.words = mannerWords;
+      wce.update();
+    }
+  }
+
+  const addedWords2 = ruleForm.addedWords2
+    .split(/\s+/)
+    .filter((x) => x.length > 1);
+  console.log(addedWords2);
+  if (addedWords2.length > 0) {
+    const temp = Array.from(new Set(wce.words.concat(addedWords2)));
+    wce = new WCEngine(r);
+    wce.words = temp;
     wce.update();
   }
 

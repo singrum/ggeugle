@@ -26,7 +26,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useMenu } from "@/lib/store/useMenu";
-import { cates, dicts, poses, useWC } from "@/lib/store/useWC";
+import { cates, dicts, manners, poses, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { sampleRules } from "@/lib/wc/rules";
 import { isEqual } from "lodash";
@@ -48,7 +48,15 @@ const ruleGroup: { name: string; children: ReactNode[] }[] = [
     name: "연결 규칙",
     children: [<ChanSetting />, <HeadIdxSetting />, <TailIdxSetting />],
   },
-  { name: "후처리", children: [<AddedWordsSetting />, <MannerSetting />] },
+  {
+    name: "후처리",
+    children: [
+      <AddedWords1Setting />,
+
+      <MannerSetting />,
+      <AddedWords2Setting />,
+    ],
+  },
 ];
 
 export function RuleSetting() {
@@ -491,57 +499,71 @@ function MannerSetting() {
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
     <SettnigMenu name="한방단어 제거">
-      <div className="flex items-center space-x-2 px-1">
-        <Checkbox
-          id="manner"
-          checked={ruleForm.manner}
-          onCheckedChange={(e: boolean) => {
-            setRuleForm({ ...ruleForm, manner: e });
-          }}
-        />
-        <Label htmlFor="manner">적용</Label>
-      </div>
+      <Select
+        value={ruleForm.manner.toString()}
+        onValueChange={(e) => setRuleForm({ ...ruleForm, manner: parseInt(e) })}
+      >
+        <SelectTrigger className="w-[180px]">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {manners.map((e, i) => (
+            <SelectItem className="text-xs" value={`${i}`} key={i}>
+              {e}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </SettnigMenu>
   );
 }
 
-function AddedWordsSetting() {
+function AddedWords1Setting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettnigMenu name="단어 추가">
+    <SettnigMenu
+      name="단어 추가 (1차)"
+      description="이 단어들은 한방단어 제거 옵션에 의해 제거될 수 있습니다."
+    >
       <div className="flex flex-col gap-2">
         <Label htmlFor="picture">
           직접 입력{` `}
           <span className="text-muted-foreground">(띄어쓰기로 구분)</span>
         </Label>
         <Input
-          value={ruleForm.addedWords}
+          value={ruleForm.addedWords1}
           onChange={(e) =>
-            setRuleForm({ ...ruleForm, addedWords: e.target.value })
+            setRuleForm({ ...ruleForm, addedWords1: e.target.value })
           }
-        />
-      </div>
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="picture">
-          파일로 입력 {` `}
-          <span className="text-muted-foreground">
-            (띄어쓰기 및 공백으로 구분)
-          </span>
-        </Label>
-        <Input
-          id="picture"
-          type="file"
-          disabled
-          onChange={(e) => {
-            console.log(e);
-          }}
         />
       </div>
     </SettnigMenu>
   );
 }
-
+function AddedWords2Setting() {
+  const ruleForm = useWC((e) => e.ruleForm);
+  const setRuleForm = useWC((e) => e.setRuleForm);
+  return (
+    <SettnigMenu
+      name="단어 추가 (2차)"
+      description="이 단어들은 한방단어 제거 옵션에 의해 제거되지 않습니다."
+    >
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="picture">
+          직접 입력{` `}
+          <span className="text-muted-foreground">(띄어쓰기로 구분)</span>
+        </Label>
+        <Input
+          value={ruleForm.addedWords2}
+          onChange={(e) =>
+            setRuleForm({ ...ruleForm, addedWords2: e.target.value })
+          }
+        />
+      </div>
+    </SettnigMenu>
+  );
+}
 const RegexExamples = [
   {
     title: "모든 단어",
@@ -754,14 +776,15 @@ function KkutuRuleSelectBtn() {
                 headIdx: 1,
                 tailDir: gameType === 2 ? 0 : 1,
                 tailIdx: 1,
-                manner: manner,
+                manner: !manner ? 0 : 1,
                 regexFilter:
                   gameType === 1
                     ? "(.{3})"
                     : gameType === 0 && manner && !injeong
                     ? "(?!(껏구리)$).*"
                     : ".*",
-                addedWords: "",
+                addedWords1: "",
+                addedWords2: "",
                 removeHeadTailDuplication: false,
               });
               updateRule();
