@@ -533,9 +533,9 @@ function MannerSetting() {
           {ruleForm.manner === 2 && (
             <>
               <div>
-                한방단어를 제거함으로써 생기는 한방단어를 모두 제거합니다.
+                한방단어를 제거함으로써 생기는 한방단어까지 모두 제거합니다.
                 <span className="text-muted-foreground">
-                  {` `}(노룰,천도룰에 적용)
+                  {` `}(노룰, 천도룰에 적용)
                 </span>
               </div>
             </>
