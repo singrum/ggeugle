@@ -161,7 +161,7 @@ export async function getEngine(ruleForm: RuleForm) {
   const addedWords2 = ruleForm.addedWords2
     .split(/\s+/)
     .filter((x) => x.length > 1);
-  console.log(addedWords2);
+
   if (addedWords2.length > 0) {
     const temp = Array.from(new Set(wce.words.concat(addedWords2)));
     wce = new WCEngine(r);
