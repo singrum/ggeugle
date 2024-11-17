@@ -876,6 +876,7 @@ export class WCDisplay {
     const info = this.endInN(engine);
     return info.win
       .map(({ endNum, chars }) => `[${endNum}턴 후 승리]\n${chars.join(" ")}`)
+      .join("\n\n")
       .concat("\n\n")
       .concat(
         info.los

@@ -57,15 +57,21 @@ export default function Header({ className }: { className?: string }) {
         >
           <Logo />
         </div>
-        <div className="flex items-center">
-          <Button size="icon" variant={"ghost"}>
-            <FaDiscord className="h-5 w-5 md:h-4 md:w-4" strokeWidth={1.5} />
+        <div className="flex items-center pr-1">
+          <Button
+            size="icon"
+            variant={"ghost"}
+            onClick={() => {
+              open("https://discord.gg/bkHgyajx89");
+            }}
+          >
+            <FaDiscord className="h-5 w-5 md:h-4 md:w-4" />
           </Button>
 
           <Sheet>
             <SheetTrigger asChild>
               <Button size={"icon"} variant={"ghost"}>
-                <Menu className="w-5 h-5" strokeWidth={1.5} />
+                <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
             <SheetContent className="pt-10">
