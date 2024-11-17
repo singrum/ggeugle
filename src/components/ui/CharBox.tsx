@@ -53,7 +53,7 @@ export function CharButton({
 }: {
   children: string;
   className?: string;
-  type: string
+  type: string;
 }) {
   const setValue = useWC((e) => e.setValue);
   const setSearchInputValue = useWC((e) => e.setSearchInputValue);
@@ -62,7 +62,7 @@ export function CharButton({
   return (
     <div
       className={cn(
-        `relative rounded-full h-9 w-9 flex items-center justify-center transition-all duration-75 cursor-pointer prevent-select hover:scale-150 text-${type}`,
+        `relative h-9 w-9 flex items-center justify-center transition-all duration-75 cursor-pointer prevent-select hover:scale-150 text-${type}`,
         className
       )}
       onClick={() => {

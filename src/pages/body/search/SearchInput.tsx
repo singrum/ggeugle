@@ -6,13 +6,13 @@ import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import {
+  ArrowUp,
   Check,
-  CirclePlus,
   Clipboard,
   LoaderCircle,
+  Plus,
+  RotateCcw,
   Search,
-  Trash2,
-  X,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
@@ -41,10 +41,7 @@ function SearchTitle() {
         <span className="font-semibold text-xl">검색</span>
         <div className="text-sm text-muted-foreground">
           단어를 입력하고 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나{" "}
-          <CirclePlus
-            className="inline w-3.5 h-3.5 mb-0.5"
-            strokeWidth={1.75}
-          />{" "}
+          <ArrowUp className="inline w-3.5 h-3.5 mb-0.5" strokeWidth={1.75} />{" "}
           버튼을 클릭하여 단어를 제거할 수 있습니다.
         </div>
       </div>
@@ -105,7 +102,7 @@ function ExceptWordsDisplay() {
               },
               {
                 name: "초기화",
-                icon: <Trash2 className="w-4 h-4" />,
+                icon: <RotateCcw className="w-4 h-4" />,
                 onClick: () => {
                   exceptWords.length > 0 && engine && setExceptWords([]);
                 },
@@ -162,18 +159,18 @@ function ExceptWordsDisplay() {
                     setSearchInputValue(head);
                   }}
                 >
-                  <div className="py-0.5 pl-3 pr-1.5 text-muted-foreground select-none hover:text-foreground">
+                  <div className="py-0.5 pl-3 pr-1 text-muted-foreground select-none hover:text-foreground">
                     {e}
                   </div>
                   <div
-                    className="flex items-center justify-center rounded-full cursor-pointer py-1 pr-1.5 text-muted-foreground hover:text-foreground"
+                    className="flex items-center justify-center rounded-full cursor-pointer py-1 pr-1 text-muted-foreground hover:text-foreground"
                     onClick={(evt) => {
                       evt.stopPropagation();
                       setExceptWords([...exceptWords.filter((ex) => ex !== e)]);
                     }}
                   >
-                    <div className="flex items-center justify-center rounded-full h-5 w-5">
-                      <X className="h-4 w-4" />
+                    <div className="flex items-center justify-center rounded-full h-5 w-5 hover:bg-muted-foreground/10">
+                      <Plus className="h-4 w-4" />
                     </div>
                   </div>
                 </div>
@@ -297,7 +294,7 @@ function WordInput() {
               onExceptTriggered();
             }}
           >
-            <CirclePlus className="w-[1.5rem] h-[1.5rem]" strokeWidth={1.5} />
+            <ArrowUp className="w-[1.5rem] h-[1.5rem]" strokeWidth={1.5} />
           </div>
         </div>
       </div>

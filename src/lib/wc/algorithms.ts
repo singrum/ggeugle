@@ -7,15 +7,13 @@ export function pruningWinLos(
   chanGraph: MultiDiGraph,
   wordGraph: MultiDiGraph
 ) {
-  let endNum = 0;
-
   const wordLos = Object.keys(wordGraph.nodes).filter(
     (e) => wordGraph.successors(e).length === 0
   );
 
   wordLos.forEach((e) => {
     wordGraph.nodes[e].type = "los";
-    wordGraph.nodes[e].endNum = endNum;
+    wordGraph.nodes[e].endNum = 0;
   });
 
   chanGraph.removeInEdge(wordLos);
@@ -26,46 +24,46 @@ export function pruningWinLos(
 
   chanLos.forEach((e) => {
     chanGraph.nodes[e].type = "los";
-    chanGraph.nodes[e].endNum = endNum;
+    chanGraph.nodes[e].endNum = 0;
   });
 
   while (true) {
-    const wordWinSet: Set<string> = new Set();
+    const wordWin: Char[] = [];
     for (const cl of chanLos) {
       const preds = wordGraph.predecessors(cl);
       preds.forEach((e) => {
-        wordWinSet.add(e);
+        wordWin.push(e);
         wordGraph.nodes[e].solution = cl;
-
         wordGraph.nodes[e].type = "win";
-        wordGraph.nodes[e].endNum = endNum;
+        wordGraph.nodes[e].endNum = (chanGraph.nodes[cl].endNum as number) + 1;
+        wordGraph.removeOutEdge(e);
       });
     }
-    const wordWin = [...wordWinSet];
-    if (wordWin.length === 0) break;
-    wordGraph.removeOutEdge(wordWin);
 
-    const chanWinSet: Set<string> = new Set();
+    if (wordWin.length === 0) break;
+
+    const chanWin: Char[] = [];
 
     for (const ww of wordWin) {
       const preds = chanGraph.predecessors(ww);
       preds.forEach((e) => {
-        chanWinSet.add(e);
+        chanWin.push(e);
         chanGraph.nodes[e].solution = ww;
         chanGraph.nodes[e].type = "win";
-        chanGraph.nodes[e].endNum = endNum;
+        chanGraph.nodes[e].endNum = wordGraph.nodes[ww].endNum;
+        chanGraph.removeOutEdge(e);
       });
     }
-    const chanWin = [...chanWinSet];
 
     if (chanWin.length === 0) break;
     chanGraph.removeOutEdge(chanWin);
 
-    endNum++;
-
+    wordGraph.forEachPreds(chanWin, (node, pred) => {
+      wordGraph.nodes[pred].endNum =
+        (chanGraph.nodes[node].endNum as number) + 1;
+    });
     const wordLosCandidates = wordGraph.predecessors(chanWin);
     wordGraph.removeInEdge(chanWin);
-
     const wordLos = wordLosCandidates.filter(
       (e) => wordGraph.successors(e).length === 0
     );
@@ -73,10 +71,11 @@ export function pruningWinLos(
 
     wordLos.forEach((e) => {
       wordGraph.nodes[e].type = "los";
-      wordGraph.nodes[e].endNum = endNum;
     });
-
     const chanLosCandidates = chanGraph.predecessors(wordLos);
+    chanGraph.forEachPreds(wordLos, (node, pred) => {
+      chanGraph.nodes[pred].endNum = wordGraph.nodes[node].endNum;
+    });
     chanGraph.removeInEdge(wordLos);
     chanLos = chanLosCandidates.filter(
       (e) => chanGraph.successors(e).length === 0
@@ -85,7 +84,6 @@ export function pruningWinLos(
     if (chanLos.length === 0) break;
     chanLos.forEach((e) => {
       chanGraph.nodes[e].type = "los";
-      chanGraph.nodes[e].endNum = endNum;
     });
   }
   return;
@@ -195,9 +193,18 @@ export function pruningWinLosCir(
 
   wordWin.forEach((char) => {
     wordGraph.nodes[char].solution = wordGraph.nodes[char].loop;
+    wordGraph.nodes[char].endNum =
+      wordGraph.nodes[char].endNum === undefined
+        ? 1
+        : (wordGraph.nodes[char].endNum as number) + 1;
     wordGraph.nodes[char].type = "wincir";
   });
+
   wordLos.forEach((char) => {
+    wordGraph.nodes[char].endNum =
+      wordGraph.nodes[char].endNum === undefined
+        ? 0
+        : wordGraph.nodes[char].endNum;
     wordGraph.nodes[char].type = "loscir";
   });
 
@@ -205,33 +212,46 @@ export function pruningWinLosCir(
 
   chanGraph.forEachPreds(wordWin, (node, pred) => {
     chanWin.push(pred);
+    chanGraph.nodes[pred].endNum = wordGraph.nodes[node].endNum;
     chanGraph.nodes[pred].type = "wincir";
     chanGraph.nodes[pred].solution = node;
   });
 
   chanGraph.removeOutEdge(chanWin);
 
+  chanGraph.forEachPreds(wordLos, (node, pred) => {
+    chanGraph.nodes[pred].endNum = wordGraph.nodes[node].endNum as number;
+  });
   chanGraph.removeInEdge(wordLos);
+
   let chanLos = Object.keys(chanGraph.nodes).filter(
     (e) => !chanGraph.nodes[e].type && chanGraph.successors(e).length === 0
   );
 
   chanLos.forEach((char) => {
     chanGraph.nodes[char].type = "loscir";
+    if (chanGraph.nodes[char].endNum === undefined)
+      chanGraph.nodes[char].endNum = 0;
   });
 
   while (chanLos.length > 0 || chanWin.length > 0) {
     let preds = wordGraph.predecessors(chanWin);
+    wordGraph.forEachPreds(chanWin, (node, pred) => {
+      wordGraph.nodes[pred].endNum =
+        (chanGraph.nodes[node].endNum as number) + 1;
+    });
     wordGraph.removeInEdge(chanWin);
 
     wordSinks = preds.filter((e) => wordGraph.successors(e).length === 0);
     wordLos = wordSinks.filter((e) => !wordGraph.nodes[e].loop);
+
     wordLos.forEach((char) => {
       wordGraph.nodes[char].type = "loscir";
     });
 
     const wordWinLoop = wordSinks.filter((e) => wordGraph.nodes[e].loop);
     wordWinLoop.forEach((e) => {
+      wordGraph.nodes[e].endNum = (wordGraph.nodes[e].endNum as number) + 1;
       wordGraph.nodes[e].type = "wincir";
       wordGraph.nodes[e].solution = wordGraph.nodes[e].loop;
     });
@@ -239,6 +259,8 @@ export function pruningWinLosCir(
     for (let char of chanLos) {
       const preds = wordGraph.predecessors(char);
       preds.forEach((pred) => {
+        wordGraph.nodes[pred].endNum =
+          (chanGraph.nodes[char].endNum as number) + 1;
         wordGraph.nodes[pred].type = "wincir";
         wordGraph.nodes[pred].solution = char;
       });
@@ -250,6 +272,7 @@ export function pruningWinLosCir(
     chanWin = [];
     chanGraph.forEachPreds(wordWin, (node, pred) => {
       chanWin.push(pred);
+      chanGraph.nodes[pred].endNum = wordGraph.nodes[node].endNum;
       chanGraph.nodes[pred].type = "wincir";
       chanGraph.nodes[pred].solution = node;
     });
@@ -257,6 +280,9 @@ export function pruningWinLosCir(
     chanGraph.removeOutEdge(chanWin);
 
     preds = chanGraph.predecessors(wordLos);
+    chanGraph.forEachPreds(wordLos, (node, pred) => {
+      chanGraph.nodes[pred].endNum = wordGraph.nodes[node].endNum;
+    });
     chanGraph.removeInEdge(wordLos);
     chanLos = preds.filter((e) => chanGraph.successors(e).length === 0);
 

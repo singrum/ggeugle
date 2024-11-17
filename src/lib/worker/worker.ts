@@ -409,7 +409,7 @@ const getComputerMove = ({
                 } else {
                   b_key = b.moveNum;
                 }
-                return a_key! - b_key!
+                return a_key! - b_key!;
               })
               .map((e) => e.word)
               .map(([head, tail]) => engine!.wordMap.select(head, tail)[0])
