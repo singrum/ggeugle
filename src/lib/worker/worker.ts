@@ -399,12 +399,13 @@ const getComputerMove = ({
             getNextWords(engine!.chanGraph, engine!.wordGraph, currChar, true)
               .sort((a, b) => {
                 let a_key, b_key;
+                
                 if (isGuel && precedenceMap[a.word[0]]?.[a.word[1]]) {
                   a_key = -precedenceMap[a.word[0]][a.word[1]];
                 } else {
                   a_key = a.moveNum;
                 }
-                if (isGuel && precedenceMap[a.word[0]]?.[a.word[1]]) {
+                if (isGuel && precedenceMap[b.word[0]]?.[b.word[1]]) {
                   b_key = -precedenceMap[b.word[0]][b.word[1]];
                 } else {
                   b_key = b.moveNum;
