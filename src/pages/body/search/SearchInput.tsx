@@ -170,7 +170,7 @@ function ExceptWordsDisplay() {
                     }}
                   >
                     <div className="flex items-center justify-center rounded-full h-5 w-5 hover:bg-muted-foreground/10">
-                      <Plus className="h-4 w-4" />
+                      <Plus className="w-3.5 h-3.5" strokeWidth="3" />
                     </div>
                   </div>
                 </div>
