@@ -29,11 +29,17 @@ function App() {
   const menu = useMenu((e) => e.menu);
   const updateRule = useWC((e) => e.updateRule);
   const [showAlert, setShowAlert] = useState(false);
+  const [setValue, setSearchInputValue] = useWC((e) => [
+    e.setValue,
+    e.setSearchInputValue,
+  ]);
 
   useEffect(() => {
-    window.onbeforeunload = function () {
-      return "Your work will be lost.";
-    };
+    window.addEventListener("popstate", function (event) {
+      setValue(event.state || "");
+      setSearchInputValue(event.state || "", true);
+    });
+
     updateRule();
   }, []);
 
