@@ -28,7 +28,7 @@ function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const menu = useMenu((e) => e.menu);
   const updateRule = useWC((e) => e.updateRule);
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   useEffect(() => {
     updateRule();
   }, []);
@@ -73,15 +73,12 @@ function App() {
             <div className="flex flex-col h-full items-center lg:items-start justify-between border-border border-r prevent-select p-2 lg:p-2 overflow-auto scrollbar-none min-h-0">
               <div className="flex flex-col items-center lg:items-start md:gap-2">
                 <div
-                  className="md:p-1 lg:px-4 lg:pt-3"
+                  className="md:p-1 lg:px-3 lg:pt-3"
                   onClick={() => {
                     location.reload();
                   }}
                 >
                   <Logo />
-                  <div className="hidden lg:block text-muted-foreground mb-1 text-xs">
-                    끝말잇기 검색엔진
-                  </div>
                 </div>
 
                 <NavBar />

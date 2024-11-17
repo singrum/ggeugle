@@ -307,21 +307,6 @@ function EndInN() {
                   <Separator className="my-2" />
                 </React.Fragment>
               ))}
-              {wcd.wincir.length > 0 && (
-                <>
-                  <CharBox>
-                    <CharBadge>{`조건부 승리`}</CharBadge>
-                    <CharContent>
-                      {wcd.wincir.map((char) => (
-                        <CharButton type="win" key={char}>
-                          {char}
-                        </CharButton>
-                      ))}
-                    </CharContent>
-                  </CharBox>
-                  <Separator className="my-2" />
-                </>
-              )}
             </div>
           )}
           {charMenu === 1 && (
@@ -341,21 +326,6 @@ function EndInN() {
                   <Separator className="my-2" />
                 </React.Fragment>
               ))}
-              {wcd.loscir.length > 0 && (
-                <>
-                  <CharBox>
-                    <CharBadge>{`조건부 패배`}</CharBadge>
-                    <CharContent>
-                      {wcd.loscir.map((char) => (
-                        <CharButton type="los" key={char}>
-                          {char}
-                        </CharButton>
-                      ))}
-                    </CharContent>
-                  </CharBox>
-                  <Separator className="my-2" />
-                </>
-              )}
             </div>
           )}
           {charMenu === 2 && (

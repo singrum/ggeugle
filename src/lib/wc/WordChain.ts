@@ -133,8 +133,6 @@ export type CharSearchResult = {
   startsWith: {
     win: { endNum: number; words: Word[] }[];
     los: { endNum: number; words: Word[] }[];
-    wincir: Word[];
-    loscir: Word[];
     route: Word[];
     return: Word[];
   };
@@ -198,10 +196,9 @@ export class WCDisplay {
   }
   static winCharTypeChartData(engine: WCEngine) {
     const winChars = Object.keys(engine.chanGraph.nodes).filter(
-      (e) => engine.chanGraph.nodes[e].type === "win"
-    );
-    const wincirChars = Object.keys(engine.chanGraph.nodes).filter(
-      (e) => engine.chanGraph.nodes[e].type === "wincir"
+      (e) =>
+        engine.chanGraph.nodes[e].type === "win" ||
+        engine.chanGraph.nodes[e].type === "wincir"
     );
 
     const win: Record<string, string[]> = {};
@@ -215,31 +212,23 @@ export class WCDisplay {
         endNum: `${endNum}`,
         num: win[endNum].length,
         fill: `hsl(var(--win) / ${
-          (0.5 / Object.keys(win).length) * (Object.keys(win).length - endNum) +
+          (0.5 / Object.keys(win).length) *
+            (Object.keys(win).length - Math.floor(endNum / 2)) +
           0.5
         })`,
       }));
-    data.push({
-      endNum: "-1",
-      num: wincirChars.length,
-      fill: `hsl(var(--win) / ${0.5})`,
-    });
+
     const config: Record<string, { label: string }> = {};
-    data.forEach((e, i) => {
-      if (i !== data.length - 1) {
-        config[e.endNum] = { label: `${e.endNum}턴` };
-      } else {
-        config["-1"] = { label: `조건부` };
-      }
+    data.forEach((e) => {
+      config[e.endNum] = { label: `${e.endNum}턴` };
     });
     return { data, config };
   }
   static losCharTypeChartData(engine: WCEngine) {
     const losChars = Object.keys(engine.chanGraph.nodes).filter(
-      (e) => engine.chanGraph.nodes[e].type === "los"
-    );
-    const loscirChars = Object.keys(engine.chanGraph.nodes).filter(
-      (e) => engine.chanGraph.nodes[e].type === "loscir"
+      (e) =>
+        engine.chanGraph.nodes[e].type === "los" ||
+        engine.chanGraph.nodes[e].type === "loscir"
     );
 
     const los: Record<string, string[]> = {};
@@ -253,22 +242,14 @@ export class WCDisplay {
         endNum: `${endNum}`,
         num: los[endNum].length,
         fill: `hsl(var(--los) / ${
-          (0.5 / Object.keys(los).length) * (Object.keys(los).length - endNum) +
+          (0.5 / Object.keys(los).length) *
+            (Object.keys(los).length - Math.floor(endNum / 2)) +
           0.5
         })`,
       }));
-    data.push({
-      endNum: "-1",
-      num: loscirChars.length,
-      fill: `hsl(var(--los) / ${0.5})`,
-    });
     const config: Record<string, { label: string }> = {};
-    data.forEach((e, i) => {
-      if (i !== data.length - 1) {
-        config[e.endNum] = { label: `${e.endNum}턴` };
-      } else {
-        config["-1"] = { label: `조건부` };
-      }
+    data.forEach((e) => {
+      config[e.endNum] = { label: `${e.endNum}턴` };
     });
     return { data, config };
   }
@@ -334,14 +315,11 @@ export class WCDisplay {
     const result: {
       win: { endNum: number; chars: Char[] }[];
       los: { endNum: number; chars: Char[] }[];
-      wincir: Char[];
-      loscir: Char[];
+
       route: { maxComp: Char[]; minComp: Char[] };
     } = {
       win: [],
       los: [],
-      wincir: [],
-      loscir: [],
       route: { maxComp: [], minComp: [] },
     };
     const win: Record<string, Char[]> = {};
@@ -352,16 +330,12 @@ export class WCDisplay {
     for (let char of chars) {
       switch (engine.chanGraph.nodes[char].type) {
         case "win":
+        case "wincir":
           pushObject(win, engine.chanGraph.nodes[char].endNum as number, char);
           break;
         case "los":
-          pushObject(los, engine.chanGraph.nodes[char].endNum as number, char);
-          break;
-        case "wincir":
-          result.wincir.push(char);
-          break;
         case "loscir":
-          result.loscir.push(char);
+          pushObject(los, engine.chanGraph.nodes[char].endNum as number, char);
           break;
       }
     }
@@ -459,35 +433,52 @@ export class WCDisplay {
       if (engine.chanGraph.nodes[tail].type === "win") {
         return {
           type: "los",
-          endNum: engine.chanGraph.nodes[tail].endNum as number,
+          endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
         };
       } else if (engine.chanGraph.nodes[tail].type === "los") {
         return {
           type: "win",
-          endNum: engine.chanGraph.nodes[tail].endNum as number,
+          endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
         };
       } else if (engine.chanGraph.nodes[tail].type === "wincir") {
-        return { type: "loscir" };
+        return {
+          type: "loscir",
+          endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
+        };
       } else if (engine.chanGraph.nodes[tail].type === "loscir") {
-        return { type: "wincir" };
+        return {
+          type: "wincir",
+          endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
+        };
       } else {
         return { type: "route" };
       }
     } else if (engine.wordGraph.nodes[head].type === "los") {
       return {
         type: "los",
-        endNum: engine.chanGraph.nodes[tail].endNum as number,
+        endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
       };
     } else if (engine.wordGraph.nodes[head].type === "wincir") {
       if (engine.chanGraph.nodes[tail].type === "win") {
         return {
           type: "los",
-          endNum: engine.chanGraph.nodes[tail].endNum as number,
+          endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
         };
-      } else if (engine.wordGraph.nodes[head].solution === tail) {
-        return { type: "wincir" };
+      } else if (engine.chanGraph.nodes[tail].type === "loscir") {
+        return {
+          type: "wincir",
+          endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
+        };
+      } else if (engine.wordGraph.nodes[head].solution == tail) {
+        return {
+          type: "wincir",
+          endNum: engine.chanGraph.nodes[head].endNum as number,
+        };
       } else if (engine.chanGraph.nodes[tail].type === "wincir") {
-        return { type: "loscir" };
+        return {
+          type: "loscir",
+          endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
+        };
       } else {
         return { type: "route" };
       }
@@ -495,19 +486,25 @@ export class WCDisplay {
       if (engine.chanGraph.nodes[tail].type === "win") {
         return {
           type: "los",
-          endNum: engine.chanGraph.nodes[tail].endNum as number,
+          endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
         };
       } else {
-        return { type: "loscir" };
+        return {
+          type: "loscir",
+          endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
+        };
       }
     } else {
       if (engine.chanGraph.nodes[tail].type === "win") {
         return {
           type: "los",
-          endNum: engine.chanGraph.nodes[tail].endNum as number,
+          endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
         };
       } else if (engine.chanGraph.nodes[tail].type === "wincir") {
-        return { type: "loscir" };
+        return {
+          type: "loscir",
+          endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
+        };
       } else {
         return { type: "route" };
       }
@@ -545,8 +542,6 @@ export class WCDisplay {
         startsWith: {
           win: [],
           los: [],
-          wincir: [],
-          loscir: [],
           route: [],
           return: [],
         },
@@ -571,9 +566,11 @@ export class WCDisplay {
         const { type, endNum } = WCDisplay.getWordType(engine, word);
         switch (type) {
           case "win":
+          case "wincir":
             pushObject(startWin, endNum!, word);
             break;
           case "los":
+          case "loscir":
             pushObject(startLos, endNum!, word);
             break;
           default:
@@ -804,9 +801,6 @@ export class WCDisplay {
         for (const { endNum, words } of result.win) {
           charInfo = charInfo.concat(`${endNum}턴 : ${words.join(", ")}\n`);
         }
-        if (result.wincir.length > 0) {
-          charInfo = charInfo.concat(`조건부 : ${result.wincir.join(", ")}\n`);
-        }
 
         return charInfo;
       })
@@ -850,9 +844,6 @@ export class WCDisplay {
         if (result.return.length > 0) {
           charInfo = charInfo.concat(`되돌림 : ${result.return.join(", ")}\n`);
         }
-        if (result.loscir.length > 0) {
-          charInfo = charInfo.concat(`조건부 : ${result.loscir.join(", ")}\n`);
-        }
         for (const { endNum, words } of result.los) {
           charInfo = charInfo.concat(`${endNum}턴 : ${words.join(", ")}\n`);
         }
@@ -885,13 +876,6 @@ export class WCDisplay {
     const info = this.endInN(engine);
     return info.win
       .map(({ endNum, chars }) => `[${endNum}턴 후 승리]\n${chars.join(" ")}`)
-      .join("\n\n")
-
-      .concat(
-        info.wincir.length > 0
-          ? "\n\n".concat("[조건부 승리]\n").concat(info.wincir.join(" "))
-          : ""
-      )
       .concat("\n\n")
       .concat(
         info.los
@@ -899,11 +883,6 @@ export class WCDisplay {
             ({ endNum, chars }) => `[${endNum}턴 후 패배]\n${chars.join(" ")}`
           )
           .join("\n\n")
-      )
-      .concat(
-        info.loscir.length > 0
-          ? "\n\n".concat("[조건부 패배]\n").concat(info.loscir.join(" "))
-          : ""
       )
       .concat(
         info.route.maxComp.length > 0

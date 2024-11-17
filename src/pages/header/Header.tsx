@@ -9,12 +9,14 @@ import {
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 
+import { Button } from "@/components/ui/button";
 import { etcMenu } from "@/EtcNavBar";
 import { Menu, SquareArrowOutUpRight, X } from "lucide-react";
 import { useState } from "react";
+import { FaDiscord } from "react-icons/fa6";
 
 export default function Header({ className }: { className?: string }) {
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
 
   return (
     <div className={cn("flex flex-col min-h-9 z-10", className)}>
@@ -48,43 +50,46 @@ export default function Header({ className }: { className?: string }) {
       )}
       <div className="flex w-full justify-between items-center">
         <div
-          className="flex items-end gap-1 px-4 py-2"
+          className="flex items-end gap-1 px-3 py-2"
           onClick={() => {
             location.reload();
           }}
         >
           <Logo />
-          <div className="text-muted-foreground mb-1 text-xs">
-            끝말잇기 검색엔진
-          </div>
         </div>
-        <Sheet>
-          <SheetTrigger asChild>
-            <div className="flex justify-center items-center cursor-pointer transition-colors p-2 my-1 mx-1 hover:bg-accent rounded-lg">
-              <Menu className="w-6 h-6" strokeWidth={1.5} />
-            </div>
-          </SheetTrigger>
-          <SheetContent className="pt-10">
-            <SheetHeader>
-              <SheetTitle></SheetTitle>
-              <SheetDescription></SheetDescription>
-            </SheetHeader>
-            <div className="flex flex-col gap-4">
-              {etcMenu.map(({ name, icon, onClick_ }) => (
-                <div
-                  key={name}
-                  className="flex gap-4 items-center cursor-pointer hover:text-muted-foreground transition-colors text-xl"
-                  onClick={() => {
-                    onClick_();
-                  }}
-                >
-                  {icon}
-                  <div>{name}</div>
-                </div>
-              ))}
-            </div>
-          </SheetContent>
-        </Sheet>
+        <div className="flex items-center">
+          <Button size="icon" variant={"ghost"}>
+            <FaDiscord className="h-5 w-5 md:h-4 md:w-4" strokeWidth={1.5} />
+          </Button>
+
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button size={"icon"} variant={"ghost"}>
+                <Menu className="w-5 h-5" strokeWidth={1.5} />
+              </Button>
+            </SheetTrigger>
+            <SheetContent className="pt-10">
+              <SheetHeader>
+                <SheetTitle></SheetTitle>
+                <SheetDescription></SheetDescription>
+              </SheetHeader>
+              <div className="flex flex-col gap-4">
+                {etcMenu.map(({ name, icon, onClick_ }) => (
+                  <div
+                    key={name}
+                    className="flex gap-4 items-center cursor-pointer hover:text-muted-foreground transition-colors text-xl"
+                    onClick={() => {
+                      onClick_();
+                    }}
+                  >
+                    {icon}
+                    <div>{name}</div>
+                  </div>
+                ))}
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </div>
   );

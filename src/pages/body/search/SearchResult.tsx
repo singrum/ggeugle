@@ -1132,25 +1132,7 @@ function WordsResult() {
                               <Separator />
                             </React.Fragment>
                           ))}
-                        {(searchResult.result as CharSearchResult).startsWith
-                          .wincir.length > 0 &&
-                          (searchResult.result as CharSearchResult).startsWith
-                            .wincir.length && (
-                            <React.Fragment>
-                              <WordBox>
-                                <WordBadge>{`조건부 승리`}</WordBadge>
-                                <WordContent
-                                  wordInfo={(
-                                    searchResult.result as CharSearchResult
-                                  ).startsWith.wincir.map((word) => ({
-                                    word,
-                                    type: "win",
-                                  }))}
-                                />
-                              </WordBox>
-                              <Separator />
-                            </React.Fragment>
-                          )}
+
                         {(charType !== "win" || isMoreOpen || showAllWords) && (
                           <>
                             {(searchResult.result as CharSearchResult)
@@ -1212,31 +1194,6 @@ function WordsResult() {
                               isMoreOpen ||
                               showAllWords) && (
                               <>
-                                {(searchResult.result as CharSearchResult)
-                                  .startsWith.loscir.length > 0 && (
-                                  <>
-                                    <WordBox>
-                                      <WordBadge>{`조건부 패배`}</WordBadge>
-                                      <WordContent
-                                        wordInfo={
-                                          (
-                                            searchResult.result as CharSearchResult
-                                          ).startsWith.loscir
-                                            ? (
-                                                searchResult.result as CharSearchResult
-                                              ).startsWith.loscir.map(
-                                                (word) => ({
-                                                  word,
-                                                  type: "los",
-                                                })
-                                              )
-                                            : []
-                                        }
-                                      />
-                                    </WordBox>
-                                    <Separator />
-                                  </>
-                                )}
                                 {(searchResult.result as CharSearchResult)
                                   .startsWith.los.length > 0 &&
                                   (
@@ -1310,6 +1267,7 @@ function WordsResult() {
                           .head_los.length > 0 && (
                           <React.Fragment>
                             <WordBox>
+                              <WordBadge>패배 글자로 시작</WordBadge>
                               <WordContent
                                 wordInfo={(
                                   searchResult.result as CharSearchResult
@@ -1330,6 +1288,7 @@ function WordsResult() {
                           .head_route.length > 0 && (
                           <React.Fragment>
                             <WordBox>
+                              <WordBadge>루트 글자로 시작</WordBadge>
                               <WordContent
                                 wordInfo={(
                                   searchResult.result as CharSearchResult
@@ -1350,6 +1309,7 @@ function WordsResult() {
                           .length > 0 && (
                           <>
                             <WordBox>
+                              <WordBadge>승리 글자로 시작</WordBadge>
                               <WordContent
                                 wordInfo={(
                                   searchResult.result as CharSearchResult

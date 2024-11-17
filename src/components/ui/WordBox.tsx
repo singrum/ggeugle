@@ -1,6 +1,6 @@
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { PlusCircle } from "lucide-react";
+import { X } from "lucide-react";
 import React from "react";
 import { Badge } from "./badge";
 
@@ -101,7 +101,7 @@ export function WordButton({
         navigator.clipboard.writeText(children);
       }}
     >
-      <div className={cn("py-1 pl-3 pr-1.5", { "pr-3": notExcept })}>
+      <div className={cn("py-1 pl-3 pr-1", { "pr-3": notExcept })}>
         {children}
       </div>
 
@@ -118,7 +118,9 @@ export function WordButton({
             <div
               className={`rounded-full w-5 h-5 flex items-center justify-center text-${type}`}
             >
-              <PlusCircle className={`w-4 h-4`} />
+              <div className="rounded-full text-muted-foreground hover:bg-muted-foreground/10 hover:text-foreground p-1 transition-colors">
+                <X className={`w-3.5 h-3.5`} strokeWidth={3} />
+              </div>
             </div>
           </div>
         </>
