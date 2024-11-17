@@ -46,7 +46,7 @@ export default function Statistics() {
             {exceptWords.length > 0 ? (
               <Tabs defaultValue="except" className="w-full">
                 <TabsList className="m-3 mb-0 md:m-0">
-                  <TabsTrigger value="except">단어 제거 후</TabsTrigger>
+                  <TabsTrigger value="except">단어 제외 후</TabsTrigger>
                   <TabsTrigger value="original">원본</TabsTrigger>
                 </TabsList>
                 <TabsContent value="except" className="p-0">
