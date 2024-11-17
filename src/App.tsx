@@ -29,7 +29,11 @@ function App() {
   const menu = useMenu((e) => e.menu);
   const updateRule = useWC((e) => e.updateRule);
   const [showAlert, setShowAlert] = useState(false);
+
   useEffect(() => {
+    window.onbeforeunload = function () {
+      return "Your work will be lost.";
+    };
     updateRule();
   }, []);
 

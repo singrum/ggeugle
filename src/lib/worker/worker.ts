@@ -357,6 +357,14 @@ const getComputerMove = ({
                       WCDisplay.getWordType(engine!, word).type === "loscir"
                   );
               }
+              if (nextWords.length == 0) {
+                nextWords = engine!
+                  .getNextWords(currChar)
+                  .filter(
+                    (word) =>
+                      WCDisplay.getWordType(engine!, word).type === "los"
+                  );
+              }
               postWord(nextWords, exceptWords);
             }
 
@@ -399,7 +407,7 @@ const getComputerMove = ({
             getNextWords(engine!.chanGraph, engine!.wordGraph, currChar, true)
               .sort((a, b) => {
                 let a_key, b_key;
-                
+
                 if (isGuel && precedenceMap[a.word[0]]?.[a.word[1]]) {
                   a_key = -precedenceMap[a.word[0]][a.word[1]];
                 } else {
