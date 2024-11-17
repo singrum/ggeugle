@@ -56,7 +56,7 @@ export function EtcNavBar() {
   const [open, setOpen] = useState<boolean>(false);
   return (
     <>
-      <div className="w-auto flex md:flex-col items-center justify-around text-muted-foreground/70 md:text-muted-foreground bg-background border-t border-border md:border-none md:relative z-50">
+      <div className="w-auto flex md:flex-col items-center justify-around text-muted-foreground/70 md:text-foreground bg-background border-t border-border md:border-none md:relative z-50">
         <DropdownMenu open={open} onOpenChange={(e) => setOpen(e)}>
           <DropdownMenuTrigger asChild>
             <MenuBtn
