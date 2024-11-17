@@ -95,7 +95,7 @@ export default function PreferenceSetting() {
           </div>
         </SettnigMenu>
         <Separator />
-        <SettnigMenu name="제거된 단어에 추가하기">
+        <SettnigMenu name="단어 제외 방법">
           <Select
             value={exceptBy}
             onValueChange={(value: "space" | "enter") => setExceptBy(value)}
@@ -104,8 +104,8 @@ export default function PreferenceSetting() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="space">띄어쓰기로 추가</SelectItem>
-              <SelectItem value="enter">엔터로 추가</SelectItem>
+              <SelectItem value="space">띄어쓰기</SelectItem>
+              <SelectItem value="enter">엔터</SelectItem>
             </SelectContent>
           </Select>
         </SettnigMenu>

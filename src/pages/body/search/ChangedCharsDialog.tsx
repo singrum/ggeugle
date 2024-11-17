@@ -39,7 +39,7 @@ export function ChangedCharsDialog({}: {}) {
         <DialogHeader>
           <DialogTitle>글자 유형 비교</DialogTitle>
           <DialogDescription className="">
-            단어를 제거하거나 추가하기 이전과 글자 유형을 비교합니다.
+            단어를 제외하거나 추가하기 이전과 글자 유형을 비교합니다.
           </DialogDescription>
         </DialogHeader>
         <Tabs defaultValue="compPrev" className="w-full">

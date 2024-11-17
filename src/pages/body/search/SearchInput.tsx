@@ -42,7 +42,7 @@ function SearchTitle() {
         <div className="text-sm text-muted-foreground">
           단어를 입력하고 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나{" "}
           <ArrowUp className="inline w-3.5 h-3.5 mb-0.5" strokeWidth={1.75} />{" "}
-          버튼을 클릭하여 단어를 제거할 수 있습니다.
+          버튼을 클릭하여 단어를 제외할 수 있습니다.
         </div>
       </div>
       <div className="mt-2 flex gap-2">
@@ -77,7 +77,7 @@ function ExceptWordsDisplay() {
     <div className="mt-6 min-h-12 w-full rounded-xl border-border border">
       <div className="flex items-center justify-between w-full py-2 px-2 pl-3 rounded-t-xl">
         <div className="flex items-center gap-2 text-sm font-semibold">
-          <div className="flex justify-center">제거된 단어</div>
+          <div className="flex justify-center">제외 단어</div>
         </div>
         <div className="flex items-center gap-1 md:gap-2">
           <div className="flex items-center gap-1 border border-border rounded-md h-8 px-1 bg-background">
@@ -183,7 +183,7 @@ function ExceptWordsDisplay() {
             !(engine && isLoading) && (
               <div className="flex items-center">
                 <div className="text-muted-foreground text-sm">
-                  제거된 단어가 없습니다.
+                  제외 단어가 없습니다.
                 </div>
               </div>
             )
