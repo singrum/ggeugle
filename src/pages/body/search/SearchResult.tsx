@@ -1035,7 +1035,7 @@ function WordsResult() {
       {showShowcase ? (
         <>
           <div className="p-4 pb-0">
-            <Alert className="">
+            <Alert className="rounded-xl">
               <AlertCircle className="h-5 w-5" />
               <AlertTitle className="font-normal">
                 현재 설정된 룰은 <span className="font-semibold">구엜룰</span>
@@ -1058,10 +1058,10 @@ function WordsResult() {
           <div className="m-4 grid grid-cols-1 md:grid-cols-2 gap-4">
             <ShowcaseBtn
               onClick={() => {
-                // if (!engine) return;
                 setSearchInputValue(startMenuInfo.winChar);
                 setValue(startMenuInfo.winChar);
                 setTab(0);
+                
               }}
             >
               <span className="font-semibold">{startMenuInfo.winChar}</span>

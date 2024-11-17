@@ -91,7 +91,7 @@ export interface WCInfo {
   value: string;
   setValue: (value: string) => void;
   searchInputValue: string;
-  setSearchInputValue: (value: string) => void;
+  setSearchInputValue: (value: string, preventPushState?: boolean) => void;
   exceptWords: string[];
   setExceptWords: (exceptWords: string[]) => void;
   searchResult: SearchResult;
@@ -140,7 +140,10 @@ export const useWC = create<WCInfo>((set, get) => ({
   value: "",
   setValue: (value: string) => set(() => ({ value })),
   searchInputValue: "",
-  setSearchInputValue: (searchInputValue: string) => {
+  setSearchInputValue: (
+    searchInputValue: string,
+    preventPushState?: boolean
+  ) => {
     const engine = get().engine;
     set(() => ({
       searchInputValue,
@@ -148,6 +151,9 @@ export const useWC = create<WCInfo>((set, get) => ({
         ? { searchResult: WCDisplay.searchResult(engine, searchInputValue) }
         : {}),
     }));
+    if (!preventPushState) {
+      history.pushState(searchInputValue, "", "");
+    }
   },
   exceptWords: [],
   setExceptWords: (exceptWords: string[]) => {
