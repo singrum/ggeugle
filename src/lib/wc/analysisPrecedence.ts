@@ -6,7 +6,7 @@ export const precedenceMap: Record<Char, Record<Char, number>> = {
   첩: { 첩: 3, 꽂: 2, 섭: 1 },
   륵: { 흔: 2, 삭: 1 },
   늑: { 흔: 2, 삭: 1 },
-  깃: { 촉: 2, 잎: 2 },
+  깃: { 촉: 2, 잎: 1 },
   득: { 촉: 4, 식: 3, 희: 2, 첩: 1 },
   송: { 욱: 1 },
   균: { 균: 4, 축: 3, 권: 2, 습: 1 },
@@ -14,4 +14,3 @@ export const precedenceMap: Record<Char, Record<Char, number>> = {
   흔: { 축: 3, 캄: 2, 척: 1 },
   권: { 칭: 3, 륭: 2, 식: 1 },
 };
-
