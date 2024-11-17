@@ -586,9 +586,11 @@ export class WCDisplay {
       for (let word of endWords) {
         switch (engine.chanGraph.nodes[word.at(engine.rule.headIdx)!].type) {
           case "los":
+          case "loscir":
             result.endsWith.head_los.push(word);
             break;
           case "win":
+          case "wincir":
             result.endsWith.rest.push(word);
             break;
           default:
