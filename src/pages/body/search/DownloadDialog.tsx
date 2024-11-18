@@ -103,9 +103,10 @@ export default function DownloadDialog() {
       <DialogTrigger>
         <Badge
           variant={"secondary"}
-          className="gap-1 cursor-pointer select-none rounded-md"
+          className="gap-1 cursor-pointer select-none py-1"
         >
-          단어 파일 다운로드 <Download className="h-3 w-3" />
+          <Download className="h-4 w-4" />
+          단어 파일 다운로드
         </Badge>
       </DialogTrigger>
       <DialogContent>

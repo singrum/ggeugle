@@ -20,7 +20,13 @@ import {
   WordType,
 } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
-import { AlertCircle, ArrowRight, ChevronDown, CircleHelp } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowLeftRight,
+  ArrowRight,
+  ChevronDown,
+  CircleHelp,
+} from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
 import Analysis from "./Analysis";
 import SolutionTree from "./SolutionTree";
@@ -1120,7 +1126,7 @@ function WordsResult() {
                           ).startsWith.win.map((e, i) => (
                             <React.Fragment key={i}>
                               <WordBox>
-                                <WordBadge>{`${e.endNum}턴 후 승리`}</WordBadge>
+                                <WordBadge>{`${e.endNum} 턴 후 승리`}</WordBadge>
                                 <WordContent
                                   wordInfo={e.words.map((word) => ({
                                     word,
@@ -1169,8 +1175,26 @@ function WordsResult() {
                                       </WordBadge>
                                     </PopoverTrigger>
                                     <PopoverContent className="text-sm">
-                                      되돌림 단어들의 유무는 승패 여부에 영향을
-                                      주지 않습니다.
+                                      <div className="flex flex-col gap-2">
+                                        <div className="">
+                                          A로 시작하고 B로 끝나는 단어와 B로
+                                          시작하고 A로 끝나는 단어가 존재하면,
+                                          두 단어들을{` `}
+                                          <span className="font-semibold">
+                                            되돌림 단어
+                                          </span>
+                                          라고 합니다.
+                                        </div>
+                                        <div className="text-muted-foreground">
+                                          {`예시) 축산업 `}
+                                          <ArrowLeftRight className="inline h-3 w-3" />
+                                          {` 업축`}
+                                        </div>
+                                        <div>
+                                          되돌림 단어들은 모두 제거해도 승패
+                                          여부에 영향을 주지 않습니다.
+                                        </div>
+                                      </div>
                                     </PopoverContent>
                                   </Popover>
                                   <WordContent
@@ -1201,7 +1225,7 @@ function WordsResult() {
                                   ).startsWith.los.map((e, i) => (
                                     <React.Fragment key={i}>
                                       <WordBox>
-                                        <WordBadge>{`${e.endNum}턴 후 패배`}</WordBadge>
+                                        <WordBadge>{`${e.endNum} 턴 후 패배`}</WordBadge>
                                         <WordContent
                                           wordInfo={e.words.map((word) => ({
                                             word,

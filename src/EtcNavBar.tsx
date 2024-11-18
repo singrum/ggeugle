@@ -17,35 +17,35 @@ import { MenuBtn } from "./NavBar";
 export const etcMenu = [
   {
     name: "환경 설정",
-    icon: <Settings className="md:h-4 md:w-4" strokeWidth={1.5} />,
+    icon: <Settings className="h-5 w-5 md:h-4 md:w-4" />,
     onClick_: () => {
       document.getElementById("preference-setting-dialog-trigger")?.click();
     },
   },
   {
     name: "디스코드",
-    icon: <FaDiscord className="h-6 w-6 md:h-4 md:w-4" strokeWidth={1.5} />,
+    icon: <FaDiscord className="h-5 w-5 md:h-4 md:w-4" />,
     onClick_: () => {
       open("https://discord.gg/bkHgyajx89");
     },
   },
   {
     name: "구버전",
-    icon: <SquareArrowOutUpRight className="md:h-4 md:w-4" strokeWidth={1.5} />,
+    icon: <SquareArrowOutUpRight className="h-5 w-5 md:h-4 md:w-4" />,
     onClick_: () => {
       open("https://singrum.github.io/ggeugle-old");
     },
   },
   {
     name: "깃허브",
-    icon: <Github className="md:h-4 md:w-4" strokeWidth={1.5} />,
+    icon: <Github className="h-5 w-5 md:h-4 md:w-4" />,
     onClick_: () => {
       open("https://github.com/singrum/ggeugle");
     },
   },
   {
     name: "DB 출처",
-    icon: <Database className="md:h-4 md:w-4" strokeWidth={1.5} />,
+    icon: <Database className="h-5 w-5 md:h-4 md:w-4" />,
     onClick_: () => {
       document.getElementById("db-dialog-trigger")?.click();
     },

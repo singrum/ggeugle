@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
@@ -25,6 +30,9 @@ export default function SearchInput() {
       <div className="px-2">
         <SearchTitle />
       </div>
+      <div className="mt-4 flex gap-2">
+        <DownloadDialog />
+      </div>
       <ExceptWordsDisplay />
 
       <WordInput />
@@ -44,9 +52,6 @@ function SearchTitle() {
           <ArrowUp className="inline w-3.5 h-3.5 mb-0.5" strokeWidth={1.75} />{" "}
           버튼을 클릭하여 단어를 제외할 수 있습니다.
         </div>
-      </div>
-      <div className="mt-2 flex gap-2">
-        <DownloadDialog />
       </div>
     </>
   );
@@ -76,8 +81,17 @@ function ExceptWordsDisplay() {
   return (
     <div className="mt-6 min-h-12 w-full rounded-xl border-border border">
       <div className="flex items-center justify-between w-full py-2 px-2 pl-3 rounded-t-xl">
-        <div className="flex items-center gap-2 text-sm font-semibold">
-          <div className="flex justify-center">제외 단어</div>
+        <div className="flex items-center gap-2 text-sm">
+          <Popover>
+            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline">
+              제외 단어
+            </PopoverTrigger>
+            <PopoverContent className="text-sm">
+              <span className="font-semibold">지금까지 나온 단어</span>,{" "}
+              <span className="font-semibold">고려하지 않을 단어</span>들을 전체
+              단어 목록에서 제외할 수 있습니다.
+            </PopoverContent>
+          </Popover>
         </div>
         <div className="flex items-center gap-1 md:gap-2">
           <div className="flex items-center gap-1 border border-border rounded-md h-8 px-1 bg-background">
@@ -294,7 +308,7 @@ function WordInput() {
               onExceptTriggered();
             }}
           >
-            <ArrowUp className="w-[1.5rem] h-[1.5rem]" strokeWidth={1.5} />
+            <ArrowUp className="w-[1.5rem] h-[1.5rem]" />
           </div>
         </div>
       </div>

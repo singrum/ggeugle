@@ -85,12 +85,12 @@ function Cards({ engine }: { engine: WCEngine }) {
           },
           {
             title: "승리 글자 세부 유형",
-            desc: "n턴 후 승리로 분류",
+            desc: "n 턴 후 승리로 분류",
             content: <WinCharTypeChart engine={engine} />,
           },
           {
             title: "패배 글자 세부 유형",
-            desc: "n턴 후 패배로 분류",
+            desc: "n 턴 후 패배로 분류",
             content: <LosCharTypeChart engine={engine} />,
           },
           {
@@ -207,7 +207,7 @@ function RouteCharTypeChart({ engine }: { engine: WCEngine }) {
 
 function StatisticsHeader({ engine }: { engine: WCEngine }) {
   return (
-    <div className="flex gap-2 items-center px-6 py-2 md:px-2 md:py-0">
+    <div className="flex gap-2 items-center px-6 pt-4 pb-2 md:px-2 md:py-0">
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
           {engine.words.length.toLocaleString()}
