@@ -1,23 +1,26 @@
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { cn } from "@/lib/utils";
-import Logo from "./Logo";
-
+import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { etcMenu } from "@/EtcNavBar";
-import { Menu, SquareArrowOutUpRight, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Menu, Moon, SquareArrowOutUpRight, Sun, X } from "lucide-react";
 import { useState } from "react";
-import { FaDiscord } from "react-icons/fa6";
+import Logo from "./Logo";
 
 export default function Header({ className }: { className?: string }) {
   const [showAlert, setShowAlert] = useState(false);
-
+  const theme = useTheme();
+  const currTheme =
+    theme.theme === "system"
+      ? window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light"
+      : theme.theme;
   return (
     <div className={cn("flex flex-col min-h-9 z-10", className)}>
       {showAlert && (
@@ -57,44 +60,42 @@ export default function Header({ className }: { className?: string }) {
         >
           <Logo />
         </div>
-        <div className="flex items-center pr-1">
+        <div className="flex items-center pr-2 gap-1">
           <Button
             size="icon"
             variant={"ghost"}
+            className="h-8 w-8"
             onClick={() => {
-              open("https://discord.gg/bkHgyajx89");
+              theme.theme;
+              theme.setTheme(currTheme === "dark" ? "light" : "dark");
             }}
           >
-            <FaDiscord className="h-5 w-5 md:h-4 md:w-4" />
+            {currTheme === "dark" ? (
+              <Moon className="w-5 h-5" />
+            ) : (
+              <Sun className="w-5 h-5" />
+            )}
           </Button>
-
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button size={"icon"} variant={"ghost"}>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size={"icon"} variant={"ghost"} className="w-8 h-8">
                 <Menu className="w-5 h-5" />
               </Button>
-            </SheetTrigger>
-            <SheetContent className="pt-10">
-              <SheetHeader>
-                <SheetTitle></SheetTitle>
-                <SheetDescription></SheetDescription>
-              </SheetHeader>
-              <div className="flex flex-col gap-4">
-                {etcMenu.map(({ name, icon, onClick_ }) => (
-                  <div
-                    key={name}
-                    className="flex gap-4 items-center cursor-pointer hover:text-muted-foreground transition-colors text-xl"
-                    onClick={() => {
-                      onClick_();
-                    }}
-                  >
-                    {icon}
-                    <div>{name}</div>
-                  </div>
-                ))}
-              </div>
-            </SheetContent>
-          </Sheet>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {etcMenu.map(({ name, icon, onClick_ }) => (
+                <DropdownMenuItem
+                  key={name}
+                  onClick={() => {
+                    onClick_();
+                  }}
+                >
+                  {icon}
+                  {name}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>

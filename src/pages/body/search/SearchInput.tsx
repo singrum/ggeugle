@@ -1,10 +1,6 @@
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
@@ -18,6 +14,7 @@ import {
   Plus,
   RotateCcw,
   Search,
+  Settings,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
@@ -30,8 +27,20 @@ export default function SearchInput() {
       <div className="px-2">
         <SearchTitle />
       </div>
-      <div className="mt-4 flex gap-2">
-        <DownloadDialog />
+      <div className="overflow-auto scrollbar-none w-full">
+        <div className="mt-4 flex gap-2 whitespace-nowrap">
+          <DownloadDialog />
+          <Badge
+            onClick={() =>
+              document.getElementById("search-settings-dialog-open")!.click()
+            }
+            variant={"secondary"}
+            className="gap-1 cursor-pointer select-none py-1"
+          >
+            <Settings className="h-4 w-4" />
+            검색 환경설정
+          </Badge>
+        </div>
       </div>
       <ExceptWordsDisplay />
 
@@ -42,15 +51,14 @@ export default function SearchInput() {
 
 function SearchTitle() {
   const [exceptBy] = useCookieSettings((e) => [e.exceptBy]);
-  const [engine] = useWC((e) => [e.engine]);
   return (
     <>
       <div className="flex flex-col gap-2">
         <span className="font-semibold text-xl">검색</span>
         <div className="text-sm text-muted-foreground">
           단어를 입력하고 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나{" "}
-          <ArrowUp className="inline w-3.5 h-3.5 mb-0.5" strokeWidth={1.75} />{" "}
-          버튼을 클릭하여 단어를 제외할 수 있습니다.
+          <ArrowUp className="inline w-3.5 h-3.5 mb-0.5" /> 버튼을 클릭하여
+          단어를 제외할 수 있습니다.
         </div>
       </div>
     </>
@@ -79,19 +87,20 @@ function ExceptWordsDisplay() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [clipComplete, setClipComplete] = useState(false);
   return (
-    <div className="mt-6 min-h-12 w-full rounded-xl border-border border">
+    <div className="mt-4 min-h-12 w-full rounded-xl border-border border">
       <div className="flex items-center justify-between w-full py-2 px-2 pl-3 rounded-t-xl">
-        <div className="flex items-center gap-2 text-sm">
-          <Popover>
-            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline">
+        <div className="flex items-center gap-2 text-sm font-medium">
+          {/* <Popover>
+            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline font-medium">
               제외 단어
             </PopoverTrigger>
             <PopoverContent className="text-sm">
-              <span className="font-semibold">지금까지 나온 단어</span>,{" "}
-              <span className="font-semibold">고려하지 않을 단어</span>들을 전체
-              단어 목록에서 제외할 수 있습니다.
+              <div className="flex flex-col gap-1">
+                <div>이미 사용한 단어들을 제외 단어에 추가해보세요!</div>
+              </div>
             </PopoverContent>
-          </Popover>
+          </Popover> */}
+          제외 단어
         </div>
         <div className="flex items-center gap-1 md:gap-2">
           <div className="flex items-center gap-1 border border-border rounded-md h-8 px-1 bg-background">

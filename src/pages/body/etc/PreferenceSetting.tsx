@@ -1,5 +1,3 @@
-import { useTheme } from "@/components/theme-provider";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -10,10 +8,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
-import { SettnigMenu } from "../setting/SettingMenu";
 
 export default function PreferenceSetting() {
-  const theme = useTheme();
   const [
     isSearchFlip,
     setIsSearchFlip,
@@ -36,79 +32,65 @@ export default function PreferenceSetting() {
 
   return (
     <div>
-      <div className="flex flex-col">
-        <SettnigMenu name="테마" className="dark:bg-background">
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="theme"
-              onCheckedChange={(e: boolean) => {
-                theme.setTheme(e ? "dark" : "light");
-              }}
-              checked={
-                (theme.theme === "system"
-                  ? window.matchMedia("(prefers-color-scheme: dark)").matches
-                    ? "dark"
-                    : "light"
-                  : theme.theme) === "dark"
-              }
-            />
-            <Label htmlFor="theme">다크모드</Label>
+      <div className="flex flex-col mt-5">
+        <div className="flex flex-col gap-4">
+          <div className="flex">
+            <div className="flex-1 font-semibold">검색 레이아웃 좌우 반전</div>
+            <div className="">
+              <Switch
+                id="flip"
+                onCheckedChange={(e: boolean) => {
+                  setIsSearchFlip(e);
+                }}
+                checked={isSearchFlip}
+              />
+            </div>
           </div>
-        </SettnigMenu>
-        <Separator />
-        <SettnigMenu name="검색 레이아웃 좌우반전">
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="flip"
-              onCheckedChange={(e: boolean) => {
-                setIsSearchFlip(e);
-              }}
-              checked={isSearchFlip}
-            />
-            <Label htmlFor="flip">사용</Label>
+          <Separator />
+          <div className="flex">
+            <div className="flex-1 font-semibold">글자 유형 변경 시 알림</div>
+            <div className="">
+              <Switch
+                id="showToast"
+                onCheckedChange={(e: boolean) => {
+                  setShowToast(e);
+                }}
+                checked={showToast}
+              />
+            </div>
           </div>
-        </SettnigMenu>
-        <Separator />
-        <SettnigMenu name="글자 유형 변경 시 알림">
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="showToast"
-              onCheckedChange={(e: boolean) => {
-                setShowToast(e);
-              }}
-              checked={showToast}
-            />
-            <Label htmlFor="showToast">사용</Label>
+          <Separator />
+          <div className="flex">
+            <div className="flex-1 font-semibold">모든 단어 항상 펼치기</div>
+            <div className="">
+              <Switch
+                id="showAllWords"
+                onCheckedChange={(e: boolean) => {
+                  setShowAllWords(e);
+                }}
+                checked={showAllWords}
+              />
+            </div>
           </div>
-        </SettnigMenu>
-        <Separator />
-        <SettnigMenu name="모든 단어 항상 펼치기">
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="showAllWords"
-              onCheckedChange={(e: boolean) => {
-                setShowAllWords(e);
-              }}
-              checked={showAllWords}
-            />
-            <Label htmlFor="showAllWords">사용</Label>
+          <Separator />
+          <div className="flex">
+            <div className="flex-1 font-semibold">단어 제외 방법</div>
+            <div className="">
+              <Select
+                value={exceptBy}
+                onValueChange={(value: "space" | "enter") => setExceptBy(value)}
+              >
+                <SelectTrigger className="w-[120px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="space">띄어쓰기</SelectItem>
+                  <SelectItem value="enter">엔터</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
-        </SettnigMenu>
-        <Separator />
-        <SettnigMenu name="단어 제외 방법">
-          <Select
-            value={exceptBy}
-            onValueChange={(value: "space" | "enter") => setExceptBy(value)}
-          >
-            <SelectTrigger className="w-[230px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="space">띄어쓰기</SelectItem>
-              <SelectItem value="enter">엔터</SelectItem>
-            </SelectContent>
-          </Select>
-        </SettnigMenu>
+        </div>
       </div>
     </div>
   );

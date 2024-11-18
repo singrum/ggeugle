@@ -106,12 +106,13 @@ export default function DownloadDialog() {
           className="gap-1 cursor-pointer select-none py-1"
         >
           <Download className="h-4 w-4" />
-          단어 파일 다운로드
+          단어 사전 다운로드
         </Badge>
       </DialogTrigger>
+
       <DialogContent>
         <DialogHeader className="mb-4">
-          <DialogTitle>단어 파일 다운로드</DialogTitle>
+          <DialogTitle>단어 사전 다운로드</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
