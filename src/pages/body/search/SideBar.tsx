@@ -5,6 +5,11 @@ import {
   CharContent,
 } from "@/components/ui/CharBox";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -19,8 +24,9 @@ import { useSheet } from "@/lib/store/useSheet";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { WCDisplay } from "@/lib/wc/WordChain";
+import { CircleHelp } from "lucide-react";
 import React, { useMemo, useState } from "react";
-const orders = ["n턴 후 승리", "끝나는 단어 개수", "시작 단어 개수"];
+const orders = ["n 턴 후 승리", "끝나는 단어 개수", "시작 단어 개수"];
 
 export function SideBar() {
   return (
@@ -35,9 +41,20 @@ export function SideBar() {
 
 export function Content() {
   const [order, setOrder] = useState<string>("0");
+  const charMenu = useCharMenu((e) => e.charMenu);
   return (
     <div className="px-2 bg-background overflow-auto scrollbar-none">
-      <div className="flex gap-2 justify-end pt-3">
+      <div className="flex gap-2 justify-between pt-3 items-center">
+        <div className="pl-2">
+          <Popover>
+            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed text-muted-foreground hover:no-underline">
+              {charMenuList[charMenu].name} 글자
+            </PopoverTrigger>
+            <PopoverContent className="text-sm">
+              {charMenuList[charMenu].desc}
+            </PopoverContent>
+          </Popover>
+        </div>
         <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
           <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1">
             <div className="text-muted-foreground mr-1">정렬:</div>
@@ -295,7 +312,7 @@ function EndInN() {
               {wcd.win.map((e) => (
                 <React.Fragment key={e.endNum}>
                   <CharBox>
-                    <CharBadge>{`${e.endNum}턴 후 승리`}</CharBadge>
+                    <CharBadge>{`${e.endNum} 턴 후 승리`}</CharBadge>
                     <CharContent>
                       {e.chars.map((char) => (
                         <CharButton type="win" key={char}>
@@ -314,7 +331,7 @@ function EndInN() {
               {wcd.los.map((e) => (
                 <React.Fragment key={e.endNum}>
                   <CharBox>
-                    <CharBadge>{`${e.endNum}턴 후 패배`}</CharBadge>
+                    <CharBadge>{`${e.endNum} 턴 후 패배`}</CharBadge>
                     <CharContent>
                       {e.chars.map((char) => (
                         <CharButton type="los" key={char}>
@@ -333,7 +350,22 @@ function EndInN() {
               {wcd.route.maxComp.length > 0 && (
                 <>
                   <CharBox>
-                    <CharBadge>{`주요 루트`}</CharBadge>
+                    <Popover>
+                      <PopoverTrigger>
+                        <CharBadge>
+                          {`주요 루트`}
+                          <CircleHelp className="w-4 h-4 ml-1" />
+                        </CharBadge>
+                      </PopoverTrigger>
+                      <PopoverContent className="text-sm">
+                        <div className="flex flex-col gap-1">
+                          <div>
+                            루트전을 진행할 때 여러 번 나올 수 있는 루트 글자
+                          </div>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+
                     <CharContent>
                       {wcd.route.maxComp.map((char) => (
                         <CharButton type="route" key={char}>
@@ -348,7 +380,22 @@ function EndInN() {
               {wcd.route.minComp.length > 0 && (
                 <>
                   <CharBox>
-                    <CharBadge>{`희귀 루트`}</CharBadge>
+                    <Popover>
+                      <PopoverTrigger>
+                        <CharBadge>
+                          {`희귀 루트`}
+                          <CircleHelp className="w-4 h-4 ml-1" />
+                        </CharBadge>
+                      </PopoverTrigger>
+                      <PopoverContent className="text-sm">
+                        <div className="flex flex-col gap-1">
+                          <div>
+                            루트전을 진행할 때 여러 번 나오지 않는 루트 글자
+                          </div>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
+
                     <CharContent>
                       {wcd.route.minComp.map((char) => (
                         <CharButton type="route" key={char}>

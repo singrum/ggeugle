@@ -52,7 +52,9 @@ export default function DFSSearch() {
                   ...stack,
                   engine!.wordMap
                     .select(data.data.at(-1)[0], data.data.at(-1)[1])
-                    .filter((e) => !stack.includes(e))[0],
+                    .filter(
+                      (e) => !stack.includes(e) && !exceptWords.includes(e)
+                    )[0],
                 ]
           );
           return;
