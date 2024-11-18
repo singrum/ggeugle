@@ -39,6 +39,7 @@ const tabInfo = [
   { name: "끝 글자" },
   { name: "전략 탐색" },
   { name: "두음 법칙" },
+  // { name: "도달가능성" },
 ];
 const wins = [
   "강",
@@ -1015,7 +1016,7 @@ function WordsResult() {
     isGuel && searchInputValue.length === 0 && exceptWords.length === 0;
   return (
     <>
-      <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 flex whitespace-nowrap overflow-auto gap-4 w-full min-h-1">
+      <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 flex whitespace-nowrap overflow-auto gap-4 w-full min-h-1 scrollbar-none">
         {searchInputValue.length >= 1 &&
           tabInfo.map(({ name }, i) => (
             <div
@@ -1061,7 +1062,6 @@ function WordsResult() {
                 setSearchInputValue(startMenuInfo.winChar);
                 setValue(startMenuInfo.winChar);
                 setTab(0);
-                
               }}
             >
               <span className="font-semibold">{startMenuInfo.winChar}</span>
@@ -1413,6 +1413,7 @@ function WordsResult() {
               <Separator />
             </div>
           )}
+          {/* {tab === 4 && engine && searchInputValue.length === 1 && <div ></div>} */}
         </>
       )}
     </>
