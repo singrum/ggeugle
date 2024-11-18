@@ -61,7 +61,7 @@ export default function NavBar() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <div className="fixed w-full md:w-auto bottom-0 flex md:flex-col gap-2 lg:gap-1 items-center justify-around text-muted-foreground/70 md:text-foreground bg-background border-t border-border md:border-none md:relative z-50 h-14">
+      <div className="fixed w-full md:w-auto bottom-0 flex md:flex-col gap-2 lg:gap-1 items-center justify-around text-muted-foreground/70 md:text-foreground bg-background border-t border-border md:border-none md:relative z-50 h-14 md:h-auto">
         {menus.map((e, i) => (
           <MenuBtn
             key={i}

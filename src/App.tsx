@@ -93,7 +93,7 @@ function App() {
 
                 <NavBar />
               </div>
-              <div className="flex flex-col items-center lg:items-start md:gap-2">
+              <div className="flex flex-col items-center lg:items-start md:gap-2 p-2">
                 <EtcNavBar />
               </div>
             </div>

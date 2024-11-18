@@ -47,7 +47,7 @@ export function Content() {
       <div className="flex gap-2 justify-between pt-3 items-center">
         <div className="pl-2">
           <Popover>
-            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed text-muted-foreground hover:no-underline">
+            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-sm">
               {charMenuList[charMenu].name} 글자
             </PopoverTrigger>
             <PopoverContent className="text-sm">
@@ -360,7 +360,9 @@ function EndInN() {
                       <PopoverContent className="text-sm">
                         <div className="flex flex-col gap-1">
                           <div>
-                            루트전을 진행할 때 여러 번 나올 수 있는 루트 글자
+                            루트전에서{" "}
+                            <span className="font-semibold">자주 나오는</span>{" "}
+                            글자.
                           </div>
                         </div>
                       </PopoverContent>
@@ -390,7 +392,11 @@ function EndInN() {
                       <PopoverContent className="text-sm">
                         <div className="flex flex-col gap-1">
                           <div>
-                            루트전을 진행할 때 여러 번 나오지 않는 루트 글자
+                            루트전에서{" "}
+                            <span className="font-semibold">
+                              자주 나오지 않는
+                            </span>{" "}
+                            글자.
                           </div>
                         </div>
                       </PopoverContent>

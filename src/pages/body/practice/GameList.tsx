@@ -50,7 +50,7 @@ function GameButton({
       )}
     >
       <div className="flex items-center justify-between">
-        <div className="flex items-center text-sm font-semibold">
+        <div className="flex items-center text-sm font-medium">
           <RiRobot2Fill
             className={cn("h-5 w-5 mr-1", strengths[gameInfo.strength].color)}
           />
@@ -116,11 +116,11 @@ function GameButton({
       )}
 
       {gameInfo.isPlaying ? (
-        <div className="text-sm font-semibold">플레이 중</div>
+        <div className="text-sm font-medium">플레이 중</div>
       ) : gameInfo.winner === "me" ? (
-        <div className="text-win text-sm font-semibold">승리</div>
+        <div className="text-win text-sm font-medium">승리</div>
       ) : (
-        <div className="text-los text-sm font-semibold">패배</div>
+        <div className="text-los text-sm font-medium">패배</div>
       )}
     </div>
   );

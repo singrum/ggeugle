@@ -1,4 +1,12 @@
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
@@ -8,6 +16,7 @@ import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useSheet } from "@/lib/store/useSheet";
 import { cn } from "@/lib/utils";
 import { LayoutGrid } from "lucide-react";
+import PreferenceSetting from "../etc/PreferenceSetting";
 import CharSheet from "./CharSheet";
 import SearchInput from "./SearchInput";
 import SearchResult from "./SearchResult";
@@ -20,6 +29,7 @@ export default function Search() {
     <>
       {isDesktop ? (
         <div className="flex h-full min-h-0">
+          <SearchSettingsDialog />
           <ResizablePanelGroup direction="horizontal">
             {isSearchFlip ? (
               <>
@@ -61,6 +71,7 @@ export default function Search() {
         </div>
       ) : (
         <div className="flex flex-col h-full min-h-0 flex-1 relative z-10">
+          <SearchSettingsDialog />
           <div className="min-h-0 h-full w-full relative">
             <div className="flex flex-col mb-10">
               <SearchInput />
@@ -87,3 +98,23 @@ export default function Search() {
     </>
   );
 }
+
+const SearchSettingsDialog = () => {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <button id="search-settings-dialog-open" className="absolute hidden" />
+      </DialogTrigger>
+
+      <DialogContent>
+        <DialogHeader className="">
+          <DialogTitle>환경설정</DialogTitle>
+          <DialogDescription></DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-col gap-4">
+          <PreferenceSetting />
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
