@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 import { WCDisplay } from "@/lib/wc/WordChain";
 import { CircleHelp } from "lucide-react";
 import React, { useMemo, useState } from "react";
-const orders = ["n 턴 후 승리", "끝나는 단어 개수", "시작 단어 개수"];
+const orders = ["n 턴 이내 승리", "끝나는 단어 개수", "시작 단어 개수"];
 
 export function SideBar() {
   return (
@@ -45,9 +45,9 @@ export function Content() {
   return (
     <div className="px-2 bg-background overflow-auto scrollbar-none">
       <div className="flex gap-2 justify-between pt-3 items-center">
-        <div className="pl-2">
+        <div className="pl-4">
           <Popover>
-            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-sm text-muted-foreground">
+            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-foreground font-medium text-sm">
               {charMenuList[charMenu].name} 글자
             </PopoverTrigger>
             <PopoverContent className="text-sm">
@@ -312,7 +312,9 @@ function EndInN() {
               {wcd.win.map((e) => (
                 <React.Fragment key={e.endNum}>
                   <CharBox>
-                    <CharBadge>{`${e.endNum} 턴 후 승리`}</CharBadge>
+                    <CharBadge>
+                      {e.endNum <= 1 ? "즉시 승리" : `${e.endNum} 턴 이내 승리`}
+                    </CharBadge>
                     <CharContent>
                       {e.chars.map((char) => (
                         <CharButton type="win" key={char}>
@@ -331,7 +333,9 @@ function EndInN() {
               {wcd.los.map((e) => (
                 <React.Fragment key={e.endNum}>
                   <CharBox>
-                    <CharBadge>{`${e.endNum} 턴 후 패배`}</CharBadge>
+                    <CharBadge>
+                      {e.endNum <= 1 ? "즉시 패배" : `${e.endNum} 턴 이내 패배`}
+                    </CharBadge>
                     <CharContent>
                       {e.chars.map((char) => (
                         <CharButton type="los" key={char}>
@@ -353,16 +357,18 @@ function EndInN() {
                     <Popover>
                       <PopoverTrigger>
                         <CharBadge>
-                          {`주요 루트`}
+                          {`주요 루트 글자`}
                           <CircleHelp className="w-4 h-4 ml-1" />
                         </CharBadge>
                       </PopoverTrigger>
                       <PopoverContent className="text-sm">
                         <div className="flex flex-col gap-1">
                           <div>
-                            루트전에서{" "}
-                            <span className="font-semibold">자주 나오는</span>{" "}
-                            글자.
+                            끝말잇기 진행 시{" "}
+                            <span className="font-semibold">
+                              여러 번 나올 수 있는
+                            </span>{" "}
+                            루트 글자.
                           </div>
                         </div>
                       </PopoverContent>
@@ -385,16 +391,16 @@ function EndInN() {
                     <Popover>
                       <PopoverTrigger>
                         <CharBadge>
-                          {`희귀 루트`}
+                          {`희귀 루트 글자`}
                           <CircleHelp className="w-4 h-4 ml-1" />
                         </CharBadge>
                       </PopoverTrigger>
                       <PopoverContent className="text-sm">
                         <div className="flex flex-col gap-1">
                           <div>
-                            루트전에서{" "}
+                            끝말잇기 진행 시{" "}
                             <span className="font-semibold">
-                              자주 나오지 않는
+                              여러 번 나오지 않는
                             </span>{" "}
                             글자.
                           </div>

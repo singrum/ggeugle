@@ -877,13 +877,13 @@ export class WCDisplay {
   static downloadCharInfo(engine: WCEngine) {
     const info = this.endInN(engine);
     return info.win
-      .map(({ endNum, chars }) => `[${endNum} 턴 후 승리]\n${chars.join(" ")}`)
+      .map(({ endNum, chars }) => `[${endNum} 턴 이내 승리]\n${chars.join(" ")}`)
       .join("\n\n")
       .concat("\n\n")
       .concat(
         info.los
           .map(
-            ({ endNum, chars }) => `[${endNum} 턴 후 패배]\n${chars.join(" ")}`
+            ({ endNum, chars }) => `[${endNum} 턴 이내 패배]\n${chars.join(" ")}`
           )
           .join("\n\n")
       )

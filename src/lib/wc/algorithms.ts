@@ -480,6 +480,7 @@ export function isWin(
 
   nextWords.sort((a, b) => {
     let a_key, b_key;
+
     if (isGuel && precedenceMap[a.word[0]]?.[a.word[1]]) {
       a_key = -precedenceMap[a.word[0]][a.word[1]];
     } else {
@@ -490,7 +491,13 @@ export function isWin(
     } else {
       b_key = b.moveNum;
     }
+    // console.log(a_key, b_key);
+    //균권,권벽,벽읍,읍륵,륵흔,흔굉,굉확,확견,견융,융준,준축,축융
+
     return a_key! - b_key!;
+  });
+  nextWords.sort((a, b) => {
+    return a.moveNum! - b.moveNum!;
   });
 
   for (let { word, isLoop } of nextWords) {

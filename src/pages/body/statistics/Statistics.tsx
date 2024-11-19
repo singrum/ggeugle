@@ -85,12 +85,12 @@ function Cards({ engine }: { engine: WCEngine }) {
           },
           {
             title: "승리 글자 세부 유형",
-            desc: "n 턴 후 승리로 분류",
+            desc: "n 턴 이내 승리로 분류",
             content: <WinCharTypeChart engine={engine} />,
           },
           {
             title: "패배 글자 세부 유형",
-            desc: "n 턴 후 패배로 분류",
+            desc: "n 턴 이내 패배로 분류",
             content: <LosCharTypeChart engine={engine} />,
           },
           {

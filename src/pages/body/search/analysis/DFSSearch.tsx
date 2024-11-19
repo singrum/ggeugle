@@ -5,7 +5,6 @@ import { Separator } from "@/components/ui/separator";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { getNextWords } from "@/lib/wc/algorithms";
-import { precedenceMap } from "@/lib/wc/analysisPrecedence";
 import { Word } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
 import { ChevronRight, Play } from "lucide-react";
@@ -90,7 +89,7 @@ export default function DFSSearch() {
             worker.current.postMessage({
               action: "startAnalysis",
               data: {
-                isGuel: isGuel,
+                isGuel: isGuelPrecedence,
                 withStack: true,
                 chanGraph: engine!.chanGraph,
                 wordGraph: engine!.wordGraph,
@@ -125,18 +124,20 @@ export default function DFSSearch() {
       true
     )
       .sort((a, b) => {
-        let a_key, b_key;
-        if (isGuelPrecedence && precedenceMap[a.word[0]]?.[a.word[1]]) {
-          a_key = -precedenceMap[a.word[0]][a.word[1]];
-        } else {
-          a_key = a.moveNum;
-        }
-        if (isGuelPrecedence && precedenceMap[b.word[0]]?.[b.word[1]]) {
-          b_key = -precedenceMap[b.word[0]][b.word[1]];
-        } else {
-          b_key = b.moveNum;
-        }
-        return a_key! - b_key!;
+        // let a_key, b_key;
+        // if (isGuelPrecedence && precedenceMap[a.word[0]]?.[a.word[1]]) {
+        //   a_key = -precedenceMap[a.word[0]][a.word[1]];
+        // } else {
+        //   a_key = a.moveNum;
+        // }
+        // if (isGuelPrecedence && precedenceMap[b.word[0]]?.[b.word[1]]) {
+        //   b_key = -precedenceMap[b.word[0]][b.word[1]];
+        // } else {
+        //   b_key = b.moveNum;
+        // }
+
+        // return a_key! - b_key!;
+        return a.moveNum! - b.moveNum!;
       })
       .map((e) => e.word)
       .map(([head, tail]) => ({
@@ -243,7 +244,7 @@ export default function DFSSearch() {
                 id="prec"
                 onCheckedChange={(e) => setIsGuelPrecedence(e as boolean)}
               />
-              <Label htmlFor="prec">우선 순위 최적화</Label>
+              <Label htmlFor="prec">우선 순위 변경</Label>
             </div>
           </div>
         )}
@@ -270,11 +271,10 @@ export default function DFSSearch() {
                     >
                       {word}
                     </span>
-                    {josa(word, "은/는").at(-1)}{" "}
+                    {" : "}
                     <span className={cn({ "text-win": win, "text-los": !win })}>
                       {win ? "승리" : "패배"}
                     </span>
-                    합니다.
                   </div>
                   <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs">
                     {[word, ...maxStack!].map((e, i) => (
@@ -341,21 +341,21 @@ export default function DFSSearch() {
               </div>
             </div>
           ) : (
-            <div className="mx-2">
-              따라서{" "}
-              <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline">
-                {searchInputValue}
-              </span>
-              {josa(searchInputValue, "은/는").at(-1)}{" "}
-              <span
-                className={cn({
-                  "text-win": firstWinIdx !== -1,
-                  "text-los": firstWinIdx === -1,
-                })}
-              >
-                {firstWinIdx !== -1 ? "승리" : "패배"}
-              </span>
-              합니다.
+            <div className="mx-2 flex items-center gap-1">
+              <div>
+                <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline">
+                  {searchInputValue}
+                </span>
+                {" : "}
+                <span
+                  className={cn({
+                    "text-win": firstWinIdx !== -1,
+                    "text-los": firstWinIdx === -1,
+                  })}
+                >
+                  {firstWinIdx !== -1 ? "승리" : "패배"}
+                </span>
+              </div>
             </div>
           )}
         </div>

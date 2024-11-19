@@ -1126,7 +1126,7 @@ function WordsResult() {
                           ).startsWith.win.map((e, i) => (
                             <React.Fragment key={i}>
                               <WordBox>
-                                <WordBadge>{`${e.endNum} 턴 후 승리`}</WordBadge>
+                                <WordBadge>{`${e.endNum} 턴 이내 승리`}</WordBadge>
                                 <WordContent
                                   wordInfo={e.words.map((word) => ({
                                     word,
@@ -1225,7 +1225,7 @@ function WordsResult() {
                                   ).startsWith.los.map((e, i) => (
                                     <React.Fragment key={i}>
                                       <WordBox>
-                                        <WordBadge>{`${e.endNum} 턴 후 패배`}</WordBadge>
+                                        <WordBadge>{`${e.endNum} 턴 이내 패배`}</WordBadge>
                                         <WordContent
                                           wordInfo={e.words.map((word) => ({
                                             word,

@@ -476,6 +476,7 @@ export const useWC = create<WCInfo>((set, get) => ({
       get().worker!.postMessage({
         action: "getComputerMove",
         data: {
+          isGuel: false,
           exceptWords: [],
           currChar: undefined,
           strength: gameSettingForm.strength,
@@ -513,6 +514,7 @@ export const useWC = create<WCInfo>((set, get) => ({
     get().worker!.postMessage({
       action: "getComputerMove",
       data: {
+        isGuel: false,
         exceptWords: moves,
         currChar: move.at(get().engine!.rule.tailIdx),
         strength: get().currGame!.strength,
