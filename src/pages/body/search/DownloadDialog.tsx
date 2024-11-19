@@ -44,7 +44,7 @@ const downloadOptions = [
   },
   {
     name: "루트 단어 사전",
-    description: "루트 글자에 대한 루트 단어, 되돌림 단어 사전",
+    description: "루트 글자에 대한 루트 단어, 돌림 단어 사전",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
       link.download = `끄글_루트단어_${getCurrentDateTime()}.txt`;
