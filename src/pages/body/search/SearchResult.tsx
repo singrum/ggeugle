@@ -1050,9 +1050,9 @@ function WordsResult() {
               </AlertTitle>
               <AlertDescription>
                 끄글에서는 신엜룰, 넶룰, 끄투룰, 앞말잇기 등 다양한 끝말잇기
-                룰을 설정할 수 있습니다.
+                룰을 적용할 수 있습니다.
                 <div
-                  className="hover:underline underline-offset-2 text-primary font-semibold select-none cursor-pointer flex items-center mt-2"
+                  className="hover:underline underline-offset-2 text-primary dark:text-[hsl(217.2,91.2%,59.8%)] font-semibold select-none cursor-pointer flex items-center mt-2 w-fit"
                   onClick={() => setMenu(3)}
                 >
                   설정하러 가기
