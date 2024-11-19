@@ -16,3 +16,13 @@
 ## 글자 분류 절차
 
 ![화면 캡처 2024-11-18 130825](https://github.com/user-attachments/assets/21a80392-60ad-4b1b-a54d-e3135c51715f)
+
+## DB 출처
+
+[(구)표준국어대사전](https://github.com/korean-word-game/db)  
+[(신)표준국어대사전](https://stdict.korean.go.kr/main/main.do)  
+[우리말샘](https://opendict.korean.go.kr/main)  
+[네이버 국어사전](https://ko.dict.naver.com/#/main)  
+[KKuTu Github](https://github.com/JJoriping/KKuTu)  
+[끄투코리아](https://kkutu.co.kr/)  
+[끄투코리아 단어사전 v6](https://kkutudic.pythonanywhere.com/)
