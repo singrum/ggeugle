@@ -262,12 +262,12 @@ to {
 `);return l}).join(`
 `)}static downloadWinWordsEssential(r){return Object.keys(r.chanGraph.nodes).filter(i=>r.chanGraph.nodes[i].type=="win"||r.chanGraph.nodes[i].type=="wincir").sort().map(i=>{const a=r.chanGraph.nodes[i].solution,l=r.wordGraph.nodes[r.chanGraph.nodes[a].solution].solution;return`${i} : ${r.wordMap.select(a,l)[0]}`}).join(`
 `)}static downloadLosWords(r){return Object.keys(r.chanGraph.nodes).filter(i=>r.chanGraph.nodes[i].type=="los"||r.chanGraph.nodes[i].type=="loscir").sort().map(i=>{const a=this.searchResult(r,i).result.startsWith;let l=`[${i}]
-`;a.return.length>0&&(l=l.concat(`되돌림 : ${a.return.join(", ")}
+`;a.return.length>0&&(l=l.concat(`돌림 : ${a.return.join(", ")}
 `));for(const{endNum:p,words:d}of a.los)l=l.concat(`${p}턴 : ${d.join(", ")}
 `);return l}).join(`
 `)}static downloadRouteWords(r){return Object.keys(r.chanGraph.nodes).filter(i=>r.chanGraph.nodes[i].type=="route").sort().map(i=>{const a=this.searchResult(r,i).result.startsWith;let l=`[${i}]
 `;return a.route.length>0&&(l=l.concat(`루트 : ${a.route.join(", ")}
-`)),a.return.length>0&&(l=l.concat(`되돌림 : ${a.return.join(", ")}
+`)),a.return.length>0&&(l=l.concat(`돌림 : ${a.return.join(", ")}
 `)),l}).join(`
 `)}static downloadCharInfo(r){const i=this.endInN(r);return i.win.map(({endNum:a,chars:l})=>`[${a} 턴 후 승리]
 ${l.join(" ")}`).join(`
