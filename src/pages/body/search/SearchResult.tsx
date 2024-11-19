@@ -1170,7 +1170,7 @@ function WordsResult() {
                                   <Popover>
                                     <PopoverTrigger>
                                       <WordBadge>
-                                        {`되돌림 단어`}
+                                        {`돌림 단어`}
                                         <CircleHelp className="w-4 h-4" />
                                       </WordBadge>
                                     </PopoverTrigger>
@@ -1179,9 +1179,9 @@ function WordsResult() {
                                         <div className="">
                                           A로 시작하고 B로 끝나는 단어와 B로
                                           시작하고 A로 끝나는 단어가 존재하면,
-                                          두 단어들을{` `}
+                                          두 단어를{` `}
                                           <span className="font-semibold">
-                                            되돌림 단어
+                                            돌림 단어
                                           </span>
                                           라고 합니다.
                                         </div>
@@ -1191,7 +1191,7 @@ function WordsResult() {
                                           {` 업축`}
                                         </div>
                                         <div>
-                                          되돌림 단어들은 모두 제거해도 승패
+                                          돌림 단어들은 모두 제거해도 승패
                                           여부에 영향을 주지 않습니다.
                                         </div>
                                       </div>

@@ -844,7 +844,7 @@ export class WCDisplay {
         ).startsWith;
         let charInfo = `[${losChar}]\n`;
         if (result.return.length > 0) {
-          charInfo = charInfo.concat(`되돌림 : ${result.return.join(", ")}\n`);
+          charInfo = charInfo.concat(`돌림 : ${result.return.join(", ")}\n`);
         }
         for (const { endNum, words } of result.los) {
           charInfo = charInfo.concat(`${endNum}턴 : ${words.join(", ")}\n`);
@@ -867,7 +867,7 @@ export class WCDisplay {
           charInfo = charInfo.concat(`루트 : ${result.route.join(", ")}\n`);
         }
         if (result.return.length > 0) {
-          charInfo = charInfo.concat(`되돌림 : ${result.return.join(", ")}\n`);
+          charInfo = charInfo.concat(`돌림 : ${result.return.join(", ")}\n`);
         }
 
         return charInfo;
