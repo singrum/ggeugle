@@ -269,12 +269,12 @@ to {
 `;return a.route.length>0&&(l=l.concat(`루트 : ${a.route.join(", ")}
 `)),a.return.length>0&&(l=l.concat(`돌림 : ${a.return.join(", ")}
 `)),l}).join(`
-`)}static downloadCharInfo(r){const i=this.endInN(r);return i.win.map(({endNum:a,chars:l})=>`[${a} 턴 후 승리]
+`)}static downloadCharInfo(r){const i=this.endInN(r);return i.win.map(({endNum:a,chars:l})=>`[${a} 턴 이내 승리]
 ${l.join(" ")}`).join(`
 
 `).concat(`
 
-`).concat(i.los.map(({endNum:a,chars:l})=>`[${a} 턴 후 패배]
+`).concat(i.los.map(({endNum:a,chars:l})=>`[${a} 턴 이내 패배]
 ${l.join(" ")}`).join(`
 
 `)).concat(i.route.maxComp.length>0?`
