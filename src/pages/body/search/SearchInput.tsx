@@ -60,12 +60,6 @@ function SearchTitle() {
         <h1 className="text-2xl font-bold tracking-tight">단어 검색</h1>
         <div className="text-sm text-muted-foreground">
           <div className="">끝말잇기에서 사용 가능한 단어들을 검색합니다.</div>
-          {/* <div>
-            {" "}
-            단어를 입력하고 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나{" "}
-            <ArrowUp className="inline w-3.5 h-3.5 mb-0.5" /> 버튼을 클릭하여
-            단어를 제외할 수 있습니다.
-          </div> */}
         </div>
       </div>
     </>
@@ -118,7 +112,7 @@ function ExceptWordsDisplay() {
                 />{" "}
                 버튼
               </span>
-              을 클릭하여 단어를{" "}
+              을 클릭하여 그 단어를{" "}
               <span className="font-semibold">단어 목록에서 제외</span>할 수
               있습니다.
             </PopoverContent>
@@ -306,7 +300,7 @@ function WordInput() {
           type="search"
           placeholder="글자 또는 단어를 입력해주세요."
           onKeyDown={(e) => {
-            if (e.key == "Enter") {
+            if (exceptBy === "enter" && e.key == "Enter") {
               if (e.nativeEvent.isComposing) {
                 return;
               }

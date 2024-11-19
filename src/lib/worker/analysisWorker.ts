@@ -48,7 +48,7 @@ const analysis = ({
 
   const wordStack: Char[][] = [];
   const maxBranch: (Char[][] | undefined)[] = [];
-
+  
   const win = withStack
     ? isWin(
         isGuel,
