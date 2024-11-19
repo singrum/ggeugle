@@ -1,6 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
@@ -23,12 +28,12 @@ import DownloadDialog from "./DownloadDialog";
 
 export default function SearchInput() {
   return (
-    <div className="p-4">
+    <div className="p-4 mb-3">
       <div className="px-2">
         <SearchTitle />
       </div>
       <div className="overflow-auto scrollbar-none w-full">
-        <div className="mt-4 flex gap-2 whitespace-nowrap">
+        <div className="mt-4 px-2 flex gap-2 whitespace-nowrap">
           <DownloadDialog />
           <Badge
             onClick={() =>
@@ -43,22 +48,24 @@ export default function SearchInput() {
         </div>
       </div>
       <ExceptWordsDisplay />
-
       <WordInput />
     </div>
   );
 }
 
 function SearchTitle() {
-  const [exceptBy] = useCookieSettings((e) => [e.exceptBy]);
   return (
     <>
       <div className="flex flex-col gap-2">
-        <span className="font-semibold text-xl">검색</span>
+        <h1 className="text-2xl font-bold tracking-tight">단어 검색하기</h1>
         <div className="text-sm text-muted-foreground">
-          단어를 입력하고 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나{" "}
-          <ArrowUp className="inline w-3.5 h-3.5 mb-0.5" /> 버튼을 클릭하여
-          단어를 제외할 수 있습니다.
+          <div className="">끝말잇기에서 사용 가능한 단어들을 검색합니다.</div>
+          {/* <div>
+            {" "}
+            단어를 입력하고 {exceptBy === "space" ? "띄어쓰기" : "엔터"}나{" "}
+            <ArrowUp className="inline w-3.5 h-3.5 mb-0.5" /> 버튼을 클릭하여
+            단어를 제외할 수 있습니다.
+          </div> */}
         </div>
       </div>
     </>
@@ -83,24 +90,39 @@ function ExceptWordsDisplay() {
     e.isLoading,
     e.changeInfo,
   ]);
-  const [showToast] = useCookieSettings((e) => [e.showToast]);
+  const [showToast, exceptBy] = useCookieSettings((e) => [
+    e.showToast,
+    e.exceptBy,
+  ]);
+
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [clipComplete, setClipComplete] = useState(false);
   return (
-    <div className="mt-4 min-h-12 w-full rounded-xl border-border border">
+    <div className="mt-8 min-h-12 w-full rounded-xl border-border border">
       <div className="flex items-center justify-between w-full py-2 px-2 pl-3 rounded-t-xl">
         <div className="flex items-center gap-2 text-sm font-medium">
-          {/* <Popover>
+          <Popover>
             <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline font-medium">
               제외 단어
             </PopoverTrigger>
             <PopoverContent className="text-sm">
-              <div className="flex flex-col gap-1">
-                <div>이미 사용한 단어들을 제외 단어에 추가해보세요!</div>
-              </div>
+              단어를 입력하고{" "}
+              <span className="font-semibold">
+                {exceptBy === "space" ? "띄어쓰기" : "엔터"}
+              </span>
+              나{" "}
+              <span className="font-semibold">
+                <ArrowUp
+                  className="inline w-3.5 h-3.5 mb-0.5"
+                  strokeWidth={2.5}
+                />{" "}
+                버튼
+              </span>
+              을 클릭하여 단어를{" "}
+              <span className="font-semibold">단어 목록에서 제외</span>할 수
+              있습니다.
             </PopoverContent>
-          </Popover> */}
-          제외 단어
+          </Popover>
         </div>
         <div className="flex items-center gap-1 md:gap-2">
           <div className="flex items-center gap-1 border border-border rounded-md h-8 px-1 bg-background">
@@ -206,7 +228,7 @@ function ExceptWordsDisplay() {
             !(engine && isLoading) && (
               <div className="flex items-center">
                 <div className="text-muted-foreground text-sm">
-                  제외 단어가 없습니다.
+                  제외한 단어가 없습니다.
                 </div>
               </div>
             )
@@ -276,7 +298,7 @@ function WordInput() {
     }
   };
   return (
-    <div className="pt-4">
+    <div className="pt-2">
       <div className="relative">
         <Input
           className="border border-border rounded-xl h-12 text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 bg-muted/50 transition-colors"

@@ -47,7 +47,7 @@ export function Content() {
       <div className="flex gap-2 justify-between pt-3 items-center">
         <div className="pl-2">
           <Popover>
-            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-sm">
+            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-sm text-muted-foreground">
               {charMenuList[charMenu].name} 글자
             </PopoverTrigger>
             <PopoverContent className="text-sm">
