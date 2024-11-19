@@ -8,8 +8,7 @@ export const charMenuList = [
     desc: (
       <div className="flex flex-col gap-1">
         <div>
-          주어지면 반드시 <span className="font-semibold">승리</span>하는
-          글자.
+          주어지면 반드시 <span className="font-semibold">승리</span>하는 글자.
         </div>
       </div>
     ),
@@ -21,8 +20,7 @@ export const charMenuList = [
     desc: (
       <div className="flex flex-col gap-1">
         <div>
-          주어지면 반드시 <span className="font-semibold">패배</span>하는
-          글자.
+          주어지면 반드시 <span className="font-semibold">패배</span>하는 글자.
         </div>
       </div>
     ),
