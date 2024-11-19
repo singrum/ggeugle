@@ -28,7 +28,7 @@ import DownloadDialog from "./DownloadDialog";
 
 export default function SearchInput() {
   return (
-    <div className="p-4 mb-4">
+    <div className="p-4 mb-5">
       <div className="px-2">
         <SearchTitle />
       </div>
