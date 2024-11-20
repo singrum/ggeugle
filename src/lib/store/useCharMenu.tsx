@@ -34,7 +34,7 @@ export const charMenuList = [
     desc: (
       <div className="flex flex-col gap-1">
         <div>
-          내 차례에 주어지면 승리하는 지 쉽게{" "}
+          내 차례에 주어지면 승패 여부를 쉽게{" "}
           <span className="font-semibold">알 수 없는</span> 글자.
         </div>
       </div>

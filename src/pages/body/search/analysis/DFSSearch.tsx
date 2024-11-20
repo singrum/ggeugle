@@ -188,7 +188,7 @@ export default function DFSSearch() {
         <Alert>
           <Play className="h-5 w-5" strokeWidth={1.5} />
           <AlertTitle className="font-normal">
-            <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline">
+            <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline font-medium">
               {searchInputValue}
             </span>
             에서 필승 전략 탐색을 시작합니다.
@@ -199,7 +199,7 @@ export default function DFSSearch() {
                 {nextRoutesInfo.map(({ word }, i) => (
                   <Fragment key={word}>
                     <span
-                      className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline"
+                      className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline font-medium"
                       onClick={() => {
                         setValue(word.at(engine!.rule.tailIdx)!);
                         setSearchInputValue(word.at(engine!.rule.tailIdx)!);
@@ -218,7 +218,7 @@ export default function DFSSearch() {
             ) : (
               <>
                 <span
-                  className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline"
+                  className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline font-medium"
                   onClick={() => {
                     setValue(nextRoutesInfo[0].word.at(engine!.rule.tailIdx)!);
                     setSearchInputValue(
@@ -258,7 +258,7 @@ export default function DFSSearch() {
             .map(({ word, win, maxStack }) => (
               <div key={word} className="w-full">
                 <div key={word} className="w-full px-2">
-                  <div className="w-full mb-2">
+                  <div className="w-full mb-2 font-medium">
                     <span
                       className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline"
                       onClick={() => {
@@ -271,7 +271,7 @@ export default function DFSSearch() {
                     >
                       {word}
                     </span>
-                    {" : "}
+                    <span className="font-normal"> : </span>
                     <span className={cn({ "text-win": win, "text-los": !win })}>
                       {win ? "승리" : "패배"}
                     </span>
@@ -295,7 +295,7 @@ export default function DFSSearch() {
             ))}
           {firstWinIdx === -1 && firstUndefIdx !== -1 ? (
             <div className="w-full px-2">
-              <div className="mb-2">
+              <div className="mb-2 font-medium">
                 <span
                   className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline"
                   onClick={() => {
@@ -321,7 +321,10 @@ export default function DFSSearch() {
                 >
                   {nextRoutesInfo[firstUndefIdx!].word}
                 </span>{" "}
-                탐색 중...
+                <span className="font-normal">: </span>
+                <span className="text-muted-foreground font-normal">
+                  탐색 중...
+                </span>
               </div>
 
               <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs">
@@ -341,13 +344,13 @@ export default function DFSSearch() {
               </div>
             </div>
           ) : (
-            <div className="mx-2 flex items-center gap-1">
+            <div className="mx-2 flex items-center gap-1 font-medium">
               <CornerDownRight className="w-4 h-4" />
               <div>
                 <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline">
                   {searchInputValue}
                 </span>
-                {" : "}
+                <span className="font-normal"> : </span>
                 <span
                   className={cn({
                     "text-win": firstWinIdx !== -1,
