@@ -115,7 +115,7 @@ export function RuleSetting() {
                 className={cn(
                   "text-base text-muted-foreground md:text-foreground cursor-pointer py-2 md:p-2 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent select-none  md:border-b-0 lg:hover:bg-accent transition-colors ",
                   {
-                    "text-foreground border-foreground md:bg-accent":
+                    "text-foreground border-foreground md:bg-accent font-semibold":
                       ruleGroupMenu === i,
                   }
                 )}

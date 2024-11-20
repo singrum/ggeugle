@@ -85,9 +85,9 @@ export default function Search() {
                 className="bg-background text-foreground border border-border rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow cursor-pointer"
                 onClick={() => setOpen(true)}
               >
-                <LayoutGrid className="w-5 h-5" strokeWidth={1.5} />
+                <LayoutGrid className="w-5 h-5" />
                 {/* <ChevronUp className="w-5 h-5" strokeWidth={1.5} /> */}
-                <div className="mb-0.5 select-none">글자 목록</div>
+                <div className="mb-0.5 select-none font-medium">글자 목록</div>
               </div>
             </div>
           </div>
