@@ -322,9 +322,7 @@ export default function DFSSearch() {
                   {nextRoutesInfo[firstUndefIdx!].word}
                 </span>{" "}
                 <span className="font-normal">: </span>
-                <span className="text-muted-foreground font-normal">
-                  탐색 중...
-                </span>
+                <span className="font-normal">탐색 중...</span>
               </div>
 
               <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs">
