@@ -62,7 +62,7 @@ export function CharButton({
   return (
     <div
       className={cn(
-        `relative h-9 w-9 flex items-center justify-center transition-all duration-75 cursor-pointer prevent-select hover:scale-150 text-${type}`,
+        `relative h-9 w-9 flex items-center justify-center transition-all duration-75 cursor-pointer prevent-select hover:scale-150 text-${type} font-medium`,
         className
       )}
       onClick={() => {

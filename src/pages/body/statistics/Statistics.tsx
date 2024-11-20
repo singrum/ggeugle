@@ -13,6 +13,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -22,7 +23,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useMediaQuery } from "@/hooks/use-media-query";
 import { useWC } from "@/lib/store/useWC";
 import { getMaxMinComponents } from "@/lib/wc/algorithms";
 import { WCDisplay, WCEngine } from "@/lib/wc/WordChain";
@@ -36,14 +36,12 @@ export default function Statistics() {
     e.exceptWords,
   ]);
 
-  const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
-    originalEngine &&
-    engine && (
-      <>
-        <div className=" h-full min-h-0 overflow-auto ">
-          <div className="flex w-full text-left md:p-4 justify-center mb-[200px] md:mb-0">
-            {exceptWords.length > 0 ? (
+    <>
+      <div className=" h-full min-h-0 overflow-auto ">
+        <div className="flex w-full text-left md:p-4 justify-center mb-[200px] md:mb-0">
+          {originalEngine && engine ? (
+            exceptWords.length > 0 ? (
               <Tabs defaultValue="except" className="w-full">
                 <TabsList className="m-3 mb-0 md:m-0">
                   <TabsTrigger value="except">단어 제외 후</TabsTrigger>
@@ -58,11 +56,26 @@ export default function Statistics() {
               </Tabs>
             ) : (
               <Cards engine={engine} />
-            )}
-          </div>
+            )
+          ) : (
+            <CardsSkeleton />
+          )}
         </div>
-      </>
-    )
+      </div>
+    </>
+  );
+}
+function CardsSkeleton() {
+  return (
+    <div className="flex flex-col md:gap-4 w-full">
+      <Skeleton className="h-10 w-[200px] ml-4 mt-4 mb-2" />
+
+      <div className="flex-1 grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4 p-4 md:p-0">
+        {[1, 2, 3, 4, 5].map((e) => (
+          <Skeleton key={e} className="w-full h-[350px] rounded-xl" />
+        ))}
+      </div>
+    </div>
   );
 }
 

@@ -198,7 +198,7 @@ function ExceptWordsDisplay() {
                     setSearchInputValue(head);
                   }}
                 >
-                  <div className="py-0.5 pl-3 pr-1 text-muted-foreground select-none hover:text-foreground">
+                  <div className="py-0.5 pl-3 pr-1 text-muted-foreground select-none hover:text-foreground font-medium">
                     {e}
                   </div>
                   <div
