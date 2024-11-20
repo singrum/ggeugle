@@ -312,9 +312,7 @@ function EndInN() {
               {wcd.win.map((e) => (
                 <React.Fragment key={e.endNum}>
                   <CharBox>
-                    <CharBadge>
-                      {e.endNum <= 1 ? "즉시 승리" : `${e.endNum} 턴 이내 승리`}
-                    </CharBadge>
+                    <CharBadge>{`${e.endNum} 턴 이내 승리`}</CharBadge>
                     <CharContent>
                       {e.chars.map((char) => (
                         <CharButton type="win" key={char}>
@@ -333,9 +331,7 @@ function EndInN() {
               {wcd.los.map((e) => (
                 <React.Fragment key={e.endNum}>
                   <CharBox>
-                    <CharBadge>
-                      {e.endNum <= 1 ? "즉시 패배" : `${e.endNum} 턴 이내 패배`}
-                    </CharBadge>
+                    <CharBadge>{`${e.endNum} 턴 이내 패배`}</CharBadge>
                     <CharContent>
                       {e.chars.map((char) => (
                         <CharButton type="los" key={char}>
@@ -400,9 +396,9 @@ function EndInN() {
                           <div>
                             끝말잇기 진행 시{" "}
                             <span className="font-semibold">
-                              여러 번 나오지 않는
+                              여러 번 나올 수 없는
                             </span>{" "}
-                            글자.
+                            루트 글자.
                           </div>
                         </div>
                       </PopoverContent>
@@ -476,7 +472,7 @@ export function CharMenu() {
                   {
                     [`outline outline-${e.color} shadow bg-${e.color}/10`]:
                       charMenu === i,
-                    [`text-${e.color}`]: charMenu === i,
+                    [`text-${e.color} font-medium`]: charMenu === i,
                   }
                 )}
               >

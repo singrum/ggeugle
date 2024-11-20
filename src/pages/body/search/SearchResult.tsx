@@ -1030,7 +1030,7 @@ function WordsResult() {
               className={cn(
                 "text-muted-foreground cursor-pointer transition-colors border-b-2 border-transparent py-2 pt-0 text-base select-none hover:text-foreground",
                 {
-                  "text-foreground border-foreground": tab === i,
+                  " font-medium text-foreground border-foreground": tab === i,
                 }
               )}
               onClick={() => setTab(i)}

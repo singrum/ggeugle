@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { getNextWords } from "@/lib/wc/algorithms";
 import { Word } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
-import { ChevronRight, Play } from "lucide-react";
+import { ChevronRight, CornerDownRight, Play } from "lucide-react";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 export default function DFSSearch() {
@@ -342,6 +342,7 @@ export default function DFSSearch() {
             </div>
           ) : (
             <div className="mx-2 flex items-center gap-1">
+              <CornerDownRight className="w-4 h-4" />
               <div>
                 <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline">
                   {searchInputValue}
