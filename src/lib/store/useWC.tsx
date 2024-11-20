@@ -405,6 +405,7 @@ export const useWC = create<WCInfo>((set, get) => ({
     const ruleForm = get().ruleForm;
 
     set(() => ({
+      currGame: undefined,
       engine: undefined,
       prevEngine: undefined,
       originalEngine: undefined,
