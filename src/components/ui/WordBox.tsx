@@ -101,7 +101,7 @@ export function WordButton({
         navigator.clipboard.writeText(children);
       }}
     >
-      <div className={cn("py-1 pl-3 pr-1", { "pr-3": notExcept })}>
+      <div className={cn("py-1 pl-3 pr-1 font-medium", { "pr-3": notExcept })}>
         {children}
       </div>
 
