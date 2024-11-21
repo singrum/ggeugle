@@ -338,6 +338,15 @@ export const sampleRules: {
   },
   {
     name: "반전룰",
+    desc: (
+      <div>
+        <p>
+          <span className="font-medium">(구)표준국어대사전</span>에 등록된{" "}
+          <span className="font-medium">명사</span>만 사용 가능합니다.{" "}
+          <span className="font-medium">모음 반전 두음 법칙</span>이 적용됩니다.
+        </p>
+      </div>
+    ),
     ruleForm: {
       dict: 0,
       pos: Object.assign({}, [
@@ -366,6 +375,16 @@ export const sampleRules: {
   },
   {
     name: "챈룰",
+    desc: (
+      <div>
+        <p>
+          <span className="font-medium">(구)표준국어대사전</span>에 등록된{" "}
+          <span className="font-medium">명사</span>만 사용 가능합니다.{" "}
+          <span className="font-medium">자음 상하 반전 두음법칙</span>이
+          적용됩니다.
+        </p>
+      </div>
+    ),
     ruleForm: {
       dict: 0,
       pos: Object.assign({}, [
@@ -394,6 +413,16 @@ export const sampleRules: {
   },
   {
     name: "듭2룰",
+    desc: (
+      <div>
+        <p>
+          <span className="font-medium">(구)표준국어대사전</span>에 등록된{" "}
+          <span className="font-medium">명사</span>만 사용 가능합니다.{" "}
+          <span className="font-medium">초성 종성 자유 두음법칙</span>이
+          적용됩니다.
+        </p>
+      </div>
+    ),
     ruleForm: {
       dict: 0,
       pos: Object.assign({}, [
@@ -423,6 +452,16 @@ export const sampleRules: {
 
   {
     name: "천도룰",
+    desc: (
+      <div>
+        <p>
+          <span className="font-medium">(신)표준국어대사전</span>에 등록된{" "}
+          <span className="font-medium">세 글자 명사</span>만 사용 가능하며{" "}
+          <span className="font-medium">표준두음법칙</span>이 적용됩니다.
+          <span className="font-medium">한방 단어</span>는 사용 불가능합니다.
+        </p>
+      </div>
+    ),
     ruleForm: {
       dict: 1,
       pos: Object.assign({}, [
@@ -451,6 +490,16 @@ export const sampleRules: {
   },
   {
     name: "연결룰",
+    desc: (
+      <div>
+        <p>
+          <span className="font-medium">구엜룰</span>과 동일하지만{" "}
+          <span className="font-medium">붕어톱</span>,{" "}
+          <span className="font-medium">궤휼</span>,{" "}
+          <span className="font-medium">잎뽕</span> 단어는 사용 불가능합니다.
+        </p>
+      </div>
+    ),
     ruleForm: {
       dict: 0,
       pos: Object.assign({}, [

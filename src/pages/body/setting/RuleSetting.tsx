@@ -86,7 +86,7 @@ export function RuleSetting() {
               <Fragment key={name}>
                 <Button
                   size="sm"
-                  className={cn("gap-1")}
+                  className={cn("gap-2")}
                   variant="secondary"
                   onClick={() => {
                     setRuleForm(ruleForm);
@@ -94,7 +94,18 @@ export function RuleSetting() {
                     setMenu(0);
                   }}
                 >
-                  {name}
+                  <div>{name}</div>
+
+                  {/* <DropdownMenu>
+                    <DropdownMenuTrigger
+                      className="focus-visible:ring-offset-1 focus-visible:ring-0"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <CircleHelp className="w-4 h-4" />
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent>sadf</DropdownMenuContent>
+                  </DropdownMenu> */}
                 </Button>
               </Fragment>
             ))}
