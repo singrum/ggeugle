@@ -134,13 +134,20 @@ export function pruningWinLosCir(
     for (let tail of wordGraph.successors(head)) {
       const returnPair = pair(head, tail);
 
-      if (
-        !returnPair ||
-        !singleChars.has(head) ||
-        !singleChars.has(returnPair[0])
-      )
+      if (!returnPair) {
         continue;
+      }
+      if (
+        !(
+          (head == returnPair[1] && tail == returnPair[0]) ||
+          (singleChars.has(head) && singleChars.has(returnPair[0]))
+        )
+      ) {
+        continue;
+      }
+
       const [pairHead, pairTail] = returnPair;
+
       // 맴맴, 삐삐, 죽력죽
       if (pairHead === head) {
         const outdeg = wordGraph._succ[head][tail];
@@ -495,9 +502,6 @@ export function isWin(
     //균권,권벽,벽읍,읍륵,륵흔,흔굉,굉확,확견,견융,융준,준축,축융
 
     return a_key! - b_key!;
-  });
-  nextWords.sort((a, b) => {
-    return a.moveNum! - b.moveNum!;
   });
 
   for (let { word, isLoop } of nextWords) {

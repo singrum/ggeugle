@@ -68,7 +68,7 @@ export default function NavBar() {
             icon={i === menu ? e.fillIcon : e.icon}
             name={e.name}
             className={cn({
-              "md:bg-accent text-foreground": i === menu,
+              "md:bg-accent text-foreground lg:font-medium": i === menu,
             })}
             onClick={() => {
               if (menu === 3 && i !== 3 && !isEqual(rule, ruleForm)) {

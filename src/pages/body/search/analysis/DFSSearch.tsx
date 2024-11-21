@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { getNextWords } from "@/lib/wc/algorithms";
+import { precedenceMap } from "@/lib/wc/analysisPrecedence";
 import { Word } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
 import { ChevronRight, CornerDownRight, Play } from "lucide-react";
@@ -124,20 +125,19 @@ export default function DFSSearch() {
       true
     )
       .sort((a, b) => {
-        // let a_key, b_key;
-        // if (isGuelPrecedence && precedenceMap[a.word[0]]?.[a.word[1]]) {
-        //   a_key = -precedenceMap[a.word[0]][a.word[1]];
-        // } else {
-        //   a_key = a.moveNum;
-        // }
-        // if (isGuelPrecedence && precedenceMap[b.word[0]]?.[b.word[1]]) {
-        //   b_key = -precedenceMap[b.word[0]][b.word[1]];
-        // } else {
-        //   b_key = b.moveNum;
-        // }
+        let a_key, b_key;
+        if (isGuelPrecedence && precedenceMap[a.word[0]]?.[a.word[1]]) {
+          a_key = -precedenceMap[a.word[0]][a.word[1]];
+        } else {
+          a_key = a.moveNum;
+        }
+        if (isGuelPrecedence && precedenceMap[b.word[0]]?.[b.word[1]]) {
+          b_key = -precedenceMap[b.word[0]][b.word[1]];
+        } else {
+          b_key = b.moveNum;
+        }
 
-        // return a_key! - b_key!;
-        return a.moveNum! - b.moveNum!;
+        return a_key! - b_key!;
       })
       .map((e) => e.word)
       .map(([head, tail]) => ({
