@@ -134,20 +134,13 @@ export function pruningWinLosCir(
     for (let tail of wordGraph.successors(head)) {
       const returnPair = pair(head, tail);
 
-      if (!returnPair) {
-        continue;
-      }
       if (
-        !(
-          (head == returnPair[1] && tail == returnPair[0]) ||
-          (singleChars.has(head) && singleChars.has(returnPair[0]))
-        )
-      ) {
+        !returnPair ||
+        !singleChars.has(head) ||
+        !singleChars.has(returnPair[0])
+      )
         continue;
-      }
-
       const [pairHead, pairTail] = returnPair;
-
       // 맴맴, 삐삐, 죽력죽
       if (pairHead === head) {
         const outdeg = wordGraph._succ[head][tail];
