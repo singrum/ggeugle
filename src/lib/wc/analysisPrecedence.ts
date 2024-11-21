@@ -62,4 +62,5 @@ export const precedenceMap: Record<Char, Record<Char, number>> = {
   혁: { 괘: 3, 직: 2, 권: 1 },
   을: { 축: 1 },
   멱: { 름: 1 },
+  삭: { 름: 2, 삭: 1 },
 };
