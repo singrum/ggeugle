@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button.js";
+import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
@@ -36,7 +37,7 @@ import { cn } from "@/lib/utils";
 import { sampleRules } from "@/lib/wc/rules";
 import { isEqual } from "lodash";
 import { ChevronDown, CircleHelp } from "lucide-react";
-import React, { Fragment, ReactNode, useState } from "react";
+import React, { Fragment, ReactNode, useRef, useState } from "react";
 import { SettnigMenu } from "./SettingMenu";
 const ruleGroup: { name: string; children: ReactNode[] }[] = [
   {
@@ -102,7 +103,7 @@ export function RuleSetting() {
                   <div>{name}</div>
                   <Popover>
                     <PopoverTrigger
-                      className="text-muted-foreground pr-2"
+                      className="text-muted-foreground pr-2 hover:text-foreground transition-colors"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <CircleHelp className="w-4 h-4" />
@@ -193,14 +194,22 @@ export function RuleSetting() {
   );
 }
 
+function getWordsFromUploadedDict(text: string) {
+  return text.split("\n").map((x) => x.trim());
+}
+
 function DictSetting() {
-  const ruleForm = useWC((e) => e.ruleForm);
-  const setRuleForm = useWC((e) => e.setRuleForm);
+  const [ruleForm, setRuleForm] = useWC((e) => [e.ruleForm, e.setRuleForm]);
+  const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
+  console.log(ruleForm.dict);
   return (
     <SettnigMenu name="사전">
       <Select
-        value={ruleForm.dict.toString()}
+        value={
+          typeof ruleForm.dict === "object" ? "" : ruleForm.dict.toString()
+        }
         onValueChange={(e) => {
+          ref.current.value = "";
           switch (parseInt(e)) {
             case 0:
               setRuleForm({
@@ -260,23 +269,75 @@ function DictSetting() {
         }}
       >
         <SelectTrigger className="w-[180px]">
-          <SelectValue />
+          {typeof ruleForm.dict === "object" ? "사전 선택" : <SelectValue />}
         </SelectTrigger>
         <SelectContent>
           {dicts.map((dict, i) => (
             <SelectItem className="text-xs" value={`${i}`} key={i}>
-              <div className="flex gap-1">
-                {dict}
-                {/* {(i === 4 || i === 5) && (
-                  <div className=" rounded-md bg-[#F3D368]  px-1.5 py-0.5 text-xs leading-none text-black font-semibold no-underline group-hover:no-underline">
-                    New
-                  </div>
-                )} */}
-              </div>
+              <div className="flex gap-1">{dict}</div>
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
+      <div>
+        <div className="grid w-full max-w-sm items-center gap-1.5">
+          <div className="flex items-center gap-1">
+            <Label htmlFor="dict-file">파일 업로드 </Label>
+            <Popover>
+              <PopoverTrigger>
+                <CircleHelp className="w-4 h-4 text-muted-foreground hover:text-foreground transition-colors cursor-pointer" />
+              </PopoverTrigger>
+              <PopoverContent className="text-sm">
+                <p>
+                  .txt 형식의 <span className="font-semibold">텍스트 파일</span>
+                  만 업로드 가능합니다.
+                </p>
+                <p>
+                  단어들은 <span className="font-semibold">줄바꿈</span>으로
+                  구분됩니다.
+                </p>
+              </PopoverContent>
+            </Popover>
+          </div>
+          <Input
+            ref={ref}
+            id="dict-file"
+            type="file"
+            accept=".txt"
+            className="file:text-foreground"
+            multiple
+            onChange={(e) => {
+              const files = e.target.files;
+              for (const file of files!) {
+                let reader = new FileReader();
+                reader.readAsText(file, "UTF-8");
+                reader.onload = function () {
+                  setRuleForm({
+                    ...ruleForm,
+                    dict: { uploadedDict: reader.result as string },
+                  });
+                };
+              }
+            }}
+          />
+          {typeof ruleForm.dict === "object" && (
+            <Card className="px-4 py-2 text-sm flex flex-col gap-1">
+              {getWordsFromUploadedDict(ruleForm.dict.uploadedDict)
+                .slice(0, 10)
+                .map((e, i) => (
+                  <div key={i}>{e}</div>
+                ))}
+              <div className="text-muted-foreground">
+                등{" "}
+                {getWordsFromUploadedDict(
+                  ruleForm.dict.uploadedDict
+                ).length.toLocaleString()}{" "}
+                단어
+              </div>
+            </Card>
+          )}
+        </div>
+      </div>
     </SettnigMenu>
   );
 }

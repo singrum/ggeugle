@@ -26,7 +26,6 @@ export const dicts = [
   "네이버 국어사전",
   "끄투 노인정",
   "끄투 어인정",
-  "test",
 ];
 
 export const poses = [
@@ -53,7 +52,7 @@ export const strengths = [
 export const turns = ["선공", "랜덤", "후공"];
 
 export interface RuleForm {
-  dict: number; // 4
+  dict: number | { uploadedDict: string }; // 6
   pos: boolean[]; // 8
   cate: boolean[]; // 4
   chan: number;
