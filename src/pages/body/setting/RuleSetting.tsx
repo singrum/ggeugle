@@ -407,7 +407,7 @@ function ChanSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettnigMenu name="두음법칙">
+    <SettnigMenu name="두음 법칙">
       <Select
         value={ruleForm.chan.toString()}
         onValueChange={(e) => setRuleForm({ ...ruleForm, chan: parseInt(e) })}

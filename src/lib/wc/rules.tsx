@@ -381,7 +381,7 @@ export const sampleRules: {
         <p>
           <span className="font-semibold">(구)표준국어대사전</span>에 등록된{" "}
           <span className="font-semibold">명사</span>만 사용 가능하며{" "}
-          <span className="font-semibold">자음 상하 반전 두음법칙</span>이
+          <span className="font-semibold">자음 상하 반전 두음 법칙</span>이
           적용됩니다.
         </p>
       </div>
@@ -419,7 +419,7 @@ export const sampleRules: {
         <p>
           <span className="font-semibold">(구)표준국어대사전</span>에 등록된{" "}
           <span className="font-semibold">명사</span>만 사용 가능하며{" "}
-          <span className="font-semibold">초성 종성 자유 두음법칙</span>이
+          <span className="font-semibold">초성 종성 자유 두음 법칙</span>이
           적용됩니다.
         </p>
       </div>
@@ -458,7 +458,7 @@ export const sampleRules: {
         <p>
           <span className="font-semibold">(신)표준국어대사전</span>에 등록된{" "}
           <span className="font-semibold">세 글자 명사</span>만 사용 가능하며{" "}
-          <span className="font-semibold">표준두음법칙</span>이 적용됩니다.{" "}
+          <span className="font-semibold">표준 두음 법칙</span>이 적용됩니다.{" "}
         </p>
         <p>
           <span className="font-semibold">한방 단어</span>는 사용 불가능합니다.
