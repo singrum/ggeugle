@@ -11,10 +11,9 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          끝말잇기 룰 중 현재까지 가장 인기가 많고 연구가 많이 이뤄진 룰입니다.
-          <span className="font-medium">(구)표준국어대사전</span>에 등록된{" "}
-          <span className="font-medium">명사</span> 사용 가능하며,{" "}
-          <span>표준 두음 법칙</span>이 적용됩니다.
+          <span className="font-semibold">(구)표준국어대사전</span>에 등록된{" "}
+          <span className="font-semibold">명사</span>만 사용 가능하며,{" "}
+          <span className="font-semibold">표준 두음 법칙</span>이 적용됩니다.
         </p>
       </div>
     ),
@@ -50,9 +49,9 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          <span className="font-medium">(신)표준국어대사전</span>에 등록된{" "}
-          <span className="font-medium">명사</span> 사용 가능하며,{" "}
-          <span>표준 두음 법칙</span>이 적용됩니다.
+          <span className="font-semibold">(신)표준국어대사전</span>에 등록된{" "}
+          <span className="font-semibold">명사</span>만 사용 가능하며,{" "}
+          <span className="font-semibold">표준 두음 법칙</span>이 적용됩니다.
         </p>
       </div>
     ),
@@ -87,10 +86,9 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          구엜룰 다음으로 인기가 많은 룰입니다.
-          <span className="font-medium">네이버 국어사전</span>에 등록된{" "}
-          <span className="font-medium">명사</span> 사용 가능하며,{" "}
-          <span>자유 두음 법칙</span>이 적용됩니다.
+          <span className="font-semibold">네이버 국어사전</span>에 등록된{" "}
+          <span className="font-semibold">명사</span> 사용 가능하며,{" "}
+          <span className="font-semibold">자유 두음 법칙</span>이 적용됩니다.
         </p>
       </div>
     ),
@@ -126,9 +124,9 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          <span className="font-medium">(구)표준국어대사전</span>에 등록된{" "}
-          <span className="font-medium">명사</span> 사용 가능하며, 두음 법칙은
-          적용하지 않습니다.
+          <span className="font-semibold">(구)표준국어대사전</span>에 등록된{" "}
+          <span className="font-semibold">명사</span>만 사용 가능하며,{" "}
+          <span className="font-semibold">두음 법칙은 불가능</span>합니다.
         </p>
       </div>
     ),
@@ -163,11 +161,11 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          <span className="font-medium">(구)표준국어대사전</span>에 등록된{" "}
-          <span className="font-medium">명사</span>만 사용 가능하며, 두음 법칙은
-          적용하지 않습니다.
+          <span className="font-semibold">(구)표준국어대사전</span>에 등록된{" "}
+          <span className="font-semibold">명사</span>만 사용 가능하며,{" "}
+          <span className="font-semibold">두음 법칙과 한방단어는 불가능</span>
+          합니다.
         </p>
-        <p>한방 단어는 불가능합니다.</p>
       </div>
     ),
     ruleForm: {
@@ -229,9 +227,9 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          <span className="font-medium">우리말샘</span>에 등록된{" "}
-          <span className="font-medium">일반어 명사</span>만 사용 가능하며, 표준
-          두음 법칙이 적용됩니다.
+          <span className="font-semibold">우리말샘</span>에 등록된{" "}
+          <span className="font-semibold">일반어 명사</span>만 사용 가능하며,{" "}
+          <span className="font-semibold">표준 두음 법칙</span>이 적용됩니다.
         </p>
       </div>
     ),
@@ -266,9 +264,10 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          <span className="font-medium">우리말샘</span>에 등록된{" "}
-          <span className="font-medium">두 글자인 일반어 명사</span>만 사용
-          가능하며, 표준 두음 법칙이 적용됩니다.
+          <span className="font-semibold">우리말샘</span>에 등록된{" "}
+          <span className="font-semibold">두 글자인 일반어 명사</span>만 사용
+          가능하며, <span className="font-semibold">표준 두음 법칙</span>이
+          적용됩니다.
         </p>
       </div>
     ),
@@ -303,10 +302,11 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          <span className="font-medium">우리말샘</span>에 등록된{" "}
-          <span className="font-medium">두 글자인 일반어 명사</span> 또는{" "}
-          <span className="font-medium">두 글자인 옛말 명사</span>만 사용
-          가능하며, 표준 두음 법칙이 적용됩니다.
+          <span className="font-semibold">우리말샘</span>에 등록된{" "}
+          <span className="font-semibold">두 글자인 일반어 명사</span> 또는{" "}
+          <span className="font-semibold">두 글자인 옛말 명사</span>만 사용
+          가능하며, <span className="font-semibold">표준 두음 법칙</span>이
+          적용됩니다.
         </p>
       </div>
     ),
@@ -341,9 +341,10 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          <span className="font-medium">(구)표준국어대사전</span>에 등록된{" "}
-          <span className="font-medium">명사</span>만 사용 가능합니다.{" "}
-          <span className="font-medium">모음 반전 두음 법칙</span>이 적용됩니다.
+          <span className="font-semibold">(구)표준국어대사전</span>에 등록된{" "}
+          <span className="font-semibold">명사</span>만 사용 가능하며{" "}
+          <span className="font-semibold">모음 반전 두음 법칙</span>이
+          적용됩니다.
         </p>
       </div>
     ),
@@ -378,9 +379,9 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          <span className="font-medium">(구)표준국어대사전</span>에 등록된{" "}
-          <span className="font-medium">명사</span>만 사용 가능합니다.{" "}
-          <span className="font-medium">자음 상하 반전 두음법칙</span>이
+          <span className="font-semibold">(구)표준국어대사전</span>에 등록된{" "}
+          <span className="font-semibold">명사</span>만 사용 가능하며{" "}
+          <span className="font-semibold">자음 상하 반전 두음법칙</span>이
           적용됩니다.
         </p>
       </div>
@@ -416,9 +417,9 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          <span className="font-medium">(구)표준국어대사전</span>에 등록된{" "}
-          <span className="font-medium">명사</span>만 사용 가능합니다.{" "}
-          <span className="font-medium">초성 종성 자유 두음법칙</span>이
+          <span className="font-semibold">(구)표준국어대사전</span>에 등록된{" "}
+          <span className="font-semibold">명사</span>만 사용 가능하며{" "}
+          <span className="font-semibold">초성 종성 자유 두음법칙</span>이
           적용됩니다.
         </p>
       </div>
@@ -455,10 +456,12 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          <span className="font-medium">(신)표준국어대사전</span>에 등록된{" "}
-          <span className="font-medium">세 글자 명사</span>만 사용 가능하며{" "}
-          <span className="font-medium">표준두음법칙</span>이 적용됩니다.
-          <span className="font-medium">한방 단어</span>는 사용 불가능합니다.
+          <span className="font-semibold">(신)표준국어대사전</span>에 등록된{" "}
+          <span className="font-semibold">세 글자 명사</span>만 사용 가능하며{" "}
+          <span className="font-semibold">표준두음법칙</span>이 적용됩니다.{" "}
+        </p>
+        <p>
+          <span className="font-semibold">한방 단어</span>는 사용 불가능합니다.
         </p>
       </div>
     ),
@@ -493,10 +496,10 @@ export const sampleRules: {
     desc: (
       <div>
         <p>
-          <span className="font-medium">구엜룰</span>과 동일하지만{" "}
-          <span className="font-medium">붕어톱</span>,{" "}
-          <span className="font-medium">궤휼</span>,{" "}
-          <span className="font-medium">잎뽕</span> 단어는 사용 불가능합니다.
+          <span className="font-semibold">구엜룰</span>에서{" "}
+          <span className="font-semibold">붕어톱</span>,{" "}
+          <span className="font-semibold">궤휼</span>,{" "}
+          <span className="font-semibold">잎뽕</span>이 제외됩니다.
         </p>
       </div>
     ),

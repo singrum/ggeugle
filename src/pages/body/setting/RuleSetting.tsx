@@ -15,6 +15,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Select,
@@ -30,7 +35,7 @@ import { cates, dicts, manners, poses, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { sampleRules } from "@/lib/wc/rules";
 import { isEqual } from "lodash";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, CircleHelp } from "lucide-react";
 import React, { Fragment, ReactNode, useState } from "react";
 import { SettnigMenu } from "./SettingMenu";
 const ruleGroup: { name: string; children: ReactNode[] }[] = [
@@ -82,11 +87,11 @@ export function RuleSetting() {
         <ScrollArea className="w-full pb-4">
           <div className="flex w-full min-w-0 gap-2 whitespace-nowrap px-4">
             <KkutuRuleSelectBtn />
-            {sampleRules.map(({ name, ruleForm }) => (
+            {sampleRules.map(({ name, ruleForm, desc }) => (
               <Fragment key={name}>
                 <Button
                   size="sm"
-                  className={cn("gap-2")}
+                  className={cn("gap-2 pr-0")}
                   variant="secondary"
                   onClick={() => {
                     setRuleForm(ruleForm);
@@ -95,17 +100,17 @@ export function RuleSetting() {
                   }}
                 >
                   <div>{name}</div>
-
-                  {/* <DropdownMenu>
-                    <DropdownMenuTrigger
-                      className="focus-visible:ring-offset-1 focus-visible:ring-0"
+                  <Popover>
+                    <PopoverTrigger
+                      className="text-muted-foreground pr-2"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <CircleHelp className="w-4 h-4" />
-                    </DropdownMenuTrigger>
-
-                    <DropdownMenuContent>sadf</DropdownMenuContent>
-                  </DropdownMenu> */}
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[270px] text-sm">
+                      {desc}
+                    </PopoverContent>
+                  </Popover>
                 </Button>
               </Fragment>
             ))}
@@ -699,7 +704,7 @@ function RegexFilterSetting() {
         </div>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none">
-            <AccordionTrigger className="text-sm px-1 pt-4 pb-2">
+            <AccordionTrigger className="text-sm px-1 pt-4 pb-2 ">
               예시
             </AccordionTrigger>
             <AccordionContent className="font-semibold px-1">
