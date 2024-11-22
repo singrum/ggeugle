@@ -11,94 +11,79 @@ async function fetchWords(url: string) {
 
 export async function getEngine(ruleForm: RuleForm) {
   let words: string[] = [];
-
-  switch (ruleForm.dict) {
-    case 0:
-      words = (
-        await Promise.all(
-          poses
-            .filter((_, i) => ruleForm.pos[i])
-            .map((pos) =>
-              fetchWords(
-                `https://singrum.github.io/KoreanDict/oldict/db/${pos}`
+  if (typeof ruleForm.dict === "object") {
+    words = ruleForm.dict.uploadedDict.split("\n").map((x) => x.trim());
+  } else {
+    switch (ruleForm.dict) {
+      case 0:
+        words = (
+          await Promise.all(
+            poses
+              .filter((_, i) => ruleForm.pos[i])
+              .map((pos) =>
+                fetchWords(
+                  `https://singrum.github.io/KoreanDict/oldict/db/${pos}`
+                )
               )
-            )
-        )
-      ).flat();
+          )
+        ).flat();
 
-      break;
-    case 1:
-      words = (
-        await Promise.all(
-          poses
-            .filter((_, i) => ruleForm.pos[i])
-            .map((pos) =>
-              fetchWords(
-                `https://singrum.github.io/KoreanDict/stdict/db/${pos}`
+        break;
+      case 1:
+        words = (
+          await Promise.all(
+            poses
+              .filter((_, i) => ruleForm.pos[i])
+              .map((pos) =>
+                fetchWords(
+                  `https://singrum.github.io/KoreanDict/stdict/db/${pos}`
+                )
               )
-            )
-        )
-      ).flat();
-      break;
-    case 2:
-      const pairs = [];
-      for (let cate of cates.filter((_, i) => ruleForm.cate[i]))
-        for (let pos of poses.filter((_, i) => ruleForm.pos[i]))
-          pairs.push([cate, pos]);
+          )
+        ).flat();
+        break;
+      case 2:
+        const pairs = [];
+        for (let cate of cates.filter((_, i) => ruleForm.cate[i]))
+          for (let pos of poses.filter((_, i) => ruleForm.pos[i]))
+            pairs.push([cate, pos]);
 
-      words = (
-        await Promise.all(
-          pairs.map((e) =>
-            fetchWords(
-              `https://singrum.github.io/KoreanDict/opendict/db/${e[0]}/${e[1]}`
+        words = (
+          await Promise.all(
+            pairs.map((e) =>
+              fetchWords(
+                `https://singrum.github.io/KoreanDict/opendict/db/${e[0]}/${e[1]}`
+              )
             )
           )
-        )
-      ).flat();
+        ).flat();
 
-      break;
-    case 3:
-      words = (
-        await Promise.all(
-          poses
-            .filter((_, i) => ruleForm.pos[i])
-            .map((pos) =>
-              fetchWords(
-                `https://singrum.github.io/KoreanDict/naverdict/db/${pos}`
+        break;
+      case 3:
+        words = (
+          await Promise.all(
+            poses
+              .filter((_, i) => ruleForm.pos[i])
+              .map((pos) =>
+                fetchWords(
+                  `https://singrum.github.io/KoreanDict/naverdict/db/${pos}`
+                )
               )
-            )
-        )
-      ).flat();
-      break;
-    case 4:
-      words = await fetchWords(
-        `https://singrum.github.io/KoreanDict/kkutu/db/노인정`
-      );
-      break;
-    case 5:
-      words = await fetchWords(
-        `https://singrum.github.io/KoreanDict/kkutu/db/어인정`
-      );
+          )
+        ).flat();
+        break;
+      case 4:
+        words = await fetchWords(
+          `https://singrum.github.io/KoreanDict/kkutu/db/노인정`
+        );
+        break;
+      case 5:
+        words = await fetchWords(
+          `https://singrum.github.io/KoreanDict/kkutu/db/어인정`
+        );
 
-      break;
-    case 6:
-      const pairs_ = [];
-
-      for (let cate of cates)
-        for (let pos of poses.slice(0, poses.length - 1))
-          pairs_.push([cate, pos]);
-
-      words = (
-        await Promise.all([
-          fetchWords(
-            `https://paback2.github.io/xsipaback/%EC%96%B4%EC%9D%B8%EC%A0%95%EC%98%AC%ED%92%88%EC%82%AC.txt`
-          ),
-          fetchWords(
-            `https://paback2.github.io/xsipaback/%EC%9A%B0%EC%83%98.txt`
-          ),
-        ])
-      ).flat();
-      break;
+        break;
+    }
   }
   console.log("데이터 로드 완료");
 
