@@ -80,7 +80,7 @@ export function RuleSetting() {
 
   return (
     <div className="flex flex-col min-w-0 mb-[200px] relative w-full max-w-full">
-      <div className="flex flex-col min-w-0 p-4 px-0 pb-2 md:pb-0 ">
+      <div className="flex flex-col min-w-0 py-4 px-0 pb-2 md:p-0">
         <div className="flex gap-4 items-center mb-2 justify-between md:justify-start px-6 md:px-2">
           <div className="font-semibold mb-2">바로 가기</div>
         </div>
@@ -122,9 +122,6 @@ export function RuleSetting() {
       <Separator className="hidden md:block mb-4" />
 
       <div className="flex flex-col md:flex-row md:min-h-0 pt-4">
-        {/* <div className="flex gap-4 items-center mb-2 justify-between md:justify-start md:hidden px-6">
-          <div className="font-semibold text-lg">직접 설정</div>
-        </div> */}
         <div className="md:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col shadow-[inset_0_-1px_0_0_hsl(var(--border))] md:shadow-none px-6 md:px-0 h-full">
           {ruleGroup.map(({ name }, i) => (
             <div className="flex items-center" key={i}>
