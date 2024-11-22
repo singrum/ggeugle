@@ -201,7 +201,7 @@ function getWordsFromUploadedDict(text: string) {
 function DictSetting() {
   const [ruleForm, setRuleForm] = useWC((e) => [e.ruleForm, e.setRuleForm]);
   const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
-  console.log(ruleForm.dict);
+
   return (
     <SettnigMenu name="사전">
       <Select
@@ -365,7 +365,7 @@ function PosSetting() {
                       i === 8) ||
                     ruleForm.dict === 4 ||
                     ruleForm.dict === 5 ||
-                    ruleForm.dict === 6,
+                    typeof ruleForm.dict === "object",
                 }
               )}
               onClick={() => {
@@ -378,7 +378,7 @@ function PosSetting() {
                       i === 8) ||
                     ruleForm.dict === 4 ||
                     ruleForm.dict === 5 ||
-                    ruleForm.dict === 6
+                    typeof ruleForm.dict === "object"
                   )
                 ) {
                   setRuleForm({
@@ -418,7 +418,7 @@ function CateSetting() {
                       ruleForm.dict === 3 ||
                       ruleForm.dict === 4 ||
                       ruleForm.dict === 5 ||
-                      ruleForm.dict === 6,
+                      typeof ruleForm.dict === "object",
                   }
                 )}
                 onClick={() => {
