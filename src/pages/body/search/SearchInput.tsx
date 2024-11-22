@@ -57,7 +57,9 @@ function SearchTitle() {
   return (
     <>
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold tracking-tight">단어 검색</h1>
+        <h1 className="text-2xl font-bold tracking-tight">
+          끝말잇기 단어 검색기
+        </h1>
         <div className="text-sm text-muted-foreground">
           <div className="">끝말잇기에서 사용 가능한 단어들을 검색합니다.</div>
         </div>

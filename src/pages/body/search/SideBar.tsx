@@ -45,9 +45,9 @@ export function Content() {
   return (
     <div className="px-2 bg-background overflow-auto scrollbar-none">
       <div className="flex gap-2 justify-between pt-3 items-center">
-        <div className="pl-4">
+        <div className="pl-4 flex items-center">
           <Popover>
-            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-foreground font-medium text-sm">
+            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-foreground font-medium text-sm whitespace-nowrap">
               {charMenuList[charMenu].name} 글자
             </PopoverTrigger>
             <PopoverContent className="text-sm">
@@ -56,8 +56,10 @@ export function Content() {
           </Popover>
         </div>
         <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
-          <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1">
-            <div className="text-muted-foreground mr-1">정렬:</div>
+          <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1 shrink">
+            <div className="text-muted-foreground mr-1 whitespace-nowrap">
+              정렬:
+            </div>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
