@@ -80,13 +80,13 @@ export function RuleSetting() {
 
   return (
     <div className="flex flex-col min-w-0 mb-[200px] relative w-full max-w-full">
-      <div className="flex flex-col min-w-0 p-4 px-0 pb-2 md:border border-border md:rounded-xl ">
-        <div className="flex gap-4 items-center mb-2 justify-between md:justify-start px-6">
+      <div className="flex flex-col min-w-0 p-4 px-0 pb-2 md:pb-0 ">
+        <div className="flex gap-4 items-center mb-2 justify-between md:justify-start px-6 md:px-2">
           <div className="font-semibold mb-2">바로 가기</div>
         </div>
 
         <ScrollArea className="w-full pb-4">
-          <div className="flex w-full min-w-0 gap-2 whitespace-nowrap px-4">
+          <div className="flex w-full min-w-0 gap-2 whitespace-nowrap px-4 md:p-0">
             <KkutuRuleSelectBtn />
             {sampleRules.map(({ name, ruleForm, desc }) => (
               <Fragment key={name}>
@@ -119,6 +119,7 @@ export function RuleSetting() {
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </div>
+      <Separator className="hidden md:block mb-4" />
 
       <div className="flex flex-col md:flex-row md:min-h-0 pt-4">
         {/* <div className="flex gap-4 items-center mb-2 justify-between md:justify-start md:hidden px-6">
