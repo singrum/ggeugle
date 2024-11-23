@@ -103,10 +103,13 @@ export function RuleSetting() {
                   <div>{name}</div>
                   <Popover>
                     <PopoverTrigger
-                      className="text-muted-foreground pr-2 hover:text-foreground transition-colors"
+                      asChild
+                      className="text-muted-foreground h-full transition-colors hover:text-foreground"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <CircleHelp className="w-4 h-4" />
+                      <div className="h-full flex items-center justify-center pr-2">
+                        <CircleHelp className="w-4 h-4" />
+                      </div>
                     </PopoverTrigger>
                     <PopoverContent className="w-[270px] text-sm">
                       {desc}
