@@ -191,7 +191,7 @@ export default function DFSSearch() {
             <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline font-medium">
               {searchInputValue}
             </span>
-            에서 필승 전략 탐색을 시작합니다.
+            에서 필승 전략을 탐색합니다.
           </AlertTitle>
           <AlertDescription>
             {nextRoutesInfo.length >= 2 ? (

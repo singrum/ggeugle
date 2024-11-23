@@ -40,13 +40,24 @@ export default function SearchResult() {
   );
 }
 
-const tabInfo = [
-  { name: "첫 글자" },
-  { name: "끝 글자" },
-  { name: "전략 탐색" },
-  { name: "두음 법칙" },
-  // { name: "도달가능성" },
-];
+const tabInfo = {
+  routeChar: [
+    { name: "첫 글자" },
+    { name: "끝 글자" },
+    { name: "필승 전략 탐색" },
+    { name: "두음 법칙" },
+  ],
+
+  notRouteChar: [
+    { name: "첫 글자" },
+    { name: "끝 글자" },
+    { name: "게임 트리" },
+    { name: "두음 법칙" },
+  ],
+
+  notChar: [{ name: "첫 글자" }, { name: "끝 글자" }],
+};
+
 const wins = [
   "강",
   "가",
@@ -1018,13 +1029,25 @@ function WordsResult() {
     }),
     [searchInputValue.length === 0]
   );
+  useEffect(() => {
+    if (searchInputValue.length >= 2 && tab >= 2) {
+      setTab(0);
+    }
+  }, [searchInputValue]);
   const showShowcase =
     isGuel && searchInputValue.length === 0 && exceptWords.length === 0;
+
   return (
     <>
       <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 flex whitespace-nowrap overflow-auto gap-4 w-full min-h-1 scrollbar-none">
         {searchInputValue.length >= 1 &&
-          tabInfo.map(({ name }, i) => (
+          (searchInputValue.length >= 2
+            ? tabInfo["notChar"]
+            : engine &&
+              engine.chanGraph.nodes[searchInputValue]?.type === "route"
+            ? tabInfo["routeChar"]
+            : tabInfo["notRouteChar"]
+          ).map(({ name }, i) => (
             <div
               key={i}
               className={cn(
