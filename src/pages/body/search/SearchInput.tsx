@@ -61,7 +61,9 @@ function SearchTitle() {
           끝말잇기 단어 검색기
         </h1>
         <div className="text-sm text-muted-foreground">
-          <div className="">끝말잇기에서 사용 가능한 단어들을 검색합니다.</div>
+          <div className="">
+            끝말잇기에서 사용 가능한 단어들을 검색하고, 필승 전략을 탐색합니다.
+          </div>
         </div>
       </div>
     </>
@@ -267,6 +269,7 @@ function WordInput() {
   const [exceptBy] = useCookieSettings((e) => [e.exceptBy]);
 
   const debounced = useDebouncedCallback((value) => {
+    
     setSearchInputValue(value);
   }, 150);
   useEffect(() => {
@@ -293,6 +296,7 @@ function WordInput() {
       }
     }
   };
+
   return (
     <div className="pt-2">
       <div className="relative">
