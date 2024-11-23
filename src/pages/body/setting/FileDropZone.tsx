@@ -32,6 +32,11 @@ export function FileDropZone() {
             <p className="font-medium">
               클릭 또는 파일을 이곳에 드래그 하세요.
             </p>
+            <div className="text-sm text-center">
+              <p className="text-muted-foreground font-normal">
+                텍스트 파일만 인식 가능하며 각 단어는 줄바꿈으로 구분됩니다.
+              </p>
+            </div>
           </div>
         )}
         <input {...getInputProps()} />
