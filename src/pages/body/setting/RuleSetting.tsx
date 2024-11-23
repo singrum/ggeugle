@@ -5,7 +5,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button.js";
-import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
@@ -37,7 +36,8 @@ import { cn } from "@/lib/utils";
 import { sampleRules } from "@/lib/wc/rules";
 import { isEqual } from "lodash";
 import { ChevronDown, CircleHelp } from "lucide-react";
-import React, { Fragment, ReactNode, useRef, useState } from "react";
+import React, { Fragment, ReactNode, useState } from "react";
+import { FileDropZone } from "./FileDropZone";
 import { SettnigMenu } from "./SettingMenu";
 const ruleGroup: { name: string; children: ReactNode[] }[] = [
   {
@@ -145,7 +145,7 @@ export function RuleSetting() {
           ))}
         </div>
 
-        <div className="flex flex-col md:flex-1 px-6 py-2 md:py-0">
+        <div className="flex flex-col md:flex-1 px-6 py-2 md:py-0 min-w-0">
           {ruleGroup[ruleGroupMenu].children.map((e, i) => (
             <Fragment key={i}>
               {e}
@@ -195,150 +195,93 @@ export function RuleSetting() {
   );
 }
 
-function getWordsFromUploadedDict(text: string) {
-  return text.split("\n").map((x) => x.trim());
-}
-
 function DictSetting() {
   const [ruleForm, setRuleForm] = useWC((e) => [e.ruleForm, e.setRuleForm]);
-  const ref = useRef() as React.MutableRefObject<HTMLInputElement>;
 
   return (
     <SettnigMenu name="사전">
       <Select
         value={
-          typeof ruleForm.dict === "object" ? "" : ruleForm.dict.toString()
+          typeof ruleForm.dict === "object" ? "file" : ruleForm.dict.toString()
         }
         onValueChange={(e) => {
-          ref.current.value = "";
-          switch (parseInt(e)) {
-            case 0:
-              setRuleForm({
-                ...ruleForm,
-                dict: parseInt(e),
-                cate: [true, true, true, true],
-              });
-              break;
-            case 1:
-              setRuleForm({
-                ...ruleForm,
-                dict: parseInt(e),
-                cate: [true, false, false, false],
-                pos: { ...ruleForm.pos, "8": false },
-              });
-              break;
-            case 2:
-              setRuleForm({
-                ...ruleForm,
-                dict: parseInt(e),
-                pos: { ...ruleForm.pos, "8": false },
-              });
-              break;
-            case 3:
-              setRuleForm({
-                ...ruleForm,
-                dict: parseInt(e),
-                cate: [true, true, true, true],
-                pos: { ...ruleForm.pos, "7": false, "8": false },
-              });
-              break;
-            case 4:
-              setRuleForm({
-                ...ruleForm,
-                dict: parseInt(e),
-                cate: [true, true, true, true],
-                pos: [true, true, true, true, true, true, true, true, true],
-              });
-              break;
-            case 5:
-              setRuleForm({
-                ...ruleForm,
-                dict: parseInt(e),
-                cate: [true, true, true, true],
-                pos: [true, true, true, true, true, true, true, true, true],
-              });
-              break;
-            case 6:
-              setRuleForm({
-                ...ruleForm,
-                dict: parseInt(e),
-                cate: [true, true, true, true],
-                pos: [true, true, true, true, true, true, true, true, true],
-              });
-              break;
+          if (e === "file") {
+            setRuleForm({ ...ruleForm, dict: { uploadedDict: "" } });
+          } else {
+            switch (parseInt(e)) {
+              case 0:
+                setRuleForm({
+                  ...ruleForm,
+                  dict: parseInt(e),
+                  cate: [true, true, true, true],
+                });
+                break;
+              case 1:
+                setRuleForm({
+                  ...ruleForm,
+                  dict: parseInt(e),
+                  cate: [true, false, false, false],
+                  pos: { ...ruleForm.pos, "8": false },
+                });
+                break;
+              case 2:
+                setRuleForm({
+                  ...ruleForm,
+                  dict: parseInt(e),
+                  pos: { ...ruleForm.pos, "8": false },
+                });
+                break;
+              case 3:
+                setRuleForm({
+                  ...ruleForm,
+                  dict: parseInt(e),
+                  cate: [true, true, true, true],
+                  pos: { ...ruleForm.pos, "7": false, "8": false },
+                });
+                break;
+              case 4:
+                setRuleForm({
+                  ...ruleForm,
+                  dict: parseInt(e),
+                  cate: [true, true, true, true],
+                  pos: [true, true, true, true, true, true, true, true, true],
+                });
+                break;
+              case 5:
+                setRuleForm({
+                  ...ruleForm,
+                  dict: parseInt(e),
+                  cate: [true, true, true, true],
+                  pos: [true, true, true, true, true, true, true, true, true],
+                });
+                break;
+              case 6:
+                setRuleForm({
+                  ...ruleForm,
+                  dict: parseInt(e),
+                  cate: [true, true, true, true],
+                  pos: [true, true, true, true, true, true, true, true, true],
+                });
+                break;
+            }
           }
         }}
       >
-        <SelectTrigger className="w-[180px]">
-          {typeof ruleForm.dict === "object" ? "사전 선택" : <SelectValue />}
-        </SelectTrigger>
+        <SelectTrigger className="w-[180px]">{<SelectValue />}</SelectTrigger>
         <SelectContent>
           {dicts.map((dict, i) => (
             <SelectItem className="text-xs" value={`${i}`} key={i}>
               <div className="flex gap-1">{dict}</div>
             </SelectItem>
           ))}
+          <Separator />
+          <SelectItem className="text-xs" value={`file`}>
+            <div className="flex gap-1">직접 입력</div>
+          </SelectItem>
         </SelectContent>
       </Select>
-      <div>
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <div className="flex items-center gap-1">
-            <Label htmlFor="dict-file">파일 업로드 </Label>
-            <Popover>
-              <PopoverTrigger>
-                <CircleHelp className="w-4 h-4 text-muted-foreground hover:text-foreground transition-colors cursor-pointer" />
-              </PopoverTrigger>
-              <PopoverContent className="text-sm">
-                <p>
-                  .txt 형식의 <span className="font-semibold">텍스트 파일</span>
-                  만 업로드 가능합니다.
-                </p>
-                <p>
-                  단어들은 <span className="font-semibold">줄바꿈</span>으로
-                  구분됩니다.
-                </p>
-              </PopoverContent>
-            </Popover>
-          </div>
-          <Input
-            ref={ref}
-            id="dict-file"
-            type="file"
-            accept=".txt"
-            className="file:text-foreground"
-            multiple
-            onChange={(e) => {
-              const files = e.target.files;
-              for (const file of files!) {
-                let reader = new FileReader();
-                reader.readAsText(file, "UTF-8");
-                reader.onload = function () {
-                  setRuleForm({
-                    ...ruleForm,
-                    dict: { uploadedDict: reader.result as string },
-                  });
-                };
-              }
-            }}
-          />
-          {typeof ruleForm.dict === "object" && (
-            <Card className="px-4 py-2 text-sm flex flex-col gap-1">
-              {getWordsFromUploadedDict(ruleForm.dict.uploadedDict)
-                .slice(0, 10)
-                .map((e, i) => (
-                  <div key={i}>{e}</div>
-                ))}
-              <div className="text-muted-foreground">
-                등{" "}
-                {getWordsFromUploadedDict(
-                  ruleForm.dict.uploadedDict
-                ).length.toLocaleString()}{" "}
-                단어
-              </div>
-            </Card>
-          )}
-        </div>
-      </div>
+
+      {typeof ruleForm.dict == "object" && <FileDropZone />}
     </SettnigMenu>
   );
 }

@@ -1265,7 +1265,7 @@ function WordsResult() {
                         )}
                         {!showAllWords && !isMoreOpen && charType !== "los" && (
                           <div
-                            className="p-4 flex justify-center text-primary items-center gap-1 select-none cursor-pointer hover:opacity-75"
+                            className="p-4 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
                             onClick={() => setIsMoreOpen(true)}
                           >
                             {charType === "win"
