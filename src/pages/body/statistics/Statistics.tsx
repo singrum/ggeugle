@@ -282,10 +282,10 @@ function WinCharTypeChart({ engine }: { engine: WCEngine }) {
   const chartData = useMemo(() => {
     return WCDisplay.winCharTypeChartData(engine);
   }, [engine]);
-
+  console.log(chartData);
   return (
     chartData &&
-    (!(chartData.data[0].endNum === "-1" && chartData.data[0].num === 0) ? (
+    (chartData.data.length > 0 && chartData.data[0].num > 0 ? (
       <ChartContainer config={chartData!.config} className="w-full">
         <BarChart
           accessibilityLayer
@@ -322,10 +322,10 @@ function LosCharTypeChart({ engine }: { engine: WCEngine }) {
   const chartData = useMemo(() => {
     return WCDisplay.losCharTypeChartData(engine);
   }, [engine]);
-
+  console.log(chartData);
   return (
     chartData &&
-    (!(chartData.data[0].endNum === "-1" && chartData.data[0].num === 0) ? (
+    (chartData.data.length > 0 && chartData.data[0].num > 0 ? (
       <ChartContainer config={chartData!.config} className="w-full">
         <BarChart
           accessibilityLayer
