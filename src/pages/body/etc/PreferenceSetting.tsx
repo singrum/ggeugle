@@ -71,7 +71,7 @@ export default function PreferenceSetting() {
           <div className="flex items-center">
             <Label
               className="flex-1 font-semibold text-base"
-              htmlFor="showToast"
+              htmlFor="showAllWords"
             >
               모든 단어 항상 펼치기
             </Label>
