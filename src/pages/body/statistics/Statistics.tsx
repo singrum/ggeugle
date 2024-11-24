@@ -282,7 +282,6 @@ function WinCharTypeChart({ engine }: { engine: WCEngine }) {
   const chartData = useMemo(() => {
     return WCDisplay.winCharTypeChartData(engine);
   }, [engine]);
-  console.log(chartData);
   return (
     chartData &&
     (chartData.data.length > 0 && chartData.data[0].num > 0 ? (
@@ -322,7 +321,6 @@ function LosCharTypeChart({ engine }: { engine: WCEngine }) {
   const chartData = useMemo(() => {
     return WCDisplay.losCharTypeChartData(engine);
   }, [engine]);
-  console.log(chartData);
   return (
     chartData &&
     (chartData.data.length > 0 && chartData.data[0].num > 0 ? (

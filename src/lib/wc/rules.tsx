@@ -128,6 +128,10 @@ export const sampleRules: {
           <span className="font-semibold">명사</span>만 사용 가능하며,{" "}
           <span className="font-semibold">두음 법칙은 불가능</span>합니다.
         </p>
+        <p>
+          끝말잇기와 달리, 이전에 나온 단어의 첫 글자로 끝나는 단어를 말해야
+          합니다.
+        </p>
       </div>
     ),
     ruleForm: {
