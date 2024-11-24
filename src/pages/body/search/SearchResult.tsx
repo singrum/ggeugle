@@ -1072,13 +1072,16 @@ function WordsResult() {
                 입니다.
               </AlertTitle>
               <AlertDescription>
-                끄글에서는 신엜룰, 넶룰, 끄투룰, 앞말잇기 등 다양한 끝말잇기
+                끄글에서는 <span className="font-medium">신엜룰</span>,{" "}
+                <span className="font-medium">넶룰</span>,{" "}
+                <span className="font-medium">끄투룰</span>,{" "}
+                <span className="font-medium">앞말잇기</span> 등 다양한 끝말잇기
                 룰을 적용할 수 있습니다.
                 <div
                   className="hover:underline underline-offset-2 text-primary dark:text-[hsl(217.2,91.2%,59.8%)] font-semibold select-none cursor-pointer flex items-center mt-2 w-fit"
                   onClick={() => setMenu(3)}
                 >
-                  설정하러 가기
+                  룰 설정하러 가기
                   <ArrowRight className="w-4 h-4" />
                 </div>
               </AlertDescription>
