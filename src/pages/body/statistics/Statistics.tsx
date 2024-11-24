@@ -26,6 +26,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWC } from "@/lib/store/useWC";
 import { getMaxMinComponents } from "@/lib/wc/algorithms";
 import { WCDisplay, WCEngine } from "@/lib/wc/WordChain";
+import { SearchX } from "lucide-react";
 import { useMemo } from "react";
 
 import { Bar, BarChart, Pie, PieChart, XAxis, YAxis } from "recharts";
@@ -194,7 +195,7 @@ function RouteCharTypeChart({ engine }: { engine: WCEngine }) {
     (chartData.data[0].num > 0 || chartData.data[1].num > 0 ? (
       <ChartContainer
         config={chartData!.config}
-        className="aspect-square  max-w-[300px] w-full"
+        className="aspect-square  max-w-[300px] min-h-[300px] w-full"
       >
         <PieChart>
           <ChartTooltip
@@ -211,7 +212,8 @@ function RouteCharTypeChart({ engine }: { engine: WCEngine }) {
         </PieChart>
       </ChartContainer>
     ) : (
-      <div className="text-center text-muted-foreground font-medium">
+      <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
+        <SearchX className="h-8 w-8" />
         루트 글자가 없습니다.
       </div>
     ))
@@ -261,7 +263,7 @@ function CharTypeChart({ engine }: { engine: WCEngine }) {
     (!chartData.every(({ num }) => num === 0) ? (
       <ChartContainer
         config={chartConfig}
-        className="aspect-square max-w-[300px] w-full"
+        className="aspect-square max-w-[300px] min-h-[300px] w-full"
       >
         <PieChart>
           <ChartTooltip
@@ -273,7 +275,10 @@ function CharTypeChart({ engine }: { engine: WCEngine }) {
         </PieChart>
       </ChartContainer>
     ) : (
-      <div className="text-muted-foreground font-medium">글자가 없습니다.</div>
+      <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
+        <SearchX className="h-8 w-8" />
+        글자가 없습니다.
+      </div>
     ))
   );
 }
@@ -285,7 +290,7 @@ function WinCharTypeChart({ engine }: { engine: WCEngine }) {
   return (
     chartData &&
     (chartData.data.length > 0 && chartData.data[0].num > 0 ? (
-      <ChartContainer config={chartData!.config} className="w-full">
+      <ChartContainer config={chartData!.config} className="w-full h-full">
         <BarChart
           accessibilityLayer
           data={chartData.data}
@@ -313,7 +318,8 @@ function WinCharTypeChart({ engine }: { engine: WCEngine }) {
         </BarChart>
       </ChartContainer>
     ) : (
-      <div className="text-muted-foreground font-medium">
+      <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
+        <SearchX className="h-8 w-8" />
         승리 글자가 없습니다.
       </div>
     ))
@@ -326,7 +332,7 @@ function LosCharTypeChart({ engine }: { engine: WCEngine }) {
   return (
     chartData &&
     (chartData.data.length > 0 && chartData.data[0].num > 0 ? (
-      <ChartContainer config={chartData!.config} className="w-full">
+      <ChartContainer config={chartData!.config} className="w-full h-full">
         <BarChart
           accessibilityLayer
           data={chartData.data}
@@ -354,7 +360,8 @@ function LosCharTypeChart({ engine }: { engine: WCEngine }) {
         </BarChart>
       </ChartContainer>
     ) : (
-      <div className="text-muted-foreground font-medium">
+      <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
+        <SearchX className="h-8 w-8" />
         패배 글자가 없습니다.
       </div>
     ))
