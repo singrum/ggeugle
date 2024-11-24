@@ -211,7 +211,7 @@ function RouteCharTypeChart({ engine }: { engine: WCEngine }) {
         </PieChart>
       </ChartContainer>
     ) : (
-      <div className="text-center text-muted-foreground">
+      <div className="text-center text-muted-foreground font-medium">
         루트 글자가 없습니다.
       </div>
     ))
@@ -273,7 +273,7 @@ function CharTypeChart({ engine }: { engine: WCEngine }) {
         </PieChart>
       </ChartContainer>
     ) : (
-      <div className="text-muted-foreground">글자가 없습니다.</div>
+      <div className="text-muted-foreground font-medium">글자가 없습니다.</div>
     ))
   );
 }
@@ -313,7 +313,9 @@ function WinCharTypeChart({ engine }: { engine: WCEngine }) {
         </BarChart>
       </ChartContainer>
     ) : (
-      <div className="text-muted-foreground">승리 글자가 없습니다.</div>
+      <div className="text-muted-foreground font-medium">
+        승리 글자가 없습니다.
+      </div>
     ))
   );
 }
@@ -352,7 +354,9 @@ function LosCharTypeChart({ engine }: { engine: WCEngine }) {
         </BarChart>
       </ChartContainer>
     ) : (
-      <div className="text-muted-foreground">패배 글자가 없습니다.</div>
+      <div className="text-muted-foreground font-medium">
+        패배 글자가 없습니다.
+      </div>
     ))
   );
 }
