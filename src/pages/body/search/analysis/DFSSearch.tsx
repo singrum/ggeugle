@@ -2,13 +2,14 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import WordsTrail from "@/components/ui/WordsTrail";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { getNextWords } from "@/lib/wc/algorithms";
 import { precedenceMap } from "@/lib/wc/analysisPrecedence";
 import { Word } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
-import { ChevronRight, CornerDownRight, Play } from "lucide-react";
+import { CornerDownRight, Play } from "lucide-react";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 export default function DFSSearch() {
@@ -277,17 +278,7 @@ export default function DFSSearch() {
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs">
-                    {[word, ...maxStack!].map((e, i) => (
-                      <Fragment key={i}>
-                        <div className="flex items-center">{e}</div>
-                        {i !== maxStack!.length && (
-                          <ChevronRight
-                            className="text-muted-foreground w-3 h-3"
-                            strokeWidth={1}
-                          />
-                        )}
-                      </Fragment>
-                    ))}
+                    <WordsTrail words={[word, ...maxStack!]} />
                   </div>
                 </div>
                 <Separator className="my-2" />
@@ -326,19 +317,9 @@ export default function DFSSearch() {
               </div>
 
               <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs">
-                {[nextRoutesInfo[firstUndefIdx!].word, ...wordStack].map(
-                  (e, i) => (
-                    <Fragment key={i}>
-                      <div className="flex items-center">{e}</div>
-                      {i !== wordStack.length && (
-                        <ChevronRight
-                          className="text-muted-foreground w-3 h-3"
-                          strokeWidth={1}
-                        />
-                      )}
-                    </Fragment>
-                  )
-                )}
+                <WordsTrail
+                  words={[nextRoutesInfo[firstUndefIdx!].word, ...wordStack]}
+                />
               </div>
             </div>
           ) : (
