@@ -154,6 +154,75 @@ export type TreeData = {
 };
 
 export class WCDisplay {
+  static getMaxTrail(engine: WCEngine, char: Char) {
+    function getWinWord(char: Char) {
+      const nextWords = engine
+        .getNextWords(char)
+        .filter(
+          (word) =>
+            WCDisplay.getWordType(engine, word).type === "win" ||
+            WCDisplay.getWordType(engine, word).type === "wincir"
+        );
+      return nextWords.reduce(
+        (curr, acc) =>
+          WCDisplay.getWordType(engine, curr).endNum! <
+          WCDisplay.getWordType(engine, acc).endNum!
+            ? curr
+            : acc,
+        nextWords[0]
+      );
+    }
+    function getLosWord(char: Char) {
+      const nextWords = engine
+        .getNextWords(char)
+        .filter(
+          (word) =>
+            WCDisplay.getWordType(engine, word).type === "los" ||
+            WCDisplay.getWordType(engine, word).type === "loscir"
+        );
+      if (nextWords.length === 0) return undefined;
+      else
+        return nextWords.reduce(
+          (curr, acc) =>
+            WCDisplay.getWordType(engine, curr).endNum! >
+            WCDisplay.getWordType(engine, acc).endNum!
+              ? curr
+              : acc,
+          nextWords[0]
+        );
+    }
+
+    const trail = [];
+    if (
+      engine.chanGraph.nodes[char].type === "win" ||
+      engine.chanGraph.nodes[char].type === "wincir"
+    ) {
+      // 승일 때
+      const winWord = getWinWord(char);
+      trail.push(winWord);
+
+      char = winWord.at(engine.rule.tailIdx)!;
+    }
+    let cnt = 0;
+    while (true) {
+      cnt++;
+      if (cnt > 100) {
+        break;
+      }
+
+      const losWord = getLosWord(char);
+      if (!losWord) {
+        break;
+      }
+      trail.push(losWord);
+      char = losWord.at(engine.rule.tailIdx)!;
+      const winWord = getWinWord(char);
+      trail.push(winWord);
+      char = winWord.at(engine.rule.tailIdx)!;
+    }
+
+    return trail;
+  }
   static getCharType(engine: WCEngine, char: Char) {
     const types = changeableMap[engine.rule.changeableIdx](char)
       .filter((e) => engine.wordGraph.nodes[e])
@@ -657,7 +726,22 @@ export class WCDisplay {
       const tail =
         winWord.length === 1 ? winWord : winWord.at(engine.rule.tailIdx)!;
 
-      const losWords = engine.getNextWords(tail);
+      const losWords = engine
+        .getNextWords(tail)
+        .filter(
+          (word) =>
+            !engine.returnWordMap.hasEdge(
+              word.at(engine.rule.headIdx)!,
+              word.at(engine.rule.tailIdx)!
+            ) ||
+            !engine.returnWordMap
+              .select(
+                word.at(engine.rule.headIdx)!,
+                word.at(engine.rule.tailIdx)!
+              )
+              .includes(word)
+        );
+
       losWords.sort(
         (a, b) =>
           -(engine.chanGraph.nodes[a.at(engine.rule.tailIdx)!]
@@ -676,6 +760,7 @@ export class WCDisplay {
       const tree: TreeData = { name: losWord, children: [] };
       const tail =
         losWord.length === 1 ? losWord : losWord.at(engine.rule.tailIdx)!;
+
       const chanSol = engine.chanGraph.nodes[tail].solution as Char;
       const wordSol = engine.wordGraph.nodes[chanSol].solution as Char;
       const winWord = engine.wordMap.select(chanSol, wordSol)[0];
@@ -877,13 +962,16 @@ export class WCDisplay {
   static downloadCharInfo(engine: WCEngine) {
     const info = this.endInN(engine);
     return info.win
-      .map(({ endNum, chars }) => `[${endNum} 턴 이내 승리]\n${chars.join(" ")}`)
+      .map(
+        ({ endNum, chars }) => `[${endNum} 턴 이내 승리]\n${chars.join(" ")}`
+      )
       .join("\n\n")
       .concat("\n\n")
       .concat(
         info.los
           .map(
-            ({ endNum, chars }) => `[${endNum} 턴 이내 패배]\n${chars.join(" ")}`
+            ({ endNum, chars }) =>
+              `[${endNum} 턴 이내 패배]\n${chars.join(" ")}`
           )
           .join("\n\n")
       )
