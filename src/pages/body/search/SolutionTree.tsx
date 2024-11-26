@@ -60,7 +60,7 @@ export default function SolutionTree() {
           <PopoverContent className="text-sm">
             <div className="flex flex-col gap-1">
               <div>
-                서로 <span className="font-semibold">최선의 수</span>를 택했을
+                서로 <span className="font-semibold">최선의 수</span>를 택하며 플레이 하였을
                 때 나타나는 경로.
                 {engine?.chanGraph.nodes[searchInputValue].type === "win" ||
                   engine?.chanGraph.nodes[searchInputValue].type === "cirwin"}
