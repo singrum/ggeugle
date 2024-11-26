@@ -14,7 +14,6 @@ import {
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useSheet } from "@/lib/store/useSheet";
-import { cn } from "@/lib/utils";
 import { LayoutGrid } from "lucide-react";
 import PreferenceSetting from "../etc/PreferenceSetting";
 import CharSheet from "./CharSheet";
@@ -78,18 +77,18 @@ export default function Search() {
               <SearchResult />
             </div>
 
-            <div
+            {/* <div
               className={cn("fixed bottom-14 w-full flex justify-center p-3 ")}
+            > */}
+            <div
+              className="fixed bottom-16 left-1/2 translate-x-[-50%] bg-background text-foreground border border-border rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow cursor-pointer"
+              onClick={() => setOpen(true)}
             >
-              <div
-                className="bg-background text-foreground border border-border rounded-full py-2 px-4 gap-2 flex items-center justify-center shadow cursor-pointer"
-                onClick={() => setOpen(true)}
-              >
-                <LayoutGrid className="w-5 h-5" />
-                {/* <ChevronUp className="w-5 h-5" strokeWidth={1.5} /> */}
-                <div className="mb-0.5 select-none font-medium">글자 목록</div>
-              </div>
+              <LayoutGrid className="w-5 h-5" />
+              {/* <ChevronUp className="w-5 h-5" strokeWidth={1.5} /> */}
+              <div className="mb-0.5 select-none font-medium">글자 목록</div>
             </div>
+            {/* </div> */}
           </div>
 
           <CharSheet />
