@@ -60,9 +60,9 @@ export function CharButton({
   const changeInfo = useWC((e) => e.changeInfo);
   const [sheetRef, setOpen] = useSheet((e) => [e.sheetRef, e.setOpen]);
   return (
-    <div
+    <button
       className={cn(
-        `relative h-9 w-9 flex items-center justify-center transition-all duration-75 cursor-pointer prevent-select hover:scale-150 text-${type} font-medium`,
+        `relative h-9 w-9 flex items-center justify-center transition-all duration-75 cursor-pointer hover:scale-150 text-${type} font-medium`,
         className
       )}
       onClick={() => {
@@ -80,6 +80,6 @@ export function CharButton({
       )}
 
       {children}
-    </div>
+    </button>
   );
 }

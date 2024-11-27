@@ -82,9 +82,9 @@ export function WordButton({
   const tail = children.at(engine!.rule.tailIdx)!;
 
   return (
-    <div
+    <button
       className={cn(
-        "rounded-full flex items-center transition-colors text-background cursor-pointer prevent-select",
+        "rounded-full flex items-center transition-colors text-background cursor-pointer",
         className
       )}
       onClick={() => {
@@ -95,10 +95,6 @@ export function WordButton({
           setValue(head);
           setSearchInputValue(head);
         }
-      }}
-      onContextMenu={(e) => {
-        e.preventDefault();
-        navigator.clipboard.writeText(children);
       }}
     >
       <div className={cn("py-1 pl-3 pr-1 font-medium", { "pr-3": notExcept })}>
@@ -125,6 +121,6 @@ export function WordButton({
           </div>
         </>
       )}
-    </div>
+    </button>
   );
 }
