@@ -206,7 +206,7 @@ export class WCDisplay {
     let cnt = 0;
     while (true) {
       cnt++;
-      if (cnt > 100) {
+      if (cnt > 200) {
         break;
       }
 
