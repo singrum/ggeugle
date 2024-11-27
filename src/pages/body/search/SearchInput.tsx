@@ -193,7 +193,7 @@ function ExceptWordsDisplay() {
           {exceptWords.length > 0 ? (
             <>
               {exceptWords.map((e) => (
-                <div
+                <button
                   className="transition-colors rounded-full flex items-center border border-foreground/40 cursor-pointer"
                   key={e}
                   onClick={() => {
@@ -202,7 +202,7 @@ function ExceptWordsDisplay() {
                     setSearchInputValue(head);
                   }}
                 >
-                  <div className="py-0.5 pl-3 pr-1 text-muted-foreground select-none hover:text-foreground font-medium">
+                  <div className="py-0.5 pl-3 pr-1 text-muted-foreground hover:text-foreground font-medium">
                     {e}
                   </div>
                   <div
@@ -216,7 +216,7 @@ function ExceptWordsDisplay() {
                       <Plus className="w-3.5 h-3.5" strokeWidth="3" />
                     </div>
                   </div>
-                </div>
+                </button>
               ))}
               {exceptWords.length > 0 && !(engine && isLoading) && (
                 <div className=" flex justify-end items-center gap-2 pb-0 ml-2"></div>
@@ -269,7 +269,6 @@ function WordInput() {
   const [exceptBy] = useCookieSettings((e) => [e.exceptBy]);
 
   const debounced = useDebouncedCallback((value) => {
-    
     setSearchInputValue(value);
   }, 150);
   useEffect(() => {
@@ -281,7 +280,7 @@ function WordInput() {
       setValue("");
       setSearchInputValue("");
       const newExcept = value
-        .split(" ")
+        .split(/\s+/)
         .filter(
           (word, i, arr) =>
             word.length > 0 &&
@@ -321,7 +320,7 @@ function WordInput() {
             ) {
               onExceptTriggered();
             } else {
-              debounced(e.target.value.split(" ").at(-1));
+              debounced(e.target.value.split(/\s+/).at(-1));
               setValue(e.target.value);
             }
           }}
