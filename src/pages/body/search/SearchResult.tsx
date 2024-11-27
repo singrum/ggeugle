@@ -1355,7 +1355,7 @@ function WordsResult() {
                             <Separator />
                           </React.Fragment>
                         )}
-                        {(isMoreOpen || showAllWords) &&
+                        {(charType === "los" || isMoreOpen || showAllWords) &&
                           (searchResult.result as CharSearchResult).endsWith
                             .rest.length > 0 && (
                             <>
