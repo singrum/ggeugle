@@ -1,6 +1,6 @@
 import { GameInfo, strengths, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { Check, ChevronRight, Clipboard, Dot, X } from "lucide-react";
+import { Check, ChevronRight, Clipboard, Dot, SearchX, X } from "lucide-react";
 import React, { useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 
@@ -17,7 +17,13 @@ export default function GameList() {
       )}
     >
       {games.length === 0 && !currGame && (
-        <div className="text-muted-foreground">플레이한 게임이 없습니다.</div>
+        <div className="flex items-center flex-col gap-2">
+          <SearchX
+            className="h-12 w-12 text-muted-foreground"
+            strokeWidth={1.5}
+          />
+          <div className="text-muted-foreground">플레이한 게임이 없습니다.</div>
+        </div>
       )}
 
       {games.map((e, i) => (
