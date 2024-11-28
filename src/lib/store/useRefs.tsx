@@ -8,7 +8,6 @@ export interface refsInfo {
 export const useRefs = create<refsInfo>((set) => ({
   inputRef: undefined,
   setInputRef: (inputRef: HTMLInputElement) => {
-    console.log(1);
     set({ inputRef });
   },
 }));
