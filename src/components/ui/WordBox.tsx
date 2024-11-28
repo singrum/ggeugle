@@ -99,8 +99,7 @@ export function WordButton({
           setSearchInputValue(head);
         }
 
-        inputRef!.getBoundingClientRect().top < 0 &&
-          inputRef!.scrollIntoView({ behavior: "smooth" });
+        inputRef!.getBoundingClientRect().top < 0 && inputRef!.scrollIntoView();
       }}
     >
       <div className={cn("py-1 pl-3 pr-1 font-medium", { "pr-3": notExcept })}>
