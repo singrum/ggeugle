@@ -53,7 +53,7 @@ function ChatContent({
   return (
     <div
       className={cn(
-        "rounded-xl py-1 px-2 flex max-w-[80%] min-w-[2rem]",
+        "rounded-xl py-1 px-2 flex max-w-[80%] min-w-[2rem] justify-center",
         className
       )}
     >
