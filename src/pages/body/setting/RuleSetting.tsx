@@ -44,9 +44,10 @@ const ruleGroup: { name: string; children: ReactNode[] }[] = [
     name: "단어",
     children: [
       <DictSetting />,
-      <RegexFilterSetting />,
+
       <PosSetting />,
       <CateSetting />,
+      <RegexFilterSetting />,
       <HeadTailDuplicationSetting />,
     ],
   },
