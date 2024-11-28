@@ -200,7 +200,7 @@ function DictSetting() {
   const [ruleForm, setRuleForm] = useWC((e) => [e.ruleForm, e.setRuleForm]);
 
   return (
-    <SettingMenu name="사전" className="pt-0">
+    <SettingMenu name="사전" className="md:pt-0">
       <Select
         value={
           typeof ruleForm.dict === "object" ? "file" : ruleForm.dict.toString()
@@ -413,7 +413,7 @@ function ChanSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettingMenu name="두음 법칙" className="pt-0">
+    <SettingMenu name="두음 법칙" className="md:pt-0">
       <Select
         value={ruleForm.chan.toString()}
         onValueChange={(e) => setRuleForm({ ...ruleForm, chan: parseInt(e) })}
@@ -577,7 +577,7 @@ function AddedWords1Setting() {
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
     <SettingMenu
-      className="pt-0"
+      className="md:pt-0"
       name="단어 추가 (1차)"
       description={
         <>
