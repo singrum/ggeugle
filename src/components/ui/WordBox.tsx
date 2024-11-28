@@ -1,3 +1,5 @@
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useRefs } from "@/lib/store/useRefs";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
@@ -77,7 +79,8 @@ export function WordButton({
       e.engine,
       e.setSearchInputValue,
     ]);
-
+  const inputRef = useRefs((e) => e.inputRef);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   const head = children.at(engine!.rule.headIdx)!;
   const tail = children.at(engine!.rule.tailIdx)!;
 
@@ -95,6 +98,9 @@ export function WordButton({
           setValue(head);
           setSearchInputValue(head);
         }
+
+        inputRef!.getBoundingClientRect().top < 0 &&
+          inputRef!.scrollIntoView({ behavior: "smooth" });
       }}
     >
       <div className={cn("py-1 pl-3 pr-1 font-medium", { "pr-3": notExcept })}>

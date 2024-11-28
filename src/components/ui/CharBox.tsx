@@ -2,6 +2,8 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { Badge } from "./badge";
 
+import { useMediaQuery } from "@/hooks/use-media-query";
+import { useRefs } from "@/lib/store/useRefs";
 import { useSheet } from "@/lib/store/useSheet";
 import { useWC } from "@/lib/store/useWC";
 
@@ -59,6 +61,8 @@ export function CharButton({
   const setSearchInputValue = useWC((e) => e.setSearchInputValue);
   const changeInfo = useWC((e) => e.changeInfo);
   const [sheetRef, setOpen] = useSheet((e) => [e.sheetRef, e.setOpen]);
+  const inputRef = useRefs((e) => e.inputRef);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
     <button
       className={cn(
@@ -71,6 +75,11 @@ export function CharButton({
         }
         setValue(children);
         setSearchInputValue(children);
+
+        isDesktop
+          ? inputRef!.getBoundingClientRect().top < 0 &&
+            inputRef!.scrollIntoView({ behavior: "smooth" })
+          : inputRef!.scrollIntoView({ behavior: "smooth" });
       }}
     >
       {changeInfo.compPrev[children] && (
