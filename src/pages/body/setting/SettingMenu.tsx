@@ -1,13 +1,14 @@
 import { cn } from "@/lib/utils";
+import { ReactNode } from "react";
 
-export function SettnigMenu({
+export function SettingMenu({
   name,
   description,
   className,
   children,
 }: {
   name: string;
-  description?: string;
+  description?: string | ReactNode;
   className?: string;
   children: React.ReactNode;
 }) {
@@ -20,7 +21,7 @@ export function SettnigMenu({
     >
       <div>
         <div className="text-base font-semibold">{name}</div>
-        <div className="text-xs text-muted-foreground mt-1">{description}</div>
+        <div className="text-xs text-muted-foreground my-1">{description}</div>
       </div>
 
       {children}

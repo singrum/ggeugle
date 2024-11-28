@@ -38,7 +38,7 @@ import { isEqual } from "lodash";
 import { ChevronDown, CircleHelp } from "lucide-react";
 import React, { Fragment, ReactNode, useState } from "react";
 import { FileDropZone } from "./FileDropZone";
-import { SettnigMenu } from "./SettingMenu";
+import { SettingMenu } from "./SettingMenu";
 const ruleGroup: { name: string; children: ReactNode[] }[] = [
   {
     name: "단어",
@@ -131,9 +131,9 @@ export function RuleSetting() {
               <div
                 key={i}
                 className={cn(
-                  "text-base text-muted-foreground md:text-foreground cursor-pointer py-2 md:p-2 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent select-none  md:border-b-0 lg:hover:bg-accent transition-colors ",
+                  "text-base text-muted-foreground md:text-foreground cursor-pointer py-2 md:p-2 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent select-none font-medium md:font-normal md:border-b-0 lg:hover:bg-accent transition-colors ",
                   {
-                    "text-foreground border-foreground md:bg-accent font-semibold":
+                    "text-foreground border-foreground md:bg-accent font-medium":
                       ruleGroupMenu === i,
                   }
                 )}
@@ -199,7 +199,7 @@ function DictSetting() {
   const [ruleForm, setRuleForm] = useWC((e) => [e.ruleForm, e.setRuleForm]);
 
   return (
-    <SettnigMenu name="사전">
+    <SettingMenu name="사전" className="pt-0">
       <Select
         value={
           typeof ruleForm.dict === "object" ? "file" : ruleForm.dict.toString()
@@ -282,7 +282,7 @@ function DictSetting() {
       </Select>
 
       {typeof ruleForm.dict == "object" && <FileDropZone />}
-    </SettnigMenu>
+    </SettingMenu>
   );
 }
 
@@ -291,17 +291,17 @@ function PosSetting() {
   const setRuleForm = useWC((e) => e.setRuleForm);
 
   return (
-    <SettnigMenu name="품사">
+    <SettingMenu name="품사">
       <div className="flex flex-wrap gap-1">
         {poses.map((e, i) => (
           <React.Fragment key={i}>
-            <div
+            <button
               className={cn(
                 "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer bg-background",
                 {
                   "bg-foreground text-background hover:bg-foreground hover:text-background":
                     ruleForm.pos[i],
-                  "opacity-50":
+                  "opacity-50 cursor-not-allowed hover:bg-background hover:text-muted-foreground":
                     (ruleForm.dict === 3 && i === 7) ||
                     ((ruleForm.dict === 1 ||
                       ruleForm.dict === 2 ||
@@ -333,11 +333,11 @@ function PosSetting() {
               }}
             >
               {e}
-            </div>
+            </button>
           </React.Fragment>
         ))}
       </div>
-    </SettnigMenu>
+    </SettingMenu>
   );
 }
 
@@ -345,18 +345,18 @@ function CateSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettnigMenu name="범주" description="우리말샘일 때만 설정 가능">
+    <SettingMenu name="범주" description="우리말샘일 때만 설정 가능">
       <div>
         <div className="flex flex-wrap gap-1">
           {cates.map((e, i) => (
             <React.Fragment key={i}>
-              <div
+              <button
                 className={cn(
                   "transition-colors rounded-full border-border border py-1 px-3 text-sm text-muted-foreground hover:bg-accent hover:text-foreground cursor-pointer ",
                   {
                     "bg-foreground text-background hover:bg-foreground hover:text-background":
                       ruleForm.cate[i],
-                    "opacity-50":
+                    "opacity-50 cursor-not-allowed ":
                       ruleForm.dict === 0 ||
                       ruleForm.dict === 1 ||
                       ruleForm.dict === 3 ||
@@ -375,12 +375,12 @@ function CateSetting() {
                 }}
               >
                 {e}
-              </div>
+              </button>
             </React.Fragment>
           ))}
         </div>
       </div>
-    </SettnigMenu>
+    </SettingMenu>
   );
 }
 
@@ -389,7 +389,7 @@ function HeadTailDuplicationSetting() {
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
     <>
-      <SettnigMenu
+      <SettingMenu
         name="첫 글자, 끝 글자 중복 제거"
         description="글자 a에서 글자 b로 끝나는 단어가 여러 개이면 하나만 남기고 삭제합니다."
       >
@@ -403,7 +403,7 @@ function HeadTailDuplicationSetting() {
           />
           <Label htmlFor="remove_head_tail_duplication">적용</Label>
         </div>
-      </SettnigMenu>
+      </SettingMenu>
     </>
   );
 }
@@ -412,7 +412,7 @@ function ChanSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettnigMenu name="두음 법칙">
+    <SettingMenu name="두음 법칙" className="pt-0">
       <Select
         value={ruleForm.chan.toString()}
         onValueChange={(e) => setRuleForm({ ...ruleForm, chan: parseInt(e) })}
@@ -439,7 +439,7 @@ function ChanSetting() {
           ))}
         </SelectContent>
       </Select>
-    </SettnigMenu>
+    </SettingMenu>
   );
 }
 
@@ -447,7 +447,7 @@ function HeadIdxSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettnigMenu name="첫 글자">
+    <SettingMenu name="첫 글자">
       <div className="flex gap-1 items-center">
         <Select
           value={ruleForm.headDir.toString()}
@@ -477,7 +477,7 @@ function HeadIdxSetting() {
         />
         <div className="flex-1">번째 글자</div>
       </div>
-    </SettnigMenu>
+    </SettingMenu>
   );
 }
 
@@ -485,7 +485,7 @@ function TailIdxSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettnigMenu name="끝 글자">
+    <SettingMenu name="끝 글자">
       <div className="flex gap-1 items-center">
         <Select
           value={ruleForm.tailDir.toString()}
@@ -515,7 +515,7 @@ function TailIdxSetting() {
         />
         <div className="flex-1 ">번째 글자</div>
       </div>
-    </SettnigMenu>
+    </SettingMenu>
   );
 }
 
@@ -523,7 +523,7 @@ function MannerSetting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettnigMenu name="한방단어 제거">
+    <SettingMenu name="한방단어 제거">
       <div className="flex flex-col gap-2">
         <Select
           value={ruleForm.manner.toString()}
@@ -567,7 +567,7 @@ function MannerSetting() {
           )}
         </div>
       </div>
-    </SettnigMenu>
+    </SettingMenu>
   );
 }
 
@@ -575,15 +575,17 @@ function AddedWords1Setting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettnigMenu
+    <SettingMenu
+      className="pt-0"
       name="단어 추가 (1차)"
-      description="이 단어들은 한방단어 제거 옵션에 의해 제거될 수 있습니다."
+      description={
+        <>
+          <p>이 단어들은 한방단어 제거 옵션에 의해 제거될 수 있습니다.</p>
+          <p>여러 개의 단어 입력 시 공백으로 구분합니다.</p>
+        </>
+      }
     >
       <div className="flex flex-col gap-2">
-        <Label htmlFor="picture">
-          직접 입력{` `}
-          <span className="text-muted-foreground">(띄어쓰기로 구분)</span>
-        </Label>
         <Input
           value={ruleForm.addedWords1}
           onChange={(e) =>
@@ -591,22 +593,23 @@ function AddedWords1Setting() {
           }
         />
       </div>
-    </SettnigMenu>
+    </SettingMenu>
   );
 }
 function AddedWords2Setting() {
   const ruleForm = useWC((e) => e.ruleForm);
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
-    <SettnigMenu
+    <SettingMenu
       name="단어 추가 (2차)"
-      description="이 단어들은 한방단어 제거 옵션에 의해 제거되지 않습니다."
+      description={
+        <>
+          <p>이 단어들은 한방단어 제거 옵션에 의해 제거되지 않습니다.</p>
+          <p>여러 개의 단어 입력 시 공백으로 구분합니다.</p>
+        </>
+      }
     >
       <div className="flex flex-col gap-2">
-        <Label htmlFor="picture">
-          직접 입력{` `}
-          <span className="text-muted-foreground">(띄어쓰기로 구분)</span>
-        </Label>
         <Input
           value={ruleForm.addedWords2}
           onChange={(e) =>
@@ -614,7 +617,7 @@ function AddedWords2Setting() {
           }
         />
       </div>
-    </SettnigMenu>
+    </SettingMenu>
   );
 }
 const RegexExamples = [
@@ -697,7 +700,7 @@ function RegexFilterSetting() {
   const setRuleForm = useWC((e) => e.setRuleForm);
 
   return (
-    <SettnigMenu name="단어 필터" description="Regex로 작성">
+    <SettingMenu name="단어 필터" description="Regex로 작성">
       <div>
         <div className="flex flex-col gap-2">
           <Input
@@ -709,7 +712,7 @@ function RegexFilterSetting() {
         </div>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none">
-            <AccordionTrigger className="text-sm px-1 pt-4 pb-2 ">
+            <AccordionTrigger className="text-sm px-1 pt-4 pb-2 font-normal">
               예시
             </AccordionTrigger>
             <AccordionContent className="font-semibold px-1">
@@ -733,7 +736,7 @@ function RegexFilterSetting() {
           </AccordionItem>
         </Accordion>
       </div>
-    </SettnigMenu>
+    </SettingMenu>
   );
 }
 
@@ -763,7 +766,7 @@ function KkutuRuleSelectBtn() {
         <DropdownMenuSeparator />
         <div className="p-2">
           <div className="grid grid-cols-2 mb-2 gap-y-4">
-            <div className="text-sm pt-2">게임 유형</div>
+            <div className="text-sm pt-2 font-medium">게임 유형</div>
             <Select
               value={gameType.toString()}
               onValueChange={(val) => setGameType(parseInt(val))}
@@ -779,7 +782,7 @@ function KkutuRuleSelectBtn() {
                 ))}
               </SelectContent>
             </Select>
-            <div className="text-sm">특수 규칙</div>
+            <div className="text-sm font-medium">특수 규칙</div>
 
             <div className="flex flex-col gap-2 mb-2">
               <div className="flex w-full">
