@@ -69,7 +69,7 @@ export default function Statistics() {
 function CardsSkeleton() {
   return (
     <div className="flex flex-col md:gap-4 w-full">
-      <Skeleton className="h-10 w-[200px] ml-4 mt-4 mb-2" />
+      <Skeleton className="h-10 w-[300px] ml-4 md:ml-2 mt-4 md:mt-2 mb-2" />
 
       <div className="flex-1 grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4 p-4 md:p-0">
         {[1, 2, 3, 4, 5].map((e) => (
