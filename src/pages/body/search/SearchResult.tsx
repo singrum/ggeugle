@@ -35,7 +35,7 @@ export default function SearchResult() {
   return (
     <div className="">
       <WordsResult />
-      <div className="h-[50vh]" />
+      <div className="h-[70vh]" />
     </div>
   );
 }

@@ -9,19 +9,20 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
+import { useRefs } from "@/lib/store/useRefs";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import {
-  ArrowUp,
   Check,
   Clipboard,
+  CornerRightUp,
   LoaderCircle,
   Plus,
   RotateCcw,
   Search,
   Settings,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { useDebouncedCallback } from "use-debounce";
 import DownloadDialog from "./DownloadDialog";
@@ -108,7 +109,7 @@ function ExceptWordsDisplay() {
               </span>
               나{" "}
               <span className="font-semibold">
-                <ArrowUp
+                <CornerRightUp
                   className="inline w-3.5 h-3.5 mb-0.5"
                   strokeWidth={2.5}
                 />{" "}
@@ -265,13 +266,18 @@ function WordInput() {
     e.searchInputValue,
   ]);
   const [exceptBy] = useCookieSettings((e) => [e.exceptBy]);
-
+  const [inputRef, setInputRef] = useRefs((e) => [e.inputRef, e.setInputRef]);
+  const inputRefTemp = useRef<HTMLInputElement>(null);
   const debounced = useDebouncedCallback((value) => {
     setSearchInputValue(value);
   }, 150);
+
   useEffect(() => {
     debounced.cancel();
   }, [searchInputValue]);
+  useEffect(() => {
+    if (inputRefTemp.current) setInputRef(inputRefTemp.current);
+  }, [inputRefTemp.current]);
 
   const onExceptTriggered = () => {
     if (engine && value.length > 1) {
@@ -298,10 +304,11 @@ function WordInput() {
     <div className="pt-2">
       <div className="relative">
         <Input
+          ref={inputRefTemp}
           className="border border-border rounded-xl h-12 text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 bg-muted/50 transition-colors"
           value={value}
           type="search"
-          placeholder="글자 또는 단어를 입력해주세요."
+          placeholder="글자 또는 단어를 입력하세요."
           onKeyDown={(e) => {
             if (exceptBy === "enter" && e.key == "Enter") {
               if (e.nativeEvent.isComposing) {
@@ -336,7 +343,7 @@ function WordInput() {
               onExceptTriggered();
             }}
           >
-            <ArrowUp className="w-[1.5rem] h-[1.5rem]" />
+            <CornerRightUp className="w-[1.4rem] h-[1.4rem]" />
           </div>
         </div>
       </div>
