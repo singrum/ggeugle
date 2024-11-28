@@ -12,7 +12,7 @@ export default function GameList() {
       className={cn(
         "w-full flex flex-col-reverse gap-2 md:gap-4 pt-10 p-4 pb-[200px] md:pb-4",
         {
-          "items-center justify-center": games.length === 0 && !currGame,
+          "h-full items-center justify-center": games.length === 0 && !currGame,
         }
       )}
     >

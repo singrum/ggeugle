@@ -46,7 +46,7 @@ export const manners = ["없음", "한 번만 제거", "모두 제거"];
 
 export const strengths = [
   { name: "쉬움", color: "text-blue-500 dark:text-blue-400" },
-  { name: "보통", color: "text-yellow-600 dark:text-yellow-400" },
+  { name: "보통", color: "text-yellow-500 dark:text-yellow-400" },
   { name: "어려움", color: "text-red-600 dark:text-red-500" },
 ];
 export const turns = ["선공", "랜덤", "후공"];

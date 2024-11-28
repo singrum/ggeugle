@@ -87,7 +87,7 @@ export const sampleRules: {
       <div>
         <p>
           <span className="font-semibold">네이버 국어사전</span>에 등록된{" "}
-          <span className="font-semibold">명사</span> 사용 가능하며,{" "}
+          <span className="font-semibold">명사</span>만 사용 가능하며,{" "}
           <span className="font-semibold">자유 두음 법칙</span>이 적용됩니다.
         </p>
       </div>

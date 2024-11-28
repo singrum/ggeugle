@@ -15,7 +15,7 @@ export default function Chat({
     <div className="flex w-full gap-2">
       <div
         className={cn(
-          `border border-border rounded-full w-10 h-10 flex items-center justify-center`,
+          `rounded-full w-10 h-10 flex items-center justify-center bg-accent`,
           strengths[currGame!.strength].color
         )}
       >
