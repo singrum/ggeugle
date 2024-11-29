@@ -1317,7 +1317,7 @@ function WordsResult() {
                           .head_los.length > 0 && (
                           <React.Fragment>
                             <WordBox>
-                              <WordBadge>패배 글자로 시작</WordBadge>
+                              <WordBadge>패배 음절로 시작</WordBadge>
                               <WordContent
                                 wordInfo={(
                                   searchResult.result as CharSearchResult
@@ -1338,7 +1338,7 @@ function WordsResult() {
                           .head_route.length > 0 && (
                           <React.Fragment>
                             <WordBox>
-                              <WordBadge>루트 글자로 시작</WordBadge>
+                              <WordBadge>루트 음절로 시작</WordBadge>
                               <WordContent
                                 wordInfo={(
                                   searchResult.result as CharSearchResult
@@ -1360,7 +1360,7 @@ function WordsResult() {
                             .rest.length > 0 && (
                             <>
                               <WordBox>
-                                <WordBadge>승리 글자로 시작</WordBadge>
+                                <WordBadge>승리 음절로 시작</WordBadge>
                                 <WordContent
                                   wordInfo={(
                                     searchResult.result as CharSearchResult
@@ -1382,7 +1382,7 @@ function WordsResult() {
                             className="p-4 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
                             onClick={() => setIsMoreOpen(true)}
                           >
-                            {"승리 글자로 시작하는 단어 펼치기"}
+                            {"승리 음절로 시작하는 단어 펼치기"}
                             <ChevronDown className="w-5 h-5" />
                           </div>
                         )}

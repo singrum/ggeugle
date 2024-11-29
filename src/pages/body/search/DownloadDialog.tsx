@@ -30,11 +30,11 @@ const downloadOptions = [
     },
   },
   {
-    name: "모든 글자 목록",
-    description: "글자 속성(승리, 패배, 루트)에 따른 분류",
+    name: "모든 음절 목록",
+    description: "음절 유형(승리, 패배, 루트)에 따른 분류",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
-      link.download = `끄글_모든글자_${getCurrentDateTime()}.txt`;
+      link.download = `끄글_모든음절_${getCurrentDateTime()}.txt`;
       const blob = new Blob([WCDisplay.downloadCharInfo(engine)], {
         type: "text/plain",
       });
@@ -44,7 +44,7 @@ const downloadOptions = [
   },
   {
     name: "루트 단어 사전",
-    description: "루트 글자에 대한 루트 단어, 돌림 단어 사전",
+    description: "루트 음절에 대한 루트 단어, 돌림 단어 사전",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
       link.download = `끄글_루트단어_${getCurrentDateTime()}.txt`;
@@ -56,8 +56,8 @@ const downloadOptions = [
     },
   },
   {
-    name: "승리 단어 사전",
-    description: "승리 글자에 대한 승리 단어 사전",
+    name: "공격 단어 사전",
+    description: "승리 음절에 대한 공격 단어 사전",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
       link.download = `끄글_승리단어_${getCurrentDateTime()}.txt`;
@@ -69,8 +69,8 @@ const downloadOptions = [
     },
   },
   {
-    name: "필수 승리 단어 사전",
-    description: "승리 글자에 대한 한 개의 승리 단어 사전",
+    name: "필수 공격 단어 사전",
+    description: "승리 음절에 대한 한 개의 공격 단어 사전",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
       link.download = `끄글_필수승리단어_${getCurrentDateTime()}.txt`;
@@ -83,7 +83,7 @@ const downloadOptions = [
   },
   {
     name: "패배 단어 사전",
-    description: "패배 글자에 대한 패배 단어 사전",
+    description: "패배 음절에 대한 패배 단어 사전",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
       link.download = `끄글_패배단어_${getCurrentDateTime()}.txt`;
@@ -113,7 +113,9 @@ export default function DownloadDialog() {
       <DialogContent>
         <DialogHeader className="mb-4">
           <DialogTitle>단어 사전 다운로드</DialogTitle>
-          <DialogDescription></DialogDescription>
+          <DialogDescription>
+            현재 설정된 룰에 대한 단어 사전을 다운로드합니다.
+          </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
           {downloadOptions.map(({ name, action }, i) => (

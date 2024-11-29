@@ -55,7 +55,7 @@ export default function PreferenceSetting() {
               className="flex-1 font-semibold text-base"
               htmlFor="showToast"
             >
-              글자 유형 변경 시 알림
+              음절 유형 변경 시 알림
             </Label>
             <div className="">
               <Switch
