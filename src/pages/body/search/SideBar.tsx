@@ -45,7 +45,7 @@ export function Content() {
   return (
     <div className="px-2 bg-background overflow-auto scrollbar-none">
       <div className="flex gap-2 justify-between pt-3 items-center">
-        <div className="pl-4 flex items-center">
+        <div className="pl-3 flex items-center">
           <Popover>
             <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-foreground font-medium text-sm whitespace-nowrap">
               {charMenuList[charMenu].name} 음절

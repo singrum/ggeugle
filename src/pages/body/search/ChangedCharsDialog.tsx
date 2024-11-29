@@ -76,7 +76,7 @@ export function ChangedCharsDialog({}: {}) {
                             ?.click();
                         }}
                       >
-                        <TableCell className="font-medium text-center">
+                        <TableCell className="font-medium text-center ">
                           {char}
                         </TableCell>
                         <TableCell>
@@ -90,7 +90,7 @@ export function ChangedCharsDialog({}: {}) {
                                 changeInfo[
                                   changeType as "compPrev" | "compOrigin"
                                 ][char].prevType
-                              }/10 rounded-full text-${
+                              }/10 rounded-full font-medium text-${
                                 changeInfo[
                                   changeType as "compPrev" | "compOrigin"
                                 ][char].prevType
@@ -119,7 +119,7 @@ export function ChangedCharsDialog({}: {}) {
                                 changeInfo[
                                   changeType as "compPrev" | "compOrigin"
                                 ][char].currType
-                              }/10 rounded-full text-${
+                              }/10 rounded-full font-medium text-${
                                 changeInfo[
                                   changeType as "compPrev" | "compOrigin"
                                 ][char].currType
