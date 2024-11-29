@@ -188,7 +188,7 @@ function ExceptWordsDisplay() {
           className={cn(
             "flex flex-wrap gap-x-1 gap-y-1 items-center p-3 min-h-12",
             {
-              "p-2": exceptWords.length > 0 || isLoading,
+              "p-2": exceptWords.length > 0,
             }
           )}
         >
@@ -226,9 +226,9 @@ function ExceptWordsDisplay() {
             </>
           ) : (
             !(engine && isLoading) && (
-              <div className="flex items-center ml-1">
+              <div className="flex items-center">
                 <div className="text-muted-foreground text-sm">
-                  제외한 단어가 없습니다.
+                  제외된 단어가 없습니다.
                 </div>
               </div>
             )
