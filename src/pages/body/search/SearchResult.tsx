@@ -26,6 +26,7 @@ import {
   ArrowRight,
   ChevronDown,
   CircleHelp,
+  SearchX,
 } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
 import Analysis from "./Analysis";
@@ -1036,6 +1037,31 @@ function WordsResult() {
   }, [searchInputValue]);
   const showShowcase =
     isGuel && searchInputValue.length === 0 && exceptWords.length === 0;
+  const moreEmptyStart =
+    searchResult &&
+    (charType === "win"
+      ? (searchResult.result as CharSearchResult).startsWith.route.length ===
+          0 &&
+        (searchResult.result as CharSearchResult).startsWith.return.length ===
+          0 &&
+        (searchResult.result as CharSearchResult).startsWith.los.length === 0
+      : charType === "route"
+      ? (searchResult.result as CharSearchResult).startsWith.los.length === 0
+      : true);
+
+  // const moreEmptyEnd =
+  //   searchResult &&
+  //   (charType === "win" || charType === "route"
+  //     ? (searchResult.result as CharSearchResult).endsWith.rest.length === 0
+  //     : true);
+
+  const emptyResultStart =
+    searchResult &&
+    Object.values(searchResult.result.startsWith).every((e) => e.length === 0);
+
+  const emptyResultEnd =
+    searchResult &&
+    Object.values(searchResult.result.endsWith).every((e) => e.length === 0);
 
   return (
     <>
@@ -1140,7 +1166,10 @@ function WordsResult() {
         <>
           {tab === 0 &&
             (engine ? (
-              searchResult && (
+              searchResult &&
+              (!Object.values(searchResult.result.startsWith).every(
+                (e) => e.length === 0
+              ) ? (
                 <>
                   <div className="flex-1 min-h-0 flex flex-col px-4">
                     {searchResult.isChar ? (
@@ -1266,17 +1295,20 @@ function WordsResult() {
                             )}
                           </>
                         )}
-                        {!showAllWords && !isMoreOpen && charType !== "los" && (
-                          <div
-                            className="p-4 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
-                            onClick={() => setIsMoreOpen(true)}
-                          >
-                            {charType === "win"
-                              ? "루트 단어, 패배 단어 펼치기"
-                              : "패배 단어 펼치기"}
-                            <ChevronDown className="w-5 h-5" />
-                          </div>
-                        )}
+                        {!moreEmptyStart &&
+                          !showAllWords &&
+                          !isMoreOpen &&
+                          charType !== "los" && (
+                            <div
+                              className="p-4 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
+                              onClick={() => setIsMoreOpen(true)}
+                            >
+                              {charType === "win"
+                                ? "루트 단어, 패배 단어 펼치기"
+                                : "패배 단어 펼치기"}
+                              <ChevronDown className="w-5 h-5" />
+                            </div>
+                          )}
                       </>
                     ) : (
                       (searchResult.result as NoncharSearchResult).startsWith
@@ -1301,14 +1333,33 @@ function WordsResult() {
                     )}
                   </div>
                 </>
-              )
+              ) : (
+                <div className="flex items-center justify-center flex-col pt-10 gap-2">
+                  <SearchX
+                    className="h-12 w-12 text-muted-foreground"
+                    strokeWidth={1.2}
+                  />
+                  <div>
+                    <span className="font-medium text-red-500 dark:text-red-400">
+                      '{searchInputValue}'
+                    </span>
+                    {josa(searchInputValue, "으로/로").slice(
+                      searchInputValue.length
+                    )}{" "}
+                    시작하는 단어가 없습니다.
+                  </div>
+                </div>
+              ))
             ) : (
               <WordSkeleton />
             ))}
 
           {tab === 1 &&
             (engine ? (
-              searchResult && (
+              searchResult &&
+              (!Object.values(searchResult.result.endsWith).every(
+                (e) => e.length === 0
+              ) ? (
                 <>
                   <div className="flex-1 min-h-0 flex flex-col px-4">
                     {searchResult.isChar === true ? (
@@ -1355,36 +1406,43 @@ function WordsResult() {
                             <Separator />
                           </React.Fragment>
                         )}
-                        {(charType === "los" || isMoreOpen || showAllWords) &&
-                          (searchResult.result as CharSearchResult).endsWith
-                            .rest.length > 0 && (
-                            <>
-                              <WordBox>
-                                <WordBadge>승리 음절로 시작</WordBadge>
-                                <WordContent
-                                  wordInfo={(
-                                    searchResult.result as CharSearchResult
-                                  ).endsWith.rest.map((word) => ({
-                                    word,
-                                    type: WCDisplay.reduceWordtypeWithReturn(
-                                      WCDisplay.getWordType(engine!, word)
-                                        .type as WordType
-                                    ),
-                                  }))}
-                                  endsWith={true}
-                                />
-                              </WordBox>
-                              <Separator />
-                            </>
-                          )}
-                        {!showAllWords && !isMoreOpen && charType !== "los" && (
-                          <div
-                            className="p-4 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
-                            onClick={() => setIsMoreOpen(true)}
-                          >
-                            {"승리 음절로 시작하는 단어 펼치기"}
-                            <ChevronDown className="w-5 h-5" />
-                          </div>
+                        {(searchResult.result as CharSearchResult).endsWith.rest
+                          .length > 0 && (
+                          <>
+                            {(charType === "los" ||
+                              isMoreOpen ||
+                              showAllWords) && (
+                              <>
+                                <WordBox>
+                                  <WordBadge>승리 음절로 시작</WordBadge>
+                                  <WordContent
+                                    wordInfo={(
+                                      searchResult.result as CharSearchResult
+                                    ).endsWith.rest.map((word) => ({
+                                      word,
+                                      type: WCDisplay.reduceWordtypeWithReturn(
+                                        WCDisplay.getWordType(engine!, word)
+                                          .type as WordType
+                                      ),
+                                    }))}
+                                    endsWith={true}
+                                  />
+                                </WordBox>
+                                <Separator />
+                              </>
+                            )}
+                            {!showAllWords &&
+                              !isMoreOpen &&
+                              charType !== "los" && (
+                                <div
+                                  className="p-4 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
+                                  onClick={() => setIsMoreOpen(true)}
+                                >
+                                  {"승리 음절로 시작하는 단어 펼치기"}
+                                  <ChevronDown className="w-5 h-5" />
+                                </div>
+                              )}
+                          </>
                         )}
                       </>
                     ) : (
@@ -1411,7 +1469,23 @@ function WordsResult() {
                     )}
                   </div>
                 </>
-              )
+              ) : (
+                <div className="flex items-center justify-center flex-col pt-10 gap-2">
+                  <SearchX
+                    className="h-12 w-12 text-muted-foreground"
+                    strokeWidth={1.2}
+                  />
+                  <div>
+                    <span className="font-medium text-red-500 dark:text-red-400">
+                      '{searchInputValue}'
+                    </span>
+                    {josa(searchInputValue, "으로/로").slice(
+                      searchInputValue.length
+                    )}{" "}
+                    끝나는 단어가 없습니다.
+                  </div>
+                </div>
+              ))
             ) : (
               <WordSkeleton />
             ))}

@@ -353,7 +353,7 @@ function EndInN() {
                 <>
                   <CharBox>
                     <Popover>
-                      <PopoverTrigger>
+                      <PopoverTrigger className="">
                         <CharBadge>
                           {`주요 루트 음절`}
                           <CircleHelp className="w-4 h-4 ml-1" />
@@ -362,7 +362,7 @@ function EndInN() {
                       <PopoverContent className="text-sm">
                         <div className="flex flex-col gap-1">
                           <div>
-                            끝말잇기 진행 시{" "}
+                            게임 진행 시{" "}
                             <span className="font-semibold">
                               여러 번 나올 수 있는
                             </span>{" "}
@@ -396,7 +396,7 @@ function EndInN() {
                       <PopoverContent className="text-sm">
                         <div className="flex flex-col gap-1">
                           <div>
-                            끝말잇기 진행 시{" "}
+                            게임 진행 시{" "}
                             <span className="font-semibold">
                               여러 번 나올 수 없는
                             </span>{" "}

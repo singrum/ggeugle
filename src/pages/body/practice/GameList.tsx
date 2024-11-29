@@ -20,7 +20,7 @@ export default function GameList() {
         <div className="flex items-center flex-col gap-2">
           <SearchX
             className="h-12 w-12 text-muted-foreground"
-            strokeWidth={1.5}
+            strokeWidth={1.2}
           />
           <div className="text-muted-foreground">플레이한 게임이 없습니다.</div>
         </div>

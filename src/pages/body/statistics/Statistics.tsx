@@ -213,7 +213,7 @@ function RouteCharTypeChart({ engine }: { engine: WCEngine }) {
       </ChartContainer>
     ) : (
       <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
-        <SearchX className="h-12 w-12" strokeWidth={1.5} />
+        <SearchX className="h-12 w-12" strokeWidth={1.2} />
         루트 음절이 없습니다.
       </div>
     ))
@@ -276,7 +276,7 @@ function CharTypeChart({ engine }: { engine: WCEngine }) {
       </ChartContainer>
     ) : (
       <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
-        <SearchX className="h-12 w-12" strokeWidth={1.5} />
+        <SearchX className="h-12 w-12" strokeWidth={1.2} />
         음절이 없습니다.
       </div>
     ))
@@ -319,7 +319,7 @@ function WinCharTypeChart({ engine }: { engine: WCEngine }) {
       </ChartContainer>
     ) : (
       <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
-        <SearchX className="h-12 w-12" strokeWidth={1.5} />
+        <SearchX className="h-12 w-12" strokeWidth={1.2} />
         승리 음절이 없습니다.
       </div>
     ))
@@ -361,7 +361,7 @@ function LosCharTypeChart({ engine }: { engine: WCEngine }) {
       </ChartContainer>
     ) : (
       <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
-        <SearchX className="h-12 w-12" strokeWidth={1.5} />
+        <SearchX className="h-12 w-12" strokeWidth={1.2} />
         패배 음절이 없습니다.
       </div>
     ))
