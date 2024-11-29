@@ -78,8 +78,8 @@ export function CharButton({
 
         isDesktop
           ? inputRef!.getBoundingClientRect().top < 0 &&
-            inputRef!.scrollIntoView({ behavior: "smooth", block: "start" })
-          : inputRef!.scrollIntoView({ behavior: "smooth", block: "start" });
+            inputRef!.scrollIntoView({ block: "start" })
+          : inputRef!.scrollIntoView({ block: "start" });
       }}
     >
       {changeInfo.compPrev[children] && (

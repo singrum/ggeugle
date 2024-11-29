@@ -89,27 +89,27 @@ function Cards({ engine }: { engine: WCEngine }) {
         {[
           {
             title: "주요 루트 수치 비교",
-            desc: "현재 룰과 구엜룰 간 주요 루트 글자 수, 루트 단어 수 비교",
+            desc: "현재 룰과 구엜룰 간 주요 루트 음절 수, 루트 단어 수 비교",
             content: <CompareRoute engine={engine} />,
           },
           {
-            title: "글자 유형",
-            desc: "승리, 패배, 루트 글자로 분류",
+            title: "음절 유형",
+            desc: "승리, 패배, 루트 음절로 분류",
             content: <CharTypeChart engine={engine} />,
           },
           {
-            title: "승리 글자 세부 유형",
+            title: "승리 음절 세부 유형",
             desc: "n 턴 이내 승리로 분류",
             content: <WinCharTypeChart engine={engine} />,
           },
           {
-            title: "패배 글자 세부 유형",
+            title: "패배 음절 세부 유형",
             desc: "n 턴 이내 패배로 분류",
             content: <LosCharTypeChart engine={engine} />,
           },
           {
-            title: "루트 글자 세부 유형",
-            desc: "주요 루트 글자, 희귀 루트 글자로 분류",
+            title: "루트 음절 세부 유형",
+            desc: "주요 루트 음절, 희귀 루트 음절로 분류",
             content: <RouteCharTypeChart engine={engine} />,
           },
         ].map(({ title, desc, content }, i) => (
@@ -153,10 +153,10 @@ function CompareRoute({ engine }: { engine: WCEngine }) {
     );
 
     return [
-      { data: "글자", "현재 룰": chars, 구엜룰: 88 },
+      { data: "음절", "현재 룰": chars, 구엜룰: 88 },
       { data: "단어", "현재 룰": words, 구엜룰: 597 },
       {
-        data: "단어/글자",
+        data: "단어/음절",
         "현재 룰": chars > 0 ? Math.round((words / chars) * 1000) / 1000 : 0,
         구엜룰: 6.784,
       },
@@ -214,7 +214,7 @@ function RouteCharTypeChart({ engine }: { engine: WCEngine }) {
     ) : (
       <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
         <SearchX className="h-12 w-12" strokeWidth={1.5} />
-        루트 글자가 없습니다.
+        루트 음절이 없습니다.
       </div>
     ))
   );
@@ -234,7 +234,7 @@ function StatisticsHeader({ engine }: { engine: WCEngine }) {
         <div className="font-bold text-2xl">
           {Object.keys(engine.chanGraph.nodes).length.toLocaleString()}
         </div>
-        <div>글자</div>
+        <div>음절</div>
       </div>
     </div>
   );
@@ -277,7 +277,7 @@ function CharTypeChart({ engine }: { engine: WCEngine }) {
     ) : (
       <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
         <SearchX className="h-12 w-12" strokeWidth={1.5} />
-        글자가 없습니다.
+        음절이 없습니다.
       </div>
     ))
   );
@@ -320,7 +320,7 @@ function WinCharTypeChart({ engine }: { engine: WCEngine }) {
     ) : (
       <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
         <SearchX className="h-12 w-12" strokeWidth={1.5} />
-        승리 글자가 없습니다.
+        승리 음절이 없습니다.
       </div>
     ))
   );
@@ -362,7 +362,7 @@ function LosCharTypeChart({ engine }: { engine: WCEngine }) {
     ) : (
       <div className="text-center text-muted-foreground font-medium min-h-[300px] flex flex-col justify-center items-center gap-2">
         <SearchX className="h-12 w-12" strokeWidth={1.5} />
-        패배 글자가 없습니다.
+        패배 음절이 없습니다.
       </div>
     ))
   );

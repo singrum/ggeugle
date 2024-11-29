@@ -262,7 +262,7 @@ const getComputerMove = ({
                 action: "debug",
                 data: {
                   messages: [
-                    `[Debug] ${currChar} : 승리 글자`,
+                    `[Debug] ${currChar} : 승리 음절`,
                     "[Debug] 승리 확정",
                   ],
                 },
@@ -279,7 +279,7 @@ const getComputerMove = ({
                   action: "debug",
                   data: {
                     messages: [
-                      `[Debug] ${currChar} : 패배 글자`,
+                      `[Debug] ${currChar} : 패배 음절`,
                       `[Debug] 단어 뺏기`,
                       "[Debug] 승리 확정",
                     ],
@@ -294,7 +294,7 @@ const getComputerMove = ({
                   action: "debug",
                   data: {
                     messages: [
-                      `[Debug] ${currChar} : 패배 글자`,
+                      `[Debug] ${currChar} : 패배 음절`,
                       "[Debug] 패배 확정",
                     ],
                   },
@@ -320,7 +320,7 @@ const getComputerMove = ({
                   action: "debug",
                   data: {
                     messages: [
-                      `[Debug] ${currChar} : 조건부 패배 글자`,
+                      `[Debug] ${currChar} : 조건부 패배 음절`,
                       `[Debug] 단어 뺏기`,
                       "[Debug] 승리 확정",
                     ],
@@ -335,7 +335,7 @@ const getComputerMove = ({
                   action: "debug",
                   data: {
                     messages: [
-                      `[Debug] ${currChar} : 조건부 패배 글자`,
+                      `[Debug] ${currChar} : 조건부 패배 음절`,
                       "[Debug] 패배 확정",
                     ],
                   },

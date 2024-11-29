@@ -48,7 +48,7 @@ export function Content() {
         <div className="pl-4 flex items-center">
           <Popover>
             <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-foreground font-medium text-sm whitespace-nowrap">
-              {charMenuList[charMenu].name} 글자
+              {charMenuList[charMenu].name} 음절
             </PopoverTrigger>
             <PopoverContent className="text-sm">
               {charMenuList[charMenu].desc}
@@ -355,7 +355,7 @@ function EndInN() {
                     <Popover>
                       <PopoverTrigger>
                         <CharBadge>
-                          {`주요 루트 글자`}
+                          {`주요 루트 음절`}
                           <CircleHelp className="w-4 h-4 ml-1" />
                         </CharBadge>
                       </PopoverTrigger>
@@ -366,7 +366,7 @@ function EndInN() {
                             <span className="font-semibold">
                               여러 번 나올 수 있는
                             </span>{" "}
-                            루트 글자.
+                            루트 음절.
                           </div>
                         </div>
                       </PopoverContent>
@@ -389,7 +389,7 @@ function EndInN() {
                     <Popover>
                       <PopoverTrigger>
                         <CharBadge>
-                          {`희귀 루트 글자`}
+                          {`희귀 루트 음절`}
                           <CircleHelp className="w-4 h-4 ml-1" />
                         </CharBadge>
                       </PopoverTrigger>
@@ -400,7 +400,7 @@ function EndInN() {
                             <span className="font-semibold">
                               여러 번 나올 수 없는
                             </span>{" "}
-                            루트 글자.
+                            루트 음절.
                           </div>
                         </div>
                       </PopoverContent>

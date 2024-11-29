@@ -37,9 +37,9 @@ export function ChangedCharsDialog({}: {}) {
       </DialogTrigger>
       <DialogContent className="max-h-[80vh] min-h-0 overflow-auto  scrollbar-thin">
         <DialogHeader>
-          <DialogTitle>글자 유형 비교</DialogTitle>
+          <DialogTitle>음절 유형 비교</DialogTitle>
           <DialogDescription className="">
-            단어를 제외하거나 추가하기 이전과 글자 유형을 비교합니다.
+            단어를 제외하거나 추가하기 이전과 음절들의 유형을 비교합니다.
           </DialogDescription>
         </DialogHeader>
         <Tabs defaultValue="compPrev" className="w-full">
@@ -57,7 +57,7 @@ export function ChangedCharsDialog({}: {}) {
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-[100px] text-center">
-                        글자
+                        음절
                       </TableHead>
                       <TableHead className="text-center">변경 전</TableHead>
                       <TableHead className="text-center">변경 후</TableHead>
@@ -156,7 +156,7 @@ export function ChangedCharsDialog({}: {}) {
               ) : (
                 <div className="flex items-center justify-center border border-border border-dashed rounded-md p-2 w-full gap-2 h-[10rem]">
                   <div className="text-muted-foreground">
-                    변경된 글자가 없습니다.
+                    변경된 음절이 없습니다.
                   </div>
                 </div>
               )}
