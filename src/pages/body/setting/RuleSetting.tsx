@@ -716,7 +716,7 @@ function RegexFilterSetting() {
             <AccordionTrigger className="text-sm px-1 pt-4 pb-2 font-normal">
               예시
             </AccordionTrigger>
-            <AccordionContent className="font-semibold px-1">
+            <AccordionContent className="font-semibold px-1 py-2">
               <div className="flex flex-col gap-2">
                 {RegexExamples.map((e, i) => (
                   <div
@@ -726,10 +726,10 @@ function RegexFilterSetting() {
                       setRuleForm({ ...ruleForm, regexFilter: e.content });
                     }}
                   >
-                    <span className="font-medium text-muted-foreground">
-                      {e.title}
-                    </span>{" "}
-                    {e.content}
+                    <span className="font-medium">{e.title}</span>{" "}
+                    <span className="font-normal text-muted-foreground">
+                      {e.content}
+                    </span>
                   </div>
                 ))}
               </div>
