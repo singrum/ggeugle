@@ -11,8 +11,8 @@ export const charMenuList = [
           공격 단어의 <span className="font-semibold">첫 글자</span>.
         </p>
         <p>
-          내 차례에 <span className="font-semibold">승리 음절</span>이 주어지면
-          반드시 <span className="font-semibold">승리</span>함.
+          자신의 차례에 <span className="font-semibold">승리 음절</span>이
+          주어지면 반드시 <span className="font-semibold">승리</span>합니다.
         </p>
       </div>
     ),
@@ -27,8 +27,8 @@ export const charMenuList = [
           공격 단어의 <span className="font-semibold">끝 글자</span>.
         </p>
         <p>
-          내 차례에 <span className="font-semibold">패배 음절</span>이 주어지면
-          반드시 <span className="font-semibold">패배</span>함.
+          자신의 차례에 <span className="font-semibold">패배 음절</span>이
+          주어지면 반드시 <span className="font-semibold">패배</span>합니다.
         </p>
       </div>
     ),
@@ -40,8 +40,8 @@ export const charMenuList = [
     desc: (
       <div className="flex flex-col gap-1">
         <p>
-          내 차례에 <span className="font-semibold">루트 음절</span>이
-          주어지면 승패 여부를 쉽게 알 수 없음.
+          자신의 차례에 <span className="font-semibold">루트 음절</span>이
+          주어지면 승패 여부를 알아내기 어렵습니다.
         </p>
       </div>
     ),

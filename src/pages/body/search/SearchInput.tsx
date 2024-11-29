@@ -96,7 +96,7 @@ function ExceptWordsDisplay() {
   const [clipComplete, setClipComplete] = useState(false);
   return (
     <div className="mt-8 min-h-12 w-full rounded-xl border-border border">
-      <div className="flex items-center justify-between w-full py-2 px-2 pl-3 rounded-t-xl">
+      <div className="flex items-center justify-between w-full py-2 px-2 pl-4 rounded-t-xl">
         <div className="flex items-center gap-2 text-sm font-medium">
           <Popover>
             <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline font-medium">
@@ -185,9 +185,12 @@ function ExceptWordsDisplay() {
       <Separator />
       <div className=" rounded-b-xl ">
         <div
-          className={cn("flex flex-wrap gap-x-1 gap-y-1 items-center p-3", {
-            "p-2": exceptWords.length > 0,
-          })}
+          className={cn(
+            "flex flex-wrap gap-x-1 gap-y-1 items-center p-3 min-h-12",
+            {
+              "p-2": exceptWords.length > 0 || isLoading,
+            }
+          )}
         >
           {exceptWords.length > 0 ? (
             <>
@@ -223,7 +226,7 @@ function ExceptWordsDisplay() {
             </>
           ) : (
             !(engine && isLoading) && (
-              <div className="flex items-center">
+              <div className="flex items-center ml-1">
                 <div className="text-muted-foreground text-sm">
                   제외한 단어가 없습니다.
                 </div>
