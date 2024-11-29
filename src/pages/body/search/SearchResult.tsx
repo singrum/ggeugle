@@ -1021,7 +1021,7 @@ function WordsResult() {
     WCDisplay.getCharType(engine, searchInputValue);
   useEffect(() => {
     setIsMoreOpen(false);
-  }, [searchInputValue]);
+  }, [searchInputValue, tab]);
   const startMenuInfo = useMemo(
     () => ({
       winChar: choice(wins),
