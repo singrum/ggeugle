@@ -1,4 +1,5 @@
-import { cates, poses, RuleForm } from "../store/useWC";
+import { RuleForm } from "../store/useWC";
+import { cates, poses } from "./rules";
 import { WCEngine, WCRule } from "./WordChain";
 
 async function fetchWords(url: string) {

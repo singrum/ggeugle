@@ -1094,7 +1094,7 @@ function WordsResult() {
             <Alert className="rounded-xl">
               <AlertCircle className="h-5 w-5" />
               <AlertTitle className="font-normal">
-                현재 설정된 룰은 <span className="font-semibold">구엜룰</span>
+                현재 설정된 룰은 <span className="font-medium">구엜룰</span>
                 입니다.
               </AlertTitle>
               <AlertDescription>

@@ -1,9 +1,11 @@
+import Moremi from "@/assets/moremi.png";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button.js";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -29,16 +31,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useMenu } from "@/lib/store/useMenu";
-import { cates, dicts, manners, poses, useWC } from "@/lib/store/useWC";
+import { manners, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { sampleRules } from "@/lib/wc/rules";
+import { cates, changeables, dicts, poses, sampleRules } from "@/lib/wc/rules";
 import { isEqual } from "lodash";
-import { ChevronDown, CircleHelp } from "lucide-react";
+import { ChevronDown, CircleHelp, HelpCircle } from "lucide-react";
 import React, { Fragment, ReactNode, useState } from "react";
 import { FileDropZone } from "./FileDropZone";
 import { SettingMenu } from "./SettingMenu";
+
 const ruleGroup: { name: string; children: ReactNode[] }[] = [
   {
     name: "단어",
@@ -270,9 +281,9 @@ function DictSetting() {
       >
         <SelectTrigger className="w-[180px]">{<SelectValue />}</SelectTrigger>
         <SelectContent>
-          {dicts.map((dict, i) => (
+          {dicts.map(({ name }, i) => (
             <SelectItem className="text-xs" value={`${i}`} key={i}>
-              <div className="flex gap-1">{dict}</div>
+              <div className="flex gap-1">{name}</div>
             </SelectItem>
           ))}
           <Separator />
@@ -282,7 +293,17 @@ function DictSetting() {
         </SelectContent>
       </Select>
 
-      {typeof ruleForm.dict == "object" && <FileDropZone />}
+      {typeof ruleForm.dict == "object" ? (
+        <FileDropZone />
+      ) : (
+        <div>
+          <Alert>
+            <HelpCircle className="h-4 w-4" />
+            <AlertTitle>{dicts[ruleForm.dict].name}</AlertTitle>
+            <AlertDescription>{dicts[ruleForm.dict].desc}</AlertDescription>
+          </Alert>
+        </div>
+      )}
     </SettingMenu>
   );
 }
@@ -422,24 +443,269 @@ function ChanSetting() {
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {[
-            "없음",
-            "표준두음",
-            "강제표준두음",
-            "역표준두음",
-            "강제역표준두음",
-            "ㄹ→ㄴ→ㅇ",
-            "ㄹ⇄ㄴ⇄ㅇ",
-            "모음반전",
-            "자음상하반전",
-            "초성종성자유두음",
-          ].map((e, i) => (
+          {changeables.map(({ name }, i) => (
             <SelectItem className="text-xs" value={`${i}`} key={i}>
-              {e}
+              {name}
             </SelectItem>
           ))}
         </SelectContent>
       </Select>
+      {ruleForm.chan !== 0 && (
+        <Alert className="max-w-[500px]">
+          <HelpCircle className="h-4 w-4" />
+          <AlertTitle>{changeables[ruleForm.chan].name}</AlertTitle>
+          <AlertDescription
+            className={cn({
+              "!px-0 md:!px-4":
+                ruleForm.chan === 1 ||
+                ruleForm.chan === 3 ||
+                ruleForm.chan === 5 ||
+                ruleForm.chan === 6 ||
+                ruleForm.chan === 7,
+            })}
+          >
+            {
+              [
+                <></>,
+                <div>
+                  <div className="!pl-7 md:pl-3">
+                    받침에 상관없이 아래와 같이 변환됩니다.
+                  </div>
+                  <div className="pt-4 flex justify-center">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="">음절</TableHead>
+                          <TableHead className="text-right">
+                            변환 가능
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="font-medium">
+                            랴, 려, 료, 류, 리, 례
+                          </TableCell>
+
+                          <TableCell className="text-right">
+                            야, 여, 요, 유, 이, 예
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">
+                            라, 래, 로, 루, 르, 뢰
+                          </TableCell>
+
+                          <TableCell className="text-right">
+                            나, 내, 노, 누, 느, 뇌
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">
+                            녀, 뇨, 뉴, 니
+                          </TableCell>
+
+                          <TableCell className="text-right">
+                            여, 요, 유, 이
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>,
+                <div>
+                  <span className="font-medium">표준두음법칙</span>으로 바꿀 수
+                  있는 경우, 반드시 그렇게 바꿔야합니다.
+                </div>,
+                <div>
+                  <div className="!pl-7 md:pl-3">
+                    받침에 상관없이 아래와 같이 변환됩니다.
+                  </div>
+                  <div className="pt-4 flex justify-center">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="">음절</TableHead>
+                          <TableHead className="text-right">
+                            변환 가능
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="font-medium">
+                            야, 여, 요, 유, 이, 예
+                          </TableCell>
+
+                          <TableCell className="text-right">
+                            랴, 려, 료, 류, 리, 례
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">
+                            나, 내, 노, 누, 느, 뇌
+                          </TableCell>
+
+                          <TableCell className="text-right">
+                            라, 래, 로, 루, 르, 뢰
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">
+                            여, 요, 유, 이
+                          </TableCell>
+
+                          <TableCell className="text-right">
+                            녀, 뇨, 뉴, 니
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>,
+                <div>
+                  <span className="font-medium">역표준두음법칙</span>으로 바꿀
+                  수 있는 경우, 반드시 그렇게 바꿔야합니다.
+                </div>,
+                <div>
+                  <div className="!pl-7 md:pl-3">
+                    중성, 종성에 상관없이 아래와 같이 변환됩니다.
+                  </div>
+                  <div className="pt-4 flex justify-center">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="">초성</TableHead>
+                          <TableHead className="text-right">
+                            변환 가능
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="font-medium">ㄹ</TableCell>
+
+                          <TableCell className="text-right">ㄴ, ㅇ</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">ㄴ</TableCell>
+
+                          <TableCell className="text-right">ㅇ</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>,
+                <div>
+                  <div className="!pl-7 md:pl-3">
+                    중성, 종성에 상관없이 아래와 같이 변환됩니다.
+                  </div>
+                  <div className="pt-4 flex justify-center">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="">초성</TableHead>
+                          <TableHead className="text-right">
+                            변환 가능
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="font-medium">ㄹ</TableCell>
+
+                          <TableCell className="text-right">ㄴ, ㅇ</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">ㄴ</TableCell>
+
+                          <TableCell className="text-right">ㄹ, ㅇ</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">ㅇ</TableCell>
+
+                          <TableCell className="text-right">ㄹ, ㄴ</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>,
+                <div>
+                  <div className="!pl-7 md:pl-3">
+                    초성, 종성에 상관없이 다음과 같이 변환됩니다.
+                  </div>
+                  <div className="pt-4 flex justify-center">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="">중성</TableHead>
+                          <TableHead className="text-right">
+                            변환 가능
+                          </TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="font-medium">ㅏ</TableCell>
+
+                          <TableCell className="text-right">ㅓ</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">ㅑ</TableCell>
+
+                          <TableCell className="text-right">ㅕ</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">ㅓ</TableCell>
+
+                          <TableCell className="text-right">ㅏ</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">ㅕ</TableCell>
+
+                          <TableCell className="text-right">ㅑ</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">ㅗ</TableCell>
+
+                          <TableCell className="text-right">ㅜ</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">ㅛ</TableCell>
+
+                          <TableCell className="text-right">ㅠ</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">ㅜ</TableCell>
+
+                          <TableCell className="text-right">ㅗ</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">ㅠ</TableCell>
+
+                          <TableCell className="text-right">ㅛ</TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>,
+                <div>
+                  <p className="">초성과 종성의 위치를 바꿀 수 있습니다.</p>
+                  <p className="text-muted-foreground">예시) 글 ↔ 륵</p>
+                </div>,
+                <div>
+                  <p className="">
+                    초성과 종성에 대하여 자유두음법칙을 적용합니다.
+                  </p>
+                  <p className="text-muted-foreground">
+                    예시) 능 → 릉, 능, 늘, 는
+                  </p>
+                </div>,
+              ][ruleForm.chan]
+            }
+          </AlertDescription>
+        </Alert>
+      )}
     </SettingMenu>
   );
 }
@@ -547,23 +813,34 @@ function MannerSetting() {
         <div className="text-sm">
           {ruleForm.manner === 1 && (
             <>
-              <div>
-                한방단어를 한 번만 제거합니다.
-                <span className="text-muted-foreground">
-                  {` `}(끄투의 매너 규칙과 동일)
-                </span>
-              </div>
+              <Alert>
+                <HelpCircle className="h-4 w-4" />
+                <AlertTitle>한 번만 제거</AlertTitle>
+                <AlertDescription>
+                  <div>
+                    한방단어를 한 번만 제거합니다.
+                    <span className="text-muted-foreground">
+                      {` `}(끄투의 매너 규칙과 동일)
+                    </span>
+                  </div>
+                </AlertDescription>
+              </Alert>
             </>
           )}
 
           {ruleForm.manner === 2 && (
             <>
-              <div>
-                한방단어를 제거함으로써 생기는 한방단어까지 모두 제거합니다.
-                <span className="text-muted-foreground">
-                  {` `}(노룰, 천도룰에 적용)
-                </span>
-              </div>
+              <Alert>
+                <HelpCircle className="h-4 w-4" />
+                <AlertTitle>모두 제거</AlertTitle>
+                <AlertDescription>
+                  한방단어를 제거함으로 인해 생기는 한방단어까지 모두
+                  제거합니다.
+                  <span className="text-muted-foreground">
+                    {` `}(노룰, 천도룰에 적용)
+                  </span>
+                </AlertDescription>
+              </Alert>
             </>
           )}
         </div>
@@ -756,9 +1033,17 @@ function KkutuRuleSelectBtn() {
         asChild
         className="focus-visible:ring-offset-1 focus-visible:ring-0"
       >
-        <Button size="sm" className="pr-2 gap-2" variant="secondary">
-          끄투코리아
-          <ChevronDown className="w-4 h-4" />
+        <Button size="sm" className="px-2 gap-2" variant="secondary">
+          {/* <div className="flex gap-2 w-fit items-center"> */}
+          <div className="flex gap-1 items-center ">
+            <div className="w-5 h-5">
+              <img src={Moremi} className="w-5 h-5" />
+            </div>
+            끄투코리아
+          </div>
+          <div className="w-4">
+            <ChevronDown className="w-4 h-4" />
+          </div>
         </Button>
       </DropdownMenuTrigger>
 

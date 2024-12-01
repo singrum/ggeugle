@@ -1,8 +1,19 @@
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { josa } from "es-hangul";
 import { isEqual } from "lodash";
 import { X } from "lucide-react";
+import { ReactNode } from "react";
 import toast from "react-hot-toast";
 import { create } from "zustand";
+import { sampleRules } from "../wc/rules";
 import {
   Char,
   CharType,
@@ -12,37 +23,13 @@ import {
   WCEngine,
   Word,
 } from "../wc/WordChain";
-import { sampleRules } from "../wc/rules";
-
 export type changeInfo = {
   compPrev: Record<Char, { prevType: string; currType: string }>;
   compOrigin: Record<Char, { prevType: string; currType: string }>;
 };
 
-export const dicts = [
-  "(구)표준국어대사전",
-  "(신)표준국어대사전",
-  "우리말샘",
-  "네이버 국어사전",
-  "끄투 노인정",
-  "끄투 어인정",
-];
 
-export const poses = [
-  "명사",
-  "의존명사",
-  "대명사",
-  "수사",
-  "부사",
-  "관형사",
-  "감탄사",
-  "구",
-  "무품사",
-];
-
-export const cates = ["일반어", "방언", "북한어", "옛말"];
-
-export const manners = ["없음", "한 번만 제거", "모두 제거"];
+export const manners = ["제거 안 함", "한 번만 제거", "모두 제거"];
 
 export const strengths = [
   { name: "쉬움", color: "text-blue-500 dark:text-blue-400" },
