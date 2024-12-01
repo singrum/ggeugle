@@ -31,7 +31,7 @@ export const dicts: { name: string; desc: ReactNode }[] = [
     desc: (
       <div>
         <p>
-          국립국어원의 개정 후 표준국어대사전입니다.{" "}
+          국립국어원의 개정 후 표준국어대사전이며{" "}
           <a
             target="_blank"
             href="https://stdict.korean.go.kr/main/main.do"
