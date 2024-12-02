@@ -19,8 +19,8 @@ export const dicts: { name: string; desc: ReactNode }[] = [
           에서 백업된 데이터를 얻을 수 있습니다.
         </p>
         <p>
-          가장 인기있는 끝말잇기 룰인{" "}
-          <span className="font-medium">구엜룰</span>에서 사용됩니다.
+          (구)표준국어대사전은 <span className="font-medium">구엜룰</span>에서
+          사용됩니다.
         </p>
       </div>
     ),
