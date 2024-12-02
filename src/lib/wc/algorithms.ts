@@ -126,23 +126,46 @@ export function pruningWinLosCir(
     (e) => !wordGraph.nodes[e].type
   );
 
-  const singleChars: Set<string> = new Set(getSingleChars(chanGraph));
+  // const singleChars: Set<string> = new Set(getSingleChars(chanGraph));
 
   const returnWordGraph = new MultiDiGraph();
 
   for (let head of chars) {
     for (let tail of wordGraph.successors(head)) {
+      if (returnWordGraph.hasEdge(head, tail)) {
+        continue;
+      }
+
       const returnPair = pair(head, tail);
 
+      if (!returnPair) continue;
+      const [pairHead, pairTail] = returnPair;
+      //      래내 래1내 내이 이래
+      const pairTailSucc = chanGraph
+        .successors(pairTail)
+        .filter((e) => wordGraph.successors(e).length > 0);
+      const tailSucc = chanGraph
+        .successors(tail)
+        .filter((e) => wordGraph.successors(e).length > 0);
+
       if (
-        !returnPair ||
-        !singleChars.has(head) ||
-        !singleChars.has(returnPair[0])
+        !chanGraph
+          .predecessors(head)
+          .every((e) =>
+            pairTailSucc.every((ts) => chanGraph.successors(e).includes(ts))
+          )
       )
         continue;
-      const [pairHead, pairTail] = returnPair;
-      // 맴맴, 삐삐, 죽력죽
+      if (
+        !chanGraph
+          .predecessors(pairHead)
+          .every((e) =>
+            tailSucc.every((ts) => chanGraph.successors(e).includes(ts))
+          )
+      )
+        continue;
       if (pairHead === head) {
+        // 맴맴, 삐삐, 죽력죽
         const outdeg = wordGraph._succ[head][tail];
         const maximumEven = Math.floor(outdeg / 2) * 2;
         if (maximumEven > 0) {
@@ -160,14 +183,12 @@ export function pruningWinLosCir(
       }
       // 늠축 - 축보름
       else {
-        returnWordGraph.addEdge(
-          head,
-          tail,
-          Math.min(
-            wordGraph._succ[head][tail],
-            wordGraph._succ[pairHead][pairTail]
-          )
+        const pairMin = Math.min(
+          wordGraph._succ[head][tail],
+          wordGraph._succ[pairHead][pairTail]
         );
+        returnWordGraph.addEdge(head, tail, pairMin);
+        returnWordGraph.addEdge(pairHead, pairTail, pairMin);
       }
     }
   }
