@@ -1,13 +1,13 @@
 import {
-  RiPieChartFill,
-  RiPieChartLine,
-  RiRobot2Fill,
-  RiRobot2Line,
-  RiSearch2Fill,
-  RiSearch2Line,
-  RiSettings3Fill,
-  RiSettings3Line,
-} from "react-icons/ri";
+  IoGameController,
+  IoGameControllerOutline,
+  IoPieChart,
+  IoPieChartOutline,
+  IoSearch,
+  IoSearchOutline,
+  IoSettings,
+  IoSettingsOutline,
+} from "react-icons/io5";
 import { create } from "zustand";
 export type Menu = {
   name: string;
@@ -17,24 +17,24 @@ export type Menu = {
 export const menus: Menu[] = [
   {
     name: "검색",
-    icon: <RiSearch2Line className="w-6 h-6 md:w-5 md:h-5" />,
-    fillIcon: <RiSearch2Fill className="w-6 h-6 md:w-5 md:h-5" />,
+    icon: <IoSearchOutline className="w-6 h-6 md:w-5 md:h-5" />,
+    fillIcon: <IoSearch className="w-6 h-6 md:w-5 md:h-5" />,
   },
 
   {
     name: "통계",
-    icon: <RiPieChartLine className="w-6 h-6 md:w-5 md:h-5" />,
-    fillIcon: <RiPieChartFill className="w-6 h-6 md:w-5 md:h-5" />,
+    icon: <IoPieChartOutline className="w-6 h-6 md:w-5 md:h-5" />,
+    fillIcon: <IoPieChart className="w-6 h-6 md:w-5 md:h-5" />,
   },
   {
     name: "플레이",
-    icon: <RiRobot2Line className="w-6 h-6 md:w-5 md:h-5" />,
-    fillIcon: <RiRobot2Fill className="w-6 h-6 md:w-5 md:h-5" />,
+    icon: <IoGameControllerOutline className="w-6 h-6 md:w-5 md:h-5" />,
+    fillIcon: <IoGameController className="w-6 h-6 md:w-5 md:h-5" />,
   },
   {
     name: "룰 설정",
-    icon: <RiSettings3Line className="w-6 h-6 md:w-5 md:h-5" />,
-    fillIcon: <RiSettings3Fill className="w-6 h-6 md:w-5 md:h-5" />,
+    icon: <IoSettingsOutline className="w-6 h-6 md:w-5 md:h-5" />,
+    fillIcon: <IoSettings className="w-6 h-6 md:w-5 md:h-5" />,
   },
 ];
 export interface MenuInfo {
