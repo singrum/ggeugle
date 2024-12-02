@@ -154,11 +154,11 @@ function CompareRoute({ engine }: { engine: WCEngine }) {
 
     return [
       { data: "음절", "현재 룰": chars, 구엜룰: 88 },
-      { data: "단어", "현재 룰": words, 구엜룰: 597 },
+      { data: "단어", "현재 룰": words, 구엜룰: 587 },
       {
         data: "단어/음절",
         "현재 룰": chars > 0 ? Math.round((words / chars) * 1000) / 1000 : 0,
-        구엜룰: 6.784,
+        구엜룰: 6.67,
       },
     ];
   }, []);
