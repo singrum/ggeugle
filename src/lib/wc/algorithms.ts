@@ -151,17 +151,13 @@ export function pruningWinLosCir(
       if (
         !chanGraph
           .predecessors(head)
-          .every((e) =>
-            pairTailSucc.every((ts) => chanGraph.successors(e).includes(ts))
-          )
+          .every((e) => pairTailSucc.every((ts) => chanGraph.hasEdge(e, ts)))
       )
         continue;
       if (
         !chanGraph
           .predecessors(pairHead)
-          .every((e) =>
-            tailSucc.every((ts) => chanGraph.successors(e).includes(ts))
-          )
+          .every((e) => tailSucc.every((ts) => chanGraph.hasEdge(e, ts)))
       )
         continue;
       if (pairHead === head) {
