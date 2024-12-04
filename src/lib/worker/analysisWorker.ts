@@ -48,7 +48,7 @@ const analysis = ({
 
   const wordStack: Char[][] = [];
   const maxBranch: (Char[][] | undefined)[] = [];
-  
+
   const win = withStack
     ? isWin(
         isGuel,
@@ -129,10 +129,34 @@ const IDSAnalysis = ({
         startChar,
         (action: string, data?: any) => {
           if (action === "pop") {
+            const word = wordStack.pop()!;
+
+            if (data === true) {
+              const branch = (maxBranch[wordStack.length + 1] || []).concat([
+                word,
+              ]);
+              maxBranch[wordStack.length + 1] = undefined;
+              maxBranch[wordStack.length] = branch;
+            } else {
+              const branch = (maxBranch[wordStack.length + 1] || []).concat([
+                word,
+              ]);
+              maxBranch[wordStack.length + 1] = undefined;
+              if (
+                !maxBranch[wordStack.length] ||
+                maxBranch[wordStack.length]!.length < branch.length
+              ) {
+                maxBranch[wordStack.length] = branch;
+              }
+            }
+
             self.postMessage({ action: "IDS:pop" });
           } else if (action === "push") {
+            wordStack.push(data);
             self.postMessage({ action: "IDS:push", data });
           } else if (action === "newDepth") {
+            wordStack.length = 0;
+            maxBranch.length = 0;
             self.postMessage({ action: "IDS:newDepth", data });
           }
         }

@@ -1013,6 +1013,7 @@ function WordsResult() {
   const [setMenu] = useMenu((e) => [e.setMenu]);
   const [showAllWords] = useCookieSettings((e) => [e.showAllWords]);
   const [tab, setTab] = useState<number>(0);
+  const [charResultTab, setCharResultTab] = useState<number>(0);
   const [isMoreOpen, setIsMoreOpen] = useState<boolean>(false);
 
   const charType =

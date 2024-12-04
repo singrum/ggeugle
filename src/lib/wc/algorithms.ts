@@ -556,7 +556,7 @@ export function iterativeDeepeningSearch(
   currChar: Char,
   callback?: (action: string, data?: any) => void
 ) {
-  let depth = 24;
+  let depth = 1;
 
   while (1) {
     if (callback) callback("newDepth", depth);
@@ -565,7 +565,6 @@ export function iterativeDeepeningSearch(
       wordGraph,
       currChar,
       depth,
-      undefined,
       callback
     );
 
@@ -583,7 +582,6 @@ function depthLimitedSearch(
   wordGraph: MultiDiGraph,
   currChar: Char,
   depth: number,
-  firstBranch: Char[] | undefined,
   callback?: (action: string, data?: any) => void
 ) {
   if (
@@ -632,15 +630,14 @@ function depthLimitedSearch(
       nextWordGraph,
       word[1],
       depth - 1,
-      firstBranch ? word : firstBranch,
       callback
     );
 
     if (callback) {
-      callback("pop");
+      callback("pop", !win);
     }
     if (win === false) {
-      return firstBranch === undefined ? firstBranch : true;
+      return true;
     }
     if (win === "cutoff") {
       isChildCutoff = true;

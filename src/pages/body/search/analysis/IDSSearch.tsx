@@ -1,6 +1,9 @@
+import WordsTrail from "@/components/ui/WordsTrail";
 import { useWC } from "@/lib/store/useWC";
-import { ChevronRight } from "lucide-react";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
+import { Word } from "@/lib/wc/WordChain";
+import { CornerDownRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 export default function IDSSearch() {
   const [searchInputValue, engine] = useWC((e) => [
@@ -11,6 +14,7 @@ export default function IDSSearch() {
   const [wordStack, setWordStack] = useState<string[]>([]);
   const [result, setResult] = useState<boolean | undefined>(undefined);
   const [depth, setDepth] = useState<number>(1);
+  const [maxStack, setMaxStack] = useState<undefined | Word[]>();
   const worker = useRef<Worker>(null!);
 
   useEffect(() => {
@@ -21,7 +25,9 @@ export default function IDSSearch() {
     if (worker.current) {
       worker.current.terminate();
     }
+    setDepth(1);
     setWordStack([]);
+    setMaxStack(undefined);
     setResult(undefined);
 
     worker.current = new Worker(
@@ -32,29 +38,7 @@ export default function IDSSearch() {
     );
 
     worker.current.onmessage = ({ data }) => {
-      if (data.action === "IDS:setNextRoutes") {
-        // const info_: Record<Char, Record<Char, {}>> = {};
-        // for (const [head, tail] of data) {
-        //   if (info_[head]) {
-        //     info_[head] = {};
-        //   }
-        //   if (info_[head][tail]) {
-        //     info_[head][tail] = {
-        //       state: undefined,
-        //       wordStack: [engine!.wordMap.select(head, tail)],
-        //     };
-        //   }
-        // }
-        // setInfo(
-        //   arrayToKeyMap(
-        //     data.data.map((e: Char[]) => engine!.wordMap.select(e[0], e[1])[0]),
-        //     () => ({
-        //       state: undefined,
-        //       wordStack: [],
-        //     })
-        //   )
-        // );
-      } else if (data.action === "IDS:newDepth") {
+      if (data.action === "IDS:newDepth") {
         setDepth(data.data);
       } else if (data.action === "IDS:push") {
         setWordStack((wordStack) => [
@@ -66,6 +50,16 @@ export default function IDSSearch() {
       } else if (data.action === "IDS:pop") {
         setWordStack((wordStack) => wordStack.slice(0, wordStack.length - 1));
       } else if (data.action === "IDS:end") {
+        const specifiedMaxStack: Word[] = [];
+
+        for (const [head, tail] of data.data.maxStack) {
+          specifiedMaxStack.push(
+            engine!.wordMap
+              .select(head, tail)
+              .find((word) => !specifiedMaxStack.includes(word))!
+          );
+        }
+        setMaxStack(specifiedMaxStack);
         setResult(data.data.win);
       }
     };
@@ -86,25 +80,36 @@ export default function IDSSearch() {
   }, [searchInputValue, engine]);
 
   return (
-    <div className="flex flex-col items-start gap-4 mb-2 w-full">
-      <div>{depth}</div>
-      <div className="w-full">
-        <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs">
-          {wordStack.map((e, i) => (
-            <Fragment key={i}>
-              <div className="flex items-center">{e}</div>
-              {i !== wordStack.length && (
-                <ChevronRight
-                  className="text-muted-foreground w-3 h-3"
-                  strokeWidth={1}
-                />
-              )}
-            </Fragment>
-          ))}
-        </div>
+    <div className="flex flex-col items-start gap-4 mb-2 w-full px-2">
+      <div className="flex items-center gap-1 text-sm">
+        <div className="text-muted-foreground ">최대 깊이 : </div>
+        <div>{depth}</div>
       </div>
-      <div>
-        {result !== undefined && <div>{result ? "승리" : "패배"}</div>}{" "}
+      <div className="w-full">
+        <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs pb-4">
+          <WordsTrail words={maxStack || wordStack} />
+        </div>
+        <div>
+          {result !== undefined && (
+            <div className="flex items-center gap-1 font-medium">
+              <CornerDownRight className="w-4 h-4" />
+              <div>
+                <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline">
+                  {searchInputValue}
+                </span>
+                <span className="font-normal"> : </span>
+                <span
+                  className={cn({
+                    "text-win": result,
+                    "text-los": !result,
+                  })}
+                >
+                  {result ? "승리" : "패배"}
+                </span>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

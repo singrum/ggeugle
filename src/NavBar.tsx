@@ -42,6 +42,7 @@ export default function NavBar() {
           <AlertDialogFooter>
             <AlertDialogCancel
               onClick={() => {
+                setRuleForm({ ...rule });
                 if (toGo !== undefined) {
                   setMenu(toGo);
                 }
@@ -54,7 +55,6 @@ export default function NavBar() {
                 updateRule();
                 if (toGo !== undefined) {
                   setMenu(0);
-                  setRuleForm({ ...rule });
                 }
               }}
             >
