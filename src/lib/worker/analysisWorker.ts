@@ -130,6 +130,7 @@ const IDSAnalysis = ({
         (action: string, data?: any) => {
           if (action === "pop") {
             const word = wordStack.pop()!;
+            // data === "cutoff" 추가해야 하나? 잘 모르겠음
 
             if (data === true) {
               const branch = (maxBranch[wordStack.length + 1] || []).concat([

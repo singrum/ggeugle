@@ -24,7 +24,7 @@ export default function Analysis() {
   return (
     <>
       <div className="w-full">
-        <div className="flex gap-0">
+        <div className="flex gap-0 mb-2">
           <Select
             value={searchMethod}
             onValueChange={(e: "dfs" | "ids") => setSearchMethod(e)}
@@ -56,7 +56,7 @@ export default function Analysis() {
                       단어들의{" "}
                       <span className="font-semibold">선택지가 적고</span>{" "}
                       <span className="font-semibold">게임 진행이 긴 경우</span>
-                      에 유리합니다.
+                      에 유리한 탐색 방법입니다.
                     </p>
                   </>
                 ) : (
@@ -65,8 +65,9 @@ export default function Analysis() {
                       게임 진행이{" "}
                       <span className="font-semibold">최대 깊이</span>보다
                       길어지면 더 이상 탐색하지 않고 다른 수를 탐색합니다. 최대
-                      깊이 내에서 승패 여부를 알아내지 못하면 최대 깊이를 1만큼
-                      증가 시킨 후 다시 탐색합니다.
+                      깊이 내에서 승패 여부를 알아내지 못하면 최대 깊이를{" "}
+                      <span className="font-semibold">1씩 증가</span> 시킨 후
+                      다시 탐색합니다.
                     </p>
                     <p>
                       단어들의{" "}
@@ -74,7 +75,7 @@ export default function Analysis() {
                       <span className="font-semibold">
                         게임 진행이 짧은 경우
                       </span>
-                      에 유리합니다.
+                      에 유리한 탐색 방법입니다.
                     </p>
                   </>
                 )}
