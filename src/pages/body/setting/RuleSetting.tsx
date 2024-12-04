@@ -298,7 +298,7 @@ function DictSetting() {
       ) : (
         <div>
           <Alert>
-            <HelpCircle className="h-4 w-4" />
+            <HelpCircle className="h-5 w-5" />
             <AlertTitle>{dicts[ruleForm.dict].name}</AlertTitle>
             <AlertDescription>{dicts[ruleForm.dict].desc}</AlertDescription>
           </Alert>
@@ -452,7 +452,7 @@ function ChanSetting() {
       </Select>
       {ruleForm.chan !== 0 && (
         <Alert className="max-w-[500px]">
-          <HelpCircle className="h-4 w-4" />
+          <HelpCircle className="h-5 w-5" />
           <AlertTitle>{changeables[ruleForm.chan].name}</AlertTitle>
           <AlertDescription
             className={cn({
@@ -814,7 +814,7 @@ function MannerSetting() {
           {ruleForm.manner === 1 && (
             <>
               <Alert>
-                <HelpCircle className="h-4 w-4" />
+                <HelpCircle className="h-5 w-5" />
                 <AlertTitle>한 번만 제거</AlertTitle>
                 <AlertDescription>
                   <div>
@@ -831,7 +831,7 @@ function MannerSetting() {
           {ruleForm.manner === 2 && (
             <>
               <Alert>
-                <HelpCircle className="h-4 w-4" />
+                <HelpCircle className="h-5 w-5" />
                 <AlertTitle>모두 제거</AlertTitle>
                 <AlertDescription>
                   한방단어를 제거함으로 인해 생기는 한방단어까지 모두
