@@ -16,10 +16,11 @@ import { useWC } from "./lib/store/useWC";
 import { cn } from "./lib/utils";
 export default function NavBar() {
   const [setMenu, menu] = useMenu((e) => [e.setMenu, e.menu]);
-  const [rule, ruleForm, updateRule] = useWC((e) => [
+  const [rule, ruleForm, updateRule, setRuleForm] = useWC((e) => [
     e.rule,
     e.ruleForm,
     e.updateRule,
+    e.setRuleForm,
   ]);
   const [toGo, setToGo] = useState<undefined | number>();
   return (
@@ -53,6 +54,7 @@ export default function NavBar() {
                 updateRule();
                 if (toGo !== undefined) {
                   setMenu(0);
+                  setRuleForm({ ...rule });
                 }
               }}
             >
@@ -68,7 +70,7 @@ export default function NavBar() {
             icon={i === menu ? e.fillIcon : e.icon}
             name={e.name}
             className={cn({
-              "md:bg-accent text-foreground lg:font-medium": i === menu,
+              "md:bg-accent text-foreground": i === menu,
             })}
             onClick={() => {
               if (menu === 3 && i !== 3 && !isEqual(rule, ruleForm)) {
