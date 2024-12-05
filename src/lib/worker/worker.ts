@@ -65,6 +65,7 @@ const getComputerMove = ({
   exceptWords,
   currChar,
   strength,
+  calcTime,
   steal,
   debug,
 }: {
@@ -73,6 +74,7 @@ const getComputerMove = ({
   currChar: Char;
   strength: 0 | 1 | 2;
   steal: boolean;
+  calcTime: number;
   debug: boolean;
 }) => {
   if (strength === 0) {
@@ -195,7 +197,7 @@ const getComputerMove = ({
           timeout = setTimeout(() => {
             analysisWorker.terminate();
             analysisNext(nextRoutesInfo, "idk");
-          }, 3000);
+          }, 1000 * calcTime);
           if (endedWordIdx !== nextRoutesInfo.length - 1) {
             analysisWorker.postMessage({
               action: "startAnalysis",
@@ -247,7 +249,7 @@ const getComputerMove = ({
       timeout = setTimeout(() => {
         analysisWorker.terminate();
         analysisNext(nextRoutesInfo, "idk");
-      }, 3000);
+      }, 1000 * calcTime);
     };
     if (currChar) {
       if (!(engine?.chanGraph.nodes[currChar].type! === "route")) {
@@ -490,6 +492,7 @@ self.onmessage = (event) => {
           exceptWords: string[];
           currChar: Char;
           strength: 0 | 1 | 2;
+          calcTime: number;
           steal: boolean;
           debug: boolean;
         }
