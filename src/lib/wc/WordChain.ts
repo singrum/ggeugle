@@ -154,51 +154,50 @@ export type TreeData = {
 };
 
 export class WCDisplay {
-  static getMaxTrail(engine: WCEngine, char: Char) {
-    function getWinWord(char: Char) {
-      const nextWords = engine
-        .getNextWords(char)
-        .filter(
-          (word) =>
-            WCDisplay.getWordType(engine, word).type === "win" ||
-            WCDisplay.getWordType(engine, word).type === "wincir"
-        );
+  static getWinWord(engine: WCEngine, char: Char) {
+    const nextWords = engine
+      .getNextWords(char)
+      .filter(
+        (word) =>
+          WCDisplay.getWordType(engine, word).type === "win" ||
+          WCDisplay.getWordType(engine, word).type === "wincir"
+      );
+    return nextWords.reduce(
+      (curr, acc) =>
+        WCDisplay.getWordType(engine, curr).endNum! <
+        WCDisplay.getWordType(engine, acc).endNum!
+          ? curr
+          : acc,
+      nextWords[0]
+    );
+  }
+  static getLosWord(engine: WCEngine, char: Char) {
+    const nextWords = engine
+      .getNextWords(char)
+      .filter(
+        (word) =>
+          WCDisplay.getWordType(engine, word).type === "los" ||
+          WCDisplay.getWordType(engine, word).type === "loscir"
+      );
+    if (nextWords.length === 0) return undefined;
+    else
       return nextWords.reduce(
         (curr, acc) =>
-          WCDisplay.getWordType(engine, curr).endNum! <
+          WCDisplay.getWordType(engine, curr).endNum! >
           WCDisplay.getWordType(engine, acc).endNum!
             ? curr
             : acc,
         nextWords[0]
       );
-    }
-    function getLosWord(char: Char) {
-      const nextWords = engine
-        .getNextWords(char)
-        .filter(
-          (word) =>
-            WCDisplay.getWordType(engine, word).type === "los" ||
-            WCDisplay.getWordType(engine, word).type === "loscir"
-        );
-      if (nextWords.length === 0) return undefined;
-      else
-        return nextWords.reduce(
-          (curr, acc) =>
-            WCDisplay.getWordType(engine, curr).endNum! >
-            WCDisplay.getWordType(engine, acc).endNum!
-              ? curr
-              : acc,
-          nextWords[0]
-        );
-    }
-
+  }
+  static getMaxTrail(engine: WCEngine, char: Char) {
     const trail = [];
     if (
       engine.chanGraph.nodes[char].type === "win" ||
       engine.chanGraph.nodes[char].type === "wincir"
     ) {
       // 승일 때
-      const winWord = getWinWord(char);
+      const winWord = this.getWinWord(engine, char);
       trail.push(winWord);
 
       char = winWord.at(engine.rule.tailIdx)!;
@@ -210,13 +209,13 @@ export class WCDisplay {
         break;
       }
 
-      const losWord = getLosWord(char);
+      const losWord = this.getLosWord(engine, char);
       if (!losWord) {
         break;
       }
       trail.push(losWord);
       char = losWord.at(engine.rule.tailIdx)!;
-      const winWord = getWinWord(char);
+      const winWord = this.getWinWord(engine, char);
       trail.push(winWord);
       char = winWord.at(engine.rule.tailIdx)!;
     }
