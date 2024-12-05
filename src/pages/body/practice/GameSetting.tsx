@@ -1,11 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { strengths, turns, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 export default function GameSetting() {
@@ -33,26 +39,35 @@ export default function GameSetting() {
                     <div>:</div>
                   </div>
                   <div className="flex justify-start w-[110px]">
-                    <Button
-                      variant={"outline"}
-                      size="sm"
-                      className={`${
-                        strengths[gameSettingForm.strength].color
-                      } flex gap-1 items-center font-semibold text-sm cursor-pointer`}
-                      onClick={() =>
+                    <Select
+                      value={`${gameSettingForm.strength}`}
+                      onValueChange={(e) =>
                         setGameSettingForm({
                           ...gameSettingForm,
-                          strength: ((gameSettingForm.strength + 1) % 3) as
-                            | 0
-                            | 1
-                            | 2,
+                          strength: parseInt(e) as 0 | 1 | 2,
                         })
                       }
                     >
-                      <RiRobot2Fill className="h-5 w-5" />
-                      {strengths[gameSettingForm.strength].name}
-                      <ChevronsUpDown className="w-3 h-3 text-muted-foreground ml-1" />
-                    </Button>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[0, 1, 2].map((e) => (
+                          <SelectItem
+                            className="text-xs"
+                            value={`${e}`}
+                            key={e}
+                          >
+                            <div
+                              className={`${strengths[e].color} flex gap-1 items-center font-semibold text-sm`}
+                            >
+                              <RiRobot2Fill className="h-5 w-5" />
+                              {strengths[e].name}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
 
                   <div className="font-semibold text-sm flex justify-between items-center">
