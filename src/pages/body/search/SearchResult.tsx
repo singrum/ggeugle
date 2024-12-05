@@ -1051,20 +1051,6 @@ function WordsResult() {
       ? (searchResult.result as CharSearchResult).startsWith.los.length === 0
       : true);
 
-  // const moreEmptyEnd =
-  //   searchResult &&
-  //   (charType === "win" || charType === "route"
-  //     ? (searchResult.result as CharSearchResult).endsWith.rest.length === 0
-  //     : true);
-
-  const emptyResultStart =
-    searchResult &&
-    Object.values(searchResult.result.startsWith).every((e) => e.length === 0);
-
-  const emptyResultEnd =
-    searchResult &&
-    Object.values(searchResult.result.endsWith).every((e) => e.length === 0);
-
   return (
     <>
       <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 flex whitespace-nowrap overflow-auto gap-4 w-full min-h-1 scrollbar-none">
