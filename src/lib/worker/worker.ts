@@ -13,7 +13,7 @@ import { getEngine } from "../wc/ruleUpdate";
 import { Char, WCDisplay, WCEngine, Word, WordType } from "../wc/WordChain";
 
 export type payload = {
-  action: "getEngine" | "setWords" | "getComputerMove";
+  action: "getEngine" | "setWords" | "getComputerMove" | "stopAnalysis";
   data: unknown;
 };
 let originalEngine: undefined | WCEngine = undefined;
@@ -59,7 +59,7 @@ const postWord = (nextWords: Word[], exceptWords: Word[]) => {
     data: { word: result, isLos },
   });
 };
-
+let analysisWorker: Worker | undefined = undefined;
 const getComputerMove = ({
   isGuel,
   exceptWords,
@@ -97,7 +97,10 @@ const getComputerMove = ({
       const nextRoutesInfo: { word: string; win?: string }[] = wordList.map(
         (word) => ({ word })
       );
-      const analysisWorker = new Worker(
+      if (analysisWorker) {
+        analysisWorker.terminate();
+      }
+      analysisWorker = new Worker(
         new URL("./analysisWorker.ts", import.meta.url),
         {
           type: "module",
@@ -177,7 +180,7 @@ const getComputerMove = ({
           }
 
           postWord([nextRoutesInfo[endedWordIdx].word], exceptWords);
-          analysisWorker.terminate();
+          analysisWorker!.terminate();
           return;
         } else {
           if (debug) {
@@ -195,11 +198,11 @@ const getComputerMove = ({
             clearTimeout(timeout);
           }
           timeout = setTimeout(() => {
-            analysisWorker.terminate();
+            analysisWorker!.terminate();
             analysisNext(nextRoutesInfo, "idk");
           }, 1000 * calcTime);
           if (endedWordIdx !== nextRoutesInfo.length - 1) {
-            analysisWorker.postMessage({
+            analysisWorker!.postMessage({
               action: "startAnalysis",
               data: {
                 isGuel: isGuel,
@@ -247,7 +250,7 @@ const getComputerMove = ({
       });
 
       timeout = setTimeout(() => {
-        analysisWorker.terminate();
+        analysisWorker!.terminate();
         analysisNext(nextRoutesInfo, "idk");
       }, 1000 * calcTime);
     };
@@ -498,5 +501,9 @@ self.onmessage = (event) => {
         }
       );
       return;
+    case "stopAnalysis":
+      if (analysisWorker) {
+        analysisWorker.terminate();
+      }
   }
 };

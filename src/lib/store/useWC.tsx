@@ -406,6 +406,12 @@ export const useWC = create<WCInfo>((set, get) => ({
 
   currGame: undefined,
   setCurrGame: (gameInfo?: GameInfo) => {
+    if (gameInfo === undefined) {
+      const worker = get().worker;
+      if (worker) {
+        worker.postMessage({ action: "stopAnalysis" });
+      }
+    }
     set(() => ({ currGame: gameInfo }));
   },
   gameSettingForm: {
