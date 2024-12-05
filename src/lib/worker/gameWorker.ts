@@ -112,27 +112,43 @@ const getComputerMove = ({
               clearTimeout(timeout);
             }
             if (!data.data.win) {
-              if (debug) {
-                self.postMessage({
-                  action: "debug",
-                  data: {
-                    messages: [
-                      {
-                        type: "debug",
-                        content: `${wordList[currIdx]} : 승리`,
-                      },
-                      {
-                        type: "debug",
-                        content: "승리 확정",
-                      },
-                    ],
-                  },
-                });
-              }
+              if (exceptWords.length !== 0) {
+                if (debug) {
+                  self.postMessage({
+                    action: "debug",
+                    data: {
+                      messages: [
+                        {
+                          type: "debug",
+                          content: `${wordList[currIdx]} : 승리`,
+                        },
+                        {
+                          type: "debug",
+                          content: "승리 확정",
+                        },
+                      ],
+                    },
+                  });
+                }
 
-              postWord([wordList[currIdx]], exceptWords);
-              analysisWorker!.terminate();
-              return;
+                postWord([wordList[currIdx]], exceptWords);
+                analysisWorker!.terminate();
+                return;
+              } else {
+                if (debug) {
+                  self.postMessage({
+                    action: "debug",
+                    data: {
+                      messages: [
+                        {
+                          type: "debug",
+                          content: `${wordList[currIdx]} : 승리`,
+                        },
+                      ],
+                    },
+                  });
+                }
+              }
             } else {
               if (debug) {
                 self.postMessage({
@@ -147,56 +163,56 @@ const getComputerMove = ({
                   },
                 });
               }
-              // 모든 게 패배일 때
+            }
+            // 모든 게 패배일 때
 
-              if (currIdx === wordList.length - 1) {
-                if (exceptWords.length === 1 && steal) {
-                  if (debug) {
-                    self.postMessage({
-                      action: "debug",
-                      data: {
-                        messages: [
-                          { type: "debug", content: `단어 뺏기` },
-                          { type: "debug", content: `승리 확정` },
-                        ],
-                      },
-                    });
-                  }
-                  postWord(exceptWords, exceptWords);
-                } else {
-                  if (debug) {
-                    self.postMessage({
-                      action: "debug",
-                      data: {
-                        messages: [{ type: "debug", content: `패배 확정` }],
-                      },
-                    });
-                  }
-                  postWord(wordList, exceptWords);
+            if (currIdx === wordList.length - 1) {
+              if (exceptWords.length === 1 && steal) {
+                if (debug) {
+                  self.postMessage({
+                    action: "debug",
+                    data: {
+                      messages: [
+                        { type: "debug", content: `단어 뺏기` },
+                        { type: "debug", content: `승리 확정` },
+                      ],
+                    },
+                  });
                 }
+                postWord(exceptWords, exceptWords);
+              } else {
+                if (debug) {
+                  self.postMessage({
+                    action: "debug",
+                    data: {
+                      messages: [{ type: "debug", content: `패배 확정` }],
+                    },
+                  });
+                }
+                postWord(wordList, exceptWords);
+              }
 
-                return;
-              }
-              // 그렇지 않을 때
-              else {
-                currIdx++;
-                analysisWorker!.postMessage({
-                  action: "startAnalysis",
-                  data: {
-                    withStack: false,
-                    chanGraph: engine!.chanGraph,
-                    wordGraph: engine!.wordGraph,
-                    startChar: wordList[currIdx].at(engine!.rule.tailIdx),
-                    exceptWord: [
-                      wordList[currIdx].at(engine!.rule.headIdx),
-                      wordList[currIdx].at(engine!.rule.tailIdx),
-                    ],
-                  },
-                });
-                timeout = setTimeout(() => {
-                  onIdk();
-                }, 1000 * calcTime);
-              }
+              return;
+            }
+            // 그렇지 않을 때
+            else {
+              currIdx++;
+              analysisWorker!.postMessage({
+                action: "startAnalysis",
+                data: {
+                  withStack: false,
+                  chanGraph: engine!.chanGraph,
+                  wordGraph: engine!.wordGraph,
+                  startChar: wordList[currIdx].at(engine!.rule.tailIdx),
+                  exceptWord: [
+                    wordList[currIdx].at(engine!.rule.headIdx),
+                    wordList[currIdx].at(engine!.rule.tailIdx),
+                  ],
+                },
+              });
+              timeout = setTimeout(() => {
+                onIdk();
+              }, 1000 * calcTime);
             }
 
             return;
