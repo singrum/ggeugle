@@ -1,16 +1,6 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { josa } from "es-hangul";
 import { isEqual } from "lodash";
 import { X } from "lucide-react";
-import { ReactNode } from "react";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import { sampleRules } from "../wc/rules";
@@ -27,7 +17,6 @@ export type changeInfo = {
   compPrev: Record<Char, { prevType: string; currType: string }>;
   compOrigin: Record<Char, { prevType: string; currType: string }>;
 };
-
 
 export const manners = ["제거 안 함", "한 번만 제거", "모두 제거"];
 
@@ -61,6 +50,7 @@ export type Chat = {
 
 export type GameInfo = {
   strength: 0 | 1 | 2;
+  calcTime: number;
   isFirst: boolean;
   steal?: boolean;
   debug?: boolean;
@@ -102,12 +92,14 @@ export interface WCInfo {
   setCurrGame: (gameInfo?: GameInfo) => void;
   gameSettingForm: {
     strength: 0 | 1 | 2;
+    calcTime: number;
     turn: 0 | 1 | 2;
     steal: boolean;
     debug: boolean;
   };
   setGameSettingForm: (form: {
     strength: 0 | 1 | 2;
+    calcTime: number;
     turn: 0 | 1 | 2;
     steal: boolean;
     debug: boolean;
@@ -416,9 +408,16 @@ export const useWC = create<WCInfo>((set, get) => ({
   setCurrGame: (gameInfo?: GameInfo) => {
     set(() => ({ currGame: gameInfo }));
   },
-  gameSettingForm: { strength: 2, turn: 1, steal: true, debug: false },
+  gameSettingForm: {
+    strength: 2,
+    calcTime: 3,
+    turn: 1,
+    steal: true,
+    debug: false,
+  },
   setGameSettingForm: (form: {
     strength: 0 | 1 | 2;
+    calcTime: number;
     turn: 0 | 1 | 2;
     steal: boolean;
     debug: boolean;
@@ -439,6 +438,7 @@ export const useWC = create<WCInfo>((set, get) => ({
         currGame: {
           isFirst,
           strength: gameSettingForm.strength,
+          calcTime: gameSettingForm.calcTime,
           steal: gameSettingForm.steal,
           debug: gameSettingForm.debug,
 
@@ -467,6 +467,7 @@ export const useWC = create<WCInfo>((set, get) => ({
           exceptWords: [],
           currChar: undefined,
           strength: gameSettingForm.strength,
+          calcTime: gameSettingForm.calcTime,
           steal: true,
 
           debug: gameSettingForm.debug,
@@ -477,6 +478,7 @@ export const useWC = create<WCInfo>((set, get) => ({
         currGame: {
           isFirst,
           strength: gameSettingForm.strength,
+          calcTime: gameSettingForm.calcTime,
           steal: gameSettingForm.steal,
           debug: gameSettingForm.debug,
           chats: [
@@ -505,6 +507,7 @@ export const useWC = create<WCInfo>((set, get) => ({
         exceptWords: moves,
         currChar: move.at(get().engine!.rule.tailIdx),
         strength: get().currGame!.strength,
+        calcTime: get().currGame!.calcTime,
         steal: get().currGame!.steal,
         debug: get().currGame!.debug,
       },

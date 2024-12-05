@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { strengths, turns, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
+import { ChevronsUpDown } from "lucide-react";
+import { useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 export default function GameSetting() {
   const [gameSettingForm, setGameSettingForm, getStarted] = useWC((e) => [
@@ -12,7 +14,7 @@ export default function GameSetting() {
     e.setGameSettingForm,
     e.getStarted,
   ]);
-
+  const [isOpenTimeSettings, setIsOpenTimeSettings] = useState<boolean>(false);
   return (
     <div className="flex flex-col items-center h-full justify-between rounded-xl bg-muted/40">
       <div className="flex-1 flex flex-col justify-start w-full items-center">
@@ -24,30 +26,62 @@ export default function GameSetting() {
         <div className="flex flex-col justify-between flex-1 w-full p-4 pb-0">
           <div className="flex-1 flex flex-col w-full">
             <div className="flex-1 flex flex-col w-full justify-center items-center">
-              <div className="flex flex-col justify-center gap-3 mb-10 w-1/2">
-                <div className="p-2 flex items-center justify-center gap-2">
-                  <div className="font-semibold text-sm">난이도 :</div>
-                  <div
-                    className={`${
-                      strengths[gameSettingForm.strength].color
-                    } flex gap-1 items-center font-semibold text-sm`}
-                  >
-                    <RiRobot2Fill className="h-5 w-5" />
-                    {strengths[gameSettingForm.strength].name}
+              <div className="flex flex-col justify-center gap-3 mb-10 w-fit">
+                <div className="grid grid-cols-2 items-center justify-items-stretch gap-x-4 gap-y-2 mb-4">
+                  <div className="font-semibold text-sm flex justify-between items-center">
+                    <div>난이도</div>
+                    <div>:</div>
+                  </div>
+                  <div className="flex justify-start w-[110px]">
+                    <Button
+                      variant={"outline"}
+                      size="sm"
+                      className={`${
+                        strengths[gameSettingForm.strength].color
+                      } flex gap-1 items-center font-semibold text-sm cursor-pointer`}
+                      onClick={() =>
+                        setGameSettingForm({
+                          ...gameSettingForm,
+                          strength: ((gameSettingForm.strength + 1) % 3) as
+                            | 0
+                            | 1
+                            | 2,
+                        })
+                      }
+                    >
+                      <RiRobot2Fill className="h-5 w-5" />
+                      {strengths[gameSettingForm.strength].name}
+                      <ChevronsUpDown className="w-3 h-3 text-muted-foreground ml-1" />
+                    </Button>
+                  </div>
+
+                  <div className="font-semibold text-sm flex justify-between items-center">
+                    <div>계산 시간</div>
+                    <div>:</div>
+                  </div>
+                  <div className="flex gap-1 items-center">
+                    <Input
+                      disabled={gameSettingForm.strength !== 2}
+                      id="calc-time-input"
+                      type="number"
+                      onChange={(e) =>
+                        setGameSettingForm({
+                          ...gameSettingForm,
+                          calcTime: parseFloat(e.target.value),
+                        })
+                      }
+                      value={gameSettingForm.calcTime}
+                      className="w-[75px] text-right"
+                    />
+                    <div
+                      className={cn({
+                        "text-muted-foreground": gameSettingForm.strength !== 2,
+                      })}
+                    >
+                      초
+                    </div>
                   </div>
                 </div>
-                <Slider
-                  onValueChange={(e) =>
-                    setGameSettingForm({
-                      ...gameSettingForm,
-                      strength: e[0] as 0 | 1 | 2,
-                    })
-                  }
-                  value={[gameSettingForm.strength]}
-                  max={2}
-                  step={1}
-                  className={cn("w-full")}
-                />
               </div>
               <div className="flex gap-4 font-semibold text-sm mb-10">
                 {turns.map((e, i) => (
