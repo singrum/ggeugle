@@ -940,8 +940,8 @@ const RegexExamples = [
     content: String.raw`(.).*(?!\1).`,
   },
   {
-    title: "2글자 단어",
-    content: String.raw`(.{2})`,
+    title: "3글자 단어",
+    content: String.raw`(.{3})`,
   },
   {
     title: "2글자 또는 5글자 단어",
