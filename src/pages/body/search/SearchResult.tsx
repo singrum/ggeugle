@@ -1038,8 +1038,9 @@ function WordsResult() {
   }, [searchInputValue]);
   const showShowcase =
     isGuel && searchInputValue.length === 0 && exceptWords.length === 0;
+
   const moreEmptyStart =
-    searchResult &&
+    searchResult?.isChar &&
     (charType === "win"
       ? (searchResult.result as CharSearchResult).startsWith.route.length ===
           0 &&
