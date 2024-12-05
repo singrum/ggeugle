@@ -202,7 +202,7 @@ function GameInput() {
             disabled={!currGame!.isPlaying}
             className="bg-transparent border-none outline-none focus-visible:ring-offset-0 focus-visible:border-none focus-visible:outline-none focus-visible:ring-0 pr-12 relative h-12 text-base"
             type="search"
-            placeholder="단어를 입력해 주세요."
+            placeholder="단어를 입력해주세요."
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => {
@@ -266,6 +266,7 @@ function GameHeader() {
       </div>
       <NewGameDialog />
       <ResignDialog />
+      
     </>
   );
 }

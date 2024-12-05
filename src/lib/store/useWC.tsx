@@ -3,6 +3,7 @@ import { isEqual } from "lodash";
 import { X } from "lucide-react";
 import toast from "react-hot-toast";
 import { create } from "zustand";
+import { fire } from "../confetti";
 import { sampleRules } from "../wc/rules";
 import {
   Char,
@@ -327,6 +328,8 @@ export const useWC = create<WCInfo>((set, get) => ({
             });
           }
         } else {
+          fire();
+
           const newCurrGame: GameInfo = {
             ...currGame,
             chats: [
