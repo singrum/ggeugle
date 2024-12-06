@@ -715,14 +715,14 @@ function HeadIdxSetting() {
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
     <SettingMenu name="첫 글자">
-      <div className="flex gap-1 items-center">
+      <div className="flex gap-2 items-center">
         <Select
           value={ruleForm.headDir.toString()}
           onValueChange={(e) =>
             setRuleForm({ ...ruleForm, headDir: parseInt(e) as 0 | 1 })
           }
         >
-          <SelectTrigger className="w-fit">
+          <SelectTrigger className="w-[100px]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -737,7 +737,7 @@ function HeadIdxSetting() {
         <Input
           value={ruleForm.headIdx}
           type="number"
-          className="w-20 h-fit text-xs focus-visible:ring-offset-1 focus-visible:ring-1"
+          className="w-20"
           onChange={(e) =>
             setRuleForm({ ...ruleForm, headIdx: parseInt(e.target.value) })
           }
@@ -753,14 +753,14 @@ function TailIdxSetting() {
   const setRuleForm = useWC((e) => e.setRuleForm);
   return (
     <SettingMenu name="끝 글자">
-      <div className="flex gap-1 items-center">
+      <div className="flex gap-2 items-center">
         <Select
           value={ruleForm.tailDir.toString()}
           onValueChange={(e) =>
             setRuleForm({ ...ruleForm, tailDir: parseInt(e) as 0 | 1 })
           }
         >
-          <SelectTrigger className="">
+          <SelectTrigger className="w-[100px]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -775,7 +775,7 @@ function TailIdxSetting() {
         <Input
           value={ruleForm.tailIdx}
           type="number"
-          className="w-20 h-fit text-xs focus-visible:ring-offset-1 focus-visible:ring-1"
+          className="w-20"
           onChange={(e) =>
             setRuleForm({ ...ruleForm, tailIdx: parseInt(e.target.value) })
           }
