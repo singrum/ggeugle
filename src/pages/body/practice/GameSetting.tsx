@@ -12,7 +12,6 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { strengths, turns, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 export default function GameSetting() {
   const [gameSettingForm, setGameSettingForm, getStarted] = useWC((e) => [
@@ -20,9 +19,9 @@ export default function GameSetting() {
     e.setGameSettingForm,
     e.getStarted,
   ]);
-  const [isOpenTimeSettings, setIsOpenTimeSettings] = useState<boolean>(false);
+
   return (
-    <div className="flex flex-col items-center h-full justify-between rounded-xl bg-muted/40">
+    <div className="flex flex-col items-center min-h-full justify-between rounded-xl bg-muted/40">
       <div className="flex-1 flex flex-col justify-start w-full items-center">
         <div className="w-full flex items-center px-2 py-1 justify-between border-b border-border text-accent-foreground">
           <div className="flex items-center gap-1 px-2 py-2 font-semibold ">
@@ -33,97 +32,104 @@ export default function GameSetting() {
           <div className="flex-1 flex flex-col w-full">
             <div className="flex-1 flex flex-col w-full justify-center items-center">
               <div className="flex flex-col justify-center gap-3 mb-10 w-fit">
-                <div className="grid grid-cols-2 items-center justify-items-stretch gap-x-4 gap-y-2 mb-4">
-                  <div className="font-semibold text-sm flex justify-between items-center">
-                    <div>난이도</div>
-                    <div>:</div>
-                  </div>
-                  <div className="flex justify-start w-[110px]">
-                    <Select
-                      value={`${gameSettingForm.strength}`}
-                      onValueChange={(e) =>
-                        setGameSettingForm({
-                          ...gameSettingForm,
-                          strength: parseInt(e) as 0 | 1 | 2,
-                        })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {[0, 1, 2].map((e) => (
-                          <SelectItem
-                            className="text-xs"
-                            value={`${e}`}
-                            key={e}
-                          >
-                            <div
-                              className={`${strengths[e].color} flex gap-1 items-center font-semibold text-sm`}
+                <div className="flex flex-col items-center gap-6">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="font-semibold text-sm flex justify-between items-center text-muted-foreground">
+                      <div>난이도</div>
+                    </div>
+                    <div className="flex justify-start">
+                      <Select
+                        value={`${gameSettingForm.strength}`}
+                        onValueChange={(e) =>
+                          setGameSettingForm({
+                            ...gameSettingForm,
+                            strength: parseInt(e) as 0 | 1 | 2,
+                          })
+                        }
+                      >
+                        <SelectTrigger className="w-[120px]">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {[0, 1, 2].map((e) => (
+                            <SelectItem
+                              className="text-xs"
+                              value={`${e}`}
+                              key={e}
                             >
-                              <RiRobot2Fill className="h-5 w-5" />
-                              {strengths[e].name}
-                            </div>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                              <div
+                                className={`${strengths[e].color} flex gap-1 items-center font-semibold text-sm`}
+                              >
+                                <RiRobot2Fill className="h-5 w-5" />
+                                {strengths[e].name}
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
                   </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="font-semibold text-sm flex justify-between items-center text-muted-foreground">
+                      <div>계산 시간</div>
+                    </div>
+                    <div className="flex gap-1 items-center">
+                      <Input
+                        disabled={gameSettingForm.strength !== 2}
+                        id="calc-time-input"
+                        type="number"
+                        onChange={(e) =>
+                          setGameSettingForm({
+                            ...gameSettingForm,
+                            calcTime: parseFloat(e.target.value),
+                          })
+                        }
+                        value={gameSettingForm.calcTime}
+                        className="w-[75px] text-right"
+                      />
+                      <div
+                        className={cn({
+                          "text-muted-foreground":
+                            gameSettingForm.strength !== 2,
+                        })}
+                      >
+                        초
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="font-semibold text-sm flex justify-between items-center text-muted-foreground">
+                      <div>내 차례</div>
+                    </div>
+                    <div className="flex gap-4">
+                      {turns.map((e, i) => (
+                        <div
+                          key={i}
+                          className={cn(
+                            "w-12 h-12 flex items-center justify-center rounded-md border border-border transition-colors khover:bg-accent cursor-pointer text-muted-foreground hover:text-foreground select-none font-semibold text-sm",
+                            {
+                              "text-foreground ring-2 ring-ring ring-offset-2":
+                                gameSettingForm.turn === i,
+                              "hover:bg-background hover:text-auto opacity-50 cursor-not-allowed":
+                                !gameSettingForm.steal,
+                            }
+                          )}
+                          onClick={() => {
+                            if (gameSettingForm.steal) {
+                              setGameSettingForm({
+                                ...gameSettingForm,
 
-                  <div className="font-semibold text-sm flex justify-between items-center">
-                    <div>계산 시간</div>
-                    <div>:</div>
-                  </div>
-                  <div className="flex gap-1 items-center">
-                    <Input
-                      disabled={gameSettingForm.strength !== 2}
-                      id="calc-time-input"
-                      type="number"
-                      onChange={(e) =>
-                        setGameSettingForm({
-                          ...gameSettingForm,
-                          calcTime: parseFloat(e.target.value),
-                        })
-                      }
-                      value={gameSettingForm.calcTime}
-                      className="w-[75px] text-right"
-                    />
-                    <div
-                      className={cn({
-                        "text-muted-foreground": gameSettingForm.strength !== 2,
-                      })}
-                    >
-                      초
+                                turn: i as 0 | 1 | 2,
+                              });
+                            }
+                          }}
+                        >
+                          {e}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="flex gap-4 font-semibold text-sm mb-10">
-                {turns.map((e, i) => (
-                  <div
-                    key={i}
-                    className={cn(
-                      "w-12 h-12 flex items-center justify-center rounded-md border border-border transition-colors khover:bg-accent cursor-pointer text-muted-foreground hover:text-foreground select-none",
-                      {
-                        "text-foreground ring-2 ring-ring":
-                          gameSettingForm.turn === i,
-                        "hover:bg-background hover:text-auto opacity-50 cursor-not-allowed":
-                          !gameSettingForm.steal,
-                      }
-                    )}
-                    onClick={() => {
-                      if (gameSettingForm.steal) {
-                        setGameSettingForm({
-                          ...gameSettingForm,
-
-                          turn: i as 0 | 1 | 2,
-                        });
-                      }
-                    }}
-                  >
-                    {e}
-                  </div>
-                ))}
               </div>
             </div>
             <div className="w-full flex flex-col">
@@ -175,14 +181,14 @@ export default function GameSetting() {
         </div>
       </div>
 
-      <div className="flex items-center justify-center w-full h-20 p-4">
+      <div className="flex items-center justify-center w-full p-4">
         <Button
-          className="w-full h-full text-md"
+          className="w-full text-md h-12"
           onClick={() => {
             getStarted();
           }}
         >
-          시작하기
+          게임 시작
         </Button>
       </div>
     </div>
