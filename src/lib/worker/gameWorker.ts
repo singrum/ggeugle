@@ -361,21 +361,8 @@ const getComputerMove = ({
     } else {
       // 컴퓨터가 선공인 경우
       if (strength === 1) {
-        if (debug) {
-          self.postMessage({
-            action: "debug",
-            data: {
-              messages: [
-                {
-                  type: "debug",
-                  content: "랜덤루트",
-                },
-              ],
-            },
-          });
-        }
-        postWord(
-          Object.keys(engine!.chanGraph.nodes).flatMap((char) =>
+        const routeWords = Object.keys(engine!.chanGraph.nodes).flatMap(
+          (char) =>
             engine!.chanGraph.nodes[char].type === "route"
               ? engine!
                   .getNextWords(char)
@@ -386,24 +373,87 @@ const getComputerMove = ({
                       ) === "route"
                   )
               : []
-          ),
-          exceptWords
         );
+        if (routeWords.length > 0) {
+          postWord(routeWords, exceptWords);
+          if (debug) {
+            self.postMessage({
+              action: "debug",
+              data: {
+                messages: [
+                  {
+                    type: "debug",
+                    content: "랜덤루트",
+                  },
+                ],
+              },
+            });
+          }
+        } else {
+          // 루트 단어 없는 경우
+          const longest = engine!.words.reduce((prev, curr) => {
+            return (WCDisplay.getWordType(engine!, prev).endNum as number) >
+              (WCDisplay.getWordType(engine!, curr).endNum as number)
+              ? prev
+              : curr;
+          }, engine!.words[0]);
+          postWord([longest], exceptWords);
+          if (debug) {
+            self.postMessage({
+              action: "debug",
+              data: {
+                messages: [
+                  {
+                    type: "debug",
+                    content: "루트 없음",
+                  },
+                  {
+                    type: "debug",
+                    content: `${
+                      WCDisplay.getWordType(engine!, longest).endNum as number
+                    } 턴 이내 종료`,
+                  },
+                ],
+              },
+            });
+          }
+        }
       } else if (strength === 2) {
-        const routeChars = new Set([
-          ...Object.keys(engine!.chanGraph.nodes),
-          ...Object.keys(engine!.wordGraph.nodes),
-        ]);
-        engine!.chanGraph.getSubgraph(routeChars);
-        engine!.wordGraph.getSubgraph(routeChars);
-
-        analysisStart(
-          shuffle(
-            engine!.wordGraph
-              .edges()
-              .map(([head, tail]) => engine!.wordMap.select(head, tail)[0])
-          )
+        const routeWords = shuffle(
+          engine!.wordGraph
+            .edges()
+            .map(([head, tail]) => engine!.wordMap.select(head, tail)[0])
         );
+        if (routeWords.length > 0) {
+          analysisStart(routeWords);
+        } else {
+          const longest = engine!.words.reduce((prev, curr) => {
+            return (WCDisplay.getWordType(engine!, prev).endNum as number) >
+              (WCDisplay.getWordType(engine!, curr).endNum as number)
+              ? prev
+              : curr;
+          }, engine!.words[0]);
+          postWord([longest], exceptWords);
+          if (debug) {
+            self.postMessage({
+              action: "debug",
+              data: {
+                messages: [
+                  {
+                    type: "debug",
+                    content: "루트 없음",
+                  },
+                  {
+                    type: "debug",
+                    content: `${
+                      WCDisplay.getWordType(engine!, longest).endNum as number
+                    } 턴 이내 종료`,
+                  },
+                ],
+              },
+            });
+          }
+        }
       }
     }
   }
