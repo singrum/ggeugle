@@ -1057,12 +1057,12 @@ function KkutuRuleSelectBtn() {
               value={gameType.toString()}
               onValueChange={(val) => setGameType(parseInt(val))}
             >
-              <SelectTrigger className="text-xs w-[100px]">
+              <SelectTrigger className="text-xs w-[100px] h-8">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {kkutuInfo.gameType.map((e, i) => (
-                  <SelectItem value={i.toString()} key={e}>
+                  <SelectItem value={i.toString()} key={e} className="text-xs">
                     {e}
                   </SelectItem>
                 ))}
