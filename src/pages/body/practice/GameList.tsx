@@ -62,13 +62,13 @@ function GameButton({
           />
 
           <div>{strengths[gameInfo.strength].name}</div>
-          {gameInfo.strength === 2 && (
-            <>
-              <Dot className="w-4 h-4" />
-              <div>{gameInfo.calcTime} 초</div>
-            </>
-          )}
-
+          <span className="text-muted-foreground">
+            {gameInfo.strength === 2 && (
+              <>
+                <div>({gameInfo.calcTime}초)</div>
+              </>
+            )}
+          </span>
           <Dot className="w-4 h-4" />
 
           <div>{gameInfo.isFirst ? "선공" : "후공"}</div>
