@@ -106,7 +106,7 @@ export default function GameSetting() {
                         <div
                           key={i}
                           className={cn(
-                            "w-12 h-12 flex items-center justify-center rounded-md border border-border transition-colors khover:bg-accent cursor-pointer text-muted-foreground hover:text-foreground select-none font-semibold text-sm",
+                            "w-12 h-12 flex items-center justify-center rounded-md border border-border transition-colors bg-background  cursor-pointer text-muted-foreground hover:text-foreground select-none font-semibold text-sm",
                             {
                               "text-foreground ring-2 ring-ring ring-offset-2":
                                 gameSettingForm.turn === i,
