@@ -12,14 +12,32 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { strengths, turns, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
+import { LoaderCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 export default function GameSetting() {
-  const [gameSettingForm, setGameSettingForm, getStarted] = useWC((e) => [
+  const [
+    originalEngine,
+    engine,
+    gameSettingForm,
+    setGameSettingForm,
+    getStarted,
+  ] = useWC((e) => [
+    e.originalEngine,
+    e.engine,
     e.gameSettingForm,
     e.setGameSettingForm,
     e.getStarted,
   ]);
+  const [pending, setPending] = useState<boolean>(false);
 
+  useEffect(() => {
+    if (engine && pending) {
+      console.log(engine);
+      setPending(false);
+      getStarted();
+    }
+  }, [engine]);
   return (
     <div className="flex flex-col items-center min-h-full justify-between rounded-xl bg-muted/40">
       <div className="flex-1 flex flex-col justify-start w-full items-center">
@@ -103,7 +121,7 @@ export default function GameSetting() {
                     </div>
                     <div className="flex gap-4">
                       {turns.map((e, i) => (
-                        <div
+                        <button
                           key={i}
                           className={cn(
                             "w-12 h-12 flex items-center justify-center rounded-md border border-border transition-colors bg-background  cursor-pointer text-muted-foreground hover:text-foreground select-none font-semibold text-sm",
@@ -125,7 +143,7 @@ export default function GameSetting() {
                           }}
                         >
                           {e}
-                        </div>
+                        </button>
                       ))}
                     </div>
                   </div>
@@ -185,10 +203,20 @@ export default function GameSetting() {
         <Button
           className="w-full text-md h-12"
           onClick={() => {
-            getStarted();
+            if (!engine) {
+              setPending(true);
+            } else {
+              getStarted();
+            }
           }}
         >
-          게임 시작
+          {pending ? (
+            <div className="flex gap-2 px-2 py-1.5">
+              <LoaderCircle className="ml-1 w-6 h-6 animate-spin text-background" />
+            </div>
+          ) : (
+            "게임 시작"
+          )}
         </Button>
       </div>
     </div>
