@@ -56,7 +56,7 @@ export function Content() {
           </Popover>
         </div>
         <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
-          <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1 shrink">
+          <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1 shrink gap-1">
             <div className="text-muted-foreground mr-1 whitespace-nowrap">
               정렬:
             </div>
