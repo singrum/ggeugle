@@ -1,48 +1,35 @@
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import WordsTrail from "@/components/ui/WordsTrail";
-import { useWC } from "@/lib/store/useWC";
-import { TreeData, WCDisplay } from "@/lib/wc/WordChain";
-import React, { useEffect, useMemo, useRef } from "react";
-
+import { Badge } from "@/components/ui/badge";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Separator } from "@/components/ui/separator";
+import { useWC } from "@/lib/store/useWC";
+import { TreeInfo, WCDisplay, Word } from "@/lib/wc/WordChain";
+import { cloneDeep } from "lodash";
 import { CircleHelp } from "lucide-react";
-// @ts-ignore
-import { Tree } from "./Tree";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
+
+import { cn } from "@/lib/utils";
 
 export default function SolutionTree() {
   const [engine, searchInputValue] = useWC((e) => [
     e.engine,
     e.searchInputValue,
   ]);
-  const containerRef = useRef() as React.MutableRefObject<HTMLDivElement>;
-  const data = useMemo(() => {
-    return WCDisplay.getSolutionTree(engine!, searchInputValue);
+
+  const [treeInfo, setTreeInfo] = useState<TreeInfo>(
+    WCDisplay.getTree(engine!, searchInputValue)
+  );
+  useEffect(() => {
+    setTreeInfo(WCDisplay.getTree(engine!, searchInputValue));
   }, [engine, searchInputValue]);
 
   const maxTrail = useMemo(() => {
     return WCDisplay.getMaxTrail(engine!, searchInputValue);
   }, [engine, searchInputValue]);
-
-  useEffect(() => {
-    while (containerRef.current.lastChild) {
-      containerRef.current.removeChild(containerRef.current.lastChild);
-    }
-
-    const treeElement = Tree(data, {
-      label: (d: TreeData) => d.name,
-      // width: 100,
-      stroke: "hsl(var(--foreground))",
-      halo: "hsl(var(--background))",
-      fill: "hsl(var(--foreground))",
-    });
-
-    containerRef.current.appendChild(treeElement);
-  }, [containerRef.current?.lastChild]);
 
   return (
     <>
@@ -79,23 +66,102 @@ export default function SolutionTree() {
         </div>
         <Separator className="mx-4" />
       </div>
-
       <div className="flex flex-col gap-3 py-4 items-center w-full">
         <Badge
           className="text-muted-foreground flex items-center gap-1"
           variant={"secondary"}
         >
-          게임 트리
+          트리 탐색
         </Badge>
-        <div className="h-[400px] overflow-hidden resize-y border-b w-full">
-          <div
-            className={`h-full min-w-[${
-              (engine!.chanGraph.nodes[searchInputValue].endNum as number) * 900
-            }rem]`}
-            ref={containerRef}
-          />
+        <div className="w-full px-6">
+          <Tree treeInfo={treeInfo} setTreeInfo={setTreeInfo} />
         </div>
       </div>
     </>
+  );
+}
+
+function TreeNode({
+  type,
+  children,
+}: {
+  type: "win" | "los";
+  children?: ReactNode;
+}) {
+  return (
+    <div className="flex gap-2">
+      <div className="pt-[6px]">
+        <div
+          className={cn(
+            `ring-offset-0 ring-2 ring-background w-3 h-3 rounded-full bg-${type}`
+          )}
+        />
+      </div>
+
+      {children}
+    </div>
+  );
+}
+
+function Tree({
+  treeInfo,
+  setTreeInfo,
+}: {
+  treeInfo: {
+    type: "win" | "los";
+    win: Word[];
+    los: { mainIdx: number; words: Word[] }[];
+  };
+  setTreeInfo: React.Dispatch<React.SetStateAction<TreeInfo>>;
+}) {
+  const [engine] = useWC((e) => [e.engine]);
+  const nodes = [];
+  if (treeInfo.type === "win") {
+    nodes.push(
+      <TreeNode type={"win"}>
+        <button className="font-medium">{treeInfo.win[0]}</button>
+      </TreeNode>
+    );
+  }
+  for (let i = 0; i < treeInfo.los.length; i++) {
+    const losInfo = treeInfo.los[i];
+    const winWord = treeInfo.win[i + (treeInfo.type === "win" ? 1 : 0)];
+
+    nodes.push(
+      <TreeNode type={"los"}>
+        <div className="flex flex-wrap gap-x-2 gap-y-1 font-medium">
+          {losInfo.words.map((losWord, wordIdx) => (
+            <button
+              className={cn("text-muted-foreground", {
+                "text-foreground": wordIdx === losInfo.mainIdx,
+              })}
+              key={losWord}
+              onClick={() => {
+                if (wordIdx === losInfo.mainIdx) return;
+
+                setTreeInfo(
+                  WCDisplay.changeTree(engine!, cloneDeep(treeInfo), i, wordIdx)
+                );
+              }}
+            >
+              {losWord}
+            </button>
+          ))}
+        </div>
+      </TreeNode>,
+      <TreeNode type={"win"}>
+        <button className="font-medium">{winWord}</button>
+      </TreeNode>
+    );
+  }
+  return (
+    <div className="relative">
+      <div className="h-[calc(100%-24px)] absolute bg-muted-foreground w-0.5 left-[6px] top-[12px] translate-x-[-50%]"></div>
+      <div className="flex flex-col gap-4 relative">
+        {nodes.map((e, i) => (
+          <React.Fragment key={i}>{e}</React.Fragment>
+        ))}
+      </div>
+    </div>
   );
 }
