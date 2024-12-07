@@ -470,11 +470,11 @@ export function CharMenu() {
               )}
               <div
                 className={cn(
-                  `w-full py-2 rounded-lg text-center text-md relative z-10 text-muted-foreground `,
+                  `w-full py-2 rounded-lg text-center text-md relative z-10 text-muted-foreground font-medium`,
                   {
                     [`outline outline-${e.color} shadow bg-${e.color}/10`]:
                       charMenu === i,
-                    [`text-${e.color} font-medium`]: charMenu === i,
+                    [`text-${e.color}`]: charMenu === i,
                   }
                 )}
               >

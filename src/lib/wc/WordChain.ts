@@ -289,7 +289,7 @@ export class WCDisplay {
     treeInfo.los[losIdx].mainIdx = wordIdx;
 
     treeInfo.los.length = losIdx + 1;
-    treeInfo.win.length = losIdx + 1;
+    treeInfo.win.length = losIdx + (treeInfo.type === "win" ? 1 : 0);
     let char = treeInfo.los[losIdx].words[wordIdx].at(engine.rule.tailIdx)!;
     let cnt = 0;
     while (true) {

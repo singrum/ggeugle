@@ -138,10 +138,14 @@ function Tree({
               key={losWord}
               onClick={() => {
                 if (wordIdx === losInfo.mainIdx) return;
-
-                setTreeInfo(
-                  WCDisplay.changeTree(engine!, cloneDeep(treeInfo), i, wordIdx)
+                const changed = WCDisplay.changeTree(
+                  engine!,
+                  cloneDeep(treeInfo),
+                  i,
+                  wordIdx
                 );
+                console.log(changed, i, wordIdx);
+                setTreeInfo(changed);
               }}
             >
               {losWord}
