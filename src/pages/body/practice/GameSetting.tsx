@@ -33,7 +33,6 @@ export default function GameSetting() {
 
   useEffect(() => {
     if (engine && pending) {
-      console.log(engine);
       setPending(false);
       getStarted();
     }

@@ -153,6 +153,11 @@ export type TreeData = {
   children?: TreeData[];
 };
 
+export type TreeInfo = {
+  type: "win" | "los";
+  win: Word[];
+  los: { mainIdx: number; words: Word[] }[];
+};
 export class WCDisplay {
   static getWinWord(engine: WCEngine, char: Char) {
     const nextWords = engine
@@ -190,6 +195,21 @@ export class WCDisplay {
         nextWords[0]
       );
   }
+  static getLosWords(engine: WCEngine, char: Char) {
+    const nextWords = engine
+      .getNextWords(char)
+      .filter(
+        (word) =>
+          WCDisplay.getWordType(engine, word).type === "los" ||
+          WCDisplay.getWordType(engine, word).type === "loscir"
+      );
+
+    return nextWords.sort(
+      (a, b) =>
+        -WCDisplay.getWordType(engine, a).endNum! +
+        WCDisplay.getWordType(engine, b).endNum!
+    );
+  }
   static getMaxTrail(engine: WCEngine, char: Char) {
     const trail = [];
     if (
@@ -221,6 +241,73 @@ export class WCDisplay {
     }
 
     return trail;
+  }
+  static getTree(engine: WCEngine, char: Char) {
+    const treeInfo: TreeInfo = {
+      type:
+        engine.chanGraph.nodes[char].type === "win" ||
+        engine.chanGraph.nodes[char].type === "wincir"
+          ? "win"
+          : "los",
+      win: [],
+      los: [],
+    };
+    if (treeInfo.type === "win") {
+      // 승일 때
+      const winWord = this.getWinWord(engine, char);
+      treeInfo.win.push(winWord);
+      char = winWord.at(engine.rule.tailIdx)!;
+    }
+    let cnt = 0;
+    while (true) {
+      cnt++;
+      if (cnt > 200) {
+        break;
+      }
+
+      const losWords = this.getLosWords(engine, char);
+
+      if (losWords.length === 0) {
+        break;
+      }
+      treeInfo.los.push({ mainIdx: 0, words: losWords });
+
+      char = losWords[0].at(engine.rule.tailIdx)!;
+      const winWord = this.getWinWord(engine, char);
+      treeInfo.win.push(winWord);
+      char = winWord.at(engine.rule.tailIdx)!;
+    }
+
+    return treeInfo;
+  }
+  static changeTree(
+    engine: WCEngine,
+    treeInfo: TreeInfo,
+    losIdx: number,
+    wordIdx: number
+  ) {
+    treeInfo.los[losIdx].mainIdx = wordIdx;
+
+    treeInfo.los.length = losIdx + 1;
+    treeInfo.win.length = losIdx + 1;
+    let char = treeInfo.los[losIdx].words[wordIdx].at(engine.rule.tailIdx)!;
+    let cnt = 0;
+    while (true) {
+      cnt++;
+      if (cnt > 200) {
+        break;
+      }
+      const winWord = this.getWinWord(engine, char);
+      treeInfo.win.push(winWord);
+      char = winWord.at(engine.rule.tailIdx)!;
+      const losWords = this.getLosWords(engine, char);
+      if (losWords.length === 0) {
+        break;
+      }
+      treeInfo.los.push({ mainIdx: 0, words: losWords });
+      char = losWords[0].at(engine.rule.tailIdx)!;
+    }
+    return treeInfo;
   }
   static getCharType(engine: WCEngine, char: Char) {
     const types = changeableMap[engine.rule.changeableIdx](char)

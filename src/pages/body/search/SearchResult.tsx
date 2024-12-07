@@ -52,7 +52,7 @@ const tabInfo = {
   notRouteChar: [
     { name: "첫 글자" },
     { name: "끝 글자" },
-    { name: "게임 트리" },
+    { name: "트리 탐색" },
     { name: "두음 법칙" },
   ],
 
