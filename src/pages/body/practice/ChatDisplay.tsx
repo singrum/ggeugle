@@ -65,7 +65,7 @@ export default function ChatDisplay({
     <div className="flex flex-col w-full items-end gap-1">
       {chats.map(({ isWord, moveIdx, content }, i) => (
         <div
-          className="flex gap-1 justify-end items-center max-w-[80%] min-w-[2rem] "
+          className="flex justify-end items-center max-w-[80%] min-w-[2rem] "
           key={i}
         >
           {isWord && (
@@ -77,7 +77,7 @@ export default function ChatDisplay({
                   size="icon"
                   className="h-7 w-7 rounded-full"
                 >
-                  <X className="w-4 h-4" />
+                  <X className="w-4 h-4 text-muted-foreground" />
                 </Button>
               </DialogTrigger>
               <DialogContent>
