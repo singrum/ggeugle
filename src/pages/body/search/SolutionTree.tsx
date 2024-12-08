@@ -144,7 +144,7 @@ function Tree({
                   i,
                   wordIdx
                 );
-                console.log(changed, i, wordIdx);
+
                 setTreeInfo(changed);
               }}
             >
