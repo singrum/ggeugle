@@ -118,10 +118,7 @@ function GameButton({
             <React.Fragment key={i}>
               <div className="text-sm text-foreground">{move}</div>
               {i !== gameInfo.moves.length - 1 && (
-                <ChevronRight
-                  className="w-3 h-3 text-muted-foreground"
-                  strokeWidth={1}
-                />
+                <ChevronRight className="w-3 h-3 text-muted-foreground" />
               )}
             </React.Fragment>
           ))}

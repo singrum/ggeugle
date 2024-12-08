@@ -468,7 +468,7 @@ function ChanSetting() {
               [
                 <></>,
                 <div>
-                  <div className="!pl-7 md:pl-3">
+                  <div className="!pl-7 md:!pl-3">
                     받침에 상관없이 아래와 같이 변환됩니다.
                   </div>
                   <div className="pt-4 flex justify-center">
@@ -518,7 +518,7 @@ function ChanSetting() {
                   있는 경우, 반드시 그렇게 바꿔야합니다.
                 </div>,
                 <div>
-                  <div className="!pl-7 md:pl-3">
+                  <div className="!pl-7 md:!pl-3">
                     받침에 상관없이 아래와 같이 변환됩니다.
                   </div>
                   <div className="pt-4 flex justify-center">
@@ -568,7 +568,7 @@ function ChanSetting() {
                   수 있는 경우, 반드시 그렇게 바꿔야합니다.
                 </div>,
                 <div>
-                  <div className="!pl-7 md:pl-3">
+                  <div className="!pl-7 md:!pl-3">
                     중성, 종성에 상관없이 아래와 같이 변환됩니다.
                   </div>
                   <div className="pt-4 flex justify-center">
@@ -597,7 +597,7 @@ function ChanSetting() {
                   </div>
                 </div>,
                 <div>
-                  <div className="!pl-7 md:pl-3">
+                  <div className="!pl-7 md:!pl-3">
                     중성, 종성에 상관없이 아래와 같이 변환됩니다.
                   </div>
                   <div className="pt-4 flex justify-center">
@@ -631,7 +631,7 @@ function ChanSetting() {
                   </div>
                 </div>,
                 <div>
-                  <div className="!pl-7 md:pl-3">
+                  <div className="!pl-7 md:!pl-3">
                     초성, 종성에 상관없이 다음과 같이 변환됩니다.
                   </div>
                   <div className="pt-4 flex justify-center">

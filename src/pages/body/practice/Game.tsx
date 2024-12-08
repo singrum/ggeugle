@@ -195,7 +195,7 @@ function GameInput() {
               </div>
               {i !== currGame!.moves.length - 1 && (
                 <div className="text-muted-foreground">
-                  <ChevronRight className="w-3 h-3" strokeWidth={1} />
+                  <ChevronRight className="w-3 h-3" />
                 </div>
               )}
             </React.Fragment>
