@@ -14,9 +14,9 @@ import { useWC } from "@/lib/store/useWC";
 import { chatSplit, cn } from "@/lib/utils";
 import { changeableMap } from "@/lib/wc/changeables";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { ChevronRight, Flag, Plus, SendHorizonal } from "lucide-react";
+import { ArrowLeft, ChevronRight, SendHorizonal } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
-import Chat from "./Chat";
+import ChatDisplay from "./ChatDisplay";
 
 export default function Game() {
   const [currGame, isChatLoading] = useWC((e) => [e.currGame, e.isChatLoading]);
@@ -76,13 +76,9 @@ export default function Game() {
         onScroll={handleOnScroll}
       >
         <div className="flex flex-col p-3 pb-2 flex-1 gap-2 justify-end">
-          {splitedChats.map(({ isMy, contents }, i) => {
-            return (
-              <Chat key={i} isMy={isMy}>
-                {contents}
-              </Chat>
-            );
-          })}
+          {splitedChats.map(({ isMy, chats }, i) => (
+            <ChatDisplay isMy={isMy} chats={chats} key={i} />
+          ))}
         </div>
         <GameInput />
       </div>
@@ -106,6 +102,7 @@ function GameInput() {
     if (!/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+$/.test(value)) {
       return false;
     }
+
     if (currGame!.moves.length > 0) {
       const chars = changeableMap[originalEngine!.rule.changeableIdx](
         currGame!.moves.at(-1)!.at(originalEngine!.rule.tailIdx)!
@@ -143,11 +140,21 @@ function GameInput() {
           ],
         });
       } else {
+        const valid = isValid(value);
+
         setCurrGame({
           ...currGame!,
-          chats: [...currGame!.chats, { isMy: true, content: trimed }],
+          chats: [
+            ...currGame!.chats,
+            {
+              isMy: true,
+              content: trimed,
+              isWord: valid,
+              moveIdx: currGame!.moves.length,
+            },
+          ],
         });
-        if (isValid(value)) {
+        if (valid) {
           makeMyMove(trimed);
         }
       }
@@ -232,47 +239,37 @@ function GameHeader() {
   const [currGame, setCurrGame] = useWC((e) => [e.currGame, e.setCurrGame]);
   return (
     <>
-      <div className="w-full flex items-center px-2 py-1 justify-between border-b border-border text-accent-foreground">
+      <div className="w-full flex items-center px-2 py-1 border-b border-border text-accent-foreground">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="cursor-pointer transition-colors h-8 w-8 rounded-full"
+          onClick={() => {
+            if (currGame!.isPlaying) {
+              document.getElementById("new-game-dialog")!.click();
+            } else {
+              setCurrGame(undefined);
+            }
+          }}
+        >
+          <ArrowLeft className="w-5 h-5" />
+        </Button>
         <div className="flex items-center gap-1 px-2 py-2 font-semibold ">
           플레이 중
         </div>
-
-        <div className="flex gap-1">
-          <div
-            className="flex items-center justify-center p-2 hover:bg-accent rounded-md cursor-pointer transition-colors"
-            onClick={() => {
-              if (currGame!.isPlaying) {
-                document.getElementById("new-game-dialog")!.click();
-              } else {
-                setCurrGame(undefined);
-              }
-            }}
-          >
-            <Plus className="w-4 h-4" />
-          </div>
-          <div
-            className="flex items-center justify-center p-2 hover:bg-accent rounded-md cursor-pointer transition-colors"
-            onClick={() => {
-              if (currGame!.isPlaying) {
-                document.getElementById("resign-dialog")!.click();
-              } else {
-                setCurrGame(undefined);
-              }
-            }}
-          >
-            <Flag className="w-4 h-4" />
-          </div>
-        </div>
       </div>
       <NewGameDialog />
-      <ResignDialog />
-      
     </>
   );
 }
 
 function NewGameDialog() {
-  const setCurrGame = useWC((e) => e.setCurrGame);
+  const [setCurrGame, currGame, games, setGames] = useWC((e) => [
+    e.setCurrGame,
+    e.currGame,
+    e.games,
+    e.setGames,
+  ]);
   return (
     <Dialog>
       <DialogTrigger>
@@ -284,46 +281,6 @@ function NewGameDialog() {
           <DialogDescription>
             플레이 중인 게임이 삭제됩니다. 계속하시겠습니까?
           </DialogDescription>
-        </DialogHeader>
-        <DialogFooter className="justify-end">
-          <DialogClose asChild>
-            <Button type="button" variant="ghost">
-              취소
-            </Button>
-          </DialogClose>
-          <DialogClose asChild>
-            <Button
-              onClick={() => {
-                setCurrGame(undefined);
-              }}
-              type="button"
-            >
-              확인
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
-}
-
-function ResignDialog() {
-  const [setCurrGame, currGame, games, setGames] = useWC((e) => [
-    e.setCurrGame,
-    e.currGame,
-    e.games,
-    e.setGames,
-  ]);
-
-  return (
-    <Dialog>
-      <DialogTrigger>
-        <div className="absolute hidden" id="resign-dialog" />
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>기권</DialogTitle>
-          <DialogDescription>기권하시겠습니까?</DialogDescription>
         </DialogHeader>
         <DialogFooter className="justify-end">
           <DialogClose asChild>
