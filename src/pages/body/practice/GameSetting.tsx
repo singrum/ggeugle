@@ -40,7 +40,7 @@ export default function GameSetting() {
   return (
     <div className="flex flex-col items-center min-h-full justify-between rounded-xl bg-muted/40">
       <div className="flex-1 flex flex-col justify-start w-full items-center">
-        <div className="w-full flex items-center px-2 py-1 justify-between border-b border-border text-accent-foreground">
+        <div className="w-full flex items-center px-2 py-1 border-b border-border text-accent-foreground">
           <div className="flex items-center gap-1 px-2 py-2 font-semibold ">
             게임 설정
           </div>
@@ -125,7 +125,7 @@ export default function GameSetting() {
                           className={cn(
                             "w-12 h-12 flex items-center justify-center rounded-md border border-border transition-colors bg-background  cursor-pointer text-muted-foreground hover:text-foreground select-none font-semibold text-sm",
                             {
-                              "text-foreground ring-2 ring-ring ring-offset-2":
+                              " text-foreground outline-none ring-2 ring-ring ring-offset-2":
                                 gameSettingForm.turn === i,
                               "hover:bg-background hover:text-auto opacity-50 cursor-not-allowed":
                                 !gameSettingForm.steal,

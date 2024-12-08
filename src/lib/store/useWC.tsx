@@ -46,6 +46,10 @@ export interface RuleForm {
 
 export type Chat = {
   isMy: boolean;
+  isWord?: boolean;
+  isDebug?: boolean;
+  moveIdx?: number;
+  chatIdx?: number;
   content: React.ReactNode;
 };
 
@@ -58,6 +62,7 @@ export type GameInfo = {
 
   chats: Chat[];
   moves: Word[];
+
   isPlaying: boolean;
   winner?: "computer" | "me";
 };
@@ -108,6 +113,8 @@ export interface WCInfo {
   makeMyMove: (move: Word) => void;
   isChatLoading: boolean;
   gameWorker?: Worker;
+  killWorker: () => void;
+  startWorker: () => void;
   getStarted: () => void;
 
   games: GameInfo[];
@@ -285,9 +292,10 @@ export const useWC = create<WCInfo>((set, get) => ({
               moves: [...currGame.moves, word],
               chats: [
                 ...currGame.chats,
-                { isMy: false, content: word },
+                { isMy: false, isWord: true, content: word },
                 {
                   isMy: false,
+
                   content: (
                     <div className="flex flex-col">
                       <div>게임이 끝났습니다.</div>
@@ -312,7 +320,7 @@ export const useWC = create<WCInfo>((set, get) => ({
                 moves: [...currGame.moves, word],
                 chats: [
                   ...currGame.chats,
-                  { isMy: false, content: word },
+                  { isMy: false, isWord: true, content: word },
                   ...(currGame.moves.length === 0
                     ? [
                         {
@@ -364,6 +372,7 @@ export const useWC = create<WCInfo>((set, get) => ({
               ...currGame.chats,
               ...messages.map((message: string) => ({
                 isMy: false,
+                isDebug: true,
                 content: message,
               })),
             ],
@@ -433,8 +442,11 @@ export const useWC = create<WCInfo>((set, get) => ({
     steal: boolean;
     debug: boolean;
   }) => set(() => ({ gameSettingForm: form })),
-
-  getStarted: () => {
+  killWorker: () => {
+    set({ isChatLoading: false });
+    get().gameWorker?.terminate();
+  },
+  startWorker: () => {
     const gameWorker = new Worker(
       new URL("../worker/gameWorker.ts", import.meta.url),
       {
@@ -454,7 +466,7 @@ export const useWC = create<WCInfo>((set, get) => ({
               moves: [...currGame.moves, word],
               chats: [
                 ...currGame.chats,
-                { isMy: false, content: word },
+                { isMy: false, isWord: true, content: word },
                 {
                   isMy: false,
                   content: (
@@ -481,11 +493,12 @@ export const useWC = create<WCInfo>((set, get) => ({
                 moves: [...currGame.moves, word],
                 chats: [
                   ...currGame.chats,
-                  { isMy: false, content: word },
+                  { isMy: false, isWord: true, content: word },
                   ...(currGame.moves.length === 0
                     ? [
                         {
                           isMy: false,
+
                           content: `'${word}'${josa(word.at(-1), "을/를").at(
                             -1
                           )} 입력하시면 단어를 뺏을 수 있습니다.`,
@@ -533,13 +546,117 @@ export const useWC = create<WCInfo>((set, get) => ({
               ...currGame.chats,
               ...messages.map(({ content }: { content: string }) => ({
                 isMy: false,
-                content: (
-                  <>
-                    <span className="text-muted-foreground mr-1">(debug)</span>
+                isDebug: true,
+                content,
+              })),
+            ],
+          },
+        });
+      }
+    };
+  },
+  getStarted: () => {
+    const gameWorker = new Worker(
+      new URL("../worker/gameWorker.ts", import.meta.url),
+      {
+        type: "module",
+      }
+    );
+    gameWorker.postMessage({ action: "init", data: get().originalEngine });
+    set(() => ({ gameWorker }));
+    gameWorker!.onmessage = ({ data }) => {
+      if (data.action === "getComputerMove") {
+        const currGame = get().currGame!;
+        const { word, isLos } = data.data;
+        if (word) {
+          if (isLos) {
+            const newCurrGame: GameInfo = {
+              ...currGame,
+              moves: [...currGame.moves, word],
+              chats: [
+                ...currGame.chats,
+                { isMy: false, isWord: true, content: word },
+                {
+                  isMy: false,
+                  content: (
+                    <div className="flex flex-col">
+                      <div>게임이 끝났습니다.</div>
+                      <div>끄글봇의 승리입니다!</div>
+                    </div>
+                  ),
+                },
+              ],
+              isPlaying: false,
+              winner: "computer",
+            };
 
-                    <span>{content}</span>
-                  </>
+            set({
+              currGame: newCurrGame,
+              isChatLoading: false,
+              games: [...get().games, newCurrGame],
+            });
+          } else {
+            set({
+              currGame: {
+                ...currGame,
+                moves: [...currGame.moves, word],
+                chats: [
+                  ...currGame.chats,
+                  { isMy: false, isWord: true, content: word },
+                  ...(currGame.moves.length === 0
+                    ? [
+                        {
+                          isMy: false,
+
+                          content: `'${word}'${josa(word.at(-1), "을/를").at(
+                            -1
+                          )} 입력하시면 단어를 뺏을 수 있습니다.`,
+                        },
+                      ]
+                    : []),
+                ],
+              },
+              isChatLoading: false,
+            });
+          }
+        } else {
+          fire();
+
+          const newCurrGame: GameInfo = {
+            ...currGame,
+            chats: [
+              ...currGame.chats,
+              {
+                isMy: false,
+                content: (
+                  <div className="flex flex-col">
+                    <div>게임이 끝났습니다.</div>
+                    <div>당신의 승리입니다!</div>
+                  </div>
                 ),
+              },
+            ],
+            isPlaying: false,
+            winner: "me",
+          };
+          set({
+            isChatLoading: false,
+            currGame: newCurrGame,
+            games: [...get().games, newCurrGame],
+          });
+        }
+      } else if (data.action === "debug") {
+        const currGame = get().currGame!;
+        const { messages } = data.data;
+        set({
+          currGame: {
+            ...currGame,
+            chats: [
+              ...currGame.chats,
+              ...messages.map(({ content }: { content: string }) => ({
+                isMy: false,
+                isDebug: true,
+                content,
               })),
             ],
           },

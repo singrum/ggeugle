@@ -1,5 +1,4 @@
 import { type ClassValue, clsx } from "clsx";
-import { ReactNode } from "react";
 import { twMerge } from "tailwind-merge";
 import { Chat } from "./store/useWC";
 
@@ -33,12 +32,12 @@ export function arrayToKeyMap(array: string[], callback: (key: string) => any) {
 }
 
 export function chatSplit(chats: Chat[]) {
-  const result: { contents: ReactNode[]; isMy: boolean }[] = [];
+  const result: { chats: Chat[]; isMy: boolean }[] = [];
 
-  for (let { isMy, content } of chats) {
-    if (result.length === 0 || result.at(-1)!.isMy !== isMy)
-      result.push({ isMy, contents: [content] });
-    else result.at(-1)!.contents.push(content);
+  for (let chat of chats) {
+    if (result.length === 0 || result.at(-1)!.isMy !== chat.isMy)
+      result.push({ isMy: chat.isMy, chats: [chat] });
+    else result.at(-1)!.chats.push(chat);
   }
 
   return result;
@@ -85,4 +84,18 @@ export function getCurrentDateTime() {
   const seconds = now.getSeconds().toString().padStart(2, "0");
 
   return year + month + day + hours + minutes + seconds;
+}
+
+export function getChatIdxByMoveIdx(chats: Chat[], moveIdx: number) {
+  let idx = 0;
+  let moveCnt = 0;
+  for (const chat of chats) {
+    if (!chat.isWord) idx++;
+    else if (moveIdx !== moveCnt) {
+      moveCnt++;
+      idx++;
+    } else {
+      return idx;
+    }
+  }
 }
