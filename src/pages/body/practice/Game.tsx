@@ -264,7 +264,12 @@ function GameHeader() {
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <Label htmlFor="debug-mode">디버그</Label>
+          <Label htmlFor="debug-mode">
+            <div className="flex gap-1 items-center">
+              {/* <Bolt className="w-4 h-4 text-muted-foreground" /> */}
+              디버그
+            </div>
+          </Label>
           <Switch
             id="debug-mode"
             onCheckedChange={(e) => setDebug(e)}
