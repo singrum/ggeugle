@@ -650,3 +650,183 @@ function depthLimitedSearch(
     return false;
   }
 }
+
+function getNextAllWords(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  char: Char
+) {
+  
+  return chanGraph
+    .successors(char)
+    .flatMap((head) => wordGraph.successors(head).map((tail) => [head, tail]));
+}
+
+function getWinWord(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  char: Char
+) {
+  console.log(getNextAllWords(chanGraph, wordGraph, char));
+  const nextWords = getNextAllWords(chanGraph, wordGraph, char).filter(
+    (word) =>
+      getWordType(chanGraph, wordGraph, word).type === "win" ||
+      getWordType(chanGraph, wordGraph, word).type === "wincir"
+  );
+
+  return nextWords.reduce(
+    (curr, acc) =>
+      getWordType(chanGraph, wordGraph, curr).endNum! <
+      getWordType(chanGraph, wordGraph, acc).endNum!
+        ? curr
+        : acc,
+    nextWords[0]
+  );
+}
+function getLosWord(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  char: Char
+) {
+  const nextWords = getNextAllWords(chanGraph, wordGraph, char).filter(
+    (word) =>
+      getWordType(chanGraph, wordGraph, word).type === "los" ||
+      getWordType(chanGraph, wordGraph, word).type === "loscir"
+  );
+  if (nextWords.length === 0) return undefined;
+  return nextWords.reduce(
+    (curr, acc) =>
+      getWordType(chanGraph, wordGraph, curr).endNum! >
+      getWordType(chanGraph, wordGraph, acc).endNum!
+        ? curr
+        : acc,
+    nextWords[0]
+  );
+}
+export function getMaxTrail(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  char: Char
+) {
+  const trail = [];
+  if (
+    chanGraph.nodes[char].type === "win" ||
+    chanGraph.nodes[char].type === "wincir"
+  ) {
+    // 승일 때
+    const winWord = getWinWord(chanGraph, wordGraph, char);
+
+    trail.push(winWord);
+
+    char = winWord[1];
+  }
+  let cnt = 0;
+  while (true) {
+    cnt++;
+    if (cnt > 200) {
+      break;
+    }
+
+    const losWord = getLosWord(chanGraph, wordGraph, char);
+    if (!losWord) {
+      break;
+    }
+    trail.push(losWord);
+    char = losWord[1];
+    const winWord = getWinWord(chanGraph, wordGraph, char);
+    trail.push(winWord);
+    char = winWord[1];
+  }
+
+  return trail;
+}
+
+function getWordType(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  word: Char[]
+): { type: string; endNum?: number } {
+  const head = word[0];
+  const tail = word[1];
+
+  if (wordGraph.nodes[head].type === "win") {
+    if (chanGraph.nodes[tail].type === "win") {
+      return {
+        type: "los",
+        endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+      };
+    } else if (chanGraph.nodes[tail].type === "los") {
+      return {
+        type: "win",
+        endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+      };
+    } else if (chanGraph.nodes[tail].type === "wincir") {
+      return {
+        type: "loscir",
+        endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+      };
+    } else if (chanGraph.nodes[tail].type === "loscir") {
+      return {
+        type: "wincir",
+        endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+      };
+    } else {
+      return { type: "route" };
+    }
+  } else if (wordGraph.nodes[head].type === "los") {
+    return {
+      type: "los",
+      endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+    };
+  } else if (wordGraph.nodes[head].type === "wincir") {
+    if (chanGraph.nodes[tail].type === "win") {
+      return {
+        type: "los",
+        endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+      };
+    } else if (chanGraph.nodes[tail].type === "loscir") {
+      return {
+        type: "wincir",
+        endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+      };
+    } else if (wordGraph.nodes[head].solution == tail) {
+      return {
+        type: "wincir",
+        endNum: chanGraph.nodes[head].endNum as number,
+      };
+    } else if (chanGraph.nodes[tail].type === "wincir") {
+      return {
+        type: "loscir",
+        endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+      };
+    } else {
+      return { type: "route" };
+    }
+  } else if (wordGraph.nodes[head].type === "loscir") {
+    if (chanGraph.nodes[tail].type === "win") {
+      return {
+        type: "los",
+        endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+      };
+    } else {
+      return {
+        type: "loscir",
+        endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+      };
+    }
+  } else {
+    if (chanGraph.nodes[tail].type === "win") {
+      return {
+        type: "los",
+        endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+      };
+    } else if (chanGraph.nodes[tail].type === "wincir") {
+      return {
+        type: "loscir",
+        endNum: (chanGraph.nodes[tail].endNum as number) + 1,
+      };
+    } else {
+      return { type: "route" };
+    }
+  }
+}

@@ -7,9 +7,9 @@ import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import { getNextWords } from "@/lib/wc/algorithms";
 import { precedenceMap } from "@/lib/wc/analysisPrecedence";
-import { Word } from "@/lib/wc/WordChain";
+import { WCDisplay, Word } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
-import { CirclePlay, CornerDownRight, Play } from "lucide-react";
+import { CornerDownRight, Play } from "lucide-react";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 export default function DFSSearch() {
@@ -72,7 +72,7 @@ export default function DFSSearch() {
 
             result[endedWordIdx].win = !win;
 
-            const specifiedMaxStack: Word[] = [];
+            const specifiedMaxStack: Word[] = [result[endedWordIdx].word];
 
             for (const [head, tail] of maxStack) {
               specifiedMaxStack.push(
@@ -82,8 +82,13 @@ export default function DFSSearch() {
               );
             }
 
-            result[endedWordIdx].maxStack = specifiedMaxStack;
-
+            result[endedWordIdx].maxStack = [
+              ...specifiedMaxStack,
+              ...WCDisplay.getMaxTrail(
+                engine!.copy(specifiedMaxStack),
+                specifiedMaxStack.at(-1)!.at(engine!.rule.tailIdx)!
+              ),
+            ];
             return result;
           });
 
@@ -278,7 +283,7 @@ export default function DFSSearch() {
                     </span>
                   </div>
                   <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs">
-                    <WordsTrail words={[word, ...maxStack!]} />
+                    <WordsTrail words={maxStack!} />
                   </div>
                 </div>
                 <Separator className="my-2" />
