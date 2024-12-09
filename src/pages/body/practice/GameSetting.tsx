@@ -88,7 +88,7 @@ export default function GameSetting() {
                   </div>
                   <div className="flex flex-col items-center gap-2">
                     <div className="font-semibold text-sm flex justify-between items-center text-muted-foreground">
-                      <div>계산 시간</div>
+                      <div>컴퓨터가 수를 계산하는 시간</div>
                     </div>
                     <div className="flex gap-1 items-center">
                       <Input
@@ -152,8 +152,8 @@ export default function GameSetting() {
             <div className="w-full flex flex-col">
               <Separator />
 
-              <div className="pt-6 pb-2 px-2">
-                <div className="flex items-center space-x-2 pb-6 justify-between gap-4">
+              <div className="pt-6 px-2">
+                <div className="flex items-center space-x-2 pb-4 justify-between gap-4">
                   <Label htmlFor="steal" className="w-full">
                     <div className="mb-2">첫 수 단어 뺏기</div>
                     <div className="font-normal text-muted-foreground leading-snug text-xs">
@@ -169,25 +169,6 @@ export default function GameSetting() {
 
                         steal: e as boolean,
                         ...(e === false ? { turn: 0 } : {}),
-                      })
-                    }
-                  />
-                </div>
-
-                <div className="flex items-center space-x-2 justify-between gap-4">
-                  <Label htmlFor="debug-mode" className="w-full">
-                    <div className="mb-2">디버그 모드</div>
-                    <div className="font-normal text-muted-foreground leading-snug text-xs">
-                      디버그 모드를 사용합니다.
-                    </div>
-                  </Label>
-                  <Switch
-                    id="debug-mode"
-                    checked={gameSettingForm.debug}
-                    onCheckedChange={(e) =>
-                      setGameSettingForm({
-                        ...gameSettingForm,
-                        debug: e as boolean,
                       })
                     }
                   />

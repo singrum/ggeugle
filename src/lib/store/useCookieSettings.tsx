@@ -17,6 +17,10 @@ export interface CookieSettingsInfo {
   // 단어 제외 방법
   exceptBy: "space" | "enter";
   setExceptBy: (exceptBy: "space" | "enter") => void;
+
+  // play debug
+  debug: boolean;
+  setDebug: (debug: boolean) => void;
 }
 
 export const useCookieSettings = create<CookieSettingsInfo>((set) => ({
@@ -42,5 +46,11 @@ export const useCookieSettings = create<CookieSettingsInfo>((set) => ({
   setExceptBy: (exceptBy: "enter" | "space") => {
     Cookies.set("exceptBy", `${exceptBy}`);
     set({ exceptBy });
+  },
+
+  debug: Cookies.get("game-debug") === "true" ? true : false,
+  setDebug: (debug: boolean) => {
+    Cookies.set("game-debug", `${debug}`);
+    set({ debug });
   },
 }));

@@ -9,7 +9,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { Switch } from "@/components/ui/switch";
+import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
 import { chatSplit, cn } from "@/lib/utils";
 import { changeableMap } from "@/lib/wc/changeables";
@@ -20,7 +23,7 @@ import ChatDisplay from "./ChatDisplay";
 
 export default function Game() {
   const [currGame, isChatLoading] = useWC((e) => [e.currGame, e.isChatLoading]);
-
+  const [debug] = useCookieSettings((e) => [e.debug]);
   const scrollRef = useRef() as React.MutableRefObject<HTMLDivElement>;
   const [userScrolled, setUserScrolled] = useState<boolean>(false);
 
@@ -45,9 +48,9 @@ export default function Game() {
   };
   const splitedChats = chatSplit(
     !isChatLoading
-      ? currGame!.chats
+      ? currGame!.chats.filter((e) => (!debug ? !e.isDebug : true))
       : [
-          ...currGame!.chats,
+          ...currGame!.chats.filter((e) => (!debug ? !e.isDebug : true)),
           {
             isMy: false,
             content: (
@@ -237,25 +240,36 @@ function GameInput() {
 
 function GameHeader() {
   const [currGame, setCurrGame] = useWC((e) => [e.currGame, e.setCurrGame]);
+  const [debug, setDebug] = useCookieSettings((e) => [e.debug, e.setDebug]);
   return (
     <>
-      <div className="w-full flex items-center px-2 py-1 border-b border-border text-accent-foreground">
-        <Button
-          variant="ghost"
-          size="icon"
-          className="cursor-pointer transition-colors h-8 w-8 rounded-full"
-          onClick={() => {
-            if (currGame!.isPlaying) {
-              document.getElementById("new-game-dialog")!.click();
-            } else {
-              setCurrGame(undefined);
-            }
-          }}
-        >
-          <ArrowLeft className="w-5 h-5" />
-        </Button>
-        <div className="flex items-center gap-1 px-2 py-2 font-semibold ">
-          플레이 중
+      <div className="w-full flex items-center justify-between pl-2 pr-3 py-1 border-b border-border text-accent-foreground">
+        <div className="flex items-center">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="cursor-pointer transition-colors h-8 w-8 rounded-full"
+            onClick={() => {
+              if (currGame!.isPlaying) {
+                document.getElementById("new-game-dialog")!.click();
+              } else {
+                setCurrGame(undefined);
+              }
+            }}
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </Button>
+          <div className="flex items-center gap-1 px-1 py-2 font-semibold ">
+            플레이 중
+          </div>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Label htmlFor="debug-mode">디버그</Label>
+          <Switch
+            id="debug-mode"
+            onCheckedChange={(e) => setDebug(e)}
+            checked={debug}
+          />
         </div>
       </div>
       <NewGameDialog />
