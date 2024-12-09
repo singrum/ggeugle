@@ -1010,10 +1010,13 @@ function WordsResult() {
     e.exceptWords,
     e.setExceptWords,
   ]);
-  const [setMenu] = useMenu((e) => [e.setMenu]);
+  const [setMenu, searchTab, setSearchTab] = useMenu((e) => [
+    e.setMenu,
+    e.searchTab,
+    e.setSearchTab,
+  ]);
   const [showAllWords] = useCookieSettings((e) => [e.showAllWords]);
-  const [tab, setTab] = useState<number>(0);
-  const [charResultTab, setCharResultTab] = useState<number>(0);
+
   const [isMoreOpen, setIsMoreOpen] = useState<boolean>(false);
 
   const charType =
@@ -1022,7 +1025,7 @@ function WordsResult() {
     WCDisplay.getCharType(engine, searchInputValue);
   useEffect(() => {
     setIsMoreOpen(false);
-  }, [searchInputValue, tab]);
+  }, [searchInputValue, searchTab]);
   const startMenuInfo = useMemo(
     () => ({
       winChar: choice(wins),
@@ -1032,8 +1035,8 @@ function WordsResult() {
     [searchInputValue.length === 0]
   );
   useEffect(() => {
-    if (searchInputValue.length >= 2 && tab >= 2) {
-      setTab(0);
+    if (searchInputValue.length >= 2 && searchTab >= 2) {
+      setSearchTab(0);
     }
   }, [searchInputValue]);
   const showShowcase =
@@ -1067,10 +1070,11 @@ function WordsResult() {
               className={cn(
                 "text-muted-foreground cursor-pointer transition-colors border-b-2 border-transparent py-2 pt-0 text-base select-none font-medium",
                 {
-                  " font-medium text-foreground border-foreground": tab === i,
+                  " font-medium text-foreground border-foreground":
+                    searchTab === i,
                 }
               )}
-              onClick={() => setTab(i)}
+              onClick={() => setSearchTab(i)}
             >
               {name}
             </div>
@@ -1107,7 +1111,7 @@ function WordsResult() {
               onClick={() => {
                 setSearchInputValue(startMenuInfo.winChar);
                 setValue(startMenuInfo.winChar);
-                setTab(0);
+                setSearchTab(0);
               }}
             >
               <span className="font-semibold">{startMenuInfo.winChar}</span>
@@ -1119,7 +1123,7 @@ function WordsResult() {
                 // if (!engine) return;
                 setSearchInputValue(startMenuInfo.losChar);
                 setValue(startMenuInfo.losChar);
-                setTab(1);
+                setSearchTab(1);
               }}
             >
               <span className="font-semibold">{startMenuInfo.losChar}</span>
@@ -1130,7 +1134,7 @@ function WordsResult() {
                 // if (!engine) return;
                 setSearchInputValue(startMenuInfo.route);
                 setValue(startMenuInfo.route);
-                setTab(0);
+                setSearchTab(0);
               }}
             >
               <span className="font-semibold">{startMenuInfo.route}</span>
@@ -1141,7 +1145,7 @@ function WordsResult() {
                 // if (!engine) return;
                 setSearchInputValue("름");
                 setValue("름");
-                setTab(2);
+                setSearchTab(2);
                 setExceptWords(["굉굉", "굉업", "업시름"]);
               }}
             >
@@ -1152,7 +1156,7 @@ function WordsResult() {
         </>
       ) : (
         <>
-          {tab === 0 &&
+          {searchTab === 0 &&
             (engine ? (
               searchResult &&
               (!Object.values(searchResult.result.startsWith).every(
@@ -1342,7 +1346,7 @@ function WordsResult() {
               <WordSkeleton />
             ))}
 
-          {tab === 1 &&
+          {searchTab === 1 &&
             (engine ? (
               searchResult &&
               (!Object.values(searchResult.result.endsWith).every(
@@ -1478,7 +1482,7 @@ function WordsResult() {
               <WordSkeleton />
             ))}
 
-          {tab === 2 && engine && (
+          {searchTab === 2 && engine && (
             <>
               {engine.chanGraph.nodes[searchInputValue]?.type === "route" ? (
                 <div className="p-4">
@@ -1493,7 +1497,7 @@ function WordsResult() {
               )}
             </>
           )}
-          {tab === 3 && engine && searchInputValue.length === 1 && (
+          {searchTab === 3 && engine && searchInputValue.length === 1 && (
             <div className="flex-1 min-h-0 flex flex-col px-4">
               <WordBox>
                 <WordBadge>{`${searchInputValue}에서 바꿀 수 있는 글자`}</WordBadge>
