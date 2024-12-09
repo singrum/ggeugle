@@ -12,7 +12,7 @@ import {
 import { Chat, strengths, useWC } from "@/lib/store/useWC";
 import { cn, getChatIdxByMoveIdx } from "@/lib/utils";
 import { josa } from "es-hangul";
-import { Wrench, X } from "lucide-react";
+import { Bolt, X } from "lucide-react";
 import React from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 export default function ChatDisplay({
@@ -54,7 +54,7 @@ export default function ChatDisplay({
                 }
               )}
             >
-              {isDebug && <Wrench className="w-4 h-4 text-muted-foreground" />}
+              {isDebug && <Bolt className="w-4 h-4 text-muted-foreground" />}
               {content}
             </ChatContent>
           ))}

@@ -96,6 +96,7 @@ export interface WCInfo {
   // 플레이
   currGame?: GameInfo;
   setCurrGame: (gameInfo?: GameInfo) => void;
+
   gameSettingForm: {
     strength: 0 | 1 | 2;
     calcTime: number;
@@ -428,12 +429,13 @@ export const useWC = create<WCInfo>((set, get) => ({
     }
     set(() => ({ currGame: gameInfo }));
   },
+
   gameSettingForm: {
     strength: 2,
     calcTime: 3,
     turn: 1,
     steal: true,
-    debug: false,
+    debug: true,
   },
   setGameSettingForm: (form: {
     strength: 0 | 1 | 2;
