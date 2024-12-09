@@ -51,7 +51,7 @@ export default function GameSetting() {
               <div className="flex flex-col justify-center gap-3 mb-10 w-fit">
                 <div className="flex flex-col items-center gap-6">
                   <div className="flex flex-col items-center gap-2">
-                    <div className="font-semibold text-sm flex justify-between items-center text-muted-foreground">
+                    <div className="font-semibold text-xs flex justify-between items-center text-muted-foreground">
                       <div>난이도</div>
                     </div>
                     <div className="flex justify-start">
@@ -87,7 +87,7 @@ export default function GameSetting() {
                     </div>
                   </div>
                   <div className="flex flex-col items-center gap-2">
-                    <div className="font-semibold text-sm flex justify-between items-center text-muted-foreground">
+                    <div className="font-semibold text-xs flex justify-between items-center text-muted-foreground">
                       <div>컴퓨터가 수를 계산하는 시간</div>
                     </div>
                     <div className="flex gap-1 items-center">
@@ -115,7 +115,7 @@ export default function GameSetting() {
                     </div>
                   </div>
                   <div className="flex flex-col items-center gap-2">
-                    <div className="font-semibold text-sm flex justify-between items-center text-muted-foreground">
+                    <div className="font-semibold text-xs flex justify-between items-center text-muted-foreground">
                       <div>내 차례</div>
                     </div>
                     <div className="flex gap-4">
