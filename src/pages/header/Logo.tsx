@@ -11,11 +11,19 @@ export default function Logo() {
       : theme.theme;
 
   return (
-    <div className="text-lg cursor-pointer flex gap-1 items-center md:flex-col md:gap-0 lg:gap-1 lg:flex-row lg:text-xl select-none">
+    <div className="text-lg cursor-pointer flex gap-1 items-center md:flex-col md:gap-1 lg:gap-2 lg:flex-row lg:text-xl select-none">
       {currTheme === "dark" ? (
-        <img src={DarkLogo} alt="logo" className="max-w-5 md:max-w-6" />
+        <img
+          src={DarkLogo}
+          alt="logo"
+          className="max-w-5 md:max-w-7 lg:max-w-6"
+        />
       ) : (
-        <img src={LightLogo} alt="logo" className="max-w-5 md:max-w-6" />
+        <img
+          src={LightLogo}
+          alt="logo"
+          className="max-w-5 md:max-w-7 lg:max-w-6"
+        />
       )}
 
       <div className="font-semibold">끄글</div>

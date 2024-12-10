@@ -63,7 +63,7 @@ export default function NavBar() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-      <div className="fixed w-full md:w-auto bottom-0 flex md:flex-col gap-2 lg:gap-1 items-center justify-around text-muted-foreground/90 md:text-foreground bg-background border-t border-border md:border-none md:relative z-50 h-14 md:h-auto">
+      <div className="fixed w-full lg:w-full md:w-auto bottom-0 flex md:flex-col gap-2 lg:gap-1 items-center justify-around text-muted-foreground/90 md:text-foreground bg-background border-t border-border md:border-none md:relative z-50 h-14 md:h-auto">
         {menus.map((e, i) => (
           <MenuBtn
             key={i}
@@ -105,7 +105,7 @@ export const MenuBtn = forwardRef(
         ref={ref}
         {...props}
         className={cn(
-          "lg:hover:bg-accent md:hover:text-foreground whitespace-nowrap w-full h-14 md:h-12 md:w-12 lg:w-[150px] lg:h-10 lg:p-3 flex flex-col lg:flex-row lg:gap-4 justify-center lg:justify-start items-center cursor-pointer rounded-lg p-1 transition-colors",
+          "lg:hover:bg-accent md:hover:text-foreground whitespace-nowrap w-full h-14 md:h-12 md:w-12 lg:w-full lg:h-10 lg:p-3 flex flex-col lg:flex-row lg:gap-4 justify-center lg:justify-start items-center cursor-pointer rounded-lg p-1 transition-colors",
           className
         )}
       >

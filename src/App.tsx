@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { SquareArrowOutUpRight, X } from "lucide-react";
+import { Separator } from "./components/ui/separator";
 import { EtcNavBar } from "./EtcNavBar";
 import PreferenceSetting from "./pages/body/etc/PreferenceSetting";
 import Practice from "./pages/body/practice/Practice";
@@ -80,10 +81,10 @@ function App() {
 
         <div className="md:flex h-full overflow-auto relative">
           {isDesktop ? (
-            <div className="flex flex-col h-full items-center lg:items-start justify-between border-border border-r prevent-select p-2 lg:p-2 overflow-auto scrollbar-none min-h-0">
-              <div className="flex flex-col items-center lg:items-start md:gap-2">
+            <div className="flex flex-col h-full items-center lg:items-start justify-between border-border border-r prevent-select p-2 lg:p-2 overflow-auto scrollbar-none min-h-0 lg:w-[150px]">
+              <div className="flex flex-col w-full items-center lg:items-start md:gap-2">
                 <div
-                  className="md:p-1 lg:px-3 lg:pt-3"
+                  className="md:p-1 lg:px-3 lg:pt-2"
                   onClick={() => {
                     location.reload();
                   }}
@@ -93,8 +94,11 @@ function App() {
 
                 <NavBar />
               </div>
-              <div className="flex flex-col items-center lg:items-start md:gap-2 p-2">
-                <EtcNavBar />
+              <div className="w-full">
+                <Separator />
+                <div className="flex flex-col items-center lg:items-start md:gap-2 pt-2">
+                  <EtcNavBar />
+                </div>
               </div>
             </div>
           ) : (
