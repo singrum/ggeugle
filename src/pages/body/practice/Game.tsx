@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +12,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Switch } from "@/components/ui/switch";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useWC } from "@/lib/store/useWC";
 import { chatSplit, cn } from "@/lib/utils";
@@ -257,24 +257,21 @@ function GameHeader() {
               }
             }}
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-6 h-6" strokeWidth={1.5} />
           </Button>
           <div className="flex items-center gap-1 px-1 py-2 font-semibold ">
             플레이 중
           </div>
         </div>
         <div className="flex items-center space-x-2">
-          <Label htmlFor="debug-mode">
-            <div className="flex gap-1 items-center">
-              {/* <Bolt className="w-4 h-4 text-muted-foreground" /> */}
-              디버그
-            </div>
-          </Label>
-          <Switch
-            id="debug-mode"
-            onCheckedChange={(e) => setDebug(e)}
-            checked={debug}
-          />
+          <div className="flex gap-2">
+            <Checkbox
+              onCheckedChange={(e) => setDebug(e as boolean)}
+              checked={debug}
+              id="game-debug-check"
+            />
+            <Label htmlFor="game-debug-check">디버그 모드</Label>
+          </div>
         </div>
       </div>
       <NewGameDialog />
