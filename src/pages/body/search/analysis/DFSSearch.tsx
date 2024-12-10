@@ -9,7 +9,7 @@ import { getNextWords } from "@/lib/wc/algorithms";
 import { precedenceMap } from "@/lib/wc/analysisPrecedence";
 import { Word } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
-import { CirclePlay, CornerDownRight, Play } from "lucide-react";
+import { CornerDownRight, Play } from "lucide-react";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 export default function DFSSearch() {

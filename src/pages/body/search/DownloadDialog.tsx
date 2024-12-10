@@ -60,7 +60,7 @@ const downloadOptions = [
     description: "승리 음절에 대한 공격 단어 사전",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
-      link.download = `끄글_승리단어_${getCurrentDateTime()}.txt`;
+      link.download = `끄글_공격단어_${getCurrentDateTime()}.txt`;
       const blob = new Blob([WCDisplay.downloadWinWords(engine)], {
         type: "text/plain",
       });
@@ -73,7 +73,7 @@ const downloadOptions = [
     description: "승리 음절에 대한 한 개의 공격 단어 사전",
     action: (engine: WCEngine) => {
       const link = document.createElement("a");
-      link.download = `끄글_필수승리단어_${getCurrentDateTime()}.txt`;
+      link.download = `끄글_필수공격단어_${getCurrentDateTime()}.txt`;
       const blob = new Blob([WCDisplay.downloadWinWordsEssential(engine)], {
         type: "text/plain",
       });

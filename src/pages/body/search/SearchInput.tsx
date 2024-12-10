@@ -61,7 +61,7 @@ function SearchTitle() {
         <h1 className="text-2xl font-bold tracking-tight">검색</h1>
         <div className="text-sm text-muted-foreground">
           <div className="">
-            끝말잇기에서 사용 가능한 단어들을 검색하고, 필승 전략을 탐색합니다.
+            끝말잇기에서 사용 가능한 단어들을 검색하고 필승 전략을 탐색합니다.
           </div>
         </div>
       </div>
