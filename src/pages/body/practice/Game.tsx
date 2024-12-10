@@ -295,7 +295,7 @@ function NewGameDialog() {
         <DialogHeader>
           <DialogTitle>새 게임</DialogTitle>
           <DialogDescription>
-            플레이 중인 게임이 삭제됩니다. 계속하시겠습니까?
+            플레이 중인 게임이 종료됩니다. 계속하시겠습니까?
           </DialogDescription>
         </DialogHeader>
         <DialogFooter className="justify-end">
