@@ -96,7 +96,7 @@ function App() {
               </div>
               <div className="w-full">
                 <Separator />
-                <div className="flex flex-col items-center lg:items-start md:gap-2 pt-2">
+                <div className="flex flex-col items-center lg:items-start md:gap-2 pt-2 px-2 pb-1 w-full">
                   <EtcNavBar />
                 </div>
               </div>

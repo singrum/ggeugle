@@ -37,8 +37,8 @@ export function EtcNavBar() {
       : theme.theme;
   return (
     <>
-      <div className="w-auto flex md:flex-col items-center justify-around text-muted-foreground/70 md:text-foreground bg-background border-t border-border md:border-none md:relative z-50">
-        <div className="flex w-full gap-2 md:flex-col lg:flex-row">
+      <div className="w-auto lg:w-full flex md:flex-col items-center justify-around text-muted-foreground/70 md:text-foreground bg-background border-t border-border md:border-none md:relative z-50 ">
+        <div className="flex w-full gap-2 md:flex-col-reverse lg:flex-row lg:justify-between">
           {" "}
           <Button
             className="h-8 w-8"
