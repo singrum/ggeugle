@@ -4,6 +4,13 @@ import { X } from "lucide-react";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import { fire } from "../confetti";
+import {
+  losMent,
+  startMentFirst,
+  startMentNotFirst,
+  winMent,
+} from "../gameMents";
+import { choice } from "../utils";
 import { sampleRules } from "../wc/rules";
 import {
   Char,
@@ -377,8 +384,7 @@ export const useWC = create<WCInfo>((set, get) => ({
                   isMy: false,
                   content: (
                     <div className="flex flex-col">
-                      <div>게임이 끝났습니다.</div>
-                      <div>끄글봇의 승리입니다!</div>
+                      <div>{choice(winMent)}</div>
                     </div>
                   ),
                 },
@@ -407,7 +413,7 @@ export const useWC = create<WCInfo>((set, get) => ({
 
                           content: `'${word}'${josa(word.at(-1), "을/를").at(
                             -1
-                          )} 입력하시면 단어를 뺏을 수 있습니다.`,
+                          )} 입력하시면 단어를 뺏을 수 있어요!`,
                         },
                       ]
                     : []),
@@ -427,8 +433,7 @@ export const useWC = create<WCInfo>((set, get) => ({
                 isMy: false,
                 content: (
                   <div className="flex flex-col">
-                    <div>게임이 끝났습니다.</div>
-                    <div>당신의 승리입니다!</div>
+                    <div>{choice(losMent)}</div>
                   </div>
                 ),
               },
@@ -486,8 +491,7 @@ export const useWC = create<WCInfo>((set, get) => ({
                   isMy: false,
                   content: (
                     <div className="flex flex-col">
-                      <div>게임이 끝났습니다.</div>
-                      <div>끄글봇의 승리입니다!</div>
+                      <div>{choice(winMent)}</div>
                     </div>
                   ),
                 },
@@ -516,7 +520,7 @@ export const useWC = create<WCInfo>((set, get) => ({
 
                           content: `'${word}'${josa(word.at(-1), "을/를").at(
                             -1
-                          )} 입력하시면 단어를 뺏을 수 있습니다.`,
+                          )} 입력하시면 단어를 뺏을 수 있어요!`,
                         },
                       ]
                     : []),
@@ -536,8 +540,7 @@ export const useWC = create<WCInfo>((set, get) => ({
                 isMy: false,
                 content: (
                   <div className="flex flex-col">
-                    <div>게임이 끝났습니다.</div>
-                    <div>당신의 승리입니다!</div>
+                    <div>{choice(losMent)}</div>
                   </div>
                 ),
               },
@@ -591,13 +594,11 @@ export const useWC = create<WCInfo>((set, get) => ({
           chats: [
             {
               isMy: false,
-              content: (
-                <div>
-                  게임이 시작되었습니다!
-                  <br />
-                  먼저 단어를 입력해 주세요.
-                </div>
-              ),
+              content: [<p>당신이 선공입니다!</p>],
+            },
+            {
+              isMy: false,
+              content: [<p>{choice(startMentNotFirst)}</p>],
             },
           ],
 
@@ -630,7 +631,7 @@ export const useWC = create<WCInfo>((set, get) => ({
           chats: [
             {
               isMy: false,
-              content: <div>게임이 시작되었습니다!</div>,
+              content: <div>{choice(startMentFirst)}</div>,
             },
           ],
           moves: [],
