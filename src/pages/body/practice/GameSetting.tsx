@@ -197,6 +197,7 @@ export default function GameSetting() {
 
       <div className="flex items-center justify-center w-full p-4">
         <Button
+          tabIndex={1}
           className="w-full text-md h-12"
           disabled={originalEngine && originalEngine.words.length === 0}
           onClick={() => {

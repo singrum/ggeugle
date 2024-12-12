@@ -307,6 +307,7 @@ function WordInput() {
     <div className="pt-2">
       <div className="relative">
         <Input
+          tabIndex={1}
           ref={inputRefTemp}
           className="border border-border rounded-xl h-12 text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 bg-muted/50 transition-colors"
           value={value}
