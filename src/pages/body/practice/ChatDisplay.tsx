@@ -154,12 +154,7 @@ function ChatContent({
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "rounded-xl py-1 px-2 flex justify-center break-keep",
-        className
-      )}
-    >
+    <div className={cn("rounded-xl py-1 px-2 flex justify-center ", className)}>
       {children}
     </div>
   );
