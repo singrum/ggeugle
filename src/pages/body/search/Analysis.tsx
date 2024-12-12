@@ -23,8 +23,8 @@ export default function Analysis() {
 
   return (
     <>
-      <div className="w-full">
-        <div className="flex gap-0 mb-2">
+      <div className="w-full md:p-2 lg:p-4 lg:pt-2">
+        <div className="flex gap-0 mb-4">
           <Select
             value={searchMethod}
             onValueChange={(e: "dfs" | "ids") => setSearchMethod(e)}

@@ -33,7 +33,7 @@ export default function SolutionTree() {
 
   return (
     <>
-      <div className="flex flex-col gap-3 py-4 items-center px-4 pb-0">
+      <div className="flex flex-col gap-3 py-4 pt-6 items-center px-4 pb-0">
         <Popover>
           <PopoverTrigger>
             <Badge
@@ -66,14 +66,14 @@ export default function SolutionTree() {
         </div>
         <Separator className="mx-4" />
       </div>
-      <div className="flex flex-col gap-3 py-4 items-center w-full">
+      <div className="flex flex-col gap-4 md:gap-6 py-6 items-center w-full">
         <Badge
           className="text-muted-foreground flex items-center gap-1"
           variant={"secondary"}
         >
           트리 탐색
         </Badge>
-        <div className="w-full px-6">
+        <div className="w-full px-6 md:px-8 lg:px-10">
           <Tree treeInfo={treeInfo} setTreeInfo={setTreeInfo} />
         </div>
       </div>
@@ -89,7 +89,7 @@ function TreeNode({
   children?: ReactNode;
 }) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-4">
       <div className="pt-[6px]">
         <div
           className={cn(

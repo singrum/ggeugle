@@ -36,7 +36,7 @@ export default function PreferenceSetting() {
       <div className="flex flex-col mt-5">
         <div className="flex flex-col gap-4">
           <div className="flex items-center ">
-            <Label className="flex-1 font-semibold text-base" htmlFor="flip">
+            <Label className="flex-1 font-medium text-base" htmlFor="flip">
               검색 레이아웃 좌우 반전
             </Label>
             <div className="">
@@ -51,10 +51,7 @@ export default function PreferenceSetting() {
           </div>
           <Separator />
           <div className="flex items-center">
-            <Label
-              className="flex-1 font-semibold text-base"
-              htmlFor="showToast"
-            >
+            <Label className="flex-1 font-medium text-base" htmlFor="showToast">
               음절 유형 변경 시 알림
             </Label>
             <div className="">
@@ -70,7 +67,7 @@ export default function PreferenceSetting() {
           <Separator />
           <div className="flex items-center">
             <Label
-              className="flex-1 font-semibold text-base"
+              className="flex-1 font-medium text-base"
               htmlFor="showAllWords"
             >
               모든 단어 항상 펼치기
@@ -87,7 +84,7 @@ export default function PreferenceSetting() {
           </div>
           <Separator />
           <div className="flex items-center">
-            <div className="flex-1 font-semibold text-base">단어 제외 방법</div>
+            <div className="flex-1 font-medium text-base">단어 제외 방법</div>
             <div className="">
               <Select
                 value={exceptBy}

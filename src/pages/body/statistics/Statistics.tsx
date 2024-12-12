@@ -39,8 +39,8 @@ export default function Statistics() {
 
   return (
     <>
-      <div className=" h-full min-h-0 overflow-auto ">
-        <div className="flex w-full text-left md:p-4 justify-center mb-[200px] md:mb-0">
+      <div className="h-full min-h-0 overflow-auto flex justify-center items-start">
+        <div className="flex max-w-screen-xl text-left md:p-4 lg:p-8 justify-center mb-[200px] md:mb-0">
           {originalEngine && engine ? (
             exceptWords.length > 0 ? (
               <Tabs defaultValue="except" className="w-full">
@@ -48,10 +48,10 @@ export default function Statistics() {
                   <TabsTrigger value="except">단어 제외 후</TabsTrigger>
                   <TabsTrigger value="original">원본</TabsTrigger>
                 </TabsList>
-                <TabsContent value="except" className="p-0">
+                <TabsContent value="except" className="p-0 md:pt-4">
                   <Cards engine={engine} />
                 </TabsContent>
-                <TabsContent value="original" className="p-0">
+                <TabsContent value="original" className="p-0 md:pt-4">
                   <Cards engine={originalEngine} />
                 </TabsContent>
               </Tabs>
