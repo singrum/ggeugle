@@ -164,13 +164,9 @@ function GameInput() {
     }
     setValue("");
   };
-  const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
+
   const ref = useRef() as React.MutableRefObject<HTMLDivElement>;
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [inputRef.current]);
+
   useEffect(() => {
     if (ref.current) {
       ref.current.scrollTo({
@@ -213,7 +209,7 @@ function GameInput() {
       <div className="p-1 bg-muted/40 rounded-b-xl">
         <div className="relative">
           <Input
-            ref={inputRef}
+            autoFocus
             tabIndex={1}
             disabled={!currGame!.isPlaying}
             className="bg-transparent border-none outline-none focus-visible:ring-offset-0 focus-visible:border-none focus-visible:outline-none focus-visible:ring-0 pr-12 relative h-12 text-base"
