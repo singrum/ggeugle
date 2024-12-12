@@ -420,120 +420,7 @@ export const sampleRules: {
   //     removeHeadTailDuplication: false,
   //   },
   // },
-  {
-    name: "표샘룰",
-    desc: (
-      <div>
-        <p>
-          <span className="font-semibold">우리말샘</span>에 등록된{" "}
-          <span className="font-semibold">일반어 명사</span>만 사용 가능하며,{" "}
-          <span className="font-semibold">표준 두음 법칙</span>이 적용됩니다.
-        </p>
-      </div>
-    ),
-    ruleForm: {
-      dict: 2,
-      pos: Object.assign({}, [
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-      ]),
-      cate: Object.assign({}, [true, false, false, false]),
-      chan: 1,
-      headDir: 0,
-      headIdx: 1,
-      tailDir: 1,
-      tailIdx: 1,
-      manner: 0,
-      regexFilter: ".*",
-      addedWords1: "",
-      addedWords2: "",
-      removeHeadTailDuplication: false,
-    },
-  },
-  {
-    name: "두샘룰",
-    desc: (
-      <div>
-        <p>
-          <span className="font-semibold">우리말샘</span>에 등록된{" "}
-          <span className="font-semibold">두 글자인 일반어 명사</span>만 사용
-          가능하며, <span className="font-semibold">표준 두음 법칙</span>이
-          적용됩니다.
-        </p>
-      </div>
-    ),
-    ruleForm: {
-      dict: 2,
-      pos: Object.assign({}, [
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-      ]),
-      cate: Object.assign({}, [true, false, false, false]),
-      chan: 1,
-      headDir: 0,
-      headIdx: 1,
-      tailDir: 1,
-      tailIdx: 1,
-      manner: 0,
-      regexFilter: "(.{2})",
-      addedWords1: "",
-      addedWords2: "",
-      removeHeadTailDuplication: false,
-    },
-  },
-  {
-    name: "옛두샘룰",
-    desc: (
-      <div>
-        <p>
-          <span className="font-semibold">우리말샘</span>에 등록된{" "}
-          <span className="font-semibold">두 글자인 일반어 명사</span> 또는{" "}
-          <span className="font-semibold">두 글자인 옛말 명사</span>만 사용
-          가능하며, <span className="font-semibold">표준 두음 법칙</span>이
-          적용됩니다.
-        </p>
-      </div>
-    ),
-    ruleForm: {
-      dict: 2,
-      pos: Object.assign({}, [
-        true,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-        false,
-      ]),
-      cate: Object.assign({}, [true, false, false, true]),
-      chan: 1,
-      headDir: 0,
-      headIdx: 1,
-      tailDir: 1,
-      tailIdx: 1,
-      manner: 0,
-      regexFilter: "(.{2})",
-      addedWords1: "",
-      addedWords2: "",
-      removeHeadTailDuplication: false,
-    },
-  },
+
   {
     name: "반전룰",
     desc: (
@@ -722,6 +609,198 @@ export const sampleRules: {
       tailIdx: 1,
       manner: 0,
       regexFilter: "(?!(붕어톱|궤휼|잎뽕)$).*",
+      addedWords1: "",
+      addedWords2: "",
+      removeHeadTailDuplication: false,
+    },
+  },
+  {
+    name: "듭룰",
+    desc: (
+      <div>
+        <p>
+          <span className="font-semibold">(구)표준국어대사전</span>에 등록된{" "}
+          <span className="font-semibold">명사</span>만 사용 가능하며{" "}
+          <span className="font-semibold">양방향 자유 두음 법칙</span>이
+          적용됩니다.
+        </p>
+      </div>
+    ),
+    ruleForm: {
+      dict: 0,
+      pos: Object.assign({}, [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ]),
+      cate: Object.assign({}, [true, true, true, true]),
+      chan: 6,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: 0,
+      regexFilter: ".*",
+      addedWords1: "",
+      addedWords2: "",
+      removeHeadTailDuplication: false,
+    },
+  },
+  {
+    name: "쿵따룰",
+    desc: (
+      <div>
+        <p>
+          <span className="font-semibold">(구)표준국어대사전</span>에 등록된{" "}
+          <span className="font-semibold">3글자 명사</span>만 사용 가능하며{" "}
+          <span className="font-semibold">표준 두음 법칙</span>이 적용됩니다.
+        </p>{" "}
+        <p>
+          <span className="font-semibold">한방 단어</span>는 사용 불가능합니다.
+        </p>
+      </div>
+    ),
+    ruleForm: {
+      dict: 0,
+      pos: Object.assign({}, [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ]),
+      cate: Object.assign({}, [true, true, true, true]),
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: 1,
+      regexFilter: "(.{3})",
+      addedWords1: "",
+      addedWords2: "",
+      removeHeadTailDuplication: false,
+    },
+  },
+  {
+    name: "표샘룰",
+    desc: (
+      <div>
+        <p>
+          <span className="font-semibold">우리말샘</span>에 등록된{" "}
+          <span className="font-semibold">일반어 명사</span>만 사용 가능하며,{" "}
+          <span className="font-semibold">표준 두음 법칙</span>이 적용됩니다.
+        </p>
+      </div>
+    ),
+    ruleForm: {
+      dict: 2,
+      pos: Object.assign({}, [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ]),
+      cate: Object.assign({}, [true, false, false, false]),
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: 0,
+      regexFilter: ".*",
+      addedWords1: "",
+      addedWords2: "",
+      removeHeadTailDuplication: false,
+    },
+  },
+  {
+    name: "두샘룰",
+    desc: (
+      <div>
+        <p>
+          <span className="font-semibold">우리말샘</span>에 등록된{" "}
+          <span className="font-semibold">두 글자인 일반어 명사</span>만 사용
+          가능하며, <span className="font-semibold">표준 두음 법칙</span>이
+          적용됩니다.
+        </p>
+      </div>
+    ),
+    ruleForm: {
+      dict: 2,
+      pos: Object.assign({}, [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ]),
+      cate: Object.assign({}, [true, false, false, false]),
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: 0,
+      regexFilter: "(.{2})",
+      addedWords1: "",
+      addedWords2: "",
+      removeHeadTailDuplication: false,
+    },
+  },
+  {
+    name: "옛두샘룰",
+    desc: (
+      <div>
+        <p>
+          <span className="font-semibold">우리말샘</span>에 등록된{" "}
+          <span className="font-semibold">두 글자인 일반어 명사</span> 또는{" "}
+          <span className="font-semibold">두 글자인 옛말 명사</span>만 사용
+          가능하며, <span className="font-semibold">표준 두음 법칙</span>이
+          적용됩니다.
+        </p>
+      </div>
+    ),
+    ruleForm: {
+      dict: 2,
+      pos: Object.assign({}, [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+      ]),
+      cate: Object.assign({}, [true, false, false, true]),
+      chan: 1,
+      headDir: 0,
+      headIdx: 1,
+      tailDir: 1,
+      tailIdx: 1,
+      manner: 0,
+      regexFilter: "(.{2})",
       addedWords1: "",
       addedWords2: "",
       removeHeadTailDuplication: false,

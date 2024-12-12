@@ -632,7 +632,7 @@ function ChanSetting() {
                 </div>,
                 <div>
                   <div className="!pl-7 md:!pl-3">
-                    초성, 종성에 상관없이 다음과 같이 변환됩니다.
+                    초성, 종성에 상관없이 아래와 같이 변환됩니다.
                   </div>
                   <div className="pt-4 flex justify-center">
                     <Table>

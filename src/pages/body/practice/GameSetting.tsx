@@ -2,6 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -12,7 +17,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { strengths, turns, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { LoaderCircle } from "lucide-react";
+import { CircleHelp, LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { RiRobot2Fill } from "react-icons/ri";
 export default function GameSetting() {
@@ -87,8 +92,19 @@ export default function GameSetting() {
                     </div>
                   </div>
                   <div className="flex flex-col items-center gap-2">
-                    <div className="font-semibold text-xs flex justify-between items-center text-muted-foreground">
+                    <div className="font-semibold text-xs flex justify-between items-center text-muted-foreground gap-1">
                       <div>컴퓨터가 수를 계산하는 시간</div>
+                      <Popover>
+                        <PopoverTrigger
+                          className="text-muted-foreground h-full transition-colors hover:text-foreground"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <CircleHelp className="w-4 h-4" />
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[270px] text-sm">
+                          시간이 길어질수록 난이도가 올라갑니다.
+                        </PopoverContent>
+                      </Popover>
                     </div>
                     <div className="flex gap-1 items-center">
                       <Input
