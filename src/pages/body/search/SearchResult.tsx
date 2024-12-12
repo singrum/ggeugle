@@ -1056,7 +1056,7 @@ function WordsResult() {
 
   return (
     <>
-      <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 flex whitespace-nowrap overflow-auto gap-4 w-full min-h-1 scrollbar-none">
+      <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 md:px-8 lg:px-10 flex whitespace-nowrap overflow-auto gap-4 w-full min-h-1 scrollbar-none">
         {searchInputValue.length >= 1 &&
           (searchInputValue.length >= 2
             ? tabInfo["notChar"]
@@ -1081,79 +1081,82 @@ function WordsResult() {
           ))}
       </div>
       {showShowcase ? (
-        <>
-          <div className="p-4 pb-0">
-            <Alert className="rounded-xl">
-              <AlertCircle className="h-5 w-5" />
-              <AlertTitle className="font-normal">
-                현재 설정된 룰은 <span className="font-medium">구엜룰</span>
-                입니다.
-              </AlertTitle>
-              <AlertDescription>
-                끄글에서는 <span className="font-medium">신엜룰</span>,{" "}
-                <span className="font-medium">넶룰</span>,{" "}
-                <span className="font-medium">끄투룰</span>,{" "}
-                <span className="font-medium">앞말잇기</span> 등 다양한 끝말잇기
-                룰을 적용할 수 있습니다.
-                <div
-                  className="hover:underline underline-offset-2 text-primary dark:text-[hsl(217.2,91.2%,59.8%)] font-semibold select-none cursor-pointer flex items-center mt-2 w-fit"
-                  onClick={() => setMenu(3)}
-                >
-                  룰 설정하러 가기
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </AlertDescription>
-            </Alert>
-          </div>
+        <div className="flex justify-center ">
+          <div className="max-w-screen-lg">
+            <div className="p-4 md:p-6 lg:p-8 pb-0">
+              <Alert className="rounded-xl">
+                <AlertCircle className="h-5 w-5" />
+                <AlertTitle className="font-normal">
+                  현재 설정된 룰은 <span className="font-medium">구엜룰</span>
+                  입니다.
+                </AlertTitle>
+                <AlertDescription>
+                  끄글에서는 <span className="font-medium">신엜룰</span>,{" "}
+                  <span className="font-medium">넶룰</span>,{" "}
+                  <span className="font-medium">앞말잇기</span>,{" "}
+                  <span className="font-medium">끄투코리아</span> 등 다양한
+                  끝말잇기 룰을 적용할 수 있습니다.
+                  <div
+                    className="hover:underline underline-offset-2 text-primary dark:text-[hsl(217.2,91.2%,59.8%)] font-semibold select-none cursor-pointer flex items-center mt-2 w-fit"
+                    onClick={() => setMenu(3)}
+                  >
+                    룰 설정하러 가기
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </AlertDescription>
+              </Alert>
+            </div>
 
-          <div className="m-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <ShowcaseBtn
-              onClick={() => {
-                setSearchInputValue(startMenuInfo.winChar);
-                setValue(startMenuInfo.winChar);
-                setSearchTab(0);
-              }}
-            >
-              <span className="font-semibold">{startMenuInfo.winChar}</span>
-              {josa(startMenuInfo.winChar, "으로/로").slice(1)} 시작하는 공격
-              단어
-            </ShowcaseBtn>
-            <ShowcaseBtn
-              onClick={() => {
-                // if (!engine) return;
-                setSearchInputValue(startMenuInfo.losChar);
-                setValue(startMenuInfo.losChar);
-                setSearchTab(1);
-              }}
-            >
-              <span className="font-semibold">{startMenuInfo.losChar}</span>
-              {josa(startMenuInfo.losChar, "으로/로").slice(1)} 끝나는 단어
-            </ShowcaseBtn>
-            <ShowcaseBtn
-              onClick={() => {
-                // if (!engine) return;
-                setSearchInputValue(startMenuInfo.route);
-                setValue(startMenuInfo.route);
-                setSearchTab(0);
-              }}
-            >
-              <span className="font-semibold">{startMenuInfo.route}</span>
-              {josa(startMenuInfo.route, "으로/로").slice(1)} 시작하는 루트 단어
-            </ShowcaseBtn>
-            <ShowcaseBtn
-              onClick={() => {
-                // if (!engine) return;
-                setSearchInputValue("름");
-                setValue("름");
-                setSearchTab(2);
-                setExceptWords(["굉굉", "굉업", "업시름"]);
-              }}
-            >
-              <span className="font-semibold">굉굉 - 굉업 - 업시름</span> 이후
-              필승 전략
-            </ShowcaseBtn>
+            <div className="p-4 md:p-6 lg:p-8 md:pt-0 lg:pt-0 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <ShowcaseBtn
+                onClick={() => {
+                  setSearchInputValue(startMenuInfo.winChar);
+                  setValue(startMenuInfo.winChar);
+                  setSearchTab(0);
+                }}
+              >
+                <span className="font-semibold">{startMenuInfo.winChar}</span>
+                {josa(startMenuInfo.winChar, "으로/로").slice(1)} 시작하는 공격
+                단어
+              </ShowcaseBtn>
+              <ShowcaseBtn
+                onClick={() => {
+                  // if (!engine) return;
+                  setSearchInputValue(startMenuInfo.losChar);
+                  setValue(startMenuInfo.losChar);
+                  setSearchTab(1);
+                }}
+              >
+                <span className="font-semibold">{startMenuInfo.losChar}</span>
+                {josa(startMenuInfo.losChar, "으로/로").slice(1)} 끝나는 단어
+              </ShowcaseBtn>
+              <ShowcaseBtn
+                onClick={() => {
+                  // if (!engine) return;
+                  setSearchInputValue(startMenuInfo.route);
+                  setValue(startMenuInfo.route);
+                  setSearchTab(0);
+                }}
+              >
+                <span className="font-semibold">{startMenuInfo.route}</span>
+                {josa(startMenuInfo.route, "으로/로").slice(1)} 시작하는 루트
+                단어
+              </ShowcaseBtn>
+              <ShowcaseBtn
+                onClick={() => {
+                  // if (!engine) return;
+                  setSearchInputValue("름");
+                  setValue("름");
+                  setSearchTab(2);
+                  setExceptWords(["굉굉", "굉업", "업시름"]);
+                }}
+              >
+                <span className="font-semibold">굉굉 - 굉업 - 업시름</span> 이후
+                필승 전략
+              </ShowcaseBtn>
+            </div>
           </div>
-        </>
+        </div>
       ) : (
         <>
           {searchTab === 0 &&
@@ -1163,7 +1166,7 @@ function WordsResult() {
                 (e) => e.length === 0
               ) ? (
                 <>
-                  <div className="flex-1 min-h-0 flex flex-col px-4">
+                  <div className="flex-1 min-h-0 flex flex-col px-4 pt-2">
                     {searchResult.isChar ? (
                       <>
                         {(searchResult.result as CharSearchResult).startsWith
@@ -1182,7 +1185,7 @@ function WordsResult() {
                                 />
                               </WordBox>
 
-                              <Separator />
+                              <Separator className="my-2" />
                             </React.Fragment>
                           ))}
 
@@ -1207,7 +1210,7 @@ function WordsResult() {
                                     }
                                   />
                                 </WordBox>
-                                <Separator />
+                                <Separator className="my-2" />
                               </>
                             )}
                             {(searchResult.result as CharSearchResult)
@@ -1258,7 +1261,7 @@ function WordsResult() {
                                     }
                                   />
                                 </WordBox>
-                                <Separator />
+                                <Separator className="my-2" />
                               </>
                             )}
                             {(charType !== "route" ||
@@ -1280,7 +1283,7 @@ function WordsResult() {
                                           }))}
                                         />
                                       </WordBox>
-                                      <Separator />
+                                      <Separator className="my-2" />
                                     </React.Fragment>
                                   ))}
                               </>
@@ -1292,7 +1295,7 @@ function WordsResult() {
                           !isMoreOpen &&
                           charType !== "los" && (
                             <div
-                              className="p-4 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
+                              className="p-4 pt-2 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
                               onClick={() => setIsMoreOpen(true)}
                             >
                               {charType === "win"
@@ -1319,7 +1322,7 @@ function WordsResult() {
                               }))}
                             />
                           </WordBox>
-                          <Separator />
+                          <Separator className="my-2" />
                         </>
                       )
                     )}
@@ -1353,7 +1356,7 @@ function WordsResult() {
                 (e) => e.length === 0
               ) ? (
                 <>
-                  <div className="flex-1 min-h-0 flex flex-col px-4">
+                  <div className="flex-1 min-h-0 flex flex-col px-4 pt-2">
                     {searchResult.isChar === true ? (
                       <>
                         {(searchResult.result as CharSearchResult).endsWith
@@ -1374,7 +1377,7 @@ function WordsResult() {
                                 endsWith={true}
                               />
                             </WordBox>
-                            <Separator />
+                            <Separator className="my-2" />
                           </React.Fragment>
                         )}
                         {(searchResult.result as CharSearchResult).endsWith
@@ -1395,7 +1398,7 @@ function WordsResult() {
                                 endsWith={true}
                               />
                             </WordBox>
-                            <Separator />
+                            <Separator className="my-2" />
                           </React.Fragment>
                         )}
                         {(searchResult.result as CharSearchResult).endsWith.rest
@@ -1420,14 +1423,14 @@ function WordsResult() {
                                     endsWith={true}
                                   />
                                 </WordBox>
-                                <Separator />
+                                <Separator className="my-2" />
                               </>
                             )}
                             {!showAllWords &&
                               !isMoreOpen &&
                               charType !== "los" && (
                                 <div
-                                  className="p-4 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
+                                  className="p-4 pt-2 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
                                   onClick={() => setIsMoreOpen(true)}
                                 >
                                   {"승리 음절로 시작하는 단어 펼치기"}
@@ -1455,7 +1458,7 @@ function WordsResult() {
                               endsWith={true}
                             />
                           </WordBox>
-                          <Separator />
+                          <Separator className="my-2" />
                         </>
                       )
                     )}
@@ -1498,7 +1501,7 @@ function WordsResult() {
             </>
           )}
           {searchTab === 3 && engine && searchInputValue.length === 1 && (
-            <div className="flex-1 min-h-0 flex flex-col px-4">
+            <div className="flex-1 min-h-0 flex flex-col px-4 pt-2">
               <WordBox>
                 <WordBadge>{`${searchInputValue}에서 바꿀 수 있는 글자`}</WordBadge>
                 <WordContent
@@ -1515,7 +1518,7 @@ function WordsResult() {
                   }))}
                 />
               </WordBox>
-              <Separator />
+              <Separator className="my-2" />
 
               <WordBox>
                 <WordBadge>{`${josa(
@@ -1536,7 +1539,7 @@ function WordsResult() {
                   }))}
                 />
               </WordBox>
-              <Separator />
+              <Separator className="my-2" />
             </div>
           )}
           {/* {tab === 4 && engine && searchInputValue.length === 1 && <div ></div>} */}
@@ -1548,7 +1551,7 @@ function WordsResult() {
 
 function WordSkeleton() {
   return (
-    <div className="flex-1 min-h-0 flex flex-col px-4">
+    <div className="flex-1 min-h-0 flex flex-col px-4 pt-2">
       <>
         <WordBox>
           <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
@@ -1573,7 +1576,7 @@ function WordSkeleton() {
               )}
           </div>
         </WordBox>
-        <Separator />
+        <Separator className="my-2" />
         <WordBox>
           <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
             {Array(20)
@@ -1597,7 +1600,7 @@ function WordSkeleton() {
               )}
           </div>
         </WordBox>
-        <Separator />
+        <Separator className="my-2" />
         <WordBox>
           <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
             {Array(20)
@@ -1621,7 +1624,7 @@ function WordSkeleton() {
               )}
           </div>
         </WordBox>
-        <Separator />
+        <Separator className="my-2" />
       </>
     </div>
   );

@@ -97,11 +97,10 @@ function StartsWithNum() {
   }, [engine]);
   return (
     <>
-      <div className="md:mt-2">
+      <div className="pt-4">
         {engine && inWordsLen && charMenu === 0 && (
           <>
             <CharBox>
-              <CharBadge>{`승리`}</CharBadge>
               <CharContent>
                 {Object.keys(engine.chanGraph.nodes)
                   .filter(
@@ -131,7 +130,6 @@ function StartsWithNum() {
         {engine && inWordsLen && charMenu === 1 && (
           <>
             <CharBox>
-              <CharBadge>{`패배`}</CharBadge>
               <CharContent>
                 {Object.keys(engine.chanGraph.nodes)
                   .filter(
@@ -162,7 +160,6 @@ function StartsWithNum() {
         {engine && inWordsLen && charMenu === 2 && (
           <>
             <CharBox>
-              <CharBadge>{`루트`}</CharBadge>
               <CharContent>
                 {Object.keys(engine.chanGraph.nodes)
                   .filter((e) => engine.chanGraph.nodes[e].type === "route")
@@ -201,11 +198,10 @@ function EndsWithNum() {
   }, [engine]);
   return (
     <>
-      <div className="md:mt-2">
+      <div className="pt-4">
         {engine && inWordsLen && charMenu === 0 && (
           <>
             <CharBox>
-              <CharBadge>{`승리`}</CharBadge>
               <CharContent>
                 {Object.keys(engine.chanGraph.nodes)
                   .filter(
@@ -235,7 +231,6 @@ function EndsWithNum() {
         {engine && inWordsLen && charMenu === 1 && (
           <>
             <CharBox>
-              <CharBadge>{`패배`}</CharBadge>
               <CharContent>
                 {Object.keys(engine.chanGraph.nodes)
                   .filter(
@@ -266,7 +261,6 @@ function EndsWithNum() {
         {engine && inWordsLen && charMenu === 2 && (
           <>
             <CharBox>
-              <CharBadge>{`루트`}</CharBadge>
               <CharContent>
                 {Object.keys(engine.chanGraph.nodes)
                   .filter((e) => engine.chanGraph.nodes[e].type === "route")
@@ -310,7 +304,7 @@ function EndInN() {
       {engine && wcd ? (
         <>
           {charMenu === 0 && (
-            <div className="md:mt-2">
+            <div className="pt-4">
               {wcd.win.map((e) => (
                 <React.Fragment key={e.endNum}>
                   <CharBox>
@@ -329,7 +323,7 @@ function EndInN() {
             </div>
           )}
           {charMenu === 1 && (
-            <div className="md:mt-2">
+            <div className="pt-4">
               {wcd.los.map((e) => (
                 <React.Fragment key={e.endNum}>
                   <CharBox>
@@ -348,7 +342,7 @@ function EndInN() {
             </div>
           )}
           {charMenu === 2 && (
-            <div className="md:mt-2">
+            <div className="pt-4">
               {wcd.route.maxComp.length > 0 && (
                 <>
                   <CharBox>

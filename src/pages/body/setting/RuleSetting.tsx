@@ -97,7 +97,7 @@ export function RuleSetting() {
           <div className="font-semibold mb-2">빠른 설정</div>
         </div>
 
-        <ScrollArea className="w-full pb-4">
+        <ScrollArea className="w-full pb-4 md:pb-6">
           <div className="flex w-full min-w-0 gap-2 whitespace-nowrap px-4 md:p-0">
             <KkutuRuleSelectBtn />
             {sampleRules.map(({ name, ruleForm, desc }) => (
@@ -135,35 +135,36 @@ export function RuleSetting() {
         </ScrollArea>
       </div>
       <Separator className="hidden md:block mb-4" />
-
-      <div className="flex flex-col md:flex-row md:min-h-0 pt-4">
-        <div className="md:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col shadow-[inset_0_-1px_0_0_hsl(var(--border))] md:shadow-none px-6 md:px-0 h-full">
-          {ruleGroup.map(({ name }, i) => (
-            <div className="flex items-center" key={i}>
-              <div
-                key={i}
-                className={cn(
-                  "text-base text-muted-foreground md:text-foreground cursor-pointer py-2 md:p-2 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent select-none font-medium md:font-normal md:border-b-0 lg:hover:bg-accent transition-colors ",
-                  {
-                    "text-foreground border-foreground md:bg-accent font-medium":
-                      ruleGroupMenu === i,
-                  }
-                )}
-                onClick={() => setRuleGroupMenu(i)}
-              >
-                {name}
+      <div className="flex justify-center">
+        <div className="flex flex-col md:flex-row md:min-h-0 pt-4 w-[1000px] max-w-screen-lg">
+          <div className="md:w-[150px] lg:w-[200px] flex gap-4 md:gap-1 flex-row md:flex-col shadow-[inset_0_-1px_0_0_hsl(var(--border))] md:shadow-none px-6 md:px-0 h-full">
+            {ruleGroup.map(({ name }, i) => (
+              <div className="flex items-center" key={i}>
+                <div
+                  key={i}
+                  className={cn(
+                    "text-base text-muted-foreground md:text-foreground cursor-pointer py-2 md:p-2 md:pb-0 md:py-1 md:rounded-md flex-1 border-b-2 border-transparent select-none font-medium md:font-normal md:border-b-0 lg:hover:bg-accent transition-colors ",
+                    {
+                      "text-foreground border-foreground md:bg-accent font-medium":
+                        ruleGroupMenu === i,
+                    }
+                  )}
+                  onClick={() => setRuleGroupMenu(i)}
+                >
+                  {name}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        <div className="flex flex-col md:flex-1 px-6 py-2 md:py-0 min-w-0">
-          {ruleGroup[ruleGroupMenu].children.map((e, i) => (
-            <Fragment key={i}>
-              {e}
-              <Separator />
-            </Fragment>
-          ))}
+          <div className="flex flex-col md:flex-1 px-6 py-2 md:py-0 min-w-0">
+            {ruleGroup[ruleGroupMenu].children.map((e, i) => (
+              <Fragment key={i}>
+                {e}
+                <Separator />
+              </Fragment>
+            ))}
+          </div>
         </div>
       </div>
       {isChanged && (

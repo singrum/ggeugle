@@ -14,7 +14,12 @@ export function WordBox({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col gap-3 py-4 items-center ", className)}>
+    <div
+      className={cn(
+        "flex flex-col gap-4 md:gap-5 items-center pt-4 pb-4 md:px-2 lg:px-4",
+        className
+      )}
+    >
       {children}
     </div>
   );
@@ -40,7 +45,7 @@ export function WordContent({
   notExcept?: boolean;
 }) {
   return (
-    <div className="flex flex-wrap gap-x-1 gap-y-1 justify-center font-normal">
+    <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">
       {wordInfo.map((e) => (
         <WordButton
           className={`bg-${

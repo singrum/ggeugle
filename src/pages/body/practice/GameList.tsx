@@ -25,7 +25,7 @@ export default function GameList() {
     >
       {games.length === 0 && !currGame && (
         <div className="flex items-center flex-col gap-2">
-          <MessageCircleX 
+          <MessageCircleX
             className="h-12 w-12 text-muted-foreground"
             strokeWidth={1.2}
           />
@@ -58,32 +58,40 @@ function GameButton({
   return (
     <div
       className={cn(
-        "w-full flex flex-col md:rounded-xl px-4 py-3 pr-3 gap-2 border border-border rounded-lg",
+        "w-full flex flex-col md:rounded-xl px-4 py-3 pr-3 gap-4 border border-border rounded-lg",
         { "ring-2 ring-ring": gameInfo.isPlaying }
       )}
     >
-      <div className="flex items-center justify-between">
-        <div className="flex items-center text-sm font-medium">
-          <RiRobot2Fill
-            className={cn("h-5 w-5 mr-1", strengths[gameInfo.strength].color)}
-          />
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex-1 min-w-0 overflow-auto scrollbar-none whitespace-nowrap">
+          <div className="flex items-center text-sm font-medium">
+            <div>
+              <RiRobot2Fill
+                className={cn(
+                  "h-5 w-5 mr-1",
+                  strengths[gameInfo.strength].color
+                )}
+              />
+            </div>
 
-          <div>{strengths[gameInfo.strength].name}</div>
-          <span className="text-muted-foreground">
-            {gameInfo.strength === 2 && (
-              <>
-                <div>({gameInfo.calcTime}초)</div>
-              </>
-            )}
-          </span>
-          <Dot className="w-4 h-4" />
-
-          <div>{gameInfo.isFirst ? "선공" : "후공"}</div>
-          <Dot className="w-4 h-4" />
-
-          <div>{gameInfo.steal ? "단어 뺏기 가능" : "단어 뺏기 불가"}</div>
+            <div>{strengths[gameInfo.strength].name}</div>
+            <span className="text-muted-foreground">
+              {gameInfo.strength === 2 && (
+                <>
+                  <div>({gameInfo.calcTime}초)</div>
+                </>
+              )}
+            </span>
+            <div>
+              <Dot className="w-4 h-4" />
+            </div>
+            <div>{gameInfo.isFirst ? "선공" : "후공"}</div>
+            <div>
+              <Dot className="w-4 h-4" />
+            </div>
+            <div>{gameInfo.steal ? "단어 뺏기 가능" : "단어 뺏기 불가"}</div>
+          </div>
         </div>
-
         <div className="flex gap-1">
           <div
             className="p-1 rounded-md hover:bg-accent cursor-pointer w-6 h-6 flex items-center justify-center"

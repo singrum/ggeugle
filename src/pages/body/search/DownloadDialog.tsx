@@ -122,10 +122,7 @@ export default function DownloadDialog() {
             <React.Fragment key={name}>
               <div className="flex w-full gap-2 items-center px-2">
                 <div className="flex-1">
-                  <div className="font-semibold">{name}</div>
-                  {/* <div className="text-sm text-muted-foreground">
-                    {description}
-                  </div> */}
+                  <div className="font-medium">{name}</div>
                 </div>
 
                 <div className="flex justify-end">

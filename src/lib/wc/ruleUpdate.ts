@@ -101,8 +101,8 @@ export async function getEngine(ruleForm: RuleForm) {
   wce.words = Array.from(
     new Set(
       words
-        .filter((x) => re.test(x) && x.length > 1)
-        .concat(ruleForm.addedWords1.split(/\s+/).filter((e) => e.length > 1))
+        .filter((x) => re.test(x) && x.length >= 1)
+        .concat(ruleForm.addedWords1.split(/\s+/).filter((e) => e.length >= 1))
     )
   );
 
@@ -146,7 +146,7 @@ export async function getEngine(ruleForm: RuleForm) {
 
   const addedWords2 = ruleForm.addedWords2
     .split(/\s+/)
-    .filter((x) => x.length > 1);
+    .filter((x) => x.length >= 1);
 
   if (addedWords2.length > 0) {
     const temp = Array.from(new Set(wce.words.concat(addedWords2)));

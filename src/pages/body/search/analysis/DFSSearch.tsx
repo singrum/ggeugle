@@ -1,6 +1,4 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import WordsTrail from "@/components/ui/WordsTrail";
 import { useWC } from "@/lib/store/useWC";
@@ -185,7 +183,7 @@ export default function DFSSearch() {
 
   return (
     nextRoutesInfo && (
-      <div className="flex flex-col items-start gap-4 mb-2 w-full">
+      <div className="flex flex-col items-start gap-4 lg:gap-8 mb-2 w-full">
         <Alert>
           <Play className="h-5 w-5" strokeWidth={1.5} />
           <AlertTitle className="font-normal">
@@ -238,7 +236,7 @@ export default function DFSSearch() {
             )}
           </AlertDescription>
         </Alert>
-        {isGuel && (
+        {/* {isGuel && (
           <div className="flex justify-start w-full pl-2">
             <div className="space-x-2 flex">
               <Checkbox
@@ -248,7 +246,7 @@ export default function DFSSearch() {
               <Label htmlFor="prec">우선 순위 변경</Label>
             </div>
           </div>
-        )}
+        )} */}
 
         <div className="w-full">
           {nextRoutesInfo
@@ -281,7 +279,7 @@ export default function DFSSearch() {
                     <WordsTrail words={[word, ...maxStack!]} />
                   </div>
                 </div>
-                <Separator className="my-2" />
+                <Separator className="my-4" />
               </div>
             ))}
           {firstWinIdx === -1 && firstUndefIdx !== -1 ? (

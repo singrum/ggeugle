@@ -15,7 +15,12 @@ export function CharBox({
   className?: string;
 }) {
   return (
-    <div className={cn("flex flex-col gap-1 items-center pt-2", className)}>
+    <div
+      className={cn(
+        "flex flex-col gap-2 md:gap-3 items-center pt-4 pb-4 md:px-2 lg:px-4",
+        className
+      )}
+    >
       {children}
     </div>
   );
