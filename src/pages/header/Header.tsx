@@ -51,7 +51,7 @@ export default function Header({ className }: { className?: string }) {
           </div>
         </div>
       )}
-      <div className="flex w-full justify-between items-center">
+      <div className="flex w-full justify-between items-center border-b border-border h-14 p-1">
         <div
           className="flex items-end gap-1 px-3 py-2"
           onClick={() => {
@@ -60,11 +60,11 @@ export default function Header({ className }: { className?: string }) {
         >
           <Logo />
         </div>
-        <div className="flex items-center pr-2 gap-1">
+        <div className="flex items-center pr-2 gap-2">
           <Button
             size="icon"
-            variant={"ghost"}
-            className="h-8 w-8"
+            variant={"outline"}
+            className="h-8 w-8 text-muted-foreground rounded-full"
             onClick={() => {
               theme.theme;
               theme.setTheme(currTheme === "dark" ? "light" : "dark");
@@ -78,7 +78,11 @@ export default function Header({ className }: { className?: string }) {
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button size={"icon"} variant={"ghost"} className="w-8 h-8">
+              <Button
+                size={"icon"}
+                variant={"outline"}
+                className="w-8 h-8 text-muted-foreground rounded-full"
+              >
                 <Menu className="w-5 h-5" />
               </Button>
             </DropdownMenuTrigger>

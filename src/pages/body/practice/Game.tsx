@@ -206,7 +206,7 @@ function GameInput() {
         </div>
       )}
       <Separator />
-      <div className="p-1 bg-muted/40 rounded-b-xl">
+      <div className="p-1 bg-muted/40 md:rounded-b-xl">
         <div className="relative">
           <Input
             autoFocus

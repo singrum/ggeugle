@@ -11,18 +11,18 @@ export default function Logo() {
       : theme.theme;
 
   return (
-    <div className="text-lg cursor-pointer flex gap-1 items-center md:flex-col md:gap-1 lg:gap-2 lg:flex-row lg:text-xl select-none">
+    <div className="text-xl cursor-pointer flex gap-2 items-center md:flex-col md:gap-1 lg:gap-2 lg:flex-row lg:text-xl select-none">
       {currTheme === "dark" ? (
         <img
           src={DarkLogo}
           alt="logo"
-          className="max-w-5 md:max-w-7 lg:max-w-6"
+          className="max-w-6 md:max-w-7 lg:max-w-6"
         />
       ) : (
         <img
           src={LightLogo}
           alt="logo"
-          className="max-w-5 md:max-w-7 lg:max-w-6"
+          className="max-w-6 md:max-w-7 lg:max-w-6"
         />
       )}
 

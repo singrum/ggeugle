@@ -21,7 +21,7 @@ import {
 } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
 import {
-  AlertCircle,
+  AlertTriangle,
   ArrowLeftRight,
   ArrowRight,
   ChevronDown,
@@ -1082,10 +1082,10 @@ function WordsResult() {
       </div>
       {showShowcase ? (
         <div className="flex justify-center ">
-          <div className="max-w-screen-lg">
+          <div className="max-w-screen-lg flex-col">
             <div className="p-4 md:p-6 lg:p-8 pb-0">
-              <Alert className="rounded-xl">
-                <AlertCircle className="h-5 w-5" />
+              <Alert className="rounded-xl  ">
+                <AlertTriangle className="h-5 w-5 " />
                 <AlertTitle className="font-normal">
                   현재 설정된 룰은 <span className="font-medium">구엜룰</span>
                   입니다.
@@ -1097,7 +1097,7 @@ function WordsResult() {
                   <span className="font-medium">끄투코리아</span> 등 다양한
                   끝말잇기 룰을 적용할 수 있습니다.
                   <div
-                    className="hover:underline underline-offset-2 text-primary dark:text-[hsl(217.2,91.2%,59.8%)] font-semibold select-none cursor-pointer flex items-center mt-2 w-fit"
+                    className="hover:underline underline-offset-2 text-primary dark:text-[#47a8ff] font-semibold select-none cursor-pointer flex items-center mt-2 w-fit"
                     onClick={() => setMenu(3)}
                   >
                     룰 설정하러 가기
@@ -1166,7 +1166,7 @@ function WordsResult() {
                 (e) => e.length === 0
               ) ? (
                 <>
-                  <div className="flex-1 min-h-0 flex flex-col px-4 pt-2">
+                  <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
                     {searchResult.isChar ? (
                       <>
                         {(searchResult.result as CharSearchResult).startsWith
@@ -1295,7 +1295,7 @@ function WordsResult() {
                           !isMoreOpen &&
                           charType !== "los" && (
                             <div
-                              className="p-4 pt-2 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
+                              className="p-4 pt-2 flex justify-center text-primary dark:text-[#47a8ff] items-center gap-1 select-none cursor-pointer hover:opacity-75"
                               onClick={() => setIsMoreOpen(true)}
                             >
                               {charType === "win"
@@ -1356,7 +1356,7 @@ function WordsResult() {
                 (e) => e.length === 0
               ) ? (
                 <>
-                  <div className="flex-1 min-h-0 flex flex-col px-4 pt-2">
+                  <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
                     {searchResult.isChar === true ? (
                       <>
                         {(searchResult.result as CharSearchResult).endsWith
@@ -1430,7 +1430,7 @@ function WordsResult() {
                               !isMoreOpen &&
                               charType !== "los" && (
                                 <div
-                                  className="p-4 pt-2 flex justify-center text-primary dark:text-[hsl(217.2,91.2%,59.8%)] items-center gap-1 select-none cursor-pointer hover:opacity-75"
+                                  className="p-4 pt-2 flex justify-center text-primary dark:text-[#47a8ff] items-center gap-1 select-none cursor-pointer hover:opacity-75"
                                   onClick={() => setIsMoreOpen(true)}
                                 >
                                   {"승리 음절로 시작하는 단어 펼치기"}
@@ -1501,7 +1501,7 @@ function WordsResult() {
             </>
           )}
           {searchTab === 3 && engine && searchInputValue.length === 1 && (
-            <div className="flex-1 min-h-0 flex flex-col px-4 pt-2">
+            <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
               <WordBox>
                 <WordBadge>{`${searchInputValue}에서 바꿀 수 있는 글자`}</WordBadge>
                 <WordContent
@@ -1551,7 +1551,7 @@ function WordsResult() {
 
 function WordSkeleton() {
   return (
-    <div className="flex-1 min-h-0 flex flex-col px-4 pt-2">
+    <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
       <>
         <WordBox>
           <div className="flex flex-wrap gap-x-2 gap-y-2 justify-center font-normal">

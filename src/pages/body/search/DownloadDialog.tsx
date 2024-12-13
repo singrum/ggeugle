@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -101,13 +100,16 @@ export default function DownloadDialog() {
   return (
     <Dialog>
       <DialogTrigger>
-        <Badge
+        <Button variant={"ghost"} size="icon" className="h-8 w-8">
+          <Download className="h-5 w-5" />
+        </Button>
+        {/* <Badge
           variant={"secondary"}
           className="gap-1 cursor-pointer select-none py-1"
         >
           <Download className="h-4 w-4" />
           단어 사전 다운로드
-        </Badge>
+        </Badge> */}
       </DialogTrigger>
 
       <DialogContent>

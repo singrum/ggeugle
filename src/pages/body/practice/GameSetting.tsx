@@ -43,7 +43,7 @@ export default function GameSetting() {
     }
   }, [engine]);
   return (
-    <div className="flex flex-col items-center min-h-full justify-between rounded-xl bg-muted/40">
+    <div className="flex flex-col items-center min-h-full justify-between md:rounded-xl bg-muted/40">
       <div className="flex-1 flex flex-col justify-start w-full items-center">
         <div className="w-full flex items-center px-2 py-1 border-b border-border text-accent-foreground">
           <div className="flex items-center gap-1 px-2 py-2 font-semibold ">

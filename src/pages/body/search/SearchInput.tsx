@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,7 +19,7 @@ import {
   Plus,
   RotateCcw,
   Search,
-  Settings,
+  Settings
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
@@ -50,8 +49,9 @@ export default function SearchInput() {
     e.exceptBy,
   ]);
   return (
-    <div className="p-4 py-6 pb-10 md:p-6 md:pb-10 md:pt-4 lg:p-8 lg:pt-6 lg:pb-10 pt-4 flex flex-col gap-4">
-      <div className="px-2 mb-6">
+    <div className="p-4 py-6 pb-10 md:p-6 md:pb-10 lg:p-8 lg:pb-10  flex flex-col gap-6">
+      
+      <div className="pl-2">
         <SearchTitle />
       </div>
       <div className="flex flex-col gap-2">
@@ -67,14 +67,22 @@ export default function SearchInput() {
 function SearchTitle() {
   return (
     <>
-      <div className="flex flex-col gap-2">
+      <div className="flex gap-2 justify-between">
         <h1 className="text-2xl font-bold tracking-tight">검색</h1>
-        <div className="text-sm text-muted-foreground">
-          <div className="">
-            끝말잇기에서 사용 가능한 단어들을 검색하고 필승 전략을 탐색합니다.
-          </div>
+        <div className="flex gap-2 items-center">
+          <DownloadDialog />
+          <Button
+            variant={"ghost"}
+            size="icon"
+            className="h-8 w-8"
+            onClick={() =>
+              document.getElementById("search-settings-dialog-open")!.click()
+            }
+          >
+            <Settings className="h-5 w-5" />
+          </Button>
         </div>
-        <div className="overflow-auto scrollbar-none w-full pt-2">
+        {/* <div className="overflow-auto scrollbar-none w-full pt-2">
           <div className="flex gap-2 whitespace-nowrap">
             <DownloadDialog />
             <Badge
@@ -88,7 +96,7 @@ function SearchTitle() {
               검색 환경설정
             </Badge>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
@@ -123,7 +131,7 @@ function ExceptWordsDisplay() {
     <div className="min-h-12 w-full rounded-xl border-border border">
       <div className="flex justify-between p-2 pl-4">
         <Popover>
-          <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline font-medium text-sm">
+          <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-sm">
             제외 단어
           </PopoverTrigger>
           <PopoverContent className="text-sm">

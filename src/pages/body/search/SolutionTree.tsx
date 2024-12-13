@@ -55,7 +55,7 @@ export default function SolutionTree() {
             </div>
           </PopoverContent>
         </Popover>
-        <div className="py-4 px-2">
+        <div className="py-4 px-2 max-w-screen-lg">
           {maxTrail.length > 0 ? (
             <WordsTrail words={maxTrail} size="md" />
           ) : (
@@ -73,7 +73,7 @@ export default function SolutionTree() {
         >
           트리 탐색
         </Badge>
-        <div className="w-full px-6 md:px-8 lg:px-10">
+        <div className="w-full px-6 md:px-8 lg:px-10 max-w-screen-lg">
           <Tree treeInfo={treeInfo} setTreeInfo={setTreeInfo} />
         </div>
       </div>
