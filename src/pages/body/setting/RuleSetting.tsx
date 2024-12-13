@@ -161,7 +161,8 @@ export function RuleSetting() {
             {ruleGroup[ruleGroupMenu].children.map((e, i) => (
               <Fragment key={i}>
                 {e}
-                <Separator />
+
+                <Separator className="my-2" />
               </Fragment>
             ))}
           </div>

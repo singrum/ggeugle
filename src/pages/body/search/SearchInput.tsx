@@ -19,7 +19,7 @@ import {
   Plus,
   RotateCcw,
   Search,
-  Settings
+  Settings,
 } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { Toaster } from "react-hot-toast";
@@ -27,30 +27,8 @@ import { useDebouncedCallback } from "use-debounce";
 import DownloadDialog from "./DownloadDialog";
 
 export default function SearchInput() {
-  const [
-    setValue,
-    setSearchInputValue,
-    exceptWords,
-    setExceptWords,
-    engine,
-    isLoading,
-    changeInfo,
-  ] = useWC((e) => [
-    e.setValue,
-    e.setSearchInputValue,
-    e.exceptWords,
-    e.setExceptWords,
-    e.engine,
-    e.isLoading,
-    e.changeInfo,
-  ]);
-  const [showToast, exceptBy] = useCookieSettings((e) => [
-    e.showToast,
-    e.exceptBy,
-  ]);
   return (
-    <div className="p-4 py-6 pb-10 md:p-6 md:pb-10 lg:p-8 lg:pb-10  flex flex-col gap-6">
-      
+    <div className="p-4 py-10 pt-8 md:p-6 md:pb-10 lg:p-8 lg:pb-10  flex flex-col gap-6">
       <div className="pl-2">
         <SearchTitle />
       </div>
