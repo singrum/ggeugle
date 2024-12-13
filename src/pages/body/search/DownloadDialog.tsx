@@ -101,11 +101,7 @@ export default function DownloadDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          variant={"outline"}
-          className="rounded-full gap-2"
-          // size={isDesktop ? "default" : "icon"}
-        >
+        <Button variant={"outline"} className="rounded-full gap-2">
           <Download className="h-4 w-4" />
           {"사전 다운로드"}
         </Button>
