@@ -17,7 +17,7 @@ export default function GameList() {
   return (
     <div
       className={cn(
-        "w-full flex flex-col-reverse gap-2 md:gap-4 p-2 pt-[100px]  md:p-4 pb-[200px] md:pb-4",
+        "w-full flex flex-col-reverse gap-4 p-4 pt-[100px] md:pt-4 pb-[200px] md:pb-4",
         {
           "h-full items-center justify-center": games.length === 0 && !currGame,
         }

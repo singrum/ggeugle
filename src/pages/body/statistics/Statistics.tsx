@@ -69,7 +69,7 @@ export default function Statistics() {
 function CardsSkeleton() {
   return (
     <div className="flex flex-col md:gap-8 w-full">
-      <Skeleton className="h-10 w-[300px] ml-4 md:ml-2 mt-4 md:mt-2 mb-2" />
+      <Skeleton className="h-10 w-[300px] ml-4 md:ml-2 mt-6 md:mt-2 mb-2" />
 
       <div className="flex-1 grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4 p-4 md:p-0">
         {[1, 2, 3, 4, 5].map((e) => (
@@ -222,7 +222,7 @@ function RouteCharTypeChart({ engine }: { engine: WCEngine }) {
 
 function StatisticsHeader({ engine }: { engine: WCEngine }) {
   return (
-    <div className="flex gap-2 items-center px-6 pt-4 pb-2 md:px-2 md:py-0">
+    <div className="flex gap-2 items-center px-6 pt-6 pb-2 md:px-2 md:py-0">
       <div className="flex gap-1 items-end ">
         <div className="font-bold text-2xl">
           {engine.words.length.toLocaleString()}

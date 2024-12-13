@@ -16,7 +16,7 @@ export function WordBox({
   return (
     <div
       className={cn(
-        "flex flex-col gap-4 md:gap-5 items-center pt-4 pb-4 md:px-2 lg:px-4",
+        "flex flex-col gap-4 md:gap-5 items-center pt-4 pb-4 md:px-2 lg:px-4 max-w-screen-lg",
         className
       )}
     >
