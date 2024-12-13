@@ -40,7 +40,7 @@ export default function Statistics() {
   return (
     <>
       <div className="h-full min-h-0 overflow-auto flex justify-center items-start">
-        <div className="flex max-w-screen-xl text-left md:p-4 lg:p-8 justify-center mb-[200px] md:mb-0">
+        <div className="flex w-[1280px] max-w-screen-xl text-left md:p-4 lg:p-8 justify-center mb-[200px] md:mb-0">
           {originalEngine && engine ? (
             exceptWords.length > 0 ? (
               <Tabs defaultValue="except" className="w-full">
@@ -68,7 +68,7 @@ export default function Statistics() {
 }
 function CardsSkeleton() {
   return (
-    <div className="flex flex-col md:gap-4 w-full">
+    <div className="flex flex-col md:gap-8 w-full">
       <Skeleton className="h-10 w-[300px] ml-4 md:ml-2 mt-4 md:mt-2 mb-2" />
 
       <div className="flex-1 grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4 p-4 md:p-0">
@@ -82,7 +82,7 @@ function CardsSkeleton() {
 
 function Cards({ engine }: { engine: WCEngine }) {
   return (
-    <div className="flex flex-col md:gap-4 w-full">
+    <div className="flex flex-col md:gap-8 w-full">
       <StatisticsHeader engine={engine} />
 
       <div className="flex-1 grid lg:grid-cols-3 lg:gap-4 md:grid-cols-2 md:gap-3 grid-cols-1 gap-4 p-4 md:p-0">
