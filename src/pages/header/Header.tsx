@@ -63,7 +63,7 @@ export default function Header({ className }: { className?: string }) {
         <div className="flex items-center pr-2 gap-2">
           <Button
             size="icon"
-            variant={"outline"}
+            variant={"ghost"}
             className="h-8 w-8 text-muted-foreground rounded-full"
             onClick={() => {
               theme.theme;
@@ -80,7 +80,7 @@ export default function Header({ className }: { className?: string }) {
             <DropdownMenuTrigger asChild>
               <Button
                 size={"icon"}
-                variant={"outline"}
+                variant={"ghost"}
                 className="w-8 h-8 text-muted-foreground rounded-full"
               >
                 <Menu className="w-5 h-5" />
