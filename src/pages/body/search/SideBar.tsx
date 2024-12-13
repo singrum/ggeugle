@@ -47,7 +47,7 @@ export function Content() {
       <div className="flex gap-2 justify-between pt-3 items-center">
         <div className="pl-3 flex items-center">
           <Popover>
-            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-foreground text-sm whitespace-nowrap">
+            <PopoverTrigger className=" underline-offset-4 underline decoration-dashed decoration-muted-foreground hover:no-underline text-foreground text-base whitespace-nowrap">
               {charMenuList[charMenu].name} 음절
             </PopoverTrigger>
             <PopoverContent className="text-sm">
@@ -57,9 +57,6 @@ export function Content() {
         </div>
         <Select defaultValue="0" onValueChange={(e) => setOrder(e)}>
           <SelectTrigger className="w-fit text-xs border-0 px-2 py-1 h-fit focus:ring-offset-1 focus-ring-1 shrink gap-1">
-            <div className="text-muted-foreground mr-1 whitespace-nowrap">
-              정렬:
-            </div>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

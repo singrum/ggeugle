@@ -62,21 +62,6 @@ function SearchTitle() {
             {isDesktop && "검색 설정"}
           </Button>
         </div>
-        {/* <div className="overflow-auto scrollbar-none w-full pt-2">
-          <div className="flex gap-2 whitespace-nowrap">
-            <DownloadDialog />
-            <Badge
-              onClick={() =>
-                document.getElementById("search-settings-dialog-open")!.click()
-              }
-              variant={"secondary"}
-              className="gap-1 cursor-pointer select-none py-1 "
-            >
-              <Settings className="h-4 w-4" />
-              검색 환경설정
-            </Badge>
-          </div>
-        </div> */}
       </div>
     </>
   );
@@ -111,7 +96,7 @@ function ExceptWordsDisplay() {
     <div className="min-h-12 w-full rounded-xl border-border border">
       <div className="flex justify-between p-2 pl-4">
         <Popover>
-          <PopoverTrigger className=" underline-offset-4 underline decoration-dashed hover:no-underline text-sm">
+          <PopoverTrigger className=" underline-offset-4 underline decoration-dashed decoration-muted-foreground hover:no-underline text-sm">
             제외 단어
           </PopoverTrigger>
           <PopoverContent className="text-sm">
@@ -309,7 +294,7 @@ function WordInput() {
       <Input
         tabIndex={1}
         ref={inputRefTemp}
-        className="border border-border rounded-xl h-12 text-md pl-10 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 bg-muted/50 transition-colors"
+        className="border border-border rounded-xl h-12 text-md pl-11 pr-12 focus-visible:outline-offset-0 focus-visible:outline-2 focus-visible:outline-primary focus-visible:ring-0 focus-visible:ring-offset-0 bg-muted/50 transition-colors"
         value={value}
         type="search"
         placeholder="글자 또는 단어를 입력하세요."
@@ -335,7 +320,7 @@ function WordInput() {
         }}
       />
 
-      <Search className="w-[1.2rem] h-[1.2rem] absolute left-3 top-[calc(50%-0.6rem)] text-muted-foreground" />
+      <Search className="w-[1.2rem] h-[1.2rem] absolute left-4 top-[calc(50%-0.6rem)] text-muted-foreground" />
 
       <div className="flex items-center justify-center gap-2 absolute right-3 top-[calc(50%-0.75rem)] w-[1.5rem] h-[1.5rem]">
         <div

@@ -26,7 +26,7 @@ export default function Logo() {
         />
       )}
 
-      <div className="font-semibold">끄글</div>
+      <div className="font-semibold md:hidden lg:block">끄글</div>
     </div>
   );
 }
