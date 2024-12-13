@@ -97,19 +97,18 @@ const downloadOptions = [
 
 export default function DownloadDialog() {
   const [engine] = useWC((e) => [e.engine]);
+  // const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
     <Dialog>
-      <DialogTrigger>
-        <Button variant={"ghost"} size="icon" className="h-8 w-8">
-          <Download className="h-5 w-5" />
-        </Button>
-        {/* <Badge
-          variant={"secondary"}
-          className="gap-1 cursor-pointer select-none py-1"
+      <DialogTrigger asChild>
+        <Button
+          variant={"outline"}
+          className="rounded-full gap-2"
+          // size={isDesktop ? "default" : "icon"}
         >
           <Download className="h-4 w-4" />
-          단어 사전 다운로드
-        </Badge> */}
+          {"사전 다운로드"}
+        </Button>
       </DialogTrigger>
 
       <DialogContent>

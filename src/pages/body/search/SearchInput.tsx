@@ -43,21 +43,23 @@ export default function SearchInput() {
 }
 
 function SearchTitle() {
+  const isDesktop = useMediaQuery("(min-width: 768px)");
   return (
     <>
-      <div className="flex gap-2 justify-between">
+      <div className="flex gap-2 justify-between items-center mb-2">
         <h1 className="text-2xl font-bold tracking-tight">검색</h1>
         <div className="flex gap-2 items-center">
           <DownloadDialog />
           <Button
-            variant={"ghost"}
-            size="icon"
-            className="h-8 w-8"
+            variant={"outline"}
+            size={isDesktop ? "default" : "icon"}
+            className="rounded-full gap-2"
             onClick={() =>
               document.getElementById("search-settings-dialog-open")!.click()
             }
           >
-            <Settings className="h-5 w-5" />
+            <Settings className="h-4 w-4" />
+            {isDesktop && "검색 설정"}
           </Button>
         </div>
         {/* <div className="overflow-auto scrollbar-none w-full pt-2">
