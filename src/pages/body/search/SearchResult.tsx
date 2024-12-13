@@ -28,7 +28,7 @@ import {
   CircleHelp,
   SearchX,
 } from "lucide-react";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import Analysis from "./Analysis";
 import SolutionTree from "./SolutionTree";
 
@@ -1000,6 +1000,8 @@ function WordsResult() {
     setValue,
     exceptWords,
     setExceptWords,
+    isMoreOpen,
+    setIsMoreOpen,
   ] = useWC((e) => [
     e.isGuel,
     e.searchResult,
@@ -1009,6 +1011,8 @@ function WordsResult() {
     e.setValue,
     e.exceptWords,
     e.setExceptWords,
+    e.isMoreOpen,
+    e.setIsMoreOpen,
   ]);
   const [setMenu, searchTab, setSearchTab] = useMenu((e) => [
     e.setMenu,
@@ -1017,15 +1021,11 @@ function WordsResult() {
   ]);
   const [showAllWords] = useCookieSettings((e) => [e.showAllWords]);
 
-  const [isMoreOpen, setIsMoreOpen] = useState<boolean>(false);
-
   const charType =
     engine &&
     searchInputValue &&
     WCDisplay.getCharType(engine, searchInputValue);
-  useEffect(() => {
-    setIsMoreOpen(false);
-  }, [searchInputValue, searchTab]);
+
   const startMenuInfo = useMemo(
     () => ({
       winChar: choice(wins),
@@ -1074,7 +1074,10 @@ function WordsResult() {
                     searchTab === i,
                 }
               )}
-              onClick={() => setSearchTab(i)}
+              onClick={() => {
+                setIsMoreOpen(false);
+                setSearchTab(i);
+              }}
             >
               {name}
             </div>
