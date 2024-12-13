@@ -84,6 +84,8 @@ export interface WCInfo {
   exceptWords: string[];
   setExceptWords: (exceptWords: string[]) => void;
   searchResult: SearchResult;
+  isMoreOpen: boolean;
+  setIsMoreOpen: (isMoreOpen: boolean) => void;
 
   worker?: Worker;
   originalEngine?: WCEngine;
@@ -143,7 +145,10 @@ export const useWC = create<WCInfo>((set, get) => ({
     set(() => ({
       searchInputValue,
       ...(engine
-        ? { searchResult: WCDisplay.searchResult(engine, searchInputValue) }
+        ? {
+            searchResult: WCDisplay.searchResult(engine, searchInputValue),
+            isMoreOpen: false,
+          }
         : {}),
     }));
     if (!preventPushState) {
@@ -160,6 +165,8 @@ export const useWC = create<WCInfo>((set, get) => ({
     });
   },
   searchResult: undefined,
+  isMoreOpen: false,
+  setIsMoreOpen: (isMoreOpen: boolean) => set(() => ({ isMoreOpen })),
 
   worker: undefined,
   originalEngine: undefined,

@@ -48,5 +48,7 @@ export const useMenu = create<MenuInfo>((set) => ({
   menu: 0,
   setMenu: (index: number) => set(() => ({ menu: index })),
   searchTab: 0,
-  setSearchTab: (searchTab: number) => set(() => ({ searchTab })),
+  setSearchTab: (searchTab: number) => {
+    set(() => ({ searchTab }));
+  },
 }));
