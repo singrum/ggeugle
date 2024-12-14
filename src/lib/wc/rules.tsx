@@ -653,7 +653,7 @@ export const sampleRules: {
     },
   },
   {
-    name: "쿵따룰",
+    name: "채린쿵따룰",
     desc: (
       <div>
         <p>
