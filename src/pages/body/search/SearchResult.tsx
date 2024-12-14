@@ -1087,8 +1087,8 @@ function WordsResult() {
       {showShowcase ? (
         <div className="flex justify-center ">
           <div className="max-w-screen-lg flex-col">
-            <div className="p-4 md:p-6 lg:p-8 pb-0">
-              <Alert className="rounded-xl bg-yellow-500/10 border-yellow-500/40 ">
+            <div className="p-4 md:p-6 lg:p-8">
+              <Alert className="rounded-xl bg-yellow-500/10 border-yellow-500/40">
                 <AlertTriangle className="h-5 w-5 stroke-yellow-800 dark:stroke-yellow-300" />
                 <AlertTitle className="font-normal mb-2">
                   현재 설정된 룰은 <span className="font-medium">구엜룰</span>
