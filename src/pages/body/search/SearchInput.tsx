@@ -32,12 +32,10 @@ export default function SearchInput() {
       <div className="pl-2">
         <SearchTitle />
       </div>
-      <div className="flex flex-col gap-2">
-        <ExceptWordsDisplay />
-      </div>
-      <div className="flex flex-col gap-2">
-        <WordInput />
-      </div>
+
+      <ExceptWordsDisplay />
+
+      <WordInput />
     </div>
   );
 }
@@ -93,7 +91,7 @@ function ExceptWordsDisplay() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [clipComplete, setClipComplete] = useState(false);
   return (
-    <div className="min-h-12 w-full rounded-xl border-border border">
+    <div className="min-h-12 w-full rounded-xl border-border border mb-2">
       <div className="flex justify-between p-2 pl-4">
         <Popover>
           <PopoverTrigger className=" underline-offset-4 underline decoration-dashed decoration-muted-foreground hover:no-underline text-sm">
@@ -176,7 +174,7 @@ function ExceptWordsDisplay() {
       <div
         className={cn(
           "flex flex-wrap gap-x-1 gap-y-1 items-center p-2 md:p-4 min-h-10",
-          { "pl-3": exceptWords.length === 0 }
+          { "pl-4": exceptWords.length === 0 }
         )}
       >
         {exceptWords.length > 0 ? (
@@ -222,7 +220,7 @@ function ExceptWordsDisplay() {
         )}
 
         {engine && isLoading && (
-          <LoaderCircle className="ml-1 w-6 h-6 animate-spin text-muted-foreground" />
+          <LoaderCircle className="ml-1 my-0.5 w-6 h-6 animate-spin text-muted-foreground" />
         )}
       </div>
       <Toaster

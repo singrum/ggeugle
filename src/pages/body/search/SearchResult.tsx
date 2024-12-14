@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { WordBadge, WordBox, WordContent } from "@/components/ui/WordBox";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useMenu } from "@/lib/store/useMenu";
 import { useWC } from "@/lib/store/useWC";
@@ -1087,9 +1088,9 @@ function WordsResult() {
         <div className="flex justify-center ">
           <div className="max-w-screen-lg flex-col">
             <div className="p-4 md:p-6 lg:p-8 pb-0">
-              <Alert className="rounded-xl  ">
-                <AlertTriangle className="h-5 w-5" />
-                <AlertTitle className="font-normal">
+              <Alert className="rounded-xl bg-yellow-500/10 border-yellow-500/40 ">
+                <AlertTriangle className="h-5 w-5 stroke-yellow-800 dark:stroke-yellow-300" />
+                <AlertTitle className="font-normal mb-2">
                   현재 설정된 룰은 <span className="font-medium">구엜룰</span>
                   입니다.
                 </AlertTitle>
@@ -1099,13 +1100,14 @@ function WordsResult() {
                   <span className="font-medium">앞말잇기</span>,{" "}
                   <span className="font-medium">끄투코리아</span> 등 다양한
                   끝말잇기 룰을 적용할 수 있습니다.
-                  <div
-                    className="hover:underline underline-offset-2 text-primary dark:text-[#47a8ff] font-semibold select-none cursor-pointer flex items-center mt-2 w-fit"
+                  <Button
+                    variant="link"
+                    className="text-yellow-800 dark:text-yellow-300 items-center p-0 h-fit mt-2 font-normal flex"
                     onClick={() => setMenu(3)}
                   >
                     룰 설정하러 가기
                     <ArrowRight className="w-4 h-4" />
-                  </div>
+                  </Button>
                 </AlertDescription>
               </Alert>
             </div>
