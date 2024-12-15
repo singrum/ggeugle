@@ -3,6 +3,7 @@ import { choice } from "../utils";
 import {
   getNextWords,
   getReachableNodes,
+  nextWordSortKey,
   pruningWinLos,
   pruningWinLosCir,
 } from "../wc/algorithms";
@@ -40,6 +41,7 @@ const postWord = (nextWords: Word[], exceptWords: Word[]) => {
 let analysisWorker: Worker | undefined = undefined;
 const getComputerMove = ({
   isGuel,
+  isChundo,
   exceptWords,
   currChar,
   strength,
@@ -48,6 +50,7 @@ const getComputerMove = ({
   debug,
 }: {
   isGuel: boolean;
+  isChundo: boolean;
   exceptWords: string[];
   currChar: Char;
   strength: 0 | 1 | 2;
@@ -200,6 +203,8 @@ const getComputerMove = ({
               analysisWorker!.postMessage({
                 action: "startAnalysis",
                 data: {
+                  isGuel: false,
+                  isChundo: isChundo,
                   withStack: false,
                   chanGraph: engine!.chanGraph,
                   wordGraph: engine!.wordGraph,
@@ -223,6 +228,7 @@ const getComputerMove = ({
         action: "startAnalysis",
         data: {
           isGuel: isGuel,
+          isChundo: isChundo,
           withStack: false,
           chanGraph: engine!.chanGraph,
           wordGraph: engine!.wordGraph,
@@ -350,9 +356,7 @@ const getComputerMove = ({
 
           analysisStart(
             getNextWords(engine!.chanGraph, engine!.wordGraph, currChar, true)
-              .sort((a, b) => {
-                return a.moveNum! - b.moveNum!;
-              })
+              .sort((a, b) => nextWordSortKey(a, b, false, isChundo))
               .map((e) => e.word)
               .map(([head, tail]) => engine!.wordMap.select(head, tail)[0])
           );
@@ -471,6 +475,7 @@ self.onmessage = (event) => {
       getComputerMove(
         data as {
           isGuel: boolean;
+          isChundo: boolean;
           exceptWords: string[];
           currChar: Char;
           strength: 0 | 1 | 2;

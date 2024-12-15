@@ -59,7 +59,6 @@ const ruleGroup: { name: string; children: ReactNode[] }[] = [
       <PosSetting />,
       <CateSetting />,
       <RegexFilterSetting />,
-      <HeadTailDuplicationSetting />,
     ],
   },
   {

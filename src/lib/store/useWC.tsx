@@ -76,6 +76,7 @@ export type GameInfo = {
 
 export interface WCInfo {
   isGuel: boolean;
+  isChundo: boolean;
 
   value: string;
   setValue: (value: string) => void;
@@ -133,6 +134,7 @@ export interface WCInfo {
 
 export const useWC = create<WCInfo>((set, get) => ({
   isGuel: true,
+  isChundo: false,
 
   value: "",
   setValue: (value: string) => set(() => ({ value })),
@@ -324,6 +326,7 @@ export const useWC = create<WCInfo>((set, get) => ({
       isLoading: true,
       rule: ruleForm,
       isGuel: isEqual(sampleRules[0].ruleForm, ruleForm),
+      isChundo: isEqual(sampleRules[8].ruleForm, ruleForm),
     }));
 
     let worker = get().worker;
@@ -618,6 +621,7 @@ export const useWC = create<WCInfo>((set, get) => ({
         action: "getComputerMove",
         data: {
           isGuel: false,
+          isChundo: get().isChundo,
           exceptWords: [],
           currChar: undefined,
           strength: gameSettingForm.strength,
@@ -653,11 +657,12 @@ export const useWC = create<WCInfo>((set, get) => ({
     const moves = [...currGame.moves, move];
 
     set({ currGame: { ...currGame, moves }, isChatLoading: true });
-
+    
     get().gameWorker!.postMessage({
       action: "getComputerMove",
       data: {
         isGuel: false,
+        isChundo: get().isChundo,
         exceptWords: moves,
         currChar: move.at(get().engine!.rule.tailIdx),
         strength: get().currGame!.strength,

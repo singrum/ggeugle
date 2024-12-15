@@ -1,5 +1,5 @@
 import { arraysEqual, arrayToKeyMap } from "../utils";
-import { precedenceMap } from "./analysisPrecedence";
+import { chundoPrecedence, precedenceMap } from "./analysisPrecedence";
 import { MultiDiGraph } from "./multidigraph";
 import { Char } from "./WordChain";
 
@@ -474,6 +474,7 @@ export function getNextWords(
 
 export function isWin(
   isGuel: boolean,
+  isChundo: boolean,
   chanGraph: MultiDiGraph,
   wordGraph: MultiDiGraph,
   currChar: Char,
@@ -495,24 +496,7 @@ export function isWin(
 
   const nextWords = getNextWords(chanGraph, wordGraph, currChar, true);
 
-  nextWords.sort((a, b) => {
-    let a_key, b_key;
-
-    if (isGuel && precedenceMap[a.word[0]]?.[a.word[1]]) {
-      a_key = -precedenceMap[a.word[0]][a.word[1]];
-    } else {
-      a_key = a.moveNum;
-    }
-    if (isGuel && precedenceMap[b.word[0]]?.[b.word[1]]) {
-      b_key = -precedenceMap[b.word[0]][b.word[1]];
-    } else {
-      b_key = b.moveNum;
-    }
-    // console.log(a_key, b_key);
-    //균권,권벽,벽읍,읍륵,륵흔,흔굉,굉확,확견,견융,융준,준축,축융
-
-    return a_key! - b_key!;
-  });
+  nextWords.sort((a, b) => nextWordSortKey(a, b, isGuel, isChundo));
 
   for (let { word, isLoop } of nextWords) {
     const nextChanGraph = chanGraph.copy();
@@ -533,6 +517,7 @@ export function isWin(
 
     const win = isWin(
       isGuel,
+      isChundo,
       nextChanGraph,
       nextWordGraph,
       word[1],
@@ -649,4 +634,40 @@ function depthLimitedSearch(
   } else {
     return false;
   }
+}
+
+export function nextWordSortKey(
+  a: {
+    word: Char[];
+    isLoop: boolean;
+    moveNum?: number;
+  },
+  b: {
+    word: Char[];
+    isLoop: boolean;
+    moveNum?: number;
+  },
+  isGuel: boolean,
+  isChundo: boolean
+) {
+  let a_key, b_key;
+
+  if (isGuel && precedenceMap[a.word[0]]?.[a.word[1]]) {
+    a_key = -precedenceMap[a.word[0]][a.word[1]];
+  } else if (isChundo && chundoPrecedence[a.word[1]]) {
+    a_key = -chundoPrecedence[a.word[1]];
+  } else {
+    a_key = a.moveNum;
+  }
+  if (isGuel && precedenceMap[b.word[0]]?.[b.word[1]]) {
+    b_key = -precedenceMap[b.word[0]][b.word[1]];
+  } else if (isChundo && chundoPrecedence[b.word[1]]) {
+    b_key = -chundoPrecedence[b.word[1]];
+  } else {
+    b_key = b.moveNum;
+  }
+  // console.log(a_key, b_key);
+  //균권,권벽,벽읍,읍륵,륵흔,흔굉,굉확,확견,견융,융준,준축,축융
+
+  return a_key! - b_key!;
 }

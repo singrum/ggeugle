@@ -173,8 +173,8 @@ function ExceptWordsDisplay() {
       <Separator />
       <div
         className={cn(
-          "flex flex-wrap gap-x-1 gap-y-1 items-center p-2 md:p-4 min-h-10",
-          { "pl-4": exceptWords.length === 0 }
+          "flex flex-wrap gap-x-1 gap-y-1 items-center p-2  md:p-4 min-h-10",
+          { "pl-4": exceptWords.length === 0, "py-3": exceptWords.length !== 0 }
         )}
       >
         {exceptWords.length > 0 ? (
