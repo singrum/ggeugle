@@ -23,7 +23,7 @@ import { SideBar } from "./SideBar";
 export default function Search() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const isSearchFlip = useCookieSettings((e) => e.isSearchFlip);
-  const [setOpen, open] = useSheet((e) => [e.setOpen, e.open]);
+  const [setOpen] = useSheet((e) => [e.setOpen]);
   return (
     <>
       {isDesktop ? (

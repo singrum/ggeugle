@@ -3,8 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import WordsTrail from "@/components/ui/WordsTrail";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { getNextWords } from "@/lib/wc/algorithms";
-import { precedenceMap } from "@/lib/wc/analysisPrecedence";
+import { getNextWords, nextWordSortKey } from "@/lib/wc/algorithms";
 import { Word } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
 import { CornerDownRight, Play } from "lucide-react";
@@ -13,6 +12,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 export default function DFSSearch() {
   const [
     isGuel,
+    isChundo,
     searchInputValue,
     engine,
     setValue,
@@ -21,6 +21,7 @@ export default function DFSSearch() {
     setExceptWords,
   ] = useWC((e) => [
     e.isGuel,
+    e.isChundo,
     e.searchInputValue,
     e.engine,
     e.setValue,
@@ -90,6 +91,7 @@ export default function DFSSearch() {
               action: "startAnalysis",
               data: {
                 isGuel: isGuelPrecedence,
+                isChundo: isChundo,
                 withStack: true,
                 chanGraph: engine!.chanGraph,
                 wordGraph: engine!.wordGraph,
@@ -123,21 +125,7 @@ export default function DFSSearch() {
       searchInputValue,
       true
     )
-      .sort((a, b) => {
-        let a_key, b_key;
-        if (isGuelPrecedence && precedenceMap[a.word[0]]?.[a.word[1]]) {
-          a_key = -precedenceMap[a.word[0]][a.word[1]];
-        } else {
-          a_key = a.moveNum;
-        }
-        if (isGuelPrecedence && precedenceMap[b.word[0]]?.[b.word[1]]) {
-          b_key = -precedenceMap[b.word[0]][b.word[1]];
-        } else {
-          b_key = b.moveNum;
-        }
-
-        return a_key! - b_key!;
-      })
+      .sort((a, b) => nextWordSortKey(a, b, false, isChundo))
       .map((e) => e.word)
       .map(([head, tail]) => ({
         word: engine!.wordMap.select(head, tail)[0],
@@ -160,6 +148,7 @@ export default function DFSSearch() {
       action: "startAnalysis",
       data: {
         isGuel: isGuelPrecedence,
+        isChundo: isChundo,
         withStack: true,
         chanGraph: engine!.chanGraph,
         wordGraph: engine!.wordGraph,

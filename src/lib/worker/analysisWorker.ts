@@ -15,6 +15,7 @@ export type payload = {
 
 const analysis = ({
   isGuel,
+  isChundo,
   withStack,
   chanGraph,
   wordGraph,
@@ -22,12 +23,14 @@ const analysis = ({
   exceptWord,
 }: {
   isGuel: boolean;
+  isChundo: boolean;
   withStack: boolean;
   chanGraph: MultiDiGraph;
   wordGraph: MultiDiGraph;
   startChar: Char;
   exceptWord: Char[];
 }) => {
+  
   chanGraph = objToMultiDiGraph(chanGraph);
   wordGraph = objToMultiDiGraph(wordGraph);
 
@@ -52,6 +55,7 @@ const analysis = ({
   const win = withStack
     ? isWin(
         isGuel,
+        isChundo,
         chanGraph,
         wordGraph,
         startChar,
@@ -84,7 +88,7 @@ const analysis = ({
           self.postMessage({ action: "stackChange", data: wordStack });
         }
       )
-    : isWin(isGuel, chanGraph, wordGraph, startChar);
+    : isWin(isGuel, isChundo, chanGraph, wordGraph, startChar);
 
   self.postMessage({
     action: "end",
@@ -181,6 +185,7 @@ self.onmessage = (event) => {
       analysis(
         data as {
           isGuel: boolean;
+          isChundo: boolean;
           withStack: boolean;
           chanGraph: MultiDiGraph;
           wordGraph: MultiDiGraph;
