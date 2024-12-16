@@ -40,8 +40,7 @@ const postWord = (nextWords: Word[], exceptWords: Word[]) => {
 };
 let analysisWorker: Worker | undefined = undefined;
 const getComputerMove = ({
-  isGuel,
-  isChundo,
+  namedRule,
   exceptWords,
   currChar,
   strength,
@@ -49,8 +48,7 @@ const getComputerMove = ({
   steal,
   debug,
 }: {
-  isGuel: boolean;
-  isChundo: boolean;
+  namedRule: string;
   exceptWords: string[];
   currChar: Char;
   strength: 0 | 1 | 2;
@@ -203,8 +201,7 @@ const getComputerMove = ({
               analysisWorker!.postMessage({
                 action: "startAnalysis",
                 data: {
-                  isGuel: false,
-                  isChundo: isChundo,
+                  namedRule,
                   withStack: false,
                   chanGraph: engine!.chanGraph,
                   wordGraph: engine!.wordGraph,
@@ -227,8 +224,7 @@ const getComputerMove = ({
       analysisWorker.postMessage({
         action: "startAnalysis",
         data: {
-          isGuel: isGuel,
-          isChundo: isChundo,
+          namedRule,
           withStack: false,
           chanGraph: engine!.chanGraph,
           wordGraph: engine!.wordGraph,
@@ -356,7 +352,7 @@ const getComputerMove = ({
 
           analysisStart(
             getNextWords(engine!.chanGraph, engine!.wordGraph, currChar, true)
-              .sort((a, b) => nextWordSortKey(a, b, false, isChundo))
+              .sort((a, b) => nextWordSortKey(a, b, namedRule))
               .map((e) => e.word)
               .map(([head, tail]) => engine!.wordMap.select(head, tail)[0])
           );
@@ -474,8 +470,7 @@ self.onmessage = (event) => {
     case "getComputerMove":
       getComputerMove(
         data as {
-          isGuel: boolean;
-          isChundo: boolean;
+          namedRule: string;
           exceptWords: string[];
           currChar: Char;
           strength: 0 | 1 | 2;

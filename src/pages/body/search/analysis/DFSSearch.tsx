@@ -11,8 +11,7 @@ import { Fragment, useEffect, useRef, useState } from "react";
 
 export default function DFSSearch() {
   const [
-    isGuel,
-    isChundo,
+    namedRule,
     searchInputValue,
     engine,
     setValue,
@@ -20,8 +19,7 @@ export default function DFSSearch() {
     exceptWords,
     setExceptWords,
   ] = useWC((e) => [
-    e.isGuel,
-    e.isChundo,
+    e.namedRule,
     e.searchInputValue,
     e.engine,
     e.setValue,
@@ -34,7 +32,7 @@ export default function DFSSearch() {
   const [nextRoutesInfo, setNextRoutesInfo] = useState<
     { word: Word; win?: boolean; maxStack?: Word[] }[] | undefined
   >();
-  const [isGuelPrecedence, setIsGuelPrecedence] = useState<boolean>(false);
+  // const [isGuelPrecedence, setIsGuelPrecedence] = useState<boolean>(false);
   const worker = useRef<Worker>(null!);
 
   useEffect(() => {
@@ -90,8 +88,7 @@ export default function DFSSearch() {
             worker.current.postMessage({
               action: "startAnalysis",
               data: {
-                isGuel: isGuelPrecedence,
-                isChundo: isChundo,
+                namedRule: namedRule,
                 withStack: true,
                 chanGraph: engine!.chanGraph,
                 wordGraph: engine!.wordGraph,
@@ -125,7 +122,7 @@ export default function DFSSearch() {
       searchInputValue,
       true
     )
-      .sort((a, b) => nextWordSortKey(a, b, false, isChundo))
+      .sort((a, b) => nextWordSortKey(a, b, namedRule))
       .map((e) => e.word)
       .map(([head, tail]) => ({
         word: engine!.wordMap.select(head, tail)[0],
@@ -147,8 +144,7 @@ export default function DFSSearch() {
     worker.current.postMessage({
       action: "startAnalysis",
       data: {
-        isGuel: isGuelPrecedence,
-        isChundo: isChundo,
+        namedRule,
         withStack: true,
         chanGraph: engine!.chanGraph,
         wordGraph: engine!.wordGraph,
@@ -163,7 +159,7 @@ export default function DFSSearch() {
     return () => {
       worker.current.terminate();
     };
-  }, [searchInputValue, engine, isGuelPrecedence]);
+  }, [searchInputValue, engine]);
 
   const firstUndefIdx =
     nextRoutesInfo && nextRoutesInfo.findIndex(({ win }) => win === undefined);

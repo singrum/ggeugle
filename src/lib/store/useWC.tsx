@@ -75,9 +75,6 @@ export type GameInfo = {
 };
 
 export interface WCInfo {
-  isGuel: boolean;
-  isChundo: boolean;
-
   value: string;
   setValue: (value: string) => void;
   searchInputValue: string;
@@ -102,6 +99,7 @@ export interface WCInfo {
   ruleForm: RuleForm;
   setRuleForm: (ruleForm: RuleForm) => void;
   updateRule: () => void;
+  namedRule: string;
 
   // 플레이
   currGame?: GameInfo;
@@ -133,9 +131,6 @@ export interface WCInfo {
 }
 
 export const useWC = create<WCInfo>((set, get) => ({
-  isGuel: true,
-  isChundo: false,
-
   value: "",
   setValue: (value: string) => set(() => ({ value })),
   searchInputValue: "",
@@ -325,8 +320,13 @@ export const useWC = create<WCInfo>((set, get) => ({
       exceptWords: [],
       isLoading: true,
       rule: ruleForm,
-      isGuel: isEqual(sampleRules[0].ruleForm, ruleForm),
-      isChundo: isEqual(sampleRules[8].ruleForm, ruleForm),
+      namedRule: isEqual(sampleRules[0].ruleForm, ruleForm)
+        ? "guel"
+        : isEqual(sampleRules[8].ruleForm, ruleForm)
+        ? "cheondo"
+        : isEqual(sampleRules[11].ruleForm, ruleForm)
+        ? "chaerin"
+        : undefined,
     }));
 
     let worker = get().worker;
@@ -338,6 +338,8 @@ export const useWC = create<WCInfo>((set, get) => ({
       data: ruleForm,
     });
   },
+  namedRule: "guel",
+
   gameWorker: undefined,
   currGame: undefined,
   setCurrGame: (gameInfo?: GameInfo) => {
@@ -620,8 +622,7 @@ export const useWC = create<WCInfo>((set, get) => ({
       gameWorker!.postMessage({
         action: "getComputerMove",
         data: {
-          isGuel: false,
-          isChundo: get().isChundo,
+          namedRule: get().namedRule,
           exceptWords: [],
           currChar: undefined,
           strength: gameSettingForm.strength,
@@ -657,12 +658,11 @@ export const useWC = create<WCInfo>((set, get) => ({
     const moves = [...currGame.moves, move];
 
     set({ currGame: { ...currGame, moves }, isChatLoading: true });
-    
+
     get().gameWorker!.postMessage({
       action: "getComputerMove",
       data: {
-        isGuel: false,
-        isChundo: get().isChundo,
+        namedRule: get().namedRule,
         exceptWords: moves,
         currChar: move.at(get().engine!.rule.tailIdx),
         strength: get().currGame!.strength,

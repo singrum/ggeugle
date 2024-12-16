@@ -14,26 +14,22 @@ export type payload = {
 };
 
 const analysis = ({
-  isGuel,
-  isChundo,
+  namedRule,
   withStack,
   chanGraph,
   wordGraph,
   startChar,
   exceptWord,
 }: {
-  isGuel: boolean;
-  isChundo: boolean;
+  namedRule: string;
   withStack: boolean;
   chanGraph: MultiDiGraph;
   wordGraph: MultiDiGraph;
   startChar: Char;
   exceptWord: Char[];
 }) => {
-  
   chanGraph = objToMultiDiGraph(chanGraph);
   wordGraph = objToMultiDiGraph(wordGraph);
-
   if (wordGraph.nodes[exceptWord[0]].loop === exceptWord[1]) {
     wordGraph.nodes[exceptWord[0]].loop = undefined;
   } else {
@@ -54,8 +50,7 @@ const analysis = ({
 
   const win = withStack
     ? isWin(
-        isGuel,
-        isChundo,
+        namedRule,
         chanGraph,
         wordGraph,
         startChar,
@@ -88,7 +83,7 @@ const analysis = ({
           self.postMessage({ action: "stackChange", data: wordStack });
         }
       )
-    : isWin(isGuel, isChundo, chanGraph, wordGraph, startChar);
+    : isWin(namedRule, chanGraph, wordGraph, startChar);
 
   self.postMessage({
     action: "end",
@@ -184,8 +179,7 @@ self.onmessage = (event) => {
     case "startAnalysis":
       analysis(
         data as {
-          isGuel: boolean;
-          isChundo: boolean;
+          namedRule: string;
           withStack: boolean;
           chanGraph: MultiDiGraph;
           wordGraph: MultiDiGraph;

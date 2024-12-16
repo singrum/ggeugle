@@ -992,7 +992,7 @@ const routes = [
 
 function WordsResult() {
   const [
-    isGuel,
+    namedRule,
     searchResult,
     engine,
     searchInputValue,
@@ -1004,7 +1004,7 @@ function WordsResult() {
     isMoreOpen,
     setIsMoreOpen,
   ] = useWC((e) => [
-    e.isGuel,
+    e.namedRule,
     e.searchResult,
     e.engine,
     e.searchInputValue,
@@ -1041,7 +1041,9 @@ function WordsResult() {
     }
   }, [searchInputValue]);
   const showShowcase =
-    isGuel && searchInputValue.length === 0 && exceptWords.length === 0;
+    namedRule === "guel" &&
+    searchInputValue.length === 0 &&
+    exceptWords.length === 0;
 
   const moreEmptyStart =
     searchResult?.isChar &&
