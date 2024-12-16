@@ -6,6 +6,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useCookieSettings } from "@/lib/store/useCookieSettings";
 import { useRefs } from "@/lib/store/useRefs";
@@ -144,14 +150,21 @@ function ExceptWordsDisplay() {
             },
           ].map(({ name, icon, onClick }) => (
             <React.Fragment key={name}>
-              <Button
-                size={"icon"}
-                className="h-7 w-7"
-                variant={"ghost"}
-                onClick={onClick}
-              >
-                {icon}
-              </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      size={"icon"}
+                      className="h-7 w-7"
+                      variant={"ghost"}
+                      onClick={onClick}
+                    >
+                      {icon}
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>{name}</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </React.Fragment>
           ))}
           <Button
