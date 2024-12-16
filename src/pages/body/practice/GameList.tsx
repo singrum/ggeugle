@@ -1,3 +1,10 @@
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { GameInfo, strengths, useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
 import {
@@ -93,37 +100,55 @@ function GameButton({
           </div>
         </div>
         <div className="flex gap-1">
-          <div
-            className="p-1 rounded-md hover:bg-accent cursor-pointer w-6 h-6 flex items-center justify-center"
-            onClick={() => {
-              if (gameInfo.moves.length > 0) {
-                navigator.clipboard.writeText(gameInfo.moves.join(" "));
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant={"ghost"}
+                  className="w-6 h-6"
+                  onClick={() => {
+                    if (gameInfo.moves.length > 0) {
+                      navigator.clipboard.writeText(gameInfo.moves.join(" "));
 
-                setClipComplete(true);
-                setTimeout(() => {
-                  setClipComplete(false);
-                }, 2000);
-              }
-            }}
-          >
-            {clipComplete ? (
-              <Check className="w-4 h-4" />
-            ) : (
-              <Clipboard className="w-4 h-4" />
-            )}
-          </div>
-          <div
-            className="p-1 rounded-md hover:bg-accent cursor-pointer w-6 h-6 flex items-center justify-center"
-            onClick={() => {
-              if (gameInfo.isPlaying) {
-                setCurrGame(undefined);
-              } else {
-                setGames(games.filter((_, i) => i !== index));
-              }
-            }}
-          >
-            <X className="w-4 h-4" />
-          </div>
+                      setClipComplete(true);
+                      setTimeout(() => {
+                        setClipComplete(false);
+                      }, 2000);
+                    }
+                  }}
+                >
+                  {clipComplete ? (
+                    <Check className="w-4 h-4" />
+                  ) : (
+                    <Clipboard className="w-4 h-4" />
+                  )}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>복사</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  size="icon"
+                  variant={"ghost"}
+                  className="w-6 h-6"
+                  onClick={() => {
+                    if (gameInfo.isPlaying) {
+                      setCurrGame(undefined);
+                    } else {
+                      setGames(games.filter((_, i) => i !== index));
+                    }
+                  }}
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>삭제</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
       </div>
 
