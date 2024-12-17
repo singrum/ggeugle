@@ -172,7 +172,7 @@ export default function DFSSearch() {
         <Alert>
           <Play className="h-5 w-5" strokeWidth={1.5} />
           <AlertTitle className="font-normal">
-            <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline font-medium">
+            <span className="underline underline-offset-4 decoration-muted-foreground decoration-dotted cursor-pointer hover:no-underline font-medium">
               {searchInputValue}
             </span>
             에서 필승 전략을 탐색합니다.
@@ -183,7 +183,7 @@ export default function DFSSearch() {
                 {nextRoutesInfo.map(({ word }, i) => (
                   <Fragment key={word}>
                     <span
-                      className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline font-medium"
+                      className="underline underline-offset-4 decoration-muted-foreground decoration-dotted cursor-pointer hover:no-underline font-medium"
                       onClick={() => {
                         setValue(word.at(engine!.rule.tailIdx)!);
                         setSearchInputValue(word.at(engine!.rule.tailIdx)!);
@@ -202,7 +202,7 @@ export default function DFSSearch() {
             ) : (
               <>
                 <span
-                  className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline font-medium"
+                  className="underline underline-offset-4 decoration-muted-foreground decoration-dotted cursor-pointer hover:no-underline font-medium"
                   onClick={() => {
                     setValue(nextRoutesInfo[0].word.at(engine!.rule.tailIdx)!);
                     setSearchInputValue(
@@ -244,7 +244,7 @@ export default function DFSSearch() {
                 <div key={word} className="w-full px-2">
                   <div className="w-full mb-2 font-medium">
                     <span
-                      className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline"
+                      className="underline underline-offset-4 decoration-muted-foreground decoration-dotted cursor-pointer hover:no-underline"
                       onClick={() => {
                         setValue(word.at(engine!.rule.tailIdx)!);
                         setSearchInputValue(word.at(engine!.rule.tailIdx)!);
@@ -271,7 +271,7 @@ export default function DFSSearch() {
             <div className="w-full px-2">
               <div className="mb-2 font-medium">
                 <span
-                  className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline"
+                  className="underline underline-offset-4 decoration-muted-foreground decoration-dotted cursor-pointer hover:no-underline"
                   onClick={() => {
                     setValue(
                       nextRoutesInfo[firstUndefIdx!].word.at(
@@ -309,7 +309,7 @@ export default function DFSSearch() {
             <div className="mx-2 flex items-center gap-1 font-medium">
               <CornerDownRight className="w-4 h-4" />
               <div>
-                <span className="underline underline-offset-2 decoration-dotted cursor-pointer hover:no-underline">
+                <span className="underline underline-offset-4 decoration-muted-foreground decoration-dotted cursor-pointer hover:no-underline">
                   {searchInputValue}
                 </span>
                 <span className="font-normal"> : </span>
