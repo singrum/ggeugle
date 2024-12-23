@@ -34,7 +34,7 @@ import DownloadDialog from "./DownloadDialog";
 
 export default function SearchInput() {
   return (
-    <div className="p-4 py-10 pt-8 md:p-6 md:pb-10 lg:p-8 lg:pb-10  flex flex-col gap-6">
+    <div className="p-4 pb-7 md:p-6 md:pb-9 lg:p-8 lg:pb-10  flex flex-col gap-6">
       <div className="pl-2">
         <SearchTitle />
       </div>
