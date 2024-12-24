@@ -102,9 +102,6 @@ function GameInput() {
     if (!isMyTurn) {
       return false;
     }
-    if (!/^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+$/.test(value)) {
-      return false;
-    }
 
     if (currGame!.moves.length > 0) {
       const chars = changeableMap[originalEngine!.rule.changeableIdx](
