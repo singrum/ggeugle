@@ -224,7 +224,7 @@ export class WCDisplay {
       engine.chanGraph.nodes[char].type === "wincir"
     ) {
       // 승일 때
-      const winWord = this.getWinWord(engine, char);
+      const winWord = this.getSolutionWord(engine, char)[0];
       trail.push(winWord);
 
       char = winWord.at(engine.rule.tailIdx)!;
@@ -242,7 +242,7 @@ export class WCDisplay {
       }
       trail.push(losWord);
       char = losWord.at(engine.rule.tailIdx)!;
-      const winWord = this.getWinWord(engine, char);
+      const winWord = this.getSolutionWord(engine, char)[0];
       trail.push(winWord);
       char = winWord.at(engine.rule.tailIdx)!;
     }
@@ -261,7 +261,7 @@ export class WCDisplay {
     };
     if (treeInfo.type === "win") {
       // 승일 때
-      const winWord = this.getWinWord(engine, char);
+      const winWord = this.getSolutionWord(engine, char)[0];
       treeInfo.win.push(winWord);
       char = winWord.at(engine.rule.tailIdx)!;
     }
@@ -280,7 +280,7 @@ export class WCDisplay {
       treeInfo.los.push({ mainIdx: 0, words: losWords });
 
       char = losWords[0].at(engine.rule.tailIdx)!;
-      const winWord = this.getWinWord(engine, char);
+      const winWord = this.getSolutionWord(engine, char)[0];
       treeInfo.win.push(winWord);
       char = winWord.at(engine.rule.tailIdx)!;
     }
@@ -304,7 +304,7 @@ export class WCDisplay {
       if (cnt > 200) {
         break;
       }
-      const winWord = this.getWinWord(engine, char);
+      const winWord = this.getSolutionWord(engine, char)[0];
       treeInfo.win.push(winWord);
       char = winWord.at(engine.rule.tailIdx)!;
       const losWords = this.getLosWords(engine, char);
