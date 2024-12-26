@@ -159,6 +159,13 @@ export type TreeInfo = {
   los: { mainIdx: number; words: Word[] }[];
 };
 export class WCDisplay {
+  static getSolutionWord(engine: WCEngine, char: Char) {
+    const chanSol = engine.chanGraph.nodes[char].solution;
+    const wordSol = engine.wordGraph.nodes[chanSol as string].solution;
+    //(?!(균핵균|균축|축알못|못핀|핀지가죽|죽력죽|죽견|견소포자균|균형|형촉|촉륜|륜곽|곽재겸|겸지우겸|겸괘|괘견|견융|융즉|즉견|견취견|견사혹|혹돔|돔뱀|뱀뱀|뱀톱|톱니형|형애긍|긍휼|휼형|형삭|삭즉삭|삭스핀|핀치가죽|죽는시늉|융복합형|형개이삭)$).*
+
+    return engine.wordMap.select(chanSol as string, wordSol as string);
+  }
   static getWinWord(engine: WCEngine, char: Char) {
     const nextWords = engine
       .getNextWords(char)
@@ -600,7 +607,11 @@ export class WCDisplay {
           type: "loscir",
           endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
         };
-      } else if (engine.chanGraph.nodes[tail].type === "loscir") {
+      } else if (
+        engine.chanGraph.nodes[tail].type === "loscir"
+        // &&(engine.chanGraph.nodes[head].endNum as number) <=
+        //   (engine.chanGraph.nodes[tail].endNum as number) + 1
+      ) {
         return {
           type: "wincir",
           endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
@@ -619,7 +630,11 @@ export class WCDisplay {
           type: "los",
           endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
         };
-      } else if (engine.chanGraph.nodes[tail].type === "loscir") {
+      } else if (
+        engine.chanGraph.nodes[tail].type === "loscir"
+        // &&(engine.chanGraph.nodes[head].endNum as number) <=
+        //   (engine.chanGraph.nodes[tail].endNum as number) + 1
+      ) {
         return {
           type: "wincir",
           endNum: (engine.chanGraph.nodes[tail].endNum as number) + 1,
@@ -719,6 +734,7 @@ export class WCDisplay {
 
       for (let word of startWords) {
         const { type, endNum } = WCDisplay.getWordType(engine, word);
+
         switch (type) {
           case "win":
           case "wincir":
