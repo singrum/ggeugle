@@ -256,7 +256,8 @@ const getComputerMove = ({
                 },
               });
             }
-            postWord([WCDisplay.getWinWord(engine!, currChar)], exceptWords);
+
+            postWord(WCDisplay.getSolutionWord(engine!, currChar), exceptWords);
             return;
 
           case "los":
