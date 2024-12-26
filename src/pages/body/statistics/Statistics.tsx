@@ -40,7 +40,7 @@ export default function Statistics() {
   return (
     <>
       <div className="h-full min-h-0 overflow-auto flex justify-center items-start">
-        <div className="flex w-[1280px] max-w-screen-xl text-left md:p-4 lg:p-8 justify-center mb-[200px] md:mb-0">
+        <div className="flex w-[1280px] max-w-screen-xl text-left md:p-4 md:pt-8 lg:p-8 justify-center mb-[200px] md:mb-0">
           {originalEngine && engine ? (
             exceptWords.length > 0 ? (
               <Tabs defaultValue="except" className="w-full">
