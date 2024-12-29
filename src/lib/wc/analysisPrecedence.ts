@@ -385,6 +385,9 @@ export const precedenceMap: Record<string, Record<Char, number>> = {
     탯: 2,
     템: 2,
   },
+  sinel: {
+    쇄: 1,
+  },
   chaerin: {
     몫: 10,
     츠: 10,

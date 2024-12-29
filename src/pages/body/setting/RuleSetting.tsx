@@ -59,6 +59,7 @@ const ruleGroup: { name: string; children: ReactNode[] }[] = [
       <PosSetting />,
       <CateSetting />,
       <RegexFilterSetting />,
+      // <HeadTailDuplicationSetting />,
     ],
   },
   {
@@ -234,7 +235,6 @@ function DictSetting() {
                   ...ruleForm,
                   dict: parseInt(e),
                   cate: [true, false, false, false],
-                  pos: { ...ruleForm.pos, "8": false },
                 });
                 break;
               case 2:
@@ -326,10 +326,7 @@ function PosSetting() {
                     ruleForm.pos[i],
                   "opacity-50 cursor-not-allowed hover:bg-background hover:text-muted-foreground":
                     (ruleForm.dict === 3 && i === 7) ||
-                    ((ruleForm.dict === 1 ||
-                      ruleForm.dict === 2 ||
-                      ruleForm.dict === 3) &&
-                      i === 8) ||
+                    ((ruleForm.dict === 2 || ruleForm.dict === 3) && i === 8) ||
                     ruleForm.dict === 4 ||
                     ruleForm.dict === 5 ||
                     typeof ruleForm.dict === "object",
@@ -339,10 +336,7 @@ function PosSetting() {
                 if (
                   !(
                     (ruleForm.dict === 3 && i === 7) ||
-                    ((ruleForm.dict === 1 ||
-                      ruleForm.dict === 2 ||
-                      ruleForm.dict === 3) &&
-                      i === 8) ||
+                    ((ruleForm.dict === 2 || ruleForm.dict === 3) && i === 8) ||
                     ruleForm.dict === 4 ||
                     ruleForm.dict === 5 ||
                     typeof ruleForm.dict === "object"

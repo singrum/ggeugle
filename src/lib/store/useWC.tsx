@@ -1,4 +1,5 @@
 import { josa } from "es-hangul";
+import Cookies from "js-cookie";
 import { isEqual } from "lodash";
 import { X } from "lucide-react";
 import toast from "react-hot-toast";
@@ -128,6 +129,15 @@ export interface WCInfo {
 
   games: GameInfo[];
   setGames: (games: GameInfo[]) => void;
+
+  // cookie
+
+  // applyChan
+  applyChan: boolean;
+  setApplyChan: (applyChan: boolean) => void;
+  // deleteMult
+  deleteMult: boolean;
+  setDeleteMult: (deleteMult: boolean) => void;
 }
 
 export const useWC = create<WCInfo>((set, get) => ({
@@ -143,7 +153,12 @@ export const useWC = create<WCInfo>((set, get) => ({
       searchInputValue,
       ...(engine
         ? {
-            searchResult: WCDisplay.searchResult(engine, searchInputValue),
+            searchResult: WCDisplay.searchResult(
+              engine,
+              searchInputValue,
+              get().applyChan,
+              get().deleteMult
+            ),
             isMoreOpen: false,
           }
         : {}),
@@ -185,7 +200,12 @@ export const useWC = create<WCInfo>((set, get) => ({
           prevEngine,
           engine,
           isLoading: false,
-          searchResult: WCDisplay.searchResult(engine, get().searchInputValue),
+          searchResult: WCDisplay.searchResult(
+            engine,
+            get().searchInputValue,
+            get().applyChan,
+            get().deleteMult
+          ),
           ...(originalEngine ? {} : { originalEngine: engine }),
         }));
 
@@ -322,6 +342,8 @@ export const useWC = create<WCInfo>((set, get) => ({
       rule: ruleForm,
       namedRule: isEqual(sampleRules[0].ruleForm, ruleForm)
         ? "guel"
+        : isEqual(sampleRules[1].ruleForm, ruleForm)
+        ? "sinel"
         : isEqual(sampleRules[8].ruleForm, ruleForm)
         ? "cheondo"
         : isEqual(sampleRules[11].ruleForm, ruleForm)
@@ -679,4 +701,42 @@ export const useWC = create<WCInfo>((set, get) => ({
     set(() => ({
       games,
     })),
+
+  applyChan: Cookies.get("apply-chan") === "false" ? false : true,
+  setApplyChan: (applyChan: boolean) => {
+    Cookies.set("apply-chan", `${applyChan}`);
+    const engine = get().engine;
+    set({
+      applyChan,
+      ...(engine
+        ? {
+            searchResult: WCDisplay.searchResult(
+              engine,
+              get().searchInputValue,
+              applyChan,
+              get().deleteMult
+            ),
+          }
+        : {}),
+    });
+  },
+
+  deleteMult: Cookies.get("delete-mult") === "true" ? true : false,
+  setDeleteMult: (deleteMult: boolean) => {
+    Cookies.set("delete-mult", `${deleteMult}`);
+    const engine = get().engine;
+    set({
+      deleteMult,
+      ...(engine
+        ? {
+            searchResult: WCDisplay.searchResult(
+              engine,
+              get().searchInputValue,
+              get().applyChan,
+              deleteMult
+            ),
+          }
+        : {}),
+    });
+  },
 }));
