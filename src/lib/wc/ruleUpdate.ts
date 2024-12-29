@@ -1,6 +1,6 @@
 import { RuleForm } from "../store/useWC";
 import { cates, poses } from "./rules";
-import { WCEngine, WCRule } from "./WordChain";
+import { removeHeadTailDuplication, WCEngine, WCRule } from "./WordChain";
 
 async function fetchWords(url: string) {
   const response = await fetch(url);
@@ -158,26 +158,4 @@ export async function getEngine(ruleForm: RuleForm) {
   console.log("음절 분류 완료");
 
   return wce;
-}
-
-function removeHeadTailDuplication(
-  words: string[],
-  headIdx: number,
-  tailIdx: number
-) {
-  const cache: Set<string> = new Set();
-  const result = [];
-  for (const word of words) {
-    const head = word.at(headIdx)!;
-    const tail = word.at(tailIdx)!;
-    const reducedWord = head.concat(tail);
-    if (cache.has(reducedWord)) {
-      continue;
-    } else {
-      cache.add(reducedWord);
-    }
-    result.push(word);
-  }
-
-  return result;
 }

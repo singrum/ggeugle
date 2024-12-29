@@ -692,21 +692,46 @@ export class WCDisplay {
     return a >= b ? 1 : -1;
   }
 
-  static searchResult(engine: WCEngine, input: string) {
+  static searchResult(
+    engine: WCEngine,
+    input: string,
+    applyChan?: boolean,
+    deleteMult?: boolean
+  ) {
     if (input.length === 0) {
       return undefined;
     }
     if (input.length === 1) {
-      const chanSucc = changeableMap[engine.rule.changeableIdx](input).filter(
-        (e) => e in engine.wordGraph.nodes
-      );
+      let nextWords, prevWords;
 
-      const chanPred = reverseChangeableMap[engine.rule.changeableIdx](
-        input
-      ).filter((e) => e in engine.wordGraph.nodes);
+      if (applyChan) {
+        const chanSucc = changeableMap[engine.rule.changeableIdx](input).filter(
+          (e) => e in engine.wordGraph.nodes
+        );
 
-      const nextWords = chanSucc.flatMap((e) => engine.wordMap.outWords(e));
-      const prevWords = chanPred.flatMap((e) => engine.wordMap.inWords(e));
+        const chanPred = reverseChangeableMap[engine.rule.changeableIdx](
+          input
+        ).filter((e) => e in engine.wordGraph.nodes);
+
+        nextWords = chanSucc.flatMap((e) => engine.wordMap.outWords(e));
+        prevWords = chanPred.flatMap((e) => engine.wordMap.inWords(e));
+      } else {
+        nextWords = engine.wordMap.outWords(input);
+        prevWords = engine.wordMap.inWords(input);
+      }
+
+      if (deleteMult) {
+        nextWords = removeHeadTailDuplication(
+          nextWords,
+          engine.rule.headIdx,
+          engine.rule.tailIdx
+        );
+        prevWords = removeHeadTailDuplication(
+          prevWords,
+          engine.rule.headIdx,
+          engine.rule.tailIdx
+        );
+      }
 
       const result: CharSearchResult = {
         startsWith: {
@@ -1097,5 +1122,27 @@ export function objToInstance(obj: WCEngine): WCEngine {
   result.wordMap = ObjToWordMap(obj.wordMap);
   result.returnWordMap = ObjToWordMap(obj.returnWordMap);
   result.returnWordGraph = objToMultiDiGraph(obj.returnWordGraph);
+  return result;
+}
+
+export function removeHeadTailDuplication(
+  words: string[],
+  headIdx: number,
+  tailIdx: number
+) {
+  const cache: Set<string> = new Set();
+  const result = [];
+  for (const word of words) {
+    const head = word.at(headIdx)!;
+    const tail = word.at(tailIdx)!;
+    const reducedWord = head.concat(tail);
+    if (cache.has(reducedWord)) {
+      continue;
+    } else {
+      cache.add(reducedWord);
+    }
+    result.push(word);
+  }
+
   return result;
 }

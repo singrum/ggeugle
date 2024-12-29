@@ -107,7 +107,7 @@ const SearchSettingsDialog = () => {
 
       <DialogContent>
         <DialogHeader className="">
-          <DialogTitle>환경설정</DialogTitle>
+          <DialogTitle>검색 설정</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4">
