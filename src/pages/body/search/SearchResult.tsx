@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import React, { ReactNode, useMemo } from "react";
 import Analysis from "./Analysis";
+import RouteTreeSearch from "./RouteTreeSearch";
 import SolutionTree from "./SolutionTree";
 
 export default function SearchResult() {
@@ -985,16 +986,15 @@ const tabInfo: Record<string, { name: string; component: ReactNode }[]> = {
     { name: "첫 글자", component: <SearchResultStartsWith /> },
     { name: "끝 글자", component: <SearchResultEndsWith /> },
     { name: "필승 전략 탐색", component: <Analysis /> },
+    { name: "트리 탐색", component: <RouteTreeSearch /> },
     { name: "두음 법칙", component: <SearchResultChangeables /> },
   ],
-
   notRouteChar: [
     { name: "첫 글자", component: <SearchResultStartsWith /> },
     { name: "끝 글자", component: <SearchResultEndsWith /> },
     { name: "트리 탐색", component: <SolutionTree /> },
     { name: "두음 법칙", component: <SearchResultChangeables /> },
   ],
-
   notChar: [
     { name: "첫 글자", component: <SearchResultStartsWith /> },
     { name: "끝 글자", component: <SearchResultEndsWith /> },
@@ -1010,7 +1010,7 @@ function WordsResult() {
 
   return (
     <>
-      <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 md:px-8 lg:px-10 flex whitespace-nowrap overflow-auto gap-4 w-full min-h-1 scrollbar-none">
+      <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 md:px-8 lg:px-10 flex whitespace-nowrap overflow-auto gap-4 md:gap-5 w-full min-h-1 scrollbar-none">
         {tabInfo[inputType].map(({ name }, i) => (
           <div
             key={i}
