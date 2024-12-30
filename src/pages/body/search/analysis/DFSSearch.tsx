@@ -3,13 +3,18 @@ import { Separator } from "@/components/ui/separator";
 import WordsTrail from "@/components/ui/WordsTrail";
 import { useWC } from "@/lib/store/useWC";
 import { cn } from "@/lib/utils";
-import { getNextWords, nextWordSortKey } from "@/lib/wc/algorithms";
-import { Word } from "@/lib/wc/WordChain";
+import {
+  getNextRouteChars,
+  getNextWords,
+  nextRouteCharSortKey,
+  nextWordSortKey,
+} from "@/lib/wc/algorithms";
+import { Char, Word } from "@/lib/wc/WordChain";
 import { josa } from "es-hangul";
 import { CornerDownRight, Play } from "lucide-react";
 import { Fragment, useEffect, useRef, useState } from "react";
 
-export default function DFSSearch() {
+export function DFSSearch() {
   const [
     namedRule,
     searchInputValue,
@@ -321,6 +326,215 @@ export default function DFSSearch() {
                 >
                   {firstWinIdx !== -1 ? "승리" : "패배"}
                 </span>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  );
+}
+
+export function DFSSearchAllRoutes() {
+  const [
+    namedRule,
+    engine,
+    setValue,
+    setSearchInputValue,
+    exceptWords,
+    setExceptWords,
+  ] = useWC((e) => [
+    e.namedRule,
+    e.engine,
+    e.setValue,
+    e.setSearchInputValue,
+    e.exceptWords,
+    e.setExceptWords,
+  ]);
+
+  const [wordStack, setWordStack] = useState<Word[]>([]);
+  const [nextRoutesInfo, setNextRoutesInfo] = useState<
+    { char: Char; win?: boolean; maxStack?: Word[] }[] | undefined
+  >();
+
+  const worker = useRef<Worker>(null!);
+
+  useEffect(() => {
+    if (!worker.current || !nextRoutesInfo) {
+      return;
+    }
+
+    worker.current.onmessage = ({ data }) => {
+      switch (data.action) {
+        case "stackChange":
+          setWordStack((stack) => {
+            return stack.length > data.data.length
+              ? stack.splice(0, stack.length - 1)
+              : [
+                  ...stack,
+                  engine!.wordMap
+                    .select(data.data.at(-1)[0], data.data.at(-1)[1])
+                    .filter(
+                      (e) => !stack.includes(e) && !exceptWords.includes(e)
+                    )[0],
+                ];
+          });
+
+          return;
+
+        case "end":
+          const { win, maxStack } = data.data;
+
+          const endedWordIdx = nextRoutesInfo.findIndex(
+            ({ win }) => win === undefined
+          );
+          setWordStack([]);
+          setNextRoutesInfo((e) => {
+            const result = [...e!];
+
+            result[endedWordIdx].win = win;
+
+            const specifiedMaxStack: Word[] = [];
+
+            for (const [head, tail] of maxStack) {
+              specifiedMaxStack.push(
+                engine!.wordMap
+                  .select(head, tail)
+                  .find((word) => !specifiedMaxStack.includes(word))!
+              );
+            }
+
+            result[endedWordIdx].maxStack = specifiedMaxStack;
+
+            return result;
+          });
+
+          if (endedWordIdx !== nextRoutesInfo.length - 1) {
+            worker.current.postMessage({
+              action: "startAnalysis",
+              data: {
+                namedRule: namedRule,
+                withStack: true,
+                chanGraph: engine!.chanGraph,
+                wordGraph: engine!.wordGraph,
+                startChar: nextRoutesInfo[endedWordIdx + 1].char,
+                exceptWord: undefined,
+              },
+            });
+          }
+          return;
+      }
+    };
+  }, [nextRoutesInfo, worker.current]);
+
+  useEffect(() => {
+    if (!engine) {
+      return;
+    }
+
+    const nextRoutesInfo_ = getNextRouteChars(
+      engine.chanGraph,
+      engine.wordGraph,
+      true
+    )
+      .sort((a, b) => nextRouteCharSortKey(a, b, namedRule))
+      .map((e) => ({
+        char: e.char,
+      }));
+    setNextRoutesInfo(nextRoutesInfo_);
+
+    if (worker.current) {
+      worker.current.terminate();
+    }
+    setWordStack([]);
+
+    worker.current = new Worker(
+      new URL("../../../../lib/worker/analysisWorker.ts", import.meta.url),
+      {
+        type: "module",
+      }
+    );
+
+    worker.current.postMessage({
+      action: "startAnalysis",
+      data: {
+        namedRule,
+        withStack: true,
+        chanGraph: engine!.chanGraph,
+        wordGraph: engine!.wordGraph,
+        startChar: nextRoutesInfo_[0].char,
+        exceptWords: undefined,
+      },
+    });
+
+    return () => {
+      worker.current.terminate();
+    };
+  }, [engine]);
+
+  const firstUndefIdx =
+    nextRoutesInfo && nextRoutesInfo.findIndex(({ win }) => win === undefined);
+
+  return (
+    nextRoutesInfo && (
+      <div className="flex flex-col items-start gap-4 lg:gap-8 mb-2 w-full">
+        <Alert>
+          <Play className="h-5 w-5" strokeWidth={1.5} />
+          <AlertTitle className="font-normal">
+            모든 <span className="font-medium">루트 음절</span>의 필승 전략을
+            탐색합니다.
+          </AlertTitle>
+        </Alert>
+
+        <div className="w-full">
+          {nextRoutesInfo
+            .slice(
+              0,
+              firstUndefIdx === -1 ? nextRoutesInfo.length : firstUndefIdx
+            )
+            .map(({ char, win, maxStack }) => (
+              <div key={char} className="w-full">
+                <div key={char} className="w-full px-2">
+                  <div className="w-full mb-2 font-medium">
+                    <span
+                      className="underline underline-offset-4 decoration-muted-foreground decoration-dotted cursor-pointer hover:no-underline"
+                      onClick={() => {
+                        setValue(char);
+                        setSearchInputValue(char);
+                      }}
+                    >
+                      {char}
+                    </span>
+                    <span className="font-normal"> : </span>
+                    <span className={cn({ "text-win": win, "text-los": !win })}>
+                      {win ? "승리" : "패배"}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs">
+                    <WordsTrail words={[...maxStack!]} />
+                  </div>
+                </div>
+                <Separator className="my-4" />
+              </div>
+            ))}
+          {firstUndefIdx !== -1 && (
+            <div className="w-full px-2">
+              <div className="mb-2 font-medium">
+                <span
+                  className="underline underline-offset-4 decoration-muted-foreground decoration-dotted cursor-pointer hover:no-underline"
+                  onClick={() => {
+                    setValue(nextRoutesInfo[firstUndefIdx!].char);
+                    setSearchInputValue(nextRoutesInfo[firstUndefIdx!].char);
+                  }}
+                >
+                  {nextRoutesInfo[firstUndefIdx!].char}
+                </span>{" "}
+                <span className="font-normal">: </span>
+                <span className="font-normal">탐색 중...</span>
+              </div>
+
+              <div className="flex flex-wrap gap-y-1 gap-x-0.5 items-center text-xs">
+                <WordsTrail words={[...wordStack]} />
               </div>
             </div>
           )}

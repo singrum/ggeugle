@@ -12,15 +12,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useSearchMethod } from "@/lib/store/useSearchMethod";
+import { useWC } from "@/lib/store/useWC";
 import { CircleHelp } from "lucide-react";
-import DFSSearch from "./analysis/DFSSearch";
-import IDSSearch from "./analysis/IDSSearch";
+import { DFSSearch, DFSSearchAllRoutes } from "./analysis/DFSSearch";
+import { IDSSearch } from "./analysis/IDSSearch";
 export default function Analysis() {
+  const [inputType] = useWC((e) => [e.inputType]);
   const [searchMethod, setSearchMethod] = useSearchMethod((e) => [
     e.searchMethod,
     e.setSearchMethod,
   ]);
-
+  const isAllRoute = inputType === "default" || inputType === "showcase";
   return (
     <>
       <div className="p-4 w-full md:p-6 lg:p-8 lg:pt-6">
@@ -34,7 +36,9 @@ export default function Analysis() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="dfs">깊이 우선 탐색(DFS)</SelectItem>
-              <SelectItem value="ids">깊이 심화 탐색(IDS)</SelectItem>
+              <SelectItem value="ids" disabled={isAllRoute}>
+                깊이 심화 탐색(IDS)
+              </SelectItem>
             </SelectContent>
           </Select>
           <Popover>
@@ -83,7 +87,13 @@ export default function Analysis() {
             </PopoverContent>
           </Popover>
         </div>
-        {searchMethod === "ids" ? <IDSSearch /> : <DFSSearch />}
+        {searchMethod === "ids" ? (
+          <IDSSearch />
+        ) : isAllRoute ? (
+          <DFSSearchAllRoutes />
+        ) : (
+          <DFSSearch />
+        )}
       </div>
     </>
   );
