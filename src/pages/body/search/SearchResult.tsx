@@ -1573,9 +1573,9 @@ function CriticalWords() {
               </WordBadge>
             </PopoverTrigger>
             <PopoverContent className="text-sm">
-              <span className="font-semibold">임계 단어</span>를 단어 목록에서
-              제외하면 적어도 하나의 음절이 루트 단어에서 승리 단어나 패배
-              단어로 바뀌게 됩니다.
+              <span className="font-semibold">임계 루트 단어</span>를 단어 목록에서
+              제외하면 적어도 하나의 음절이 루트 음절에서 승리 음절이나 패배
+              음절절로 바뀌게 됩니다.
             </PopoverContent>
           </Popover>
 
