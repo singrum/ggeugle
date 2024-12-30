@@ -23,7 +23,7 @@ export default function Analysis() {
 
   return (
     <>
-      <div className="w-full md:p-2 lg:p-4 lg:pt-2">
+      <div className="p-4 w-full md:p-6 lg:p-8 lg:pt-6">
         <div className="flex gap-0 mb-4">
           <Select
             value={searchMethod}

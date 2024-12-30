@@ -40,15 +40,9 @@ export const menus: Menu[] = [
 export interface MenuInfo {
   menu: number;
   setMenu: (index: number) => void;
-  searchTab: number;
-  setSearchTab: (searchTab: number) => void;
 }
 
 export const useMenu = create<MenuInfo>((set) => ({
   menu: 0,
   setMenu: (index: number) => set(() => ({ menu: index })),
-  searchTab: 0,
-  setSearchTab: (searchTab: number) => {
-    set(() => ({ searchTab }));
-  },
 }));

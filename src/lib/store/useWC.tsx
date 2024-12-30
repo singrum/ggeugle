@@ -86,6 +86,10 @@ export interface WCInfo {
   isMoreOpen: boolean;
   setIsMoreOpen: (isMoreOpen: boolean) => void;
 
+  inputType: string;
+  searchTab: number;
+  setSearchTab: (searchTab: number) => void;
+
   worker?: Worker;
   originalEngine?: WCEngine;
   prevEngine?: WCEngine;
@@ -149,8 +153,32 @@ export const useWC = create<WCInfo>((set, get) => ({
     preventPushState?: boolean
   ) => {
     const engine = get().engine;
+    const charType =
+      engine &&
+      searchInputValue &&
+      WCDisplay.getCharType(engine, searchInputValue);
+    const prevInputType = get().inputType;
+    const inputType =
+      searchInputValue.length === 0
+        ? get().namedRule === "guel" && get().exceptWords.length === 0
+          ? "showcase"
+          : "default"
+        : searchInputValue.length === 1
+        ? charType === "route"
+          ? "routeChar"
+          : "notRouteChar"
+        : "notChar";
+
     set(() => ({
+      inputType,
       searchInputValue,
+      ...(prevInputType === inputType
+        ? {}
+        : inputType === "showcase" ||
+          inputType === "default" ||
+          inputType === "notChar"
+        ? { searchTab: 0 }
+        : {}),
       ...(engine
         ? {
             searchResult: WCDisplay.searchResult(
@@ -180,6 +208,12 @@ export const useWC = create<WCInfo>((set, get) => ({
   isMoreOpen: false,
   setIsMoreOpen: (isMoreOpen: boolean) => set(() => ({ isMoreOpen })),
 
+  inputType: "showcase",
+  searchTab: 0,
+  setSearchTab: (searchTab: number) => {
+    set(() => ({ searchTab }));
+  },
+
   worker: undefined,
   originalEngine: undefined,
   engine: undefined,
@@ -192,7 +226,6 @@ export const useWC = create<WCInfo>((set, get) => ({
     worker!.onmessage = ({ data }) => {
       if (data.action === "getEngine") {
         const engine = objToInstance(data.data as WCEngine);
-
         const prevEngine = get().engine;
         const originalEngine = get().originalEngine;
 
@@ -200,15 +233,11 @@ export const useWC = create<WCInfo>((set, get) => ({
           prevEngine,
           engine,
           isLoading: false,
-          searchResult: WCDisplay.searchResult(
-            engine,
-            get().searchInputValue,
-            get().applyChan,
-            get().deleteMult
-          ),
+
           ...(originalEngine ? {} : { originalEngine: engine }),
         }));
 
+        get().setSearchInputValue(get().searchInputValue);
         if (engine && prevEngine) {
           let exist = false;
           const changeInfo: changeInfo = { compPrev: {}, compOrigin: {} };

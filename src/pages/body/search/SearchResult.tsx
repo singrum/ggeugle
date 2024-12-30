@@ -29,7 +29,7 @@ import {
   CircleHelp,
   SearchX,
 } from "lucide-react";
-import React, { useEffect, useMemo } from "react";
+import React, { ReactNode, useMemo } from "react";
 import Analysis from "./Analysis";
 import SolutionTree from "./SolutionTree";
 
@@ -41,24 +41,6 @@ export default function SearchResult() {
     </div>
   );
 }
-
-const tabInfo = {
-  routeChar: [
-    { name: "첫 글자" },
-    { name: "끝 글자" },
-    { name: "필승 전략 탐색" },
-    { name: "두음 법칙" },
-  ],
-
-  notRouteChar: [
-    { name: "첫 글자" },
-    { name: "끝 글자" },
-    { name: "트리 탐색" },
-    { name: "두음 법칙" },
-  ],
-
-  notChar: [{ name: "첫 글자" }, { name: "끝 글자" }],
-};
 
 const wins = [
   "강",
@@ -989,43 +971,83 @@ const routes = [
   "흡",
   "희",
 ];
+const tabInfo: Record<string, { name: string; component: ReactNode }[]> = {
+  showcase: [
+    { name: "홈", component: <Showcase /> },
+    { name: "임계 단어", component: <CriticalWords /> },
+  ],
+  default: [{ name: "임계 단어", component: <CriticalWords /> }],
+  routeChar: [
+    { name: "첫 글자", component: <SearchResultStartsWith /> },
+    { name: "끝 글자", component: <SearchResultEndsWith /> },
+    { name: "필승 전략 탐색", component: <Analysis /> },
+    { name: "두음 법칙", component: <SearchResultChangeables /> },
+  ],
 
+  notRouteChar: [
+    { name: "첫 글자", component: <SearchResultStartsWith /> },
+    { name: "끝 글자", component: <SearchResultEndsWith /> },
+    { name: "트리 탐색", component: <SolutionTree /> },
+    { name: "두음 법칙", component: <SearchResultChangeables /> },
+  ],
+
+  notChar: [
+    { name: "첫 글자", component: <SearchResultStartsWith /> },
+    { name: "끝 글자", component: <SearchResultEndsWith /> },
+  ],
+};
 function WordsResult() {
-  const [
-    namedRule,
-    searchResult,
-    engine,
-    searchInputValue,
-    setSearchInputValue,
-
-    setValue,
-    exceptWords,
-    setExceptWords,
-    isMoreOpen,
-    setIsMoreOpen,
-  ] = useWC((e) => [
-    e.namedRule,
-    e.searchResult,
-    e.engine,
-    e.searchInputValue,
-    e.setSearchInputValue,
-    e.setValue,
-    e.exceptWords,
-    e.setExceptWords,
-    e.isMoreOpen,
+  const [inputType, setIsMoreOpen, searchTab, setSearchTab] = useWC((e) => [
+    e.inputType,
     e.setIsMoreOpen,
-  ]);
-  const [setMenu, searchTab, setSearchTab] = useMenu((e) => [
-    e.setMenu,
     e.searchTab,
     e.setSearchTab,
   ]);
-  const [showAllWords] = useCookieSettings((e) => [e.showAllWords]);
 
-  const charType =
-    engine &&
-    searchInputValue &&
-    WCDisplay.getCharType(engine, searchInputValue);
+  return (
+    <>
+      <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 md:px-8 lg:px-10 flex whitespace-nowrap overflow-auto gap-4 w-full min-h-1 scrollbar-none">
+        {tabInfo[inputType].map(({ name }, i) => (
+          <div
+            key={i}
+            className={cn(
+              "text-muted-foreground cursor-pointer transition-colors border-b-2 border-transparent py-2 pt-0 text-base select-none font-medium",
+              {
+                " font-medium text-foreground border-foreground":
+                  searchTab === i,
+              }
+            )}
+            onClick={() => {
+              setIsMoreOpen(false);
+              setSearchTab(i);
+            }}
+          >
+            {name}
+          </div>
+        ))}
+      </div>
+      {tabInfo[inputType][searchTab].component}
+    </>
+  );
+}
+
+function Showcase() {
+  const [
+    searchInputValue,
+    setSearchInputValue,
+    setValue,
+    namedRule,
+    setExceptWords,
+    setSearchTab,
+  ] = useWC((e) => [
+    e.searchInputValue,
+    e.setSearchInputValue,
+    e.setValue,
+    e.namedRule,
+    e.setExceptWords,
+    e.setSearchTab,
+  ]);
+  const [setMenu] = useMenu((e) => [e.setMenu]);
 
   const startMenuInfo = useMemo(
     () => ({
@@ -1035,15 +1057,103 @@ function WordsResult() {
     }),
     [searchInputValue.length === 0]
   );
-  useEffect(() => {
-    if (searchInputValue.length >= 2 && searchTab >= 2) {
-      setSearchTab(0);
-    }
-  }, [searchInputValue]);
-  const showShowcase =
-    namedRule === "guel" &&
-    searchInputValue.length === 0 &&
-    exceptWords.length === 0;
+  return (
+    namedRule === "guel" && (
+      <div className="flex justify-center ">
+        <div className="max-w-screen-lg flex-col">
+          <div className="p-4 md:p-6 lg:p-8">
+            <Alert className="rounded-xl bg-yellow-500/10 border-yellow-500/40">
+              <AlertTriangle className="h-5 w-5 stroke-yellow-800 dark:stroke-yellow-300" />
+              <AlertTitle className="font-normal mb-2">
+                현재 설정된 룰은 <span className="font-medium">구엜룰</span>
+                입니다.
+              </AlertTitle>
+              <AlertDescription>
+                끄글에서는 <span className="font-medium">신엜룰</span>,{" "}
+                <span className="font-medium">넶룰</span>,{" "}
+                <span className="font-medium">앞말잇기</span>,{" "}
+                <span className="font-medium">끄투코리아</span> 등 다양한
+                끝말잇기 룰을 적용할 수 있습니다.
+                <Button
+                  variant="link"
+                  className="text-yellow-800 dark:text-yellow-300 items-center p-0 h-fit mt-2 font-normal flex"
+                  onClick={() => setMenu(3)}
+                >
+                  룰 설정하러 가기
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </AlertDescription>
+            </Alert>
+          </div>
+
+          <div className="p-4 md:p-6 lg:p-8 md:pt-0 lg:pt-0 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <ShowcaseBtn
+              onClick={() => {
+                setSearchInputValue(startMenuInfo.winChar);
+                setValue(startMenuInfo.winChar);
+                setSearchTab(0);
+              }}
+            >
+              <span className="font-semibold">{startMenuInfo.winChar}</span>
+              {josa(startMenuInfo.winChar, "으로/로").slice(1)} 시작하는 공격
+              단어
+            </ShowcaseBtn>
+            <ShowcaseBtn
+              onClick={() => {
+                // if (!engine) return;
+                setSearchInputValue(startMenuInfo.losChar);
+                setValue(startMenuInfo.losChar);
+                setSearchTab(1);
+              }}
+            >
+              <span className="font-semibold">{startMenuInfo.losChar}</span>
+              {josa(startMenuInfo.losChar, "으로/로").slice(1)} 끝나는 단어
+            </ShowcaseBtn>
+            <ShowcaseBtn
+              onClick={() => {
+                // if (!engine) return;
+                setSearchInputValue(startMenuInfo.route);
+                setValue(startMenuInfo.route);
+                setSearchTab(0);
+              }}
+            >
+              <span className="font-semibold">{startMenuInfo.route}</span>
+              {josa(startMenuInfo.route, "으로/로").slice(1)} 시작하는 루트 단어
+            </ShowcaseBtn>
+            <ShowcaseBtn
+              onClick={() => {
+                // if (!engine) return;
+                setSearchInputValue("름");
+                setValue("름");
+                setSearchTab(2);
+                setExceptWords(["굉굉", "굉업", "업시름"]);
+              }}
+            >
+              <span className="font-semibold">굉굉 - 굉업 - 업시름</span> 이후
+              필승 전략
+            </ShowcaseBtn>
+          </div>
+        </div>
+      </div>
+    )
+  );
+}
+
+function SearchResultStartsWith() {
+  const [searchResult, engine, searchInputValue, isMoreOpen, setIsMoreOpen] =
+    useWC((e) => [
+      e.searchResult,
+      e.engine,
+      e.searchInputValue,
+
+      e.isMoreOpen,
+      e.setIsMoreOpen,
+    ]);
+  const [showAllWords] = useCookieSettings((e) => [e.showAllWords]);
+  const charType =
+    engine &&
+    searchInputValue &&
+    WCDisplay.getCharType(engine, searchInputValue);
 
   const moreEmptyStart =
     searchResult?.isChar &&
@@ -1056,503 +1166,427 @@ function WordsResult() {
       : charType === "route"
       ? (searchResult.result as CharSearchResult).startsWith.los.length === 0
       : true);
-
-  return (
-    <>
-      <div className="shadow-[inset_0_-1px_0_0_hsl(var(--border))] px-6 md:px-8 lg:px-10 flex whitespace-nowrap overflow-auto gap-4 w-full min-h-1 scrollbar-none">
-        {searchInputValue.length >= 1 &&
-          (searchInputValue.length >= 2
-            ? tabInfo["notChar"]
-            : engine &&
-              engine.chanGraph.nodes[searchInputValue]?.type === "route"
-            ? tabInfo["routeChar"]
-            : tabInfo["notRouteChar"]
-          ).map(({ name }, i) => (
-            <div
-              key={i}
-              className={cn(
-                "text-muted-foreground cursor-pointer transition-colors border-b-2 border-transparent py-2 pt-0 text-base select-none font-medium",
-                {
-                  " font-medium text-foreground border-foreground":
-                    searchTab === i,
-                }
-              )}
-              onClick={() => {
-                setIsMoreOpen(false);
-                setSearchTab(i);
-              }}
-            >
-              {name}
-            </div>
-          ))}
-      </div>
-      {showShowcase ? (
-        <div className="flex justify-center ">
-          <div className="max-w-screen-lg flex-col">
-            <div className="p-4 md:p-6 lg:p-8">
-              <Alert className="rounded-xl bg-yellow-500/10 border-yellow-500/40">
-                <AlertTriangle className="h-5 w-5 stroke-yellow-800 dark:stroke-yellow-300" />
-                <AlertTitle className="font-normal mb-2">
-                  현재 설정된 룰은 <span className="font-medium">구엜룰</span>
-                  입니다.
-                </AlertTitle>
-                <AlertDescription>
-                  끄글에서는 <span className="font-medium">신엜룰</span>,{" "}
-                  <span className="font-medium">넶룰</span>,{" "}
-                  <span className="font-medium">앞말잇기</span>,{" "}
-                  <span className="font-medium">끄투코리아</span> 등 다양한
-                  끝말잇기 룰을 적용할 수 있습니다.
-                  <Button
-                    variant="link"
-                    className="text-yellow-800 dark:text-yellow-300 items-center p-0 h-fit mt-2 font-normal flex"
-                    onClick={() => setMenu(3)}
-                  >
-                    룰 설정하러 가기
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </AlertDescription>
-              </Alert>
-            </div>
-
-            <div className="p-4 md:p-6 lg:p-8 md:pt-0 lg:pt-0 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <ShowcaseBtn
-                onClick={() => {
-                  setSearchInputValue(startMenuInfo.winChar);
-                  setValue(startMenuInfo.winChar);
-                  setSearchTab(0);
-                }}
-              >
-                <span className="font-semibold">{startMenuInfo.winChar}</span>
-                {josa(startMenuInfo.winChar, "으로/로").slice(1)} 시작하는 공격
-                단어
-              </ShowcaseBtn>
-              <ShowcaseBtn
-                onClick={() => {
-                  // if (!engine) return;
-                  setSearchInputValue(startMenuInfo.losChar);
-                  setValue(startMenuInfo.losChar);
-                  setSearchTab(1);
-                }}
-              >
-                <span className="font-semibold">{startMenuInfo.losChar}</span>
-                {josa(startMenuInfo.losChar, "으로/로").slice(1)} 끝나는 단어
-              </ShowcaseBtn>
-              <ShowcaseBtn
-                onClick={() => {
-                  // if (!engine) return;
-                  setSearchInputValue(startMenuInfo.route);
-                  setValue(startMenuInfo.route);
-                  setSearchTab(0);
-                }}
-              >
-                <span className="font-semibold">{startMenuInfo.route}</span>
-                {josa(startMenuInfo.route, "으로/로").slice(1)} 시작하는 루트
-                단어
-              </ShowcaseBtn>
-              <ShowcaseBtn
-                onClick={() => {
-                  // if (!engine) return;
-                  setSearchInputValue("름");
-                  setValue("름");
-                  setSearchTab(2);
-                  setExceptWords(["굉굉", "굉업", "업시름"]);
-                }}
-              >
-                <span className="font-semibold">굉굉 - 굉업 - 업시름</span> 이후
-                필승 전략
-              </ShowcaseBtn>
-            </div>
-          </div>
-        </div>
-      ) : (
+  return engine ? (
+    searchResult &&
+      (!Object.values(searchResult.result.startsWith).every(
+        (e) => e.length === 0
+      ) ? (
         <>
-          {searchTab === 0 &&
-            (engine ? (
-              searchResult &&
-              (!Object.values(searchResult.result.startsWith).every(
-                (e) => e.length === 0
-              ) ? (
-                <>
-                  <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
-                    {searchResult.isChar ? (
+          <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
+            {searchResult.isChar ? (
+              <>
+                {(searchResult.result as CharSearchResult).startsWith.win
+                  .length > 0 &&
+                  (searchResult.result as CharSearchResult).startsWith.win.map(
+                    (e, i) => (
+                      <React.Fragment key={i}>
+                        <WordBox>
+                          <WordBadge>{`${e.endNum} 턴 이내 승리`}</WordBadge>
+                          <WordContent
+                            wordInfo={e.words.map((word) => ({
+                              word,
+                              type: "win",
+                            }))}
+                          />
+                        </WordBox>
+
+                        <Separator className="my-2" />
+                      </React.Fragment>
+                    )
+                  )}
+
+                {(charType !== "win" || isMoreOpen || showAllWords) && (
+                  <>
+                    {(searchResult.result as CharSearchResult).startsWith.route
+                      .length > 0 && (
+                      <>
+                        <WordBox>
+                          <WordBadge>{`루트 단어`}</WordBadge>
+                          <WordContent
+                            wordInfo={
+                              (searchResult.result as CharSearchResult)
+                                .startsWith.route
+                                ? (
+                                    searchResult.result as CharSearchResult
+                                  ).startsWith.route.map((word) => ({
+                                    word,
+                                    type: "route",
+                                  }))
+                                : []
+                            }
+                          />
+                        </WordBox>
+                        <Separator className="my-2" />
+                      </>
+                    )}
+                    {(searchResult.result as CharSearchResult).startsWith.return
+                      .length > 0 && (
+                      <>
+                        <WordBox>
+                          <Popover>
+                            <PopoverTrigger>
+                              <WordBadge>
+                                {`돌림 단어`}
+                                <CircleHelp className="w-4 h-4" />
+                              </WordBadge>
+                            </PopoverTrigger>
+                            <PopoverContent className="text-sm">
+                              <div className="flex flex-col gap-2">
+                                <div className="">
+                                  A로 시작하고 B로 끝나는 단어와 B로 시작하고
+                                  A로 끝나는 단어가 존재하면, 두 단어를{` `}
+                                  <span className="font-semibold">
+                                    돌림 단어
+                                  </span>
+                                  라고 합니다.
+                                </div>
+                                <div className="text-muted-foreground">
+                                  {`예시) 축산업 `}
+                                  <ArrowLeftRight className="inline h-3 w-3" />
+                                  {` 업축`}
+                                </div>
+                                <div>
+                                  돌림 단어들은 모두 제거해도 승패 여부에 영향을
+                                  주지 않습니다.
+                                </div>
+                              </div>
+                            </PopoverContent>
+                          </Popover>
+                          <WordContent
+                            wordInfo={
+                              (searchResult.result as CharSearchResult)
+                                .startsWith.return
+                                ? (
+                                    searchResult.result as CharSearchResult
+                                  ).startsWith.return.map((word) => ({
+                                    word,
+                                    type: "muted-foreground",
+                                  }))
+                                : []
+                            }
+                          />
+                        </WordBox>
+                        <Separator className="my-2" />
+                      </>
+                    )}
+                    {(charType !== "route" || isMoreOpen || showAllWords) && (
                       <>
                         {(searchResult.result as CharSearchResult).startsWith
-                          .win.length > 0 &&
+                          .los.length > 0 &&
                           (
                             searchResult.result as CharSearchResult
-                          ).startsWith.win.map((e, i) => (
+                          ).startsWith.los.map((e, i) => (
                             <React.Fragment key={i}>
                               <WordBox>
-                                <WordBadge>{`${e.endNum} 턴 이내 승리`}</WordBadge>
+                                <WordBadge>{`${e.endNum} 턴 이내 패배`}</WordBadge>
                                 <WordContent
                                   wordInfo={e.words.map((word) => ({
                                     word,
-                                    type: "win",
+                                    type: "los",
                                   }))}
                                 />
                               </WordBox>
-
                               <Separator className="my-2" />
                             </React.Fragment>
                           ))}
-
-                        {(charType !== "win" || isMoreOpen || showAllWords) && (
-                          <>
-                            {(searchResult.result as CharSearchResult)
-                              .startsWith.route.length > 0 && (
-                              <>
-                                <WordBox>
-                                  <WordBadge>{`루트 단어`}</WordBadge>
-                                  <WordContent
-                                    wordInfo={
-                                      (searchResult.result as CharSearchResult)
-                                        .startsWith.route
-                                        ? (
-                                            searchResult.result as CharSearchResult
-                                          ).startsWith.route.map((word) => ({
-                                            word,
-                                            type: "route",
-                                          }))
-                                        : []
-                                    }
-                                  />
-                                </WordBox>
-                                <Separator className="my-2" />
-                              </>
-                            )}
-                            {(searchResult.result as CharSearchResult)
-                              .startsWith.return.length > 0 && (
-                              <>
-                                <WordBox>
-                                  <Popover>
-                                    <PopoverTrigger>
-                                      <WordBadge>
-                                        {`돌림 단어`}
-                                        <CircleHelp className="w-4 h-4" />
-                                      </WordBadge>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="text-sm">
-                                      <div className="flex flex-col gap-2">
-                                        <div className="">
-                                          A로 시작하고 B로 끝나는 단어와 B로
-                                          시작하고 A로 끝나는 단어가 존재하면,
-                                          두 단어를{` `}
-                                          <span className="font-semibold">
-                                            돌림 단어
-                                          </span>
-                                          라고 합니다.
-                                        </div>
-                                        <div className="text-muted-foreground">
-                                          {`예시) 축산업 `}
-                                          <ArrowLeftRight className="inline h-3 w-3" />
-                                          {` 업축`}
-                                        </div>
-                                        <div>
-                                          돌림 단어들은 모두 제거해도 승패
-                                          여부에 영향을 주지 않습니다.
-                                        </div>
-                                      </div>
-                                    </PopoverContent>
-                                  </Popover>
-                                  <WordContent
-                                    wordInfo={
-                                      (searchResult.result as CharSearchResult)
-                                        .startsWith.return
-                                        ? (
-                                            searchResult.result as CharSearchResult
-                                          ).startsWith.return.map((word) => ({
-                                            word,
-                                            type: "muted-foreground",
-                                          }))
-                                        : []
-                                    }
-                                  />
-                                </WordBox>
-                                <Separator className="my-2" />
-                              </>
-                            )}
-                            {(charType !== "route" ||
-                              isMoreOpen ||
-                              showAllWords) && (
-                              <>
-                                {(searchResult.result as CharSearchResult)
-                                  .startsWith.los.length > 0 &&
-                                  (
-                                    searchResult.result as CharSearchResult
-                                  ).startsWith.los.map((e, i) => (
-                                    <React.Fragment key={i}>
-                                      <WordBox>
-                                        <WordBadge>{`${e.endNum} 턴 이내 패배`}</WordBadge>
-                                        <WordContent
-                                          wordInfo={e.words.map((word) => ({
-                                            word,
-                                            type: "los",
-                                          }))}
-                                        />
-                                      </WordBox>
-                                      <Separator className="my-2" />
-                                    </React.Fragment>
-                                  ))}
-                              </>
-                            )}
-                          </>
-                        )}
-                        {!moreEmptyStart &&
-                          !showAllWords &&
-                          !isMoreOpen &&
-                          charType !== "los" && (
-                            <div
-                              className="p-4 pt-2 flex justify-center text-primary dark:text-[#47a8ff] items-center gap-1 select-none cursor-pointer hover:opacity-75"
-                              onClick={() => setIsMoreOpen(true)}
-                            >
-                              {charType === "win"
-                                ? "루트 단어, 패배 단어 펼치기"
-                                : "패배 단어 펼치기"}
-                              <ChevronDown className="w-5 h-5" />
-                            </div>
-                          )}
                       </>
-                    ) : (
-                      (searchResult.result as NoncharSearchResult).startsWith
-                        .length > 0 && (
-                        <>
-                          <WordBox>
-                            <WordContent
-                              wordInfo={(
-                                searchResult.result as NoncharSearchResult
-                              ).startsWith.map((word) => ({
-                                word,
-                                type: WCDisplay.reduceWordtype(
-                                  WCDisplay.getWordType(engine!, word)
-                                    .type as WordType
-                                ),
-                              }))}
-                            />
-                          </WordBox>
-                          <Separator className="my-2" />
-                        </>
-                      )
                     )}
-                  </div>
-                </>
-              ) : (
-                <div className="flex items-center justify-center flex-col pt-10 gap-2">
-                  <SearchX
-                    className="h-12 w-12 text-muted-foreground"
-                    strokeWidth={1.2}
-                  />
-                  <div>
-                    <span className="font-medium text-red-500 dark:text-red-400">
-                      '{searchInputValue}'
-                    </span>
-                    {josa(searchInputValue, "으로/로").slice(
-                      searchInputValue.length
-                    )}{" "}
-                    시작하는 단어가 없습니다.
-                  </div>
-                </div>
-              ))
+                  </>
+                )}
+                {!moreEmptyStart &&
+                  !showAllWords &&
+                  !isMoreOpen &&
+                  charType !== "los" && (
+                    <div
+                      className="p-4 pt-2 flex justify-center text-primary dark:text-[#47a8ff] items-center gap-1 select-none cursor-pointer hover:opacity-75"
+                      onClick={() => setIsMoreOpen(true)}
+                    >
+                      {charType === "win"
+                        ? "루트 단어, 패배 단어 펼치기"
+                        : "패배 단어 펼치기"}
+                      <ChevronDown className="w-5 h-5" />
+                    </div>
+                  )}
+              </>
             ) : (
-              <WordSkeleton />
-            ))}
-
-          {searchTab === 1 &&
-            (engine ? (
-              searchResult &&
-              (!Object.values(searchResult.result.endsWith).every(
-                (e) => e.length === 0
-              ) ? (
+              (searchResult.result as NoncharSearchResult).startsWith.length >
+                0 && (
                 <>
-                  <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
-                    {searchResult.isChar === true ? (
-                      <>
-                        {(searchResult.result as CharSearchResult).endsWith
-                          .head_los.length > 0 && (
-                          <React.Fragment>
-                            <WordBox>
-                              <WordBadge>패배 음절로 시작</WordBadge>
-                              <WordContent
-                                wordInfo={(
-                                  searchResult.result as CharSearchResult
-                                ).endsWith.head_los.map((word) => ({
-                                  word,
-                                  type: WCDisplay.reduceWordtypeWithReturn(
-                                    WCDisplay.getWordType(engine!, word)
-                                      .type as WordType
-                                  ),
-                                }))}
-                                endsWith={true}
-                              />
-                            </WordBox>
-                            <Separator className="my-2" />
-                          </React.Fragment>
-                        )}
-                        {(searchResult.result as CharSearchResult).endsWith
-                          .head_route.length > 0 && (
-                          <React.Fragment>
-                            <WordBox>
-                              <WordBadge>루트 음절로 시작</WordBadge>
-                              <WordContent
-                                wordInfo={(
-                                  searchResult.result as CharSearchResult
-                                ).endsWith.head_route.map((word) => ({
-                                  word,
-                                  type: WCDisplay.reduceWordtypeWithReturn(
-                                    WCDisplay.getWordType(engine!, word)
-                                      .type as WordType
-                                  ),
-                                }))}
-                                endsWith={true}
-                              />
-                            </WordBox>
-                            <Separator className="my-2" />
-                          </React.Fragment>
-                        )}
-                        {(searchResult.result as CharSearchResult).endsWith.rest
-                          .length > 0 && (
-                          <>
-                            {(charType === "los" ||
-                              isMoreOpen ||
-                              showAllWords) && (
-                              <>
-                                <WordBox>
-                                  <WordBadge>승리 음절로 시작</WordBadge>
-                                  <WordContent
-                                    wordInfo={(
-                                      searchResult.result as CharSearchResult
-                                    ).endsWith.rest.map((word) => ({
-                                      word,
-                                      type: WCDisplay.reduceWordtypeWithReturn(
-                                        WCDisplay.getWordType(engine!, word)
-                                          .type as WordType
-                                      ),
-                                    }))}
-                                    endsWith={true}
-                                  />
-                                </WordBox>
-                                <Separator className="my-2" />
-                              </>
-                            )}
-                            {!showAllWords &&
-                              !isMoreOpen &&
-                              charType !== "los" && (
-                                <div
-                                  className="p-4 pt-2 flex justify-center text-primary dark:text-[#47a8ff] items-center gap-1 select-none cursor-pointer hover:opacity-75"
-                                  onClick={() => setIsMoreOpen(true)}
-                                >
-                                  {"승리 음절로 시작하는 단어 펼치기"}
-                                  <ChevronDown className="w-5 h-5" />
-                                </div>
-                              )}
-                          </>
-                        )}
-                      </>
-                    ) : (
-                      (searchResult.result as NoncharSearchResult).endsWith
-                        .length > 0 && (
-                        <>
-                          <WordBox>
-                            <WordContent
-                              wordInfo={(
-                                searchResult.result as NoncharSearchResult
-                              ).endsWith.map((word) => ({
-                                word,
-                                type: WCDisplay.reduceWordtype(
-                                  WCDisplay.getWordType(engine!, word)
-                                    .type as WordType
-                                ),
-                              }))}
-                              endsWith={true}
-                            />
-                          </WordBox>
-                          <Separator className="my-2" />
-                        </>
-                      )
-                    )}
-                  </div>
+                  <WordBox>
+                    <WordContent
+                      wordInfo={(
+                        searchResult.result as NoncharSearchResult
+                      ).startsWith.map((word) => ({
+                        word,
+                        type: WCDisplay.reduceWordtype(
+                          WCDisplay.getWordType(engine!, word).type as WordType
+                        ),
+                      }))}
+                    />
+                  </WordBox>
+                  <Separator className="my-2" />
                 </>
-              ) : (
-                <div className="flex items-center justify-center flex-col pt-10 gap-2">
-                  <SearchX
-                    className="h-12 w-12 text-muted-foreground"
-                    strokeWidth={1.2}
-                  />
-                  <div>
-                    <span className="font-medium text-red-500 dark:text-red-400">
-                      '{searchInputValue}'
-                    </span>
-                    {josa(searchInputValue, "으로/로").slice(
-                      searchInputValue.length
-                    )}{" "}
-                    끝나는 단어가 없습니다.
-                  </div>
-                </div>
-              ))
-            ) : (
-              <WordSkeleton />
-            ))}
-
-          {searchTab === 2 && engine && (
-            <>
-              {engine.chanGraph.nodes[searchInputValue]?.type === "route" ? (
-                <div className="p-4">
-                  <Analysis />
-                </div>
-              ) : (
-                (engine.chanGraph.nodes[searchInputValue]?.type === "win" ||
-                  engine.chanGraph.nodes[searchInputValue]?.type === "los" ||
-                  engine.chanGraph.nodes[searchInputValue]?.type === "wincir" ||
-                  engine.chanGraph.nodes[searchInputValue]?.type ===
-                    "loscir") && <SolutionTree />
-              )}
-            </>
-          )}
-          {searchTab === 3 && engine && searchInputValue.length === 1 && (
-            <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
-              <WordBox>
-                <WordBadge>{`${searchInputValue}에서 바꿀 수 있는 글자`}</WordBadge>
-                <WordContent
-                  notExcept={true}
-                  wordInfo={changeableMap[engine.rule.changeableIdx](
-                    searchInputValue
-                  ).map((char) => ({
-                    word: char,
-                    type: engine.wordGraph.nodes[char]
-                      ? WCDisplay.reduceWordtype(
-                          engine.wordGraph.nodes[char].type as WordType
-                        )
-                      : "los",
-                  }))}
-                />
-              </WordBox>
-              <Separator className="my-2" />
-
-              <WordBox>
-                <WordBadge>{`${josa(
-                  searchInputValue,
-                  "으로/로"
-                )} 바꿀 수 있는 글자`}</WordBadge>
-                <WordContent
-                  notExcept={true}
-                  wordInfo={reverseChangeableMap[engine.rule.changeableIdx](
-                    searchInputValue
-                  ).map((char) => ({
-                    word: char,
-                    type: engine.wordGraph.nodes[char]
-                      ? (WCDisplay.reduceWordtype(
-                          engine.chanGraph.nodes[char].type as WordType
-                        ) as "win" | "los" | "route")
-                      : WCDisplay.getCharType(engine, char),
-                  }))}
-                />
-              </WordBox>
-              <Separator className="my-2" />
-            </div>
-          )}
-          {/* {tab === 4 && engine && searchInputValue.length === 1 && <div ></div>} */}
+              )
+            )}
+          </div>
         </>
-      )}
-    </>
+      ) : (
+        <div className="flex items-center justify-center flex-col pt-10 gap-2">
+          <SearchX
+            className="h-12 w-12 text-muted-foreground"
+            strokeWidth={1.2}
+          />
+          <div>
+            <span className="font-medium text-red-500 dark:text-red-400">
+              '{searchInputValue}'
+            </span>
+            {josa(searchInputValue, "으로/로").slice(searchInputValue.length)}{" "}
+            시작하는 단어가 없습니다.
+          </div>
+        </div>
+      ))
+  ) : (
+    <WordSkeleton />
+  );
+}
+function SearchResultEndsWith() {
+  const [searchResult, engine, searchInputValue, isMoreOpen, setIsMoreOpen] =
+    useWC((e) => [
+      e.searchResult,
+      e.engine,
+      e.searchInputValue,
+      e.isMoreOpen,
+      e.setIsMoreOpen,
+    ]);
+  const [showAllWords] = useCookieSettings((e) => [e.showAllWords]);
+  const charType =
+    engine &&
+    searchInputValue &&
+    WCDisplay.getCharType(engine, searchInputValue);
+
+  const moreEmptyStart =
+    searchResult?.isChar &&
+    (charType === "win"
+      ? (searchResult.result as CharSearchResult).startsWith.route.length ===
+          0 &&
+        (searchResult.result as CharSearchResult).startsWith.return.length ===
+          0 &&
+        (searchResult.result as CharSearchResult).startsWith.los.length === 0
+      : charType === "route"
+      ? (searchResult.result as CharSearchResult).startsWith.los.length === 0
+      : true);
+  return engine ? (
+    searchResult &&
+      (!Object.values(searchResult.result.endsWith).every(
+        (e) => e.length === 0
+      ) ? (
+        <>
+          <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
+            {searchResult.isChar === true ? (
+              <>
+                {(searchResult.result as CharSearchResult).endsWith.head_los
+                  .length > 0 && (
+                  <React.Fragment>
+                    <WordBox>
+                      <WordBadge>패배 음절로 시작</WordBadge>
+                      <WordContent
+                        wordInfo={(
+                          searchResult.result as CharSearchResult
+                        ).endsWith.head_los.map((word) => ({
+                          word,
+                          type: WCDisplay.reduceWordtypeWithReturn(
+                            WCDisplay.getWordType(engine!, word)
+                              .type as WordType
+                          ),
+                        }))}
+                        endsWith={true}
+                      />
+                    </WordBox>
+                    <Separator className="my-2" />
+                  </React.Fragment>
+                )}
+                {(searchResult.result as CharSearchResult).endsWith.head_route
+                  .length > 0 && (
+                  <React.Fragment>
+                    <WordBox>
+                      <WordBadge>루트 음절로 시작</WordBadge>
+                      <WordContent
+                        wordInfo={(
+                          searchResult.result as CharSearchResult
+                        ).endsWith.head_route.map((word) => ({
+                          word,
+                          type: WCDisplay.reduceWordtypeWithReturn(
+                            WCDisplay.getWordType(engine!, word)
+                              .type as WordType
+                          ),
+                        }))}
+                        endsWith={true}
+                      />
+                    </WordBox>
+                    <Separator className="my-2" />
+                  </React.Fragment>
+                )}
+                {(searchResult.result as CharSearchResult).endsWith.rest
+                  .length > 0 && (
+                  <>
+                    {(charType === "los" || isMoreOpen || showAllWords) && (
+                      <>
+                        <WordBox>
+                          <WordBadge>승리 음절로 시작</WordBadge>
+                          <WordContent
+                            wordInfo={(
+                              searchResult.result as CharSearchResult
+                            ).endsWith.rest.map((word) => ({
+                              word,
+                              type: WCDisplay.reduceWordtypeWithReturn(
+                                WCDisplay.getWordType(engine!, word)
+                                  .type as WordType
+                              ),
+                            }))}
+                            endsWith={true}
+                          />
+                        </WordBox>
+                        <Separator className="my-2" />
+                      </>
+                    )}
+                    {!showAllWords && !isMoreOpen && charType !== "los" && (
+                      <div
+                        className="p-4 pt-2 flex justify-center text-primary dark:text-[#47a8ff] items-center gap-1 select-none cursor-pointer hover:opacity-75"
+                        onClick={() => setIsMoreOpen(true)}
+                      >
+                        {"승리 음절로 시작하는 단어 펼치기"}
+                        <ChevronDown className="w-5 h-5" />
+                      </div>
+                    )}
+                  </>
+                )}
+              </>
+            ) : (
+              (searchResult.result as NoncharSearchResult).endsWith.length >
+                0 && (
+                <>
+                  <WordBox>
+                    <WordContent
+                      wordInfo={(
+                        searchResult.result as NoncharSearchResult
+                      ).endsWith.map((word) => ({
+                        word,
+                        type: WCDisplay.reduceWordtype(
+                          WCDisplay.getWordType(engine!, word).type as WordType
+                        ),
+                      }))}
+                      endsWith={true}
+                    />
+                  </WordBox>
+                  <Separator className="my-2" />
+                </>
+              )
+            )}
+          </div>
+        </>
+      ) : (
+        <div className="flex items-center justify-center flex-col pt-10 gap-2">
+          <SearchX
+            className="h-12 w-12 text-muted-foreground"
+            strokeWidth={1.2}
+          />
+          <div>
+            <span className="font-medium text-red-500 dark:text-red-400">
+              '{searchInputValue}'
+            </span>
+            {josa(searchInputValue, "으로/로").slice(searchInputValue.length)}{" "}
+            끝나는 단어가 없습니다.
+          </div>
+        </div>
+      ))
+  ) : (
+    <WordSkeleton />
+  );
+}
+function SearchResultChangeables() {
+  const [engine, searchInputValue] = useWC((e) => [
+    e.engine,
+    e.searchInputValue,
+  ]);
+  return (
+    engine && (
+      <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
+        <WordBox>
+          <WordBadge>{`${searchInputValue}에서 바꿀 수 있는 글자`}</WordBadge>
+          <WordContent
+            notExcept={true}
+            wordInfo={changeableMap[engine.rule.changeableIdx](
+              searchInputValue
+            ).map((char) => ({
+              word: char,
+              type: engine.wordGraph.nodes[char]
+                ? WCDisplay.reduceWordtype(
+                    engine.wordGraph.nodes[char].type as WordType
+                  )
+                : "los",
+            }))}
+          />
+        </WordBox>
+        <Separator className="my-2" />
+
+        <WordBox>
+          <WordBadge>{`${josa(
+            searchInputValue,
+            "으로/로"
+          )} 바꿀 수 있는 글자`}</WordBadge>
+          <WordContent
+            notExcept={true}
+            wordInfo={reverseChangeableMap[engine.rule.changeableIdx](
+              searchInputValue
+            ).map((char) => ({
+              word: char,
+              type: engine.wordGraph.nodes[char]
+                ? (WCDisplay.reduceWordtype(
+                    engine.chanGraph.nodes[char].type as WordType
+                  ) as "win" | "los" | "route")
+                : WCDisplay.getCharType(engine, char),
+            }))}
+          />
+        </WordBox>
+        <Separator className="my-2" />
+      </div>
+    )
+  );
+}
+
+function CriticalWords() {
+  const [engine] = useWC((e) => [e.engine]);
+  const CriticalWords = useMemo(
+    () => engine && WCDisplay.getCriticalWords(engine),
+    [engine]
+  );
+
+  return (
+    CriticalWords && (
+      <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
+        <WordBox>
+          <Popover>
+            <PopoverTrigger>
+              <WordBadge>
+                {`임계 루트 단어`}
+                <CircleHelp className="w-4 h-4" />
+              </WordBadge>
+            </PopoverTrigger>
+            <PopoverContent className="text-sm">
+              <span className="font-semibold">임계 단어</span>를 단어 목록에서
+              제외하면 적어도 하나의 음절이 루트 단어에서 승리 단어나 패배
+              단어로 바뀌게 됩니다.
+            </PopoverContent>
+          </Popover>
+
+          <WordContent
+            wordInfo={CriticalWords.map((word) => ({ word, type: "route" }))}
+          />
+        </WordBox>
+
+        <Separator className="my-2" />
+      </div>
+    )
   );
 }
 
