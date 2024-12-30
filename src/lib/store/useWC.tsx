@@ -380,6 +380,8 @@ export const useWC = create<WCInfo>((set, get) => ({
       rule: ruleForm,
       ...(get().inputType === "showcase" && namedRule !== "guel"
         ? { inputType: "default", searchTab: 0 }
+        : get().inputType === "default" && namedRule === "guel"
+        ? { inputType: "showcase" }
         : {}),
       namedRule,
     }));
