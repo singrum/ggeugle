@@ -13,6 +13,11 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
@@ -26,7 +31,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWC } from "@/lib/store/useWC";
 import { getMaxMinComponents } from "@/lib/wc/algorithms";
 import { WCDisplay, WCEngine } from "@/lib/wc/WordChain";
-import { SearchX } from "lucide-react";
+import { CircleHelp, SearchX } from "lucide-react";
 import { useMemo } from "react";
 
 import { Bar, BarChart, Pie, PieChart, XAxis, YAxis } from "recharts";
@@ -151,14 +156,43 @@ function CompareRoute({ engine }: { engine: WCEngine }) {
         acc,
       0
     );
-
+    const avg = words / chars;
     return [
       { data: "음절", "현재 룰": chars, 구엜룰: 88 },
       { data: "단어", "현재 룰": words, 구엜룰: 587 },
       {
-        data: "단어/음절",
-        "현재 룰": chars > 0 ? Math.round((words / chars) * 1000) / 1000 : 0,
+        data: <div className="flex items-center gap-1">평균 단어 수</div>,
+        "현재 룰": chars > 0 ? Math.round(avg * 1000) / 1000 : 0,
         구엜룰: 6.67,
+      },
+      {
+        data: (
+          <div className="flex items-center gap-1">
+            표준편차
+            <Popover>
+              <PopoverTrigger>
+                <CircleHelp className="h-4 w-4 text-muted-foreground" />
+              </PopoverTrigger>
+              <PopoverContent className="text-sm">
+                음절 당 그 음절로 시작하는 단어 개수의 표준편차.
+              </PopoverContent>
+            </Popover>
+          </div>
+        ),
+        "현재 룰":
+          routeChars.length > 0
+            ? Math.round(
+                Math.sqrt(
+                  routeChars
+                    .map(
+                      (char) =>
+                        (engine.wordGraph.successors(char).length - avg) ** 2
+                    )
+                    .reduce((acc, curr) => acc + curr, 0) / routeChars.length
+                ) * 1000
+              ) / 1000
+            : 0,
+        구엜룰: 5.116,
       },
     ];
   }, []);
