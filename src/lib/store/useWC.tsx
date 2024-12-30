@@ -174,6 +174,8 @@ export const useWC = create<WCInfo>((set, get) => ({
       searchInputValue,
       ...(prevInputType === inputType
         ? {}
+        : prevInputType === "showcase" || prevInputType === "default"
+        ? { searchTab: 0 }
         : inputType === "showcase" ||
           inputType === "default" ||
           inputType === "notChar"
