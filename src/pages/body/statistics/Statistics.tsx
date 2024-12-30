@@ -186,13 +186,17 @@ function CompareRoute({ engine }: { engine: WCEngine }) {
                   routeChars
                     .map(
                       (char) =>
-                        (engine.wordGraph.successors(char).length - avg) ** 2
+                        (Object.values(
+                          engine.wordGraph.successorsWithMultiplicity(char)
+                        ).reduce((acc, curr) => acc + curr, 0) -
+                          avg) **
+                        2
                     )
                     .reduce((acc, curr) => acc + curr, 0) / routeChars.length
                 ) * 1000
               ) / 1000
             : 0,
-        구엜룰: 5.116,
+        구엜룰: 5.792,
       },
     ];
   }, []);

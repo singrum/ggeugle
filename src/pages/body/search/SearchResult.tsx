@@ -31,7 +31,6 @@ import {
 } from "lucide-react";
 import React, { ReactNode, useMemo } from "react";
 import Analysis from "./Analysis";
-import RouteTreeSearch from "./RouteTreeSearch";
 import SolutionTree from "./SolutionTree";
 
 export default function SearchResult() {
@@ -986,7 +985,7 @@ const tabInfo: Record<string, { name: string; component: ReactNode }[]> = {
     { name: "첫 글자", component: <SearchResultStartsWith /> },
     { name: "끝 글자", component: <SearchResultEndsWith /> },
     { name: "필승 전략 탐색", component: <Analysis /> },
-    { name: "트리 탐색", component: <RouteTreeSearch /> },
+    // { name: "트리 탐색", component: <RouteTreeSearch /> },
     { name: "두음 법칙", component: <SearchResultChangeables /> },
   ],
   notRouteChar: [
