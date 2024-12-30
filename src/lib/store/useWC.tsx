@@ -359,6 +359,15 @@ export const useWC = create<WCInfo>((set, get) => ({
   setRuleForm: (ruleForm: RuleForm) => set({ ruleForm }),
   updateRule: () => {
     const ruleForm = get().ruleForm;
+    const namedRule = isEqual(sampleRules[0].ruleForm, ruleForm)
+      ? "guel"
+      : isEqual(sampleRules[1].ruleForm, ruleForm)
+      ? "sinel"
+      : isEqual(sampleRules[8].ruleForm, ruleForm)
+      ? "cheondo"
+      : isEqual(sampleRules[11].ruleForm, ruleForm)
+      ? "chaerin"
+      : undefined;
 
     set(() => ({
       currGame: undefined,
@@ -369,15 +378,10 @@ export const useWC = create<WCInfo>((set, get) => ({
       exceptWords: [],
       isLoading: true,
       rule: ruleForm,
-      namedRule: isEqual(sampleRules[0].ruleForm, ruleForm)
-        ? "guel"
-        : isEqual(sampleRules[1].ruleForm, ruleForm)
-        ? "sinel"
-        : isEqual(sampleRules[8].ruleForm, ruleForm)
-        ? "cheondo"
-        : isEqual(sampleRules[11].ruleForm, ruleForm)
-        ? "chaerin"
-        : undefined,
+      ...(get().inputType === "showcase" && namedRule !== "guel"
+        ? { inputType: "default", searchTab: 0 }
+        : {}),
+      namedRule,
     }));
 
     let worker = get().worker;
