@@ -418,7 +418,31 @@ export function getReachableNodes(
 
   return new Set([...chanVisited, ...wordVisited]);
 }
+export function getNextRouteChars(
+  chanGraph: MultiDiGraph,
+  wordGraph: MultiDiGraph,
+  withMoveNum?: boolean
+) {
+  const routeChars = Object.keys(chanGraph.nodes).filter(
+    (e) => chanGraph.nodes[e].type === "route"
+  );
 
+  const nextRouteChars: {
+    char: Char;
+    moveNum?: number;
+  }[] = [];
+  for (const char of routeChars) {
+    const nextCharInfo: { char: Char; moveNum?: number } = {
+      char: char,
+      ...(withMoveNum
+        ? { moveNum: getNextWords(chanGraph, wordGraph, char).length }
+        : {}),
+    };
+    nextRouteChars.push(nextCharInfo);
+  }
+
+  return nextRouteChars;
+}
 export function getNextWords(
   chanGraph: MultiDiGraph,
   wordGraph: MultiDiGraph,
@@ -678,5 +702,37 @@ export function nextWordSortKey(
     b_key = b.moveNum;
   }
 
+  return a_key! - b_key!;
+}
+export function nextRouteCharSortKey(
+  a: {
+    char: Char;
+
+    moveNum?: number;
+  },
+  b: {
+    char: Char;
+
+    moveNum?: number;
+  },
+  namedRule: string
+) {
+  let a_key, b_key;
+  if (precedenceMap[namedRule]) {
+    const prec = precedenceMap[namedRule];
+    if (prec[a.char]) {
+      a_key = -prec[a.char];
+    } else {
+      a_key = a.moveNum;
+    }
+    if (prec[b.char]) {
+      b_key = -prec[b.char];
+    } else {
+      b_key = b.moveNum;
+    }
+  } else {
+    a_key = a.moveNum;
+    b_key = b.moveNum;
+  }
   return a_key! - b_key!;
 }

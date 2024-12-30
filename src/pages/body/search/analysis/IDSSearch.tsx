@@ -5,7 +5,7 @@ import { Word } from "@/lib/wc/WordChain";
 import { CornerDownRight } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-export default function IDSSearch() {
+export function IDSSearch() {
   const [searchInputValue, engine] = useWC((e) => [
     e.searchInputValue,
     e.engine,
@@ -114,3 +114,4 @@ export default function IDSSearch() {
     </div>
   );
 }
+

@@ -975,11 +975,11 @@ const tabInfo: Record<string, { name: string; component: ReactNode }[]> = {
   showcase: [
     { name: "홈", component: <Showcase /> },
     { name: "임계 단어", component: <CriticalWords /> },
-    // { name: "필승 전략 탐색", component: <Analysis /> },
+    { name: "필승 전략 탐색", component: <Analysis /> },
   ],
   default: [
     { name: "임계 단어", component: <CriticalWords /> },
-    // { name: "필승 전략 탐색", component: <Analysis /> },
+    { name: "필승 전략 탐색", component: <Analysis /> },
   ],
   routeChar: [
     { name: "첫 글자", component: <SearchResultStartsWith /> },

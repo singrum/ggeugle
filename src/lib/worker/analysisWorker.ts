@@ -26,14 +26,16 @@ const analysis = ({
   chanGraph: MultiDiGraph;
   wordGraph: MultiDiGraph;
   startChar: Char;
-  exceptWord: Char[];
+  exceptWord?: Char[];
 }) => {
   chanGraph = objToMultiDiGraph(chanGraph);
   wordGraph = objToMultiDiGraph(wordGraph);
-  if (wordGraph.nodes[exceptWord[0]].loop === exceptWord[1]) {
-    wordGraph.nodes[exceptWord[0]].loop = undefined;
-  } else {
-    wordGraph.removeEdge(exceptWord[0], exceptWord[1], 1);
+  if (exceptWord) {
+    if (wordGraph.nodes[exceptWord[0]].loop === exceptWord[1]) {
+      wordGraph.nodes[exceptWord[0]].loop = undefined;
+    } else {
+      wordGraph.removeEdge(exceptWord[0], exceptWord[1], 1);
+    }
   }
 
   const reacheable = getReachableNodes(chanGraph, wordGraph, startChar);
