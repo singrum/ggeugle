@@ -975,8 +975,12 @@ const tabInfo: Record<string, { name: string; component: ReactNode }[]> = {
   showcase: [
     { name: "홈", component: <Showcase /> },
     { name: "임계 단어", component: <CriticalWords /> },
+    // { name: "필승 전략 탐색", component: <Analysis /> },
   ],
-  default: [{ name: "임계 단어", component: <CriticalWords /> }],
+  default: [
+    { name: "임계 단어", component: <CriticalWords /> },
+    // { name: "필승 전략 탐색", component: <Analysis /> },
+  ],
   routeChar: [
     { name: "첫 글자", component: <SearchResultStartsWith /> },
     { name: "끝 글자", component: <SearchResultEndsWith /> },
@@ -1561,7 +1565,7 @@ function CriticalWords() {
     [engine]
   );
 
-  return (
+  return engine ? (
     CriticalWords && (
       <div className="flex-1 min-h-0 flex flex-col px-4 pt-2 items-center">
         <WordBox>
@@ -1573,9 +1577,9 @@ function CriticalWords() {
               </WordBadge>
             </PopoverTrigger>
             <PopoverContent className="text-sm">
-              <span className="font-semibold">임계 루트 단어</span>를 단어 목록에서
-              제외하면 적어도 하나의 음절이 루트 음절에서 승리 음절이나 패배
-              음절절로 바뀌게 됩니다.
+              <span className="font-semibold">임계 루트 단어</span>를 단어
+              목록에서 제외하면 적어도 하나의 음절이 루트 음절에서 승리 음절이나
+              패배 음절절로 바뀌게 됩니다.
             </PopoverContent>
           </Popover>
 
@@ -1587,6 +1591,8 @@ function CriticalWords() {
         <Separator className="my-2" />
       </div>
     )
+  ) : (
+    <WordSkeleton />
   );
 }
 
