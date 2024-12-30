@@ -437,7 +437,6 @@ export function getNextWords(
       const nextWordInfo: {
         word: Char[];
         isLoop: boolean;
-
         moveNum?: number;
       } = {
         word: [chan, word],

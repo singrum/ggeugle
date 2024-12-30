@@ -19,6 +19,22 @@ export default function SolutionTree() {
     e.engine,
     e.searchInputValue,
   ]);
+  return (
+    engine &&
+    (engine.chanGraph.nodes[searchInputValue]?.type === "win" ||
+      engine.chanGraph.nodes[searchInputValue]?.type === "los" ||
+      engine.chanGraph.nodes[searchInputValue]?.type === "wincir" ||
+      engine.chanGraph.nodes[searchInputValue]?.type === "loscir") && (
+      <SolutionTreeContent />
+    )
+  );
+}
+
+function SolutionTreeContent() {
+  const [engine, searchInputValue] = useWC((e) => [
+    e.engine,
+    e.searchInputValue,
+  ]);
 
   const [treeInfo, setTreeInfo] = useState<TreeInfo>(
     WCDisplay.getTree(engine!, searchInputValue)
@@ -49,13 +65,11 @@ export default function SolutionTree() {
               <div>
                 서로 <span className="font-semibold">최선의 수</span>를 택하며
                 플레이 하였을 때 나타나는 경로.
-                {engine?.chanGraph.nodes[searchInputValue].type === "win" ||
-                  engine?.chanGraph.nodes[searchInputValue].type === "cirwin"}
               </div>
             </div>
           </PopoverContent>
         </Popover>
-        <div className="py-4 px-2 max-w-screen-lg">
+        <div className="py-4 px-2 md:px-4 lg:px-6 max-w-screen-lg">
           {maxTrail.length > 0 ? (
             <WordsTrail words={maxTrail} size="md" />
           ) : (

@@ -159,6 +159,61 @@ export type TreeInfo = {
   los: { mainIdx: number; words: Word[] }[];
 };
 export class WCDisplay {
+  static isCriticalChar(engine: WCEngine, char: Char) {
+    const chanSucc = engine.chanGraph.successors(char);
+    let criticalWord: Char[] = [];
+    let counter = 0;
+
+    for (const head of chanSucc) {
+      const wordSucc = engine.wordGraph.successorsWithMultiplicity(head);
+      for (const tail in wordSucc) {
+        counter += wordSucc[tail];
+        criticalWord = [head, tail];
+        if (counter > 1) {
+          return false;
+        }
+      }
+    }
+
+    return criticalWord;
+  }
+  static getCriticalWords(engine: WCEngine) {
+    const routeChars = Object.keys(engine.chanGraph.nodes).filter(
+      (e) => engine.chanGraph.nodes[e].type === "route"
+    );
+    const [maxRouteChars, _] = getMaxMinComponents(
+      engine.chanGraph,
+      engine.wordGraph,
+      routeChars
+    );
+
+    const predNums = arrayToKeyMap(
+      maxRouteChars,
+      (e) =>
+        engine.chanGraph.predecessors(engine.wordGraph.predecessors(e)).length
+    );
+
+    maxRouteChars.sort((a, b) => -predNums[a] + predNums[b]);
+    
+
+    const criticalWords: Word[] = [];
+
+    for (const maxRouteChar of maxRouteChars) {
+      const cchar = this.isCriticalChar(engine, maxRouteChar);
+      if (cchar) {
+        const returnWords = engine.returnWordMap.select(cchar[0], cchar[1]);
+        const word = engine.wordMap
+          .select(cchar[0], cchar[1])
+          .filter((e) => !returnWords.includes(e))[0];
+        if (!criticalWords.includes(word)) {
+          criticalWords.push(word);
+        }
+      }
+    }
+
+    return criticalWords;
+  }
+
   static getSolutionWord(engine: WCEngine, char: Char) {
     const chanSol = engine.chanGraph.nodes[char].solution;
     const wordSol = engine.wordGraph.nodes[chanSol as string].solution;

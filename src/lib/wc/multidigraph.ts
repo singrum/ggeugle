@@ -48,7 +48,7 @@ export class WordMap {
     }
   }
   select(start: string, end: string) {
-    return this._succ[start][end];
+    return this._succ[start]?.[end] || [];
   }
 
   outWords(start: string) {
@@ -154,6 +154,12 @@ export class MultiDiGraph {
     } else {
       return [...new Set(node.flatMap((n) => Object.keys(this._succ[n])))];
     }
+  }
+  successorsWithMultiplicity(node: string) {
+    if (!this._succ[node]) {
+      throw `${node} not in graph`;
+    }
+    return cloneDeep(this._succ[node]);
   }
   removeNode(node: string | string[]) {
     if (typeof node === "string") {
