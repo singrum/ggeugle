@@ -461,7 +461,7 @@ export function CharMenu() {
               )}
               <div
                 className={cn(
-                  `w-full rounded-lg text-center text-md relative z-10 text-muted-foreground  justify-between items-center flex flex-col h-14 pt-2`,
+                  `w-full rounded-lg text-center text-md relative z-10 text-muted-foreground  justify-between items-center flex flex-col h-14 pt-2 px-4`,
                   {
                     // [`outline outline-${e.color} shadow bg-${e.color}/10`]:
                     //   charMenu === i,
@@ -472,7 +472,7 @@ export function CharMenu() {
               >
                 <div className=" py-2 pt-2">{charMenuList[i].name}</div>
                 {charMenu === i && (
-                  <div className={`h-[3px] rounded-t bg-${e.color} w-10`} />
+                  <div className={`h-[3px] rounded-t bg-${e.color} w-full`} />
                 )}
               </div>
             </div>
