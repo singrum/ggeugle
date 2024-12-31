@@ -1571,12 +1571,12 @@ function CriticalWords() {
           <Popover>
             <PopoverTrigger>
               <WordBadge>
-                {`임계 루트 단어`}
+                {`임계 주요 루트 단어`}
                 <CircleHelp className="w-4 h-4" />
               </WordBadge>
             </PopoverTrigger>
             <PopoverContent className="text-sm">
-              <span className="font-semibold">임계 루트 단어</span>를 단어
+              <span className="font-semibold">임계 주요 루트 단어</span>를 단어
               목록에서 제외하면 적어도 하나의{" "}
               <span className="font-semibold">루트 음절</span>이{" "}
               <span className="font-semibold">승리 음절</span>이나{" "}
@@ -1585,11 +1585,38 @@ function CriticalWords() {
           </Popover>
 
           <WordContent
-            wordInfo={CriticalWords.map((word) => ({ word, type: "route" }))}
+            wordInfo={CriticalWords.maxRoute.map((word) => ({
+              word,
+              type: "route",
+            }))}
           />
         </WordBox>
 
         <Separator className="my-2" />
+        <WordBox>
+          <Popover>
+            <PopoverTrigger>
+              <WordBadge>
+                {`임계 희귀 루트 단어`}
+                <CircleHelp className="w-4 h-4" />
+              </WordBadge>
+            </PopoverTrigger>
+            <PopoverContent className="text-sm">
+              <span className="font-semibold">임계 희귀 루트 단어</span>를 단어
+              목록에서 제외하면 적어도 하나의{" "}
+              <span className="font-semibold">루트 음절</span>이{" "}
+              <span className="font-semibold">승리 음절</span>이나{" "}
+              <span className="font-semibold">패배 음절</span>로 바뀌게 됩니다.
+            </PopoverContent>
+          </Popover>
+
+          <WordContent
+            wordInfo={CriticalWords.minRoute.map((word) => ({
+              word,
+              type: "route",
+            }))}
+          />
+        </WordBox>
       </div>
     )
   ) : (

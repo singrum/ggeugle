@@ -181,32 +181,59 @@ export class WCDisplay {
     const routeChars = Object.keys(engine.chanGraph.nodes).filter(
       (e) => engine.chanGraph.nodes[e].type === "route"
     );
+    // const winChars = Object.keys(engine.chanGraph.nodes).filter(
+    //   (e) =>
+    //     engine.chanGraph.nodes[e].type === "win" ||
+    //     engine.chanGraph.nodes[e].type === "wincir"
+    // );
+
+    const predRouteNums = arrayToKeyMap(
+      routeChars,
+      (e) =>
+        engine.chanGraph.predecessors(engine.wordGraph.predecessors(e)).length
+    );
+    // const predWinNums = arrayToKeyMap(
+    //   winChars,
+    //   (e) =>
+    //     engine.chanGraph.predecessors(engine.wordGraph.predecessors(e)).length
+    // );
+
+    routeChars.sort((a, b) => -predRouteNums[a] + predRouteNums[b]);
+    // winChars.sort((a, b) => -predWinNums[a] + predWinNums[b]);
+
+    const criticalWords: {
+      maxRoute: Word[];
+      minRoute: Word[];
+      // win: Word[]
+    } = {
+      maxRoute: [],
+      minRoute: [],
+      // win: [],
+    };
+
     const [maxRouteChars, _] = getMaxMinComponents(
       engine.chanGraph,
       engine.wordGraph,
       routeChars
     );
 
-    const predNums = arrayToKeyMap(
-      maxRouteChars,
-      (e) =>
-        engine.chanGraph.predecessors(engine.wordGraph.predecessors(e)).length
-    );
+    const maxRouteCharsSet = new Set(maxRouteChars);
 
-    maxRouteChars.sort((a, b) => -predNums[a] + predNums[b]);
-    
+    for (const routeChar of routeChars) {
+      const cchar = this.isCriticalChar(engine, routeChar);
 
-    const criticalWords: Word[] = [];
-
-    for (const maxRouteChar of maxRouteChars) {
-      const cchar = this.isCriticalChar(engine, maxRouteChar);
       if (cchar) {
         const returnWords = engine.returnWordMap.select(cchar[0], cchar[1]);
         const word = engine.wordMap
           .select(cchar[0], cchar[1])
           .filter((e) => !returnWords.includes(e))[0];
-        if (!criticalWords.includes(word)) {
-          criticalWords.push(word);
+        if (
+          maxRouteCharsSet.has(cchar[0]) &&
+          !criticalWords.maxRoute.includes(word)
+        ) {
+          criticalWords.maxRoute.push(word);
+        } else if (!criticalWords.minRoute.includes(word)) {
+          criticalWords.minRoute.push(word);
         }
       }
     }
