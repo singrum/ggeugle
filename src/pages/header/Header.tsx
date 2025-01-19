@@ -13,7 +13,7 @@ import { useState } from "react";
 import Logo from "./Logo";
 
 export default function Header({ className }: { className?: string }) {
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(true);
   const theme = useTheme();
   const currTheme =
     theme.theme === "system"
@@ -25,7 +25,7 @@ export default function Header({ className }: { className?: string }) {
     <div className={cn("flex flex-col min-h-9 z-10", className)}>
       {showAlert && (
         <div
-          className="text-xs flex justify-between text-white bg-[#5865F2] cursor-pointer font-semibold items-center"
+          className="text-xs flex justify-between text-[hsl(355.7,100%,97.3%)] bg-[hsl(142.1,76.2%,36.3%)] cursor-pointer font-semibold items-center"
           onClick={() => {
             setShowAlert(false);
           }}
@@ -40,11 +40,11 @@ export default function Header({ className }: { className?: string }) {
             className="flex  gap-1 items-center  p-1"
             onClick={(e) => {
               e.stopPropagation();
-              open("https://discord.gg/bkHgyajx89");
+              open("https://ikki.app");
             }}
           >
             <SquareArrowOutUpRight className="h-3 w-3" strokeWidth="2.5" />
-            끄글 디스코드가 개설되었습니다.
+            끝말잇기 하러 가기
           </div>
           <div className="p-1">
             <X className="w-4 h-4" />

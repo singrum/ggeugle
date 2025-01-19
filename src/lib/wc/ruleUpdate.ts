@@ -1,6 +1,12 @@
 import { RuleForm } from "../store/useWC";
+import { getNextWords } from "./algorithms";
 import { cates, poses } from "./rules";
-import { removeHeadTailDuplication, WCEngine, WCRule } from "./WordChain";
+import {
+  removeHeadTailDuplication,
+  WCDisplay,
+  WCEngine,
+  WCRule,
+} from "./WordChain";
 
 async function fetchWords(url: string) {
   const response = await fetch(url);
@@ -158,4 +164,67 @@ export async function getEngine(ruleForm: RuleForm) {
   console.log("음절 분류 완료");
 
   return wce;
+}
+
+export function getWordsCsv(wce: WCEngine) {
+  const chars = Object.keys(wce.wordGraph.nodes);
+
+  const winWords = new Set();
+  const wordSortKey: Record<string, number> = {};
+  const nextWordsMap = chars.forEach((char) => {
+    let {
+      win,
+      route,
+      return: returning,
+      los,
+    } = WCDisplay.searchResult(wce, char, false)?.result.startsWith;
+    for (let { endNum, words } of win) {
+      for (let word of words) {
+        wordSortKey[word] = parseInt(endNum / 2);
+        winWords.add(word);
+      }
+    }
+    for (let { endNum, words } of los) {
+      for (let word of words) {
+        wordSortKey[word] = 2000 - parseInt(endNum / 2);
+      }
+    }
+    route.forEach((e) => {
+      return (wordSortKey[e] =
+        50 +
+        getNextWords(wce.chanGraph, wce.wordGraph, e.at(wce.rule.tailIdx))
+          .length);
+    });
+    returning.forEach((e) => (wordSortKey[e] = 1000));
+  });
+  console.log(wordSortKey);
+  const data = [["word", "head", "tail", "sort_key", "is_win"]];
+  for (const word in wordSortKey) {
+    data.push([
+      word,
+      word.at(wce.rule.headIdx),
+      word.at(wce.rule.tailIdx),
+      wordSortKey[word],
+      winWords.has(word),
+    ]);
+  }
+
+  console.log(data);
+
+  const csvContent = data.map((row) => row.join(",")).join("\n");
+
+  // Blob 객체 생성
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+
+  // 다운로드 링크 생성
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "example.csv"; // 파일 이름 설정
+  document.body.appendChild(a);
+  a.click(); // 다운로드 실행
+
+  // 메모리 해제
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
