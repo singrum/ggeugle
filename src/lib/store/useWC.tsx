@@ -142,6 +142,8 @@ export interface WCInfo {
   // deleteMult
   deleteMult: boolean;
   setDeleteMult: (deleteMult: boolean) => void;
+  sortBy: "0" | "1";
+  setSortBy: (exceptBy: "0" | "1") => void;
 }
 
 export const useWC = create<WCInfo>((set, get) => ({
@@ -187,7 +189,8 @@ export const useWC = create<WCInfo>((set, get) => ({
               engine,
               searchInputValue,
               get().applyChan,
-              get().deleteMult
+              get().deleteMult,
+              get().sortBy === "0"
             ),
             isMoreOpen: false,
           }
@@ -751,7 +754,8 @@ export const useWC = create<WCInfo>((set, get) => ({
               engine,
               get().searchInputValue,
               applyChan,
-              get().deleteMult
+              get().deleteMult,
+              get().sortBy === "0"
             ),
           }
         : {}),
@@ -770,7 +774,27 @@ export const useWC = create<WCInfo>((set, get) => ({
               engine,
               get().searchInputValue,
               get().applyChan,
-              deleteMult
+              deleteMult,
+              get().sortBy === "0"
+            ),
+          }
+        : {}),
+    });
+  },
+  sortBy: Cookies.get("sort-by") === "1" ? "1" : "0",
+  setSortBy: (sortBy: "0" | "1") => {
+    Cookies.set("sort-by", `${sortBy}`);
+    const engine = get().engine;
+    set({
+      sortBy,
+      ...(engine
+        ? {
+            searchResult: WCDisplay.searchResult(
+              engine,
+              get().searchInputValue,
+              get().applyChan,
+              get().deleteMult,
+              sortBy === "0"
             ),
           }
         : {}),

@@ -31,11 +31,20 @@ export default function PreferenceSetting() {
     e.showAllWords,
     e.setShowAllWords,
   ]);
-  const [applyChan, setApplyChan, deleteMult, setDeleteMult] = useWC((e) => [
+  const [
+    applyChan,
+    setApplyChan,
+    deleteMult,
+    setDeleteMult,
+    sortBy,
+    setSortBy,
+  ] = useWC((e) => [
     e.applyChan,
     e.setApplyChan,
     e.deleteMult,
     e.setDeleteMult,
+    e.sortBy,
+    e.setSortBy,
   ]);
 
   return (
@@ -72,6 +81,40 @@ export default function PreferenceSetting() {
                 }}
                 checked={deleteMult}
               />
+            </div>
+          </div>
+
+          <Separator />
+          <div className="space-y-4">
+            <div className="flex items-center">
+              <div className="flex-1 font-medium text-base">단어 정렬 기준</div>
+              <div className="">
+                <Select
+                  value={sortBy}
+                  onValueChange={(value: "0" | "1") => setSortBy(value)}
+                >
+                  <SelectTrigger className="w-[160px]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="0">끝 글자 우선</SelectItem>
+                    <SelectItem value="1">첫 글자부터</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="text-muted-foreground text-sm">
+              {sortBy === "0" ? (
+                <>
+                  <p>첫 글자 → 끝 글자 → 두 번째 글자 → 세 번째 글자 → ... </p>
+                  <p>순으로 사전식 정렬</p>
+                </>
+              ) : (
+                <>
+                  <p>첫 글자 → 두 번째 글자 → 세 번째 글자 → ... </p>
+                  <p>순으로 사전식 정렬</p>
+                </>
+              )}
             </div>
           </div>
           <Separator />
