@@ -98,7 +98,7 @@ export default function PreferenceSetting() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="0">끝 글자 우선</SelectItem>
-                    <SelectItem value="1">첫 글자부터</SelectItem>
+                    <SelectItem value="1">사전식 정렬</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -107,7 +107,7 @@ export default function PreferenceSetting() {
               {sortBy === "0" ? (
                 <>
                   <p>첫 글자 → 끝 글자 → 두 번째 글자 → 세 번째 글자 → ... </p>
-                  <p>순으로 사전식 정렬</p>
+                  <p>순으로 정렬</p>
                 </>
               ) : (
                 <>
