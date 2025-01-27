@@ -778,7 +778,8 @@ export class WCDisplay {
     engine: WCEngine,
     input: string,
     applyChan?: boolean,
-    deleteMult?: boolean
+    deleteMult?: boolean,
+    podoSort?: boolean
   ) {
     if (input.length === 0) {
       return undefined;
@@ -832,12 +833,19 @@ export class WCDisplay {
       const startWin: Record<string, Word[]> = {};
       const startLos: Record<string, Word[]> = {};
 
-      const startWords = nextWords.sort((a, b) =>
-        WCDisplay.compareWord(engine, a, b)
-      );
-      const endWords = prevWords.sort((a, b) =>
-        WCDisplay.compareWord(engine, a, b)
-      );
+      if (podoSort) {
+        nextWords.sort((a, b) => WCDisplay.compareWord(engine, a, b));
+      } else {
+        nextWords.sort();
+      }
+      const startWords = nextWords;
+
+      if (podoSort) {
+        prevWords.sort((a, b) => WCDisplay.compareWord(engine, a, b));
+      } else {
+        prevWords.sort();
+      }
+      const endWords = prevWords;
 
       for (let word of startWords) {
         const { type, endNum } = WCDisplay.getWordType(engine, word);
