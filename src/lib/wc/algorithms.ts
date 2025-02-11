@@ -139,6 +139,9 @@ export function pruningWinLosCir(
       const returnPair = pair(head, tail);
 
       if (!returnPair) continue;
+      if (returnWordGraph.hasEdge(returnPair[0], returnPair[1])) {
+        continue;
+      }
       const [pairHead, pairTail] = returnPair;
       //      래내 래1내 내이 이래
       const pairTailSucc = chanGraph
