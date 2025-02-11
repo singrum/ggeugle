@@ -101,7 +101,7 @@ function GameButton({
         </div>
         <div className="flex gap-1">
           <TooltipProvider>
-            <Tooltip>
+            <Tooltip delayDuration={0}>
               <TooltipTrigger asChild>
                 <Button
                   size="icon"
@@ -129,7 +129,7 @@ function GameButton({
             </Tooltip>
           </TooltipProvider>
           <TooltipProvider>
-            <Tooltip>
+            <Tooltip delayDuration={0}>
               <TooltipTrigger asChild>
                 <Button
                   size="icon"
