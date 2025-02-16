@@ -1,12 +1,6 @@
 import { RuleForm } from "../store/useWC";
-import { getNextWords } from "./algorithms";
 import { cates, poses } from "./rules";
-import {
-  removeHeadTailDuplication,
-  WCDisplay,
-  WCEngine,
-  WCRule,
-} from "./WordChain";
+import { removeHeadTailDuplication, WCEngine, WCRule } from "./WordChain";
 
 async function fetchWords(url: string) {
   const response = await fetch(url);

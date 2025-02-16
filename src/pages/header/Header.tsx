@@ -13,7 +13,7 @@ import { useState } from "react";
 import Logo from "./Logo";
 
 export default function Header({ className }: { className?: string }) {
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   const theme = useTheme();
   const currTheme =
     theme.theme === "system"
