@@ -151,7 +151,7 @@ function ExceptWordsDisplay() {
           ].map(({ name, icon, onClick }) => (
             <React.Fragment key={name}>
               <TooltipProvider>
-                <Tooltip>
+                <Tooltip delayDuration={0}>
                   <TooltipTrigger asChild>
                     <Button
                       size={"icon"}
@@ -333,7 +333,7 @@ function WordInput() {
 
       <Search className="w-[1.2rem] h-[1.2rem] absolute left-4 top-[calc(50%-0.6rem)] text-muted-foreground" />
 
-      <div className="flex items-center justify-center gap-2 absolute right-3 top-[calc(50%-0.75rem)] w-[1.5rem] h-[1.5rem]">
+      <div className="flex items-center justify-center gap-2 absolute right-3 top-[calc(50%-0.75rem)] h-[1.5rem]">
         <div
           className={cn(
             "flex items-center justify-center rounded-full w-[2.0rem] h-[2.0rem] cursor-pointer text-muted-foreground ",
@@ -343,7 +343,7 @@ function WordInput() {
             onExceptTriggered();
           }}
         >
-          <CornerRightUp className="w-[1.4rem] h-[1.4rem]" />
+          <CornerRightUp className="w-[1.4rem] h-[1.4rem] shrink-0" />
         </div>
       </div>
     </div>
