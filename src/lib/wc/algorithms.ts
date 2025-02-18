@@ -676,18 +676,17 @@ export function nextWordSortKey(
   let a_key, b_key;
 
   // if (namedRule === "guel") {
-  //   if (precedenceMap[a.word[0]]?.[a.word[1]]) {
-  //     a_key = -precedenceMap[a.word[0]]?.[a.word[1]];
+  //   if (guelPrecedenceMap[a.word[0]]?.[a.word[1]]) {
+  //     a_key = -guelPrecedenceMap[a.word[0]]?.[a.word[1]];
   //   } else {
   //     a_key = a.moveNum;
   //   }
-  //   if (precedenceMap[b.word[0]]?.[b.word[1]]) {
-  //     b_key = -precedenceMap[b.word[0]]?.[b.word[1]];
+  //   if (guelPrecedenceMap[b.word[0]]?.[b.word[1]]) {
+  //     b_key = -guelPrecedenceMap[b.word[0]]?.[b.word[1]];
   //   } else {
   //     b_key = b.moveNum;
   //   }
   // } else
-
   if (precedenceMap[namedRule]) {
     const prec = precedenceMap[namedRule];
     if (prec[a.word[1]]) {
@@ -721,6 +720,7 @@ export function nextRouteCharSortKey(
   namedRule: string
 ) {
   let a_key, b_key;
+
   if (precedenceMap[namedRule]) {
     const prec = precedenceMap[namedRule];
     if (prec[a.char]) {
