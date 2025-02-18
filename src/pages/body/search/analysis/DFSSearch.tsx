@@ -132,6 +132,7 @@ export function DFSSearch() {
       .map(([head, tail]) => ({
         word: engine!.wordMap.select(head, tail)[0],
       }));
+
     setNextRoutesInfo(nextRoutesInfo_);
 
     if (worker.current) {
