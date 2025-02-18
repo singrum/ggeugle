@@ -6,7 +6,6 @@ export const guelPrecedenceMap: Record<Char, Record<Char, number>> = {
 
 // export type namedRule = "guel" | "cheondo" | "chaerin";
 export const precedenceMap: Record<string, Record<Char, number>> = {
-  guel: {},
   cheondo: {
     틴: 10,
     갠: 9,

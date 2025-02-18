@@ -35,9 +35,11 @@
     "clsx": "^2.1.1",
     "d3": "^7.9.0",
     "es-hangul": "^1.4.5",
+    "esbuild": "^0.25.0",
     "hangul-js": "^0.2.6",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.395.0",
+    "nanoid": "^5.1.0",
     "next-themes": "^0.3.0",
     "postcss-custom-properties-fallback": "^1.0.2",
     "react": "^18.2.0",
@@ -76,11 +78,11 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
-    "gh-pages": "^6.1.1",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.4.38",
     "tailwind-scrollbar": "^3.1.0",
     "tailwindcss": "^3.4.4",
     "typescript": "^5.2.2",
-    "vite": "^5.2.0"
+    "vite": "^5.4.14"
   }
 }
