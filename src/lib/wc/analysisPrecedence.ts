@@ -2,6 +2,7 @@ import { Char } from "./WordChain";
 export const guelPrecedenceMap: Record<Char, Record<Char, number>> = {
   균: { 균: 1 },
   첩: { 첩: 1 },
+  송: { 욱: 1 },
 };
 
 // export type namedRule = "guel" | "cheondo" | "chaerin";
