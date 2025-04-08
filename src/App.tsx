@@ -29,7 +29,7 @@ function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const menu = useMenu((e) => e.menu);
   const updateRule = useWC((e) => e.updateRule);
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(true);
   const [setValue, setSearchInputValue] = useWC((e) => [
     e.setValue,
     e.setSearchInputValue,
