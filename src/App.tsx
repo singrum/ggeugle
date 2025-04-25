@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { SquareArrowOutUpRight, X } from "lucide-react";
+import LogoButton from "./components/LogoButton";
 import { Separator } from "./components/ui/separator";
 import { EtcNavBar } from "./EtcNavBar";
 import PreferenceSetting from "./pages/body/etc/PreferenceSetting";
@@ -29,7 +30,7 @@ function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const menu = useMenu((e) => e.menu);
   const updateRule = useWC((e) => e.updateRule);
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   const [setValue, setSearchInputValue] = useWC((e) => [
     e.setValue,
     e.setSearchInputValue,
@@ -80,14 +81,8 @@ function App() {
           {isDesktop ? (
             <div className="flex flex-col h-full items-center lg:items-start justify-between border-border border-r prevent-select p-2 lg:p-2 lg:px-3 lg:pt-3 overflow-auto scrollbar-none min-h-0 lg:w-[160px]">
               <div className="flex flex-col w-full items-center lg:items-start md:gap-4">
-                <div
-                  className=" md:pt-3 lg:px-3 lg:pt-2"
-                  onClick={() => {
-                    location.reload();
-                  }}
-                >
-                  <Logo />
-                </div>
+                <LogoButton />
+                
 
                 <NavBar />
               </div>
