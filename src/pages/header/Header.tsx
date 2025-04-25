@@ -1,3 +1,4 @@
+import LogoButton from "@/components/LogoButton";
 import { useTheme } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,10 +11,9 @@ import { etcMenu } from "@/EtcNavBar";
 import { cn } from "@/lib/utils";
 import { Menu, Moon, SquareArrowOutUpRight, Sun, X } from "lucide-react";
 import { useState } from "react";
-import Logo from "./Logo";
 
 export default function Header({ className }: { className?: string }) {
-  const [showAlert, setShowAlert] = useState(true);
+  const [showAlert, setShowAlert] = useState(false);
   const theme = useTheme();
   const currTheme =
     theme.theme === "system"
@@ -52,14 +52,8 @@ export default function Header({ className }: { className?: string }) {
         </div>
       )}
       <div className="flex w-full justify-between items-center border-b border-border h-14 p-1">
-        <div
-          className="flex items-end gap-1 px-3 py-2"
-          onClick={() => {
-            location.reload();
-          }}
-        >
-          <Logo />
-        </div>
+        <LogoButton />
+        
         <div className="flex items-center pr-2 gap-2">
           <Button
             size="icon"
