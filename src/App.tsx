@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dialog";
 import { SquareArrowOutUpRight, X } from "lucide-react";
 import LogoButton from "./components/LogoButton";
+import RedirectAlert from "./components/RedirectAlert";
 import { Separator } from "./components/ui/separator";
 import { EtcNavBar } from "./EtcNavBar";
 import PreferenceSetting from "./pages/body/etc/PreferenceSetting";
@@ -24,7 +25,6 @@ import { ChangedCharsDialog } from "./pages/body/search/ChangedCharsDialog";
 import Setting from "./pages/body/setting/Setting";
 import Statistics from "./pages/body/statistics/Statistics";
 import Header from "./pages/header/Header";
-import Logo from "./pages/header/Logo";
 
 function App() {
   const isDesktop = useMediaQuery("(min-width: 768px)");
@@ -47,6 +47,7 @@ function App() {
 
   return (
     <>
+      <RedirectAlert />
       <ChangedCharsDialog />
       <PreferenceDialog />
       <DBDilog />
@@ -82,7 +83,6 @@ function App() {
             <div className="flex flex-col h-full items-center lg:items-start justify-between border-border border-r prevent-select p-2 lg:p-2 lg:px-3 lg:pt-3 overflow-auto scrollbar-none min-h-0 lg:w-[160px]">
               <div className="flex flex-col w-full items-center lg:items-start md:gap-4">
                 <LogoButton />
-                
 
                 <NavBar />
               </div>

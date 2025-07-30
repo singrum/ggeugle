@@ -226,6 +226,7 @@ export const useWC = create<WCInfo>((set, get) => ({
     const worker = new Worker(new URL("../worker/worker.ts", import.meta.url), {
       type: "module",
     });
+    
     set(() => ({ worker }));
 
     worker!.onmessage = ({ data }) => {
