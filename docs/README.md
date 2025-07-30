@@ -13,10 +13,6 @@
 - 글자 및 단어들에 관한 통계치 제공
 - 끄글봇 AI와 대결
 
-## 글자 분류 절차
-
-![화면 캡처 2024-11-18 130825](https://github.com/user-attachments/assets/21a80392-60ad-4b1b-a54d-e3135c51715f)
-
 ## DB 출처
 
 [(구)표준국어대사전](https://github.com/korean-word-game/db)  
