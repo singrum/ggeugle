@@ -8,7 +8,7 @@ export type payload = {
   data: unknown;
 };
 let originalEngine: undefined | WCEngine = undefined;
-
+console.log(1);
 const getEngine_ = async (ruleForm: RuleForm) => {
   originalEngine = await getEngine(ruleForm);
 
