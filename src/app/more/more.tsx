@@ -27,8 +27,10 @@ export default function More() {
           <NewFeatures />
         </div>
         <Separator />
-        <Portals />
-        <ThemeSettings />
+        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center sm:gap-0">
+          <Portals />
+          <ThemeSettings />
+        </div>
       </div>
     </div>
   );
