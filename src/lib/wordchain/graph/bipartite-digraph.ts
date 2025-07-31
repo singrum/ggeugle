@@ -529,38 +529,48 @@ export class BipartiteDiGraph {
     move2: [NodeName, NodeName],
     precMap: PrecedenceMaps,
   ) {
-    const result: number[] = [];
-    for (const [start, end] of [move1, move2]) {
-      let key: number = -precMap.edge[start]?.[end];
+    const result: number[] = [Infinity, Infinity];
+    const moves = [move1, move2];
 
-      if (!isNaN(key)) {
-        result.push(key);
-        continue;
+    // 1
+    for (const i of [0, 1]) {
+      const [start, end] = moves[i];
+      const key: number = precMap.edge[start]?.[end];
+      if (key !== undefined) {
+        result[i] = key;
       }
+    }
 
-      key = -precMap.node[end];
+    let value = result[0] - result[1];
 
-      if (!isNaN(key)) {
-        result.push(key);
-        continue;
+    if (!isNaN(value) && value !== 0) {
+      return result[0] - result[1];
+    }
+
+    // 2
+    for (const i of [0, 1]) {
+      const [, end] = moves[i];
+      const key = precMap.node[end];
+      if (key !== undefined) {
+        result[i] = key;
       }
+    }
+    value = result[0] - result[1];
+    if (!isNaN(value) && value !== 0) {
+      return result[0] - result[1];
+    }
 
+    // 3
+    for (const i of [0, 1]) {
+      const [, end] = moves[i];
       const nextMoves = this.getMovesFromNode(end, 0, 0);
-      key = nextMoves.reduce(
+      const key = nextMoves.reduce(
         (prev, curr) => prev + this.getEdgeNum(curr[0], curr[1]),
         0,
       );
-      result.push(key);
-    }
 
-    // const [num1, num2] = [move1, move2]
-    //   .map(([, end]) => this.getMovesFromNode(end, 0, 0))
-    //   .map((nextMoves) =>
-    //     nextMoves.reduce(
-    //       (prev, curr) => prev + this.getEdgeNum(curr[0], curr[1]),
-    //       0,
-    //     ),
-    //   );
+      result[i] = key;
+    }
     return result[0] - result[1];
   }
   getReachableGraph(pos: NodePos, node: NodeName) {
