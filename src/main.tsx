@@ -1,19 +1,27 @@
-import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import { ThemeProvider } from "./components/theme-provider.tsx";
+import { createRoot } from "react-dom/client";
+
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import ErrorPage from "./app/error-page";
+import Layout from "./app/layout";
+import Search from "./app/search/search";
+import { navInfo } from "./constants/sidebar";
 import "./index.css";
 
-// const router = createBrowserRouter([
-//   { path: "/ggeugle", element: <App /> },
-//   { path: "/ggeugle/docs", element: <Docs /> },
-// ]);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      { index: true, element: <Search /> },
+      ...navInfo.map(({ component, key }) => ({
+        path: key,
+        element: component,
+      })),
+    ],
+  },
+]);
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-    <div className="noto-sans-kr h-full min-h-0">
-      {/* <RouterProvider router={router} /> */}
-
-      <App />
-    </div>
-  </ThemeProvider>
+createRoot(document.getElementById("root")!).render(
+  <RouterProvider router={router} />,
 );
