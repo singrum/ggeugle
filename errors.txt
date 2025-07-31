@@ -1,0 +1,53 @@
+ const ruleWorker = new Worker(
+      new URL("../lib/worker/rule-worker.ts", import.meta.url),
+      {
+        type: "module",
+      },
+    );
+
+    ruleWorker.postMessage({ action: "getWcData", data: rule });
+
+이렇게 했는데 worker의 코드가 실행 안되고
+
+@react-refresh:387 Uncaught ReferenceError: window is not defined
+    at @react-refresh:387:1
+(익명)	@	@react-refresh:387
+
+react-refresh:387 에러 내용
+window.__registerBeforePerformReactRefresh = (cb) => {
+  hooks.push(cb);
+};
+
+
+🔧 2. rule-worker.ts 파일에 React 코드가 들어가면 안됨
+rule-worker.ts는 React import 하면 안 되고, 순수 JavaScript/TypeScript 코드여야 함.
+
+예:
+
+ts
+복사
+편집
+// ❌ 이런 거 들어가면 안됨
+import React from "react";
+
+// ✅ 순수 워커 코드만 있어야 함
+self.onmessage = (e) => {
+  // 워커 처리
+  postMessage("OK");
+};
+
+
+
+
+
+constant를 search.ts에 react component와 같은 곳에 넣어버림
+
+
+
+
+
+
+
+
+
+

@@ -1,1 +1,20 @@
-{"name":"끄글","short_name":"끄글","icons":[{"src":"./android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"./android-chrome-512x512.png","sizes":"512x512","type":"image/png"}],"theme_color":"#ffffff","background_color":"#ffffff","display":"standalone", "start_url" : "/ggeugle"}
+{
+  "name": "끝말잇기 엔진",
+  "short_name": "끝말잇기 엔진",
+  "icons": [
+    {
+      "src": "./square-icon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./square-icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "start_url": "/"
+}
