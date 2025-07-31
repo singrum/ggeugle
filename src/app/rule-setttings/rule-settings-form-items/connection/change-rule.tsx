@@ -1,4 +1,4 @@
-import { Card, CardTitle } from "@/components/ui/card";
+import { CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -45,9 +45,11 @@ export default function ChangeRule() {
             ))}
           </SelectContent>
         </Select>
-        <Card className="mt-6 p-4 text-sm">
-          {ChangeRuleTableMap[changeRule]}
-        </Card>
+        {/* <Card className="mt-6 p-4 text-sm"> */}
+        {changeRule !== 0 && (
+          <div className="mt-6 w-full">{ChangeRuleTableMap[changeRule]}</div>
+        )}
+        {/* </Card> */}
       </OutlineCardContent>
     </OutlineCardSection>
   );

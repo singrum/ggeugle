@@ -75,6 +75,7 @@ export class GameWorkerRunner {
     let resultMove: [NodeName, NodeName];
     if (this.difficulty === 0) {
       const word = this.getRandomNextWord();
+
       this.takeMove(word);
       return;
     } else {
@@ -99,6 +100,7 @@ export class GameWorkerRunner {
             return;
           }
           const word = this.getShallowOptimalWord(updatedSolver, nodeType);
+
           this.takeMove(word);
           return;
         } else {
@@ -106,13 +108,16 @@ export class GameWorkerRunner {
             action: "debug",
             payload: `### ${this.currChar} : 루트 음절  \n`,
           });
+
           const routeMoves = updatedSolver.graphs
-            .getMovesFromNode(this.currChar!, 0, 0, undefined, ["route"])
-            .sort((a, b) =>
-              this.solver.graphSolver.graphs
+            .getGraph("route")
+            .getMovesFromNode(this.currChar!, 0, 0)
+            .sort((a, b) => {
+              return updatedSolver.graphs
                 .getGraph("route")
-                .compareNextMoveNum(a, b, this.precMap),
-            );
+                .compareNextMoveNum(a, b, this.precMap);
+            });
+
           resultMove = sample(routeMoves)!;
           const resultWord = this.getWord(resultMove);
 
@@ -161,6 +166,7 @@ export class GameWorkerRunner {
                     action: "debug",
                     payload: `결과 : ${word}`,
                   });
+
                   this.takeMove(word!);
                   return;
                 } else {
@@ -176,6 +182,7 @@ export class GameWorkerRunner {
                   payload: " → 알 수 없음  \n",
                 });
                 const word = this.getWord(move);
+
                 this.takeMove(word!);
                 return;
               }
@@ -198,6 +205,7 @@ export class GameWorkerRunner {
                 payload: e,
               }),
             );
+
             this.takeMove(optimalWord);
           }
         }
@@ -298,7 +306,7 @@ export class GameWorkerRunner {
     }
 
     for (const [start, end, num] of this.historyWordMap.toArray()) {
-      if (counter.get(head, tail) > 0) counter.decrease(start, end, num.length);
+      if (counter.get(start, end) > 0) counter.decrease(start, end, num.length);
     }
 
     if (
@@ -386,6 +394,7 @@ export class GameWorkerRunner {
           payload: e,
         }),
       );
+
       this.takeMove(word);
     } else {
       const entries = Object.entries(this.solver.graphSolver.depthMap[1]);
@@ -416,6 +425,7 @@ export class GameWorkerRunner {
           payload: e,
         }),
       );
+
       this.takeMove(word);
     }
   }
@@ -458,6 +468,7 @@ export class GameWorkerRunner {
             payload: " → 알 수 없음  \n",
           });
           const word = this.getWord([start, end]);
+
           this.takeMove(word!);
           return;
         }
@@ -478,6 +489,7 @@ export class GameWorkerRunner {
           payload: e,
         }),
       );
+
       this.takeMove(optimalWord);
     } else {
       const entries = Object.entries(this.solver.graphSolver.depthMap[1]);
@@ -508,6 +520,7 @@ export class GameWorkerRunner {
           payload: e,
         }),
       );
+
       this.takeMove(word);
     }
   }
