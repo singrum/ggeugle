@@ -14,7 +14,7 @@ export default function ErrorPage() {
 
   return (
     <div>
-      <h1>예상치 못한 오류가 발생했어요. 개발자에게 문의해주세요.</h1>
+      <h1>예상치 못한 오류가 발생했어요. 개발자에게 문의해주세요. </h1>
       <p>{(error as Error).message}</p>
     </div>
   );
