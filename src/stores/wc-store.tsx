@@ -10,13 +10,13 @@ import { create } from "zustand";
 
 import type { Chat } from "../types/play";
 import { createCriticalWordsSlice } from "./slices/critical-words-slice";
+import { createDistributionSlice } from "./slices/distribution-slice";
 import { createInfoSlice } from "./slices/info-slice";
 import { createPlaySlice } from "./slices/play-slice";
 import { createRuleSlice } from "./slices/rule-slice";
 import { createSearchSlice } from "./slices/search-slice";
 import { createStrategySearchSlice } from "./slices/strategy-search-slice";
 import type { Slices } from "./types/wc-store";
-import { createDistributionSlice } from "./slices/distribution-slice";
 
 // js-cookie를 사용하는 StateStorage 구현
 const cookieStorage: StateStorage = {
@@ -57,6 +57,8 @@ export const useWcStore = create<Slices>()(
         debugOpen: state.debugOpen,
         comparisonToast: state.comparisonToast,
         kkutuLocalRule: state.kkutuLocalRule,
+        distributionNodeType: state.distributionNodeType,
+        wordDistributionOption: state.wordDistributionOption,
       }),
     },
   ),
