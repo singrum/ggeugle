@@ -38,7 +38,8 @@ export default function WordDistributionSettings() {
           >
             {option.type === "adjacent"
               ? adjacentOptions[option.direction]
-              : "이전/다음 단어 비율"}
+              : nonAdjacentOptions.find(({ key }) => option.type === key)
+                  ?.title}
 
             {<ChevronsUpDown className="size-3" />}
           </Button>
