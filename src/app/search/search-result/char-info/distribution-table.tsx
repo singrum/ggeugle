@@ -29,7 +29,7 @@ import { ChevronsUpDown, MoveDown, MoveUp } from "lucide-react";
 import { useEffect } from "react";
 const adjacentOptions = ["다음 단어", "이전 단어"];
 const PAGE_SIZE = 20;
-export default function CharInfoTable({ solver }: { solver: WordSolver }) {
+export default function DistributionTable({ solver }: { solver: WordSolver }) {
   const option = useWcStore((e) => e.wordDistributionOption);
   const data = useWcStore((e) => e.distributionData);
   const moveTypes = useWcStore((e) => e.distributionRows);
@@ -42,14 +42,14 @@ export default function CharInfoTable({ solver }: { solver: WordSolver }) {
   useEffect(() => {
     setData(
       option.type === "adjacent"
-        ? solver.graphSolver.getCharInfo(
+        ? solver.graphSolver.getDistribution(
             nodeType,
             view,
             option.direction,
             option.sort,
             option.displayType,
           )
-        : solver.graphSolver.getCharInfoRatio(
+        : solver.graphSolver.getDistributionRatio(
             nodeType,
             view,
             option.wordTypes,

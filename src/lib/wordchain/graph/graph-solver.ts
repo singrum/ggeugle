@@ -649,7 +649,7 @@ export class GraphSolver {
 
     return nodeMap;
   }
-  getCharInfo(
+  getDistribution(
     type: NodeType,
     view: NodePos,
     direction: 0 | 1,
@@ -690,7 +690,7 @@ export class GraphSolver {
 
     return result;
   }
-  getCharInfoRatio(
+  getDistributionRatio(
     type: NodeType,
     view: NodePos,
     wordTypes: [MoveType | "total", MoveType | "total"],

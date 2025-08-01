@@ -1,9 +1,9 @@
 import type { WordSolver } from "@/lib/wordchain/word/word-solver";
-import CharInfoTable from "./char-info-table";
+import DistributionTable from "./Distribution-table";
 import NodeTypeSettings from "./node-type-settings";
 import WordDistributionSettings from "./word-distribution-settings";
 
-export default function CharInfo({ solver }: { solver: WordSolver }) {
+export default function Distribution({ solver }: { solver: WordSolver }) {
   // 페이지가 바뀌거나 정렬이 바뀔 때, 페이지 초기화
 
   return (
@@ -15,7 +15,7 @@ export default function CharInfo({ solver }: { solver: WordSolver }) {
         </div>
       </div>
 
-      <CharInfoTable solver={solver} />
+      <DistributionTable solver={solver} />
     </div>
   );
 }

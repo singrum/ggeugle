@@ -1,5 +1,6 @@
 import ChangeableChars from "@/app/search/search-result/changeable-chars/changeable-chars";
-import CharInfo from "@/app/search/search-result/char-info/char-info";
+import Distribution from "@/app/search/search-result/char-info/distribution";
+
 import Comparison from "@/app/search/search-result/comparison/comparison";
 import CriticalWords from "@/app/search/search-result/critical-words/critical-words";
 import Download from "@/app/search/search-result/download/download";
@@ -52,7 +53,7 @@ export const searchResultMenuInfo: Record<
 > = {
   empty: [
     { title: "통계", component: Statistics },
-    { title: "음절별 단어 분포", component: CharInfo },
+    { title: "음절별 단어 분포", component: Distribution },
     { title: "강한 연결 요소", component: Scc },
     { title: "전략 탐색", component: StrategySearch },
     { title: "임계 단어", component: CriticalWords },

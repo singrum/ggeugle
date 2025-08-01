@@ -33,7 +33,7 @@ export default function WordDistributionSettings() {
           >
             {option.type === "adjacent"
               ? adjacentOptions[option.direction]
-              : "비율"}
+              : "이전/다음 단어 비율"}
 
             {<ChevronsUpDown className="size-3" />}
           </Button>
@@ -72,7 +72,7 @@ export default function WordDistributionSettings() {
             ))}
             <DropdownMenuSeparator />
             <DropdownMenuRadioItem value={`ratio`} key={`ratio`}>
-              {"비율"}
+              {"이전/다음 단어 비율"}
             </DropdownMenuRadioItem>
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
