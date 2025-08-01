@@ -690,11 +690,12 @@ export class GraphSolver {
 
     return result;
   }
-  getDistributionRatio(
+  getDistributionWithCalc(
     type: NodeType,
     view: NodePos,
     wordTypes: [MoveType | "total", MoveType | "total"],
     desc: boolean,
+    calcType: "ratio" | "difference",
   ): { char: NodeName; num: [number, number, number] }[] {
     const distributionMaps: Record<NodeName, number>[] = (
       [0, 1] as (0 | 1)[]
@@ -722,7 +723,9 @@ export class GraphSolver {
         num: [
           distributionMaps[1][node],
           distributionMaps[0][node],
-          distributionMaps[1][node] / distributionMaps[0][node],
+          calcType === "ratio"
+            ? distributionMaps[1][node] / distributionMaps[0][node]
+            : distributionMaps[1][node] - distributionMaps[0][node],
         ],
       });
     }
