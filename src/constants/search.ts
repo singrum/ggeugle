@@ -1,5 +1,5 @@
 import ChangeableChars from "@/app/search/search-result/changeable-chars/changeable-chars";
-import Distribution from "@/app/search/search-result/char-info/distribution";
+import Distribution from "@/app/search/search-result/distribution/distribution";
 
 import Comparison from "@/app/search/search-result/comparison/comparison";
 import CriticalWords from "@/app/search/search-result/critical-words/critical-words";
