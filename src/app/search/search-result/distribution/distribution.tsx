@@ -1,5 +1,6 @@
 import type { WordSolver } from "@/lib/wordchain/word/word-solver";
-import DistributionTable from "./Distribution-table";
+
+import DistributionTable from "./distribution-table";
 import NodeTypeSettings from "./node-type-settings";
 import WordDistributionSettings from "./word-distribution-settings";
 
