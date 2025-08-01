@@ -63,7 +63,7 @@ export const dicts: {
     defaultCate: toObject(cates, [1, 1, 1, 1]),
   },
   {
-    title: "끄투 노인정",
+    title: "끄투코리아 노인정",
     urlFunction: () => `https://singrum.github.io/KoreanDict/kkutu/db/노인정`,
     activePos: toObject(poses, [0, 0, 0, 0, 0, 0, 0, 0, 0]),
     defaultPos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 1, 1]),
@@ -71,7 +71,7 @@ export const dicts: {
     defaultCate: toObject(cates, [1, 1, 1, 1]),
   },
   {
-    title: "끄투 어인정",
+    title: "끄투코리아 어인정",
     urlFunction: () => `https://singrum.github.io/KoreanDict/kkutu/db/어인정`,
     activePos: toObject(poses, [0, 0, 0, 0, 0, 0, 0, 0, 0]),
     defaultPos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 1, 1]),
