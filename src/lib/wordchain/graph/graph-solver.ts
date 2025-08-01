@@ -7,7 +7,7 @@ import type {
   MoveType,
   RouteCharListData,
 } from "@/types/search";
-import { range, round } from "lodash";
+import { range, round, sum } from "lodash";
 import { EdgeMap } from "../classes/edge-map";
 import {
   hasDepthMap,
@@ -591,16 +591,12 @@ export class GraphSolver {
       return this.getUnremovedMoveType(start, end);
     }
   }
-  getCharInfo(
+
+  getDistributionMap(
     type: NodeType,
     view: NodePos,
     direction: 0 | 1,
-    sort: { key: "total" | MoveType; desc: boolean },
-    displayType: "number" | "fraction", // 👈 기본값 추가
-  ): {
-    char: string;
-    num: [number, number, number, number, number, number];
-  }[] {
+  ): Record<NodeName, [number, number, number, number, number, number]> {
     const removedEdges = this.graphs.getGraph("removed").edges(1);
     const unremovedEdges = [
       ...this.graphs.getGraph("route").edges(1),
@@ -651,11 +647,21 @@ export class GraphSolver {
       }
     }
 
-    let result = Object.entries(nodeMap).map(([char, num]) => ({
-      char,
-      num: [...num] as [number, number, number, number, number, number],
-    }));
-
+    return nodeMap;
+  }
+  getCharInfo(
+    type: NodeType,
+    view: NodePos,
+    direction: 0 | 1,
+    sort: { key: "total" | MoveType; desc: boolean },
+    displayType: "number" | "fraction", // 👈 기본값 추가
+  ): {
+    char: string;
+    num: [number, number, number, number, number, number];
+  }[] {
+    let result = Object.entries(
+      this.getDistributionMap(type, view, direction),
+    ).map(([nodeName, num]) => ({ char: nodeName, num }));
     // ✅ 비율로 보기 처리
     if (displayType === "fraction") {
       result = result.map(({ char, num }) => {
@@ -681,6 +687,49 @@ export class GraphSolver {
     });
 
     if (sort.desc) result.reverse();
+
+    return result;
+  }
+  getCharInfoRatio(
+    type: NodeType,
+    view: NodePos,
+    wordTypes: [MoveType | "total", MoveType | "total"],
+    desc: boolean,
+  ): { char: NodeName; num: [number, number, number] }[] {
+    const distributionMaps: Record<NodeName, number>[] = (
+      [0, 1] as (0 | 1)[]
+    ).map((direction) => {
+      const dMap = this.getDistributionMap(type, view, direction as 0 | 1);
+      const result: Record<NodeName, number> = {};
+      for (const [node, val] of Object.entries(dMap)) {
+        const type = wordTypes[direction];
+        if (type === "total") {
+          result[node] = sum(val);
+        } else {
+          result[node] = val[type];
+        }
+      }
+      return result;
+    });
+    const nodes = Object.keys(distributionMaps[0]);
+    const result: {
+      char: NodeName;
+      num: [number, number, number];
+    }[] = [];
+    for (const node of nodes) {
+      result.push({
+        char: node,
+        num: [
+          distributionMaps[1][node],
+          distributionMaps[0][node],
+          distributionMaps[1][node] / distributionMaps[0][node],
+        ],
+      });
+    }
+    result.sort((a, b) => a.num[2] - b.num[2]);
+    if (desc === true) {
+      result.reverse();
+    }
 
     return result;
   }

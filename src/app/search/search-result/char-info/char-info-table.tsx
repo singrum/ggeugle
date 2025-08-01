@@ -2,6 +2,14 @@ import { Ball } from "@/components/ball";
 import CharButton from "@/components/char-data-section/char-button";
 import { Button } from "@/components/ui/button";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { PaginationSimple } from "@/components/ui/pagination-simple";
+import {
   Table,
   TableBody,
   TableCell,
@@ -13,100 +21,244 @@ import {
   moveTypeNameMap,
   moveTypeToWordVariant,
 } from "@/lib/wordchain/constants";
-import type { NodeType } from "@/lib/wordchain/graph/graph";
+import type { WordSolver } from "@/lib/wordchain/word/word-solver";
+import { useWcStore } from "@/stores/wc-store";
 import type { MoveType } from "@/types/search";
 import { sum } from "lodash";
-import { MoveDown, MoveUp } from "lucide-react";
+import { ChevronsUpDown, MoveDown, MoveUp } from "lucide-react";
+import { useEffect } from "react";
+const adjacentOptions = ["다음 단어", "이전 단어"];
+const PAGE_SIZE = 20;
+export default function CharInfoTable({ solver }: { solver: WordSolver }) {
+  const option = useWcStore((e) => e.wordDistributionOption);
+  const data = useWcStore((e) => e.distributionData);
+  const moveTypes = useWcStore((e) => e.distributionRows);
+  const page = useWcStore((e) => e.distributionTablePage);
+  const setPage = useWcStore((e) => e.setDistributionTablePage);
+  const nodeType = useWcStore((e) => e.distributionNodeType);
+  const view = useWcStore((e) => e.view);
+  const setData = useWcStore((e) => e.setDistributionData);
 
-export default function CharInfoTable({
-  data,
-  type,
-  sort,
-  setSort,
-  displayType,
-  moveTypes,
-}: {
-  data: {
-    char: string;
-    num: [number, number, number, number, number, number];
-  }[];
-  type: NodeType;
-  sort: { key: "total" | MoveType; desc: boolean };
-  setSort: (sort: { key: "total" | MoveType; desc: boolean }) => void;
-  displayType: "number" | "fraction";
-  moveTypes: MoveType[];
-}) {
+  useEffect(() => {
+    setData(
+      option.type === "adjacent"
+        ? solver.graphSolver.getCharInfo(
+            nodeType,
+            view,
+            option.direction,
+            option.sort,
+            option.displayType,
+          )
+        : solver.graphSolver.getCharInfoRatio(
+            nodeType,
+            view,
+            option.wordTypes,
+
+            option.desc,
+          ),
+    );
+  }, [solver, view, nodeType, option, setData]);
+
   const formatValue = (value: number) => {
-    return displayType === "fraction"
+    return option.type === "adjacent" && option.displayType === "fraction"
       ? `${(value * 100).toFixed(1)}%`
       : value.toLocaleString();
   };
-
+  const totalPages = Math.ceil((data ? data.length : 0) / PAGE_SIZE);
+  const pagedData = data?.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="px-0 text-center">음절</TableHead>
-          {moveTypes.map((e) => (
-            <TableHead className="px-0 text-center" key={`head-${e}`}>
-              <Button
-                size="sm"
-                variant={"ghost"}
-                onClick={() => {
-                  setSort({ key: e, desc: sort.key === e ? !sort.desc : true });
-                }}
-              >
-                <Ball variant={moveTypeToWordVariant[e]} />
-                {moveTypeNameMap[e].slice(0, 3)}
-                {sort.key === e &&
-                  (sort.desc ? (
-                    <MoveDown className="size-3" />
-                  ) : (
-                    <MoveUp className="size-3" />
-                  ))}
-              </Button>
-            </TableHead>
-          ))}
-          <TableHead className="px-0 text-center">
-            <Button
-              variant={"ghost"}
-              onClick={() => {
-                setSort({
-                  key: "total",
-                  desc: sort.key === "total" ? !sort.desc : true,
-                });
-              }}
-            >
-              총합
-              {sort.key === "total" &&
-                (sort.desc ? (
-                  <MoveDown className="size-3" />
-                ) : (
-                  <MoveUp className="size-3" />
+    <>
+      {totalPages > 1 && (
+        <PaginationSimple
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
+      )}
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="px-0 text-center">음절</TableHead>
+            {option.type === "adjacent" ? (
+              <>
+                {moveTypes.map((e) => (
+                  <TableHead className="px-0 text-center" key={`head-${e}`}>
+                    <Button
+                      size="sm"
+                      variant={"ghost"}
+                      onClick={() => {
+                        useWcStore.setState((state) => {
+                          if (
+                            state.wordDistributionOption.type === "adjacent"
+                          ) {
+                            state.wordDistributionOption.sort = {
+                              key: e as MoveType,
+                              desc:
+                                option.sort.key === e
+                                  ? !option.sort.desc
+                                  : true,
+                            };
+                          }
+                        });
+                      }}
+                    >
+                      <Ball variant={moveTypeToWordVariant[e]} />
+                      {moveTypeNameMap[e].slice(0, 3)}
+                      {option.sort.key === e &&
+                        (option.sort.desc ? (
+                          <MoveDown className="size-3" />
+                        ) : (
+                          <MoveUp className="size-3" />
+                        ))}
+                    </Button>
+                  </TableHead>
                 ))}
-            </Button>
-          </TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map(({ char, num }) => (
-          <TableRow key={char}>
-            <TableCell className="text-center">
-              <CharButton variant={type} className="font-medium">
-                {char}
-              </CharButton>
-            </TableCell>
-            {moveTypes.map((key) => (
-              <TableCell className="text-center" key={`cell-${char}-${key}`}>
-                {formatValue(num[key])}
-              </TableCell>
-            ))}
-            <TableCell className="text-center">
-              {formatValue(sum(num))}
-            </TableCell>
+                <TableHead className="px-0 text-center">
+                  <Button
+                    variant={"ghost"}
+                    onClick={() => {
+                      useWcStore.setState((state) => {
+                        if (state.wordDistributionOption.type === "adjacent") {
+                          state.wordDistributionOption.sort = {
+                            key: "total",
+                            desc:
+                              option.sort.key === "total"
+                                ? !option.sort.desc
+                                : true,
+                          };
+                        }
+                      });
+                    }}
+                  >
+                    총합
+                    {option.sort.key === "total" &&
+                      (option.sort.desc ? (
+                        <MoveDown className="size-3" />
+                      ) : (
+                        <MoveUp className="size-3" />
+                      ))}
+                  </Button>
+                </TableHead>
+              </>
+            ) : (
+              <>
+                {[1, 0].map((direction) => (
+                  <DropdownMenu key={direction}>
+                    <DropdownMenuTrigger asChild>
+                      <TableHead className="px-0 text-center">
+                        <Button variant={"ghost"}>
+                          {adjacentOptions[direction]}:{" "}
+                          <span className="font-normal">
+                            {option.wordTypes[direction] === "total"
+                              ? "총합"
+                              : moveTypeNameMap[
+                                  option.wordTypes[direction] as MoveType
+                                ].slice(0, 3)}
+                          </span>
+                          <ChevronsUpDown className="size-3" />
+                        </Button>
+                      </TableHead>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-50">
+                      <DropdownMenuRadioGroup
+                        value={String(option.wordTypes[direction])}
+                        onValueChange={(e: string) => {
+                          useWcStore.setState((state) => {
+                            if (state.wordDistributionOption.type === "ratio") {
+                              state.wordDistributionOption.wordTypes[
+                                direction
+                              ] =
+                                e !== "total"
+                                  ? (Number(e) as MoveType)
+                                  : "total";
+                            }
+                          });
+                        }}
+                      >
+                        {[0, 1, 2, 3, 4, 5].map((type) => (
+                          <DropdownMenuRadioItem
+                            value={`${type}`}
+                            key={type}
+                            circle={
+                              <Ball variant={moveTypeToWordVariant[type]} />
+                            }
+                          >
+                            {moveTypeNameMap[type]}
+                          </DropdownMenuRadioItem>
+                        ))}
+                        <DropdownMenuRadioItem
+                          value={`total`}
+                          circle={<Ball variant={"default"} />}
+                        >
+                          총합
+                        </DropdownMenuRadioItem>
+                      </DropdownMenuRadioGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ))}
+                <TableHead className="px-0 text-center">
+                  <Button
+                    variant={"ghost"}
+                    onClick={() => {
+                      useWcStore.setState((state) => {
+                        if (state.wordDistributionOption.type === "ratio") {
+                          state.wordDistributionOption.desc =
+                            !state.wordDistributionOption.desc;
+                        }
+                      });
+                    }}
+                  >
+                    비율
+                    {option.desc ? (
+                      <MoveDown className="size-3" />
+                    ) : (
+                      <MoveUp className="size-3" />
+                    )}
+                  </Button>
+                </TableHead>
+              </>
+            )}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {pagedData?.slice().map(({ char, num }) => (
+            <TableRow key={char}>
+              <TableCell className="text-center">
+                <CharButton variant={nodeType} className="font-medium">
+                  {char}
+                </CharButton>
+              </TableCell>
+              {option.type === "adjacent" ? (
+                <>
+                  {moveTypes.map((key) => (
+                    <TableCell className="text-center" key={`cell-${key}`}>
+                      {formatValue(num[key])}
+                    </TableCell>
+                  ))}
+                  <TableCell className="text-center">
+                    {formatValue(sum(num))}
+                  </TableCell>
+                </>
+              ) : (
+                <>
+                  {[0, 1, 2].map((key) => (
+                    <TableCell className="text-center" key={`cell-${key}`}>
+                      {formatValue(num[key])}
+                    </TableCell>
+                  ))}
+                </>
+              )}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      {totalPages > 1 && (
+        <PaginationSimple
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+        />
+      )}
+    </>
   );
 }

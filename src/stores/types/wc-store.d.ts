@@ -2,13 +2,18 @@ import type { RuleForm } from "@/types/rule";
 import type {
   ComparisonMap,
   CriticalWordInfo,
+  MoveType,
   PrecedenceMaps,
   SearchInputType,
   SingleThreadSearechStatus,
 } from "@/types/search";
 import { type DebouncedFuncLeading } from "lodash";
 
-import type { NodeName, SingleMove } from "@/lib/wordchain/graph/graph";
+import type {
+  NodeName,
+  NodeType,
+  SingleMove,
+} from "@/lib/wordchain/graph/graph";
 
 import type { WordSolver } from "@/lib/wordchain/word/word-solver";
 import type { ComlinkRunner } from "@/lib/worker/comlink-runner";
@@ -169,9 +174,40 @@ export type InfoSlice = {
   isDefaultOpenDonation: boolean;
 };
 
+export type DistributionSlice = {
+  distributionNodeType: NodeType;
+  wordDistributionOption:
+    | {
+        type: "adjacent";
+        direction: 0 | 1;
+        sort: { key: MoveType | "total"; desc: boolean };
+        displayType: "number" | "fraction";
+      }
+    | {
+        type: "ratio";
+        wordTypes: [MoveType | "total", MoveType | "total"];
+        desc: boolean;
+      };
+  distributionTablePage: number;
+  setDistributionTablePage: (page: number) => void;
+  distributionData?:
+    | {
+        char: string;
+        num: number[];
+      }[]
+    | {
+        char: string;
+        num: number[];
+      }[]
+    | undefined;
+  setDistributionData: (data: DistributionSlice["distributionData"]) => void;
+  distributionRows: number[];
+};
+
 export type Slices = RuleSlice &
   SearchSlice &
   StrategySearchSlice &
   CriticalWordsSlice &
   PlaySlice &
-  InfoSlice;
+  InfoSlice &
+  DistributionSlice;
