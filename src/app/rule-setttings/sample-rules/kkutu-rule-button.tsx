@@ -113,7 +113,7 @@ export default function KkutuRuleButton() {
             variant={"secondary"}
             onClick={() => setKkutuRule()}
             size="lg"
-            className="w-full"
+            className="w-full cursor-pointer"
           >
             저장
           </Button>
