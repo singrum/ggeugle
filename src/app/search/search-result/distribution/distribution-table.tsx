@@ -6,6 +6,7 @@ import {
   DropdownMenuContent,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { PaginationSimple } from "@/components/ui/pagination-simple";
@@ -188,6 +189,7 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
                             {moveTypeNameMap[type]}
                           </DropdownMenuRadioItem>
                         ))}
+                        <DropdownMenuSeparator />
                         <DropdownMenuRadioItem
                           value={`total`}
                           circle={<Ball variant={"default"} />}
