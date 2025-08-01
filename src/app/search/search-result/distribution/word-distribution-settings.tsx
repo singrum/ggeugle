@@ -63,7 +63,10 @@ export default function WordDistributionSettings() {
                   };
                 } else {
                   state.wordDistributionOption.desc = true;
-                  state.wordDistributionOption.wordTypes = ["total", "total"];
+                  state.wordDistributionOption.wordTypes =
+                    state.distributionNodeType === "route"
+                      ? [1, 1]
+                      : ["total", "total"];
                 }
               });
             }}
