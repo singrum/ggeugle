@@ -5,7 +5,7 @@ export function Ball({
   variant,
   className,
 }: {
-  variant: "win" | "lose" | "loopwin" | "route" | "removed";
+  variant: "win" | "lose" | "loopwin" | "route" | "removed" | "default";
 } & React.ComponentProps<"div">) {
   return (
     <div
@@ -17,6 +17,7 @@ export function Ball({
           "bg-route": variant === "route",
           "bg-loopwin": variant === "loopwin",
           "bg-foreground/20": variant === "removed",
+          "bg-foreground": variant === "default",
         },
         className,
       )}

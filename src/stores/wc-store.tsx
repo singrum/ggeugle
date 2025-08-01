@@ -16,6 +16,7 @@ import { createRuleSlice } from "./slices/rule-slice";
 import { createSearchSlice } from "./slices/search-slice";
 import { createStrategySearchSlice } from "./slices/strategy-search-slice";
 import type { Slices } from "./types/wc-store";
+import { createDistributionSlice } from "./slices/distribution-slice";
 
 // js-cookie를 사용하는 StateStorage 구현
 const cookieStorage: StateStorage = {
@@ -40,6 +41,7 @@ export const useWcStore = create<Slices>()(
       ...createCriticalWordsSlice(...a),
       ...createPlaySlice(...a),
       ...createInfoSlice(...a),
+      ...createDistributionSlice(...a),
     })),
     {
       name: "ggeugle", // 2. 쿠키에 저장될 이름
