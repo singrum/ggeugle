@@ -114,6 +114,7 @@ export function checkInitialCondition(graph: BipartiteDiGraph, node: NodeName) {
 export function isWin(
   graph: BipartiteDiGraph,
   move: SingleMove,
+  precRule: number,
   precMap: PrecedenceMaps,
   callback?: (e: SearchCallbackParameter) => void,
 ): boolean {
@@ -145,10 +146,10 @@ export function isWin(
 
   const nextMoves = graph
     .getMovesFromNode(move[1], 0, 0)
-    .sort((a, b) => graph.compareNextMoveNum(a, b, precMap));
+    .sort((a, b) => graph.compareNextMoveNum(a, b, precRule, precMap));
 
   for (const [start, end] of nextMoves) {
-    if (!isWin(graph, [start, end], precMap, callback)) {
+    if (!isWin(graph, [start, end], precRule, precMap, callback)) {
       if (callback) {
         callback({ action: "pop", data: "lose" });
       }

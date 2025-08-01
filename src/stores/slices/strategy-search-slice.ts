@@ -43,7 +43,12 @@ export const createStrategySearchSlice: StateCreator<
         .sort((a, b) =>
           solver!.graphSolver.graphs
             .getGraph("route")
-            .compareNextMoveNum(a, b, get().precedenceMaps),
+            .compareNextMoveNum(
+              a,
+              b,
+              get().precedenceRule,
+              get().precedenceMaps,
+            ),
         );
     } else {
       moves = solver!.graphSolver.graphs
@@ -57,9 +62,13 @@ export const createStrategySearchSlice: StateCreator<
         .sort((a, b) =>
           solver!.graphSolver.graphs
             .getGraph("route")
-            .compareNextMoveNum(a, b, get().precedenceMaps),
+            .compareNextMoveNum(
+              a,
+              b,
+              get().precedenceRule,
+              get().precedenceMaps,
+            ),
         );
-      
     }
 
     const singleThreadSearchInfo = {
@@ -144,6 +153,7 @@ export const createStrategySearchSlice: StateCreator<
       ),
       get().solver!.graphSolver.graphs.getGraph("route"),
       move,
+      get().precedenceRule,
       get().precedenceMaps,
     );
   },
@@ -209,6 +219,9 @@ export const createStrategySearchSlice: StateCreator<
     set({ singleThreadSearchInfo: { moves: [], mapping: {} } });
   },
   singleThreadSearchInfo: { moves: [], mapping: {} },
+
+  precedenceRule: 0,
+  setPrecedenceRule: (rule: number) => set({ precedenceRule: rule }),
 
   precedenceMaps: { edge: {}, node: {} },
   setPrecedenceMaps: (pMap: PrecedenceMaps) => set({ precedenceMaps: pMap }),

@@ -527,6 +527,7 @@ export class BipartiteDiGraph {
   compareNextMoveNum(
     move1: [NodeName, NodeName],
     move2: [NodeName, NodeName],
+    precRule: number,
     precMap: PrecedenceMaps,
   ) {
     const result: number[] = [Infinity, Infinity];
@@ -564,12 +565,24 @@ export class BipartiteDiGraph {
     for (const i of [0, 1]) {
       const [, end] = moves[i];
       const nextMoves = this.getMovesFromNode(end, 0, 0);
-      const key = nextMoves.reduce(
+      const nextNum = nextMoves.reduce(
         (prev, curr) => prev + this.getEdgeNum(curr[0], curr[1]),
         0,
       );
+      result[i] = nextNum;
 
-      result[i] = key;
+      if (precRule !== 0) {
+        const prevMoves = this.getMovesFromNode(end, 0, 1);
+        const prevNum = prevMoves.reduce(
+          (prev, curr) => prev + this.getEdgeNum(curr[0], curr[1]),
+          0,
+        );
+        if (precRule === 1) {
+          result[i] -= prevNum;
+        } else {
+          result[i] /= prevNum;
+        }
+      }
     }
     return result[0] - result[1];
   }

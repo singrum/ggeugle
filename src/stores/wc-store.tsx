@@ -44,9 +44,9 @@ export const useWcStore = create<Slices>()(
       ...createDistributionSlice(...a),
     })),
     {
-      name: "ggeugle", // 2. 쿠키에 저장될 이름
-      storage: createJSONStorage(() => cookieStorage), // 3. 쿠키 스토리지 사용
-      // 4. gameSettingsInfo 부분만 선택하여 저장
+      name: "ggeugle",
+      storage: createJSONStorage(() => cookieStorage),
+
       partialize: (state) => ({
         gameSettingsInfo: state.gameSettingsInfo,
         charMenu: state.charMenu,
@@ -59,6 +59,7 @@ export const useWcStore = create<Slices>()(
         kkutuLocalRule: state.kkutuLocalRule,
         distributionNodeType: state.distributionNodeType,
         wordDistributionOption: state.wordDistributionOption,
+        precedenceRule: state.precedenceRule,
       }),
     },
   ),
