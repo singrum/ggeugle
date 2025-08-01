@@ -31,6 +31,7 @@ export class GameWorkerRunner {
   private difficulty: 0 | 1 | 2;
   private calculatingDuration: number;
   private stealable: boolean;
+  private precRule: number;
   private precMap: PrecedenceMaps;
   private historyWordMap: WordMap;
   private currChar: undefined | NodeName;
@@ -44,6 +45,7 @@ export class GameWorkerRunner {
     calculatingDuration: number,
     stealable: boolean,
     history: string[],
+    precRule: number,
     precMap: PrecedenceMaps,
     callback: (e: GameWorkerRunnerOnmessageData) => void,
     id: string,
@@ -61,6 +63,7 @@ export class GameWorkerRunner {
     );
     this.currChar = history.at(-1)?.at(this.solver.tailIdx);
 
+    this.precRule = precRule;
     this.precMap = precMap;
 
     this.comlinkRunner = new ComlinkRunner(FuncWorker);
@@ -115,7 +118,7 @@ export class GameWorkerRunner {
             .sort((a, b) => {
               return updatedSolver.graphs
                 .getGraph("route")
-                .compareNextMoveNum(a, b, this.precMap);
+                .compareNextMoveNum(a, b, this.precRule, this.precMap);
             });
 
           resultMove = sample(routeMoves)!;
@@ -153,6 +156,7 @@ export class GameWorkerRunner {
                     "searchIsWin",
                     updatedSolver.graphs.getGraph("route"),
                     move,
+                    this.precRule,
                     this.precMap,
                     this.calculatingDuration * 1000,
                   );
@@ -446,6 +450,7 @@ export class GameWorkerRunner {
             "searchIsWin",
             this.solver.graphSolver.graphs.getGraph("route"),
             [start, end],
+            this.precRule,
             this.precMap,
             this.calculatingDuration * 1000,
           );

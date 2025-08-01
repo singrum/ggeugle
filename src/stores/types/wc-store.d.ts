@@ -116,6 +116,9 @@ export type StrategySearchSlice = {
   };
   clearSingleThreadSearch: () => void;
 
+  precedenceRule: number;
+  setPrecedenceRule: (rule: number) => void;
+
   precedenceMaps: PrecedenceMaps;
   setPrecedenceMaps: (pMap: PrecedenceMaps) => void;
 };

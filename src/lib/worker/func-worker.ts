@@ -43,11 +43,13 @@ export type FuncWorkerApi = {
     ) => void,
     graph: BipartiteDiGraph,
     move: SingleMove,
+    precRule: number,
     precMaps: PrecedenceMaps,
   ): void;
   searchIsWin(
     graph: BipartiteDiGraph,
     move: SingleMove,
+    precRule: number,
     precMaps: PrecedenceMaps,
   ): { isWin: boolean; duration: number };
 };
@@ -225,6 +227,7 @@ const funcWorkerApi: FuncWorkerApi = {
     ) => void,
     graph: BipartiteDiGraph,
     move: SingleMove,
+    precRule: number,
     precMap: PrecedenceMaps,
   ) {
     graph = BipartiteDiGraph.fromObj(graph);
@@ -244,7 +247,7 @@ const funcWorkerApi: FuncWorkerApi = {
       { leading: true, trailing: false }, // 첫 호출은 즉시, 이후 1초간 호출 무시
     );
 
-    const win = isWin(graph, move, precMap, ({ action, data }) => {
+    const win = isWin(graph, move, precRule, precMap, ({ action, data }) => {
       if (action === "push") {
         stack.push(data);
       } else if (action === "pop") {
@@ -283,11 +286,12 @@ const funcWorkerApi: FuncWorkerApi = {
   searchIsWin(
     graph: BipartiteDiGraph,
     move: SingleMove,
+    precRule,
     precMap,
   ): { isWin: boolean; duration: number } {
     graph = BipartiteDiGraph.fromObj(graph);
     const start = performance.now();
-    const win = isWin(graph, move, precMap);
+    const win = isWin(graph, move, precRule, precMap);
     const end = performance.now();
     return { isWin: !win, duration: end - start };
   },

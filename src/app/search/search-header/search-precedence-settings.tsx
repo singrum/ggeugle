@@ -35,6 +35,7 @@ import type { PrecedenceMaps } from "@/types/search";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { FileSpreadsheet } from "lucide-react";
 import { useState } from "react";
+import DefaultPrecedenceRule from "./default-precedence-rule";
 export default function SearchPredecenceSettings() {
   const [open, setOpen] = useState(false);
   const isTablet = useIsTablet();
@@ -52,7 +53,7 @@ export default function SearchPredecenceSettings() {
           </TooltipTrigger>
           <TooltipContent>전략 탐색 우선순위 편집</TooltipContent>
         </Tooltip>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="flex h-full max-h-130 flex-col sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>전략 탐색 우선순위 편집</DialogTitle>
             <VisuallyHidden>
@@ -71,7 +72,7 @@ export default function SearchPredecenceSettings() {
           <FileSpreadsheet />
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent className="h-full">
         <DrawerHeader className="text-left">
           <DrawerTitle className="px-2 text-left">
             전략 탐색 우선순위 편집
@@ -80,7 +81,7 @@ export default function SearchPredecenceSettings() {
             <DrawerDescription></DrawerDescription>
           </VisuallyHidden>
         </DrawerHeader>
-        <div className="overflow-auto px-6">
+        <div className="flex-1 overflow-auto px-6">
           <PrecedenceSettingsForm setOpen={setOpen} />
         </div>
       </DrawerContent>
@@ -171,18 +172,27 @@ function PrecedenceSettingsForm({
   };
 
   return (
-    <div className="space-y-4">
-      <GhostTabs defaultValue="edge" className="space-y-0">
+    <div className="h-full flex-1 space-y-4">
+      <GhostTabs defaultValue="default" className="h-full space-y-0">
         <GhostTabsList>
-          <GhostTabsTrigger value="edge">단어 우선순위</GhostTabsTrigger>
-          <GhostTabsTrigger value="node">음절 우선순위</GhostTabsTrigger>
+          <GhostTabsTrigger value="default">기본</GhostTabsTrigger>
+          <GhostTabsTrigger value="edge">단어</GhostTabsTrigger>
+          <GhostTabsTrigger value="node">음절</GhostTabsTrigger>
         </GhostTabsList>
 
-        <GhostTabsContent value="edge" className="mt-4 mb-6 space-y-2 lg:mb-0">
+        <GhostTabsContent value="default" className="mt-4 mb-6 lg:mb-0">
+          <DefaultPrecedenceRule />
+        </GhostTabsContent>
+
+        <GhostTabsContent
+          value="edge"
+          className="mt-4 mb-6 flex flex-col gap-2 lg:mb-0"
+        >
           <Textarea
+            id={"word"}
             value={edgeString}
             onChange={handleEdgeChange}
-            className="h-80 w-full resize-none rounded-xl border bg-transparent p-4 font-sans leading-6"
+            className="max-h-80 min-h-0 w-full flex-1 resize-none rounded-xl border bg-transparent p-4 font-sans leading-6"
             aria-invalid={!edgeValid}
             placeholder={`예: {\n  "가": { "나": 1 }\n}`}
           />
@@ -201,11 +211,14 @@ function PrecedenceSettingsForm({
           </Button>
         </GhostTabsContent>
 
-        <GhostTabsContent value="node" className="mt-4 mb-6 space-y-2 lg:mb-0">
+        <GhostTabsContent
+          value="node"
+          className="mt-4 mb-6 flex flex-col gap-2 lg:mb-0"
+        >
           <Textarea
             value={nodeString}
             onChange={handleNodeChange}
-            className="h-80 w-full resize-none rounded-xl border bg-transparent p-4 leading-6 focus-visible:ring-0"
+            className="max-h-80 min-h-0 w-full flex-1 resize-none rounded-xl border bg-transparent p-4 font-sans leading-6"
             aria-invalid={!nodeValid}
             placeholder={`예: {\n  "가": 1,\n  "나": 2\n}`}
           />
