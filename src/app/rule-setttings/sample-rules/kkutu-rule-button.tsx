@@ -27,7 +27,7 @@ export default function KkutuRuleButton() {
   return (
     <Card className="bg-card dark:bg-muted/50 relative w-full border transition-all dark:border-0">
       <CardHeader>
-        <CardTitle className="flex justify-between">끄투 코리아</CardTitle>
+        <CardTitle className="flex justify-between">끄투코리아</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid w-fit grid-cols-2 gap-y-4">
