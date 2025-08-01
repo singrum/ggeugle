@@ -25,7 +25,7 @@ import {
 import type { WordSolver } from "@/lib/wordchain/word/word-solver";
 import { useWcStore } from "@/stores/wc-store";
 import type { MoveType } from "@/types/search";
-import { sum } from "lodash";
+import { round, sum } from "lodash";
 import { ChevronsUpDown, MoveDown, MoveUp } from "lucide-react";
 import { useEffect } from "react";
 const adjacentOptions = ["다음 단어", "이전 단어"];
@@ -247,7 +247,7 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
                 <>
                   {[0, 1, 2].map((key) => (
                     <TableCell className="text-center" key={`cell-${key}`}>
-                      {formatValue(num[key])}
+                      {formatValue(round(num[key], 1))}
                     </TableCell>
                   ))}
                 </>
