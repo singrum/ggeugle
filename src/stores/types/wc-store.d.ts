@@ -184,7 +184,7 @@ export type DistributionSlice = {
         displayType: "number" | "fraction";
       }
     | {
-        type: "ratio";
+        type: "ratio" | "difference";
         wordTypes: [MoveType | "total", MoveType | "total"];
         desc: boolean;
       };

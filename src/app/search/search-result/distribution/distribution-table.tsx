@@ -49,12 +49,12 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
             option.sort,
             option.displayType,
           )
-        : solver.graphSolver.getDistributionRatio(
+        : solver.graphSolver.getDistributionWithCalc(
             nodeType,
             view,
             option.wordTypes,
-
             option.desc,
+            option.type,
           ),
     );
   }, [solver, view, nodeType, option, setData]);
@@ -164,7 +164,9 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
                         value={String(option.wordTypes[direction])}
                         onValueChange={(e: string) => {
                           useWcStore.setState((state) => {
-                            if (state.wordDistributionOption.type === "ratio") {
+                            if (
+                              state.wordDistributionOption.type !== "adjacent"
+                            ) {
                               state.wordDistributionOption.wordTypes[
                                 direction
                               ] =
@@ -201,14 +203,14 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
                     variant={"ghost"}
                     onClick={() => {
                       useWcStore.setState((state) => {
-                        if (state.wordDistributionOption.type === "ratio") {
+                        if (state.wordDistributionOption.type !== "adjacent") {
                           state.wordDistributionOption.desc =
                             !state.wordDistributionOption.desc;
                         }
                       });
                     }}
                   >
-                    비율
+                    {option.type === "ratio" ? "비율" : "차이"}
                     {option.desc ? (
                       <MoveDown className="size-3" />
                     ) : (

@@ -12,6 +12,11 @@ import { useWcStore } from "@/stores/wc-store";
 import { ChevronsUpDown, Hash, Percent } from "lucide-react";
 
 const adjacentOptions = ["다음 단어", "이전 단어"];
+const nonAdjacentOptions = [
+  { title: "이전/다음 단어 비율", key: "ratio" },
+  { title: "이전/다음 단어 차이", key: "difference" },
+];
+
 const displayTypeOptions = [
   { title: "개수", key: "number", icon: Hash },
   { title: "비율", key: "fraction", icon: Percent },
@@ -40,7 +45,7 @@ export default function WordDistributionSettings() {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-50">
           <DropdownMenuRadioGroup
-            value={`${option.type === "adjacent" ? "adjacent-" + option.direction : "ratio"}`}
+            value={`${option.type === "adjacent" ? "adjacent-" + option.direction : option.type}`}
             onValueChange={(e: string) => {
               const [type, direction] = e.split("-");
               useWcStore.setState((state) => {
@@ -71,9 +76,11 @@ export default function WordDistributionSettings() {
               </DropdownMenuRadioItem>
             ))}
             <DropdownMenuSeparator />
-            <DropdownMenuRadioItem value={`ratio`} key={`ratio`}>
-              {"이전/다음 단어 비율"}
-            </DropdownMenuRadioItem>
+            {nonAdjacentOptions.map((e) => (
+              <DropdownMenuRadioItem value={e.key} key={e.key}>
+                {e.title}
+              </DropdownMenuRadioItem>
+            ))}
           </DropdownMenuRadioGroup>
         </DropdownMenuContent>
       </DropdownMenu>
