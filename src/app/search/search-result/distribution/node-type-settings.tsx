@@ -37,7 +37,8 @@ export default function NodeTypeSettings() {
               if (e.wordDistributionOption.type === "adjacent") {
                 e.wordDistributionOption.sort = { key: "total", desc: true };
               } else {
-                e.wordDistributionOption.wordTypes = ["total", "total"];
+                e.wordDistributionOption.wordTypes =
+                  nodeType === "route" ? [1, 1] : ["total", "total"];
               }
               e.distributionNodeType = nodeType as NodeType;
             });
