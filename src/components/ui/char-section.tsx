@@ -160,7 +160,7 @@ export function CharButton({
     >
       {children}
       {cmp && (
-        <Ball variant={cmp[1]} className="absolute top-1 left-1 opacity-50" />
+        <Ball variant={cmp[1]} className="absolute top-1.5 left-1.5 size-1.5" />
       )}
     </Button>
   );
