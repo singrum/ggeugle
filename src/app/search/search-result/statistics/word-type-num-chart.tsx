@@ -21,7 +21,7 @@ export default function WordTypeNumChart({ solver }: { solver: WordSolver }) {
   const data = useMemo(() => {
     return solver.graphSolver.getWordTypeNum();
   }, [solver]);
-
+  console.log(data);
   const total = data.typeNum.reduce((prev, curr) => prev + curr, 0);
   const search = useWcStore((e) => e.search);
   return (

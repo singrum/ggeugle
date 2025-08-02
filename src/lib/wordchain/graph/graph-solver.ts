@@ -540,7 +540,7 @@ export class GraphSolver {
 
       const { type: moveType } = this.getUnremovedMoveType(start, end);
       typeNum[moveType] += num;
-      typeCounter[moveType][startType][endType]++;
+      typeCounter[moveType][startType][endType] += num;
     }
 
     const subtypeNum = moveTypeToNodeTypes.map((subTypes, moveType) =>
@@ -553,6 +553,7 @@ export class GraphSolver {
           ],
       ),
     );
+
     return { typeNum, subtypeNum };
   }
   getUnremovedMoveType(
