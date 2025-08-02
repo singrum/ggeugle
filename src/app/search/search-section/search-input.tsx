@@ -79,12 +79,13 @@ function SearchInputComponent({
         setLocalSearchInputValue(value);
         debouncedSetValue(value);
       }}
+      id="search-input"
       placeholder="음절 / 단어 / 기보를 입력하세요."
       tabIndex={1}
       className={cn(
         "w-full resize-none border-none bg-transparent px-4 pl-8 text-lg font-medium tracking-wide shadow-none md:text-lg dark:bg-transparent",
         "focus-visible:ring-0 focus-visible:outline-none",
-        { "pr-1": localSearchInputValue.length > 0 },
+        { "pr-16": localSearchInputValue.length > 0 },
       )}
     />
   );
