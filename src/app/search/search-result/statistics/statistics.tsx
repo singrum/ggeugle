@@ -6,19 +6,19 @@ import WordTypeNumChart from "./word-type-num-chart";
 
 export default function Statistics({ solver }: { solver: WordSolver }) {
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-2">
-      <div className="col-span-2 md:col-span-1">
+    <div className="grid grid-cols-2 gap-4">
+      <div className="col-span-2 @2xl/main:col-span-1">
         <WordTypeNumChart solver={solver} />
       </div>
-      <div className="col-span-2 md:col-span-1">
+      <div className="col-span-2 @2xl/main:col-span-1">
         <NodeTypeNumChart solver={solver} />
       </div>
 
-      <div className="col-span-2">
+      <div className="col-span-2 @2xl/main:col-span-1">
         <MaxRouteCharDataTable solver={solver} />
       </div>
 
-      <div className="col-span-2">
+      <div className="col-span-2 @2xl/main:col-span-1">
         <WinloseDetailChart solver={solver} />
       </div>
     </div>

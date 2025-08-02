@@ -26,7 +26,7 @@ export default function Layout() {
 
           {!isTablet && <AppSidebar />}
 
-          <SidebarInset className="flex max-w-full min-w-0 flex-col">
+          <SidebarInset className="@container/main flex max-w-full min-w-0 flex-col">
             <Outlet />
             {isTablet && <MobileBottomBar />}
           </SidebarInset>

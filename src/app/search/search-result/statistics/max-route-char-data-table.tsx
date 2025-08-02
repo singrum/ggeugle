@@ -27,8 +27,8 @@ export default function MaxRouteCharDataTable({
       <CardHeader className="items-center pb-0">
         <CardTitle>주요 루트 정보</CardTitle>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
-        <Table>
+      <CardContent className="flex flex-1 items-center pb-0">
+        <Table className="">
           <TableHeader>
             <TableRow>
               <TableHead></TableHead>
