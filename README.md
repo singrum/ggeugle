@@ -27,4 +27,4 @@
 ## 파생 프로젝트
 
 - 가가끄글 : [@tingtingplanet/gagageul](https://github.com/tingtingplanet/gagageul)  
-  더 많은 전략 탐색 옵션
+  더 많은 전략 탐색 옵션 구현
