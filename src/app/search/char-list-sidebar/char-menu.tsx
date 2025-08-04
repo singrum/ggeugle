@@ -4,32 +4,33 @@ import { cn } from "@/lib/utils";
 import { useWcStore } from "@/stores/wc-store";
 import type React from "react";
 
-export default function CharMenu({ className }: React.ComponentProps<"div">) {
+export default function MobileCharMenu({
+  className,
+}: React.ComponentProps<"div">) {
   const charMenu = useWcStore((e) => e.charMenu);
   const setCharMenu = useWcStore((e) => e.setCharMenu);
 
   return (
-    <div className={cn("sticky top-0 z-10 px-6 pt-4 pb-0", className)}>
-      <div
-        className={cn(
-          "bg-muted dark:bg-muted/50 supports-[backdrop-filter]:bg-muted/50 grid grid-cols-4 rounded-full border p-1 shadow-sm backdrop-blur-lg",
-        )}
-      >
-        {charMenuInfo.map(({ title, key }, i) => (
-          <div key={key} className="relative">
-            <CharMenuButton
-              className={cn("w-full rounded-full")}
-              color={key}
-              active={i === charMenu}
-              onClick={() => {
-                setCharMenu(i as 0 | 1 | 2);
-              }}
-            >
-              {title}
-            </CharMenuButton>
-          </div>
-        ))}
-      </div>
+    <div
+      className={cn(
+        "bg-background grid grid-cols-4 gap-0.5 rounded-full px-1 pt-1 md:px-2 md:pt-2",
+        className,
+      )}
+    >
+      {charMenuInfo.map(({ title, key }, i) => (
+        <div key={key} className="relative">
+          <CharMenuButton
+            className={cn("w-full")}
+            color={key}
+            active={i === charMenu}
+            onClick={() => {
+              setCharMenu(i as 0 | 1 | 2);
+            }}
+          >
+            {title}
+          </CharMenuButton>
+        </div>
+      ))}
     </div>
   );
 }
@@ -49,20 +50,16 @@ function CharMenuButton({
     { active: string }
   > = {
     win: {
-      active:
-        "text-win hover:text-win bg-win/10 hover:bg-win/10 dark:hover:bg-win/10",
+      active: "text-win hover:text-win",
     },
     lose: {
-      active:
-        "text-lose hover:text-lose bg-lose/10 hover:bg-lose/10 dark:hover:bg-lose/10",
+      active: "text-lose hover:text-lose",
     },
     loopwin: {
-      active:
-        "text-loopwin hover:text-loopwin bg-loopwin/10 hover:bg-loopwin/10 dark:hover:bg-loopwin/10",
+      active: "text-loopwin hover:text-loopwin",
     },
     route: {
-      active:
-        "text-route hover:text-route bg-route/10 hover:bg-route/10 dark:hover:bg-route/10",
+      active: "text-route hover:text-route",
     },
   };
 
@@ -70,14 +67,22 @@ function CharMenuButton({
     <Button
       variant={"ghost"}
       className={cn(
-        "text-muted-foreground hover:text-muted-foreground h-10",
-
+        "text-muted-foreground hover:text-muted-foreground h-13 rounded-full tracking-wider",
+        { "bg-accent dark:bg-accent/50": active },
         { [colorVariants[color].active]: active },
         className,
       )}
       {...props}
     >
       {children}
+      {/* {
+        <BottomBar
+          color={color}
+          className={cn("w-0 opacity-0 transition-all", {
+            "w-8 opacity-100": active,
+          })}
+        />
+      } */}
     </Button>
   );
 }
@@ -90,13 +95,14 @@ export function BottomBar({
     {
       win: "bg-win",
       lose: "bg-lose",
+      loopwin: "bg-loopwin",
       route: "bg-route",
     };
 
   return (
     <div
       className={cn(
-        "absolute bottom-0 left-1/2 h-1 w-12 -translate-x-1/2 rounded-full",
+        "absolute bottom-0 left-1/2 h-1 w-10 -translate-x-1/2 rounded-t",
 
         colorVariants[color],
         className,

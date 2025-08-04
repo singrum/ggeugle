@@ -4,7 +4,7 @@ import PlaySidebar from "@/app/play/play-sidebar/play-sidebar";
 import RuleSettings from "@/app/rule-setttings/rule-settings";
 import SampleRuleSidebar from "@/app/rule-setttings/sample-rules/sample-rule-sidebar";
 import CharListSidebar from "@/app/search/char-list-sidebar/char-list-sidebar";
-import MobileCharMenu from "@/app/search/char-list-sidebar/mobile-char-menu";
+import CharMenu from "@/app/search/char-list-sidebar/char-menu";
 import Search from "@/app/search/search";
 import {
   ChatsIcon,
@@ -30,7 +30,7 @@ export const navInfo: {
     component: <Search />,
     innerSidebarComponent: (
       <>
-        <MobileCharMenu className="sticky top-0 z-20" />
+        <CharMenu className="sticky top-0 z-20" />
         <CharListSidebar />
       </>
     ),
