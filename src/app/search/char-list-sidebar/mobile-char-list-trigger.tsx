@@ -11,7 +11,7 @@ import { useWcStore } from "@/stores/wc-store";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Menu } from "lucide-react";
 import CharListSidebar from "./char-list-sidebar";
-import MobileCharMenu from "./mobile-char-menu";
+import CharMenu from "./char-menu";
 
 export default function MobileCharListTrigger() {
   const open = useWcStore((e) => e.charListDrawerOpen);
@@ -36,7 +36,7 @@ export default function MobileCharListTrigger() {
               승리, 패배, 순환, 루트 음절 목록입니다.
             </DrawerDescription>
           </VisuallyHidden>
-          <MobileCharMenu className="mt-4" />
+          <CharMenu className="mt-4" />
         </DrawerHeader>
 
         <div className="h-full overflow-auto">
