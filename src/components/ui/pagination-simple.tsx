@@ -33,7 +33,7 @@ export function PaginationSimple({
         <Button
           size="icon"
           onClick={() => onPageChange(page - 1)}
-          variant="ghost"
+          variant="secondary"
           disabled={page <= 1 || disabled}
           className="size-8 rounded-md"
         >
@@ -41,7 +41,7 @@ export function PaginationSimple({
         </Button>
 
         <Button
-          variant="ghost"
+          variant="secondary"
           size="icon"
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages || disabled}

@@ -13,7 +13,7 @@ export default function WordsTable({ rows }: { rows: MoveRow[] }) {
   const currentRows = rows.slice(start, start + PAGE_SIZE);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4">
       {totalPages > 1 && (
         <PaginationSimple
           page={page}
