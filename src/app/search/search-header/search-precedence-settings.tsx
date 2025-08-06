@@ -188,6 +188,9 @@ function PrecedenceSettingsForm({
           value="edge"
           className="mt-4 mb-6 flex flex-col gap-2 lg:mb-0"
         >
+          <div className="text-muted-foreground text-sm">
+            숫자가 작을수록 우선순위가 높아요.(기본값 0)
+          </div>
           <Textarea
             id={"word"}
             value={edgeString}
@@ -215,6 +218,9 @@ function PrecedenceSettingsForm({
           value="node"
           className="mt-4 mb-6 flex flex-col gap-2 lg:mb-0"
         >
+          <div className="text-muted-foreground text-sm">
+            숫자가 작을수록 우선순위가 높아요.(기본값 0)
+          </div>
           <Textarea
             value={nodeString}
             onChange={handleNodeChange}

@@ -530,34 +530,26 @@ export class BipartiteDiGraph {
     precRule: number,
     precMap: PrecedenceMaps,
   ) {
+    // precedence가 작을수록 먼저 탐색 (기본값 = 0)
     const result: number[] = [Infinity, Infinity];
     const moves = [move1, move2];
 
     // 1
     for (const i of [0, 1]) {
       const [start, end] = moves[i];
-      const key: number = precMap.edge[start]?.[end];
-      if (key !== undefined) {
-        result[i] = key;
-      }
+      result[i] = precMap.edge[start]?.[end] ?? 0;
     }
 
-    let value = result[0] - result[1];
-
-    if (!isNaN(value) && value !== 0) {
+    if (result[0] !== result[1]) {
       return result[0] - result[1];
     }
 
     // 2
     for (const i of [0, 1]) {
       const [, end] = moves[i];
-      const key = precMap.node[end];
-      if (key !== undefined) {
-        result[i] = key;
-      }
+      result[i] = precMap.node[end] ?? 0;
     }
-    value = result[0] - result[1];
-    if (!isNaN(value) && value !== 0) {
+    if (result[0] !== result[1]) {
       return result[0] - result[1];
     }
 
