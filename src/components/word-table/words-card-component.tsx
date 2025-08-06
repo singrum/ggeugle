@@ -20,7 +20,7 @@ export default function WordsCardComponent({
 } & React.ComponentProps<typeof AccordionPrimitive.Item>) {
   return (
     <AccordionItem {...props} className="border-0">
-      <AccordionTrigger className="bg-background hover:bg-accent dark:hover:bg-accent/50 top-0 px-2 py-4 hover:no-underline">
+      <AccordionTrigger className="bg-background hover:bg-accent dark:hover:bg-accent/50 top-0 mb-1 px-2 py-4 hover:no-underline">
         <div className="flex flex-1 justify-between">
           <div className="flex items-center gap-2">
             <Ball variant={moveTypeToWordVariant[data.moveType]} />
