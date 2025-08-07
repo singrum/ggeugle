@@ -1,6 +1,6 @@
 import { useWcStore } from "@/stores/wc-store";
 import type { MoveRow } from "@/types/search";
-import { Minus, MoveRight, Search } from "lucide-react";
+import { Minus, MoveRight } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
 import CharButton from "../char-data-section/char-button";
 import { Button } from "../ui/button";
@@ -37,7 +37,7 @@ export default function WordRow({ data }: { data: MoveRow }) {
                 <span className="text-muted-foreground font-normal">{`(${data.pairs[i]})`}</span>
               )}
             </div>
-            <Button
+            {/* <Button
               variant={"ghost"}
               size="icon"
               className="hover:bg-foreground/5 group size-10"
@@ -47,7 +47,7 @@ export default function WordRow({ data }: { data: MoveRow }) {
               }}
             >
               <Search className="stroke-muted-foreground group-hover:stroke-foreground transition-[stroke]" />
-            </Button>
+            </Button> */}
             <Button
               variant={"ghost"}
               size="icon"
