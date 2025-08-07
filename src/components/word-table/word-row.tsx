@@ -11,8 +11,8 @@ export default function WordRow({ data }: { data: MoveRow }) {
   const search = useWcStore((e) => e.search);
   const autoSearch = useWcStore((e) => e.autoSearch);
   return (
-    <Card className="flex flex-row gap-4 rounded-[0.1rem] px-2 py-0 pr-1 first:rounded-t-lg last:rounded-b-lg">
-      <div className="relative flex h-12 items-center">
+    <Card className="flex flex-row items-start gap-4 rounded-[0.1rem] px-2 py-1 pr-1 first:rounded-t-lg last:rounded-b-lg">
+      <div className="relative flex items-center py-1">
         {[0, 1].map((e) => (
           <Fragment key={e}>
             <CharButton
@@ -30,7 +30,7 @@ export default function WordRow({ data }: { data: MoveRow }) {
       </div>
       <div className="flex-1">
         {data.words.map((e, i) => (
-          <div key={e} className="flex min-h-12 items-center justify-between">
+          <div key={e} className="flex items-center justify-between">
             <div className="flex flex-1 items-center gap-2 py-2 text-base tracking-wider break-all">
               {e}
               {data.pairs[i] && (

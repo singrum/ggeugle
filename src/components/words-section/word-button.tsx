@@ -71,7 +71,7 @@ export function ExceptedWordButton({
       <Button
         onClick={() => search((children as string).at(solver!.tailIdx)!)}
         variant="ghost"
-        className="hover/wordbutton:text-foreground h-auto max-w-full flex-1 rounded-l-full py-1 pr-2 pl-3 break-all whitespace-normal"
+        className="hover/wordbutton:text-foreground h-auto flex-1 rounded-l-full py-1 pr-2 pl-3 text-left break-all whitespace-normal"
       >
         {children}
       </Button>
