@@ -22,7 +22,7 @@ export default function WordStack({
     <div className="flex flex-wrap items-center gap-x-1">
       {words.map((word, i) => (
         <motion.div
-          key={word + (i === 0 ? "-0" : "") + i}
+          key={word + i}
           className="flex items-center gap-x-1"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
