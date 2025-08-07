@@ -30,10 +30,7 @@ export default function WordRow({ data }: { data: MoveRow }) {
       </div>
       <div className="flex-1">
         {data.words.map((e, i) => (
-          <div
-            key={e}
-            className="flex items-center items-start justify-between"
-          >
+          <div key={e} className="flex items-start justify-between">
             <div className="flex flex-1 items-center gap-2 py-2 text-base tracking-wider break-all">
               {e}
               {data.pairs[i] && (
