@@ -60,6 +60,7 @@ export const useWcStore = create<Slices>()(
         distributionNodeType: state.distributionNodeType,
         wordDistributionOption: state.wordDistributionOption,
         precedenceRule: state.precedenceRule,
+        pageSize: state.pageSize,
       }),
     },
   ),

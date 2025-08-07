@@ -18,6 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { pageSizeInfo } from "@/constants/search";
 import {
   moveTypeNameMap,
   moveTypeToWordVariant,
@@ -29,7 +30,7 @@ import { round, sum } from "lodash";
 import { ChevronsUpDown, MoveDown, MoveUp } from "lucide-react";
 import { useEffect } from "react";
 const adjacentOptions = ["다음 단어", "이전 단어"];
-const PAGE_SIZE = 20;
+
 export default function DistributionTable({ solver }: { solver: WordSolver }) {
   const option = useWcStore((e) => e.wordDistributionOption);
   const data = useWcStore((e) => e.distributionData);
@@ -39,6 +40,7 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
   const nodeType = useWcStore((e) => e.distributionNodeType);
   const view = useWcStore((e) => e.view);
   const setData = useWcStore((e) => e.setDistributionData);
+  const pageSize = useWcStore((e) => e.pageSize);
 
   useEffect(() => {
     setData(
@@ -65,8 +67,13 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
       ? `${(value * 100).toFixed(1)}%`
       : value.toLocaleString();
   };
-  const totalPages = Math.ceil((data ? data.length : 0) / PAGE_SIZE);
-  const pagedData = data?.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const totalPages = Math.ceil(
+    (data ? data.length : 0) / pageSizeInfo[pageSize].value,
+  );
+  const pagedData = data?.slice(
+    (page - 1) * pageSizeInfo[pageSize].value,
+    page * pageSizeInfo[pageSize].value,
+  );
   return (
     <>
       {totalPages > 1 && (
