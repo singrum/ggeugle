@@ -67,11 +67,11 @@ export function ExceptedWordButton({
   const removeExceptedWord = useWcStore((e) => e.removeExceptedWord);
   const solver = useWcStore((e) => e.solver);
   return (
-    <div className="group/wordbutton text-muted-foreground bg-secondary flex w-fit cursor-default items-center gap-0 rounded-full shadow-sm transition-colors">
+    <div className="group/wordbutton text-muted-foreground bg-secondary flex w-fit max-w-full cursor-default items-center gap-0 rounded-full shadow-sm transition-colors">
       <Button
         onClick={() => search((children as string).at(solver!.tailIdx)!)}
         variant="ghost"
-        className="hover/wordbutton:text-foreground h-8 rounded-l-full pr-2 pl-3"
+        className="hover/wordbutton:text-foreground h-auto max-w-full flex-1 rounded-l-full py-1 pr-2 pl-3 break-all whitespace-normal"
       >
         {children}
       </Button>
