@@ -143,7 +143,6 @@ export class GameWorkerRunner {
             return;
           } else {
             const durations: number[] = [];
-
             for await (const move of routeMoves) {
               this.callback({
                 action: "debug",
