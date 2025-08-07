@@ -49,7 +49,11 @@ export default function MaxRouteCharDataTable({
             </TableRow>
             <TableRow>
               <TableCell className="font-medium">평균 단어 수</TableCell>
-              <TableCell>{data.averageNum}</TableCell>
+              <TableCell>
+                {typeof data.averageNum === "number" && !isNaN(data.averageNum)
+                  ? data.averageNum
+                  : "-"}
+              </TableCell>
               <TableCell>{guelMaxRouteCharData[view].averageNum}</TableCell>
             </TableRow>
             {/* <TableRow>
