@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { PaginationSimple } from "@/components/ui/pagination-simple"; // ✅ 추가
+import { pageSizeInfo } from "@/constants/search";
 import type { NodeName } from "@/lib/wordchain/graph/graph";
 import type { WordSolver } from "@/lib/wordchain/word/word-solver";
 import { useWcStore } from "@/stores/wc-store";
@@ -19,10 +20,10 @@ const topoSortInfo = [
   { title: "내림차순", icon: MoveDown },
 ];
 
-const PAGE_SIZE = 20;
-
 export default function Scc({ solver }: { solver: WordSolver }) {
   const view = useWcStore((e) => e.view);
+  const pageSize = useWcStore((e) => e.pageSize);
+
   const [asc, setAsc] = useState<0 | 1>(0);
   const [page, setPage] = useState(1); // ✅ 페이지 상태 추가
 
@@ -31,8 +32,11 @@ export default function Scc({ solver }: { solver: WordSolver }) {
     succ: { nodes: NodeName[]; by: string[] }[];
   }[] = useMemo(() => solver.getSccData(view, !asc), [solver, view, asc]);
 
-  const totalPages = Math.ceil(fullData.length / PAGE_SIZE);
-  const data = fullData.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE); // ✅ 현재 페이지에 맞는 데이터 추출
+  const totalPages = Math.ceil(fullData.length / pageSizeInfo[pageSize].value);
+  const data = fullData.slice(
+    (page - 1) * pageSizeInfo[pageSize].value,
+    page * pageSizeInfo[pageSize].value,
+  ); // ✅ 현재 페이지에 맞는 데이터 추출
 
   const info = topoSortInfo[Number(asc)];
 

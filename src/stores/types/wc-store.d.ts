@@ -63,6 +63,9 @@ export type SearchSlice = {
   comparisonToast: boolean;
   setComparisonToast: (v: boolean) => void;
 
+  pageSize: number;
+  setPageSize: (v: number) => void;
+
   localSearchInputValue: string;
   setLocalSearchInputValue: (value: string) => void;
   searchInputValue: string;

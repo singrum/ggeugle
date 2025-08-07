@@ -1,16 +1,16 @@
+import { pageSizeInfo } from "@/constants/search";
+import { useWcStore } from "@/stores/wc-store";
 import type { MoveRow } from "@/types/search";
 import { useState } from "react";
 import { PaginationSimple } from "../ui/pagination-simple";
 import WordRow from "./word-row";
 
-const PAGE_SIZE = 20;
-
 export default function WordsTable({ rows }: { rows: MoveRow[] }) {
   const [page, setPage] = useState(1);
-  const totalPages = Math.ceil(rows.length / PAGE_SIZE);
-
-  const start = (page - 1) * PAGE_SIZE;
-  const currentRows = rows.slice(start, start + PAGE_SIZE);
+  const pageSize = useWcStore((e) => e.pageSize);
+  const totalPages = Math.ceil(rows.length / pageSizeInfo[pageSize].value);
+  const start = (page - 1) * pageSizeInfo[pageSize].value;
+  const currentRows = rows.slice(start, start + pageSizeInfo[pageSize].value);
 
   return (
     <div className="flex flex-col gap-4">

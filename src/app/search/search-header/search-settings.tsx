@@ -28,6 +28,7 @@ import { useWcStore } from "@/stores/wc-store";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Settings } from "lucide-react";
 import { useState } from "react";
+import ItemsPerPageSelect from "./items-per-page-select";
 import ViewSelect from "./view-select";
 export default function SearchSettings() {
   const [open, setOpen] = useState(false);
@@ -126,6 +127,10 @@ function SearchSettingsForm() {
           onCheckedChange={(e) => setComparisonToast(e)}
         />
       </Label>
+      <div className="flex items-center justify-between py-6">
+        <div className="text-sm font-medium">페이지 당 항목 수</div>
+        <ItemsPerPageSelect />
+      </div>
     </div>
   );
 }

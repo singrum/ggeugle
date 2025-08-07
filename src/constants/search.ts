@@ -31,6 +31,13 @@ export const viewInfo = [
   { title: "첫 음절", Icon: MoveRight },
 ];
 
+export const pageSizeInfo = [
+  { title: "10개", value: 10 },
+  { title: "20개", value: 20 },
+  { title: "30개", value: 30 },
+  { title: "50개", value: 50 },
+];
+
 export const typeMap: Record<NodeType, string> = {
   win: "승리",
   lose: "패배",

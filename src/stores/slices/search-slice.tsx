@@ -44,6 +44,9 @@ export const createSearchSlice: StateCreator<
   charListDrawerOpen: false,
   setCharListDrawerOpen: (open: boolean) => set({ charListDrawerOpen: open }),
 
+  pageSize: 1,
+  setPageSize: (v: number) => set({ pageSize: v }),
+
   localSearchInputValue: "",
   setLocalSearchInputValue: (value: string) => {
     set({ localSearchInputValue: value });

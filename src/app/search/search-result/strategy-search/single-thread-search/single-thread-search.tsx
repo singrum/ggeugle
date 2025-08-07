@@ -8,9 +8,8 @@ import MaxThreadNumSelect from "./max-thread-num-select";
 import MoveSection from "./move-section";
 
 import { PaginationSimple } from "@/components/ui/pagination-simple"; // ✅ 추가
+import { pageSizeInfo } from "@/constants/search";
 import { useState } from "react";
-
-const PAGE_SIZE = 20;
 
 export default function SingleThreadSearch({ solver }: { solver: WordSolver }) {
   const view = useWcStore((e) => e.view);
@@ -23,6 +22,7 @@ export default function SingleThreadSearch({ solver }: { solver: WordSolver }) {
   const moves: [NodeName, NodeName][] = useWcStore(
     (e) => e.singleThreadSearchInfo.moves,
   );
+  const pageSize = useWcStore((e) => e.pageSize);
 
   const [page, setPage] = useState(1); // ✅ 페이지 상태 추가
 
@@ -45,8 +45,11 @@ export default function SingleThreadSearch({ solver }: { solver: WordSolver }) {
     setPage(1);
   }, [moves]);
 
-  const totalPages = Math.ceil(moves.length / PAGE_SIZE);
-  const paginatedMoves = moves.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE); // ✅ 페이지네이션 적용
+  const totalPages = Math.ceil(moves.length / pageSizeInfo[pageSize].value);
+  const paginatedMoves = moves.slice(
+    (page - 1) * pageSizeInfo[pageSize].value,
+    page * pageSizeInfo[pageSize].value,
+  ); // ✅ 페이지네이션 적용
 
   return (
     <div className="space-y-6">
