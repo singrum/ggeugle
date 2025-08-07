@@ -4,10 +4,11 @@ import { cates, dicts, poses } from "@/constants/rule";
 import type { WordRule } from "@/types/rule";
 
 async function fetchWords(url: string) {
+  const fetchOptions = { cache: "force-cache" as RequestCache };
   const response =
     url === "https://singrum.github.io/KoreanDict/oldict/db/명사"
-      ? await fetch("/dict/guel.txt")
-      : await fetch(url);
+      ? await fetch("/dict/guel.txt", fetchOptions)
+      : await fetch(url, fetchOptions);
 
   const text = await response.text();
 
