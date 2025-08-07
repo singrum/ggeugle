@@ -13,7 +13,7 @@ export default function WordButton({
       variant={"ghost"}
       {...props}
       className={cn(
-        "text-muted-foreground px-3 font-normal",
+        "text-muted-foreground h-auto max-w-full px-3 py-2 text-left font-normal break-all whitespace-normal",
         { "text-foreground font-medium": active },
         className,
       )}
