@@ -20,7 +20,7 @@ export default function ComparisonInfo({
         ([before, after, nodes]: [NodeType, NodeType, NodeName[]]) =>
           nodes.length > 0 && (
             <CharSection key={`${before}${after}`}>
-              <div className="flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-2 px-2 text-sm">
                 <div className="flex items-center gap-2 font-medium">
                   <Ball variant={before} />
 
