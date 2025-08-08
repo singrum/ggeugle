@@ -9,7 +9,7 @@ export default function SearchResult() {
     searchResultMenuInfo[searchInputType][searchResultMenu].component!;
   if (solver) {
     return (
-      <div className="mx-auto w-full max-w-screen-md px-4 py-8 pb-36 md:p-8 md:pb-36">
+      <div className="mx-auto w-full max-w-screen-md px-4 py-8 pb-48 md:p-8 md:pb-48">
         <Component solver={solver} />
       </div>
     );

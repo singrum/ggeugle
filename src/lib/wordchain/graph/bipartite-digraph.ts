@@ -1,5 +1,5 @@
 import type { ChangeFunc } from "@/types/rule";
-import type { PrecedenceMaps } from "@/types/search";
+import type { PrecInfo } from "@/types/search";
 import { cloneDeep } from "lodash";
 import { EdgeCounter } from "../classes/edge-counter";
 import type { WordMap } from "../word/word-map";
@@ -527,8 +527,7 @@ export class BipartiteDiGraph {
   compareNextMoveNum(
     move1: [NodeName, NodeName],
     move2: [NodeName, NodeName],
-    precRule: number,
-    precMap: PrecedenceMaps,
+    { rule: precRule, maps: precMap }: PrecInfo,
   ) {
     // precedence가 작을수록 먼저 탐색 (기본값 = 0)
     const result: number[] = [Infinity, Infinity];

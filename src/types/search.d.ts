@@ -93,3 +93,8 @@ export type PrecedenceMaps = {
   edge: Record<NodeName, Record<NodeName, number>>;
   node: Record<NodeName, number>;
 };
+
+export type PrecInfo = {
+  rule: number;
+  maps: PrecedenceMaps;
+};

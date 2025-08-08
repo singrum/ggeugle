@@ -1,6 +1,6 @@
 import { ComlinkRunner } from "@/lib/worker/comlink-runner";
 import { default as FuncWorker } from "@/lib/worker/func-worker?worker";
-import type { PrecedenceMaps } from "@/types/search";
+import type { PrecInfo } from "@/types/search";
 import { range, round, sample, shuffle } from "lodash";
 import { getHeadTail, truncate } from "../utils";
 import { EdgeCounter } from "../wordchain/classes/edge-counter";
@@ -31,8 +31,7 @@ export class GameWorkerRunner {
   private difficulty: 0 | 1 | 2;
   private calculatingDuration: number;
   private stealable: boolean;
-  private precRule: number;
-  private precMap: PrecedenceMaps;
+  private prec: PrecInfo;
   private historyWordMap: WordMap;
   private currChar: undefined | NodeName;
   private comlinkRunner: ComlinkRunner<FuncWorkerApi>;
@@ -45,8 +44,7 @@ export class GameWorkerRunner {
     calculatingDuration: number,
     stealable: boolean,
     history: string[],
-    precRule: number,
-    precMap: PrecedenceMaps,
+    prec: PrecInfo,
     callback: (e: GameWorkerRunnerOnmessageData) => void,
     id: string,
   ) {
@@ -63,8 +61,7 @@ export class GameWorkerRunner {
     );
     this.currChar = history.at(-1)?.at(this.solver.tailIdx);
 
-    this.precRule = precRule;
-    this.precMap = precMap;
+    this.prec = prec;
 
     this.comlinkRunner = new ComlinkRunner(FuncWorker);
     this.callback = callback;
@@ -118,7 +115,7 @@ export class GameWorkerRunner {
             .sort((a, b) => {
               return updatedSolver.graphs
                 .getGraph("route")
-                .compareNextMoveNum(a, b, this.precRule, this.precMap);
+                .compareNextMoveNum(a, b, this.prec);
             });
 
           resultMove = sample(routeMoves)!;
@@ -155,8 +152,7 @@ export class GameWorkerRunner {
                     "searchIsWin",
                     updatedSolver.graphs.getGraph("route"),
                     move,
-                    this.precRule,
-                    this.precMap,
+                    this.prec,
                     this.calculatingDuration * 1000,
                   );
                 if (isWin) {
@@ -449,8 +445,7 @@ export class GameWorkerRunner {
             "searchIsWin",
             this.solver.graphSolver.graphs.getGraph("route"),
             [start, end],
-            this.precRule,
-            this.precMap,
+            this.prec,
             this.calculatingDuration * 1000,
           );
           if (isWin) {

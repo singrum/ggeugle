@@ -17,8 +17,8 @@ export default function SingleThreadSearch({ solver }: { solver: WordSolver }) {
 
   const initSingleThreadSearch = useWcStore((e) => e.initSingleThreadSearch);
   const clearSingleThreadSearch = useWcStore((e) => e.clearSingleThreadSearch);
-  const precRule = useWcStore((e) => e.precedenceRule);
-  const precMap = useWcStore((e) => e.precedenceMaps);
+  const prec = useWcStore((e) => e.prec);
+
   const moves: [NodeName, NodeName][] = useWcStore(
     (e) => e.singleThreadSearchInfo.moves,
   );
@@ -36,8 +36,7 @@ export default function SingleThreadSearch({ solver }: { solver: WordSolver }) {
     view,
     searchInputValue,
     solver,
-    precRule,
-    precMap,
+    prec,
   ]);
 
   // ✅ moves 변경 시 페이지 초기화

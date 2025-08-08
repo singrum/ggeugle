@@ -11,6 +11,7 @@ import type { PrecedenceMaps } from "@/types/search";
 import { cloneDeep } from "lodash";
 import { type StateCreator } from "zustand";
 import type { RuleSlice, Slices } from "../types/wc-store";
+
 export const createRuleSlice: StateCreator<
   Slices,
   [["zustand/immer", never]],
@@ -135,7 +136,9 @@ export const createRuleSlice: StateCreator<
       solver: undefined,
       exceptedWords: [],
       comparisonMap: undefined,
-      precedenceMaps,
+    });
+    set((state) => {
+      state.prec.maps = precedenceMaps;
     });
 
     setSearchResultMenu(0);

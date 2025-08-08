@@ -1,7 +1,7 @@
 import { sampleChangeFuncs } from "@/lib/wordchain/rule/change";
 import { loadWords } from "@/lib/wordchain/word/load-data";
 import type { RuleForm } from "@/types/rule";
-import type { PrecedenceMaps } from "@/types/search";
+import type { PrecInfo } from "@/types/search";
 import * as Comlink from "comlink";
 import { round, throttle } from "lodash";
 import { getHeadTail, getIdx } from "../utils";
@@ -43,14 +43,12 @@ export type FuncWorkerApi = {
     ) => void,
     graph: BipartiteDiGraph,
     move: SingleMove,
-    precRule: number,
-    precMaps: PrecedenceMaps,
+    prec: PrecInfo,
   ): void;
   searchIsWin(
     graph: BipartiteDiGraph,
     move: SingleMove,
-    precRule: number,
-    precMaps: PrecedenceMaps,
+    prec: PrecInfo,
   ): { isWin: boolean; duration: number };
 };
 
@@ -227,8 +225,7 @@ const funcWorkerApi: FuncWorkerApi = {
     ) => void,
     graph: BipartiteDiGraph,
     move: SingleMove,
-    precRule: number,
-    precMap: PrecedenceMaps,
+    prec: PrecInfo,
   ) {
     graph = BipartiteDiGraph.fromObj(graph);
 
@@ -247,7 +244,7 @@ const funcWorkerApi: FuncWorkerApi = {
       { leading: true, trailing: false }, // 첫 호출은 즉시, 이후 1초간 호출 무시
     );
 
-    const win = isWin(graph, move, precRule, precMap, ({ action, data }) => {
+    const win = isWin(graph, move, prec, ({ action, data }) => {
       if (action === "push") {
         stack.push(data);
       } else if (action === "pop") {
@@ -286,12 +283,11 @@ const funcWorkerApi: FuncWorkerApi = {
   searchIsWin(
     graph: BipartiteDiGraph,
     move: SingleMove,
-    precRule,
-    precMap,
+    prec: PrecInfo,
   ): { isWin: boolean; duration: number } {
     graph = BipartiteDiGraph.fromObj(graph);
     const start = performance.now();
-    const win = isWin(graph, move, precRule, precMap);
+    const win = isWin(graph, move, prec);
     const end = performance.now();
     return { isWin: !win, duration: end - start };
   },
