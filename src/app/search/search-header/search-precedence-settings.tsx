@@ -191,14 +191,16 @@ function PrecedenceSettingsForm({
           <div className="text-muted-foreground text-sm">
             숫자가 작을수록 우선순위가 높아요.(기본값 0)
           </div>
-          <Textarea
-            id={"word"}
-            value={edgeString}
-            onChange={handleEdgeChange}
-            className="max-h-80 min-h-0 w-full flex-1 resize-none rounded-xl border bg-transparent p-4 font-sans leading-6"
-            aria-invalid={!edgeValid}
-            placeholder={`예: {\n  "가": { "나": 1 }\n}`}
-          />
+          <div className="h-64">
+            <Textarea
+              id={"word"}
+              value={edgeString}
+              onChange={handleEdgeChange}
+              className="h-full max-h-full min-h-0 resize-none overflow-y-auto rounded-xl border bg-transparent p-4 font-sans leading-6"
+              aria-invalid={!edgeValid}
+              placeholder={`예: {\n  "가": { "나": 1 }\n}`}
+            />
+          </div>
           <div
             className={cn(
               "text-sm",
@@ -221,13 +223,21 @@ function PrecedenceSettingsForm({
           <div className="text-muted-foreground text-sm">
             숫자가 작을수록 우선순위가 높아요.(기본값 0)
           </div>
-          <Textarea
-            value={nodeString}
-            onChange={handleNodeChange}
-            className="max-h-80 min-h-0 w-full flex-1 resize-none rounded-xl border bg-transparent p-4 font-sans leading-6"
-            aria-invalid={!nodeValid}
-            placeholder={`예: {\n  "가": 1,\n  "나": 2\n}`}
-          />
+          {/* <div className="h-64 overflow-hidden border border-red-500">
+            <textarea
+              className="box-border h-full max-h-full min-h-0 w-full resize-none overflow-y-auto"
+              placeholder="test"
+            ></textarea>
+          </div> */}
+          <div className="h-64">
+            <Textarea
+              value={nodeString}
+              onChange={handleNodeChange}
+              className="h-full max-h-full min-h-0 resize-none overflow-y-auto rounded-xl border bg-transparent p-4 font-sans leading-6"
+              aria-invalid={!nodeValid}
+              placeholder={`예: {\n  "가": 1,\n  "나": 2\n}`}
+            />
+          </div>
           <div
             className={cn(
               "text-sm",
