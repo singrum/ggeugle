@@ -3,7 +3,7 @@ import type {
   ComparisonMap,
   CriticalWordInfo,
   MoveType,
-  PrecedenceMaps,
+  PrecInfo,
   SearchInputType,
   SingleThreadSearechStatus,
 } from "@/types/search";
@@ -118,12 +118,7 @@ export type StrategySearchSlice = {
     >;
   };
   clearSingleThreadSearch: () => void;
-
-  precedenceRule: number;
-  setPrecedenceRule: (rule: number) => void;
-
-  precedenceMaps: PrecedenceMaps;
-  setPrecedenceMaps: (pMap: PrecedenceMaps) => void;
+  prec: PrecInfo;
 };
 
 export type CriticalWordsSlice = {

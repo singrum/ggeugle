@@ -8,8 +8,8 @@ const info = [
   "(다음 단어 / 이전 단어) 작은 순",
 ];
 export default function DefaultPrecedenceRule() {
-  const precedenceRule = useWcStore((e) => e.precedenceRule);
-  const setPrecedenceRule = useWcStore((e) => e.setPrecedenceRule);
+  const rule = useWcStore((e) => e.prec.rule);
+  console.log(useWcStore.getState().prec);
   return (
     <div className="space-y-4">
       <div className="text-sm font-medium">기본 우선순위</div>
@@ -19,8 +19,12 @@ export default function DefaultPrecedenceRule() {
           <Toggle
             key={i}
             variant="outline"
-            pressed={i === precedenceRule}
-            onClick={() => setPrecedenceRule(i)}
+            pressed={i === rule}
+            onClick={() =>
+              useWcStore.setState((e) => {
+                e.prec.rule = i;
+              })
+            }
             className="justify-start py-4"
           >
             <Check />

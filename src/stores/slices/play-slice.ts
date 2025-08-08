@@ -206,8 +206,7 @@ export const createPlaySlice: StateCreator<
       game.calculatingDuration,
       game.stealable,
       history,
-      get().precedenceRule,
-      get().precedenceMaps,
+      get().prec,
       (e: GameWorkerRunnerOnmessageData) => {
         if (callbackId !== internalPlaySlice.runnerMap?.[id]?.id) return;
         if (e.action === "computerWin") {

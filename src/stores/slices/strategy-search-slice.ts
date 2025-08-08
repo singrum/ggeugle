@@ -2,7 +2,7 @@ import { threadSelectInfo } from "@/constants/search";
 import { arrayToEdgeObject } from "@/lib/utils";
 import { sampleChangeFuncs } from "@/lib/wordchain/rule/change";
 import { default as FuncWorker } from "@/lib/worker/func-worker?worker";
-import type { PrecedenceMaps, SingleThreadSearechStatus } from "@/types/search";
+import type { SingleThreadSearechStatus } from "@/types/search";
 import type { StateCreator } from "zustand";
 
 import type { NodeName, SingleMove } from "@/lib/wordchain/graph/graph";
@@ -43,12 +43,7 @@ export const createStrategySearchSlice: StateCreator<
         .sort((a, b) =>
           solver!.graphSolver.graphs
             .getGraph("route")
-            .compareNextMoveNum(
-              a,
-              b,
-              get().precedenceRule,
-              get().precedenceMaps,
-            ),
+            .compareNextMoveNum(a, b, get().prec),
         );
     } else {
       moves = solver!.graphSolver.graphs
@@ -62,12 +57,7 @@ export const createStrategySearchSlice: StateCreator<
         .sort((a, b) =>
           solver!.graphSolver.graphs
             .getGraph("route")
-            .compareNextMoveNum(
-              a,
-              b,
-              get().precedenceRule,
-              get().precedenceMaps,
-            ),
+            .compareNextMoveNum(a, b, get().prec),
         );
     }
 
@@ -153,8 +143,7 @@ export const createStrategySearchSlice: StateCreator<
       ),
       get().solver!.graphSolver.graphs.getGraph("route"),
       move,
-      get().precedenceRule,
-      get().precedenceMaps,
+      get().prec,
     );
   },
 
@@ -220,9 +209,5 @@ export const createStrategySearchSlice: StateCreator<
   },
   singleThreadSearchInfo: { moves: [], mapping: {} },
 
-  precedenceRule: 0,
-  setPrecedenceRule: (rule: number) => set({ precedenceRule: rule }),
-
-  precedenceMaps: { edge: {}, node: {} },
-  setPrecedenceMaps: (pMap: PrecedenceMaps) => set({ precedenceMaps: pMap }),
+  prec: { rule: 0, maps: { edge: {}, node: {} } },
 });

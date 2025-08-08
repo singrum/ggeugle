@@ -1,4 +1,4 @@
-import type { PrecedenceMaps } from "@/types/search";
+import type { PrecInfo } from "@/types/search";
 import { BipartiteDiGraph } from "../wordchain/graph/bipartite-digraph";
 import { pruneWinLoseNodes } from "../wordchain/graph/classify";
 import type {
@@ -114,8 +114,7 @@ export function checkInitialCondition(graph: BipartiteDiGraph, node: NodeName) {
 export function isWin(
   graph: BipartiteDiGraph,
   move: SingleMove,
-  precRule: number,
-  precMap: PrecedenceMaps,
+  prec: PrecInfo,
   callback?: (e: SearchCallbackParameter) => void,
 ): boolean {
   if (callback) {
@@ -146,10 +145,10 @@ export function isWin(
 
   const nextMoves = graph
     .getMovesFromNode(move[1], 0, 0)
-    .sort((a, b) => graph.compareNextMoveNum(a, b, precRule, precMap));
+    .sort((a, b) => graph.compareNextMoveNum(a, b, prec));
 
   for (const [start, end] of nextMoves) {
-    if (!isWin(graph, [start, end], precRule, precMap, callback)) {
+    if (!isWin(graph, [start, end], prec, callback)) {
       if (callback) {
         callback({ action: "pop", data: "lose" });
       }

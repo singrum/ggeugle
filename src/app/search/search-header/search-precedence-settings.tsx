@@ -94,7 +94,7 @@ function PrecedenceSettingsForm({
 }: {
   setOpen: (open: boolean) => void;
 }) {
-  const precedenceMaps = useWcStore((s) => s.precedenceMaps);
+  const precedenceMaps = useWcStore((s) => s.prec.maps);
 
   const [edgeString, setEdgeString] = useState<string>(
     JSON.stringify(precedenceMaps.edge, null, 2),
@@ -159,13 +159,13 @@ function PrecedenceSettingsForm({
   const save = () => {
     if (edgeValid && parsedEdge) {
       useWcStore.setState((state) => {
-        state.precedenceMaps.edge = parsedEdge as PrecedenceMaps["edge"];
+        state.prec.maps.edge = parsedEdge as PrecedenceMaps["edge"];
       });
       setOpen(false);
     }
     if (nodeValid && parsedNode) {
       useWcStore.setState((state) => {
-        state.precedenceMaps.node = parsedNode as PrecedenceMaps["node"];
+        state.prec.maps.node = parsedNode as PrecedenceMaps["node"];
       });
       setOpen(false);
     }
