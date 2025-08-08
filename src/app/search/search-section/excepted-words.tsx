@@ -28,7 +28,7 @@ export default function ExceptedWords() {
         </div>
       ) : (
         <div>
-          <div className="bg-foreground/5 rounded-lg rounded-b-sm">
+          <div className="bg-foreground/5 rounded-lg rounded-b-xs">
             <div className="text-muted-foreground flex items-center gap-2 p-3 text-sm">
               제외 단어
             </div>
