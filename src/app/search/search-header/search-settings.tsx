@@ -54,6 +54,7 @@ export default function SearchSettings() {
               <DialogDescription></DialogDescription>
             </VisuallyHidden>
           </DialogHeader>
+
           <SearchSettingsForm />
         </DialogContent>
       </Dialog>
@@ -78,7 +79,8 @@ export default function SearchSettings() {
             <DrawerDescription></DrawerDescription>
           </VisuallyHidden>
         </DrawerHeader>
-        <div className="px-6 pb-6">
+
+        <div className="overflow-auto px-6 pb-6">
           <SearchSettingsForm />
         </div>
       </DrawerContent>
@@ -95,21 +97,21 @@ function SearchSettingsForm() {
   const setComparisonToast = useWcStore((e) => e.setComparisonToast);
   const isMobile = useIsMobile();
   return (
-    <div>
+    <div className="mt-6 space-y-12">
       {isMobile && (
-        <div className="flex items-center justify-between py-6">
+        <div className="flex items-center justify-between">
           <div className="text-sm font-medium">음절 위치</div>
           <ViewSelect />
         </div>
       )}
-      <Label className="flex items-center justify-between py-6">
+      <Label className="flex items-center justify-between">
         <div className="font-medium">단어 제외 시 끝 글자 자동 검색</div>
         <Switch
           checked={autoSearch}
           onCheckedChange={(e) => setAutoSearch(e)}
         />
       </Label>
-      <Label className="flex items-center justify-between py-6">
+      <Label className="flex items-center justify-between">
         <div className="space-y-0.5">
           <div className="font-medium">검색 결과 처음에 모두 열기</div>
         </div>
@@ -118,7 +120,7 @@ function SearchSettingsForm() {
           onCheckedChange={(e) => setDefaultAllOpen(e)}
         />
       </Label>
-      <Label className="flex items-center justify-between py-6">
+      <Label className="flex items-center justify-between">
         <div className="space-y-0.5">
           <div className="font-medium">단어 제거 후 비교 알림</div>
         </div>
@@ -127,7 +129,7 @@ function SearchSettingsForm() {
           onCheckedChange={(e) => setComparisonToast(e)}
         />
       </Label>
-      <div className="flex items-center justify-between py-6">
+      <div className="flex items-center justify-between">
         <div className="text-sm font-medium">페이지 당 항목 수</div>
         <ItemsPerPageSelect />
       </div>
