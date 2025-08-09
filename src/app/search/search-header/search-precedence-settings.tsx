@@ -173,7 +173,7 @@ function PrecedenceSettingsForm({
 
   return (
     <div className="h-full flex-1 space-y-4">
-      <GhostTabs defaultValue="default" className="h-full space-y-0">
+      <GhostTabs defaultValue="default" className="h-full space-y-2">
         <GhostTabsList>
           <GhostTabsTrigger value="default">기본</GhostTabsTrigger>
           <GhostTabsTrigger value="edge">단어</GhostTabsTrigger>
