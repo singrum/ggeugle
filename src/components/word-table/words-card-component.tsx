@@ -33,7 +33,7 @@ export default function WordsCardComponent({
           </div>
         </div>
       </AccordionTrigger>
-      <AccordionContent>
+      <AccordionContent className="pb-6 md:pb-12">
         <WordsTable rows={data.moveRows} />
       </AccordionContent>
     </AccordionItem>
