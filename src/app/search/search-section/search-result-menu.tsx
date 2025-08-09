@@ -5,7 +5,6 @@ import {
 } from "@/components/ui/ghost-tabs";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { searchResultMenuInfo } from "@/constants/search";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useWcStore } from "@/stores/wc-store";
 
@@ -13,12 +12,12 @@ export default function SearchResultMenu() {
   const searchResultMenu = useWcStore((e) => e.searchResultMenu);
   const setSearchResultMenu = useWcStore((e) => e.setSearchResultMenu);
   const searchInputType = useWcStore((e) => e.searchInputType);
-  const isMobile = useIsMobile();
+
   return (
-    <ScrollArea className="w-full">
+    <ScrollArea className="mx-2 md:mx-4">
       <GhostTabs
-        className={cn("w-auto px-4 py-2.5 whitespace-nowrap md:px-6", {
-          "shadow-[inset_0_-1px_0_0_var(--border)]": isMobile,
+        className={cn("w-auto px-2 py-3.5 pt-5 whitespace-nowrap md:px-2", {
+          "shadow-[inset_0_-1px_0_0_var(--border)]": true,
         })}
         value={`${searchResultMenu}`}
       >

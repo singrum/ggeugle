@@ -29,13 +29,13 @@ export function PaginationSimple({
       <span className="text-muted-foreground ml-2 text-sm">
         {page} / {totalPages} 페이지
       </span>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-[1px]">
         <Button
           size="icon"
           onClick={() => onPageChange(page - 1)}
           variant="secondary"
           disabled={page <= 1 || disabled}
-          className="size-8 rounded-md"
+          className="size-8 rounded-l-md rounded-r-xs"
         >
           <ArrowLeft className="stroke-foreground" />
         </Button>
@@ -45,7 +45,7 @@ export function PaginationSimple({
           size="icon"
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages || disabled}
-          className="size-8 rounded-md"
+          className="size-8 rounded-l-xs rounded-r-md"
         >
           <ArrowRight className="stroke-foreground" />
         </Button>

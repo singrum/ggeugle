@@ -42,7 +42,7 @@ export default function NodeTypeNumChart({ solver }: { solver: WordSolver }) {
   }, [solver, view]);
   const total = chartData.reduce((prev, curr) => prev + curr.num, 0);
   return (
-    <Card className="bg-card h-full border">
+    <Card className="h-full">
       <CardHeader className="items-center pb-0">
         <CardTitle>{total.toLocaleString()} 음절</CardTitle>
       </CardHeader>

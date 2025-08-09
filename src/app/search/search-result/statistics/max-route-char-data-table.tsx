@@ -23,7 +23,7 @@ export default function MaxRouteCharDataTable({
     [solver, view],
   );
   return (
-    <Card className="bg-card h-full border">
+    <Card className="h-full">
       <CardHeader className="items-center pb-0">
         <CardTitle>주요 루트 정보</CardTitle>
       </CardHeader>
