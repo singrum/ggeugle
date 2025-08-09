@@ -209,5 +209,5 @@ export const createStrategySearchSlice: StateCreator<
   },
   singleThreadSearchInfo: { moves: [], mapping: {} },
 
-  prec: { rule: 0, mmDepth: 1, maps: { edge: {}, node: {} } },
+  prec: { rule: 0, mmDepth: 0, maps: { edge: {}, node: {} } },
 });

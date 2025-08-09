@@ -24,7 +24,7 @@ export default function DefaultPrecedenceRule({
     useState<StrategySearchSlice["prec"]["rule"]>(rule);
   const [localDepth, setLocalDepth] =
     useState<StrategySearchSlice["prec"]["mmDepth"]>(depth);
-  console.log(depth);
+
   const save = () => {
     useWcStore.setState((state) => {
       state.prec.rule = localRule;
