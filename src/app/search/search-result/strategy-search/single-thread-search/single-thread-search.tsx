@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import type { NodeName } from "@/lib/wordchain/graph/graph";
 import type { WordSolver } from "@/lib/wordchain/word/word-solver";
 import { useWcStore } from "@/stores/wc-store";
-import { FileSpreadsheet } from "lucide-react";
+import { FileSliders } from "lucide-react";
 import { useEffect } from "react";
 import MaxThreadNumSelect from "./max-thread-num-select";
 import MoveSection from "./move-section";
@@ -61,7 +61,7 @@ export default function SingleThreadSearch({ solver }: { solver: WordSolver }) {
           variant="ghost"
           className="text-muted-foreground"
         >
-          <FileSpreadsheet />
+          <FileSliders />
           우선순위 편집
         </Button>
       </div>
