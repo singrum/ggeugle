@@ -52,7 +52,7 @@ export const useWcStore = create<Slices>()(
     })),
     {
       name: "ggeugle",
-      version: 3,
+      version: 4,
       storage: createJSONStorage(() => cookieStorage),
 
       partialize: (state) => ({
@@ -68,7 +68,6 @@ export const useWcStore = create<Slices>()(
         distributionNodeType: state.distributionNodeType,
         wordDistributionOption: state.wordDistributionOption,
         pageSize: state.pageSize,
-        prec: { rule: state.prec.rule, mmDepth: state.prec.mmDepth },
       }),
     },
   ),
