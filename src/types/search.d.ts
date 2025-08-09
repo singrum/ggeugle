@@ -96,5 +96,6 @@ export type PrecedenceMaps = {
 
 export type PrecInfo = {
   rule: number;
+  mmDepth: number;
   maps: PrecedenceMaps;
 };

@@ -20,8 +20,15 @@ import type { Slices } from "./types/wc-store";
 
 // js-cookie를 사용하는 StateStorage 구현
 const cookieStorage: StateStorage = {
-  getItem: (name: string): string | null => {
-    return Cookies.get(name) ?? null;
+  getItem: (name) => {
+    const value = Cookies.get(name);
+    if (!value) return null;
+
+    try {
+      return value; // createJSONStorage가 JSON.parse 처리
+    } catch {
+      return null; // 파싱 실패 시 초기화
+    }
   },
   setItem: (name: string, value: string): void => {
     Cookies.set(name, value, { expires: 365 }); // 1년간 쿠키 유지
@@ -45,6 +52,7 @@ export const useWcStore = create<Slices>()(
     })),
     {
       name: "ggeugle",
+      version: 2,
       storage: createJSONStorage(() => cookieStorage),
 
       partialize: (state) => ({
@@ -60,7 +68,7 @@ export const useWcStore = create<Slices>()(
         distributionNodeType: state.distributionNodeType,
         wordDistributionOption: state.wordDistributionOption,
         pageSize: state.pageSize,
-        prec: { rule: state.prec.rule },
+        prec: { rule: state.prec.rule, mmDepth: state.prec.mmDepth },
       }),
     },
   ),

@@ -75,6 +75,9 @@ export type SearchSlice = {
   searchResultMenu: number;
   setSearchResultMenu: (searchResultMenu: number) => void;
 
+  searchHistory: string[];
+  addSearchHistory: (v: string) => void;
+
   onSolverUpdated: (solver: WordSolver) => void;
   exceptedWords: string[];
   setExceptedWords: (words: string[]) => void;
