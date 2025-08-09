@@ -8,7 +8,7 @@ export function CharSection({ children }: React.ComponentProps<"div">) {
 }
 
 export function Title({ children }: React.ComponentProps<"div">) {
-  return <div className="text-sm">{children}</div>;
+  return <div className="mx-2 text-sm">{children}</div>;
 }
 
 export function CharList({
