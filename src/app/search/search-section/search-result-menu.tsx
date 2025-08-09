@@ -16,7 +16,7 @@ export default function SearchResultMenu() {
   return (
     <ScrollArea className="mx-2 md:mx-4">
       <GhostTabs
-        className={cn("w-auto px-2 py-3.5 pt-5 whitespace-nowrap md:px-2", {
+        className={cn("w-auto px-2 py-3.5 whitespace-nowrap md:px-2", {
           "shadow-[inset_0_-1px_0_0_var(--border)]": true,
         })}
         value={`${searchResultMenu}`}
