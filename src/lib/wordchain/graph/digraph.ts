@@ -1,3 +1,5 @@
+import Denque from "denque";
+
 export class DiGraph<T extends string | number, Prop> {
   private _succ: Map<T, Set<T>>;
   private _pred: Map<T, Set<T>>;
@@ -59,6 +61,7 @@ export class DiGraph<T extends string | number, Prop> {
   predecessor(node: T): T[] {
     return [...(this._pred.get(node) ?? [])];
   }
+
   sortByDistanceFromSink(): T[] {
     const dist = new Map<T, number>();
     const inDegree = new Map<T, number>();
@@ -74,8 +77,8 @@ export class DiGraph<T extends string | number, Prop> {
       }
     }
 
-    // 큐 초기화: sink 노드들이 역방향 그래프에서 source 역할을 함
-    const queue: T[] = [];
+    // denque 큐 초기화
+    const queue = new Denque<T>();
     for (const node of this.nodes()) {
       if (!inDegree.has(node)) {
         queue.push(node);
@@ -83,7 +86,7 @@ export class DiGraph<T extends string | number, Prop> {
     }
 
     // 위상 정렬 기반 DP
-    while (queue.length > 0) {
+    while (!queue.isEmpty()) {
       const u = queue.shift()!;
       const d = dist.get(u)!;
       for (const v of reversedGraph.get(u) ?? []) {

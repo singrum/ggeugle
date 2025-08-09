@@ -568,7 +568,7 @@ export class BipartiteDiGraph {
         true,
         ([graph, [, end]]) => {
           const nextMoves = graph.getMovesFromNode(end, 0, 0);
-          const nextNum = nextMoves.reduce(
+          let nextNum = nextMoves.reduce(
             (prev, curr) => prev + graph.getEdgeNum(curr[0], curr[1]),
             0,
           );
@@ -579,9 +579,9 @@ export class BipartiteDiGraph {
               0,
             );
             if (precRule === 1) {
-              result[i] -= prevNum;
+              nextNum -= prevNum;
             } else {
-              result[i] /= prevNum;
+              nextNum /= prevNum;
             }
           }
           return (mmDepth % 2 ? -1 : 1) * nextNum;
