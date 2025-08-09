@@ -3,6 +3,7 @@ import type { PrecInfo } from "@/types/search";
 import { cloneDeep } from "lodash";
 import { EdgeCounter } from "../classes/edge-counter";
 import type { WordMap } from "../word/word-map";
+import { alphabeta } from "./ab-pluning";
 import { DiGraph } from "./digraph";
 import type { NodeMap, NodeName, NodePos } from "./graph";
 
@@ -142,6 +143,9 @@ export class BipartiteDiGraph {
   }
 
   decreaseEdge(start: NodeName, end: NodeName, num: number = 1) {
+    if (start === "__none") {
+      return;
+    }
     this._succ[1].decrease(start, end, num);
     this._pred[0].decrease(end, start, num);
   }
@@ -527,7 +531,7 @@ export class BipartiteDiGraph {
   compareNextMoveNum(
     move1: [NodeName, NodeName],
     move2: [NodeName, NodeName],
-    { rule: precRule, maps: precMap }: PrecInfo,
+    { mmDepth, rule: precRule, maps: precMap }: PrecInfo,
   ) {
     // precedence가 작을수록 먼저 탐색 (기본값 = 0)
     const result: number[] = [Infinity, Infinity];
@@ -554,26 +558,42 @@ export class BipartiteDiGraph {
 
     // 3
     for (const i of [0, 1]) {
-      const [, end] = moves[i];
-      const nextMoves = this.getMovesFromNode(end, 0, 0);
-      const nextNum = nextMoves.reduce(
-        (prev, curr) => prev + this.getEdgeNum(curr[0], curr[1]),
-        0,
-      );
-      result[i] = nextNum;
+      const [start, end] = moves[i];
 
-      if (precRule !== 0) {
-        const prevMoves = this.getMovesFromNode(end, 0, 1);
-        const prevNum = prevMoves.reduce(
-          (prev, curr) => prev + this.getEdgeNum(curr[0], curr[1]),
-          0,
-        );
-        if (precRule === 1) {
-          result[i] -= prevNum;
-        } else {
-          result[i] /= prevNum;
-        }
-      }
+      result[i] = alphabeta(
+        [this, [start, end]],
+        mmDepth,
+        -Infinity,
+        Infinity,
+        true,
+        ([graph, [, end]]) => {
+          const nextMoves = graph.getMovesFromNode(end, 0, 0);
+          const nextNum = nextMoves.reduce(
+            (prev, curr) => prev + graph.getEdgeNum(curr[0], curr[1]),
+            0,
+          );
+          if (precRule !== 0) {
+            const prevMoves = this.getMovesFromNode(end, 0, 1);
+            const prevNum = prevMoves.reduce(
+              (prev, curr) => prev + this.getEdgeNum(curr[0], curr[1]),
+              0,
+            );
+            if (precRule === 1) {
+              result[i] -= prevNum;
+            } else {
+              result[i] /= prevNum;
+            }
+          }
+          return (mmDepth % 2 ? -1 : 1) * nextNum;
+        },
+        ([graph, [, end]]) => {
+          const graphCopy = graph;
+
+          return graphCopy
+            .getMovesFromNode(end, 0, 0)
+            .map((edge) => [graphCopy, edge]);
+        },
+      );
     }
     return result[0] - result[1];
   }

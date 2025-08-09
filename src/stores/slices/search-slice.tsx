@@ -100,6 +100,11 @@ export const createSearchSlice: StateCreator<
     set({ searchResultMenu });
   },
 
+  searchHistory: [],
+  addSearchHistory: () => {
+    return;
+  },
+
   onSolverUpdated: (solver: WordSolver) => {
     const {
       solver: prevSolver,

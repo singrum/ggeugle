@@ -180,8 +180,11 @@ function PrecedenceSettingsForm({
           <GhostTabsTrigger value="node">음절</GhostTabsTrigger>
         </GhostTabsList>
 
-        <GhostTabsContent value="default" className="mt-4 mb-6 lg:mb-0">
-          <DefaultPrecedenceRule />
+        <GhostTabsContent
+          value="default"
+          className="mt-4 mb-6 space-y-6 overflow-auto lg:mb-0"
+        >
+          <DefaultPrecedenceRule setOpen={setOpen} />
         </GhostTabsContent>
 
         <GhostTabsContent
