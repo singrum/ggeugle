@@ -21,11 +21,11 @@ export default function WordTypeNumChart({ solver }: { solver: WordSolver }) {
   const data = useMemo(() => {
     return solver.graphSolver.getWordTypeNum();
   }, [solver]);
-  
+
   const total = data.typeNum.reduce((prev, curr) => prev + curr, 0);
   const search = useWcStore((e) => e.search);
   return (
-    <Card className="bg-card h-full border">
+    <Card className="h-full">
       <CardHeader className="items-center pb-0">
         <div className="flex items-center justify-between">
           <CardTitle>{total.toLocaleString()} 단어</CardTitle>

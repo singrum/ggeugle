@@ -32,7 +32,7 @@ export default function WinloseDetailChart({ solver }: { solver: WordSolver }) {
   }, [solver, view]);
 
   return (
-    <Card className="bg-card h-full border">
+    <Card className="h-full">
       <CardHeader className="items-center pb-0">
         <CardTitle>깊이 별 음절 개수</CardTitle>
       </CardHeader>
