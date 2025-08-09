@@ -13,12 +13,12 @@ export default function SearchHeader() {
       <InsetHeader>
         <InsetHeaderLeft />
 
-        <Separator orientation="vertical" className="mx-1 h-5!" />
+        <Separator orientation="vertical" className="mx-1 h-4!" />
         <div className="bg-background flex items-center gap-1">
           {!isMobile && (
             <>
               <ViewSelect />
-              <Separator orientation="vertical" className="h-5!" />
+              <Separator orientation="vertical" className="h-4!" />
             </>
           )}
           <SearchPrecedenceSettings />
