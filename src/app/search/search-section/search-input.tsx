@@ -24,7 +24,7 @@ export default function SearchInput() {
   );
   return (
     <div
-      className="flex h-16 cursor-text items-center rounded-b-2xl px-4 py-4 md:px-4"
+      className="flex cursor-text flex-col gap-2 rounded-b-2xl p-3"
       onClick={() => inputRef.current?.focus()}
     >
       <div className="relative w-full">
@@ -32,7 +32,7 @@ export default function SearchInput() {
           debouncedSetValue={debouncedSetValue}
           ref={inputRef}
         />
-        <Search className="text-foreground absolute top-1/2 left-0 size-5 -translate-y-1/2 stroke-3" />
+        <Search className="text-foreground absolute top-1/2 left-1 size-5 -translate-y-1/2 stroke-3" />
         {localSearchInputValue.length > 0 && (
           <InputActionGroup>
             <ClearButton onClick={() => debouncedSetValue.cancel()} />
@@ -40,6 +40,7 @@ export default function SearchInput() {
           </InputActionGroup>
         )}
       </div>
+      {/* <SearchHistory /> */}
     </div>
   );
 }
@@ -83,7 +84,7 @@ function SearchInputComponent({
       placeholder="음절 / 단어 / 기보를 입력하세요."
       tabIndex={1}
       className={cn(
-        "w-full resize-none border-none bg-transparent pr-0 pl-8 text-lg font-medium tracking-wide shadow-none md:text-lg dark:bg-transparent",
+        "w-full resize-none border-none bg-transparent pr-0 pl-9 text-lg font-medium tracking-wide shadow-none md:text-lg dark:bg-transparent",
         "focus-visible:ring-0 focus-visible:outline-none",
         { "pr-16": localSearchInputValue.length > 0 },
       )}

@@ -33,7 +33,7 @@ import { useWcStore } from "@/stores/wc-store";
 import type { PrecedenceMaps } from "@/types/search";
 
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { FileSpreadsheet } from "lucide-react";
+import { FileSliders } from "lucide-react";
 import { useState } from "react";
 import DefaultPrecedenceRule from "./default-precedence-rule";
 export default function SearchPredecenceSettings() {
@@ -47,7 +47,7 @@ export default function SearchPredecenceSettings() {
           <TooltipTrigger asChild>
             <DialogTrigger asChild id="precedence-dialog-trigger">
               <Button variant="ghost" size="icon">
-                <FileSpreadsheet />
+                <FileSliders />
               </Button>
             </DialogTrigger>
           </TooltipTrigger>
@@ -69,7 +69,7 @@ export default function SearchPredecenceSettings() {
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant="ghost" size={"default"} id="precedence-dialog-trigger">
-          <FileSpreadsheet />
+          <FileSliders />
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-full">
