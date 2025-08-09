@@ -37,23 +37,12 @@ export default function WordRow({ data }: { data: MoveRow }) {
                 <span className="text-muted-foreground font-normal">{`(${data.pairs[i]})`}</span>
               )}
             </div>
-            {/* <Button
-              variant={"ghost"}
-              size="icon"
-              className="hover:bg-foreground/5 group size-10"
-              onClick={() => {
-                // evt.stopPropagation();
-                search(e);
-              }}
-            >
-              <Search className="stroke-muted-foreground group-hover:stroke-foreground transition-[stroke]" />
-            </Button> */}
+
             <Button
               variant={"ghost"}
               size="icon"
               className="hover:bg-foreground/5 group size-10"
               onClick={() => {
-                // evt.stopPropagation();
                 addExceptedWord(e);
                 if (autoSearch) {
                   search(data.move[1]);
@@ -64,7 +53,6 @@ export default function WordRow({ data }: { data: MoveRow }) {
             </Button>
           </div>
         ))}
-        {/* {!last && <Separator />} */}
       </div>
     </Card>
   );
