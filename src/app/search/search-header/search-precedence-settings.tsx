@@ -211,7 +211,7 @@ function PrecedenceSettingsForm({
               ? "유효한 단어 우선순위 구조입니다."
               : "유효하지 않은 단어 우선순위 구조입니다."}
           </div>
-          <Button onClick={save} disabled={!edgeValid}>
+          <Button onClick={save} disabled={!edgeValid} size="lg">
             저장
           </Button>
         </GhostTabsContent>
@@ -248,7 +248,7 @@ function PrecedenceSettingsForm({
               ? "유효한 음절 우선순위 구조입니다."
               : "유효하지 않은 음절 우선순위 구조입니다."}
           </div>
-          <Button onClick={save} disabled={!nodeValid}>
+          <Button onClick={save} disabled={!nodeValid} size="lg">
             저장
           </Button>
         </GhostTabsContent>
