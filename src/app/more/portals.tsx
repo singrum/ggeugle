@@ -120,7 +120,7 @@ export default function Portals() {
                 <DialogTitle>쿠키</DialogTitle>
                 <DialogDescription>쿠키에 저장하는 정보 안내</DialogDescription>
               </DialogHeader>
-              <ul className="space-y-2">
+              <ul className="space-y-3">
                 <li>음절 메뉴 유형</li>
                 <li>음절 위치</li>
                 <li>검색 설정</li>
@@ -140,15 +140,16 @@ export default function Portals() {
                 <DialogTitle>DB 출처</DialogTitle>
                 <DialogDescription></DialogDescription>
               </DialogHeader>
-              <div className="flex flex-col items-start gap-2">
+              <div className="flex flex-col items-start gap-0">
                 {DBSource.map(({ name, href }) => (
-                  <div
+                  <Button
+                    variant="link"
                     key={name}
-                    className="flex cursor-pointer items-center gap-2 hover:underline"
+                    className="flex cursor-pointer items-center gap-2 px-0 text-base hover:underline"
                     onClick={() => open(href)}
                   >
-                    <div>{name}</div>
-                  </div>
+                    {name}
+                  </Button>
                 ))}
               </div>
             </DialogContent>
