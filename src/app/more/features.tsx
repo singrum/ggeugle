@@ -14,12 +14,7 @@ export default function Features() {
         className="text-muted-foreground mt-2 space-y-2 text-xs"
       >
         {features.map((e, i) => (
-          <li key={i}>
-            <span className="text-foreground mr-1 align-top text-[0.5rem]">
-              {i + 1}
-            </span>
-            {e}
-          </li>
+          <li key={i}>{e}</li>
         ))}
       </ul>
     </div>

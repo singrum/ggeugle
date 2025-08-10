@@ -17,12 +17,7 @@ export default function NewFeatures() {
       <h3 className="text-sm font-medium">새로운 기능</h3>
       <ul className="text-muted-foreground mt-2 space-y-2 text-xs">
         {newFeatures.map((e, i) => (
-          <li key={i}>
-            <span className="text-foreground mr-1 align-top text-[0.5rem]">
-              {i + 1}
-            </span>
-            {e}
-          </li>
+          <li key={i}>{e}</li>
         ))}
       </ul>
     </div>
