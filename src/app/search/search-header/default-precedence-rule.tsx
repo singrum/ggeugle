@@ -16,7 +16,7 @@ const info: {
   { title: "이전 단어 많은 순", recommend: false },
   { title: "(다음 단어 - 이전 단어) 작은 순", recommend: false },
   { title: "(다음 단어 / 이전 단어) 작은 순", recommend: true },
-  { title: "임계단어까지 거리 짧은 순", recommend: false },
+  { title: "임계 단어까지 거리 짧은 순", recommend: false },
 ];
 export default function DefaultPrecedenceRule({
   setOpen,
