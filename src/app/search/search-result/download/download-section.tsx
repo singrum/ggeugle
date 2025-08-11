@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import React from "react";
 
@@ -14,11 +15,11 @@ export function DownloadTitle({
 }: { last?: boolean } & React.ComponentProps<"div">) {
   return (
     <div className="flex-1">
-      <div className={cn("h-full p-6 font-medium sm:p-6", className)}>
+      <div className={cn("h-full p-4 text-base font-medium", className)}>
         {children}
       </div>
 
-      <div className="px-4 sm:px-6">{!last && <Separator />}</div>
+      <div className="px-4 sm:px-4">{!last && <Separator />}</div>
     </div>
   );
 }
@@ -31,8 +32,14 @@ export function DownloadActionButton({
   className,
   ...props
 }: React.ComponentProps<"button">) {
+  const isMobile = useIsMobile();
   return (
-    <Button className={className} variant="secondary" {...props}>
+    <Button
+      className={className}
+      variant="secondary"
+      {...props}
+      size={isMobile ? "icon" : "default"}
+    >
       {children}
     </Button>
   );
