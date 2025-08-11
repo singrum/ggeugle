@@ -47,7 +47,7 @@ export default function SearchPredecenceSettings() {
           <TooltipTrigger asChild>
             <DialogTrigger asChild id="precedence-dialog-trigger">
               <Button variant="ghost" size="icon">
-                <FileSliders />
+                <FileSliders className="stroke-foreground" />
               </Button>
             </DialogTrigger>
           </TooltipTrigger>
@@ -69,7 +69,7 @@ export default function SearchPredecenceSettings() {
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant="ghost" size={"default"} id="precedence-dialog-trigger">
-          <FileSliders />
+          <FileSliders className="stroke-foreground" />
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-full">

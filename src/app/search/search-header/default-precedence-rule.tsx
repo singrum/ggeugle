@@ -59,7 +59,7 @@ export default function DefaultPrecedenceRule({
           <div className="flex flex-col gap-2">
             <Input
               type="number"
-              className="w-full max-w-[100px]"
+              className="w-full max-w-[100px] font-normal"
               value={localDepth}
               onChange={(e) => setLocalDepth(Number(e.target.value))}
             />

@@ -41,7 +41,7 @@ export default function SearchSettings() {
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
               <Button variant="ghost" size="icon">
-                <Settings />
+                <Settings className="stroke-foreground" />
               </Button>
             </DialogTrigger>
           </TooltipTrigger>
@@ -66,7 +66,7 @@ export default function SearchSettings() {
         <TooltipTrigger asChild>
           <DrawerTrigger asChild>
             <Button variant="ghost" size="icon">
-              <Settings />
+              <Settings className="stroke-foreground" />
             </Button>
           </DrawerTrigger>
         </TooltipTrigger>
