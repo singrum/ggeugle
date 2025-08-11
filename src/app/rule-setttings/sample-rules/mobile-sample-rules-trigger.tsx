@@ -8,14 +8,14 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { BookText } from "lucide-react";
+import { BookMarked } from "lucide-react";
 import SampleRuleSidebar from "./sample-rule-sidebar";
 export default function MobileSampleRulesTrigger() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
         <Button variant="secondary" className="rounded-full" size={"icon"}>
-          <BookText />
+          <BookMarked />
         </Button>
       </DrawerTrigger>
       <DrawerContent>
