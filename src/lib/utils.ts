@@ -45,12 +45,6 @@ export function removeDup<T>(arr: T[]): T[] {
   return [...new Set(arr)];
 }
 
-export function sortedNumericKeys(obj: Record<number, unknown>) {
-  return Object.keys(obj)
-    .map((e) => Number(e))
-    .sort((a, b) => a - b);
-}
-
 export function lexCompare(a: number[], b: number[]) {
   const len = Math.min(a.length, b.length);
   for (let i = 0; i < len; i++) {

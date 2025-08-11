@@ -396,10 +396,12 @@ export class GameWorkerRunner {
 
       this.takeMove(word);
     } else {
-      const entries = Object.entries(this.solver.graphSolver.depthMap[1]);
+      const entries = Array.from(this.solver.graphSolver.depthMap[1].entries());
       const maxNode = entries.reduce(
         (prev, curr) =>
-          this.solver.graphSolver.depthMap[1][prev] < curr[1] ? curr[0] : prev,
+          this.solver.graphSolver.depthMap[1].get(prev)! < curr[1]
+            ? curr[0]
+            : prev,
         entries[0][0],
       );
       [`### 루트 단어 없음 \n`].forEach((e) =>
@@ -491,10 +493,12 @@ export class GameWorkerRunner {
 
       this.takeMove(optimalWord);
     } else {
-      const entries = Object.entries(this.solver.graphSolver.depthMap[1]);
+      const entries = Array.from(this.solver.graphSolver.depthMap[1].entries());
       const maxNode = entries.reduce(
         (prev, curr) =>
-          this.solver.graphSolver.depthMap[1][prev] < curr[1] ? curr[0] : prev,
+          this.solver.graphSolver.depthMap[1].get(prev)! < curr[1]
+            ? curr[0]
+            : prev,
         entries[0][0],
       );
       [`### 루트 단어 없음 \n`].forEach((e) =>
