@@ -22,7 +22,7 @@ export async function loadWords(wordRule: WordRule): Promise<string[]> {
 
   let wordArr: string[];
   if (words.type === "manual") {
-    wordArr = words.option.content.split("\n").map((x) => x.trim());
+    wordArr = words.option.content.split(/\s+/).map((x) => x.trim());
   } else {
     const filter = words.option;
     const urlFunc = dicts[filter.dict].urlFunction;
