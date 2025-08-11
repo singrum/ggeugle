@@ -2,7 +2,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useWcStore } from "@/stores/wc-store";
 import {
-  BookText,
+  Book,
+  BookMarked,
   ChevronRight,
   ChevronsUpDown,
   MoreVertical,
@@ -39,7 +40,7 @@ export function InsetHeaderLeft() {
             onClick={() => navigate(`/rule${location.search}`)}
           >
             {rule.metadata?.title ? (
-              <BookText className="stroke-foreground size-4" />
+              <BookMarked className="stroke-foreground size-4" />
             ) : (
               <Wrench className="stroke-foreground size-4" />
             )}
