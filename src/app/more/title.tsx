@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { useTheme } from "@/providers/theme-provider";
 import { Slash } from "lucide-react";
 import IkkiLogoWhite from "/ikki-logo/ikki-green-dark.png";
