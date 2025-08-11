@@ -1,5 +1,6 @@
 import type { ChangeFunc } from "@/types/rule";
 import type { PrecInfo } from "@/types/search";
+import Denque from "denque";
 import { cloneDeep } from "lodash";
 import { EdgeCounter } from "../classes/edge-counter";
 import type { WordMap } from "../word/word-map";
@@ -527,6 +528,40 @@ export class BipartiteDiGraph {
     const edges = this.edges(1);
     return edges.reduce((prev, curr) => prev + curr[2], 0);
   }
+  shortestDistanceToAnyTarget(
+    startPos: NodePos,
+    startNode: NodeName,
+    targetPos: NodePos,
+    targetNodes: Set<NodeName>,
+  ): number {
+    const visited = [new Map<string, number>(), new Map<string, number>()];
+    const queue = new Denque<[NodePos, NodeName]>();
+
+    visited[startPos].set(startNode, 0);
+    queue.push([startPos, startNode]);
+
+    while (!queue.isEmpty()) {
+      const [pos, node] = queue.shift()!;
+      const dist = visited[pos].get(node)!;
+
+      // 목표 노드 중 하나에 도착
+      if (pos === targetPos && targetNodes.has(node)) {
+        return dist;
+      }
+
+      // 다음 노드들 탐색
+      const oppos = getOppos(pos);
+      for (const next of this.successors(pos, node)) {
+        if (!visited[oppos].has(next)) {
+          visited[oppos].set(next, dist + 1);
+          queue.push([oppos, next]);
+        }
+      }
+    }
+
+    // 도달 불가
+    return Infinity;
+  }
 
   compareNextMoveNum(
     move1: [NodeName, NodeName],
@@ -568,28 +603,38 @@ export class BipartiteDiGraph {
         true,
         ([graph, [, end]]) => {
           const evaluate = () => {
-            const nextMoves = graph.getMovesFromNode(end, 0, 0);
-            let nextNum = nextMoves.reduce(
-              (prev, curr) => prev + graph.getEdgeNum(curr[0], curr[1]),
-              0,
-            );
-            if (precRule !== 0) {
+            const getNextNum = () => {
+              const nextMoves = graph.getMovesFromNode(end, 0, 0);
+              const nextNum = nextMoves.reduce(
+                (prev, curr) => prev + graph.getEdgeNum(curr[0], curr[1]),
+                0,
+              );
+              return nextNum;
+            };
+            const getPrevNum = () => {
               const prevMoves = this.getMovesFromNode(end, 0, 1);
               const prevNum = prevMoves.reduce(
                 (prev, curr) => prev + this.getEdgeNum(curr[0], curr[1]),
                 0,
               );
-              if (precRule === 1) {
-                nextNum -= prevNum;
-              } else {
-                nextNum /= prevNum;
-              }
+              return prevNum;
+            };
+            if (precRule === 0) {
+              return getNextNum();
+            } else if (precRule === 1) {
+              return getPrevNum();
+            } else if (precRule === 2) {
+              return getNextNum() - getPrevNum();
+            } else if (precRule === 3) {
+              return getNextNum() / getPrevNum();
+            } else {
+              const cNodes = new Set(graph.getCriticalEdges().map((e) => e[0]));
+              return this.shortestDistanceToAnyTarget(0, end, 1, cNodes);
             }
-            return (mmDepth % 2 ? -1 : 1) * nextNum;
           };
 
           // graph.decreaseEdge(start, end);
-          const value = evaluate();
+          const value = (mmDepth % 2 ? -1 : 1) * evaluate();
           // graph.increaseEdge(start, end);
           return value;
           // }
