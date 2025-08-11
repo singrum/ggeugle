@@ -566,7 +566,9 @@ export class BipartiteDiGraph {
         -Infinity,
         Infinity,
         true,
-        ([graph, [, end]]) => {
+        ([graph, [start, end]]) => {
+          graph.decreaseEdge(start, end);
+          // if ([0, 1, 2].includes(precRule)) {
           const nextMoves = graph.getMovesFromNode(end, 0, 0);
           let nextNum = nextMoves.reduce(
             (prev, curr) => prev + graph.getEdgeNum(curr[0], curr[1]),
@@ -584,7 +586,9 @@ export class BipartiteDiGraph {
               nextNum /= prevNum;
             }
           }
+          graph.increaseEdge(start, end);
           return (mmDepth % 2 ? -1 : 1) * nextNum;
+          // }
         },
         ([graph, [, end]]) => {
           const graphCopy = graph;
