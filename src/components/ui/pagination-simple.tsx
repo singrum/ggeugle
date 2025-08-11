@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./button";
 
 type PaginationSimpleProps = {
@@ -22,32 +22,31 @@ export function PaginationSimple({
   return (
     <div
       className={cn(
-        `flex w-full items-center justify-between gap-2`,
+        `flex w-full items-center justify-between gap-4`,
         className,
       )}
     >
       <span className="text-muted-foreground ml-2 text-sm">
         {page} / {totalPages} 페이지
       </span>
-      <div className="flex items-center gap-[1px]">
+      <div className="flex gap-2">
         <Button
           size="icon"
           onClick={() => onPageChange(page - 1)}
-          variant="secondary"
+          variant="ghost"
           disabled={page <= 1 || disabled}
-          className="size-8 rounded-l-md rounded-r-xs"
+          className="size-8"
         >
-          <ArrowLeft className="stroke-foreground" />
+          <ChevronLeft className="stroke-foreground" />
         </Button>
-
         <Button
-          variant="secondary"
+          variant="ghost"
           size="icon"
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages || disabled}
-          className="size-8 rounded-l-xs rounded-r-md"
+          className="size-8"
         >
-          <ArrowRight className="stroke-foreground" />
+          <ChevronRight className="stroke-foreground" />
         </Button>
       </div>
     </div>
