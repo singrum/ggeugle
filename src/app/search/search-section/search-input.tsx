@@ -64,6 +64,7 @@ function SearchInputComponent({
       {...props}
       value={localSearchInputValue}
       onChange={(e) => {
+        e.preventDefault();
         let value = e.target.value;
         if (value.length >= 1 && value.at(-1) === " ") {
           if (value.length === 2) {
