@@ -140,7 +140,7 @@ export function CharButton({
   const setCharListDrawerOpen = useWcStore((e) => e.setCharListDrawerOpen);
 
   const searchInputValue = useWcStore((e) => e.searchInputValue);
-  const cmp = comparisonMap?.[view][children as string];
+  const cmp = comparisonMap?.[view].get(children as string);
 
   return (
     <Button
