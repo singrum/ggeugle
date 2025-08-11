@@ -567,27 +567,31 @@ export class BipartiteDiGraph {
         Infinity,
         true,
         ([graph, [start, end]]) => {
-          graph.decreaseEdge(start, end);
-          // if ([0, 1, 2].includes(precRule)) {
-          const nextMoves = graph.getMovesFromNode(end, 0, 0);
-          let nextNum = nextMoves.reduce(
-            (prev, curr) => prev + graph.getEdgeNum(curr[0], curr[1]),
-            0,
-          );
-          if (precRule !== 0) {
-            const prevMoves = this.getMovesFromNode(end, 0, 1);
-            const prevNum = prevMoves.reduce(
-              (prev, curr) => prev + this.getEdgeNum(curr[0], curr[1]),
+          const evaluate = () => {
+            const nextMoves = graph.getMovesFromNode(end, 0, 0);
+            let nextNum = nextMoves.reduce(
+              (prev, curr) => prev + graph.getEdgeNum(curr[0], curr[1]),
               0,
             );
-            if (precRule === 1) {
-              nextNum -= prevNum;
-            } else {
-              nextNum /= prevNum;
+            if (precRule !== 0) {
+              const prevMoves = this.getMovesFromNode(end, 0, 1);
+              const prevNum = prevMoves.reduce(
+                (prev, curr) => prev + this.getEdgeNum(curr[0], curr[1]),
+                0,
+              );
+              if (precRule === 1) {
+                nextNum -= prevNum;
+              } else {
+                nextNum /= prevNum;
+              }
             }
-          }
-          graph.increaseEdge(start, end);
-          return (mmDepth % 2 ? -1 : 1) * nextNum;
+            return (mmDepth % 2 ? -1 : 1) * nextNum;
+          };
+
+          // graph.decreaseEdge(start, end);
+          const value = evaluate();
+          // graph.increaseEdge(start, end);
+          return value;
           // }
         },
         ([graph, [, end]]) => {
