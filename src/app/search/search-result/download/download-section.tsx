@@ -15,7 +15,7 @@ export function DownloadTitle({
 }: { last?: boolean } & React.ComponentProps<"div">) {
   return (
     <div className="flex-1">
-      <div className={cn("h-full p-4 text-base font-medium", className)}>
+      <div className={cn("h-full p-5 text-base font-medium", className)}>
         {children}
       </div>
 
