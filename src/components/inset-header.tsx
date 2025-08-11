@@ -2,7 +2,6 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useWcStore } from "@/stores/wc-store";
 import {
-  Book,
   BookMarked,
   ChevronRight,
   ChevronsUpDown,
