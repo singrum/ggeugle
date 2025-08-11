@@ -14,7 +14,7 @@ export default function ThemeSettings() {
   const { setTheme, theme } = useTheme();
 
   return (
-    <div className="space-y-2">
+    <div className="h-7 space-y-2">
       {/* <div className="text-xs">테마 </div> */}
       <div className="grid w-fit grid-cols-3 rounded-full border">
         {info.map(({ key, icon: Icon }) => (

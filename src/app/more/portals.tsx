@@ -1,5 +1,3 @@
-import DiscordIcon from "@/assets/icon/discord-icon.svg?react";
-import GithubIcon from "@/assets/icon/github-icon.svg?react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,26 +7,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import type React from "react";
-import { Fragment } from "react/jsx-runtime";
-const iconPortalsInfo: {
-  title: string;
-  href: string;
-  icon: React.ComponentType<React.ComponentProps<"svg">>;
-}[] = [
-  {
-    title: "깃허브",
-    href: "https://github.com/singrum/ggeugle",
-    icon: GithubIcon,
-  },
-  {
-    title: "디스코드",
-    href: "https://discord.gg/bkHgyajx89",
-    icon: DiscordIcon,
-  },
-];
 
 const DBSource = [
   {
@@ -62,32 +42,10 @@ const DBSource = [
 ];
 export default function Portals() {
   return (
-    <div className="space-y-2">
-      <div className="text-foreground -mx-1 -my-2 flex flex-wrap items-center gap-1 text-sm">
-        {iconPortalsInfo.map(({ title, href, icon: Icon }) => (
-          <Fragment key={title}>
-            <div key={href} className="flex items-center">
-              <Button
-                variant="link"
-                size="icon"
-                asChild
-                className="text-muted-foreground hover:text-foreground [&_svg]:stroke-foreground size-8 items-center font-normal"
-              >
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex"
-                >
-                  <Icon className="text-foreground" />
-                </a>
-              </Button>
-            </div>
-          </Fragment>
-        ))}
-        <Separator orientation="vertical" className="mx-1 h-4!" />
-
-        <div className="flex items-center gap-1">
+    <div className="-my-2 space-y-2">
+      <div className="text-foreground grid grid-cols-[auto_1fr] items-start gap-1 gap-x-4 text-sm">
+        <span className="flex h-7 items-center font-medium">바로가기</span>
+        <div className="flex flex-wrap items-center gap-1">
           <FooterButton asChild>
             <a
               href={"https://ikki.app"}
@@ -99,6 +57,24 @@ export default function Portals() {
           </FooterButton>
           <FooterButton asChild>
             <a
+              href={"https://github.com/singrum/ggeugle"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              깃허브
+            </a>
+          </FooterButton>
+          <FooterButton asChild>
+            <a
+              href={"https://discord.gg/bkHgyajx89"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              디스코드
+            </a>
+          </FooterButton>
+          <FooterButton asChild>
+            <a
               href={"https://singrum.github.io/ggeugle-old"}
               target="_blank"
               rel="noopener noreferrer"
@@ -106,6 +82,10 @@ export default function Portals() {
               구버전
             </a>
           </FooterButton>
+        </div>
+
+        <span className="flex h-7 items-center font-medium">더 보기</span>
+        <div className="flex flex-wrap items-center gap-1">
           <Dialog>
             <DialogTrigger asChild>
               <FooterButton>문의</FooterButton>
@@ -177,7 +157,8 @@ function FooterButton({
   return (
     <Button
       variant="link"
-      className="text-muted-foreground hover:text-foreground h-auto items-start gap-0 px-2 font-normal"
+      size="sm"
+      className="text-muted-foreground hover:text-foreground h-7 items-center gap-0 px-2 font-normal"
       {...props}
     />
   );
