@@ -87,7 +87,16 @@ export default function Portals() {
         ))}
         <Separator orientation="vertical" className="mx-1 h-4!" />
 
-        <div className="flex items-center">
+        <div className="flex items-center gap-1">
+          <FooterButton asChild>
+            <a
+              href={"https://ikki.app"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              이끼
+            </a>
+          </FooterButton>
           <FooterButton asChild>
             <a
               href={"https://singrum.github.io/ggeugle-old"}
