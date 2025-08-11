@@ -19,17 +19,11 @@ export default function Title() {
       : theme;
   return (
     <h1 className="flex items-center gap-2">
-      <Button variant="link" asChild className="px-0">
-        <a href={"https://ikki.app"} target="_blank" rel="noopener noreferrer">
-          <img src={logoInfo[resolvedTheme]} className="w-12" alt="이끼" />
-        </a>
-      </Button>
+      <img src={logoInfo[resolvedTheme]} className="w-12" alt="이끼" />
+
       <Slash className="stroke-muted-foreground size-5 shrink-0 stroke-1" />
-      <Button variant="link" asChild className="px-0">
-        <a href="/">
-          <div className="text-lg font-medium">끝말잇기 엔진</div>
-        </a>
-      </Button>
+
+      <div className="text-lg font-medium">끝말잇기 엔진</div>
     </h1>
   );
 }
