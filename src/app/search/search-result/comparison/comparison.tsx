@@ -12,7 +12,7 @@ export default function Comparison({ solver }: { solver: WordSolver }) {
   const data = useWcStore((e) => e.comparisonMap);
 
   return data ? (
-    <GhostTabs defaultValue="before" className="w-full gap-6">
+    <GhostTabs defaultValue="before" className="w-full gap-8">
       <GhostTabsList className="mx-0">
         <GhostTabsTrigger value="before">이전과 비교</GhostTabsTrigger>
         <GhostTabsTrigger value="origin">원본과 비교</GhostTabsTrigger>

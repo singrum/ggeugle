@@ -133,8 +133,8 @@ export class WcStrategyTree {
         .map((e) => [e[0], e[1]] as [NodeName, NodeName])
         .sort((a, b) => {
           return (
-            -solver.graphSolver.depthMap[0][a[1]]! +
-            solver.graphSolver.depthMap[0][b[1]]!
+            -solver.graphSolver.depthMap[0].get(a[1])! +
+            solver.graphSolver.depthMap[0].get(b[1])!
           );
         });
 
@@ -150,13 +150,13 @@ export class WcStrategyTree {
           .getGraph("winlose")
           .getMovesFromNode(move[1], 0, 0, changeFunc)
           .filter(([start, end]) => {
-            return end !== solver.graphSolver.loopMap[start];
+            return end !== solver.graphSolver.loopMap.get(start);
           })
           .map((e) => [e[0], e[1]] as [NodeName, NodeName])
           .sort((a, b) => {
             return (
-              -solver.graphSolver.depthMap[0][a[1]] +
-              solver.graphSolver.depthMap[0][b[1]]
+              -solver.graphSolver.depthMap[0].get(a[1])! +
+              solver.graphSolver.depthMap[0].get(b[1])!
             );
           });
 

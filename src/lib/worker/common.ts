@@ -54,7 +54,7 @@ export function getPositionInfo(
         .getGraph("winlose")
         .getMovesFromNode(currChar, 0, 0)
         .filter(([start, end]) => {
-          return end !== solver.loopMap[start];
+          return end !== solver.loopMap.get(start);
         })
         .map((e) => [e[0], e[1]] as [NodeName, NodeName])
         .sort((a, b) => {
