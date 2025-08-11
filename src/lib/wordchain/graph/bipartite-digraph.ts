@@ -566,7 +566,7 @@ export class BipartiteDiGraph {
         -Infinity,
         Infinity,
         true,
-        ([graph, [start, end]]) => {
+        ([graph, [, end]]) => {
           const evaluate = () => {
             const nextMoves = graph.getMovesFromNode(end, 0, 0);
             let nextNum = nextMoves.reduce(
