@@ -149,6 +149,7 @@ export const createSearchSlice: StateCreator<
         sampleChangeFuncs[rule.wordConnectionRule.changeFuncIdx],
       ),
     );
+
     setSearchInputValue(searchInputValue);
   },
   exceptedWords: [],
@@ -233,7 +234,8 @@ export const createSearchSlice: StateCreator<
   setComparisonMap: (cmap: ComparisonMap) => {
     const { view, solver, rule, setSearchResultMenu, search, comparisonToast } =
       get();
-    const changedNodes = Object.keys(cmap[view]);
+    const changedNodes = Array.from(cmap[view].keys());
+
     if (comparisonToast && changedNodes.length > 0) {
       toast(
         <div className="flex flex-wrap items-center gap-2">

@@ -45,7 +45,7 @@ export function getPositionInfo(
     };
   } else {
     const type: NormalizedNodeType = normalizeNodeType(
-      solver.typeMap[0][currChar],
+      solver.typeMap[0].get(currChar)!,
     );
     if (type === "win") {
       return { type, optimalMove: solver.getWinningOptimalMove(0, currChar) };
@@ -58,7 +58,7 @@ export function getPositionInfo(
         })
         .map((e) => [e[0], e[1]] as [NodeName, NodeName])
         .sort((a, b) => {
-          return -solver.depthMap[0][a[1]] + solver.depthMap[0][b[1]];
+          return -solver.depthMap[0].get(a[1])! + solver.depthMap[0].get(b[1])!;
         })[0];
       return { type, optimalMove: losingOptimalMove };
     } else {
@@ -78,8 +78,8 @@ export function checkInitialCondition(graph: BipartiteDiGraph, node: NodeName) {
     ["removed", "winlose", "route"],
   );
   let { typeMap } = pruneWinLoseNodes(graphs);
-  if (typeMap[0][node]) {
-    const type = normalizeNodeType(typeMap[0][node]);
+  if (typeMap[0].has(node)) {
+    const type = normalizeNodeType(typeMap[0].get(node)!);
     if (type === "win") {
       return "win";
     } else {
@@ -99,8 +99,8 @@ export function checkInitialCondition(graph: BipartiteDiGraph, node: NodeName) {
   });
   ({ typeMap } = pruneWinLoseNodes(graphs));
 
-  if (typeMap[0][node]) {
-    const type = normalizeNodeType(typeMap[0][node]);
+  if (typeMap[0].has(node)) {
+    const type = normalizeNodeType(typeMap[0].get(node)!);
     if (type === "win") {
       return "win";
     } else {

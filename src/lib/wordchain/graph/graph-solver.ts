@@ -30,7 +30,7 @@ export class GraphSolver {
   graphs: GraphPartitions;
   typeMap: NodeMap<NodeType>;
   depthMap: NodeMap<number>;
-  loopMap: Record<NodeName, NodeName>;
+  loopMap: Map<NodeName, NodeName>;
   pairManager: PairManager;
   scc: [NodeName[], NodeName[]][];
 
@@ -47,8 +47,8 @@ export class GraphSolver {
     // Set all nodeDataValue.type that are undefined to "route"
     for (const pos of [0, 1] as const) {
       for (const node of this.graphs.getGraph("route").nodes(pos)) {
-        if (!this.typeMap[pos][node]) {
-          this.typeMap[pos][node] = "route";
+        if (!this.typeMap[pos].has(node)) {
+          this.typeMap[pos].set(node, "route");
         } else {
           throw new Error("fucking error");
         }
@@ -77,18 +77,19 @@ export class GraphSolver {
     view: NodePos,
   ): { depth: number; nodes: NodeName[] }[] {
     const result: { depth: number; nodes: NodeName[] }[] = [];
-    const winloseNodes = Object.keys(this.typeMap[view]).filter(
-      (e) => this.typeMap[view][e] === type,
-    );
+    const winloseNodes = Array.from(this.typeMap[view].entries())
+      .filter(([, v]) => v === type)
+      .map(([k]) => k);
 
-    const temp: Record<number, string[]> = {};
+    const temp: Map<number, string[]> = new Map();
 
     for (const node of winloseNodes) {
-      const depth = this.depthMap[view][node];
-      (temp[depth] ??= []).push(node);
+      const depth = this.depthMap[view].get(node)!;
+      if (!temp.has(depth)) temp.set(depth, []);
+      temp.get(depth)!.push(node);
     }
 
-    for (const [depth, nodes] of Object.entries(temp)) {
+    for (const [depth, nodes] of temp.entries()) {
       nodes.sort();
       result.push({ depth: Number(depth), nodes });
     }
@@ -128,15 +129,14 @@ export class GraphSolver {
     ];
   }
   getNodeTypeNum(pos: NodePos) {
-    const nodes = Object.keys(this.typeMap[pos]);
     const result: Record<NodeType, number> = {
       win: 0,
       lose: 0,
       route: 0,
       loopwin: 0,
     };
-    for (const node of nodes) {
-      result[this.typeMap[pos][node]]++;
+    for (const [, type] of this.typeMap[pos].entries()) {
+      result[type]++;
     }
 
     return [
@@ -154,18 +154,18 @@ export class GraphSolver {
   getWinloseDetailNumData(
     pos: NodePos,
   ): { depth: number; num: number; type: "win" | "lose"; fill: string }[] {
-    const winloseNodes = Object.keys(this.typeMap[pos]).filter(
-      (e) => normalizeNodeType(this.typeMap[pos][e]) !== "route",
-    );
+    const winloseNodes = Array.from(this.typeMap[pos].entries())
+      .filter(([, v]) => normalizeNodeType(v) !== "route")
+      .map(([k]) => k);
 
-    const temp: Record<number, number> = {};
+    const temp: Map<number, number> = new Map();
 
     for (const node of winloseNodes) {
-      const depth = this.depthMap[pos][node];
-      temp[depth] = (temp[depth] ?? 0) + 1;
+      const depth = this.depthMap[pos].get(node)!;
+      temp.set(depth, (temp.get(depth) ?? 0) + 1);
     }
 
-    return Object.entries(temp).map(([depth, num]) => {
+    return Array.from(temp.entries()).map(([depth, num]) => {
       const depthNum = Number(depth);
       const type = depthNum % 2 === 1 ? "win" : "lose";
       return {
@@ -189,17 +189,17 @@ export class GraphSolver {
     }
     const graph = this.graphs.getGraph("winlose");
     if (pos === 1) {
-      if (this.typeMap[1][node] === "loopwin") {
-        return [node, this.loopMap[node]];
+      if (this.typeMap[1].get(node) === "loopwin") {
+        return [node, this.loopMap.get(node)!];
       } else {
         const succ = graph
           .successors(1, node)
-          .filter((e) => normalizeNodeType(this.typeMap[0][e]) === "lose");
+          .filter((e) => normalizeNodeType(this.typeMap[0].get(e)!) === "lose");
 
         return [
           node,
           succ.reduce((prev, curr) => {
-            if (this.depthMap[0][prev] < this.depthMap[0][curr]) {
+            if (this.depthMap[0].get(prev)! < this.depthMap[0].get(curr)!) {
               return prev;
             } else {
               return curr;
@@ -211,12 +211,12 @@ export class GraphSolver {
       if (graph.hasNode(0, node)) {
         const succ = graph
           .successors(0, node)
-          .filter((e) => normalizeNodeType(this.typeMap[1][e]) === "win");
+          .filter((e) => normalizeNodeType(this.typeMap[1].get(e)!) === "win");
 
         return this.getWinningOptimalMove(
           1,
           succ.reduce((prev, curr) => {
-            if (this.depthMap[1][prev] < this.depthMap[1][curr]) {
+            if (this.depthMap[1].get(prev)! < this.depthMap[1].get(curr)!) {
               return prev;
             } else {
               return curr;
@@ -235,7 +235,7 @@ export class GraphSolver {
         return this.getWinningOptimalMove(
           1,
           moveViewNodes.reduce((prev, curr) => {
-            if (this.depthMap[1][prev] < this.depthMap[1][curr]) {
+            if (this.depthMap[1].get(prev)! < this.depthMap[1].get(curr)!) {
               return prev;
             } else {
               return curr;
@@ -253,18 +253,21 @@ export class GraphSolver {
   ): [NodeName, NodeName] | undefined {
     const graph = this.graphs.getGraph("winlose");
     if (pos === 1) {
-      if (this.typeMap[1][node]) {
-        if (this.depthMap[1][node] === 0 || this.depthMap[1][node] === 1) {
+      if (this.typeMap[1].has(node)) {
+        if (
+          this.depthMap[1].get(node) === 0 ||
+          this.depthMap[1].get(node) === 1
+        ) {
           return undefined;
         } else {
           const succ = graph
             .successors(1, node)
-            .filter((s) => s !== this.loopMap[node]);
+            .filter((s) => s !== this.loopMap.get(node));
 
           return [
             node,
             succ.reduce((prev, curr) => {
-              if (this.depthMap[0][prev] > this.depthMap[0][curr]) {
+              if (this.depthMap[0].get(prev)! > this.depthMap[0].get(curr)!) {
                 return prev;
               } else {
                 return curr;
@@ -274,12 +277,12 @@ export class GraphSolver {
         }
       } else return undefined;
     } else {
-      if (this.typeMap[0][node]) {
+      if (this.typeMap[0].has(node)) {
         const succ = graph.successors(0, node);
         return this.getLosingOptimalMove(
           1,
           succ.reduce((prev, curr) => {
-            if (this.depthMap[0][prev] > this.depthMap[0][curr]) {
+            if (this.depthMap[0].get(prev)! > this.depthMap[0].get(curr)!) {
               return prev;
             } else {
               return curr;
@@ -300,7 +303,7 @@ export class GraphSolver {
         return this.getLosingOptimalMove(
           1,
           moveViewNodes.reduce((prev, curr) => {
-            if (this.depthMap[1][prev] < this.depthMap[1][curr]) {
+            if (this.depthMap[1].get(prev)! < this.depthMap[1].get(curr)!) {
               return prev;
             } else {
               return curr;
@@ -313,13 +316,13 @@ export class GraphSolver {
   }
 
   getNodeType(node: string, pos: 0 | 1, changeFunc?: ChangeFunc): NodeType {
-    if (this.typeMap[pos][node]) {
-      return this.typeMap[pos][node];
+    if (this.typeMap[pos].has(node)) {
+      return this.typeMap[pos].get(node)!;
     }
 
     const nodes = this.graphs.getMoveViewNodes(pos, node, 0, changeFunc);
 
-    const nextTypes = nodes.map((e) => this.typeMap[1][e]);
+    const nextTypes = nodes.map((e) => this.typeMap[1].get(e)!);
 
     if (nextTypes.some((e) => e === "win" || e === "loopwin")) {
       return "win";
@@ -334,8 +337,8 @@ export class GraphSolver {
     const moveClass: MoveClass = range(6).map(() => []);
 
     for (const [head, tail, idxArr] of moveMap.toArray()) {
-      const headType = this.typeMap[1][head];
-      const tailType = this.typeMap[0][tail];
+      const headType = this.typeMap[1].get(head);
+      const tailType = this.typeMap[0].get(tail);
       for (const idx of idxArr) {
         const { type, depth, pair } = this.getMoveType(head, tail, idx);
 
@@ -372,7 +375,7 @@ export class GraphSolver {
     const [G, , members] = routeGraph.condensation(this.scc, pos);
 
     const oppos: NodePos = (1 - pos) as NodePos;
-    for (const member of Object.values(members))
+    for (const member of members)
       member.sort((prev, curr) => {
         const twoStepSuccPrev = routeGraph
           .successors(pos, prev)
@@ -438,20 +441,17 @@ export class GraphSolver {
     solver: GraphSolver,
     changeFunc: ChangeFunc,
   ): [
-    Record<NodeName, [NodeType, NodeType]>,
-    Record<NodeName, [NodeType, NodeType]>,
+    Map<NodeName, [NodeType, NodeType]>,
+    Map<NodeName, [NodeType, NodeType]>,
   ] {
     const result: [
-      Record<NodeName, [NodeType, NodeType]>,
-      Record<NodeName, [NodeType, NodeType]>,
-    ] = [{}, {}];
+      Map<NodeName, [NodeType, NodeType]>,
+      Map<NodeName, [NodeType, NodeType]>,
+    ] = [new Map(), new Map()];
 
     const nodes = [0, 1].map((pos) =>
       Array.from(
-        new Set([
-          ...Object.keys(this.typeMap[pos]),
-          ...Object.keys(solver.typeMap[pos]),
-        ]),
+        new Set([...this.typeMap[pos].keys(), ...solver.typeMap[pos].keys()]),
       ),
     );
 
@@ -460,10 +460,11 @@ export class GraphSolver {
         const before = this.getNodeType(node, pos, changeFunc);
         const after = solver.getNodeType(node, pos, changeFunc);
         if (before !== after) {
-          result[pos][node] = [before, after];
+          result[pos].set(node, [before, after]);
         }
       }
     }
+
     return result;
   }
   getChangeablesCharsData(
@@ -560,13 +561,13 @@ export class GraphSolver {
     start: NodeName,
     end: NodeName,
   ): { type: MoveType; depth?: number } {
-    const headType = this.typeMap[1][start];
-    const tailType = this.typeMap[0][end];
+    const headType = this.typeMap[1].get(start)!;
+    const tailType = this.typeMap[0].get(end)!;
     if (headType === "loopwin" && tailType === "loopwin") {
-      if (this.loopMap[start] === end) {
-        return { type: 0, depth: this.depthMap[0][end] + 1 };
+      if (this.loopMap.get(start) === end) {
+        return { type: 0, depth: this.depthMap[0].get(end)! + 1 };
       } else {
-        return { type: 5, depth: this.depthMap[0][end] };
+        return { type: 5, depth: this.depthMap[0].get(end)! };
       }
     }
     const moveType: MoveType = nodeTypesToMoveType[headType][
@@ -575,7 +576,7 @@ export class GraphSolver {
     if (hasDepthMap[moveType]) {
       return {
         type: moveType,
-        depth: this.depthMap[0][end],
+        depth: this.depthMap[0].get(end)!,
       };
     } else {
       return { type: moveType };
@@ -597,36 +598,36 @@ export class GraphSolver {
     type: NodeType,
     view: NodePos,
     direction: 0 | 1,
-  ): Record<NodeName, [number, number, number, number, number, number]> {
+  ): Map<NodeName, [number, number, number, number, number, number]> {
     const removedEdges = this.graphs.getGraph("removed").edges(1);
     const unremovedEdges = [
       ...this.graphs.getGraph("route").edges(1),
       ...this.graphs.getGraph("winlose").edges(1),
     ];
-    const nodeMap: Record<
+    const nodeMap = new Map<
       NodeName,
       [number, number, number, number, number, number]
-    > = {};
+    >();
     const oppos = getOppos(view);
 
-    for (const [node, nodeType] of Object.entries(this.typeMap[view])) {
+    for (const [node, nodeType] of this.typeMap[view].entries()) {
       if (type === nodeType) {
-        nodeMap[node] = [0, 0, 0, 0, 0, 0];
+        nodeMap.set(node, [0, 0, 0, 0, 0, 0]);
       }
     }
 
     for (const e of removedEdges) {
       if ((direction ^ view) === 1) {
-        if (!nodeMap[e[direction]]) continue;
-        nodeMap[e[direction]][2] += e[2];
+        if (!nodeMap.has(e[direction])) continue;
+        nodeMap.get(e[direction])![2] += e[2];
       } else {
         const targets =
           direction === 0
             ? this.graphs.predecessors(oppos, e[direction])
             : this.graphs.successors(oppos, e[direction]);
         for (const node of targets) {
-          if (!nodeMap[node]) continue;
-          nodeMap[node][2] += e[2];
+          if (!nodeMap.has(node)) continue;
+          nodeMap.get(node)![2] += e[2];
         }
       }
     }
@@ -634,16 +635,16 @@ export class GraphSolver {
     for (const e of unremovedEdges) {
       const { type: moveType } = this.getUnremovedMoveType(e[0], e[1]);
       if ((direction ^ view) === 1) {
-        if (!nodeMap[e[direction]]) continue;
-        nodeMap[e[direction]][moveType] += e[2];
+        if (!nodeMap.has(e[direction])) continue;
+        nodeMap.get(e[direction])![moveType] += e[2];
       } else {
         const targets =
           direction === 0
             ? this.graphs.predecessors(oppos, e[direction])
             : this.graphs.successors(oppos, e[direction]);
         for (const node of targets) {
-          if (!nodeMap[node]) continue;
-          nodeMap[node][moveType] += e[2];
+          if (!nodeMap.has(node)) continue;
+          nodeMap.get(node)![moveType] += e[2];
         }
       }
     }
@@ -660,8 +661,8 @@ export class GraphSolver {
     char: string;
     num: [number, number, number, number, number, number];
   }[] {
-    let result = Object.entries(
-      this.getDistributionMap(type, view, direction),
+    let result = Array.from(
+      this.getDistributionMap(type, view, direction).entries(),
     ).map(([nodeName, num]) => ({ char: nodeName, num }));
     // ✅ 비율로 보기 처리
     if (displayType === "fraction") {
@@ -698,22 +699,22 @@ export class GraphSolver {
     desc: boolean,
     calcType: "ratio" | "difference",
   ): { char: NodeName; num: [number, number, number] }[] {
-    const distributionMaps: Record<NodeName, number>[] = (
-      [0, 1] as (0 | 1)[]
-    ).map((direction) => {
-      const dMap = this.getDistributionMap(type, view, direction as 0 | 1);
-      const result: Record<NodeName, number> = {};
-      for (const [node, val] of Object.entries(dMap)) {
-        const type = wordTypes[direction];
-        if (type === "total") {
-          result[node] = sum(val);
-        } else {
-          result[node] = val[type];
+    const distributionMaps: Map<NodeName, number>[] = ([0, 1] as (0 | 1)[]).map(
+      (direction) => {
+        const dMap = this.getDistributionMap(type, view, direction as 0 | 1);
+        const result = new Map<NodeName, number>();
+        for (const [node, val] of dMap.entries()) {
+          const t = wordTypes[direction];
+          if (t === "total") {
+            result.set(node, sum(val));
+          } else {
+            result.set(node, val[t]);
+          }
         }
-      }
-      return result;
-    });
-    const nodes = Object.keys(distributionMaps[0]);
+        return result;
+      },
+    );
+    const nodes = Array.from(distributionMaps[0].keys());
     const result: {
       char: NodeName;
       num: [number, number, number];
@@ -722,11 +723,11 @@ export class GraphSolver {
       result.push({
         char: node,
         num: [
-          distributionMaps[1][node],
-          distributionMaps[0][node],
+          distributionMaps[1].get(node)!,
+          distributionMaps[0].get(node)!,
           calcType === "ratio"
-            ? distributionMaps[1][node] / distributionMaps[0][node]
-            : distributionMaps[1][node] - distributionMaps[0][node],
+            ? distributionMaps[1].get(node)! / distributionMaps[0].get(node)!
+            : distributionMaps[1].get(node)! - distributionMaps[0].get(node)!,
         ],
       });
     }
@@ -762,7 +763,7 @@ export function getComparisonData(
   ];
 
   for (const pos of [0, 1] as NodePos[]) {
-    for (const [node, [before, after]] of Object.entries(mapping[pos])) {
+    for (const [node, [before, after]] of mapping[pos].entries()) {
       temp[pos].get(before, after, []).push(node);
     }
     for (const before of ["win", "lose", "loopwin", "route"] as NodeType[]) {

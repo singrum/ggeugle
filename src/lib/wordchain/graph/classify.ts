@@ -5,12 +5,12 @@ import { GraphPartitions } from "./graph-partitions";
 export function pruneWinLoseNodes(graphs: GraphPartitions): {
   typeMap: NodeMap<NodeType>;
   evenLoops: [NodeName, NodeName, number][];
-  loopMap: Record<NodeName, NodeName>;
+  loopMap: Map<NodeName, NodeName>;
 } {
   const evenLoops: [NodeName, NodeName, number][] = [];
-  const typeMap: NodeMap<NodeType> = [{}, {}];
+  const typeMap: NodeMap<NodeType> = [new Map(), new Map()];
   const stack: [NodePos, NodeName][] = [];
-  const loopMap: Record<NodeName, NodeName> = {};
+  const loopMap: Map<NodeName, NodeName> = new Map();
   function getSeedType(pos: NodePos, name: NodeName): NodeType {
     if (pos === 0) {
       if (graphs.getGraph("route").outDegree(0, name) === 0) {
@@ -43,7 +43,7 @@ export function pruneWinLoseNodes(graphs: GraphPartitions): {
           evenLoops.push([name, succ, num - parity]);
         }
         if (parity === 1) {
-          loopMap[name] = succ;
+          loopMap.set(name, succ);
           return "loopwin";
         } else {
           return "lose";
@@ -58,7 +58,7 @@ export function pruneWinLoseNodes(graphs: GraphPartitions): {
       for (const node of graphs.getGraph("route").nodes(pos as NodePos)) {
         const nodeType = getSeedType(pos, node);
         if (nodeType !== "route") {
-          typeMap[pos][node] = nodeType;
+          typeMap[pos].set(node, nodeType);
           stack.push([pos, node]);
         }
       }
@@ -74,9 +74,9 @@ export function pruneWinLoseNodes(graphs: GraphPartitions): {
     const preds = graphs
       .getGraph("route")
       .predecessors(pos, name)
-      .filter((e) => !typeMap[oppos][e]);
+      .filter((e) => !typeMap[oppos].has(e));
 
-    const type = typeMap[pos][name];
+    const type = typeMap[pos].get(name);
     graphs.transferNode("route", "winlose", pos, name);
 
     if (pos === 0) {
@@ -84,7 +84,7 @@ export function pruneWinLoseNodes(graphs: GraphPartitions): {
         // 0 -> 1
         // type === "lose"
         for (const pred of preds) {
-          typeMap[oppos][pred] = "win";
+          typeMap[oppos].set(pred, "win");
           stack.push([oppos, pred]);
         }
       } else {
@@ -93,7 +93,7 @@ export function pruneWinLoseNodes(graphs: GraphPartitions): {
         for (const pred of preds) {
           const predType = getSeedType(oppos, pred);
           if (predType !== "route") {
-            typeMap[oppos][pred] = predType;
+            typeMap[oppos].set(pred, predType);
             stack.push([oppos, pred]);
           }
         }
@@ -105,7 +105,7 @@ export function pruneWinLoseNodes(graphs: GraphPartitions): {
         for (const pred of preds) {
           const predType = getSeedType(oppos, pred);
           if (predType !== "route") {
-            typeMap[oppos][pred] = "lose";
+            typeMap[oppos].set(pred, "lose");
             stack.push([oppos, pred]);
           }
         }
@@ -114,7 +114,7 @@ export function pruneWinLoseNodes(graphs: GraphPartitions): {
         // type === WIN | LOOPWIN
 
         for (const pred of preds) {
-          typeMap[oppos][pred] = type;
+          typeMap[oppos].set(pred, type!);
           stack.push([oppos, pred]);
         }
       }
@@ -131,17 +131,17 @@ export function getDepthMap(
   const loseStack: [NodeName[], NodeName[]] = [[], []];
   const winStack: [NodeName[], NodeName[]] = [[], []];
   const outDegMap: NodeMap<number> = graph.getOutDegreeMap();
-  const depthMap: NodeMap<number> = [{}, {}];
+  const depthMap: NodeMap<number> = [new Map(), new Map()];
   function isSink(
     pos: NodePos,
     node: NodeName,
   ): "lose" | "loopwin" | undefined {
-    if (typeMap[pos][node] === "lose" && outDegMap[pos][node] === 0) {
+    if (typeMap[pos].get(node) === "lose" && outDegMap[pos].get(node) === 0) {
       return "lose";
     } else if (
       pos === 1 &&
-      typeMap[pos][node] === "loopwin" &&
-      outDegMap[pos][node] === 1
+      typeMap[pos].get(node) === "loopwin" &&
+      outDegMap[pos].get(node) === 1
     ) {
       return "loopwin";
     }
@@ -153,10 +153,10 @@ export function getDepthMap(
         const type = isSink(pos, node);
         if (type === "lose") {
           loseStack[pos].push(node);
-          depthMap[pos][node] = 0;
+          depthMap[pos].set(node, 0);
         } else if (type === "loopwin") {
           winStack[pos].push(node);
-          depthMap[pos][node] = 1;
+          depthMap[pos].set(node, 1);
         }
       }
     }
@@ -174,12 +174,12 @@ export function getDepthMap(
       const node = loseStack[1].pop()!;
       const preds = graph
         .predecessors(1, node)
-        .filter((pred) => depthMap[0][pred] === undefined);
+        .filter((pred) => depthMap[0].get(pred) === undefined);
       for (const pred of preds) {
-        outDegMap[0][pred] -= 1;
+        outDegMap[0].set(pred, (outDegMap[0].get(pred) ?? 0) - 1);
         if (isSink(0, pred)) {
           loseStack[0].push(pred);
-          depthMap[0][pred] = depthMap[1][node];
+          depthMap[0].set(pred, depthMap[1].get(node)!);
         }
       }
     }
@@ -187,9 +187,9 @@ export function getDepthMap(
       const node = loseStack[0].pop()!;
       const preds = graph
         .predecessors(0, node)
-        .filter((pred) => depthMap[1][pred] === undefined);
+        .filter((pred) => depthMap[1].get(pred) === undefined);
       for (const pred of preds) {
-        depthMap[1][pred] = depthMap[0][node] + 1;
+        depthMap[1].set(pred, depthMap[0].get(node)! + 1);
         winStack[1].push(pred);
       }
     }
@@ -197,9 +197,9 @@ export function getDepthMap(
       const node = winStack[1].pop()!;
       const preds = graph
         .predecessors(1, node)
-        .filter((pred) => depthMap[0][pred] === undefined);
+        .filter((pred) => depthMap[0].get(pred) === undefined);
       for (const pred of preds) {
-        depthMap[0][pred] = depthMap[1][node];
+        depthMap[0].set(pred, depthMap[1].get(node)!);
         winStack[0].push(pred);
       }
     }
@@ -207,16 +207,16 @@ export function getDepthMap(
       const node = winStack[0].pop()!;
       const preds = graph
         .predecessors(0, node)
-        .filter((pred) => depthMap[1][pred] === undefined);
+        .filter((pred) => depthMap[1].get(pred) === undefined);
       for (const pred of preds) {
-        outDegMap[1][pred] -= 1;
+        outDegMap[1].set(pred, (outDegMap[1].get(pred) ?? 0) - 1);
         const type = isSink(1, pred);
         if (type === "lose") {
           loseStack[1].push(pred);
-          depthMap[1][pred] = depthMap[0][node] + 1;
+          depthMap[1].set(pred, depthMap[0].get(node)! + 1);
         } else if (type === "loopwin") {
           winStack[1].push(pred);
-          depthMap[1][pred] = depthMap[0][node] + 2;
+          depthMap[1].set(pred, depthMap[0].get(node)! + 2);
         }
       }
     }
@@ -228,7 +228,7 @@ export function classify(graph: BipartiteDiGraph): {
   evenLoops: [NodeName, NodeName, number][];
   twoCycles: [[NodeName, NodeName], [NodeName, NodeName], number][];
   typeMap: NodeMap<NodeType>;
-  loopMap: Record<NodeName, NodeName>;
+  loopMap: Map<NodeName, NodeName>;
 } {
   // const graphCopy: BipartiteDiGraph = graph.copy();
   const graphs = new GraphPartitions(
@@ -239,10 +239,10 @@ export function classify(graph: BipartiteDiGraph): {
     },
     ["removed", "winlose", "route"],
   );
-  const loopMap: Record<NodeName, NodeName> = {};
+  const loopMap: Map<NodeName, NodeName> = new Map();
   const evenLoops: [NodeName, NodeName, number][] = [];
   const twoCycles: [SingleMove, SingleMove, number][] = [];
-  const typeMap: NodeMap<NodeType> = [{}, {}];
+  const typeMap: NodeMap<NodeType> = [new Map(), new Map()];
 
   function pruneWinloseInvolvingOneCycles() {
     const {
@@ -251,10 +251,14 @@ export function classify(graph: BipartiteDiGraph): {
       loopMap: _loopMap,
     } = pruneWinLoseNodes(graphs);
     for (const pos of [0, 1] as NodePos[]) {
-      Object.assign(typeMap[pos], typeMap_[pos]);
+      for (const [k, v] of typeMap_[pos]) {
+        typeMap[pos].set(k, v);
+      }
     }
     evenLoops.push(...evenLoops_);
-    Object.assign(loopMap, _loopMap);
+    for (const [k, v] of _loopMap.entries()) {
+      loopMap.set(k, v);
+    }
   }
   function removeEvenLoops() {
     const evenLoops_ = graphs.getGraph("route").getEvenLoops();

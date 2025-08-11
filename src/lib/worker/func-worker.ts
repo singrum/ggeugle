@@ -7,7 +7,12 @@ import { round, throttle } from "lodash";
 import { getHeadTail, getIdx } from "../utils";
 import { BipartiteDiGraph } from "../wordchain/graph/bipartite-digraph";
 import { classify } from "../wordchain/graph/classify";
-import type { NodeName, NodePos, SingleMove } from "../wordchain/graph/graph";
+import type {
+  NodeName,
+  NodePos,
+  NodeType,
+  SingleMove,
+} from "../wordchain/graph/graph";
 import { GraphPartitions } from "../wordchain/graph/graph-partitions";
 import { GraphSolver } from "../wordchain/graph/graph-solver";
 import { WordMap } from "../wordchain/word/word-map";
@@ -190,7 +195,7 @@ const funcWorkerApi: FuncWorkerApi = {
       const removedGraph = graph.copy();
       removedGraph.decreaseEdge(start, end, 1);
       const { typeMap } = classify(removedGraph);
-      const typeMapOnView = typeMap[view];
+      const typeMapOnView: Map<NodeName, NodeType> = typeMap[view];
 
       const nodeInfo: Record<"win" | "lose" | "loopwin", NodeName[]> = {
         win: [],
@@ -198,7 +203,7 @@ const funcWorkerApi: FuncWorkerApi = {
         loopwin: [],
       };
 
-      for (const [node, type] of Object.entries(typeMapOnView)) {
+      for (const [node, type] of typeMapOnView.entries()) {
         if (type !== "route") {
           nodeInfo[type as "win" | "lose"].push(node);
         }

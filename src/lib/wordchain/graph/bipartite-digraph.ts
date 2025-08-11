@@ -3,6 +3,7 @@ import type { PrecInfo } from "@/types/search";
 import Denque from "denque";
 import { cloneDeep } from "lodash";
 import { EdgeCounter } from "../classes/edge-counter";
+import { EdgeMap } from "../classes/edge-map";
 import type { WordMap } from "../word/word-map";
 import { alphabeta } from "./ab-pluning";
 import { DiGraph } from "./digraph";
@@ -175,29 +176,20 @@ export class BipartiteDiGraph {
       .map((e) => [e, this.predecessors(1, e)[0]]);
   }
   getSingleInOutEdges(): [NodeName, NodeName][] {
-    const hashMap: Record<string, Record<string, number>> = {};
+    const edgeMap = new EdgeMap();
     const sie = this.getSingleInEdges();
     const soe = this.getSingleOutEdges();
 
     for (const [start, end] of sie) {
-      if (!hashMap[start]) {
-        hashMap[start] = {};
-      }
-      hashMap[start][end] = 1;
+      edgeMap.set(start, end, 1);
     }
     for (const [start, end] of soe) {
-      if (!hashMap[start]) {
-        hashMap[start] = {};
-      }
-      hashMap[start][end] = 1;
+      edgeMap.set(start, end, 1);
     }
-    const result = Object.entries(hashMap)
-      .map(([start, adj]: [string, Record<string, number>]) =>
-        Object.entries(adj).map(([end]) => [start, end]),
-      )
-      .flat() as [NodeName, NodeName][];
-
-    return result;
+    return edgeMap.toArray().map(([start, end]) => [start, end]) as [
+      NodeName,
+      NodeName,
+    ][];
   }
 
   getSCC(): [string[], string[]][] {
@@ -207,42 +199,45 @@ export class BipartiteDiGraph {
       ...this.nodes(0).map((e) => [0, e] as [NodePos, NodeName]),
       ...this.nodes(1).map((e) => [1, e] as [NodePos, NodeName]),
     ];
-    const d: [Record<NodeName, number>, Record<NodeName, number>] = [{}, {}];
-
-    const finished: [Record<NodeName, boolean>, Record<NodeName, boolean>] = [
-      {},
-      {},
+    const d: [Map<NodeName, number>, Map<NodeName, number>] = [
+      new Map(),
+      new Map(),
+    ];
+    const finished: [Map<NodeName, boolean>, Map<NodeName, boolean>] = [
+      new Map(),
+      new Map(),
     ];
 
     for (const [pos, node] of nodes) {
-      d[pos][node] = 0;
-      finished[pos][node] = false;
+      d[pos].set(node, 0);
+      finished[pos].set(node, false);
     }
 
     const SCC: [NodeName[], NodeName[]][] = [];
     const stack: [NodePos, NodeName][] = [];
 
     const dfs = (pos: NodePos, name: NodeName) => {
-      d[pos][name] = ++id;
+      d[pos].set(name, ++id);
       stack.push([pos, name]);
 
-      let parent = d[pos][name];
+      let parent = d[pos].get(name)!;
       const oppos: NodePos = (1 - pos) as NodePos;
       const succ: NodeName[] = this.successors(pos, name);
 
       for (let i = 0; i < succ.length; i++) {
         const next = succ[i];
-        if (d[oppos][next] === 0) parent = Math.min(parent, dfs(oppos, next));
-        else if (!finished[oppos][next])
-          parent = Math.min(parent, d[oppos][next]);
+        if (d[oppos].get(next) === 0)
+          parent = Math.min(parent, dfs(oppos, next));
+        else if (!finished[oppos].get(next))
+          parent = Math.min(parent, d[oppos].get(next)!);
       }
 
-      if (parent === d[pos][name]) {
+      if (parent === d[pos].get(name)) {
         const scc: [NodeName[], NodeName[]] = [[], []];
         while (true) {
           const [pos_, name_] = stack.pop()!;
           scc[pos_].push(name_);
-          finished[pos_][name_] = true;
+          finished[pos_].set(name_, true);
           if (pos === pos_ && name === name_) break;
         }
 
@@ -253,7 +248,7 @@ export class BipartiteDiGraph {
     };
 
     for (const [pos, node] of nodes) {
-      if (d[pos][node] === 0) {
+      if (d[pos].get(node) === 0) {
         dfs(pos, node);
       }
     }
@@ -282,8 +277,8 @@ export class BipartiteDiGraph {
     pos: 0 | 1,
   ): [
     DiGraph<number, { edges: EdgeCounter }>,
-    Record<NodeName, number>,
-    Record<number, NodeName[]>,
+    Map<NodeName, number>,
+    NodeName[][],
   ] {
     if (scc === undefined) {
       scc = this.getSCC();
@@ -292,20 +287,20 @@ export class BipartiteDiGraph {
       .map((e) => e[pos])
       .filter((e) => e.length > 0);
 
-    const mapping: Record<NodeName, number> = {};
-    const members: Record<number, NodeName[]> = {};
-    for (const [i, nodes] of Object.entries(sccInView)) {
-      members[Number(i)] = nodes;
+    const mapping: Map<NodeName, number> = new Map();
+    const members: NodeName[][] = [];
+    sccInView.forEach((nodes, i) => {
+      members[i] = nodes;
       nodes.forEach((e) => {
-        mapping[e] = Number(i);
+        mapping.set(e, i);
       });
-    }
+    });
 
     const G = new DiGraph<number, { edges: EdgeCounter }>();
 
     for (const [start, middle, end] of this.getTwoPaths(pos)) {
-      const startIndex = mapping[start];
-      const endIndex = mapping[end];
+      const startIndex = mapping.get(start)!;
+      const endIndex = mapping.get(end)!;
       if (startIndex !== endIndex) {
         if (!G.hasEdge(startIndex, endIndex)) {
           G.addEdge(startIndex, endIndex, { edges: new EdgeCounter() });
@@ -381,11 +376,13 @@ export class BipartiteDiGraph {
   }
 
   getOutDegreeMap(): NodeMap<number> {
-    const outDegreeMap: NodeMap<number> = ([0, 1] as NodePos[]).map((pos) =>
-      Object.fromEntries(
-        this.nodes(pos).map((e) => [e, this.outDegree(pos, e)]),
-      ),
-    ) as NodeMap<number>;
+    const outDegreeMap: NodeMap<number> = ([0, 1] as NodePos[]).map((pos) => {
+      const map = new Map<NodeName, number>();
+      for (const node of this.nodes(pos)) {
+        map.set(node, this.outDegree(pos, node));
+      }
+      return map;
+    }) as NodeMap<number>;
     return outDegreeMap;
   }
   getEvenLoops(): [string, string, number][] {

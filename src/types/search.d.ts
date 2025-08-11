@@ -36,8 +36,8 @@ export type TreeData = (
 export type ComparisonData = [NodeType, NodeType, NodeName[]][];
 
 export type ComparisonMap = [
-  Record<NodeName, [NodeType, NodeType]>,
-  Record<NodeName, [NodeType, NodeType]>,
+  Map<NodeName, [NodeType, NodeType]>,
+  Map<NodeName, [NodeType, NodeType]>,
 ];
 
 export type CriticalWordInfo = {
