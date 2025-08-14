@@ -1,4 +1,3 @@
-import { getAllContentPath } from "@/constants/knowledge";
 import { kkutuInfo } from "@/constants/rule";
 import { sampleRules } from "@/constants/sample-rules";
 import { useWcStore } from "@/stores/wc-store";
@@ -17,7 +16,7 @@ export const useMount = (): boolean => {
   const menu = useMenu();
   useEffect(() => {
     const params = new URLSearchParams(location.search);
-    console.log(getAllContentPath());
+
     if (isMounted === true) {
       return;
     }
