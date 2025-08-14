@@ -35,7 +35,16 @@ export function AppSidebar() {
       >
         <SidebarContent className="items-center py-5">
           {navInfo.map(({ title, icon, key }) => (
-            <NavLink to={`/${key}${location.search}`} end key={key}>
+            <NavLink
+              to={
+                `/${key}` +
+                (!["knowledge", "info"].includes(key)
+                  ? `${location.search}`
+                  : "")
+              }
+              end
+              key={key}
+            >
               <NavButton
                 Icon={icon}
                 key={key}

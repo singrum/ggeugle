@@ -209,10 +209,16 @@ export type DistributionSlice = {
   distributionRows: number[];
 };
 
+export type KnowledgeSlice = {
+  knowledgeMenuOpen: boolean;
+  setKnowledgeMenuOpen: (v: boolean) => void;
+};
+
 export type Slices = RuleSlice &
   SearchSlice &
   StrategySearchSlice &
   CriticalWordsSlice &
   PlaySlice &
   InfoSlice &
-  DistributionSlice;
+  DistributionSlice &
+  KnowledgeSlice;

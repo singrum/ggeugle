@@ -4,6 +4,10 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./app/error-page";
 import Layout from "./app/layout";
 import Search from "./app/search/search";
+import KnowledgeLayout from "./components/knowledge/knowledge-layout";
+import KnowledgeOverview from "./components/knowledge/knowledge-overview";
+import KnowledgePage from "./components/knowledge/knowledge-page";
+import { content } from "./constants/knowledge";
 import { navInfo } from "./constants/sidebar";
 import "./index.css";
 
@@ -14,14 +18,29 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Search /> },
-      ...navInfo.map(({ component, key }) => ({
-        path: key,
-        element: component,
-      })),
+      ...[0, 1, 2, 4].map((i) => {
+        const { component, key } = navInfo[i];
+        return {
+          path: key,
+          element: component,
+        };
+      }),
+      {
+        path: "/knowledge",
+        element: <KnowledgeLayout />,
+        children: [
+          { index: true, element: <KnowledgeOverview /> },
+          ...content
+            .filter(({ type }) => type === "super")
+            .map(({ title }) => ({
+              path: `/knowledge/${title}/:page`,
+              element: <KnowledgePage />,
+            })),
+        ],
+      },
     ],
   },
 ]);
-
 
 createRoot(document.getElementById("root")!).render(
   <RouterProvider router={router} />,

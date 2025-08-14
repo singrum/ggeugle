@@ -4,1190 +4,1008 @@
 
   <url>
     <loc>https://engine.ikki.app/</loc>
-    <lastmod>2025-08-05T14:51:51.263Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.104Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/info</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://engine.ikki.app/knowledge</loc>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=구엜룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=신엜룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=넶룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=앞말잇기</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=노룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=반전룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=챈룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=듭2룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=천도룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=연결룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=듭룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=채린쿵따룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=표샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=두샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=옛두샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-끝말잇기-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-끝말잇기-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-끝말잇기-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-끝말잇기-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-끝말잇기-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-끝말잇기-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-쿵쿵따-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-쿵쿵따-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-쿵쿵따-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-쿵쿵따-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-쿵쿵따-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-쿵쿵따-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-앞말잇기-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-앞말잇기-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-앞말잇기-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-앞말잇기-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-앞말잇기-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/?rule=끄투코리아-앞말잇기-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=구엜룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=신엜룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=넶룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=앞말잇기</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=노룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=반전룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=챈룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=듭2룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=천도룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=연결룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=듭룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=채린쿵따룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=표샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=두샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=옛두샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-끝말잇기-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-끝말잇기-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-끝말잇기-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-끝말잇기-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-끝말잇기-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-끝말잇기-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.265Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-쿵쿵따-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-쿵쿵따-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-쿵쿵따-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-쿵쿵따-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-쿵쿵따-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-쿵쿵따-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-앞말잇기-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-앞말잇기-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-앞말잇기-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-앞말잇기-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-앞말잇기-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/home?rule=끄투코리아-앞말잇기-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=구엜룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=신엜룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=넶룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=앞말잇기</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=노룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=반전룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=챈룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=듭2룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=천도룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=연결룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=듭룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=채린쿵따룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=표샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=두샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=옛두샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-끝말잇기-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-끝말잇기-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-끝말잇기-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-끝말잇기-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-끝말잇기-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-끝말잇기-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-쿵쿵따-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-쿵쿵따-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-쿵쿵따-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-쿵쿵따-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-쿵쿵따-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-쿵쿵따-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-앞말잇기-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-앞말잇기-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-앞말잇기-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-앞말잇기-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-앞말잇기-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/game?rule=끄투코리아-앞말잇기-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=구엜룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=신엜룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=넶룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=앞말잇기</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=노룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=반전룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=챈룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=듭2룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=천도룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=연결룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=듭룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=채린쿵따룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=표샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=두샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=옛두샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-끝말잇기-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-끝말잇기-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-끝말잇기-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-끝말잇기-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-끝말잇기-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-끝말잇기-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-쿵쿵따-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-쿵쿵따-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-쿵쿵따-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-쿵쿵따-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-쿵쿵따-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-쿵쿵따-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-앞말잇기-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-앞말잇기-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-앞말잇기-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-앞말잇기-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-앞말잇기-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
     <loc>https://engine.ikki.app/rule?rule=끄투코리아-앞말잇기-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://engine.ikki.app/info?rule=구엜룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <loc>https://engine.ikki.app/knowledge/%ED%91%9C%EC%A4%80%20%EB%81%9D%EB%A7%90%EC%9E%87%EA%B8%B0/%EC%9C%A0%ED%96%A5%20%EA%B7%B8%EB%9E%98%ED%94%84%20%EB%AA%A8%EB%8D%B8</loc>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://engine.ikki.app/info?rule=신엜룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <loc>https://engine.ikki.app/knowledge/%ED%91%9C%EC%A4%80%20%EB%81%9D%EB%A7%90%EC%9E%87%EA%B8%B0/%EC%8A%B9%ED%8C%A8%20%EC%A0%84%ED%8C%8C%EC%99%80%20%EA%B0%80%EC%A7%80%EC%B9%98%EA%B8%B0</loc>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://engine.ikki.app/info?rule=넶룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <loc>https://engine.ikki.app/knowledge/%ED%91%9C%EC%A4%80%20%EB%81%9D%EB%A7%90%EC%9E%87%EA%B8%B0/%EB%A3%A8%ED%94%84%EB%A5%BC%20%ED%99%9C%EC%9A%A9%ED%95%9C%20%EC%B6%94%EA%B0%80%20%EC%8A%B9%ED%8C%A8%20%ED%8C%90%EB%B3%84</loc>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://engine.ikki.app/info?rule=앞말잇기</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <loc>https://engine.ikki.app/knowledge/%ED%91%9C%EC%A4%80%20%EB%81%9D%EB%A7%90%EC%9E%87%EA%B8%B0/%EB%8F%8C%EB%A6%BC%20%EB%8B%A8%EC%96%B4%20%EC%8C%8D%20%EC%A0%9C%EA%B1%B0</loc>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://engine.ikki.app/info?rule=노룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <loc>https://engine.ikki.app/knowledge/%ED%91%9C%EC%A4%80%20%EB%81%9D%EB%A7%90%EC%9E%87%EA%B8%B0/%EA%B0%95%ED%95%9C%20%EC%97%B0%EA%B2%B0%20%EC%9A%94%EC%86%8C</loc>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://engine.ikki.app/info?rule=반전룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=챈룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=듭2룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=천도룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=연결룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=듭룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=채린쿵따룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=표샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=두샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=옛두샘룰</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-끝말잇기-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-끝말잇기-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-끝말잇기-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-끝말잇기-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-끝말잇기-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-끝말잇기-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-쿵쿵따-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-쿵쿵따-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-쿵쿵따-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-쿵쿵따-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-쿵쿵따-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-쿵쿵따-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-앞말잇기-노인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-앞말잇기-어인정-노매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-앞말잇기-노인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-앞말잇기-어인정-매너</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-앞말잇기-노인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
-  <url>
-    <loc>https://engine.ikki.app/info?rule=끄투코리아-앞말잇기-어인정-젠틀</loc>
-    <lastmod>2025-08-05T14:51:51.266Z</lastmod>
+    <loc>https://engine.ikki.app/knowledge/%EB%91%90%EC%9D%8C%20%EB%B2%95%EC%B9%99%20%EB%81%9D%EB%A7%90%EC%9E%87%EA%B8%B0/%EC%9D%B4%EB%B6%84%20%EC%9C%A0%ED%96%A5%20%EA%B7%B8%EB%9E%98%ED%94%84%20%EB%AA%A8%EB%8D%B8</loc>
+    <lastmod>2025-08-14T10:54:11.105Z</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

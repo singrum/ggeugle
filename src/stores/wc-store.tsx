@@ -12,6 +12,7 @@ import type { Chat } from "../types/play";
 import { createCriticalWordsSlice } from "./slices/critical-words-slice";
 import { createDistributionSlice } from "./slices/distribution-slice";
 import { createInfoSlice } from "./slices/info-slice";
+import { createKnowledgeSlice } from "./slices/knowledge-slice";
 import { createPlaySlice } from "./slices/play-slice";
 import { createRuleSlice } from "./slices/rule-slice";
 import { createSearchSlice } from "./slices/search-slice";
@@ -49,6 +50,7 @@ export const useWcStore = create<Slices>()(
       ...createPlaySlice(...a),
       ...createInfoSlice(...a),
       ...createDistributionSlice(...a),
+      ...createKnowledgeSlice(...a),
     })),
     {
       name: "ggeugle",

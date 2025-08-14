@@ -11,9 +11,13 @@ export default function MobileBottomBar() {
     <div
       className={cn("bg-background fixed bottom-0 z-30 h-16 w-full shrink-0")}
     >
-      <nav className={cn("mx-auto grid max-w-lg grid-cols-4 items-center")}>
+      <nav className={cn("mx-auto grid max-w-lg grid-cols-5 items-center")}>
         {navInfo.map(({ title, icon, key }) => (
-          <NavLink to={`/${key}${location.search}`} end key={key}>
+          <NavLink
+            to={`/${key}` + (key !== "knowledge" ? `${location.search}` : "")}
+            end
+            key={key}
+          >
             <NavButton
               Icon={icon}
               key={key}
