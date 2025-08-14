@@ -6,7 +6,10 @@ import SampleRuleSidebar from "@/app/rule-setttings/sample-rules/sample-rule-sid
 import CharListSidebar from "@/app/search/char-list-sidebar/char-list-sidebar";
 import CharMenu from "@/app/search/char-list-sidebar/char-menu";
 import Search from "@/app/search/search";
+import Knowledge from "@/components/knowledge/knowledge-page";
+import KnowledgeSidebar from "@/components/knowledge/knowledge-sidebar";
 import {
+  BookBookmarkIcon,
   ChatsIcon,
   HouseIcon,
   InfoIcon,
@@ -48,6 +51,13 @@ export const navInfo: {
     icon: SlidersHorizontalIcon,
     component: <RuleSettings />,
     innerSidebarComponent: <SampleRuleSidebar />,
+  },
+  {
+    title: "지식",
+    key: "knowledge",
+    icon: BookBookmarkIcon,
+    component: <Knowledge />,
+    innerSidebarComponent: <KnowledgeSidebar />,
   },
   {
     title: "정보",

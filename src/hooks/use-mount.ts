@@ -1,8 +1,10 @@
+import { getAllContentPath } from "@/constants/knowledge";
 import { kkutuInfo } from "@/constants/rule";
 import { sampleRules } from "@/constants/sample-rules";
 import { useWcStore } from "@/stores/wc-store";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { useMenu } from "./use-menu";
 
 export const useMount = (): boolean => {
   const [isMounted, setIsMounted] = useState(false);
@@ -12,14 +14,20 @@ export const useMount = (): boolean => {
   const setRule = useWcStore((e) => e.setRule);
   const navigate = useNavigate();
   const updateRule = useWcStore((e) => e.updateRule);
+  const menu = useMenu();
   useEffect(() => {
     const params = new URLSearchParams(location.search);
+    console.log(getAllContentPath());
     if (isMounted === true) {
       return;
     }
     const toGuel = () => {
-      params.set("rule", "구엜룰"); // 디폴트 값 설정
-      navigate(`${location.pathname}?${params.toString()}`, { replace: true });
+      if (!["knowledge", "info"].includes(menu)) {
+        params.set("rule", "구엜룰"); // 디폴트 값 설정
+        navigate(`${location.pathname}?${params.toString()}`, {
+          replace: true,
+        });
+      }
       setRule(sampleRules[0]);
     };
     if (!ruleName || ruleName === "custom") {
@@ -55,6 +63,7 @@ export const useMount = (): boolean => {
     navigate,
     ruleName,
     location.search,
+    menu,
   ]);
 
   return isMounted;
