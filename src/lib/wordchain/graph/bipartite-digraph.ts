@@ -626,7 +626,11 @@ export class BipartiteDiGraph {
               return getNextNum() / getPrevNum();
             } else {
               const cNodes = new Set(graph.getCriticalEdges().map((e) => e[0]));
-              return this.shortestDistanceToAnyTarget(0, end, 1, cNodes);
+              if (cNodes.size > 0) {
+                return this.shortestDistanceToAnyTarget(0, end, 1, cNodes);
+              } else {
+                return Infinity;
+              }
             }
           };
 
