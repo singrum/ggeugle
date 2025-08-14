@@ -42,7 +42,12 @@ export default function KnowledgeSidebar() {
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem>
-              <NavLink to={"/knowledge"} end className={superNavLinkClassName}>
+              <NavLink
+                to={"/knowledge"}
+                end
+                className={superNavLinkClassName}
+                onClick={() => setOpen(false)}
+              >
                 개요
               </NavLink>
             </SidebarMenuItem>
