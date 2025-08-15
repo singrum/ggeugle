@@ -16,16 +16,11 @@ export default function RuleSettingsMenu() {
       <GhostTabs
         className="mx-auto w-full max-w-screen-lg px-4 pt-0 whitespace-nowrap md:w-auto md:px-12"
         value={`${menu}`}
+        onValueChange={(e) => setMenu(Number(e))}
       >
         <GhostTabsList>
           {ruleSettingsMenuInfo.map(({ title }, i) => (
-            <GhostTabsTrigger
-              key={title}
-              value={`${i}`}
-              onClick={() => {
-                setMenu(i);
-              }}
-            >
+            <GhostTabsTrigger key={title} value={`${i}`}>
               {title}
             </GhostTabsTrigger>
           ))}
