@@ -10,7 +10,8 @@ import NextWords from "@/app/search/search-result/next-words/next-words";
 import PrevWords from "@/app/search/search-result/prev-words/prev-words";
 import Scc from "@/app/search/search-result/scc/scc";
 import Statistics from "@/app/search/search-result/statistics/statistics";
-import MultiThreadSearch from "@/app/search/search-result/strategy-search/multi-thread-search/multi-thread-search";
+
+import ProofNumberSearch from "@/app/search/search-result/strategy-search/proof-number-search/proof-number-search";
 import SingleThreadSearch from "@/app/search/search-result/strategy-search/single-thread-search/single-thread-search";
 import StrategySearch from "@/app/search/search-result/strategy-search/strategy-search";
 import StrategyTree from "@/app/search/search-result/strategy-tree/strategy-tree";
@@ -94,8 +95,8 @@ export const strategySearchMethods: {
   title: string;
   component: React.ComponentType<{ solver: WordSolver }>;
 }[] = [
-  { title: "싱글 쓰레드 탐색", component: SingleThreadSearch },
-  { title: "멀티 쓰레드 탐색", component: MultiThreadSearch },
+  { title: "깊이 우선 탐색", component: SingleThreadSearch },
+  { title: "프루프 넘버 탐색", component: ProofNumberSearch },
 ];
 
 export const guelMaxRouteCharData = [
