@@ -41,14 +41,16 @@ export const content: Content = [
       {
         type: "sub",
         title: "승패 전파와 가지치기",
-        unwritten: true,
       },
       {
         type: "sub",
         title: "돌림 단어 쌍 제거",
-        unwritten: true,
       },
     ],
+  },
+  {
+    type: "sub",
+    title: "끝말잇기의 난해성",
   },
 ];
 

@@ -36,6 +36,7 @@ const router = createBrowserRouter([
               path: `/knowledge/${title}/:page`,
               element: <KnowledgePage />,
             })),
+          { path: "/knowledge/:page", element: <KnowledgePage /> },
         ],
       },
     ],
