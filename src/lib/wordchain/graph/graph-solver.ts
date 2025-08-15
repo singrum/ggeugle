@@ -565,9 +565,9 @@ export class GraphSolver {
     const tailType = this.typeMap[0].get(end)!;
     if (headType === "loopwin" && tailType === "loopwin") {
       if (this.loopMap.get(start) === end) {
-        return { type: 0, depth: this.depthMap[0].get(end)! + 1 };
+        return { type: 0, depth: this.depthMap[0].get(end)! };
       } else {
-        return { type: 5, depth: this.depthMap[0].get(end)! };
+        return { type: 5, depth: this.depthMap[0].get(end)! + 1 };
       }
     }
     const moveType: MoveType = nodeTypesToMoveType[headType][
@@ -576,7 +576,7 @@ export class GraphSolver {
     if (hasDepthMap[moveType]) {
       return {
         type: moveType,
-        depth: this.depthMap[0].get(end)!,
+        depth: this.depthMap[0].get(end)! + 1,
       };
     } else {
       return { type: moveType };
