@@ -40,16 +40,16 @@ function LineTabsTrigger({
       <TabsPrimitive.Trigger
         data-slot="tabs-trigger"
         className={cn(
-          "group hover:text-accent-foreground text-muted-foreground inline-flex w-fit flex-col items-center justify-center rounded-none bg-transparent text-sm leading-4 font-medium transition-all",
-          "data-[state=active]:text-foreground",
+          "group hover:text-accent-foreground text-muted-foreground inline-flex w-fit flex-col items-center justify-center rounded-none border-b-2 border-transparent bg-transparent text-sm leading-4 font-medium transition-all",
+          "data-[state=active]:text-foreground data-[state=active]:border-foreground",
           className,
         )}
         {...props}
       >
         <div className="rounded-lg px-3 py-2.5 transition-all">{children}</div>
-        <div className="h-[2px] w-full px-1">
+        {/* <div className="h-[2px] w-full px-1">
           <div className="group-data-[state=active]:bg-foreground h-[2px] w-full transition-colors" />
-        </div>
+        </div> */}
       </TabsPrimitive.Trigger>
     </div>
   );
