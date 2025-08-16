@@ -10,7 +10,7 @@ export default function ExceptedWordsInputContainer({
         <div className="text-2xl font-bold">검색</div>
         <div className="text-muted-foreground px-4 text-sm leading-6 break-keep">
           <p>음절, 단어, 또는 기보를 검색하세요.</p>
-          <p>띄어쓰기로 구분된 단어들은 단어 목록에서 제외됩니다.</p>
+          <p>띄어쓰기로 구분된 단어들은 전체 단어 목록에서 제외됩니다.</p>
         </div>
       </div>
       <Card className="bg-muted flex w-full flex-col justify-end gap-0 rounded-xl py-0">
