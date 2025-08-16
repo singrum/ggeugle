@@ -14,7 +14,10 @@ export default function MobileBottomBar() {
       <nav className={cn("mx-auto grid max-w-lg grid-cols-5 items-center")}>
         {navInfo.map(({ title, icon, key }) => (
           <NavLink
-            to={`/${key}` + (key !== "knowledge" ? `${location.search}` : "")}
+            to={
+              `/${key}` +
+              (!["knowledge", "info"].includes(key) ? `${location.search}` : "")
+            }
             end
             key={key}
           >
