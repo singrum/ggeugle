@@ -10,10 +10,7 @@ function LineTabs({
   return (
     <TabsPrimitive.Root
       data-slot="tabs"
-      className={cn(
-        "relative flex flex-col px-6 shadow-[inset_0_-1px_0_0_var(--border)]",
-        className,
-      )}
+      className={cn("relative flex flex-col px-6", className)}
       {...props}
     >
       {children}
@@ -49,9 +46,9 @@ function LineTabsTrigger({
         )}
         {...props}
       >
-        <div className="rounded-lg px-3 py-4 transition-all">{children}</div>
-        <div className="h-[3px] w-full px-3">
-          <div className="group-data-[state=active]:bg-foreground h-[3px] w-full rounded-full transition-colors" />
+        <div className="rounded-lg px-3 py-2.5 transition-all">{children}</div>
+        <div className="h-[3px] w-full px-1">
+          <div className="group-data-[state=active]:bg-foreground h-[2px] w-full transition-colors" />
         </div>
       </TabsPrimitive.Trigger>
     </div>

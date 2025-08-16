@@ -1,8 +1,8 @@
 import {
-  GhostTabs,
-  GhostTabsList,
-  GhostTabsTrigger,
-} from "@/components/ui/ghost-tabs";
+  LineTabs,
+  LineTabsList,
+  LineTabsTrigger,
+} from "@/components/ui/line-tabs";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { searchResultMenuInfo } from "@/constants/search";
 import { cn } from "@/lib/utils";
@@ -14,16 +14,14 @@ export default function SearchResultMenu() {
   const searchInputType = useWcStore((e) => e.searchInputType);
 
   return (
-    <ScrollArea className="mx-2 md:mx-4">
-      <GhostTabs
-        className={cn("w-auto px-2 py-3.5 whitespace-nowrap md:px-2", {
-          "shadow-[inset_0_-1px_0_0_var(--border)]": true,
-        })}
+    <ScrollArea className="mx-0 md:mx-4">
+      <LineTabs
+        className={cn("w-auto px-4 py-3 pt-3.5 whitespace-nowrap md:px-2")}
         value={`${searchResultMenu}`}
       >
-        <GhostTabsList>
+        <LineTabsList>
           {searchResultMenuInfo[searchInputType].map(({ title }, i) => (
-            <GhostTabsTrigger
+            <LineTabsTrigger
               key={title}
               value={`${i}`}
               onClick={() => {
@@ -31,10 +29,11 @@ export default function SearchResultMenu() {
               }}
             >
               {title}
-            </GhostTabsTrigger>
+            </LineTabsTrigger>
           ))}
-        </GhostTabsList>
-      </GhostTabs>
+        </LineTabsList>
+      </LineTabs>
+
       <ScrollBar orientation="horizontal" hidden />
     </ScrollArea>
   );
