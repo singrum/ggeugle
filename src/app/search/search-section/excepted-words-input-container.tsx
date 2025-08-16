@@ -5,7 +5,7 @@ export default function ExceptedWordsInputContainer({
   children,
 }: React.ComponentProps<"div">) {
   return (
-    <div className="relative flex flex-col items-center gap-6 px-4 py-10 pt-6 md:px-6">
+    <div className="relative flex flex-col items-center gap-6 px-4 py-8 md:px-6">
       <div className="space-y-4 text-center">
         <div className="text-2xl font-bold">검색</div>
         <div className="text-muted-foreground px-4 text-sm leading-6 break-keep">
