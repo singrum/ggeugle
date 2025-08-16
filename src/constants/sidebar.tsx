@@ -19,13 +19,16 @@ import {
 
 import type { ReactNode } from "react";
 
-export const navInfo: {
+export type Nav = {
   title: string;
   key: string;
   icon: Icon;
   component: ReactNode;
   innerSidebarComponent: ReactNode | undefined;
-}[] = [
+  isMore: boolean;
+};
+
+export const navInfo: Nav[] = [
   {
     title: "홈",
     key: "home",
@@ -37,6 +40,7 @@ export const navInfo: {
         <CharListSidebar />
       </>
     ),
+    isMore: false,
   },
   {
     title: "게임",
@@ -44,6 +48,7 @@ export const navInfo: {
     icon: ChatsIcon,
     component: <Play />,
     innerSidebarComponent: <PlaySidebar />,
+    isMore: false,
   },
   {
     title: "룰 설정",
@@ -51,6 +56,7 @@ export const navInfo: {
     icon: SlidersHorizontalIcon,
     component: <RuleSettings />,
     innerSidebarComponent: <SampleRuleSidebar />,
+    isMore: false,
   },
   {
     title: "지식",
@@ -58,6 +64,7 @@ export const navInfo: {
     icon: BookBookmarkIcon,
     component: <Knowledge />,
     innerSidebarComponent: <KnowledgeSidebar />,
+    isMore: true,
   },
   {
     title: "정보",
@@ -65,5 +72,6 @@ export const navInfo: {
     icon: InfoIcon,
     component: <More />,
     innerSidebarComponent: undefined,
+    isMore: true,
   },
 ];
