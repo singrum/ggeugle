@@ -33,10 +33,10 @@ export default function SccTable({
       <TableBody>
         {data.map(({ nodes, succ }) => (
           <TableRow key={nodes[0]}>
-            <TableCell>
+            <TableCell className="px-0">
               <SccCard nodes={nodes} />
             </TableCell>
-            <TableCell>
+            <TableCell className="pr-0">
               <div className="flex flex-col items-start gap-2">
                 {succ.map(({ nodes, by }) => (
                   <div className="flex items-center gap-2" key={nodes[0]}>

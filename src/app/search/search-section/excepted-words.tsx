@@ -24,7 +24,7 @@ export default function ExceptedWords() {
     <div className="p-1 pb-0">
       {exceptedWords.length === 0 ? (
         <div className="text-muted-foreground mb-4 flex items-start gap-2 p-3 pb-0 text-sm">
-          <div className="min-h-5">제외 단어 없음. (띄어쓰기로 구분)</div>
+          <div className="min-h-5">제외 단어 없음.</div>
         </div>
       ) : (
         <div>

@@ -25,12 +25,12 @@ export function InsetHeaderLeft() {
   const navigate = useNavigate();
   const location = useLocation();
   return (
-    <div className="over-flow-hidden no-scrollbar flex min-w-0 flex-1 items-center overflow-auto text-nowrap">
+    <div className="flex min-w-0 flex-1 items-center text-nowrap">
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
             className={cn(
-              "cursor-pointer bg-transparent px-2 text-base font-normal has-[>svg]:px-2 dark:bg-transparent",
+              "max-w-full cursor-pointer bg-transparent px-2 text-base font-normal has-[>svg]:px-2 dark:bg-transparent",
               {
                 "animate-pulse": !originalSolver,
               },
@@ -38,26 +38,24 @@ export function InsetHeaderLeft() {
             variant={"ghost"}
             onClick={() => navigate(`/rule${location.search}`)}
           >
-            {rule.metadata?.title ? (
-              <BookMarked className="stroke-foreground size-4" />
-            ) : (
-              <Wrench className="stroke-foreground size-4" />
-            )}
+            <div className="no-scrollbar flex flex-1 items-center gap-2 overflow-auto">
+              {rule.metadata?.title ? (
+                <BookMarked className="stroke-foreground size-4" />
+              ) : (
+                <Wrench className="stroke-foreground size-4" />
+              )}
 
-            {rule.metadata?.title ? (
-              <div className="flex items-center gap-1">
-                {rule.metadata.title.split("-").map((e, i, arr) => (
-                  <Fragment key={i}>
-                    {e}
-                    {arr.length - 1 !== i && (
-                      <ChevronRight className="size-3" />
-                    )}
-                  </Fragment>
-                ))}
-              </div>
-            ) : (
-              "커스텀 룰"
-            )}
+              {rule.metadata?.title
+                ? rule.metadata.title.split("-").map((e, i, arr) => (
+                    <Fragment key={i}>
+                      {e}
+                      {arr.length - 1 !== i && (
+                        <ChevronRight className="size-3" />
+                      )}
+                    </Fragment>
+                  ))
+                : "커스텀 룰"}
+            </div>
             <ChevronsUpDown className="size-3" />
           </Button>
         </TooltipTrigger>

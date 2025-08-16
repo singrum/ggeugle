@@ -24,7 +24,7 @@ const displayTypeOptions = [
 export default function WordDistributionSettings() {
   const option = useWcStore((e) => e.wordDistributionOption);
 
-  const { title, icon: Icon } =
+  const { title } =
     option.type === "adjacent"
       ? displayTypeOptions.find((e) => e.key === option.displayType)!
       : displayTypeOptions[0];
@@ -97,7 +97,6 @@ export default function WordDistributionSettings() {
               variant="secondary"
               className={cn("w-auto justify-between font-normal")}
             >
-              <Icon />
               <div className="flex items-center gap-2">{title}</div>
               <ChevronsUpDown className="size-3" />
             </Button>
@@ -115,9 +114,8 @@ export default function WordDistributionSettings() {
                 });
               }}
             >
-              {displayTypeOptions.map(({ key, title, icon: Icon }) => (
+              {displayTypeOptions.map(({ key, title }) => (
                 <DropdownMenuRadioItem value={key} key={key}>
-                  <Icon className="stroke-muted-foreground" />
                   {title}
                 </DropdownMenuRadioItem>
               ))}

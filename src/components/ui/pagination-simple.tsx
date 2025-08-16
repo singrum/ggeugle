@@ -22,7 +22,7 @@ export function PaginationSimple({
   return (
     <div
       className={cn(
-        `flex w-full items-center justify-between gap-4`,
+        `flex w-full items-center justify-between gap-4 rounded-lg border px-1 py-1 pl-2`,
         className,
       )}
     >
@@ -35,7 +35,7 @@ export function PaginationSimple({
           onClick={() => onPageChange(page - 1)}
           variant="ghost"
           disabled={page <= 1 || disabled}
-          className="size-8"
+          className="size-9"
         >
           <ChevronLeft className="stroke-foreground" />
         </Button>
@@ -44,7 +44,7 @@ export function PaginationSimple({
           size="icon"
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages || disabled}
-          className="size-8"
+          className="size-9"
         >
           <ChevronRight className="stroke-foreground" />
         </Button>
