@@ -33,7 +33,7 @@ export default function SccTable({
       <TableBody>
         {data.map(({ nodes, succ }) => (
           <TableRow key={nodes[0]}>
-            <TableCell className="px-0">
+            <TableCell className="pl-0">
               <SccCard nodes={nodes} />
             </TableCell>
             <TableCell className="pr-0">
