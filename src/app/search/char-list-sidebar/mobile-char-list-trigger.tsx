@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/drawer";
 import { useWcStore } from "@/stores/wc-store";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { Menu } from "lucide-react";
+import { LayoutGrid } from "lucide-react";
 import CharListSidebar from "./char-list-sidebar";
 import CharMenu from "./char-menu";
 
@@ -25,7 +25,7 @@ export default function MobileCharListTrigger() {
           size="icon"
           className="size-16 rounded-xl text-lg shadow-sm backdrop-blur-2xl"
         >
-          <Menu className="stroke-muted-foreground size-6 stroke-[2.5]" />
+          <LayoutGrid className="stroke-muted-foreground size-6 stroke-[2.5]" />
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-full">
