@@ -24,7 +24,7 @@ export default function KnowledgeFloatingButton() {
             size="icon"
             className="size-16 rounded-xl text-lg shadow-sm backdrop-blur-2xl"
           >
-            <Menu className="stroke-muted-foreground size-6 stroke-[2.5]" />
+            <Menu className="stroke-muted-foreground size-6" />
           </Button>
         </DrawerTrigger>
         <DrawerContent className="h-full">
