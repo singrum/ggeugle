@@ -46,7 +46,9 @@ function LineTabsTrigger({
         )}
         {...props}
       >
-        <div className="rounded-lg px-3 py-4 transition-all">{children}</div>
+        <div className="rounded-lg px-3 py-4 pb-3.5 transition-all">
+          {children}
+        </div>
         {/* <div className="h-[2px] w-full px-1">
           <div className="group-data-[state=active]:bg-foreground h-[2px] w-full transition-colors" />
         </div> */}
