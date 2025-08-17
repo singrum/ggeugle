@@ -25,7 +25,7 @@ export default function MobileCharListTrigger() {
           size="icon"
           className="size-16 rounded-xl text-lg shadow-sm backdrop-blur-2xl"
         >
-          <LayoutGrid className="stroke-muted-foreground size-6 stroke-[2.5]" />
+          <LayoutGrid className="stroke-muted-foreground size-6" />
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-full">
