@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { ThemeProvider } from "next-themes";
 
 export default function Donation() {
   return (
@@ -31,17 +30,16 @@ export default function Donation() {
           <DialogTrigger asChild>
             <Button size="lg">후원하기</Button>
           </DialogTrigger>
-          <ThemeProvider attribute="class" defaultTheme="light">
-            <DialogContent className="flex items-center justify-center border-0 bg-white [&_svg]:stroke-black">
-              <div className="flex items-center justify-center">
-                <img
-                  src="/donation-qr.png"
-                  alt="QR Code"
-                  className="h-auto max-h-[500px] w-auto rounded-lg"
-                />
-              </div>
-            </DialogContent>
-          </ThemeProvider>
+
+          <DialogContent className="flex items-center justify-center border-0 bg-white [&_svg]:stroke-black">
+            <div className="flex items-center justify-center">
+              <img
+                src="/donation-qr.png"
+                alt="QR Code"
+                className="h-auto max-h-[500px] w-auto rounded-lg"
+              />
+            </div>
+          </DialogContent>
         </Dialog>
         <div className="space-y-2 text-base">
           <h2 className="text-lg font-semibold">후원금의 사용처</h2>
