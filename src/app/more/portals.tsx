@@ -73,15 +73,6 @@ export default function Portals() {
               디스코드
             </a>
           </FooterButton>
-          <FooterButton asChild>
-            <a
-              href={"https://singrum.github.io/ggeugle-old"}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              구버전
-            </a>
-          </FooterButton>
         </div>
 
         <span className="flex h-7 items-center font-medium">더 보기</span>

@@ -23,7 +23,6 @@ export default function More() {
           })}
         >
           <Features />
-
           <NewFeatures />
         </div>
         <Separator />
