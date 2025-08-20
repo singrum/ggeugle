@@ -24,12 +24,9 @@ export default function MobileBottomBar() {
           "mx-auto grid max-w-lg grid-cols-4 items-center md:grid-cols-5",
         )}
       >
-        {(isMobile ? navs : navInfo).map(({ title, icon, key }) => (
+        {(isMobile ? navs : navInfo).map(({ title, icon, key, isMore }) => (
           <NavLink
-            to={
-              `/${key}` +
-              (!["knowledge", "info"].includes(key) ? `${location.search}` : "")
-            }
+            to={`/${key}` + (!isMore ? `${location.search}` : "")}
             end
             key={key}
           >
@@ -51,14 +48,9 @@ export default function MobileBottomBar() {
               />
             </PopoverTrigger>
             <PopoverContent className="flex w-fit gap-2 p-2">
-              {moreNavs.map(({ title, icon, key }) => (
+              {moreNavs.map(({ title, icon, key, isMore }) => (
                 <NavLink
-                  to={
-                    `/${key}` +
-                    (!["knowledge", "info"].includes(key)
-                      ? `${location.search}`
-                      : "")
-                  }
+                  to={`/${key}` + (!isMore ? `${location.search}` : "")}
                   end
                   key={key}
                   onClick={() => setOpen(false)}

@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Search /> },
-      ...[0, 1, 2, 4].map((i) => {
+      ...[0, 1, 2, 4, 5].map((i) => {
         const { component, key } = navInfo[i];
         return {
           path: key,
