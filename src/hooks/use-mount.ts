@@ -1,5 +1,6 @@
 import { kkutuInfo } from "@/constants/rule";
 import { sampleRules } from "@/constants/sample-rules";
+import { navInfo } from "@/constants/sidebar";
 import { useWcStore } from "@/stores/wc-store";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -21,7 +22,7 @@ export const useMount = (): boolean => {
       return;
     }
     const toGuel = () => {
-      if (!["knowledge", "info"].includes(menu)) {
+      if (!navInfo.find((e) => e.key === menu)?.isMore) {
         params.set("rule", "구엜룰"); // 디폴트 값 설정
         navigate(`${location.pathname}?${params.toString()}`, {
           replace: true,

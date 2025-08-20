@@ -1,3 +1,4 @@
+import Donation from "@/app/donation/donation";
 import More from "@/app/more/more";
 import Play from "@/app/play/play";
 import PlaySidebar from "@/app/play/play-sidebar/play-sidebar";
@@ -11,6 +12,7 @@ import KnowledgeSidebar from "@/components/knowledge/knowledge-sidebar";
 import {
   BookBookmarkIcon,
   ChatsIcon,
+  HeartIcon,
   HouseIcon,
   InfoIcon,
   SlidersHorizontalIcon,
@@ -64,6 +66,14 @@ export const navInfo: Nav[] = [
     icon: BookBookmarkIcon,
     component: <Knowledge />,
     innerSidebarComponent: <KnowledgeSidebar />,
+    isMore: true,
+  },
+  {
+    title: "후원",
+    key: "donation",
+    icon: HeartIcon,
+    component: <Donation />,
+    innerSidebarComponent: undefined,
     isMore: true,
   },
   {
