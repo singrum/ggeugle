@@ -56,7 +56,7 @@ export function AppSidebar() {
                 </NavLink>
               ))}
               {i === 0 ? (
-                <div className="my-2 w-full px-4">
+                <div className="my-2 w-full px-5">
                   <Separator />
                 </div>
               ) : null}
