@@ -24,10 +24,6 @@ export const content: Content = [
         type: "sub",
         title: "돌림 단어 쌍 제거",
       },
-      {
-        type: "sub",
-        title: "강한 연결 요소",
-      },
     ],
   },
   {
@@ -47,6 +43,10 @@ export const content: Content = [
         title: "돌림 단어 쌍 제거",
       },
     ],
+  },
+  {
+    type: "sub",
+    title: "강한 연결 요소",
   },
   {
     type: "sub",
