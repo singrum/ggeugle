@@ -38,7 +38,8 @@ export default function KnowledgeSidebar() {
   const setOpen = useWcStore((e) => e.setKnowledgeMenuOpen);
   return (
     <>
-      <SidebarGroup className="mt-4 transition-none">
+      <div className="h-4" />
+      <SidebarGroup className="py-0">
         <SidebarGroupContent>
           <SidebarMenu>
             <SidebarMenuItem>
@@ -62,7 +63,7 @@ export default function KnowledgeSidebar() {
             defaultOpen
             className="group/collapsible"
           >
-            <SidebarGroup>
+            <SidebarGroup className="py-0">
               <SidebarGroupLabel
                 asChild
                 className="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm"
@@ -93,7 +94,7 @@ export default function KnowledgeSidebar() {
             </SidebarGroup>
           </Collapsible>
         ) : (
-          <SidebarGroup>
+          <SidebarGroup className="py-0">
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
@@ -110,6 +111,7 @@ export default function KnowledgeSidebar() {
           </SidebarGroup>
         ),
       )}
+      <div className="h-4" />
     </>
   );
 }
