@@ -69,7 +69,7 @@ export const moveTypeNameMap: string[] = [
   "돌림 단어",
   "방어 단어",
   "공뤁 단어",
-  "패배 단어",
+  "양보 단어",
 ];
 
 export const indexToNodeType: NodeType[] = ["win", "lose", "loopwin", "route"];
