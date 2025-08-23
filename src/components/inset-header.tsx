@@ -2,7 +2,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useWcStore } from "@/stores/wc-store";
 import {
-  BookMarked,
+  BookText,
   ChevronRight,
   ChevronsUpDown,
   MoreVertical,
@@ -40,7 +40,7 @@ export function InsetHeaderLeft() {
           >
             <div className="no-scrollbar flex flex-1 items-center gap-2 overflow-auto">
               {rule.metadata?.title ? (
-                <BookMarked className="stroke-foreground size-4" />
+                <BookText className="stroke-foreground size-4" />
               ) : (
                 <Wrench className="stroke-foreground size-4" />
               )}

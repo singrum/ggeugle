@@ -5,7 +5,6 @@ import Description from "./description";
 import Features from "./features";
 import NewFeatures from "./new-feature";
 import Portals from "./portals";
-import ThemeSettings from "./theme-settings";
 import Title from "./title";
 
 export default function More() {
@@ -28,7 +27,6 @@ export default function More() {
         <Separator />
         <div className="flex flex-col items-start justify-between gap-8 sm:flex-row sm:items-center sm:gap-0">
           <Portals />
-          <ThemeSettings />
         </div>
       </div>
     </div>

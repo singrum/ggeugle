@@ -1,18 +1,15 @@
 import { navInfo } from "@/constants/sidebar";
 import { useMenu } from "@/hooks/use-menu";
 import { cn } from "@/lib/utils";
-import { DotsThreeCircleIcon } from "@phosphor-icons/react";
-import { useState } from "react";
+import { MoreHorizontal } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
+import MoreNavDropdownTrigger from "../more-nav-dropdown-trigger";
 import NavButton from "../sidebar/nav-button";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-
 export default function MobileBottomBar() {
   const menu = useMenu();
   const location = useLocation();
-  const moreNavs = navInfo.filter(({ isMore }) => isMore);
+
   const navs = navInfo.filter(({ isMore }) => !isMore);
-  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <div
@@ -34,32 +31,13 @@ export default function MobileBottomBar() {
           </NavLink>
         ))}
 
-        <Popover open={open} onOpenChange={(open) => setOpen(open)}>
-          <PopoverTrigger asChild>
-            <NavButton
-              Icon={DotsThreeCircleIcon}
-              label={"더 보기"}
-              active={moreNavs.map(({ key }) => key).includes(menu)}
-            />
-          </PopoverTrigger>
-          <PopoverContent className="flex w-fit gap-2 p-2">
-            {moreNavs.map(({ title, icon, key, isMore }) => (
-              <NavLink
-                to={`/${key}` + (!isMore ? `${location.search}` : "")}
-                end
-                key={key}
-                onClick={() => setOpen(false)}
-              >
-                <NavButton
-                  Icon={icon}
-                  key={key}
-                  label={title}
-                  active={menu === key}
-                />
-              </NavLink>
-            ))}
-          </PopoverContent>
-        </Popover>
+        <MoreNavDropdownTrigger>
+          <NavButton
+            Icon={MoreHorizontal}
+            label={"더 보기"}
+            className="cursor-default"
+          />
+        </MoreNavDropdownTrigger>
       </nav>
     </div>
   );

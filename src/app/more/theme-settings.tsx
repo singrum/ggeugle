@@ -14,26 +14,23 @@ export default function ThemeSettings() {
   const { setTheme, theme } = useTheme();
 
   return (
-    <div className="h-7 space-y-2">
-      {/* <div className="text-xs">테마 </div> */}
-      <div className="grid w-fit grid-cols-3 rounded-full border">
-        {info.map(({ key, icon: Icon }) => (
-          <Button
-            onClick={() => setTheme(key as "light" | "dark" | "system")}
-            variant="ghost"
-            className={cn("flex h-fit flex-col gap-2 rounded-full py-1", {
-              "bg-accent dark:bg-accent/50": theme === key,
+    <div className="grid w-fit grid-cols-3 gap-1">
+      {info.map(({ key, icon: Icon }) => (
+        <Button
+          onClick={() => setTheme(key as "light" | "dark" | "system")}
+          variant="ghost"
+          className={cn("flex h-fit flex-col gap-2 rounded-md px-2 py-2", {
+            "bg-accent dark:bg-accent/50": theme === key,
+          })}
+          key={key}
+        >
+          <Icon
+            className={cn("size-5", {
+              "stroke-accent-foreground": theme === key,
             })}
-            key={key}
-          >
-            <Icon
-              className={cn("size-4", {
-                "stroke-accent-foreground": theme === key,
-              })}
-            />
-          </Button>
-        ))}
-      </div>
+          />
+        </Button>
+      ))}
     </div>
   );
 }
