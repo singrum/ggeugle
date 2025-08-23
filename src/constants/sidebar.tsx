@@ -10,21 +10,19 @@ import Search from "@/app/search/search";
 import Knowledge from "@/components/knowledge/knowledge-page";
 import KnowledgeSidebar from "@/components/knowledge/knowledge-sidebar";
 import {
-  BookBookmarkIcon,
   ChatsIcon,
-  HeartIcon,
   HouseIcon,
-  InfoIcon,
   SlidersHorizontalIcon,
   type Icon,
 } from "@phosphor-icons/react";
+import { BookMarked, Heart, Info, type LucideIcon } from "lucide-react";
 
 import type { ReactNode } from "react";
 
 export type Nav = {
   title: string;
   key: string;
-  icon: Icon;
+  icon: Icon | LucideIcon;
   component: ReactNode;
   innerSidebarComponent: ReactNode | undefined;
   isMore: boolean;
@@ -63,7 +61,7 @@ export const navInfo: Nav[] = [
   {
     title: "지식",
     key: "knowledge",
-    icon: BookBookmarkIcon,
+    icon: BookMarked,
     component: <Knowledge />,
     innerSidebarComponent: <KnowledgeSidebar />,
     isMore: true,
@@ -71,7 +69,7 @@ export const navInfo: Nav[] = [
   {
     title: "후원",
     key: "donation",
-    icon: HeartIcon,
+    icon: Heart,
     component: <Donation />,
     innerSidebarComponent: undefined,
     isMore: true,
@@ -79,7 +77,7 @@ export const navInfo: Nav[] = [
   {
     title: "정보",
     key: "info",
-    icon: InfoIcon,
+    icon: Info,
     component: <More />,
     innerSidebarComponent: undefined,
     isMore: true,

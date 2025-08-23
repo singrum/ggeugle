@@ -1,12 +1,21 @@
 "use client";
 
-import { Sidebar, SidebarContent, useSidebar } from "@/components/ui/sidebar";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarMenu,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
 import { navInfo } from "@/constants/sidebar";
 import { useMenu } from "@/hooks/use-menu";
 import { cn } from "@/lib/utils";
-import { Fragment, useEffect } from "react";
+import { MoreHorizontal } from "lucide-react";
+import { useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Separator } from "../ui/separator";
+import MoreNavDropdownTrigger from "../more-nav-dropdown-trigger";
+import { Button } from "../ui/button";
 import NavButton from "./nav-button";
 export function AppSidebar() {
   const menu = useMenu();
@@ -22,6 +31,7 @@ export function AppSidebar() {
       setOpen(true);
     }
   }, [menu, setOpen]);
+  const mainTabs = navInfo.filter((e) => !e.isMore);
 
   return (
     <Sidebar
@@ -35,34 +45,35 @@ export function AppSidebar() {
         collapsible="none"
         className="bg-sidebar w-[calc(var(--sidebar-width-icon)+1px)]! min-w-[calc(var(--sidebar-width-icon)+1px)]! border-0"
       >
-        <SidebarContent className="items-center py-5">
-          {[
-            navInfo.filter((e) => !e.isMore),
-            navInfo.filter((e) => e.isMore),
-          ].map((e, i) => (
-            <Fragment key={e[0].key}>
-              {e.map(({ title, icon, key, isMore }) => (
-                <NavLink
-                  to={`/${key}` + (!isMore ? `${location.search}` : "")}
-                  end
-                  key={key}
-                >
-                  <NavButton
-                    Icon={icon}
-                    key={key}
-                    label={title}
-                    active={menu === key}
-                  />
-                </NavLink>
-              ))}
-              {i === 0 ? (
-                <div className="my-2 w-full px-5">
-                  <Separator />
-                </div>
-              ) : null}
-            </Fragment>
+        <SidebarContent className="items-center gap-2 py-5">
+          {mainTabs.map(({ title, icon, key }) => (
+            <NavLink to={`/${key}` + `${location.search}`} end key={key}>
+              <NavButton
+                Icon={icon}
+                key={key}
+                label={title}
+                active={menu === key}
+              />
+            </NavLink>
           ))}
         </SidebarContent>
+        <SidebarFooter>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <MoreNavDropdownTrigger
+                dropdownContentAttr={{ side: "right", className: "mb-4" }}
+              >
+                <Button
+                  variant={"ghost"}
+                  size="icon"
+                  className="hover:bg-sidebar-accent size-15"
+                >
+                  <MoreHorizontal className={cn("size-6")} />
+                </Button>
+              </MoreNavDropdownTrigger>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarFooter>
       </Sidebar>
 
       <Sidebar
