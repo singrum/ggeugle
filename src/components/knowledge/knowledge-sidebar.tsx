@@ -75,7 +75,7 @@ export default function KnowledgeSidebar() {
               </SidebarGroupLabel>
               <CollapsibleContent>
                 <SidebarGroupContent>
-                  <SidebarMenu>
+                  <SidebarMenu className="gap-0">
                     {item.items.map((subItem) => (
                       <SidebarMenuItem key={subItem.title}>
                         <NavLink
