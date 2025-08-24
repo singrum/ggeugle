@@ -94,7 +94,7 @@ export default function KnowledgeSidebar() {
             </SidebarGroup>
           </Collapsible>
         ) : (
-          <SidebarGroup className="py-0">
+          <SidebarGroup className="py-0" key={item.title}>
             <SidebarGroupContent>
               <SidebarMenu>
                 <SidebarMenuItem>
