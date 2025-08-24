@@ -44,6 +44,7 @@ export default function KnowledgePage() {
         remarkPlugins={[remarkMath, remarkGfm]}
         rehypePlugins={[rehypeKatex, rehypeRaw]}
         skipHtml={false}
+        
       >
         {content}
       </ReactMarkdown>
