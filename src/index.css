@@ -193,7 +193,10 @@
 }
 
 html {
-  font-family: "Noto Sans KR", sans-serif;
+  font-family:
+    "Noto Sans", "Noto Sans KR", "Noto Sans JP", "Noto Sans SC", "Noto Sans TC",
+    "Noto Sans Arabic", "Noto Sans Devanagari", "Noto Sans Hebrew",
+    "Noto Sans Thai", "Noto Sans Symbols", "Noto Color Emoji", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
