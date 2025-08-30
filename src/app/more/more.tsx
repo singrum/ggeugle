@@ -10,7 +10,7 @@ import Title from "./title";
 export default function More() {
   const isMobile = useIsMobile();
   return (
-    <div className="flex h-[calc(100dvh-4rem)] items-center justify-center overflow-auto lg:h-dvh break-keep">
+    <div className="flex h-[calc(100dvh-4rem)] items-center justify-center overflow-auto break-keep lg:h-dvh">
       <div className="mx-auto my-auto max-w-xl space-y-8 p-6">
         <div className="flex justify-between">
           <Title />
