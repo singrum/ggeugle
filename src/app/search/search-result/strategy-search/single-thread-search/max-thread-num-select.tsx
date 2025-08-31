@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { threadSelectArr, threadSelectInfo } from "@/constants/search";
 import { useWcStore } from "@/stores/wc-store";
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 export default function MaxThreadNumSelect() {
   const maxThreadValue = useWcStore((e) => e.maxThreadValue);
   const setMaxThreadValue = useWcStore((e) => e.setMaxThreadValue);
@@ -22,7 +22,7 @@ export default function MaxThreadNumSelect() {
               {threadSelectInfo[maxThreadValue].title}
             </span>
           </div>
-          <ChevronsUpDown className="size-3" />
+          <ChevronDown className="size-3" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-50">

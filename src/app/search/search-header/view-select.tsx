@@ -11,7 +11,7 @@ import {
 import { viewInfo } from "@/constants/search";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useWcStore } from "@/stores/wc-store";
-import { ArrowUpRight, ChevronsUpDown } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { NavLink } from "react-router";
 export default function ViewSelect() {
   const view = useWcStore((e) => e.view);
@@ -29,7 +29,7 @@ export default function ViewSelect() {
             {!isMobile && "음절 위치:"}
             <div className="font-normal">{viewInfo[view].title}</div>
           </div>
-          <ChevronsUpDown className="size-3" />
+          <ChevronDown className="size-3" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-50">

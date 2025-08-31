@@ -9,7 +9,7 @@ import {
 import { pageSizeInfo } from "@/constants/search";
 
 import { useWcStore } from "@/stores/wc-store";
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 export default function ItemsPerPageSelect() {
   const itemNum = useWcStore((e) => e.pageSize);
@@ -26,7 +26,7 @@ export default function ItemsPerPageSelect() {
           <div className="flex items-center gap-2">
             <div className="font-normal">{pageSizeInfo[itemNum].title}</div>
           </div>
-          <ChevronsUpDown className="size-3" />
+          <ChevronDown className="size-3" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-50">

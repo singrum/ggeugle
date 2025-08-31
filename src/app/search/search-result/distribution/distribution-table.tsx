@@ -27,7 +27,7 @@ import type { WordSolver } from "@/lib/wordchain/word/word-solver";
 import { useWcStore } from "@/stores/wc-store";
 import type { MoveType } from "@/types/search";
 import { round, sum } from "lodash";
-import { ChevronsUpDown, MoveDown, MoveUp } from "lucide-react";
+import { ChevronDown, MoveDown, MoveUp } from "lucide-react";
 import { useEffect } from "react";
 const adjacentOptions = ["다음 단어", "이전 단어"];
 
@@ -163,7 +163,7 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
                                   option.wordTypes[direction] as MoveType
                                 ].slice(0, 3)}
                           </span>
-                          <ChevronsUpDown className="size-3" />
+                          <ChevronDown className="size-3" />
                         </Button>
                       </TableHead>
                     </DropdownMenuTrigger>

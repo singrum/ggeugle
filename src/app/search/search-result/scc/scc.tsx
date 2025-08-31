@@ -11,7 +11,7 @@ import { pageSizeInfo } from "@/constants/search";
 import type { NodeName } from "@/lib/wordchain/graph/graph";
 import type { WordSolver } from "@/lib/wordchain/word/word-solver";
 import { useWcStore } from "@/stores/wc-store";
-import { ChevronsUpDown, MoveDown, MoveUp } from "lucide-react";
+import { ChevronDown, MoveDown, MoveUp } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import SccTable from "./scc-table";
 
@@ -54,7 +54,7 @@ export default function Scc({ solver }: { solver: WordSolver }) {
               <div>
                 위상 정렬: <span className="font-normal">{info.title}</span>
               </div>
-              <ChevronsUpDown className="size-3" />
+              <ChevronDown className="size-3" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-50">
