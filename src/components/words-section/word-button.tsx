@@ -5,11 +5,7 @@ import { Fragment } from "react/jsx-runtime";
 import CharButton from "../char-data-section/char-button";
 import { ActionButton, SplitButtons, TextButton } from "../split-buttons";
 import { Button } from "../ui/button";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "../ui/hover-card";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export function WordButton({
   children,
@@ -77,8 +73,8 @@ export function ExceptedWordButton({
   const tail = (children as string).at(solver!.tailIdx)!;
   return (
     <div className="group/wordbutton text-muted-foreground bg-secondary flex w-fit max-w-full cursor-default items-center gap-0 rounded-xl shadow-sm transition-colors">
-      <HoverCard openDelay={0} closeDelay={100}>
-        <HoverCardTrigger asChild>
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger asChild>
           <Button
             onClick={() => search((children as string).at(solver!.tailIdx)!)}
             variant="ghost"
@@ -86,11 +82,14 @@ export function ExceptedWordButton({
           >
             {children}
           </Button>
-        </HoverCardTrigger>
+        </TooltipTrigger>
 
-        <HoverCardContent className="flex w-fit items-center rounded-lg border-none p-2">
+        <TooltipContent
+          className="bg-popover flex w-fit items-center rounded-lg border-none p-2"
+          arrowClassName="bg-popover fill-popover"
+        >
           {[head, tail].map((e, i) => (
-            <Fragment key={e}>
+            <Fragment key={i}>
               <CharButton variant={"default"} className="text-sm font-medium">
                 {e}
               </CharButton>
@@ -99,8 +98,8 @@ export function ExceptedWordButton({
               )}
             </Fragment>
           ))}
-        </HoverCardContent>
-      </HoverCard>
+        </TooltipContent>
+      </Tooltip>
 
       <Button
         variant="ghost"
