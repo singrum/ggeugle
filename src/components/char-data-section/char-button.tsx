@@ -11,16 +11,16 @@ export default function CharButton({
   variant,
 }: {
   size?: "sm" | "default";
-  variant: NodeType;
-  ghost?: boolean;
+  variant?: NodeType | "default";
 } & React.ComponentProps<"button">) {
   const search = useWcStore((e) => e.search);
 
   const buttonColorVariant = {
-    win: "text-win hover:text-win  ",
-    lose: "text-lose hover:text-lose  ",
-    route: "text-route hover:text-route  ",
-    loopwin: "text-loopwin hover:text-loopwin  ",
+    default: "text-foreground hover:text-foreground",
+    win: "text-win hover:text-win",
+    lose: "text-lose hover:text-lose",
+    route: "text-route hover:text-route",
+    loopwin: "text-loopwin hover:text-loopwin",
   };
   size ??= "default";
   return (
@@ -28,7 +28,7 @@ export default function CharButton({
       variant={"ghost"}
       className={cn(
         "size-8 items-center justify-center text-base font-normal hover:font-medium",
-        buttonColorVariant[variant],
+        buttonColorVariant[variant ?? "default"],
         { "text-xs": size === "sm" },
         className,
       )}

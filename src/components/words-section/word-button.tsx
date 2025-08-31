@@ -1,8 +1,15 @@
 import { cn } from "@/lib/utils";
 import { useWcStore } from "@/stores/wc-store";
-import { Plus, X } from "lucide-react";
+import { MoveRight, Plus, X } from "lucide-react";
+import { Fragment } from "react/jsx-runtime";
+import CharButton from "../char-data-section/char-button";
 import { ActionButton, SplitButtons, TextButton } from "../split-buttons";
 import { Button } from "../ui/button";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "../ui/hover-card";
 
 export function WordButton({
   children,
@@ -66,15 +73,35 @@ export function ExceptedWordButton({
   const search = useWcStore((e) => e.search);
   const removeExceptedWord = useWcStore((e) => e.removeExceptedWord);
   const solver = useWcStore((e) => e.solver);
+  const head = (children as string).at(solver!.headIdx)!;
+  const tail = (children as string).at(solver!.tailIdx)!;
   return (
     <div className="group/wordbutton text-muted-foreground bg-secondary flex w-fit max-w-full cursor-default items-center gap-0 rounded-xl shadow-sm transition-colors">
-      <Button
-        onClick={() => search((children as string).at(solver!.tailIdx)!)}
-        variant="ghost"
-        className="hover/wordbutton:text-foreground h-auto flex-1 rounded-l-full py-1 pr-2 pl-3 text-left break-all whitespace-normal"
-      >
-        {children}
-      </Button>
+      <HoverCard openDelay={0} closeDelay={100}>
+        <HoverCardTrigger asChild>
+          <Button
+            onClick={() => search((children as string).at(solver!.tailIdx)!)}
+            variant="ghost"
+            className="hover/wordbutton:text-foreground h-auto flex-1 rounded-l-full py-1 pr-2 pl-3 text-left break-all whitespace-normal"
+          >
+            {children}
+          </Button>
+        </HoverCardTrigger>
+
+        <HoverCardContent className="flex w-fit items-center rounded-lg border-none p-2">
+          {[head, tail].map((e, i) => (
+            <Fragment key={e}>
+              <CharButton variant={"default"} className="text-sm font-medium">
+                {e}
+              </CharButton>
+              {i === 0 && (
+                <MoveRight className="stroke-muted-foreground z-10 -mx-1.5 size-3" />
+              )}
+            </Fragment>
+          ))}
+        </HoverCardContent>
+      </HoverCard>
+
       <Button
         variant="ghost"
         size="icon"
