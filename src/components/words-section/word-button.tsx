@@ -90,11 +90,11 @@ export function ExceptedWordButton({
         >
           {[head, tail].map((e, i) => (
             <Fragment key={i}>
-              <CharButton variant={"default"} className="text-sm font-medium">
+              <CharButton variant={"default"} className="text-base font-medium">
                 {e}
               </CharButton>
               {i === 0 && (
-                <MoveRight className="stroke-muted-foreground z-10 -mx-1.5 size-3" />
+                <MoveRight className="stroke-muted-foreground z-10 -mx-1.5 size-4" />
               )}
             </Fragment>
           ))}
