@@ -16,7 +16,6 @@ export default function WordRow({ data }: { data: MoveRow }) {
         {[0, 1].map((e) => (
           <Fragment key={e}>
             <CharButton
-              ghost
               variant={data.nodeTypes[e]}
               className="text-sm font-medium"
             >
