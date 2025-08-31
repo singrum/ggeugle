@@ -1,11 +1,8 @@
 import { cn } from "@/lib/utils";
 import { useWcStore } from "@/stores/wc-store";
-import { MoveRight, Plus, X } from "lucide-react";
-import { Fragment } from "react/jsx-runtime";
-import CharButton from "../char-data-section/char-button";
+import { Plus, X } from "lucide-react";
 import { ActionButton, SplitButtons, TextButton } from "../split-buttons";
 import { Button } from "../ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
 export function WordButton({
   children,
@@ -69,38 +66,15 @@ export function ExceptedWordButton({
   const search = useWcStore((e) => e.search);
   const removeExceptedWord = useWcStore((e) => e.removeExceptedWord);
   const solver = useWcStore((e) => e.solver);
-  const head = (children as string).at(solver!.headIdx)!;
-  const tail = (children as string).at(solver!.tailIdx)!;
   return (
     <div className="group/wordbutton text-muted-foreground bg-secondary flex w-fit max-w-full cursor-default items-center gap-0 rounded-xl shadow-sm transition-colors">
-      <Tooltip delayDuration={0}>
-        <TooltipTrigger asChild>
-          <Button
-            onClick={() => search((children as string).at(solver!.tailIdx)!)}
-            variant="ghost"
-            className="hover/wordbutton:text-foreground h-auto flex-1 rounded-l-full py-1 pr-2 pl-3 text-left break-all whitespace-normal"
-          >
-            {children}
-          </Button>
-        </TooltipTrigger>
-
-        <TooltipContent
-          className="bg-popover flex w-fit items-center rounded-lg border-none p-2"
-          arrowClassName="bg-popover fill-popover"
-        >
-          {[head, tail].map((e, i) => (
-            <Fragment key={i}>
-              <CharButton variant={"default"} className="text-base font-medium">
-                {e}
-              </CharButton>
-              {i === 0 && (
-                <MoveRight className="stroke-muted-foreground z-10 -mx-1.5 size-4" />
-              )}
-            </Fragment>
-          ))}
-        </TooltipContent>
-      </Tooltip>
-
+      <Button
+        onClick={() => search((children as string).at(solver!.tailIdx)!)}
+        variant="ghost"
+        className="hover/wordbutton:text-foreground h-auto flex-1 rounded-l-full py-1 pr-2 pl-3 text-left break-all whitespace-normal"
+      >
+        {children}
+      </Button>
       <Button
         variant="ghost"
         size="icon"
