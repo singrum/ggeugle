@@ -68,7 +68,7 @@ export function ExceptedWordButton({
 
   return (
     <div className="group/wordbutton text-muted-foreground bg-secondary flex w-fit max-w-full cursor-default items-center gap-0 rounded-xl shadow-sm transition-colors">
-      <div className="hover/wordbutton:text-foreground z-1 h-auto flex-1 rounded-l-full text-left text-sm font-medium break-all whitespace-normal">
+      <div className="z-1 h-auto flex-1 rounded-l-full text-left text-sm font-medium break-all whitespace-normal">
         {(children as string).split("").map((e, i) => (
           <Button
             className={cn("h-fit p-0 py-1", {
