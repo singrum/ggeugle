@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { useWcStore } from "@/stores/wc-store";
-import { ChevronsUpDown, Hash, Percent } from "lucide-react";
+import { ChevronDown, Hash, Percent } from "lucide-react";
 
 const adjacentOptions = ["다음 단어", "이전 단어"];
 const nonAdjacentOptions = [
@@ -41,7 +41,7 @@ export default function WordDistributionSettings() {
               : nonAdjacentOptions.find(({ key }) => option.type === key)
                   ?.title}
 
-            {<ChevronsUpDown className="size-3" />}
+            {<ChevronDown className="size-3" />}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-50">
@@ -98,7 +98,7 @@ export default function WordDistributionSettings() {
               className={cn("w-auto justify-between font-normal")}
             >
               <div className="flex items-center gap-2">{title}</div>
-              <ChevronsUpDown className="size-3" />
+              <ChevronDown className="size-3" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-50">

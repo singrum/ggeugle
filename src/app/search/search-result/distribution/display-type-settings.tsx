@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const displayTypeOption = [
   { title: "개수", key: "number" },
@@ -34,7 +34,7 @@ export default function DisplayTypeSettings({
                 ?.title
             }
           </div>
-          <ChevronsUpDown className="size-3" />
+          <ChevronDown className="size-3" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-50">

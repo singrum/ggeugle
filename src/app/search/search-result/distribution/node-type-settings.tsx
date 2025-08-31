@@ -11,7 +11,7 @@ import { typeMap } from "@/constants/search";
 import { cn } from "@/lib/utils";
 import type { NodeType } from "@/lib/wordchain/graph/graph";
 import { useWcStore } from "@/stores/wc-store";
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 const nodeTypeOption = ["win", "lose", "loopwin", "route"];
 export default function NodeTypeSettings() {
   const nodeType = useWcStore((e) => e.distributionNodeType);
@@ -26,7 +26,7 @@ export default function NodeTypeSettings() {
             <Ball variant={nodeType} />
             {typeMap[nodeType] + " 음절"}
           </div>
-          {<ChevronsUpDown className="size-3" />}
+          {<ChevronDown className="size-3" />}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-50">

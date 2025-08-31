@@ -17,7 +17,7 @@ import {
 import { Label } from "@/components/ui/label";
 import { kkutuInfo } from "@/constants/rule";
 import { useWcStore } from "@/stores/wc-store";
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { NavLink } from "react-router";
 
 export default function KkutuRuleButton() {
@@ -41,7 +41,7 @@ export default function KkutuRuleButton() {
                 variant="outline"
               >
                 {kkutuInfo.gameType[kkutuLocalRule.gameType]}
-                <ChevronsUpDown className="size-3" />
+                <ChevronDown className="size-3" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-50">

@@ -24,7 +24,7 @@ export default function SampleRuleButton({ data }: { data: RuleForm }) {
           <CardTitle className="text-base">{data.metadata!.title}</CardTitle>
           <CardDescription>{data.metadata!.description}</CardDescription>
         </CardHeader>
-        <ArrowUpRight className="stroke-muted-foreground absolute top-5 right-5 stroke-2" />
+        <ArrowUpRight className="absolute top-5 right-5 stroke-2" />
       </Card>
     </Button>
   );
