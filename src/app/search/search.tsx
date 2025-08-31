@@ -3,6 +3,7 @@ import SearchFloatingButtons from "./search-floating-buttons/search-floating-but
 import SearchHeader from "./search-header/search-header";
 import ExceptedWords from "./search-section/excepted-words";
 import ExceptedWordsInputContainer from "./search-section/excepted-words-input-container";
+import SearchHistory from "./search-section/search-history";
 import SearchInput from "./search-section/search-input";
 import SearchResult from "./search-section/search-result";
 import SearchResultMenu from "./search-section/search-result-menu";
@@ -16,6 +17,7 @@ export default function Search() {
           <ExceptedWords />
           <SearchInput />
         </ExceptedWordsInputContainer>
+        <SearchHistory />
         <SearchResultMenu />
         <SearchResult />
         <SearchFloatingButtons />

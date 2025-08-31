@@ -36,6 +36,7 @@ export const pageSizeInfo = [
   { title: "20개", value: 20 },
   { title: "30개", value: 30 },
   { title: "50개", value: 50 },
+  { title: "100개", value: 100 },
 ];
 
 export const typeMap: Record<NodeType, string> = {
