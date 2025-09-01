@@ -14,7 +14,7 @@ export default function SearchResultMenu() {
   const searchInputType = useWcStore((e) => e.searchInputType);
 
   return (
-    <div className="bg-background sticky top-0 z-40">
+    <div className="bg-background">
       <ScrollArea className="">
         <LineTabs
           className={cn("px-4 whitespace-nowrap md:px-6")}
