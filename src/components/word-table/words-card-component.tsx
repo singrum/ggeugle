@@ -12,6 +12,7 @@ import {
   AccordionTrigger,
 } from "../ui/accordion";
 import WordsTable from "./word-table";
+
 export default function WordsCardComponent({
   data,
   ...props
@@ -20,20 +21,22 @@ export default function WordsCardComponent({
 } & React.ComponentProps<typeof AccordionPrimitive.Item>) {
   return (
     <AccordionItem {...props} className="border-0">
-      <AccordionTrigger className="bg-background hover:bg-accent dark:hover:bg-accent/50 top-0 mb-1 px-2 py-4 hover:no-underline">
-        <div className="flex flex-1 justify-between">
-          <div className="flex items-center gap-2">
-            <Ball variant={moveTypeToWordVariant[data.moveType]} />
-            {getLabel(data.moveType, data.depth)}
+      <div className="sticky top-0 z-40">
+        <AccordionTrigger className="bg-background mb-1 rounded-none px-2 py-4 hover:no-underline">
+          <div className="flex flex-1 justify-between">
+            <div className="flex items-center gap-2">
+              <Ball variant={moveTypeToWordVariant[data.moveType]} />
+              {getLabel(data.moveType, data.depth)}
+            </div>
+            <div className="text-muted-foreground font-normal">
+              {data.moveRows
+                .reduce((prev, curr) => prev + curr.words.length, 0)
+                .toLocaleString()}
+            </div>
           </div>
-          <div className="text-muted-foreground font-normal">
-            {data.moveRows
-              .reduce((prev, curr) => prev + curr.words.length, 0)
-              .toLocaleString()}
-          </div>
-        </div>
-      </AccordionTrigger>
-      <AccordionContent className="pb-8">
+        </AccordionTrigger>
+      </div>
+      <AccordionContent className="overflow-visible pb-8">
         <WordsTable rows={data.moveRows} />
       </AccordionContent>
     </AccordionItem>
@@ -44,7 +47,9 @@ function getLabel(moveType: MoveType, depth?: number) {
   return (
     `${moveTypeNameMap[moveType]}` +
     (hasDepthMap[moveType]
-      ? ` (${depth} 수 이내 ${moveTypeToWordVariant[moveType] === "win" ? "승리" : "패배"})`
+      ? ` (${depth} 수 이내 ${
+          moveTypeToWordVariant[moveType] === "win" ? "승리" : "패배"
+        })`
       : "")
   );
 }
