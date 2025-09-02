@@ -47,6 +47,9 @@ export const createSearchSlice: StateCreator<
   pageSize: 1,
   setPageSize: (v: number) => set({ pageSize: v }),
 
+  wordDispType: 0,
+  setWordDispType: (v: number) => set({ wordDispType: v }),
+
   localSearchInputValue: "",
   setLocalSearchInputValue: (value: string) => {
     set({ localSearchInputValue: value });

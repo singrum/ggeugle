@@ -1,8 +1,10 @@
+import { wordDispTypeInfo } from "@/constants/search";
 import {
   hasDepthMap,
   moveTypeNameMap,
   moveTypeToWordVariant,
 } from "@/lib/wordchain/constants";
+import { useWcStore } from "@/stores/wc-store";
 import type { MoveType, WordsCard } from "@/types/search";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { Ball } from "../ball";
@@ -11,7 +13,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../ui/accordion";
-import WordsTable from "./word-table";
 
 export default function WordsCardComponent({
   data,
@@ -19,6 +20,8 @@ export default function WordsCardComponent({
 }: {
   data: WordsCard;
 } & React.ComponentProps<typeof AccordionPrimitive.Item>) {
+  const wordDispType = useWcStore((e) => e.wordDispType);
+  const { component: Component, title } = wordDispTypeInfo[wordDispType];
   return (
     <AccordionItem {...props} className="border-0">
       <div className="sticky top-0 z-40">
@@ -37,7 +40,7 @@ export default function WordsCardComponent({
         </AccordionTrigger>
       </div>
       <AccordionContent className="overflow-visible pb-8">
-        <WordsTable rows={data.moveRows} />
+        <Component rows={data.moveRows} />
       </AccordionContent>
     </AccordionItem>
   );
