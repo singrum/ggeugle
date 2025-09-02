@@ -36,16 +36,19 @@ export function AppSidebar() {
   return (
     <Sidebar
       collapsible="icon"
-      className={cn("overflow-hidden *:data-[sidebar=sidebar]:flex-row", {
-        "border-none": !navInfo.find((e) => e.key === menu)
-          ?.innerSidebarComponent,
-      })}
+      className={cn(
+        "overflow-hidden border-none *:data-[sidebar=sidebar]:flex-row",
+        {
+          "border-none": !navInfo.find((e) => e.key === menu)
+            ?.innerSidebarComponent,
+        },
+      )}
     >
       <Sidebar
         collapsible="none"
         className="bg-sidebar w-[calc(var(--sidebar-width-icon)+1px)]! min-w-[calc(var(--sidebar-width-icon)+1px)]! border-0"
       >
-        <SidebarContent className="items-center gap-4 py-5">
+        <SidebarContent className="items-center gap-2 py-5">
           {mainTabs.map(({ title, icon, key }) => (
             <NavLink to={`/${key}` + `${location.search}`} end key={key}>
               <NavButton
@@ -82,9 +85,7 @@ export function AppSidebar() {
       >
         <SidebarContent>
           {innerSidebarComp && (
-            <div className="no-scrollbar h-full overflow-auto">
-              {innerSidebarComp}
-            </div>
+            <div className="h-full overflow-y-scroll">{innerSidebarComp}</div>
           )}
         </SidebarContent>
       </Sidebar>
