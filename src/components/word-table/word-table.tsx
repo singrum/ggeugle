@@ -11,7 +11,7 @@ export default function WordsTable({ rows }: { rows: MoveRow[] }) {
   const totalPages = Math.ceil(rows.length / pageSizeInfo[pageSize].value);
   const start = (page - 1) * pageSizeInfo[pageSize].value;
   const currentRows = rows.slice(start, start + pageSizeInfo[pageSize].value);
-
+ 
   return (
     <div className="flex flex-col gap-4">
       {totalPages > 1 && (
