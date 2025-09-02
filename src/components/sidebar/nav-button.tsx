@@ -16,7 +16,7 @@ export default function NavButton({
   return (
     <Button
       className={cn(
-        "group/nav text-muted-foreground hover:text-muted-foreground flex h-15 w-full cursor-pointer flex-col gap-1 hover:bg-transparent hover:dark:bg-transparent",
+        "group/nav text-muted-foreground hover:text-muted-foreground flex h-15 w-full cursor-pointer flex-col gap-0 hover:bg-transparent hover:dark:bg-transparent",
 
         className,
       )}

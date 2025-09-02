@@ -33,7 +33,7 @@ export default function MoreNavDropdownTrigger({
         {moreNavs.map(({ title, icon: Icon, key }) => (
           <NavLink to={`/${key}`} end key={key}>
             <DropdownMenuItem key={key} className="cursor-pointer gap-3 p-3">
-              <Icon className="size-5" />
+              <Icon className="stroke-foreground size-5" />
               <span className="text-base font-medium">{title}</span>
             </DropdownMenuItem>
           </NavLink>
