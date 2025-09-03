@@ -39,7 +39,7 @@ export const pageSizeInfo = [
   { title: "30개", value: 30 },
   { title: "50개", value: 50 },
   { title: "100개", value: 100 },
-  { title: "제한 없음", value: Infinity },
+  { title: "제한 없음", value: 100000000000 },
 ];
 
 export const wordDispTypeInfo = [

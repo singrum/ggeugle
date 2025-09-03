@@ -21,7 +21,7 @@ export default function WordsCardComponent({
   data: WordsCard;
 } & React.ComponentProps<typeof AccordionPrimitive.Item>) {
   const wordDispType = useWcStore((e) => e.wordDispType);
-  const { component: Component, title } = wordDispTypeInfo[wordDispType];
+  const { component: Component } = wordDispTypeInfo[wordDispType];
   return (
     <AccordionItem {...props} className="border-0">
       <div className="sticky top-0 z-40">
