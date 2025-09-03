@@ -40,7 +40,7 @@ export default function WordList({ rows }: { rows: MoveRow[] }) {
                 "flex h-auto gap-0 px-0 py-0",
               )}
             >
-              <div>
+              <div className="tracking-wider">
                 {e.split("").map((char, i) => (
                   <Button
                     key={i}
