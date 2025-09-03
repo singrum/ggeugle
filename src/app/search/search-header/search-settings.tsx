@@ -30,6 +30,7 @@ import { Settings } from "lucide-react";
 import { useState } from "react";
 import ItemsPerPageSelect from "./items-per-page-select";
 import ViewSelect from "./view-select";
+import WordDispSelect from "./word-disp-select";
 export default function SearchSettings() {
   const [open, setOpen] = useState(false);
   const isTablet = useIsTablet();
@@ -97,7 +98,7 @@ function SearchSettingsForm() {
   const setComparisonToast = useWcStore((e) => e.setComparisonToast);
   const isMobile = useIsMobile();
   return (
-    <div className="mt-6 space-y-12">
+    <div className="mt-6 space-y-6">
       {isMobile && (
         <div className="flex items-center justify-between">
           <div className="text-sm font-medium">음절 위치</div>
@@ -106,29 +107,40 @@ function SearchSettingsForm() {
       )}
       <Label className="flex items-center justify-between">
         <div className="font-medium">단어 제외 시 끝 글자 자동 검색</div>
-        <Switch
-          checked={autoSearch}
-          onCheckedChange={(e) => setAutoSearch(e)}
-        />
+        <div className="flex h-9 items-center">
+          <Switch
+            checked={autoSearch}
+            onCheckedChange={(e) => setAutoSearch(e)}
+          />
+        </div>
       </Label>
       <Label className="flex items-center justify-between">
         <div className="space-y-0.5">
           <div className="font-medium">검색 결과 처음에 모두 열기</div>
         </div>
-        <Switch
-          checked={defaultAllOpen}
-          onCheckedChange={(e) => setDefaultAllOpen(e)}
-        />
+        <div className="flex h-9 items-center">
+          <Switch
+            checked={defaultAllOpen}
+            onCheckedChange={(e) => setDefaultAllOpen(e)}
+          />
+        </div>
       </Label>
       <Label className="flex items-center justify-between">
         <div className="space-y-0.5">
           <div className="font-medium">단어 제거 후 비교 알림</div>
         </div>
-        <Switch
-          checked={comparisonToast}
-          onCheckedChange={(e) => setComparisonToast(e)}
-        />
+
+        <div className="flex h-9 items-center">
+          <Switch
+            checked={comparisonToast}
+            onCheckedChange={(e) => setComparisonToast(e)}
+          />
+        </div>
       </Label>
+      <div className="flex items-center justify-between">
+        <div className="text-sm font-medium">단어 보기</div>
+        <WordDispSelect />
+      </div>
       <div className="flex items-center justify-between">
         <div className="text-sm font-medium">페이지 당 항목 수</div>
         <ItemsPerPageSelect />

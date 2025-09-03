@@ -1,7 +1,7 @@
 import { useWcStore } from "@/stores/wc-store";
 import type { WordsCard } from "@/types/search";
 import { Accordion } from "../ui/accordion";
-import { default as WordsCardComponent } from "./words-card-component";
+import WordsCardComponent from "./words-card-component";
 
 export default function WordSearchResult({ data }: { data: WordsCard[] }) {
   const searchInputValue = useWcStore((e) => e.searchInputValue);

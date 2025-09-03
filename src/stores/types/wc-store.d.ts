@@ -66,6 +66,9 @@ export type SearchSlice = {
   pageSize: number;
   setPageSize: (v: number) => void;
 
+  wordDispType: number;
+  setWordDispType: (v: number) => void;
+
   localSearchInputValue: string;
   setLocalSearchInputValue: (value: string) => void;
   searchInputValue: string;

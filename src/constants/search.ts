@@ -14,6 +14,8 @@ import MultiThreadSearch from "@/app/search/search-result/strategy-search/multi-
 import SingleThreadSearch from "@/app/search/search-result/strategy-search/single-thread-search/single-thread-search";
 import StrategySearch from "@/app/search/search-result/strategy-search/strategy-search";
 import StrategyTree from "@/app/search/search-result/strategy-tree/strategy-tree";
+import WordList from "@/components/word-table/word-list";
+import WordsTable from "@/components/word-table/word-table";
 import type { NodePos, NodeType } from "@/lib/wordchain/graph/graph";
 import type { WordSolver } from "@/lib/wordchain/word/word-solver";
 import type { SearchInputType } from "@/types/search";
@@ -37,6 +39,12 @@ export const pageSizeInfo = [
   { title: "30개", value: 30 },
   { title: "50개", value: 50 },
   { title: "100개", value: 100 },
+  { title: "제한 없음", value: 100000000000 },
+];
+
+export const wordDispTypeInfo = [
+  { title: "표", component: WordsTable },
+  { title: "나열", component: WordList },
 ];
 
 export const typeMap: Record<NodeType, string> = {
