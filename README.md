@@ -24,6 +24,10 @@
 - 빠른 룰 설정 시 URL에 상태 저장 및 새로고침 시 유지
 - 단어 검색 시 Regex 사용 가능
 
+## 커뮤니티
+
+[Discord](https://discord.com/invite/bkHgyajx89)
+
 ## 파생 프로젝트
 
 - 가가끄글 : [@tingtingplanet/gagageul](https://github.com/tingtingplanet/gagageul)  
