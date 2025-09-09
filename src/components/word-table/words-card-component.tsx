@@ -39,7 +39,7 @@ export default function WordsCardComponent({
           </div>
         </AccordionTrigger>
       </div>
-      <AccordionContent className="overflow-visible pb-8">
+      <AccordionContent className="pb-8">
         <Component rows={data.moveRows} />
       </AccordionContent>
     </AccordionItem>
