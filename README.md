@@ -4,6 +4,28 @@
 
 [https://engine.ikki.app](https://engine.ikki.app)
 
+## 설치/실행
+
+아래 명령어로 로컬에서 프로젝트를 바로 실행할 수 있습니다.
+
+```bash
+git clone https://github.com/singrum/ggeugle.git
+cd repository-name
+npm install
+npm run dev
+```
+
+브라우저에서 접속 :
+
+```bash
+http://localhost:5173
+```
+
+## 기술 스택
+
+- Vite, React, Typescript, TailwindCSS, Zustand, Comlink
+- 배포 도구 : Vercel
+
 ## 주요 기능
 
 - 승패에 따른 음절 및 단어 분류
@@ -28,7 +50,6 @@
 
 총 루트 단어 : **587개**  
 승패 여부 탐색 성공 : **225개**
-
 
 | 시작 단어 | 승패 여부 | 탐색 시간(sec) |
 | --------- | --------- | -------------- |
@@ -255,7 +276,6 @@
 | 흡현      | 패        | 0.25           |
 | 희망퇴직  | 패        | 0.3            |
 | 희견궁    | 패        | 1.17           |
-
 
 ## 커뮤니티
 
