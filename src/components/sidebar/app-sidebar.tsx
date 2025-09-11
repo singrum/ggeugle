@@ -62,7 +62,7 @@ export function AppSidebar() {
         </SidebarContent>
         <SidebarFooter>
           <SidebarMenu>
-            <SidebarMenuItem>
+            <SidebarMenuItem className="flex items-center justify-center">
               <MoreNavDropdownTrigger
                 dropdownContentAttr={{ side: "right", className: "mb-4" }}
               >

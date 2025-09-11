@@ -4,12 +4,13 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./app/error-page";
 import Layout from "./app/layout";
 import Search from "./app/search/search";
-import KnowledgeLayout from "./components/knowledge/knowledge-layout";
-import KnowledgeOverview from "./components/knowledge/knowledge-overview";
-import KnowledgePage from "./components/knowledge/knowledge-page";
+
 import { content } from "./constants/knowledge";
 import { navInfo } from "./constants/sidebar";
 import "./index.css";
+import KnowledgeLayout from "./app/knowledge/knowledge-layout";
+import KnowledgeOverview from "./app/knowledge/knowledge-overview";
+import KnowledgePage from "./app/knowledge/knowledge-page";
 
 const router = createBrowserRouter([
   {

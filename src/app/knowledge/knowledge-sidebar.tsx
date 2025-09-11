@@ -1,14 +1,11 @@
-import { content } from "@/constants/knowledge";
-import { ChevronRight } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "../ui/collapsible";
+} from "@/components/ui/collapsible";
+import { content } from "@/constants/knowledge";
+import { ChevronRight } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import { useWcStore } from "@/stores/wc-store";
-import { NavLink, type NavLinkRenderProps } from "react-router-dom";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -16,7 +13,10 @@ import {
   SidebarMenu,
   sidebarMenuButtonVariants,
   SidebarMenuItem,
-} from "../ui/sidebar";
+} from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+import { useWcStore } from "@/stores/wc-store";
+import { NavLink, type NavLinkRenderProps } from "react-router-dom";
 
 export default function KnowledgeSidebar() {
   const collapsibleTriggerClassName = cn(
