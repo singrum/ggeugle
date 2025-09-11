@@ -23,7 +23,7 @@ http://localhost:5173
 
 ## 기술 스택
 
-- Vite, React, Typescript, TailwindCSS, Zustand, Comlink
+- Vite, React, Typescript, TailwindCSS, shadcn/ui, Zustand, Comlink
 - 배포 도구 : Vercel
 
 ## 주요 기능
