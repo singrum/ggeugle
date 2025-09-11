@@ -1,4 +1,6 @@
 import Donation from "@/app/donation/donation";
+import KnowledgePage from "@/app/knowledge/knowledge-page";
+import KnowledgeSidebar from "@/app/knowledge/knowledge-sidebar";
 import More from "@/app/more/more";
 import Play from "@/app/play/play";
 import PlaySidebar from "@/app/play/play-sidebar/play-sidebar";
@@ -7,8 +9,7 @@ import SampleRuleSidebar from "@/app/rule-setttings/sample-rules/sample-rule-sid
 import CharListSidebar from "@/app/search/char-list-sidebar/char-list-sidebar";
 import CharMenu from "@/app/search/char-list-sidebar/char-menu";
 import Search from "@/app/search/search";
-import Knowledge from "@/components/knowledge/knowledge-page";
-import KnowledgeSidebar from "@/components/knowledge/knowledge-sidebar";
+
 import {
   ChatsIcon,
   HouseIcon,
@@ -62,7 +63,7 @@ export const navInfo: Nav[] = [
     title: "지식",
     key: "knowledge",
     icon: BookMarked,
-    component: <Knowledge />,
+    component: <KnowledgePage />,
     innerSidebarComponent: <KnowledgeSidebar />,
     isMore: true,
   },

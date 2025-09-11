@@ -9,7 +9,8 @@ import {
 import { useWcStore } from "@/stores/wc-store";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { Menu } from "lucide-react";
-import { Button } from "../ui/button";
+
+import { Button } from "@/components/ui/button";
 import KnowledgeSidebar from "./knowledge-sidebar";
 
 export default function KnowledgeFloatingButton() {
