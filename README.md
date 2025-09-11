@@ -10,7 +10,7 @@
 
 ```bash
 git clone https://github.com/singrum/ggeugle.git
-cd repository-name
+cd ggeugle
 npm install
 npm run dev
 ```
