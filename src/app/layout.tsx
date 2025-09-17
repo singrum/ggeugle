@@ -4,6 +4,7 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { useMount } from "@/hooks/use-mount";
 import { useIsTablet } from "@/hooks/use-tablet";
 import { ThemeProvider } from "@/providers/theme-provider";
+import { Analytics } from "@vercel/analytics/react";
 import { Outlet } from "react-router-dom";
 export const iframeHeight = "800px";
 
@@ -14,6 +15,7 @@ export default function Layout() {
   if (isMount)
     return (
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <Analytics />
         <SidebarProvider
           defaultOpen={true}
           style={
