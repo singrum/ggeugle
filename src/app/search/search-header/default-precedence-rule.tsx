@@ -17,6 +17,8 @@ const info: {
   { title: "(다음 단어 - 이전 단어) 작은 순", recommend: false },
   { title: "(다음 단어 / 이전 단어) 작은 순", recommend: true },
   { title: "임계 단어까지 거리 짧은 순", recommend: false },
+  { title: "다음 음절 개수 적은 순", recommend: true },
+  { title: "(다음 음절 / 이전 음절) 작은 순", recommend: false },
 ];
 export default function DefaultPrecedenceRule({
   setOpen,
@@ -74,7 +76,7 @@ export default function DefaultPrecedenceRule({
           </div>
         </Label>
       </div>
-      <Button onClick={save} size="lg" className="w-full">
+      <Button onClick={save} size="lg" className="mb-6 w-full">
         저장
       </Button>
     </div>
