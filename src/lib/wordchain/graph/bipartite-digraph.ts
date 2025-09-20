@@ -609,9 +609,9 @@ export class BipartiteDiGraph {
               return nextNum;
             };
             const getPrevNum = () => {
-              const prevMoves = this.getMovesFromNode(end, 0, 1);
+              const prevMoves = graph.getMovesFromNode(end, 0, 1);
               const prevNum = prevMoves.reduce(
-                (prev, curr) => prev + this.getEdgeNum(curr[0], curr[1]),
+                (prev, curr) => prev + graph.getEdgeNum(curr[0], curr[1]),
                 0,
               );
               return prevNum;
@@ -624,13 +624,20 @@ export class BipartiteDiGraph {
               return getNextNum() - getPrevNum();
             } else if (precRule === 3) {
               return getNextNum() / getPrevNum();
-            } else {
+            } else if (precRule === 4) {
               const cNodes = new Set(graph.getCriticalEdges().map((e) => e[0]));
               if (cNodes.size > 0) {
-                return this.shortestDistanceToAnyTarget(0, end, 1, cNodes);
+                return graph.shortestDistanceToAnyTarget(0, end, 1, cNodes);
               } else {
                 return Infinity;
               }
+            } else if (precRule === 5) {
+              return graph.getMovesFromNode(end, 0, 0).length;
+            } else {
+              return (
+                graph.getMovesFromNode(end, 0, 1).length /
+                graph.getMovesFromNode(end, 0, 0).length
+              );
             }
           };
 
