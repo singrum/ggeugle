@@ -37,7 +37,7 @@ export function AppSidebar() {
     <Sidebar
       collapsible="icon"
       className={cn(
-        "overflow-hidden border-none *:data-[sidebar=sidebar]:flex-row",
+        "top-(--header-height) h-[calc(100svh-var(--header-height))]! overflow-hidden border-none *:data-[sidebar=sidebar]:flex-row",
         {
           "border-none": !navInfo.find((e) => e.key === menu)
             ?.innerSidebarComponent,
@@ -81,11 +81,13 @@ export function AppSidebar() {
 
       <Sidebar
         collapsible="none"
-        className="bg-background min-w-0 flex-1 md:flex"
+        className="bg-sidebar min-w-0 flex-1 pb-2 md:flex"
       >
-        <SidebarContent>
+        <SidebarContent className="bg-background rounded-l-lg">
           {innerSidebarComp && (
-            <div className="h-full overflow-y-scroll">{innerSidebarComp}</div>
+            <div className="no-scrollbar h-full overflow-y-scroll">
+              {innerSidebarComp}
+            </div>
           )}
         </SidebarContent>
       </Sidebar>
