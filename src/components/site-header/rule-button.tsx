@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useWcStore } from "@/stores/wc-store";
-import { ChevronRight, ChevronsUpDown } from "lucide-react";
+import { ChevronRight, ChevronsUpDown, Cog } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
 import { Button } from "../ui/button";
@@ -17,15 +17,18 @@ export function RuleButton() {
         <TooltipTrigger asChild>
           <Button
             className={cn(
-              "max-w-full cursor-pointer px-2 text-base font-normal has-[>svg]:px-2",
-              {
-                "animate-pulse": !originalSolver,
-              },
+              "max-w-full cursor-pointer px-2 font-normal has-[>svg]:pr-3 has-[>svg]:pl-3",
             )}
-            variant={"secondary"}
+            variant={"ghost"}
             onClick={() => navigate(`/rule${location.search}`)}
           >
-            <div className="no-scrollbar flex flex-1 items-center gap-2 overflow-auto">
+            <div className="no-scrollbar flex flex-1 items-center gap-1 overflow-auto">
+              <Cog
+                className={cn("stroke-foreground mr-2 size-5", {
+                  "animate-spin": !originalSolver,
+                })}
+              />
+
               {rule.metadata?.title
                 ? rule.metadata.title.split("-").map((e, i, arr) => (
                     <Fragment key={i}>

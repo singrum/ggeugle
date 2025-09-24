@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 export default function Donation() {
   return (
-    <div className="flex h-[calc(100dvh-4rem)] items-center justify-center overflow-auto break-keep lg:h-dvh">
+    <div className="flex h-[calc(100dvh-4rem-var(--header-height))] items-center justify-center overflow-auto break-keep lg:h-[calc(100dvh-var(--header-height)-1px)]">
       <div className="mx-auto my-auto max-w-screen-md space-y-8 p-6">
         <h1 className="text-xl font-bold md:text-2xl">
           끝말잇기 엔진의 성장을 함께해주세요 ❤️🎉

@@ -4,14 +4,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
 import { useWcStore } from "@/stores/wc-store";
 import ReactMarkdown from "react-markdown";
 
 export default function DebugAccordion({ debug }: { debug: string }) {
   const debugOpen = useWcStore((e) => e.debugOpen);
-  const setDebugOpen = useWcStore((e) => e.setDebugOpen);
+
   return (
     <Accordion
       type="single"
@@ -27,13 +25,6 @@ export default function DebugAccordion({ debug }: { debug: string }) {
 
         <AccordionContent className="prose prose-sm dark:prose-invert space-y-1 border-l-2 py-2 pb-4 pl-4">
           <ReactMarkdown>{debug}</ReactMarkdown>
-          <Label className="flex items-center gap-2">
-            <Checkbox
-              checked={debugOpen}
-              onCheckedChange={(e) => setDebugOpen(e as boolean)}
-            />
-            <div>항상 열기</div>
-          </Label>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

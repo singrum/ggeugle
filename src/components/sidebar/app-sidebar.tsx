@@ -46,9 +46,9 @@ export function AppSidebar() {
     >
       <Sidebar
         collapsible="none"
-        className="bg-sidebar w-[calc(var(--sidebar-width-icon)+1px)]! min-w-[calc(var(--sidebar-width-icon)+1px)]! border-0"
+        className="bg-sidebar w-[calc(var(--sidebar-width-icon))]! min-w-[calc(var(--sidebar-width-icon))]! border-0 border-r"
       >
-        <SidebarContent className="items-center gap-2 py-5">
+        <SidebarContent className="items-center justify-center gap-3 py-4">
           {mainTabs.map(({ title, icon, key }) => (
             <NavLink to={`/${key}` + `${location.search}`} end key={key}>
               <NavButton
@@ -79,8 +79,11 @@ export function AppSidebar() {
         </SidebarFooter>
       </Sidebar>
 
-      <Sidebar collapsible="none" className="bg-sidebar min-w-0 flex-1 md:flex">
-        <SidebarContent className="bg-background rounded-tl-lg">
+      <Sidebar
+        collapsible="none"
+        className="bg-background min-w-0 flex-1 md:flex"
+      >
+        <SidebarContent>
           {innerSidebarComp && (
             <div className="no-scrollbar h-full overflow-y-scroll">
               {innerSidebarComp}

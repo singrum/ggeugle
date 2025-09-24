@@ -13,7 +13,7 @@ export default function MobileCharMenu({
   return (
     <div
       className={cn(
-        "bg-background grid grid-cols-4 gap-0.5 rounded-full px-1 pt-1 md:px-2 md:pt-2",
+        "bg-background grid grid-cols-4 gap-1 rounded-full px-4 pt-0 lg:px-2 lg:pt-2",
         className,
       )}
     >
@@ -67,22 +67,22 @@ function CharMenuButton({
     <Button
       variant={"ghost"}
       className={cn(
-        "text-muted-foreground hover:text-muted-foreground h-13 rounded-full tracking-wider",
-        { "bg-accent dark:bg-accent/50": active },
+        "text-muted-foreground hover:text-muted-foreground h-12 rounded-lg tracking-wider",
+
         { [colorVariants[color].active]: active },
         className,
       )}
       {...props}
     >
       {children}
-      {/* {
+      {
         <BottomBar
           color={color}
           className={cn("w-0 opacity-0 transition-all", {
             "w-8 opacity-100": active,
           })}
         />
-      } */}
+      }
     </Button>
   );
 }
@@ -102,7 +102,7 @@ export function BottomBar({
   return (
     <div
       className={cn(
-        "absolute bottom-0 left-1/2 h-1 w-10 -translate-x-1/2 rounded-t",
+        "absolute bottom-0 left-1/2 h-1 w-10 -translate-x-1/2 rounded-full",
 
         colorVariants[color],
         className,

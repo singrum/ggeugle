@@ -13,7 +13,9 @@ export default function MobileBottomBar() {
 
   return (
     <div
-      className={cn("bg-background fixed bottom-0 z-50 h-16 w-full shrink-0")}
+      className={cn(
+        "bg-sidebar fixed bottom-0 z-50 h-16 w-full shrink-0 border-t",
+      )}
     >
       <nav
         className={cn("mx-auto grid h-full max-w-lg grid-cols-4 items-center")}

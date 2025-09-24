@@ -2,13 +2,11 @@ import { navInfo } from "@/constants/sidebar";
 import type { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 
-import ThemeSettings from "@/app/more/theme-settings";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
@@ -26,10 +24,6 @@ export default function MoreNavDropdownTrigger({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
       <DropdownMenuContent side="top" className="mr-4" {...dropdownContentAttr}>
-        <div className="p-0.5">
-          <ThemeSettings />
-        </div>
-        <DropdownMenuSeparator />
         {moreNavs.map(({ title, icon: Icon, key }) => (
           <NavLink to={`/${key}`} end key={key}>
             <DropdownMenuItem key={key} className="cursor-pointer gap-3 p-3">
