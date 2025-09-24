@@ -19,7 +19,7 @@ export default function ItemsPerPageSelect() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant={"outline"}
+          variant={"secondary"}
           className={"w-[100px] justify-between"}
           size={"default"}
         >

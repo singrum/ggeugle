@@ -24,7 +24,7 @@ export default function WordsCardComponent({
   const { component: Component } = wordDispTypeInfo[wordDispType];
   return (
     <AccordionItem {...props} className="border-0">
-      <div className="sticky top-0 z-40">
+      <div className="sticky top-[var(--header-height)] z-40">
         <AccordionTrigger className="bg-background mb-1 rounded-none px-2 py-4 hover:no-underline">
           <div className="flex flex-1 justify-between">
             <div className="flex items-center gap-2">

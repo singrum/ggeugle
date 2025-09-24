@@ -37,7 +37,7 @@ export function AppSidebar() {
     <Sidebar
       collapsible="icon"
       className={cn(
-        "overflow-hidden border-none *:data-[sidebar=sidebar]:flex-row",
+        "top-(--header-height) h-[calc(100svh-var(--header-height))]! overflow-hidden border-none *:data-[sidebar=sidebar]:flex-row",
         {
           "border-none": !navInfo.find((e) => e.key === menu)
             ?.innerSidebarComponent,
@@ -46,9 +46,9 @@ export function AppSidebar() {
     >
       <Sidebar
         collapsible="none"
-        className="bg-sidebar w-[calc(var(--sidebar-width-icon)+1px)]! min-w-[calc(var(--sidebar-width-icon)+1px)]! border-0"
+        className="bg-sidebar w-[calc(var(--sidebar-width-icon))]! min-w-[calc(var(--sidebar-width-icon))]! border-0 border-r"
       >
-        <SidebarContent className="items-center gap-2 py-5">
+        <SidebarContent className="items-center justify-center gap-3 py-4">
           {mainTabs.map(({ title, icon, key }) => (
             <NavLink to={`/${key}` + `${location.search}`} end key={key}>
               <NavButton
@@ -85,7 +85,9 @@ export function AppSidebar() {
       >
         <SidebarContent>
           {innerSidebarComp && (
-            <div className="h-full overflow-y-scroll">{innerSidebarComp}</div>
+            <div className="no-scrollbar h-full overflow-y-scroll">
+              {innerSidebarComp}
+            </div>
           )}
         </SidebarContent>
       </Sidebar>

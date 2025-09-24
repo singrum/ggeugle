@@ -18,7 +18,7 @@ export default function WordDispSelect() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant={"outline"}
+          variant={"secondary"}
           className={"w-[100px] justify-between"}
           size={"default"}
         >

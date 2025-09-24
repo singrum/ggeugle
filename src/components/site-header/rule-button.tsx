@@ -1,25 +1,12 @@
-import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
 import { useWcStore } from "@/stores/wc-store";
-import {
-  BookText,
-  ChevronRight,
-  ChevronsUpDown,
-  MoreVertical,
-  Wrench,
-} from "lucide-react";
+import { BookText, ChevronRight, ChevronsUpDown, Wrench } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Fragment } from "react/jsx-runtime";
-import { Button } from "./ui/button";
-import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { Button } from "../ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 
-export function InsetHeader({ children }: React.ComponentProps<"div">) {
-  return (
-    <div className="flex w-full items-center justify-between">{children}</div>
-  );
-}
-
-export function InsetHeaderLeft() {
+export function RuleButton() {
   const rule = useWcStore((e) => e.rule);
   const originalSolver = useWcStore((e) => e.originalSolver);
   const navigate = useNavigate();
@@ -30,15 +17,13 @@ export function InsetHeaderLeft() {
         <TooltipTrigger asChild>
           <Button
             className={cn(
-              "max-w-full cursor-pointer bg-transparent px-2 text-base font-normal has-[>svg]:px-2 dark:bg-transparent",
-              {
-                "animate-pulse": !originalSolver,
-              },
+              "max-w-full cursor-pointer px-2 font-normal has-[>svg]:pr-3 has-[>svg]:pl-3",
+              { "animate-pulse": !originalSolver },
             )}
             variant={"ghost"}
             onClick={() => navigate(`/rule${location.search}`)}
           >
-            <div className="no-scrollbar flex flex-1 items-center gap-2 overflow-auto">
+            <div className="no-scrollbar flex flex-1 items-center gap-1 overflow-auto">
               {rule.metadata?.title ? (
                 <BookText className="stroke-foreground size-4" />
               ) : (
@@ -63,14 +48,4 @@ export function InsetHeaderLeft() {
       </Tooltip>
     </div>
   );
-}
-export function ActionGroup({ children }: React.ComponentProps<"div">) {
-  const isMobile = useIsMobile();
-  if (isMobile) {
-    <Button variant={"outline"} size="icon">
-      <MoreVertical />
-    </Button>;
-  } else {
-    return children;
-  }
 }
