@@ -103,7 +103,7 @@ function SearchSettingsForm() {
   const isMobile = useIsMobile();
 
   return (
-    <div className="space-y-4 pt-4">
+    <div className="space-y-4 pt-2">
       <div className="space-y-4">
         {isMobile && (
           <div className="flex items-center justify-between">
