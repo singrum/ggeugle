@@ -79,11 +79,8 @@ export function AppSidebar() {
         </SidebarFooter>
       </Sidebar>
 
-      <Sidebar
-        collapsible="none"
-        className="bg-sidebar min-w-0 flex-1 pb-2 md:flex"
-      >
-        <SidebarContent className="bg-background rounded-l-lg">
+      <Sidebar collapsible="none" className="bg-sidebar min-w-0 flex-1 md:flex">
+        <SidebarContent className="bg-background rounded-tl-lg">
           {innerSidebarComp && (
             <div className="no-scrollbar h-full overflow-y-scroll">
               {innerSidebarComp}
