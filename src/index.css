@@ -171,15 +171,31 @@
   --lose: oklch(0.5872 0.2224 17.72);
   --route: oklch(0.623 0.1688 149.18);
   --loopwin: oklch(0.54 0.25 293);
+  --theme-color-0: oklch(0.14 0 0);
+  --theme-color-1: oklch(0.59 0.22 18);
+  --theme-color-2: oklch(0.65 0.19 41);
+  --theme-color-3: oklch(0.8 0.16 86);
+  --theme-color-4: oklch(0.63 0.17 149);
+  --theme-color-5: oklch(0.55 0.22 263);
+  --theme-color-6: oklch(0.54 0.25 293);
+  --theme-color-7: oklch(0.59 0.22 1);
   color-scheme: light;
 }
 
 .dark {
   --radius: 0.75rem;
   --win: oklch(0.6776 0.148143 238.1044);
-  --lose: oklch(0.6437 0.2159 16.81);
+  --lose: oklch(0.65 0.22 16);
   --route: oklch(0.7205 0.192 149.49);
   --loopwin: oklch(0.61 0.22 293);
+  --theme-color-0: oklch(0.99 0 0);
+  --theme-color-1: oklch(0.64 0.21 25);
+  --theme-color-2: oklch(0.7 0.19 48);
+  --theme-color-3: oklch(0.86 0.17 92);
+  --theme-color-4: oklch(0.72 0.19 150);
+  --theme-color-5: oklch(0.62 0.19 260);
+  --theme-color-6: oklch(0.61 0.22 293);
+  --theme-color-7: oklch(0.66 0.21 354);
   color-scheme: dark;
 }
 

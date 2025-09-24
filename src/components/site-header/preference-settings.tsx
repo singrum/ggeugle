@@ -33,6 +33,7 @@ import ItemsPerPageSelect from "../../app/search/search-header/items-per-page-se
 import ViewSelect from "../../app/search/search-header/view-select";
 import WordDispSelect from "../../app/search/search-header/word-disp-select";
 import { ModeToggleSelect } from "../mode-toggle-select";
+import ColorSelectGroup from "./color-select-group";
 export default function PreferenceSettings() {
   const [open, setOpen] = useState(false);
   const isTablet = useIsTablet();
@@ -104,15 +105,27 @@ function SearchSettingsForm() {
 
   return (
     <div className="space-y-4 pt-2">
-      <div className="space-y-4">
-        {isMobile && (
-          <div className="flex items-center justify-between">
-            <div className="text-sm font-medium">테마</div>
-            <ModeToggleSelect />
+      {isMobile && (
+        <>
+          <div className="text-muted-foreground text-sm font-medium">
+            디자인
           </div>
-        )}
-      </div>
-      {isMobile && <Separator />}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-medium">테마</div>
+              <ModeToggleSelect />
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="text-sm font-medium">색상</div>
+              <ColorSelectGroup />
+            </div>
+          </div>
+          <Separator />
+        </>
+      )}
+
       <div className="text-muted-foreground text-sm font-medium">검색</div>
       <div className="space-y-4">
         {isMobile && (

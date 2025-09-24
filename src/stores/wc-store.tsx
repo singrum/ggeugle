@@ -14,6 +14,7 @@ import { createDistributionSlice } from "./slices/distribution-slice";
 import { createInfoSlice } from "./slices/info-slice";
 import { createKnowledgeSlice } from "./slices/knowledge-slice";
 import { createPlaySlice } from "./slices/play-slice";
+import { createPreferenceSettingsSlice } from "./slices/preference-settings-slice";
 import { createRuleSlice } from "./slices/rule-slice";
 import { createSearchSlice } from "./slices/search-slice";
 import { createStrategySearchSlice } from "./slices/strategy-search-slice";
@@ -51,6 +52,7 @@ export const useWcStore = create<Slices>()(
       ...createInfoSlice(...a),
       ...createDistributionSlice(...a),
       ...createKnowledgeSlice(...a),
+      ...createPreferenceSettingsSlice(...a),
     })),
     {
       name: "ggeugle",

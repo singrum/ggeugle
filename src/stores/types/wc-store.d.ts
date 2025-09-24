@@ -15,6 +15,7 @@ import type {
   SingleMove,
 } from "@/lib/wordchain/graph/graph";
 
+import type { ThemeColor } from "@/constants/preference-settings";
 import type { WordSolver } from "@/lib/wordchain/word/word-solver";
 import type { ComlinkRunner } from "@/lib/worker/comlink-runner";
 import type { FuncWorkerApi } from "@/lib/worker/func-worker";
@@ -217,6 +218,11 @@ export type KnowledgeSlice = {
   setKnowledgeMenuOpen: (v: boolean) => void;
 };
 
+export type PreferenceSettingsSlice = {
+  themeColors: [ThemeColor, ThemeColor, ThemeColor, ThemeColor];
+  setThemeColors: (v: PreferenceSettingsSlice["theme"]) => void;
+};
+
 export type Slices = RuleSlice &
   SearchSlice &
   StrategySearchSlice &
@@ -224,4 +230,5 @@ export type Slices = RuleSlice &
   PlaySlice &
   InfoSlice &
   DistributionSlice &
-  KnowledgeSlice;
+  KnowledgeSlice &
+  PreferenceSettingsSlice;
