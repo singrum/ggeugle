@@ -23,7 +23,7 @@ export function RuleButton() {
             variant={"ghost"}
             onClick={() => navigate(`/rule${location.search}`)}
           >
-            <div className="no-scrollbar flex flex-1 items-center gap-1 overflow-auto">
+            <div className="no-scrollbar flex flex-1 items-center gap-2 overflow-auto">
               {rule.metadata?.title ? (
                 <BookText className="stroke-foreground size-4" />
               ) : (
@@ -41,7 +41,7 @@ export function RuleButton() {
                   ))
                 : "커스텀 룰"}
             </div>
-            <ChevronsUpDown className="size-3" />
+            <ChevronsUpDown className="size-4" />
           </Button>
         </TooltipTrigger>
         <TooltipContent>룰 변경</TooltipContent>
