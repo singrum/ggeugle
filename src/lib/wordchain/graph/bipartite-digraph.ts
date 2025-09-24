@@ -635,8 +635,8 @@ export class BipartiteDiGraph {
               return graph.getMovesFromNode(end, 0, 0).length;
             } else {
               return (
-                graph.getMovesFromNode(end, 0, 1).length /
-                graph.getMovesFromNode(end, 0, 0).length
+                graph.getMovesFromNode(end, 0, 0).length /
+                graph.getMovesFromNode(end, 0, 1).length
               );
             }
           };
