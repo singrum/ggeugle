@@ -16,9 +16,9 @@ export default function GameSettings() {
 
   const setOpen = useWcStore((e) => e.setPlayDrawerOpen);
   return (
-    <div className="relative mx-auto flex h-full w-full max-w-screen-sm flex-col px-4 py-4 md:px-12 lg:py-4">
+    <div className="relative mx-auto flex h-full w-full max-w-screen-sm flex-col px-4 py-4 md:px-12 lg:py-6">
       <div className="flex items-center justify-between">
-        <h1 className="mx-2 text-xl font-medium lg:text-3xl">게임 설정</h1>
+        <h1 className="mx-2 text-xl font-medium lg:text-2xl">게임 설정</h1>
         {isTablet && (
           <Button
             size="icon"
@@ -41,24 +41,23 @@ export default function GameSettings() {
           <StealableSettings />
         </GameSettingsList>
       </div>
-      <div className="pt-2 lg:py-4">
-        <Button
-          className="h-14 w-full rounded-full px-4 text-base"
-          disabled={
-            !originalSolver ||
-            (originalSolver && originalSolver.graphSolver.graphs.isEmpty())
-          }
-          onClick={() => {
-            makeGame();
-          }}
-        >
-          {originalSolver ? (
-            "게임 시작"
-          ) : (
-            <Loader className="stroke-primary-foreground size-5 animate-spin" />
-          )}
-        </Button>
-      </div>
+
+      <Button
+        className="h-14 w-full rounded-full px-4 text-base"
+        disabled={
+          !originalSolver ||
+          (originalSolver && originalSolver.graphSolver.graphs.isEmpty())
+        }
+        onClick={() => {
+          makeGame();
+        }}
+      >
+        {originalSolver ? (
+          "게임 시작"
+        ) : (
+          <Loader className="stroke-primary-foreground size-5 animate-spin" />
+        )}
+      </Button>
     </div>
   );
 }

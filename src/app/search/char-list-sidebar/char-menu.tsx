@@ -69,20 +69,23 @@ function CharMenuButton({
       className={cn(
         "text-muted-foreground hover:text-muted-foreground h-12 rounded-lg tracking-wider",
 
-        { [colorVariants[color].active]: active },
+        {
+          [colorVariants[color].active]: active,
+          "bg-accent dark:bg-accent/50": active,
+        },
         className,
       )}
       {...props}
     >
       {children}
-      {
+      {/* {
         <BottomBar
           color={color}
           className={cn("w-0 opacity-0 transition-all", {
             "w-8 opacity-100": active,
           })}
         />
-      }
+      } */}
     </Button>
   );
 }
