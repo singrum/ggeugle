@@ -29,7 +29,7 @@ export default function NavButton({
         )}
       >
         <Icon
-          className={cn("text-muted-foreground size-6", {
+          className={cn("text-muted-foreground size-6 lg:size-6", {
             "text-foreground": active,
           })}
           weight={active ? "fill" : "regular"}

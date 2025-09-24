@@ -7,7 +7,6 @@ import { useIsTablet } from "@/hooks/use-tablet";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { Outlet } from "react-router-dom";
-export const iframeHeight = "800px";
 
 export default function Layout() {
   const isMount = useMount();
@@ -29,10 +28,10 @@ export default function Layout() {
           >
             <SiteHeader />
             {/* <DonationToast /> */}
-            <div className="bg-sidebar flex flex-1 pr-2 pb-2">
+            <div className="flex flex-1">
               {!isTablet && <AppSidebar />}
 
-              <SidebarInset className="bg-background @container/main flex h-[calc(100svh-var(--header-height)-(--spacing(2)))] min-h-0 flex-col overflow-auto">
+              <SidebarInset className="bg-background @container/main flex flex-col">
                 <Outlet />
                 {isTablet && <MobileBottomBar />}
               </SidebarInset>
@@ -42,3 +41,35 @@ export default function Layout() {
       </ThemeProvider>
     );
 }
+
+// export const iframeHeight = "800px";
+
+// export default function Layout() {
+//   const isMount = useMount();
+//   const isTablet = useIsTablet();
+
+//   if (isMount)
+//     return (
+//       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+//         <Analytics />
+//         <SidebarProvider
+//           defaultOpen={true}
+//           style={
+//             {
+//               "--header-height": "calc(--spacing(14))",
+//               "--sidebar-width": "max(400px,min(33svw, 600px))",
+//             } as React.CSSProperties
+//           }
+//         >
+//           {/* <DonationToast /> */}
+
+//           {!isTablet && <AppSidebar />}
+
+//           <SidebarInset className="bg-background @container/main mt-[var(--header-height)] flex h-[calc(100svh-var(--header-height))] max-w-full min-w-0 flex-col overflow-auto">
+//             <Outlet />
+//             {isTablet && <MobileBottomBar />}
+//           </SidebarInset>
+//         </SidebarProvider>
+//       </ThemeProvider>
+//     );
+// }

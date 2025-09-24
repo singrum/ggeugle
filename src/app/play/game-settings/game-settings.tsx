@@ -16,7 +16,7 @@ export default function GameSettings() {
 
   const setOpen = useWcStore((e) => e.setPlayDrawerOpen);
   return (
-    <div className="relative mx-auto flex h-full w-full max-w-screen-sm flex-col px-4 py-4 md:px-12 lg:py-8">
+    <div className="relative mx-auto flex h-full w-full max-w-screen-sm flex-col px-4 py-4 md:px-12 lg:py-4">
       <div className="flex items-center justify-between">
         <h1 className="mx-2 text-xl font-medium lg:text-3xl">게임 설정</h1>
         {isTablet && (

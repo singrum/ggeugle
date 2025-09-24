@@ -21,8 +21,8 @@ export default function ViewSelect() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant={isMobile ? "outline" : "ghost"}
-          className={"w-auto justify-between"}
+          variant={isMobile ? "secondary" : "ghost"}
+          className={"w-[100px] justify-between md:w-auto"}
           size={"default"}
         >
           <div className="flex items-center gap-2">
