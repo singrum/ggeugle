@@ -73,7 +73,7 @@ export default function PreferenceSettings() {
             </Button>
           </DrawerTrigger>
         </TooltipTrigger>
-        <TooltipContent>검색 설정</TooltipContent>
+        <TooltipContent>환경 설정</TooltipContent>
       </Tooltip>
       <DrawerContent>
         <DrawerHeader className="text-left">

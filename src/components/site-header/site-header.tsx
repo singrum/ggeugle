@@ -11,7 +11,7 @@ export default function SiteHeader() {
   const isMobile = useIsMobile();
 
   return (
-    <header className="bg-sidebar sticky top-0 z-50 flex w-full items-center border-b">
+    <header className="bg-sidebar sticky top-0 z-50 flex w-full items-center">
       <div className="flex h-(--header-height) w-full items-center gap-0 pr-4 pl-2 md:pr-7 md:pl-4">
         <RuleButton />
 

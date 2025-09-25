@@ -7,7 +7,7 @@ export default function SidebarHeader() {
   const selectedGame = useWcStore((e) => e.selectedGame);
   const setOpen = useWcStore((e) => e.setPlayDrawerOpen);
   return (
-    <div className="bg-background sticky top-0 z-10 w-full p-4">
+    <div className="bg-background sticky top-0 z-10 w-full rounded-tl-2xl p-4">
       <Button
         className="h-12 w-full rounded-full"
         size="lg"

@@ -103,7 +103,7 @@ export default function Portals() {
               <ul className="space-y-3">
                 <li>음절 메뉴 유형</li>
                 <li>음절 위치</li>
-                <li>검색 설정</li>
+                <li>환경 설정</li>
                 <li>동시 탐색 개수</li>
                 <li>게임에서 생각하는 과정 항상 열기 여부</li>
                 <li>끄투코리아 빠른 설정</li>
