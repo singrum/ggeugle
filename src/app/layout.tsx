@@ -16,7 +16,7 @@ export default function Layout() {
     return (
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
         <Analytics />
-        <div className="[--header-height:calc(--spacing(12))]">
+        <div className="[--header-height:calc(--spacing(13))]">
           <SidebarProvider
             className="flex flex-col"
             defaultOpen={true}
