@@ -1,4 +1,3 @@
-import Donation from "@/app/donation/donation";
 import KnowledgePage from "@/app/knowledge/knowledge-page";
 import KnowledgeSidebar from "@/app/knowledge/knowledge-sidebar";
 import More from "@/app/more/more";
@@ -16,7 +15,7 @@ import {
   SlidersHorizontalIcon,
   type Icon,
 } from "@phosphor-icons/react";
-import { BookMarked, Heart, Info, type LucideIcon } from "lucide-react";
+import { BookMarked, Info, type LucideIcon } from "lucide-react";
 
 import type { ReactNode } from "react";
 
@@ -67,14 +66,7 @@ export const navInfo: Nav[] = [
     innerSidebarComponent: <KnowledgeSidebar />,
     isMore: true,
   },
-  {
-    title: "후원",
-    key: "donation",
-    icon: Heart,
-    component: <Donation />,
-    innerSidebarComponent: undefined,
-    isMore: true,
-  },
+
   {
     title: "정보",
     key: "info",

@@ -5,12 +5,12 @@ import ErrorPage from "./app/error-page";
 import Layout from "./app/layout";
 import Search from "./app/search/search";
 
-import { content } from "./constants/knowledge";
-import { navInfo } from "./constants/sidebar";
-import "./index.css";
 import KnowledgeLayout from "./app/knowledge/knowledge-layout";
 import KnowledgeOverview from "./app/knowledge/knowledge-overview";
 import KnowledgePage from "./app/knowledge/knowledge-page";
+import { content } from "./constants/knowledge";
+import { navInfo } from "./constants/sidebar";
+import "./index.css";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +19,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <Search /> },
-      ...[0, 1, 2, 4, 5].map((i) => {
+      ...[0, 1, 2, 4].map((i) => {
         const { component, key } = navInfo[i];
         return {
           path: key,
