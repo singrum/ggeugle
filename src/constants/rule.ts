@@ -89,3 +89,16 @@ export const kkutuInfo: {
   manner: ["노매너", "매너", "젠틀"],
   injeong: ["노인정", "어인정"],
 };
+
+export const flowInfo = [
+  {
+    key: 0,
+    title: "돌림 단어 최소화",
+    pipeline: ["승패 전파", "돌림 단어 제거", "승패 전파"],
+  },
+  {
+    key: 1,
+    title: "돌림 단어 최대화",
+    pipeline: ["돌림 단어 제거", "승패 전파"],
+  },
+];

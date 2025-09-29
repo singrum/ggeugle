@@ -91,8 +91,7 @@ export const createStrategySearchSlice: StateCreator<
       info.stack = [];
       info.id = callbackId;
     });
-    runner.callAndTerminate(
-      "startStreamingSingleThreadSearch",
+    runner.callAndTerminate("startStreamingSingleThreadSearch", [
       proxy(
         (
           data:
@@ -144,7 +143,7 @@ export const createStrategySearchSlice: StateCreator<
       get().solver!.graphSolver.graphs.getGraph("route"),
       move,
       get().prec,
-    );
+    ]);
   },
 
   maximizeSingleThreadSearch: () => {

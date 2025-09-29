@@ -223,7 +223,10 @@ export function getDepthMap(
   }
   return depthMap;
 }
-export function classify(graph: BipartiteDiGraph): {
+export function classify(
+  graph: BipartiteDiGraph,
+  flow: number,
+): {
   graphs: GraphPartitions;
   evenLoops: [NodeName, NodeName, number][];
   twoCycles: [[NodeName, NodeName], [NodeName, NodeName], number][];
@@ -244,7 +247,7 @@ export function classify(graph: BipartiteDiGraph): {
   const twoCycles: [SingleMove, SingleMove, number][] = [];
   const typeMap: NodeMap<NodeType> = [new Map(), new Map()];
 
-  function pruneWinloseInvolvingOneCycles() {
+  function pruneWinloseInvolvingOneCycles(): boolean {
     const {
       typeMap: typeMap_,
       evenLoops: evenLoops_,
@@ -259,6 +262,14 @@ export function classify(graph: BipartiteDiGraph): {
     for (const [k, v] of _loopMap.entries()) {
       loopMap.set(k, v);
     }
+
+    // 새롭게 분류가 되었는가?
+
+    return (
+      typeMap_.some((e) => e.size > 0) ||
+      evenLoops_.length > 0 ||
+      _loopMap.size > 0
+    );
   }
   function removeEvenLoops() {
     const evenLoops_ = graphs.getGraph("route").getEvenLoops();
@@ -266,6 +277,8 @@ export function classify(graph: BipartiteDiGraph): {
       graphs.transferEdge("route", "removed", start, end, num),
     );
     evenLoops.push(...evenLoops_);
+
+    return evenLoops_.length > 0;
   }
   function removeTwoCycles() {
     const twoCycles_ = graphs.getGraph("route").getTwoCycles();
@@ -276,11 +289,35 @@ export function classify(graph: BipartiteDiGraph): {
     });
 
     twoCycles.push(...twoCycles_);
+    return twoCycles_.length > 0;
   }
-  pruneWinloseInvolvingOneCycles();
-  removeEvenLoops();
-  removeTwoCycles();
-  pruneWinloseInvolvingOneCycles();
+
+  let cnt = 0;
+  let classified = true;
+
+  while (cnt++ < 200 && classified) {
+    console.log("classifying...", cnt);
+    classified = false;
+    if (flow === 0) {
+      classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
+      classified = alwaysAssign(classified, removeEvenLoops);
+      classified = alwaysAssign(classified, removeTwoCycles);
+      classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
+    } else {
+      classified = alwaysAssign(classified, removeEvenLoops);
+      classified = alwaysAssign(classified, removeTwoCycles);
+      classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
+    }
+  }
 
   return { graphs, typeMap, evenLoops, twoCycles, loopMap };
+}
+
+function alwaysAssign(
+  oldValue: boolean | null | undefined,
+  fn: () => boolean,
+): boolean {
+  const result = fn();
+  // oldValue가 truthy면 그대로 유지, 아니면 새 값 사용
+  return oldValue || result;
 }

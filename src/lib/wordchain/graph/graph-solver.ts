@@ -33,9 +33,13 @@ export class GraphSolver {
   loopMap: Map<NodeName, NodeName>;
   pairManager: PairManager;
   scc: [NodeName[], NodeName[]][];
+  flow: number;
 
-  constructor(graph: BipartiteDiGraph) {
-    const { graphs, typeMap, evenLoops, twoCycles, loopMap } = classify(graph);
+  constructor(graph: BipartiteDiGraph, flow: number) {
+    const { graphs, typeMap, evenLoops, twoCycles, loopMap } = classify(
+      graph,
+      flow,
+    );
     this.graphs = graphs;
     this.typeMap = typeMap;
     this.loopMap = loopMap;
@@ -56,10 +60,11 @@ export class GraphSolver {
     }
 
     this.scc = this.graphs.getGraph("route").getSCC();
+    this.flow = flow;
   }
   static fromObj(obj: GraphSolver): GraphSolver {
     const result: GraphSolver = Object.create(GraphSolver.prototype);
-    const { graphs, typeMap, depthMap, scc, pairManager, loopMap } = obj;
+    const { graphs, typeMap, depthMap, scc, pairManager, loopMap, flow } = obj;
     Object.assign(result, {
       graphs: GraphPartitions.fromObj(graphs),
       pairManager: PairManager.fromObj(pairManager),
@@ -67,6 +72,7 @@ export class GraphSolver {
       depthMap,
       loopMap,
       scc,
+      flow,
     });
 
     return result;

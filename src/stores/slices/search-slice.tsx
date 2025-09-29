@@ -171,11 +171,11 @@ export const createSearchSlice: StateCreator<
       });
 
       const runner = get().funcWorkerRunner;
-      const result = await runner.callAndTerminate(
-        "updateSolver",
+      const result = await runner.callAndTerminate("updateSolver", [
         originalSolver!.graphSolver.graphs,
         wordsToMoves(words, originalSolver!.headIdx, originalSolver!.tailIdx),
-      );
+        get().flow,
+      ]);
 
       const updatedWordMap = originalSolver!.wordMap.copy();
       words.forEach((e) =>

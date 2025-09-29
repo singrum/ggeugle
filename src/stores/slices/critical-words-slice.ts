@@ -51,8 +51,7 @@ export const createCriticalWordsSlice: StateCreator<
       criticalEdgeMap,
       criticalWordsCallbackId: id,
     });
-    runner.callAndTerminate(
-      "startStreamingCriticalWordsInfo",
+    runner.callAndTerminate("startStreamingCriticalWordsInfo", [
       proxy(
         ({
           move,
@@ -75,7 +74,8 @@ export const createCriticalWordsSlice: StateCreator<
       solver!.graphSolver.graphs.getGraph("route"),
       view,
       undefined,
-    );
+      get().flow,
+    ]);
   },
   clearCriticalWords: () => {
     const { criticalWordsWorkerRunner, criticalWordsThrottledUpdate } = get();
