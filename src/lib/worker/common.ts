@@ -1,72 +1,12 @@
 import type { PrecInfo } from "@/types/search";
 import { BipartiteDiGraph } from "../wordchain/graph/bipartite-digraph";
 import { pruneWinLoseNodes } from "../wordchain/graph/classify";
-import type {
-  NodeName,
-  NormalizedNodeType,
-  SingleMove,
-} from "../wordchain/graph/graph";
+import type { NodeName, SingleMove } from "../wordchain/graph/graph";
 import { GraphPartitions } from "../wordchain/graph/graph-partitions";
-import {
-  GraphSolver,
-  normalizeNodeType,
-} from "../wordchain/graph/graph-solver";
+import { normalizeNodeType } from "../wordchain/graph/graph-solver";
 export type SearchCallbackParameter =
   | { action: "push"; data: SingleMove }
   | { action: "pop"; data: "win" | "lose" };
-
-export function getPositionInfo(
-  graphs: GraphPartitions,
-  history: [NodeName, NodeName, number][],
-  currChar: NodeName | undefined,
-):
-  | {
-      type: "win" | "lose";
-      optimalMove: SingleMove;
-    }
-  | { type: "route" | "empty"; nextMoves: SingleMove[] } {
-  graphs = GraphPartitions.fromObj(graphs);
-
-  const graph = graphs.updateUnion("winlose");
-
-  for (const [start, end, num] of history) {
-    graph.decreaseEdge(start, end, num);
-  }
-
-  const solver = new GraphSolver(graph);
-
-  if (!currChar || history.length === 0) {
-    return {
-      type: "empty",
-      nextMoves: solver.graphs
-        .getGraph("route")
-        .edges(1)
-        .map(([start, end]) => [start, end]),
-    };
-  } else {
-    const type: NormalizedNodeType = normalizeNodeType(
-      solver.typeMap[0].get(currChar)!,
-    );
-    if (type === "win") {
-      return { type, optimalMove: solver.getWinningOptimalMove(0, currChar) };
-    } else if (type === "lose") {
-      const losingOptimalMove = solver.graphs
-        .getGraph("winlose")
-        .getMovesFromNode(currChar, 0, 0)
-        .filter(([start, end]) => {
-          return end !== solver.loopMap.get(start);
-        })
-        .map((e) => [e[0], e[1]] as [NodeName, NodeName])
-        .sort((a, b) => {
-          return -solver.depthMap[0].get(a[1])! + solver.depthMap[0].get(b[1])!;
-        })[0];
-      return { type, optimalMove: losingOptimalMove };
-    } else {
-      const nextMoves = graph.getMovesFromNode(currChar, 0, 0);
-      return { type, nextMoves };
-    }
-  }
-}
 
 export function checkInitialCondition(graph: BipartiteDiGraph, node: NodeName) {
   const graphs: GraphPartitions = new GraphPartitions(
