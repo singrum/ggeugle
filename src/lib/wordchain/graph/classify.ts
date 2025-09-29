@@ -300,11 +300,8 @@ export function classify(
     classified = false;
     if (flow === 0) {
       classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
-
       classified = alwaysAssign(classified, removeEvenLoops);
-
       classified = alwaysAssign(classified, removeTwoCycles);
-
       classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
     } else {
       classified = alwaysAssign(classified, removeEvenLoops);
