@@ -67,7 +67,7 @@ export class GameWorkerRunner {
     this.callback = callback;
   }
 
-  async run() {
+  async run(flow: number) {
     const historyNum = this.historyWordMap
       .toArray()
       .reduce((prev, curr) => prev + curr.length, 0);
@@ -90,7 +90,7 @@ export class GameWorkerRunner {
           return;
         }
       } else {
-        const updatedSolver = await this.getNextSolver();
+        const updatedSolver = await this.getNextSolver(flow);
         const nodeType = normalizeNodeType(
           updatedSolver.getNodeType(this.currChar!, 0),
         );
@@ -150,9 +150,7 @@ export class GameWorkerRunner {
                 const { isWin, duration } =
                   await this.comlinkRunner.callAndTerminate(
                     "searchIsWin",
-                    updatedSolver.graphs.getGraph("route"),
-                    move,
-                    this.prec,
+                    [updatedSolver.graphs.getGraph("route"), move, this.prec],
                     this.calculatingDuration * 1000,
                   );
                 if (isWin) {
@@ -337,17 +335,17 @@ export class GameWorkerRunner {
     );
     return result;
   }
-  async getNextSolver(): Promise<GraphSolver> {
+  async getNextSolver(flow: number): Promise<GraphSolver> {
     return GraphSolver.fromObj(
-      await this.comlinkRunner.callAndTerminate(
-        "updateSolver",
+      await this.comlinkRunner.callAndTerminate("updateSolver", [
         this.solver.graphSolver.graphs,
         this.historyWordMap
           .toArray()
           .map(
             (e) => [e[0], e[1], e[2].length] as [NodeName, NodeName, number],
           ),
-      ),
+        flow,
+      ]),
     );
   }
   getShallowOptimalWord(
@@ -445,9 +443,11 @@ export class GameWorkerRunner {
         try {
           const { isWin, duration } = await this.comlinkRunner.callAndTerminate(
             "searchIsWin",
-            this.solver.graphSolver.graphs.getGraph("route"),
-            [start, end],
-            this.prec,
+            [
+              this.solver.graphSolver.graphs.getGraph("route"),
+              [start, end],
+              this.prec,
+            ],
             this.calculatingDuration * 1000,
           );
           if (isWin) {

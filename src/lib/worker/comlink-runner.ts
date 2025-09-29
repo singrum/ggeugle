@@ -29,18 +29,11 @@ export class ComlinkRunner<
 
   callAndTerminate<K extends keyof T>(
     method: K,
-    ...[...argsAndMaybeTimeout]: [...Parameters<T[K]>, number?]
+    args: Parameters<T[K]>,
+    timeoutMillis?: number, // 명시적 timeout 매개변수
   ): Promise<Awaited<ReturnType<T[K]>>> {
     this.terminate(); // 이전 워커 종료
     this.worker = new this.workerFactory();
-
-    // timeoutMillis 추출
-    const maybeTimeout = argsAndMaybeTimeout.at(-1);
-    const hasTimeout = typeof maybeTimeout === "number";
-    const timeoutMillis = hasTimeout ? (maybeTimeout as number) : undefined;
-    const args = hasTimeout
-      ? argsAndMaybeTimeout.slice(0, -1)
-      : argsAndMaybeTimeout;
 
     return new Promise((resolve, reject) => {
       this.pendingReject = reject;
@@ -49,7 +42,6 @@ export class ComlinkRunner<
       const fn = api[method];
 
       let timeoutId: ReturnType<typeof setTimeout> | undefined;
-
       if (timeoutMillis !== undefined) {
         timeoutId = setTimeout(() => {
           reject(new Error("Timeout exceeded"));
@@ -57,8 +49,7 @@ export class ComlinkRunner<
         }, timeoutMillis);
       }
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (fn(...(args as any[])) as Promise<Awaited<ReturnType<T[K]>>>)
+      (fn(...args) as Promise<Awaited<ReturnType<T[K]>>>)
         .then((result) => {
           if (timeoutId) clearTimeout(timeoutId);
           resolve(result);

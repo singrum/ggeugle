@@ -247,7 +247,7 @@ export function classify(
   const twoCycles: [SingleMove, SingleMove, number][] = [];
   const typeMap: NodeMap<NodeType> = [new Map(), new Map()];
 
-  function pruneWinloseInvolvingOneCycles() {
+  function pruneWinloseInvolvingOneCycles(): boolean {
     const {
       typeMap: typeMap_,
       evenLoops: evenLoops_,
@@ -262,6 +262,14 @@ export function classify(
     for (const [k, v] of _loopMap.entries()) {
       loopMap.set(k, v);
     }
+
+    // 새롭게 분류가 되었는가?
+
+    return (
+      typeMap_.some((e) => e.size > 0) ||
+      evenLoops_.length > 0 ||
+      _loopMap.size > 0
+    );
   }
   function removeEvenLoops() {
     const evenLoops_ = graphs.getGraph("route").getEvenLoops();
@@ -269,6 +277,8 @@ export function classify(
       graphs.transferEdge("route", "removed", start, end, num),
     );
     evenLoops.push(...evenLoops_);
+    console.log(JSON.stringify(evenLoops_));
+    return evenLoops_.length > 0;
   }
   function removeTwoCycles() {
     const twoCycles_ = graphs.getGraph("route").getTwoCycles();
@@ -279,12 +289,22 @@ export function classify(
     });
 
     twoCycles.push(...twoCycles_);
+    return twoCycles_.length > 0;
   }
   if (flow === 0) {
-    pruneWinloseInvolvingOneCycles();
-    removeEvenLoops();
-    removeTwoCycles();
-    pruneWinloseInvolvingOneCycles();
+    let cnt = 100;
+    let classified = true;
+    while (cnt-- && classified) {
+      classified = false;
+      classified ||= pruneWinloseInvolvingOneCycles();
+      console.log("1", classified);
+      classified ||= removeEvenLoops();
+      console.log("2", classified);
+      classified ||= removeTwoCycles();
+      console.log("3", classified);
+      classified ||= pruneWinloseInvolvingOneCycles();
+      console.log("4", classified);
+    }
   } else {
     removeEvenLoops();
     removeTwoCycles();

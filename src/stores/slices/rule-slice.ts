@@ -148,11 +148,10 @@ export const createRuleSlice: StateCreator<
 
     setSearchResultMenu(0);
 
-    const solver = await funcWorkerRunner.callAndTerminate(
-      "getWcData",
+    const solver = await funcWorkerRunner.callAndTerminate("getWcData", [
       rule,
       flow,
-    );
+    ]);
 
     onSolverLoaded(solver);
   },

@@ -236,7 +236,7 @@ export const createPlaySlice: StateCreator<
     } else {
       internalPlaySlice.runnerMap[id] = runner;
       get().initDebug(id);
-      runner.run();
+      runner.run(get().flow);
     }
   },
   setIsMyTurn(gameId: string, value: boolean) {

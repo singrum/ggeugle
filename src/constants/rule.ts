@@ -93,12 +93,12 @@ export const kkutuInfo: {
 export const flowInfo = [
   {
     key: 0,
-    title: "빠른 분류",
+    title: "돌림 단어 최소화",
     pipeline: ["승패 전파", "돌림 단어 제거", "승패 전파"],
   },
   {
     key: 1,
-    title: "돌림단어 최대화",
+    title: "돌림 단어 최대화",
     pipeline: ["돌림 단어 제거", "승패 전파"],
   },
 ];

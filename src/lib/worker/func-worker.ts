@@ -239,7 +239,6 @@ const funcWorkerApi: FuncWorkerApi = {
     graph: BipartiteDiGraph,
     move: SingleMove,
     prec: PrecInfo,
-    flow: number,
   ) {
     graph = BipartiteDiGraph.fromObj(graph);
 

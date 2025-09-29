@@ -87,8 +87,10 @@ export default function FlowSettings() {
 }
 
 function FlowSettingsForm({ setOpen }: { setOpen: (open: boolean) => void }) {
-  const [localFlow, setLocalFlow] = useState(0);
   const setFlow = useWcStore((e) => e.setFlow);
+  const flow = useWcStore((e) => e.flow);
+  const [localFlow, setLocalFlow] = useState(flow);
+
   return (
     <div className="flex h-full w-full flex-col justify-between">
       <div className="space-y-6 py-4">
