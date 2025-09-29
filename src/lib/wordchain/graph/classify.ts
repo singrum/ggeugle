@@ -277,7 +277,7 @@ export function classify(
       graphs.transferEdge("route", "removed", start, end, num),
     );
     evenLoops.push(...evenLoops_);
-    console.log(JSON.stringify(evenLoops_));
+
     return evenLoops_.length > 0;
   }
   function removeTwoCycles() {
@@ -291,25 +291,36 @@ export function classify(
     twoCycles.push(...twoCycles_);
     return twoCycles_.length > 0;
   }
-  if (flow === 0) {
-    let cnt = 100;
-    let classified = true;
-    while (cnt-- && classified) {
-      classified = false;
-      classified ||= pruneWinloseInvolvingOneCycles();
-      console.log("1", classified);
-      classified ||= removeEvenLoops();
-      console.log("2", classified);
-      classified ||= removeTwoCycles();
-      console.log("3", classified);
-      classified ||= pruneWinloseInvolvingOneCycles();
-      console.log("4", classified);
+
+  let cnt = 0;
+  let classified = true;
+
+  while (cnt++ < 200 && classified) {
+    console.log("classifying...", cnt);
+    classified = false;
+    if (flow === 0) {
+      classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
+
+      classified = alwaysAssign(classified, removeEvenLoops);
+
+      classified = alwaysAssign(classified, removeTwoCycles);
+
+      classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
+    } else {
+      classified = alwaysAssign(classified, removeEvenLoops);
+      classified = alwaysAssign(classified, removeTwoCycles);
+      classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
     }
-  } else {
-    removeEvenLoops();
-    removeTwoCycles();
-    pruneWinloseInvolvingOneCycles();
   }
 
   return { graphs, typeMap, evenLoops, twoCycles, loopMap };
+}
+
+function alwaysAssign(
+  oldValue: boolean | null | undefined,
+  fn: () => boolean,
+): boolean {
+  const result = fn();
+  // oldValue가 truthy면 그대로 유지, 아니면 새 값 사용
+  return oldValue || result;
 }

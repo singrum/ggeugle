@@ -166,7 +166,7 @@ const funcWorkerApi: FuncWorkerApi = {
     const solver = new WordSolver(graph, wordMap, headIdx, tailIdx, flow);
 
     end = performance.now();
-    console.log({ time: end - start });
+    console.log("time : ", end - start);
     return solver;
   },
   updateSolver(
