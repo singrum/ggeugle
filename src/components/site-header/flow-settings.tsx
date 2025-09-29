@@ -104,6 +104,7 @@ function FlowSettingsForm({ setOpen }: { setOpen: (open: boolean) => void }) {
             <div className="grid gap-1.5 font-normal">
               <p className="text-sm leading-none font-medium">{title}</p>
               <p className="text-muted-foreground flex flex-wrap items-center gap-1 text-sm">
+                (
                 {pipeline.map((e, i) => (
                   <Fragment key={i}>
                     <span>{e}</span>
@@ -112,6 +113,7 @@ function FlowSettingsForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                     )}
                   </Fragment>
                 ))}
+                ) 반복
               </p>
             </div>
           </Label>

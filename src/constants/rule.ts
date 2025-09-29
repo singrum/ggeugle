@@ -94,7 +94,7 @@ export const flowInfo = [
   {
     key: 0,
     title: "돌림 단어 최소화",
-    pipeline: ["승패 전파", "돌림 단어 제거", "승패 전파"],
+    pipeline: ["승패 전파", "돌림 단어 제거"],
   },
   {
     key: 1,

@@ -295,15 +295,20 @@ export function classify(
   let cnt = 0;
   let classified = true;
 
-  while (cnt++ < 200 && classified) {
-    console.log("classifying...", cnt);
-    classified = false;
-    if (flow === 0) {
+  if (flow === 0) {
+    classified = true;
+    while (cnt++ < 200 && classified) {
+      console.log("classifying loop : ", cnt);
+      classified = false;
       classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
       classified = alwaysAssign(classified, removeEvenLoops);
       classified = alwaysAssign(classified, removeTwoCycles);
-      classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
-    } else {
+    }
+  } else {
+    classified = true;
+    while (cnt++ < 200 && classified) {
+      console.log("classifying loop : ", cnt);
+      classified = false;
       classified = alwaysAssign(classified, removeEvenLoops);
       classified = alwaysAssign(classified, removeTwoCycles);
       classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
