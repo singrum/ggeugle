@@ -121,6 +121,7 @@ function FlowSettingsForm({ setOpen }: { setOpen: (open: boolean) => void }) {
       </div>
 
       <Button
+        size="lg"
         onClick={() => {
           setOpen(false);
           setFlow(localFlow);

@@ -108,6 +108,7 @@ export default function Portals() {
                 <li>게임에서 생각하는 과정 항상 열기 여부</li>
                 <li>끄투코리아 빠른 설정</li>
                 <li>음절별 단어 분포 설정</li>
+                <li>알고리즘 플로우 설정</li>
               </ul>
             </DialogContent>
           </Dialog>
