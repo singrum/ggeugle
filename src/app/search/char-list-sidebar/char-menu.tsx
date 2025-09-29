@@ -13,7 +13,7 @@ export default function MobileCharMenu({
   return (
     <div
       className={cn(
-        "bg-background grid grid-cols-4 gap-1 rounded-full px-4 pt-0 lg:px-2 lg:pt-2",
+        "bg-background grid grid-cols-4 gap-1 rounded-full px-4 pt-0 pb-2 lg:px-2 lg:pt-2",
         className,
       )}
     >
