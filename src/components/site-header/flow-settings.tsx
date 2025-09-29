@@ -25,7 +25,7 @@ import { useIsTablet } from "@/hooks/use-tablet";
 import { flowInfo } from "@/constants/rule";
 import { useWcStore } from "@/stores/wc-store";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { ChevronRight, Workflow } from "lucide-react";
+import { ArrowRight, Workflow } from "lucide-react";
 import { Fragment, useState } from "react";
 import { Checkbox } from "../ui/checkbox";
 import { Label } from "../ui/label";
@@ -109,7 +109,7 @@ function FlowSettingsForm({ setOpen }: { setOpen: (open: boolean) => void }) {
                   <Fragment key={i}>
                     <span>{e}</span>
                     {pipeline.length - 1 !== i && (
-                      <ChevronRight className="stroke-muted-foreground size-4 stroke-1" />
+                      <ArrowRight className="stroke-muted-foreground size-3" />
                     )}
                   </Fragment>
                 ))}
