@@ -20,10 +20,11 @@ import { WordSolver } from "../wordchain/word/word-solver";
 import { isWin } from "./common";
 
 export type FuncWorkerApi = {
-  getWcData(rule: RuleForm): Promise<WordSolver>;
+  getWcData(rule: RuleForm, flow: number): Promise<WordSolver>;
   updateSolver(
     graphs: GraphPartitions,
     moves: [NodeName, NodeName, number][],
+    flow: number,
   ): GraphSolver;
   startStreamingCriticalWordsInfo(
     callback: (data: {
@@ -32,6 +33,7 @@ export type FuncWorkerApi = {
     }) => void,
     graph: BipartiteDiGraph,
     view: NodePos,
+    flow: number,
   ): void;
   startStreamingSingleThreadSearch(
     callback: (
@@ -49,6 +51,7 @@ export type FuncWorkerApi = {
     graph: BipartiteDiGraph,
     move: SingleMove,
     prec: PrecInfo,
+    flow: number,
   ): void;
   searchIsWin(
     graph: BipartiteDiGraph,
@@ -58,7 +61,7 @@ export type FuncWorkerApi = {
 };
 
 const funcWorkerApi: FuncWorkerApi = {
-  async getWcData(rule: RuleForm): Promise<WordSolver> {
+  async getWcData(rule: RuleForm, flow: number): Promise<WordSolver> {
     let start, end;
     start = performance.now();
 
@@ -160,13 +163,17 @@ const funcWorkerApi: FuncWorkerApi = {
       graph = BipartiteDiGraph.fromWordMap(wordMap, changeFunc);
     }
 
-    const solver = new WordSolver(graph, wordMap, headIdx, tailIdx);
+    const solver = new WordSolver(graph, wordMap, headIdx, tailIdx, flow);
 
     end = performance.now();
     console.log({ time: end - start });
     return solver;
   },
-  updateSolver(graphs: GraphPartitions, moves: [NodeName, NodeName, number][]) {
+  updateSolver(
+    graphs: GraphPartitions,
+    moves: [NodeName, NodeName, number][],
+    flow: number,
+  ): GraphSolver {
     graphs = GraphPartitions.fromObj(graphs);
 
     const graph = graphs.updateUnion("winlose");
@@ -175,7 +182,7 @@ const funcWorkerApi: FuncWorkerApi = {
       graph.decreaseEdge(start, end, num);
     }
 
-    const solver = new GraphSolver(graph);
+    const solver = new GraphSolver(graph, flow);
 
     return solver;
   },
@@ -186,6 +193,7 @@ const funcWorkerApi: FuncWorkerApi = {
     }) => void,
     graph: BipartiteDiGraph,
     view: NodePos,
+    flow: number,
   ) {
     graph = BipartiteDiGraph.fromObj(graph);
 
@@ -194,7 +202,7 @@ const funcWorkerApi: FuncWorkerApi = {
     for (const [start, end] of criticalEdges) {
       const removedGraph = graph.copy();
       removedGraph.decreaseEdge(start, end, 1);
-      const { typeMap } = classify(removedGraph);
+      const { typeMap } = classify(removedGraph, flow);
       const typeMapOnView: Map<NodeName, NodeType> = typeMap[view];
 
       const nodeInfo: Record<"win" | "lose" | "loopwin", NodeName[]> = {
@@ -231,6 +239,7 @@ const funcWorkerApi: FuncWorkerApi = {
     graph: BipartiteDiGraph,
     move: SingleMove,
     prec: PrecInfo,
+    flow: number,
   ) {
     graph = BipartiteDiGraph.fromObj(graph);
 

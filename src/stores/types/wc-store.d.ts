@@ -42,6 +42,9 @@ export type RuleSlice = {
 
   ruleSettingsMenu: number;
   setRuleSettingsMenu: (menu: number) => void;
+
+  flow: number;
+  setFlow: (flow: number) => void;
 };
 
 export type SearchSlice = {

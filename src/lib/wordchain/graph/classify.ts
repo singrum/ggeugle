@@ -223,7 +223,10 @@ export function getDepthMap(
   }
   return depthMap;
 }
-export function classify(graph: BipartiteDiGraph): {
+export function classify(
+  graph: BipartiteDiGraph,
+  flow: number,
+): {
   graphs: GraphPartitions;
   evenLoops: [NodeName, NodeName, number][];
   twoCycles: [[NodeName, NodeName], [NodeName, NodeName], number][];
@@ -277,10 +280,16 @@ export function classify(graph: BipartiteDiGraph): {
 
     twoCycles.push(...twoCycles_);
   }
-  pruneWinloseInvolvingOneCycles();
-  removeEvenLoops();
-  removeTwoCycles();
-  pruneWinloseInvolvingOneCycles();
+  if (flow === 0) {
+    pruneWinloseInvolvingOneCycles();
+    removeEvenLoops();
+    removeTwoCycles();
+    pruneWinloseInvolvingOneCycles();
+  } else {
+    removeEvenLoops();
+    removeTwoCycles();
+    pruneWinloseInvolvingOneCycles();
+  }
 
   return { graphs, typeMap, evenLoops, twoCycles, loopMap };
 }

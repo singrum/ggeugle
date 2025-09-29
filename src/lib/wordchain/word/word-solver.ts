@@ -15,26 +15,30 @@ export class WordSolver {
   wordMap: WordMap;
   headIdx: number;
   tailIdx: number;
+  flow: number;
 
   constructor(
     graph: BipartiteDiGraph,
     wordMap: WordMap,
     headIdx: number,
     tailIdx: number,
+    flow: number = 0,
   ) {
-    this.graphSolver = new GraphSolver(graph);
+    this.graphSolver = new GraphSolver(graph, flow);
     this.wordMap = wordMap;
     this.headIdx = headIdx;
     this.tailIdx = tailIdx;
+    this.flow = flow;
   }
   static fromObj(obj: WordSolver): WordSolver {
     const result = Object.create(WordSolver.prototype);
-    const { graphSolver, wordMap, headIdx, tailIdx } = obj;
+    const { graphSolver, wordMap, headIdx, tailIdx, flow } = obj;
     Object.assign(result, {
       graphSolver: GraphSolver.fromObj(graphSolver),
       wordMap: WordMap.fromWordMap(wordMap),
       headIdx,
       tailIdx,
+      flow,
     });
 
     return result;

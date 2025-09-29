@@ -4,6 +4,8 @@ import ViewSelect from "@/app/search/search-header/view-select";
 import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ModeToggle } from "../mode-toggle";
+
+import FlowSettings from "./flow-settings";
 import PreferenceSettings from "./preference-settings";
 import { RuleButton } from "./rule-button";
 
@@ -23,7 +25,7 @@ export default function SiteHeader() {
               <Separator orientation="vertical" className="mx-1 h-4!" />
             </>
           )}
-
+          <FlowSettings />
           <SearchPrecedenceSettings />
           <PreferenceSettings />
           {!isMobile && <ModeToggle />}

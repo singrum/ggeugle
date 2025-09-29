@@ -75,6 +75,7 @@ export const createCriticalWordsSlice: StateCreator<
       solver!.graphSolver.graphs.getGraph("route"),
       view,
       undefined,
+      get().flow,
     );
   },
   clearCriticalWords: () => {

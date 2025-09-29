@@ -113,8 +113,13 @@ export const createRuleSlice: StateCreator<
     });
   },
   updateRule: async () => {
-    const { localRule, setSearchResultMenu, onSolverLoaded, funcWorkerRunner } =
-      get();
+    const {
+      localRule,
+      setSearchResultMenu,
+      onSolverLoaded,
+      funcWorkerRunner,
+      flow,
+    } = get();
 
     const rule = cloneDeep(localRule);
 
@@ -143,7 +148,11 @@ export const createRuleSlice: StateCreator<
 
     setSearchResultMenu(0);
 
-    const solver = await funcWorkerRunner.callAndTerminate("getWcData", rule);
+    const solver = await funcWorkerRunner.callAndTerminate(
+      "getWcData",
+      rule,
+      flow,
+    );
 
     onSolverLoaded(solver);
   },
@@ -178,5 +187,11 @@ export const createRuleSlice: StateCreator<
   ruleSettingsMenu: 0,
   setRuleSettingsMenu: (menu: number) => {
     set({ ruleSettingsMenu: menu });
+  },
+
+  flow: 0,
+  setFlow: (flow: number) => {
+    set({ flow });
+    get().updateRule();
   },
 });
