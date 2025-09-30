@@ -171,16 +171,19 @@ export class GraphSolver {
       temp.set(depth, (temp.get(depth) ?? 0) + 1);
     }
 
-    return Array.from(temp.entries()).map(([depth, num]) => {
-      const depthNum = Number(depth);
-      const type = depthNum % 2 === 1 ? "win" : "lose";
-      return {
-        depth: depthNum,
-        num,
-        type: type,
-        fill: `var(--color-${type})`,
-      };
-    });
+    const result = Array.from(temp.entries())
+      .map(([depth, num]) => {
+        const depthNum = Number(depth);
+        const type: "win" | "lose" = depthNum % 2 === 1 ? "win" : "lose";
+        return {
+          depth: depthNum,
+          num,
+          type: type,
+          fill: `var(--color-${type})`,
+        };
+      })
+      .sort((a, b) => a.depth - b.depth);
+    return result;
   }
 
   getWinningOptimalMove(
