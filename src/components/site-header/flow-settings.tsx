@@ -38,11 +38,7 @@ export default function FlowSettings() {
       <Dialog open={open} onOpenChange={setOpen}>
         <Tooltip>
           <TooltipTrigger asChild className="size-9">
-            <DialogTrigger
-              asChild
-              id="precedence-dialog-trigger"
-              className="size-9"
-            >
+            <DialogTrigger asChild className="size-9">
               <Button variant="ghost" size="icon" className="size-9">
                 <Workflow className="stroke-foreground" />
               </Button>
@@ -65,7 +61,7 @@ export default function FlowSettings() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="ghost" size={"icon"} id="precedence-dialog-trigger">
+        <Button variant="ghost" size={"icon"}>
           <Workflow className="stroke-foreground" />
         </Button>
       </DrawerTrigger>
