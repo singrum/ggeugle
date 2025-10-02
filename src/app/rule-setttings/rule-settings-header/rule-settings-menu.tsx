@@ -12,7 +12,7 @@ export default function RuleSettingsMenu() {
   const menu = useWcStore((e) => e.ruleSettingsMenu);
   const setMenu = useWcStore((e) => e.setRuleSettingsMenu);
   return (
-    <ScrollArea className="bg-background sticky! top-0 z-10 w-full py-2">
+    <ScrollArea className="bg-background z-10 w-full py-2">
       <GhostTabs
         className="mx-auto w-full max-w-screen-lg px-4 pt-0 whitespace-nowrap md:w-auto md:px-12"
         value={`${menu}`}
