@@ -254,5 +254,5 @@ export function compareEdge(a: [string, string], b: [string, string]) {
 }
 
 export function setTitle(ruleName: string) {
-  document.title = "끝말잇기 엔진" + " | " + ruleName;
+  document.title = ruleName + " | " + "끝말잇기 엔진";
 }
