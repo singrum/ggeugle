@@ -6,8 +6,8 @@ import { useMemo } from "react";
 export default function IncludePattern({ solver }: { solver: WordSolver }) {
   const searchInputValue = useWcStore((e) => e.searchInputValue);
   const data = useMemo(() => {
+    const regex = getRegex(`^${searchInputValue}$`);
     const movesMap = solver.wordMap.getMoves((word: string) => {
-      const regex = getRegex(`^${searchInputValue}$`);
       if (regex === null) {
         return false;
       }
