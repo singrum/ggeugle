@@ -17,7 +17,7 @@ export function RuleButton() {
         <TooltipTrigger asChild>
           <Button
             className={cn(
-              "max-w-full cursor-pointer px-2 font-normal has-[>svg]:pr-3 has-[>svg]:pl-3",
+              "max-w-full cursor-pointer px-2 has-[>svg]:pr-3 has-[>svg]:pl-3",
               { "animate-pulse": !originalSolver },
             )}
             variant={"ghost"}
