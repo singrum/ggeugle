@@ -115,13 +115,13 @@ export const guelMaxRouteCharData = [
 export const downloadActionData: {
   title: string;
   action: {
-    getJson: (solver: WordSolver, view: NodePos) => string;
-    getText: (solver: WordSolver, view: NodePos) => string;
+    getJson?: (solver: WordSolver, view: NodePos) => string;
+    getText?: (solver: WordSolver, view: NodePos) => string;
   };
 }[][] = [
   [
     {
-      title: "모든 단어 목록",
+      title: "단어 목록",
       action: {
         getJson: (solver: WordSolver) => {
           const words = solver.wordMap.getAllWords();
@@ -266,6 +266,45 @@ export const downloadActionData: {
             .getRemovedWordsFile()
             .map(([a, b]) => `${a}, ${b}`)
             .join("\n"),
+      },
+    },
+  ],
+  [
+    {
+      title: "공격/방어 단어 그래프",
+      action: {
+        getJson: (solver: WordSolver) => {
+          console.log(solver.graphSolver.graphs);
+          return JSON.stringify(
+            solver.graphSolver.graphs.getGraph("winlose").toObject(),
+            null,
+            2,
+          );
+        },
+      },
+    },
+    {
+      title: "루트 단어 그래프",
+      action: {
+        getJson: (solver: WordSolver) => {
+          return JSON.stringify(
+            solver.graphSolver.graphs.getGraph("route").toObject(),
+            null,
+            2,
+          );
+        },
+      },
+    },
+    {
+      title: "돌림 단어 그래프",
+      action: {
+        getJson: (solver: WordSolver) => {
+          return JSON.stringify(
+            solver.graphSolver.graphs.getGraph("removed").toObject(),
+            null,
+            2,
+          );
+        },
       },
     },
   ],

@@ -23,6 +23,14 @@ export class EdgeMap<T> {
     return result;
   }
 
+  toObject(): Record<NodeName, Record<NodeName, T>> {
+    const result: Record<NodeName, Record<NodeName, T>> = {};
+    for (const [start, inner] of this.content.entries()) {
+      result[start] = Object.fromEntries(inner.entries());
+    }
+    return result;
+  }
+
   set(start: NodeName, end: NodeName, value: T) {
     if (!this.content.has(start)) {
       this.content.set(start, new Map());

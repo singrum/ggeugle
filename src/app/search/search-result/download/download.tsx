@@ -13,14 +13,6 @@ import {
   DownloadTitle,
 } from "./download-section";
 
-// 전체 단어 목록
-// 전체 음절 목록
-
-// 공격 단어
-// 필수 공격 단어
-// 방어 단어
-
-// 루트 단어
 export default function Download({ solver }: { solver: WordSolver }) {
   const view = useWcStore((e) => e.view);
   const isMobile = useIsMobile();
@@ -36,24 +28,28 @@ export default function Download({ solver }: { solver: WordSolver }) {
                 </DownloadTitle>
 
                 <DownloadActionGroup>
-                  <DownloadActionButton
-                    className={cn({ "rounded-full": isMobile })}
-                    onClick={() => {
-                      downloadText(title, action.getJson(solver, view));
-                    }}
-                  >
-                    <Braces />
-                    {!isMobile && "JSON"}
-                  </DownloadActionButton>
-                  <DownloadActionButton
-                    className={cn({ "rounded-full": isMobile })}
-                    onClick={() => {
-                      downloadText(title, action.getText(solver, view));
-                    }}
-                  >
-                    <FileText />
-                    {!isMobile && "텍스트"}
-                  </DownloadActionButton>
+                  {action.getJson && (
+                    <DownloadActionButton
+                      className={cn({ "rounded-full": isMobile })}
+                      onClick={() => {
+                        downloadText(title, action.getJson!(solver, view));
+                      }}
+                    >
+                      <Braces />
+                      {!isMobile && "JSON"}
+                    </DownloadActionButton>
+                  )}
+                  {action.getText && (
+                    <DownloadActionButton
+                      className={cn({ "rounded-full": isMobile })}
+                      onClick={() => {
+                        downloadText(title, action.getText!(solver, view));
+                      }}
+                    >
+                      <FileText />
+                      {!isMobile && "텍스트"}
+                    </DownloadActionButton>
+                  )}
                 </DownloadActionGroup>
               </DownloadSection>
             </Fragment>

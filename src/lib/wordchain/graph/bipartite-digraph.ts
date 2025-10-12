@@ -32,6 +32,13 @@ export class BipartiteDiGraph {
 
     return result;
   }
+  toObject() {
+    return {
+      nodes: [[...this._nodes[0]], [...this._nodes[1]]],
+      succ: [this._succ[0].toObject(), this._succ[1].toObject()],
+      pred: [this._pred[0].toObject(), this._pred[1].toObject()],
+    };
+  }
   static fromWordMap(
     wordMap: WordMap,
     changeFunc: ChangeFunc,
