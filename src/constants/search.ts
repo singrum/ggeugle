@@ -274,7 +274,6 @@ export const downloadActionData: {
       title: "공격/방어 단어 그래프",
       action: {
         getJson: (solver: WordSolver) => {
-          console.log(solver.graphSolver.graphs);
           return JSON.stringify(
             solver.graphSolver.graphs.getGraph("winlose").toObject(),
             null,
