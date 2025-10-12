@@ -349,11 +349,17 @@ export class GraphSolver {
       const headType = this.typeMap[1].get(head);
       const tailType = this.typeMap[0].get(tail);
       for (const idx of idxArr) {
-        const { type, depth, pair } = this.getMoveType(head, tail, idx);
+        const { type, depth, pair, connected } = this.getMoveType(
+          head,
+          tail,
+          idx,
+        );
 
         const moveInfo = moveClass[type];
 
-        const moveInfoMap = (moveInfo[depth ?? 0] ??= new EdgeMap<{
+        const moveInfoMap = (moveInfo[
+          depth ?? (connected === undefined ? 0 : 1 - Number(connected))
+        ] ??= new EdgeMap<{
           nodeTypes: [NodeType, NodeType];
           wordIdx: number[];
           pairs: [NodeName, NodeName, number][];
@@ -569,7 +575,7 @@ export class GraphSolver {
   getUnremovedMoveType(
     start: NodeName,
     end: NodeName,
-  ): { type: MoveType; depth?: number } {
+  ): { type: MoveType; depth?: number; connected?: boolean } {
     const headType = this.typeMap[1].get(start)!;
     const tailType = this.typeMap[0].get(end)!;
     if (headType === "loopwin" && tailType === "loopwin") {
@@ -587,6 +593,11 @@ export class GraphSolver {
         type: moveType,
         depth: this.depthMap[0].get(end)! + 1,
       };
+    } else if (moveType === 1) {
+      const connected =
+        this.scc.find((e) => e[1].includes(start)) ===
+        this.scc.find((e) => e[0].includes(end));
+      return { type: moveType, connected };
     } else {
       return { type: moveType };
     }
@@ -595,7 +606,12 @@ export class GraphSolver {
     start: NodeName,
     end: NodeName,
     idx: number,
-  ): { type: MoveType; pair?: [NodeName, NodeName, number]; depth?: number } {
+  ): {
+    type: MoveType;
+    pair?: [NodeName, NodeName, number];
+    depth?: number;
+    connected?: boolean;
+  } {
     if (idx < this.graphs.getGraph("removed").getEdgeNum(start, end)) {
       return { type: 2, pair: this.pairManager.getPairIdx(start, end, idx) };
     } else {

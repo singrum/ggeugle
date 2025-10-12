@@ -262,6 +262,9 @@ export class BipartiteDiGraph {
 
     return SCC;
   }
+
+
+
   getTwoPaths(pos: NodePos) {
     const result: [NodeName, NodeName, NodeName][] = [];
     for (const node of this.nodes(pos)) {

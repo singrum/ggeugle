@@ -9,19 +9,15 @@ export default function WordSearchResult({ data }: { data: WordsCard[] }) {
   const defaultAllOpen = useWcStore((e) => e.defaultAllOpen);
 
   return (
-    <>
-      <div className="">
-        <Accordion
-          key={`${view}-${searchInputValue}`}
-          type="multiple"
-          defaultValue={!defaultAllOpen ? [`0`] : data.map((_, i) => `${i}`)}
-          className="space-y-2"
-        >
-          {data.map((card, i) => (
-            <WordsCardComponent key={`${i}`} value={`${i}`} data={card} />
-          ))}
-        </Accordion>
-      </div>
-    </>
+    <Accordion
+      key={`${view}-${searchInputValue}`}
+      type="multiple"
+      defaultValue={!defaultAllOpen ? [`0`] : data.map((_, i) => `${i}`)}
+      className="space-y-2"
+    >
+      {data.map((card, i) => (
+        <WordsCardComponent key={`${i}`} value={`${i}`} data={card} />
+      ))}
+    </Accordion>
   );
 }

@@ -50,11 +50,13 @@ export class WordSolver {
       const moveInfo = moveClass[moveType];
       const temp: WordsCard[] = [];
       const hasDepth = hasDepthMap[moveType];
+      const hasConnected = Number(moveType) === 1;
 
       for (const [depth, moveInfoMap] of Object.entries(moveInfo)) {
         const card: WordsCard = {
           moveType: Number(moveType) as MoveType,
           depth: hasDepth ? Number(depth) : undefined,
+          connected : hasConnected ? Number(depth) === 1 : undefined,
           moveRows: moveInfoMap.toArray().map(
             ([head, tail, { nodeTypes, wordIdx, pairs }]) =>
               ({

@@ -63,6 +63,7 @@ export const moveTypeToWordVariant: WordVariant[] = [
 
 export const hasDepthMap: boolean[] = [true, false, false, true, false, true];
 
+
 export const moveTypeNameMap: string[] = [
   "공격 단어",
   "루트 단어",

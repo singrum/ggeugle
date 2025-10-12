@@ -72,6 +72,7 @@ export type MoveInfoMap = EdgeMap<{
 
 // variant 가 "win" | "lose"인 것만 depth를 가짐
 // 0,3,5,6 번째만 depth 가짐
+// 1 번째만 connected 가짐
 export type MoveClass = Record<number, MoveInfoMap>[];
 
 export type MoveRow = {
@@ -84,6 +85,7 @@ export type MoveRow = {
 export type WordsCard = {
   moveType: MoveType;
   depth?: number | undefined;
+  connected?: boolean | undefined;
   moveRows: MoveRow[];
 };
 

@@ -29,7 +29,7 @@ export default function WordsCardComponent({
           <div className="flex flex-1 justify-between">
             <div className="flex items-center gap-2">
               <Ball variant={moveTypeToWordVariant[data.moveType]} />
-              {getLabel(data.moveType, data.depth)}
+              {getLabel(data.moveType, data.depth, data.connected)}
             </div>
             <div className="text-muted-foreground font-normal">
               {data.moveRows
@@ -46,13 +46,15 @@ export default function WordsCardComponent({
   );
 }
 
-function getLabel(moveType: MoveType, depth?: number) {
+function getLabel(moveType: MoveType, depth?: number, connected?: boolean) {
   return (
     `${moveTypeNameMap[moveType]}` +
     (hasDepthMap[moveType]
       ? ` (${depth} 수 이내 ${
           moveTypeToWordVariant[moveType] === "win" ? "승리" : "패배"
         })`
-      : "")
+      : connected !== undefined
+        ? ` (${connected ? "비연결" : "연결"})`
+        : ``)
   );
 }
