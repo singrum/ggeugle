@@ -263,8 +263,6 @@ export class BipartiteDiGraph {
     return SCC;
   }
 
-
-
   getTwoPaths(pos: NodePos) {
     const result: [NodeName, NodeName, NodeName][] = [];
     for (const node of this.nodes(pos)) {
@@ -515,17 +513,22 @@ export class BipartiteDiGraph {
     }
 
     for (const char of chars) {
-      const tail = char;
-      const succ = this.successors(1, tail);
-      if (succ.length > 1) {
-        continue;
-      }
-      if (succ.length === 0) {
-        throw new Error("getCriticalWords Error");
-      }
-
-      if (this.getEdgeNum(tail, succ[0]) === 1) {
-        result.push([tail, succ[0]] as [NodeName, NodeName]);
+      const succ = this.successors(1, char);
+      if (succ.length === 1) {
+        if (this.getEdgeNum(char, succ[0]) === 1) {
+          result.push([char, succ[0]] as [NodeName, NodeName]);
+        }
+      } else if (succ.length === 2) {
+        const num1 = this.getEdgeNum(char, succ[0]);
+        const num2 = this.getEdgeNum(char, succ[1]);
+        if (num1 === 1 && num2 === 1) {
+          if (this.hasEdge(0, succ[0], char)) {
+            result.push([char, succ[1]] as [NodeName, NodeName]);
+          }
+          if (this.hasEdge(0, succ[1], char)) {
+            result.push([char, succ[0]] as [NodeName, NodeName]);
+          }
+        }
       }
     }
 
