@@ -629,8 +629,12 @@ export class BipartiteDiGraph {
               );
               return prevNum;
             };
+            const getPrevNodeNum = () => {
+              const prevMoves = graph.getMovesFromNode(end, 0, 1);
+              return prevMoves.length;
+            };
             if (precRule === 0) {
-              return getNextNum();
+              return getNextNum() * 1000 - getPrevNodeNum();
             } else if (precRule === 1) {
               return getPrevNum();
             } else if (precRule === 2) {
