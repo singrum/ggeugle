@@ -64,7 +64,7 @@ export default function WordTypeNumChart({ solver }: { solver: WordSolver }) {
                   </div>
                 </div>
               </AccordionTrigger>
-              <AccordionContent className="space-y-4 pt-2 pb-4">
+              <AccordionContent className="space-y-4 overflow-hidden pt-2 pb-4">
                 {data.subtypeNum[i].map(([headType, tailType, num]) => (
                   <div
                     className="flex items-center justify-between pr-10"

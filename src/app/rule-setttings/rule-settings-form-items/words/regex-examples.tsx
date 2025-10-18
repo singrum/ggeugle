@@ -89,7 +89,7 @@ export default function RegexExamples() {
         <AccordionTrigger onClick={() => setIsOpen(!isOpen)} className="py-2">
           Regex 예시 보기
         </AccordionTrigger>
-        <AccordionContent className="w-full max-w-xl pt-2">
+        <AccordionContent className="w-full max-w-xl overflow-hidden pt-2">
           {regexExamples.map(({ title, content }) => (
             <Button
               onClick={() => {

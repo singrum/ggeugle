@@ -8,24 +8,31 @@ import {
 } from "@/components/ui/drawer";
 import { useWcStore } from "@/stores/wc-store";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { Menu } from "lucide-react";
+import { ChevronDown, CornerDownRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { UseKnowledgePath } from "@/hooks/use-knowledge-path";
 import KnowledgeSidebar from "./knowledge-sidebar";
 
 export default function KnowledgeFloatingButton() {
   const open = useWcStore((e) => e.knowledgeMenuOpen);
   const setOpen = useWcStore((e) => e.setKnowledgeMenuOpen);
+  const path = UseKnowledgePath();
+
   return (
-    <div className="fixed right-2 bottom-2 z-20 flex items-end gap-2">
+    <div className="bg-background fixed bottom-0 flex w-full gap-2 p-3">
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <Button
-            variant="secondary"
-            className="h-16 rounded-xl px-6 text-lg shadow-sm backdrop-blur-2xl has-[>svg]:px-5"
+            variant="outline"
+            size="lg"
+            className="flex-1 justify-start px-2 shadow-none has-[>svg]:px-3"
           >
-            <Menu className="stroke-muted-foreground size-6" />
-            목차
+            <div className="flex flex-1 items-center justify-start gap-2">
+              <CornerDownRight className="stroke-muted-foreground size-4" />
+              {path.at(-1)!}
+            </div>
+            <ChevronDown />
           </Button>
         </DrawerTrigger>
         <DrawerContent className="h-full">

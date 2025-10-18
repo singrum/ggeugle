@@ -6,9 +6,11 @@ import KnowledgeFloatingButton from "./knowledge-floating-button";
 export default function KnowledgeLayout() {
   const isTablet = useIsTablet();
   return (
-    <div className="prose dark:prose-invert mx-auto w-full max-w-screen-md space-y-16 p-6 pb-36 break-keep @2xl:px-12 @2xl:pt-12 @2xl:pb-36">
-      <KnowledgeHeader />
-      <Outlet />
+    <div>
+      <div className="prose dark:prose-invert mx-auto w-full max-w-screen-md space-y-16 p-6 pb-36 break-keep @2xl:px-12 @2xl:pt-12 @2xl:pb-36">
+        <KnowledgeHeader />
+        <Outlet />
+      </div>
       {isTablet && <KnowledgeFloatingButton />}
     </div>
   );

@@ -23,7 +23,7 @@ export default function DebugAccordion({ debug }: { debug: string }) {
           </div>
         </AccordionTrigger>
 
-        <AccordionContent className="prose prose-sm dark:prose-invert space-y-1 border-l-2 py-2 pb-4 pl-4">
+        <AccordionContent className="prose prose-sm dark:prose-invert space-y-1 overflow-hidden border-l-2 py-2 pb-4 pl-4">
           <ReactMarkdown>{debug}</ReactMarkdown>
         </AccordionContent>
       </AccordionItem>

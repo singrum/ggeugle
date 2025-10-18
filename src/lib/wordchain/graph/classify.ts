@@ -298,7 +298,7 @@ export function classify(
   if (flow === 0) {
     classified = true;
     while (cnt++ < 200 && classified) {
-      console.log("classifying loop : ", cnt);
+      // console.log("classifying loop : ", cnt);
       classified = false;
       classified = alwaysAssign(classified, pruneWinloseInvolvingOneCycles);
       classified = alwaysAssign(classified, removeEvenLoops);
@@ -307,7 +307,7 @@ export function classify(
   } else {
     classified = true;
     while (cnt++ < 200 && classified) {
-      console.log("classifying loop : ", cnt);
+      // console.log("classifying loop : ", cnt);
       classified = false;
       classified = alwaysAssign(classified, removeEvenLoops);
       classified = alwaysAssign(classified, removeTwoCycles);
