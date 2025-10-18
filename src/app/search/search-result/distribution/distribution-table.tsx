@@ -75,14 +75,7 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
     page * pageSizeInfo[pageSize].value,
   );
   return (
-    <>
-      {totalPages > 1 && (
-        <PaginationSimple
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      )}
+    <div>
       <Table>
         <TableHeader>
           <TableRow>
@@ -265,11 +258,12 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
       </Table>
       {totalPages > 1 && (
         <PaginationSimple
+          className="sticky bottom-0"
           page={page}
           totalPages={totalPages}
           onPageChange={setPage}
         />
       )}
-    </>
+    </div>
   );
 }

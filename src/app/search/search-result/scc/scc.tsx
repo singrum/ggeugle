@@ -71,22 +71,18 @@ export default function Scc({ solver }: { solver: WordSolver }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      {totalPages > 1 && (
-        <PaginationSimple
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      )}
-      <SccTable data={data} />
+      <div>
+        <SccTable data={data} />
 
-      {totalPages > 1 && (
-        <PaginationSimple
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      )}
+        {totalPages > 1 && (
+          <PaginationSimple
+            className="sticky bottom-0"
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        )}
+      </div>
     </div>
   );
 }

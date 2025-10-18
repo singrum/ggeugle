@@ -22,31 +22,31 @@ export function PaginationSimple({
   return (
     <div
       className={cn(
-        `flex w-full items-center justify-between gap-4 rounded-lg border px-1 py-1 pl-2`,
+        `bg-background flex w-full items-center justify-between gap-4 py-2 pl-2`,
         className,
       )}
     >
-      <span className="text-muted-foreground ml-2 text-sm">
+      <span className="text-muted-foreground text-sm">
         {page} / {totalPages} 페이지
       </span>
-      <div className="flex gap-2">
+      <div className="flex gap-0">
         <Button
           size="icon"
           onClick={() => onPageChange(page - 1)}
           variant="ghost"
           disabled={page <= 1 || disabled}
-          className="size-9"
+          className="size-11"
         >
-          <ChevronLeft className="stroke-foreground" />
+          <ChevronLeft className="stroke-foreground size-5" />
         </Button>
         <Button
           variant="ghost"
           size="icon"
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages || disabled}
-          className="size-9"
+          className="size-11"
         >
-          <ChevronRight className="stroke-foreground" />
+          <ChevronRight className="stroke-foreground size-5" />
         </Button>
       </div>
     </div>

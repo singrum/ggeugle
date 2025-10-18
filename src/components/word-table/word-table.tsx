@@ -11,16 +11,9 @@ export default function WordsTable({ rows }: { rows: MoveRow[] }) {
   const totalPages = Math.ceil(rows.length / pageSizeInfo[pageSize].value);
   const start = (page - 1) * pageSizeInfo[pageSize].value;
   const currentRows = rows.slice(start, start + pageSizeInfo[pageSize].value);
- 
+
   return (
-    <div className="flex flex-col gap-4">
-      {totalPages > 1 && (
-        <PaginationSimple
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      )}
+    <div className="flex flex-col">
       <div className="flex flex-col gap-0.5">
         {currentRows.map((row, i) => (
           <WordRow data={row} key={i} />
@@ -29,6 +22,7 @@ export default function WordsTable({ rows }: { rows: MoveRow[] }) {
 
       {totalPages > 1 && (
         <PaginationSimple
+          className="sticky bottom-0 z-50"
           page={page}
           totalPages={totalPages}
           onPageChange={setPage}

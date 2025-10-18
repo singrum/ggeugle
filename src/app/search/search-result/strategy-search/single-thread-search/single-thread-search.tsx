@@ -65,19 +65,14 @@ export default function SingleThreadSearch({ solver }: { solver: WordSolver }) {
           우선순위 편집
         </Button>
       </div>
-      {totalPages > 1 && (
-        <PaginationSimple
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      )}
+
       {paginatedMoves.map((move) => (
         <MoveSection key={`${move[0]}${move[1]}`} solver={solver} move={move} />
       ))}
 
       {totalPages > 1 && (
         <PaginationSimple
+          className="sticky bottom-0"
           page={page}
           totalPages={totalPages}
           onPageChange={setPage}

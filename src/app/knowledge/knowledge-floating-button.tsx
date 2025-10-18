@@ -22,7 +22,7 @@ export default function KnowledgeFloatingButton() {
         <DrawerTrigger asChild>
           <Button
             variant="secondary"
-            className="h-16 rounded-xl px-6 text-lg shadow-md backdrop-blur-2xl has-[>svg]:px-5"
+            className="h-16 rounded-xl px-6 text-lg shadow-sm backdrop-blur-2xl has-[>svg]:px-5"
           >
             <Menu className="stroke-muted-foreground size-6" />
             목차
