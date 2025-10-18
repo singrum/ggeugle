@@ -633,6 +633,10 @@ export class BipartiteDiGraph {
               const prevMoves = graph.getMovesFromNode(end, 0, 1);
               return prevMoves.length;
             };
+            const getNextNodeNum = () => {
+              const nextMoves = graph.getMovesFromNode(end, 0, 0);
+              return nextMoves.length;
+            };
             if (precRule === 0) {
               return getNextNum() * 1000 - getPrevNodeNum();
             } else if (precRule === 1) {
@@ -649,7 +653,7 @@ export class BipartiteDiGraph {
                 return Infinity;
               }
             } else if (precRule === 5) {
-              return graph.getMovesFromNode(end, 0, 0).length;
+              return getNextNodeNum() * 1000 - getPrevNodeNum();
             } else {
               return (
                 graph.getMovesFromNode(end, 0, 0).length /

@@ -1,4 +1,3 @@
-import MobileBottomBar from "@/components/mobile-nav-bar/mobile-bottom-bar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import SiteHeader from "@/components/site-header/site-header";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
@@ -16,7 +15,7 @@ export default function Layout() {
     return (
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
         <Analytics />
-        <div className="[--header-height:calc(--spacing(13))]">
+        <div className="[--header-height:calc(--spacing(24))] lg:[--header-height:calc(--spacing(13))]">
           <SidebarProvider
             className="flex flex-col"
             defaultOpen={true}
@@ -33,7 +32,6 @@ export default function Layout() {
 
               <SidebarInset className="bg-background @container/main flex flex-col">
                 <Outlet />
-                {isTablet && <MobileBottomBar />}
               </SidebarInset>
             </div>
           </SidebarProvider>
@@ -41,35 +39,3 @@ export default function Layout() {
       </ThemeProvider>
     );
 }
-
-// export const iframeHeight = "800px";
-
-// export default function Layout() {
-//   const isMount = useMount();
-//   const isTablet = useIsTablet();
-
-//   if (isMount)
-//     return (
-//       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-//         <Analytics />
-//         <SidebarProvider
-//           defaultOpen={true}
-//           style={
-//             {
-//               "--header-height": "calc(--spacing(14))",
-//               "--sidebar-width": "max(400px,min(33svw, 600px))",
-//             } as React.CSSProperties
-//           }
-//         >
-//           {/* <DonationToast /> */}
-
-//           {!isTablet && <AppSidebar />}
-
-//           <SidebarInset className="bg-background @container/main mt-[var(--header-height)] flex h-[calc(100svh-var(--header-height))] max-w-full min-w-0 flex-col overflow-auto">
-//             <Outlet />
-//             {isTablet && <MobileBottomBar />}
-//           </SidebarInset>
-//         </SidebarProvider>
-//       </ThemeProvider>
-//     );
-// }

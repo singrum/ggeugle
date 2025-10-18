@@ -5,31 +5,37 @@ import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ModeToggle } from "../mode-toggle";
 
+import { useIsTablet } from "@/hooks/use-tablet";
+import MobileNavBar from "../mobile-nav-bar/mobile-nav-bar";
 import FlowSettings from "./flow-settings";
 import PreferenceSettings from "./preference-settings";
 import { RuleButton } from "./rule-button";
 
 export default function SiteHeader() {
   const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   return (
-    <header className="bg-sidebar sticky top-0 z-50 flex w-full items-center">
-      <div className="flex h-(--header-height) w-full items-center gap-0 pr-4 pl-2 md:pr-7 md:pl-4">
-        <RuleButton />
+    <header className="bg-sidebar sticky top-0 z-50 flex w-full flex-col items-center">
+      <div className="flex h-(--header-height) w-full flex-col justify-between">
+        <div className="flex h-13 items-center gap-0 pr-4 pl-2 md:pr-7 md:pl-4">
+          <RuleButton />
 
-        <div className="flex items-center gap-1">
-          {isMobile && <Separator orientation="vertical" className="h-4!" />}
-          {!isMobile && (
-            <>
-              <ViewSelect />
-              <Separator orientation="vertical" className="mx-1 h-4!" />
-            </>
-          )}
-          <FlowSettings />
-          <SearchPrecedenceSettings />
-          <PreferenceSettings />
-          {!isMobile && <ModeToggle />}
+          <div className="flex items-center gap-1">
+            {isMobile && <Separator orientation="vertical" className="h-4!" />}
+            {!isMobile && (
+              <>
+                <ViewSelect />
+                <Separator orientation="vertical" className="mx-1 h-4!" />
+              </>
+            )}
+            <FlowSettings />
+            <SearchPrecedenceSettings />
+            <PreferenceSettings />
+            {!isMobile && <ModeToggle />}
+          </div>
         </div>
+        {isTablet && <MobileNavBar />}
       </div>
     </header>
   );

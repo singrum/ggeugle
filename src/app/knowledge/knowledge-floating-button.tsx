@@ -17,15 +17,15 @@ export default function KnowledgeFloatingButton() {
   const open = useWcStore((e) => e.knowledgeMenuOpen);
   const setOpen = useWcStore((e) => e.setKnowledgeMenuOpen);
   return (
-    <div className="fixed right-2 bottom-18 z-20 flex items-end gap-2">
+    <div className="fixed right-2 bottom-2 z-20 flex items-end gap-2">
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>
           <Button
             variant="secondary"
-            size="icon"
-            className="size-16 rounded-xl text-lg shadow-sm backdrop-blur-2xl"
+            className="h-16 rounded-xl px-6 text-lg shadow-md backdrop-blur-2xl has-[>svg]:px-5"
           >
             <Menu className="stroke-muted-foreground size-6" />
+            목차
           </Button>
         </DrawerTrigger>
         <DrawerContent className="h-full">

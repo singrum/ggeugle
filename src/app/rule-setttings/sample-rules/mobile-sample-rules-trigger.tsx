@@ -14,8 +14,12 @@ export default function MobileSampleRulesTrigger() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant="secondary" className="rounded-full" size={"icon"}>
-          <BookText />
+        <Button
+          variant="outline"
+          className="dark:bg-accent/50 size-11 rounded-full shadow-md"
+          size={"icon"}
+        >
+          <BookText className="stroke-foreground size-5" />
         </Button>
       </DrawerTrigger>
       <DrawerContent>

@@ -18,15 +18,15 @@ export default function GameSettings() {
   return (
     <div className="relative mx-auto flex h-full w-full max-w-screen-sm flex-col px-4 py-4 md:px-12 lg:py-6">
       <div className="flex items-center justify-between">
-        <h1 className="mx-2 text-xl font-medium lg:text-2xl">게임 설정</h1>
+        <h1 className="mx-2 text-xl font-semibold lg:text-2xl">게임 설정</h1>
         {isTablet && (
           <Button
             size="icon"
-            variant="secondary"
+            variant="outline"
             onClick={() => setOpen(true)}
-            className="rounded-full"
+            className="dark:bg-accent/50 size-11 rounded-full shadow-md"
           >
-            <Inbox />
+            <Inbox className="stroke-foreground size-5" />
           </Button>
         )}
       </div>

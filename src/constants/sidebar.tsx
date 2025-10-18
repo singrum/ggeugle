@@ -30,7 +30,7 @@ export type Nav = {
 
 export const navInfo: Nav[] = [
   {
-    title: "홈",
+    title: "검색",
     key: "home",
     icon: HouseIcon,
     component: <Search />,
