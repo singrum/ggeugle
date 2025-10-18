@@ -45,7 +45,7 @@ export default function ChatBubble({
             </DialogHeader>
 
             <DialogFooter>
-              <DialogClose>
+              <DialogClose asChild>
                 <Button variant="ghost">아니요</Button>
               </DialogClose>
               <DialogClose asChild>
