@@ -11,8 +11,9 @@ export default function ChatBar({ disabled }: { disabled: boolean }) {
   const setOpen = useWcStore((e) => e.setPlayDrawerOpen);
   const isTablet = useIsTablet();
   const handleSend = () => {
-    if (message.trim()) {
-      send(message);
+    const trimmedMessage = message.trim();
+    if (trimmedMessage) {
+      send(trimmedMessage);
       setMessage("");
     }
   };
