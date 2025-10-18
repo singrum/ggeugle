@@ -74,7 +74,7 @@ export const searchResultMenuInfo: Record<
     { title: "전략 탐색", component: StrategySearch },
     { title: "임계 단어", component: CriticalWords },
     { title: "비교", component: Comparison },
-    { title: "파일 내보내기", component: Download },
+    { title: "다운로드", component: Download },
   ],
   winlose: [
     { title: "첫 글자", component: NextWords },
