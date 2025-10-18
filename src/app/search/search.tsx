@@ -1,5 +1,4 @@
 import { Toaster } from "@/components/ui/sonner";
-import SearchFloatingButtons from "./search-floating-buttons/search-floating-buttons";
 import ExceptedWords from "./search-section/excepted-words";
 import ExceptedWordsInputContainer from "./search-section/excepted-words-input-container";
 import SearchInput from "./search-section/search-input";
@@ -16,7 +15,6 @@ export default function Search() {
         </ExceptedWordsInputContainer>
         <SearchResultMenu />
         <SearchResult />
-        <SearchFloatingButtons />
       </div>
       <Toaster position="top-right" />
     </div>

@@ -30,7 +30,8 @@ export function AppSidebar() {
     } else {
       setOpen(true);
     }
-  }, [menu, setOpen]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [menu]);
   const mainTabs = navInfo.filter((e) => !e.isMore);
 
   return (
