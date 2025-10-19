@@ -1,8 +1,13 @@
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import SiteHeader from "@/components/site-header/site-header";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  useSidebar,
+} from "@/components/ui/sidebar";
 import { useMount } from "@/hooks/use-mount";
 import { useIsTablet } from "@/hooks/use-tablet";
+import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { Outlet } from "react-router-dom";
@@ -30,12 +35,25 @@ export default function Layout() {
             <div className="flex flex-1">
               {!isTablet && <AppSidebar />}
 
-              <SidebarInset className="bg-background @container/main flex flex-col">
+              <SidebarInsetWrapper>
                 <Outlet />
-              </SidebarInset>
+              </SidebarInsetWrapper>
             </div>
           </SidebarProvider>
         </div>
       </ThemeProvider>
     );
+}
+
+function SidebarInsetWrapper({ children }: { children: React.ReactNode }) {
+  const { open } = useSidebar();
+  return (
+    <SidebarInset className="bg-sidebar @container/main flex flex-col">
+      <div
+        className={cn("bg-background h-full", { "lg:rounded-tl-2xl": !open })}
+      >
+        {children}
+      </div>
+    </SidebarInset>
+  );
 }
