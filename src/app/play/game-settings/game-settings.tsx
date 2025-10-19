@@ -22,9 +22,9 @@ export default function GameSettings() {
         {isTablet && (
           <Button
             size="icon"
-            variant="outline"
+            variant="withHeader"
             onClick={() => setOpen(true)}
-            className="dark:bg-accent/50 size-11 rounded-full shadow-md"
+            className="size-11"
           >
             <Inbox className="stroke-foreground size-5" />
           </Button>

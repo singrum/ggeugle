@@ -20,10 +20,7 @@ export default function MobileCharListTrigger() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button
-          variant="outline"
-          className="dark:bg-accent/50 size-11 rounded-full text-base shadow-md has-[>svg]:px-4"
-        >
+        <Button variant="withHeader" className="size-11">
           <LayoutGrid className="stroke-foreground size-5" />
           {/* 음절 목록 */}
         </Button>

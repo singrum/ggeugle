@@ -21,7 +21,7 @@ export default function ExceptedWordsInputContainer({
           ) : (
             <Button
               variant="outline"
-              className="dark:bg-accent/50 size-11 rounded-full shadow-md"
+              className="dark:bg-accent/50 size-11 rounded-full "
               size={"icon"}
               onClick={toggleSidebar}
             >
