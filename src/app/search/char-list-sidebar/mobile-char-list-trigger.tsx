@@ -22,10 +22,10 @@ export default function MobileCharListTrigger() {
       <DrawerTrigger asChild>
         <Button
           variant="outline"
-          className="dark:bg-accent/50 h-11 rounded-full text-base shadow-sm has-[>svg]:px-4"
+          className="dark:bg-accent/50 size-11 rounded-full text-base shadow-sm has-[>svg]:px-4"
         >
-          <LayoutGrid className="stroke-muted-foreground size-5" />
-          음절 목록
+          <LayoutGrid className="stroke-foreground size-5" />
+          {/* 음절 목록 */}
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-full">

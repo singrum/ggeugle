@@ -10,7 +10,7 @@ import Title from "./title";
 export default function More() {
   const isMobile = useIsMobile();
   return (
-    <div className="bg-sidebar h-[calc(100dvh-var(--header-height))]">
+    <div className="bg-sidebar h-[calc(100dvh-var(--header-height)-1px)] lg:h-[calc(100dvh-var(--header-height))]">
       <div className="bg-background flex h-full items-center justify-center overflow-auto break-keep lg:rounded-tl-2xl">
         <div className="mx-auto my-auto max-w-xl space-y-8 p-6">
           <div className="flex justify-between">

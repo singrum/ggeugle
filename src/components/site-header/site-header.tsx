@@ -16,7 +16,7 @@ export default function SiteHeader() {
   const isTablet = useIsTablet();
 
   return (
-    <header className="bg-sidebar sticky top-0 z-50 flex w-full flex-col items-center">
+    <header className="bg-sidebar sticky top-0 z-50 flex w-full flex-col items-center border-b">
       <div className="flex h-(--header-height) w-full flex-col justify-between">
         <div className="flex h-13 items-center gap-0 pr-4 pl-2 md:pr-7 md:pl-4">
           <RuleButton />
