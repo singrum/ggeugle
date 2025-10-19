@@ -9,8 +9,9 @@ export default function WordSearchResult({ data }: { data: WordsCard[] }) {
   const view = useWcStore((e) => e.view);
   const defaultAllOpen = useWcStore((e) => e.defaultAllOpen);
   const defaultValue = !defaultAllOpen ? [`0`] : data.map((_, i) => `${i}`);
+  
   const [openValues, setOpenValues] = useState<string[]>(defaultValue);
-
+  
   return (
     <Accordion
       key={`${view}-${searchInputValue}`}
@@ -18,6 +19,7 @@ export default function WordSearchResult({ data }: { data: WordsCard[] }) {
       defaultValue={defaultValue}
       className="space-y-2"
       onValueChange={setOpenValues}
+      value={openValues}
     >
       {data.map((card, i) => (
         <WordsCardComponent

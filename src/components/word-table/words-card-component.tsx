@@ -37,7 +37,7 @@ export default function WordsCardComponent({
     start,
     start + pageSizeInfo[pageSize].value,
   );
-
+  
   return (
     <div className={cn({ "pb-6 md:pb-8": open })}>
       <AccordionItem {...props} className="border-0">

@@ -1,35 +1,18 @@
-import { pageSizeInfo } from "@/constants/search";
 import { cn } from "@/lib/utils";
 import { useWcStore } from "@/stores/wc-store";
 import type { MoveRow } from "@/types/search";
 import { Minus } from "lucide-react";
-import { useState } from "react";
 import { Button, buttonVariants } from "../ui/button";
-import { PaginationSimple } from "../ui/pagination-simple";
 import { Separator } from "../ui/separator";
 
 export default function WordList({ rows }: { rows: MoveRow[] }) {
-  const [page, setPage] = useState(1);
-  const pageSize = useWcStore((e) => e.pageSize);
-
-  const totalPages = Math.ceil(rows.length / pageSizeInfo[pageSize].value);
-  const start = (page - 1) * pageSizeInfo[pageSize].value;
-  const currentRows = rows.slice(start, start + pageSizeInfo[pageSize].value);
-
   const addExceptedWord = useWcStore((e) => e.addExceptedWord);
   const search = useWcStore((e) => e.search);
   const autoSearch = useWcStore((e) => e.autoSearch);
   return (
     <div className="flex flex-col gap-4">
-      {totalPages > 1 && (
-        <PaginationSimple
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      )}
       <div className="flex flex-wrap items-center justify-center gap-1 py-2">
-        {currentRows.map((moveRow: MoveRow) =>
+        {rows.map((moveRow: MoveRow) =>
           moveRow.words.map((e) => (
             <div
               className={cn(
@@ -81,14 +64,6 @@ export default function WordList({ rows }: { rows: MoveRow[] }) {
           )),
         )}
       </div>
-
-      {totalPages > 1 && (
-        <PaginationSimple
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      )}
     </div>
   );
 }
