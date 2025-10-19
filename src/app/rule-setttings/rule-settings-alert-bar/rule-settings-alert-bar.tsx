@@ -13,10 +13,10 @@ export default function RuleSettingsAlertBar() {
   return (
     !isEqualRules(rule, localRule) &&
     isValidJson && (
-      <div className="sticky bottom-20 mx-auto w-full max-w-screen-lg px-4 lg:bottom-4">
+      <div className="sticky bottom-4 mx-auto w-full max-w-screen-lg px-4">
         <div className="bg-primary text-primary-foreground flex items-center justify-between rounded-full border px-4 py-4 pl-6 shadow-md md:mx-6 md:px-6 md:py-4">
           <div className="font-medium">변경 사항이 있습니다.</div>
-          <div className="flex gap-2">
+          <div className="flex gap-0">
             <Button
               variant="ghost"
               className="hover:text-primary-foreground hover:bg-primary-foreground/5 rounded-full"
