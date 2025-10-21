@@ -30,5 +30,5 @@
     }
 
   },
-  "include": ["src", "src/lib/worker/func-worker.ts", "src/lib/worker/game-worker.ts"]
+  "include": ["src"]
 }

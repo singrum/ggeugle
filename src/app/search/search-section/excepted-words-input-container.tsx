@@ -20,8 +20,8 @@ export default function ExceptedWordsInputContainer({
             <MobileCharListTrigger />
           ) : (
             <Button
-              variant="outline"
-              className="dark:bg-accent/50 size-11 rounded-full "
+              variant="withHeader"
+              className="size-11"
               size={"icon"}
               onClick={toggleSidebar}
             >
