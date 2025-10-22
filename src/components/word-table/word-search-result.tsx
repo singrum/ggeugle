@@ -30,10 +30,9 @@ export default function WordSearchResult({ data }: { data: WordsCard[] }) {
     >
       {data.map((card, i) => (
         <WordsCardComponent
-          key={`${i}`}
+          key={`${searchInputValue}-${view}-${i}`}
           value={`${i}`}
           data={card}
-          open={openValues.includes(`${i}`)}
         />
       ))}
     </Accordion>

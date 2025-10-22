@@ -12,7 +12,7 @@ export default function WordRow({ data }: { data: MoveRow }) {
   const autoSearch = useWcStore((e) => e.autoSearch);
   return (
     <Card className="flex flex-row items-start gap-4 rounded-[0.1rem] px-2 py-1 pr-1 first:rounded-t-lg last:rounded-b-lg">
-      <div className="flex items-center py-1">
+      <div className="sticky top-[calc(var(--header-height)+(--spacing(12)))] z-10 flex items-center py-1 ">
         {[0, 1].map((e) => (
           <Fragment key={e}>
             <CharButton

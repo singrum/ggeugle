@@ -10,7 +10,7 @@ export function Ball({
   return (
     <div
       className={cn(
-        "size-2 rounded-full",
+        "size-2 shrink-0 rounded-full",
         {
           "bg-win": variant === "win",
           "bg-lose": variant === "lose",

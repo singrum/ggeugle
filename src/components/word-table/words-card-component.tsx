@@ -1,5 +1,4 @@
 import { pageSizeInfo, wordDispTypeInfo } from "@/constants/search";
-import { cn } from "@/lib/utils";
 import {
   hasDepthMap,
   moveTypeNameMap,
@@ -19,11 +18,9 @@ import { PaginationSimple } from "../ui/pagination-simple";
 
 export default function WordsCardComponent({
   data,
-  open,
   ...props
 }: {
   data: WordsCard;
-  open: boolean;
 } & React.ComponentProps<typeof AccordionPrimitive.Item>) {
   const wordDispType = useWcStore((e) => e.wordDispType);
   const { component: Component } = wordDispTypeInfo[wordDispType];
@@ -37,14 +34,14 @@ export default function WordsCardComponent({
     start,
     start + pageSizeInfo[pageSize].value,
   );
-  
+
   return (
-    <div className={cn({ "pb-6 md:pb-8": open })}>
+    <div>
       <AccordionItem {...props} className="border-0">
         <div className="sticky top-[var(--header-height)] z-40">
-          <AccordionTrigger className="bg-background mb-1 rounded-none px-2 py-4 hover:no-underline">
-            <div className="flex flex-1 justify-between">
-              <div className="flex items-center gap-2">
+          <AccordionTrigger className="bg-background mb-1 max-w-full rounded-none px-2 py-4 hover:no-underline">
+            <div className="flex min-w-0 flex-1 justify-between">
+              <div className="flex max-w-full flex-1 items-center gap-2 overflow-hidden text-nowrap">
                 <Ball variant={moveTypeToWordVariant[data.moveType]} />
                 {getLabel(data.moveType, data.depth, data.connected)}
               </div>
@@ -57,18 +54,18 @@ export default function WordsCardComponent({
           </AccordionTrigger>
         </div>
 
-        <AccordionContent className="pb-0">
+        <AccordionContent>
           <Component rows={currentRows} />
+          {totalPages > 0 && (
+            <PaginationSimple
+              className="sticky bottom-0 z-20"
+              page={page}
+              totalPages={totalPages}
+              onPageChange={setPage}
+            />
+          )}
         </AccordionContent>
       </AccordionItem>
-      {open && totalPages > 1 && (
-        <PaginationSimple
-          className="sticky bottom-0 z-20"
-          page={page}
-          totalPages={totalPages}
-          onPageChange={setPage}
-        />
-      )}
     </div>
   );
 }
