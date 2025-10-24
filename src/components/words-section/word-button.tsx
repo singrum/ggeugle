@@ -67,11 +67,11 @@ export function ExceptedWordButton({
   const removeExceptedWord = useWcStore((e) => e.removeExceptedWord);
 
   return (
-    <div className="group/wordbutton text-muted-foreground bg-secondary flex w-fit max-w-full cursor-default items-center gap-0 rounded-xl shadow-sm transition-colors">
+    <div className="group/wordbutton bg-secondary flex w-fit max-w-full cursor-default items-center gap-0 rounded-xl shadow-sm transition-colors">
       <div className="z-1 h-auto flex-1 rounded-l-full text-left text-sm font-medium tracking-wider break-all whitespace-normal">
         {(children as string).split("").map((e, i) => (
           <Button
-            className={cn("h-fit p-0 py-1", {
+            className={cn("hover:text-muted-foreground h-fit p-0 py-1", {
               "pl-3": i === 0,
               "pr-2": i === (children as string).length - 1,
             })}
@@ -90,7 +90,7 @@ export function ExceptedWordButton({
           removeExceptedWord(children as string);
         }}
       >
-        <Plus className="stroke-muted-foreground group-hover/wordbuttonplus:stroke-foreground size-4 stroke-2 transition-colors" />
+        <Plus className="stroke-muted-foreground group-hover/wordbuttonplus:stroke-foreground stroke-2.5 size-4 transition-colors" />
       </Button>
     </div>
   );

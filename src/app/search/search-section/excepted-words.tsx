@@ -24,12 +24,14 @@ export default function ExceptedWords() {
     <div className="p-1 pb-0">
       {exceptedWords.length === 0 ? (
         <div className="text-muted-foreground mb-4 flex items-start gap-2 p-3 pb-0 text-sm">
-          <div className="min-h-5">제외된 단어 없음. (공백으로 구분)</div>
+          <div className="min-h-5 font-normal">
+            제외된 단어 없음. (공백으로 구분)
+          </div>
         </div>
       ) : (
         <div>
           <div className="bg-foreground/5 rounded-lg rounded-b-xs">
-            <div className="text-muted-foreground flex items-center gap-2 p-3 text-sm">
+            <div className="text-muted-foreground flex items-center gap-2 p-3 text-sm font-medium">
               제외된 단어
             </div>
             <div className="flex flex-wrap items-center gap-1 p-2 pt-0 md:gap-1.5 md:p-3 md:pt-0">

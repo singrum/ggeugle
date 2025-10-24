@@ -89,47 +89,21 @@ export const createSearchSlice: StateCreator<
         searchInputType === prevSearchInputType ||
         (searchInputType === "winlose" && prevSearchInputType === "route") ||
         (searchInputType === "route" && prevSearchInputType === "winlose")
-          ? searchResultMenu
+          ? searchResultMenu >= searchResultMenuInfo[searchInputType].length
+            ? 0
+            : searchResultMenu
           : 0,
     });
   },
   search: (value: string) => {
-    const {
-      setSearchInputValue,
-      setLocalSearchInputValue,
-      // searchInputValue: prevValue,
-      // addSearchHistory,
-    } = get();
+    const { setSearchInputValue, setLocalSearchInputValue } = get();
     setSearchInputValue(value);
     setLocalSearchInputValue(value);
-    // addSearchHistory(prevValue);
-    // addSearchHistory(value);
   },
   searchResultMenu: 0,
   setSearchResultMenu: (searchResultMenu: number) => {
     set({ searchResultMenu });
   },
-
-  // searchHistory: [] as string[],
-  // addSearchHistory(v: string) {
-  //   // 중복된 검색어 있으면 제거
-  //   if (v.length === 0) return;
-  //   set((state) => {
-  //     state.searchHistory = state.searchHistory.filter((item) => item !== v);
-  //     // 새 검색어 맨 앞에 추가
-  //     state.searchHistory.unshift(v);
-  //     // 최대 20개까지 유지
-  //     if (state.searchHistory.length > 20) {
-  //       state.searchHistory.pop();
-  //     }
-  //   });
-  // },
-  // onClickHistory(i: number) {
-  //   const { setSearchInputValue, setLocalSearchInputValue, searchHistory } =
-  //     get();
-  //   setSearchInputValue(searchHistory[i]);
-  //   setLocalSearchInputValue(searchHistory[i]);
-  // },
 
   onSolverUpdated: (solver: WordSolver) => {
     const {

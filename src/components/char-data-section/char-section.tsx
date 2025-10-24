@@ -17,9 +17,9 @@ export function CharList({
   charsData: { char: string; type: NodeType }[];
 }) {
   return (
-    <CharCard>
+    <CharCard className="min-h-13">
       {charsData.map(({ char, type }) => (
-        <CharButton variant={type} key={char} className="size-9 font-normal">
+        <CharButton variant={type} key={char} className="size-9 font-medium">
           {char}
         </CharButton>
       ))}

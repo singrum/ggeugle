@@ -67,7 +67,7 @@ function CharMenuButton({
     <Button
       variant={"ghost"}
       className={cn(
-        "text-muted-foreground hover:text-muted-foreground h-12 rounded-lg tracking-wider",
+        "text-muted-foreground hover:text-muted-foreground h-12 rounded-lg font-semibold tracking-wider",
 
         {
           [colorVariants[color].active]: active,

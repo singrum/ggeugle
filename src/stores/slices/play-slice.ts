@@ -171,9 +171,6 @@ export const createPlaySlice: StateCreator<
       const chars = sampleChangeFuncs[
         rule.wordConnectionRule.changeFuncIdx
       ].forward(moves.at(-1)!.at(originalSolver!.tailIdx)!);
-      // console.log(originalSolver);
-      // console.log(originalSolver?.headIdx);
-      // console.log(word.at(originalSolver!.headIdx));
       if (moves.length === 1) {
         if (
           moves[0] !== word &&

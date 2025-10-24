@@ -8,6 +8,7 @@ import IncludePattern from "@/app/search/search-result/include-pattern/include-p
 import MatchPattern from "@/app/search/search-result/match-pattern/match-pattern";
 import NextWords from "@/app/search/search-result/next-words/next-words";
 import PrevWords from "@/app/search/search-result/prev-words/prev-words";
+import Reachability from "@/app/search/search-result/reachability/reachability";
 import Scc from "@/app/search/search-result/scc/scc";
 import Statistics from "@/app/search/search-result/statistics/statistics";
 import MultiThreadSearch from "@/app/search/search-result/strategy-search/multi-thread-search/multi-thread-search";
@@ -69,7 +70,7 @@ export const searchResultMenuInfo: Record<
 > = {
   empty: [
     { title: "통계", component: Statistics },
-    { title: "음절별 단어 분포", component: Distribution },
+    { title: "단어 분포", component: Distribution },
     { title: "강한 연결 요소", component: Scc },
     { title: "전략 탐색", component: StrategySearch },
     { title: "임계 단어", component: CriticalWords },
@@ -87,6 +88,7 @@ export const searchResultMenuInfo: Record<
     { title: "끝 글자", component: PrevWords },
     { title: "전략 탐색", component: StrategySearch },
     { title: "두음 법칙", component: ChangeableChars },
+    { title: "도달 가능성", component: Reachability },
   ],
   word: [
     { title: "일치", component: MatchPattern },
