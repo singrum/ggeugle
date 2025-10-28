@@ -22,7 +22,10 @@ function GhostTabsList({
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
-      className={cn("flex w-fit items-center justify-center gap-2", className)}
+      className={cn(
+        "flex w-fit items-center justify-center gap-0.5",
+        className,
+      )}
       {...props}
     />
   );
@@ -37,9 +40,8 @@ function GhostTabsTrigger({
       <TabsPrimitive.Trigger
         data-slot="tabs-trigger"
         className={cn(
-          "hover:text-foreground text-muted-foreground inline-flex w-fit items-center justify-center rounded-lg bg-transparent px-2 py-3 text-base leading-4 font-medium transition-colors",
-          "data-[state=active]:text-foreground",
-          // "hover:bg-accent dark:hover:bg-accent/50 data-[state=active]:bg-accent dark:data-[state=active]:bg-accent/50",
+          "hover:bg-accent dark:hover:bg-accent/50 text-muted-foreground inline-flex w-fit items-center justify-center rounded-lg bg-transparent px-3 py-3 text-sm leading-4 font-medium transition-colors",
+          "data-[state=active]:text-foreground data-[state=active]:bg-accent dark:data-[state=active]:bg-accent/50",
           className,
         )}
         {...props}

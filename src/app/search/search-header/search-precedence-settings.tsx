@@ -57,7 +57,7 @@ export default function SearchPredecenceSettings() {
           </TooltipTrigger>
           <TooltipContent>전략 탐색 우선순위 편집</TooltipContent>
         </Tooltip>
-        <DialogContent className="flex h-full max-h-130 flex-col gap-3 overflow-auto sm:max-w-[425px]">
+        <DialogContent className="flex h-full max-h-130 flex-col gap-6 overflow-auto sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>전략 탐색 우선순위 편집</DialogTitle>
             <VisuallyHidden>
@@ -176,16 +176,12 @@ function PrecedenceSettingsForm({
   };
 
   return (
-    <div className="h-full flex-1 space-y-4">
+    <div className="h-full flex-1 space-y-2">
       <GhostTabs defaultValue="default" className="h-full">
-        <GhostTabsList className="mb-4">
-          <GhostTabsTrigger value="default" className="pl-0">
-            기본
-          </GhostTabsTrigger>
+        <GhostTabsList className="mb-0">
+          <GhostTabsTrigger value="default">기본</GhostTabsTrigger>
           <GhostTabsTrigger value="edge">단어</GhostTabsTrigger>
-          <GhostTabsTrigger value="node" className="pr-0">
-            음절
-          </GhostTabsTrigger>
+          <GhostTabsTrigger value="node">음절</GhostTabsTrigger>
         </GhostTabsList>
 
         <GhostTabsContent value="default" className="mt-4 space-y-6 lg:mb-0">
