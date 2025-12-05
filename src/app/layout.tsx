@@ -30,7 +30,6 @@ export default function Layout() {
             }
           >
             <SiteHeader />
-            {/* <DonationToast /> */}
             <div className="flex flex-1">
               {!isTablet && <AppSidebar />}
               <SidebarInsetWrapper>
