@@ -1,6 +1,5 @@
-name: Mirror to singrum2
+name: Mirror main to singrum2
 
-# singrum 계정 repo에 push 발생 시 실행
 on:
   push:
     branches: ["main"]
@@ -8,13 +7,10 @@ on:
 jobs:
   mirror:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout source repo
-        uses: actions/checkout@v4
-      - name: Clone singrum repo as mirror
+      - name: Clone singrum repo
         run: |
-          git clone --mirror https://github.com/singrum/ggeugle.git source_repo
+          git clone https://github.com/singrum/ggeugle.git source_repo
           cd source_repo
-          git remote set-url --push origin https://singrum2:${{ secrets.SYNC_TOKEN }}@github.com/singrum2/ggeugle-deploy.git
-          git push --mirror
+          git remote add target https://singrum2:${{ secrets.SYNC_TOKEN }}@github.com/singrum2/ggeugle-deploy.git
+          git push target main
