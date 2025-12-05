@@ -15,15 +15,12 @@ npm install
 npm run dev
 ```
 
-브라우저에서 접속 :
-
-```bash
-http://localhost:5173
-```
-
 ## 기술 스택
 
-- Vite, React, Typescript, TailwindCSS, shadcn/ui, Zustand, Comlink
+- Vite, React, Typescript
+- 스타일링 : TailwindCSS, shadcn/ui
+- 상태관리 : Zustand
+- 워커 쓰레드 : Comlink
 - 배포 도구 : Vercel
 
 ## 주요 기능
