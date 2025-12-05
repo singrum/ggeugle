@@ -9,7 +9,7 @@ import { useMount } from "@/hooks/use-mount";
 import { useIsTablet } from "@/hooks/use-tablet";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/providers/theme-provider";
-import { Analytics } from "@vercel/analytics/react";
+
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
@@ -19,7 +19,6 @@ export default function Layout() {
   if (isMount)
     return (
       <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-        <Analytics />
         <div className="[--header-height:calc(--spacing(24))] lg:[--header-height:calc(--spacing(13))]">
           <SidebarProvider
             className="flex flex-col"
