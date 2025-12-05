@@ -33,7 +33,6 @@ export default function Layout() {
             {/* <DonationToast /> */}
             <div className="flex flex-1">
               {!isTablet && <AppSidebar />}
-
               <SidebarInsetWrapper>
                 <Outlet />
               </SidebarInsetWrapper>
