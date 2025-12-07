@@ -73,6 +73,15 @@ export default function Portals() {
               디스코드
             </a>
           </FooterButton>
+          <FooterButton asChild>
+            <a
+              href={"https://v3.engine.ikki.app"}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              구버전(v3)
+            </a>
+          </FooterButton>
         </div>
 
         <span className="flex h-7 items-center font-medium">더 보기</span>
