@@ -47,7 +47,7 @@ export function AppSidebar() {
     >
       <Sidebar
         collapsible="none"
-        className="bg-sidebar w-[calc(var(--sidebar-width-icon))]! min-w-[calc(var(--sidebar-width-icon))]! border-0"
+        className="bg-sidebar w-[var(--sidebar-width-icon)]! min-w-[var(--sidebar-width-icon)]! border-0"
       >
         <SidebarContent className="items-center justify-center gap-3 py-4">
           {mainTabs.map(({ title, icon, key }) => (

@@ -16,13 +16,17 @@ export default function NavButton({
   return (
     <Button
       className={cn(
-        "group/nav text-muted-foreground hover:text-muted-foreground flex h-15 w-full cursor-pointer flex-col gap-0 hover:bg-transparent hover:dark:bg-transparent",
+        "group/nav text-muted-foreground hover:text-muted-foreground relative flex h-15 w-[var(--sidebar-width-icon)] cursor-pointer flex-col gap-0 hover:bg-transparent hover:dark:bg-transparent",
 
         className,
       )}
       variant="ghost"
       {...props}
     >
+      {active && (
+        <div className="bg-foreground absolute right-0 bottom-1 h-4/5 w-1 rounded-l-full" />
+      )}
+
       <div
         className={cn(
           "flex w-10 items-center justify-center rounded-full py-1 transition-colors",
