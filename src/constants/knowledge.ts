@@ -52,6 +52,10 @@ export const content: Content = [
     type: "sub",
     title: "끝말잇기의 난해성",
   },
+  {
+    type: "sub",
+    title: "FAQ",
+  },
 ];
 
 export function getAllContentPath() {
