@@ -2,7 +2,7 @@ name: Mirror main to singrum2
 
 on:
   push:
-    branches: ["main"]
+    branches: ["dev"]
 
 jobs:
   mirror:
@@ -13,4 +13,4 @@ jobs:
           git clone https://github.com/singrum/ggeugle.git source_repo
           cd source_repo
           git remote add target https://singrum2:${{ secrets.SYNC_TOKEN }}@github.com/singrum2/ggeugle-deploy.git
-          git push target main
+          git push target dev
