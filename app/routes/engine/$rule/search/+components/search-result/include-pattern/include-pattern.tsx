@@ -1,8 +1,9 @@
 import { useMemo } from "react";
-import WordSearchResult from "~/components/word-table/word-search-result";
+
 import { getRegex } from "~/lib/utils";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
 import { useWcStore } from "~/stores/wc-store";
+import WordSearchResult from "../../word-table/word-search-result";
 export default function IncludePattern({ solver }: { solver: WordSolver }) {
   const searchInputValue = useWcStore((e) => e.searchInputValue);
   const data = useMemo(() => {

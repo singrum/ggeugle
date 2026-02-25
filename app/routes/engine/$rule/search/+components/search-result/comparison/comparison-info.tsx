@@ -3,11 +3,11 @@ import { typeMap } from "~/constants/search";
 import type { ComparisonData } from "~/types/search";
 
 import { Ball } from "~/components/ball";
+import type { NodeName, NodeType } from "~/lib/wordchain/graph/graph";
 import {
   CharList,
   CharSection,
-} from "~/components/char-data-section/char-section";
-import type { NodeName, NodeType } from "~/lib/wordchain/graph/graph";
+} from "~/routes/engine/$rule/search/+components/char-data-section/char-section";
 
 export default function ComparisonInfo({
   comparisonData,

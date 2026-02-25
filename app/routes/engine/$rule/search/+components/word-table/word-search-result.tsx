@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useWcStore } from "~/stores/wc-store";
 import type { WordsCard } from "~/types/search";
-import { Accordion } from "../ui/accordion";
+
+import { Accordion } from "~/components/ui/accordion";
 import WordsCardComponent from "./words-card-component";
 
 export default function WordSearchResult({ data }: { data: WordsCard[] }) {

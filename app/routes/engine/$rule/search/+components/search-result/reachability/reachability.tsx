@@ -1,11 +1,11 @@
 import { useMemo } from "react";
+import type { NodeType } from "~/lib/wordchain/graph/graph";
+import type { WordSolver } from "~/lib/wordchain/word/word-solver";
 import {
   CharList,
   CharSection,
   Title,
-} from "~/components/char-data-section/char-section";
-import type { NodeType } from "~/lib/wordchain/graph/graph";
-import type { WordSolver } from "~/lib/wordchain/word/word-solver";
+} from "~/routes/engine/$rule/search/+components/char-data-section/char-section";
 import { useWcStore } from "~/stores/wc-store";
 
 export default function Reachability({ solver }: { solver: WordSolver }) {

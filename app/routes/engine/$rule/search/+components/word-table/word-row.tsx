@@ -2,7 +2,7 @@ import { Minus, MoveRight } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
 import { useWcStore } from "~/stores/wc-store";
 import type { MoveRow } from "~/types/search";
-import CharButton from "../char-data-section/char-button";
+import CharButton from "../../routes/engine/$rule/search/+components/char-data-section/char-button";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 

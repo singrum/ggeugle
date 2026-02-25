@@ -1,8 +1,8 @@
 import { Outlet, useLoaderData, type MetaFunction } from "react-router";
-import { AppSidebar } from "~/components/sidebar/app-sidebar";
 import { Card } from "~/components/ui/card";
 import { sampleRules } from "~/constants/sample-rules";
 import { useMount } from "~/hooks/use-mount";
+import { AppSidebar } from "~/routes/engine/$rule/+components/nav-sidebar/app-sidebar";
 import SiteHeader from "~/routes/engine/$rule/+components/site-header/site-header";
 export type LoaderData = {
   title: string;

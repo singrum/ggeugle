@@ -7,10 +7,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "~/components/ui/popover";
-import WordStack from "~/components/word-stack/word-stack";
 import { cn } from "~/lib/utils";
 import type { NodeName } from "~/lib/wordchain/graph/graph";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
+import WordStack from "~/routes/engine/$rule/+components/word-stack/word-stack";
 import { useWcStore } from "~/stores/wc-store";
 
 export default function MoveSection({

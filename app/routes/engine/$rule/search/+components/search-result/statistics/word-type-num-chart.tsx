@@ -2,7 +2,7 @@ import { range } from "lodash-es";
 import { MoveRight, TextSearch } from "lucide-react";
 import { useMemo } from "react";
 import { Ball } from "~/components/ball";
-import { NodeTypeLabel } from "~/components/node-type-label";
+
 import {
   Accordion,
   AccordionContent,
@@ -17,6 +17,7 @@ import {
 } from "~/lib/wordchain/constants";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
 import { useWcStore } from "~/stores/wc-store";
+import { NodeTypeLabel } from "./node-type-label";
 export default function WordTypeNumChart({ solver }: { solver: WordSolver }) {
   const data = useMemo(() => {
     return solver.graphSolver.getWordTypeNum();

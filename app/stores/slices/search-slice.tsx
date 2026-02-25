@@ -1,4 +1,3 @@
-import CharButtons from "~/components/char-data-section/char-buttons";
 import { searchResultMenuInfo } from "~/constants/search";
 import {
   getHeadTail,
@@ -7,6 +6,7 @@ import {
 } from "~/lib/utils";
 import { sampleChangeFuncs } from "~/lib/wordchain/rule/change";
 import { WordSolver } from "~/lib/wordchain/word/word-solver";
+import CharButtons from "~/routes/engine/$rule/search/+components/char-data-section/char-buttons";
 
 import type { StateCreator } from "zustand";
 

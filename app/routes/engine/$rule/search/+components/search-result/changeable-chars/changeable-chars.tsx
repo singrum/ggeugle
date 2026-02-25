@@ -1,12 +1,12 @@
 import { josa } from "es-hangul";
 import { useMemo } from "react";
+import { sampleChangeFuncs } from "~/lib/wordchain/rule/change";
+import type { WordSolver } from "~/lib/wordchain/word/word-solver";
 import {
   CharList,
   CharSection,
   Title,
-} from "~/components/char-data-section/char-section";
-import { sampleChangeFuncs } from "~/lib/wordchain/rule/change";
-import type { WordSolver } from "~/lib/wordchain/word/word-solver";
+} from "~/routes/engine/$rule/search/+components/char-data-section/char-section";
 import { useWcStore } from "~/stores/wc-store";
 
 export default function ChangeableChars({ solver }: { solver: WordSolver }) {

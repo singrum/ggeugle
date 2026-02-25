@@ -1,5 +1,5 @@
 import type React from "react";
-import { Badge } from "../ui/badge";
+import { Badge } from "../../../../../../components/ui/badge";
 
 export default function WordsListLabel({
   children,

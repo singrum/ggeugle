@@ -2,7 +2,6 @@ import { round, sum } from "lodash-es";
 import { ChevronDown, MoveDown, MoveUp } from "lucide-react";
 import { useEffect } from "react";
 import { Ball } from "~/components/ball";
-import CharButton from "~/components/char-data-section/char-button";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -27,6 +26,7 @@ import {
   moveTypeToWordVariant,
 } from "~/lib/wordchain/constants";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
+import CharButton from "~/routes/engine/$rule/search/+components/char-data-section/char-button";
 import { useWcStore } from "~/stores/wc-store";
 import type { MoveType } from "~/types/search";
 const adjacentOptions = ["다음 단어", "이전 단어"];

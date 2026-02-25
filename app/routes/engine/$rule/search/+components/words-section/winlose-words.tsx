@@ -1,6 +1,6 @@
-import WordsList from "~/components/words-section/words-list";
-import WordsListLabel from "~/components/words-section/words-list-label";
-import WordsSection from "~/components/words-section/words-section";
+import WordsList from "~/routes/engine/$rule/search/+components/words-section/words-list";
+import WordsListLabel from "~/routes/engine/$rule/search/+components/words-section/words-list-label";
+import WordsSection from "~/routes/engine/$rule/search/+components/words-section/words-section";
 import type { WordVariant } from "~/types/search";
 
 export default function WinloseWords({

@@ -4,7 +4,7 @@ import { navInfo } from "~/constants/sidebar";
 
 import { NavLink, useLocation } from "react-router";
 import { cn } from "~/lib/utils";
-import { Button } from "../ui/button";
+import { Button } from "../../../../../components/ui/button";
 export function AppSidebar() {
   const location = useLocation();
 

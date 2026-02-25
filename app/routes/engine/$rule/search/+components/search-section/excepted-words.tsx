@@ -13,7 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import { ExceptedWordButton } from "~/components/words-section/word-button";
+import { ExceptedWordButton } from "~/routes/engine/$rule/search/+components/words-section/word-button";
 import { useWcStore } from "~/stores/wc-store";
 
 export default function ExceptedWords() {

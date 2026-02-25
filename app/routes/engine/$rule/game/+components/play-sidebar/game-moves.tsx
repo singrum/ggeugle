@@ -1,4 +1,4 @@
-import WordStack from "~/components/word-stack/word-stack";
+import WordStack from "~/routes/engine/$rule/+components/word-stack/word-stack";
 import { getMovesFromChats, useWcStore } from "~/stores/wc-store";
 
 export default function GameMoves({ id }: { id: string }) {

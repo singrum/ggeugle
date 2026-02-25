@@ -1,5 +1,5 @@
 import type React from "react";
-import { Separator } from "../ui/separator";
+import { Separator } from "../../../../../../components/ui/separator";
 
 export default function WordsSection({
   children,

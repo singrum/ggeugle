@@ -1,7 +1,5 @@
 import { Circle, MoveRight } from "lucide-react";
 
-import WordList from "~/components/word-table/word-list";
-import WordsTable from "~/components/word-table/word-table";
 import type { NodePos, NodeType } from "~/lib/wordchain/graph/graph";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
 import ChangeableChars from "~/routes/engine/$rule/search/+components/search-result/changeable-chars/changeable-chars";
@@ -20,6 +18,8 @@ import MultiThreadSearch from "~/routes/engine/$rule/search/+components/search-r
 import SingleThreadSearch from "~/routes/engine/$rule/search/+components/search-result/strategy-search/single-thread-search/single-thread-search";
 import StrategySearch from "~/routes/engine/$rule/search/+components/search-result/strategy-search/strategy-search";
 import StrategyTree from "~/routes/engine/$rule/search/+components/search-result/strategy-tree/strategy-tree";
+import WordList from "~/routes/engine/$rule/search/+components/word-table/word-list";
+import WordsTable from "~/routes/engine/$rule/search/+components/word-table/word-table";
 import type { SearchInputType } from "~/types/search";
 
 export const charMenuInfo = [
