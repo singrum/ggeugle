@@ -1,0 +1,56 @@
+import { AppSidebar } from "~/components/sidebar/app-sidebar";
+import {
+  SidebarInset,
+  SidebarProvider,
+  useSidebar,
+} from "~/components/ui/sidebar";
+import { useMount } from "~/hooks/use-mount";
+import { useIsTablet } from "~/hooks/use-tablet";
+import { cn } from "~/lib/utils";
+import { ThemeProvider } from "~/providers/theme-provider";
+import SiteHeader from "~/routes/engine/$rule/+components/site-header/site-header";
+
+import { Outlet } from "react-router-dom";
+
+export default function Layout() {
+  const isMount = useMount();
+  const isTablet = useIsTablet();
+
+  if (isMount)
+    return (
+      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+        <div className="[--header-height:calc(--spacing(24))] lg:[--header-height:calc(--spacing(13))]">
+          <SidebarProvider
+            className="flex flex-col"
+            defaultOpen={true}
+            style={
+              {
+                "--sidebar-width": "max(400px,min(33svw, 600px))",
+              } as React.CSSProperties
+            }
+          >
+            <SiteHeader />
+            <div className="flex flex-1">
+              {!isTablet && <AppSidebar />}
+              <SidebarInsetWrapper>
+                <Outlet />
+              </SidebarInsetWrapper>
+            </div>
+          </SidebarProvider>
+        </div>
+      </ThemeProvider>
+    );
+}
+
+function SidebarInsetWrapper({ children }: { children: React.ReactNode }) {
+  const { open } = useSidebar();
+  return (
+    <SidebarInset className="bg-sidebar @container/main flex flex-col">
+      <div
+        className={cn("bg-background h-full", { "lg:rounded-tl-2xl": !open })}
+      >
+        {children}
+      </div>
+    </SidebarInset>
+  );
+}

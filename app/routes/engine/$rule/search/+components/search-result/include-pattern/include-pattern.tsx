@@ -1,0 +1,21 @@
+import { useMemo } from "react";
+import WordSearchResult from "~/components/word-table/word-search-result";
+import { getRegex } from "~/lib/utils";
+import type { WordSolver } from "~/lib/wordchain/word/word-solver";
+import { useWcStore } from "~/stores/wc-store";
+export default function IncludePattern({ solver }: { solver: WordSolver }) {
+  const searchInputValue = useWcStore((e) => e.searchInputValue);
+  const data = useMemo(() => {
+    const regex = getRegex(searchInputValue);
+    const movesMap = solver.wordMap.getMoves((word: string) => {
+      if (regex === null) {
+        return false;
+      }
+      return regex.test(word);
+    });
+
+    const moveClass = solver.graphSolver.classifyMoves(movesMap);
+    return solver.moveClassToWordsCards(moveClass);
+  }, [solver, searchInputValue]);
+  return <WordSearchResult data={data} />;
+}
