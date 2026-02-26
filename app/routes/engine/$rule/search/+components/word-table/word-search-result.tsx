@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useWcStore } from "~/stores/wc-store";
-import type { WordsCard } from "~/types/search";
 
+import type { WordsCard } from "~/types/search";
+import { useWcStore } from "~/stores/wc-store-provider";
 import { Accordion } from "~/components/ui/accordion";
 import WordsCardComponent from "./words-card-component";
 

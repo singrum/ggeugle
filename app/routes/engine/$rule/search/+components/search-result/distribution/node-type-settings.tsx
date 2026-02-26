@@ -1,5 +1,4 @@
 import { ChevronDown } from "lucide-react";
-import { Ball } from "~/components/ball";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -11,7 +10,8 @@ import {
 import { typeMap } from "~/constants/search";
 import { cn } from "~/lib/utils";
 import type { NodeType } from "~/lib/wordchain/graph/graph";
-import { useWcStore } from "~/stores/wc-store";
+import { Ball } from "~/routes/engine/$rule/+components/ball";
+import { useWcStore } from "~/stores/wc-store-provider";
 const nodeTypeOption = ["win", "lose", "loopwin", "route"];
 export default function NodeTypeSettings() {
   const nodeType = useWcStore((e) => e.distributionNodeType);

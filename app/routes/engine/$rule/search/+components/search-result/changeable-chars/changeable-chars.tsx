@@ -7,7 +7,7 @@ import {
   CharSection,
   Title,
 } from "~/routes/engine/$rule/search/+components/char-data-section/char-section";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function ChangeableChars({ solver }: { solver: WordSolver }) {
   const changeFuncIdx = useWcStore(

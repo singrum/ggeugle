@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function SidebarHeader() {
   const selectGame = useWcStore((e) => e.selectGame);

@@ -1,5 +1,5 @@
 import { searchResultMenuInfo } from "~/constants/search";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function SearchResult() {
   const searchResultMenu = useWcStore((e) => e.searchResultMenu);

@@ -1,6 +1,6 @@
 import { Label } from "~/components/ui/label";
 import { Switch } from "~/components/ui/switch";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import {
   GameSettingsCard,
   GameSettingsContent,

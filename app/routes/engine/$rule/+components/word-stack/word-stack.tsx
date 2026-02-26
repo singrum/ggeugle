@@ -3,7 +3,7 @@ import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function WordStack({
   words,

@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { threadSelectArr, threadSelectInfo } from "~/constants/search";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 export default function MaxThreadNumSelect() {
   const maxThreadValue = useWcStore((e) => e.maxThreadValue);
   const setMaxThreadValue = useWcStore((e) => e.setMaxThreadValue);

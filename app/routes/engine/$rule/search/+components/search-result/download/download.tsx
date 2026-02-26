@@ -1,11 +1,11 @@
 import { Braces, FileText } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
-import { OutlineCard } from "~/components/outline-card";
 import { downloadActionData } from "~/constants/search";
 import { useIsMobile } from "~/hooks/use-mobile";
 import { cn, downloadText } from "~/lib/utils";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { OutlineCard } from "~/routes/engine/$rule/+components/outline-card";
+import { useWcStore } from "~/stores/wc-store-provider";
 import {
   DownloadActionButton,
   DownloadActionGroup,

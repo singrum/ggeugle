@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { getComparisonData } from "~/lib/wordchain/graph/graph-solver";
 import { sampleChangeFuncs } from "~/lib/wordchain/rule/change";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import ComparisonInfo from "./comparison-info";
 
 export default function ComparisonOrigin({ solver }: { solver: WordSolver }) {

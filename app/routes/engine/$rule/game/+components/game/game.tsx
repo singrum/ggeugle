@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import ChatBar from "../chat/chat-bar";
 import ChatList from "../chat/chat-list";
 

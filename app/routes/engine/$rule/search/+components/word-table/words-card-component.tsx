@@ -1,20 +1,20 @@
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { useState } from "react";
+import {
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "~/components/ui/accordion";
+import { PaginationSimple } from "~/components/ui/pagination-simple";
 import { pageSizeInfo, wordDispTypeInfo } from "~/constants/search";
 import {
   hasDepthMap,
   moveTypeNameMap,
   moveTypeToWordVariant,
 } from "~/lib/wordchain/constants";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import type { MoveType, WordsCard } from "~/types/search";
-import { Ball } from "../ball";
-import {
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "../ui/accordion";
-import { PaginationSimple } from "../ui/pagination-simple";
+import { Ball } from "../../../+components/ball";
 
 export default function WordsCardComponent({
   data,

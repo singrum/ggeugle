@@ -1,4 +1,4 @@
-import { CardTitle } from "~/components/ui/card";
+import { Card, CardTitle } from "~/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -8,16 +8,20 @@ import {
 } from "~/components/ui/select";
 import { sampleChangeFuncInfo } from "~/lib/wordchain/rule/change";
 import { ChangeRuleTableMap } from "~/lib/wordchain/rule/change-rule-tables";
-import { useWcStore } from "~/stores/wc-store";
+import {
+  useRuleEditorStore,
+  useRuleEditorStoreApi,
+} from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
 import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../components/outline-card";
+} from "../../../../routes/engine/$rule/+components/outline-card";
 export default function ChangeRule() {
-  const changeRule = useWcStore(
-    (e) => e.localRule.wordConnectionRule.changeFuncIdx,
+  const changeRule = useRuleEditorStore(
+    (e) => e.localRuleForm.wordConnectionRule.changeFuncIdx,
   );
+  const storeApi = useRuleEditorStoreApi();
 
   return (
     <OutlineCardSection>
@@ -29,12 +33,12 @@ export default function ChangeRule() {
           value={`${changeRule}`}
           onValueChange={(e: string) => {
             const num = Number(e);
-            useWcStore.setState((state) => {
-              state.localRule.wordConnectionRule.changeFuncIdx = num;
+            storeApi.setState((state) => {
+              state.localRuleForm.wordConnectionRule.changeFuncIdx = num;
             });
           }}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-45">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -45,11 +49,12 @@ export default function ChangeRule() {
             ))}
           </SelectContent>
         </Select>
-        {/* <Card className="mt-6 p-4 text-sm"> */}
+
         {changeRule !== 0 && (
-          <div className="mt-6 w-full">{ChangeRuleTableMap[changeRule]}</div>
+          <Card className="p-6 border mt-2 bg-transparent dark:bg-transparent">
+            {ChangeRuleTableMap[changeRule]}
+          </Card>
         )}
-        {/* </Card> */}
       </OutlineCardContent>
     </OutlineCardSection>
   );

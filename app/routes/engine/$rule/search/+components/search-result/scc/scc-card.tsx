@@ -7,7 +7,7 @@ import {
   PopoverTrigger,
 } from "~/components/ui/popover";
 import type { NodeName } from "~/lib/wordchain/graph/graph";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 const MAX_DISPLAY = 3;
 export default function SccCard({ nodes }: { nodes: NodeName[] }) {

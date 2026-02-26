@@ -1,20 +1,38 @@
-import { Outlet, useLoaderData, type MetaFunction } from "react-router";
+import { useEffect, useState } from "react";
+import {
+  Outlet,
+  redirect,
+  useLoaderData,
+  type MetaFunction,
+} from "react-router";
+import { toast } from "sonner";
 import { Card } from "~/components/ui/card";
 import { sampleRules } from "~/constants/sample-rules";
-import { useMount } from "~/hooks/use-mount";
+import { getRuleFormById } from "~/lib/utils";
 import { AppSidebar } from "~/routes/engine/$rule/+components/nav-sidebar/app-sidebar";
 import SiteHeader from "~/routes/engine/$rule/+components/site-header/site-header";
+import { WcStoreProvider } from "~/stores/wc-store-provider";
+import type { RuleForm } from "~/types/rule";
 export type LoaderData = {
   title: string;
+  updatedAt: number;
   isSample: boolean;
+  color: string;
+  id: string;
 };
-async function getLoaderDataById(id: string): Promise<LoaderData | null> {
+
+export async function getLoaderDataById(
+  id: string,
+): Promise<LoaderData | null> {
   const sampleRule = sampleRules.find((rule) => rule.metadata.id === id);
 
   if (sampleRule) {
     return {
       title: sampleRule.metadata.title,
       isSample: true,
+      id,
+      updatedAt: sampleRule.metadata.updatedAt,
+      color: sampleRule.metadata.color,
     };
   }
   // 스토리지에서 검색
@@ -43,17 +61,25 @@ clientLoader.hydrate = true;
 
 export default function Layout() {
   const { data } = useLoaderData<typeof clientLoader>();
-
   if (!data) {
-    return <div>404 - 규칙을 찾을 수 없습니다.</div>;
+    return redirect("/home");
   }
-  const mounted = useMount();
-  if (!mounted) {
-    return null;
-  }
-  return (
+  const [ruleForm, setRuleForm] = useState<RuleForm | null>(null);
+  useEffect(() => {
+    (async function () {
+      const result = await getRuleFormById(data.id);
+      if (!result) {
+        toast.error("해당 룰을 불러올 수 없습니다.");
+        redirect("/home");
+        return;
+      }
+      setRuleForm(result.ruleForm);
+    })();
+  }, [data.id, data.updatedAt]);
+
+  if (!ruleForm) {
     <div className="[--header-height:calc(--spacing(14))] bg-sidebar">
-      <SiteHeader ruleTitle={data.title} />
+      <SiteHeader loaderData={data} />
       <div className="h-[calc(100svh-var(--header-height))] flex">
         <AppSidebar />
         <div className="pr-2 pb-2 flex-1 h-full">
@@ -62,6 +88,22 @@ export default function Layout() {
           </Card>
         </div>
       </div>
-    </div>
-  );
+    </div>;
+  } else {
+    return (
+      <WcStoreProvider ruleForm={ruleForm}>
+        <div className="[--header-height:calc(--spacing(14))] bg-sidebar">
+          <SiteHeader loaderData={data} />
+          <div className="h-[calc(100svh-var(--header-height))] flex">
+            <AppSidebar />
+            <div className="pr-2 pb-2 flex-1 h-full">
+              <Card className="rounded-lg h-full p-0 overflow-hidden bg-background border dark:border-0 @container/main ">
+                <Outlet />
+              </Card>
+            </div>
+          </div>
+        </div>
+      </WcStoreProvider>
+    );
+  }
 }

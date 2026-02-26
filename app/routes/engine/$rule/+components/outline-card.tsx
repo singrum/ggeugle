@@ -7,13 +7,13 @@ export function OutlineCard({
   className,
 }: React.ComponentProps<"div">) {
   return (
-    <Card className={cn("gap-8 border bg-transparent p-6 sm:p-6", className)}>
+    <Card className={cn("gap-8 bg-transparent p-4", className)}>
       {children}
     </Card>
   );
 }
 export function OutlineCardSection({ children }: React.ComponentProps<"div">) {
-  return <div className="space-y-4">{children}</div>;
+  return <div className="space-y-2">{children}</div>;
 }
 export function OutlineCardHeader({ children }: React.ComponentProps<"div">) {
   return (

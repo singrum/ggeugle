@@ -1,6 +1,6 @@
 import { Inbox, Loader } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 import { useIsTablet } from "~/hooks/use-tablet";
 import CalculatingDurationSettings from "./calculating-duration-settings";

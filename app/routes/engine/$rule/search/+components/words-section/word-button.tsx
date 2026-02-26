@@ -1,11 +1,11 @@
 import { Plus, X } from "lucide-react";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import {
   ActionButton,
   SplitButtons,
   TextButton,
-} from "../../../../../../components/split-buttons";
+} from "../../../+components/split-buttons";
 import { Button } from "../../../../../../components/ui/button";
 
 export function WordButton({

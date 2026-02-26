@@ -9,7 +9,7 @@ import {
 import { wordDispTypeInfo } from "~/constants/search";
 
 import { ChevronDown } from "lucide-react";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 export default function WordDispSelect() {
   const wordDispType = useWcStore((e) => e.wordDispType);
   const setWordDispType = useWcStore((e) => e.setWordDispType);

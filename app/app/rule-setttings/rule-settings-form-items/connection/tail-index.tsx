@@ -7,16 +7,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { useWcStore } from "~/stores/wc-store";
+import {
+  useRuleEditorStore,
+  useRuleEditorStoreApi,
+} from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
 import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../components/outline-card";
+} from "../../../../routes/engine/$rule/+components/outline-card";
 
 export default function TailIndex() {
-  const idx = useWcStore((e) => e.localRule.wordConnectionRule.rawTailIdx);
-  const dir = useWcStore((e) => e.localRule.wordConnectionRule.tailDir);
+  const idx = useRuleEditorStore(
+    (e) => e.localRuleForm.wordConnectionRule.rawTailIdx,
+  );
+  const dir = useRuleEditorStore(
+    (e) => e.localRuleForm.wordConnectionRule.tailDir,
+  );
+  const storeApi = useRuleEditorStoreApi();
   return (
     <OutlineCardSection>
       <OutlineCardHeader>
@@ -27,12 +35,12 @@ export default function TailIndex() {
           value={`${dir}`}
           onValueChange={(e: string) => {
             const num = Number(e);
-            useWcStore.setState((state) => {
-              state.localRule.wordConnectionRule.tailDir = num as 0 | 1;
+            storeApi.setState((state) => {
+              state.localRuleForm.wordConnectionRule.tailDir = num as 0 | 1;
             });
           }}
         >
-          <SelectTrigger className="w-full max-w-[180px]">
+          <SelectTrigger className="w-full max-w-45">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -44,12 +52,12 @@ export default function TailIndex() {
           </SelectContent>
         </Select>
         <Input
-          className="w-full max-w-[100px]"
+          className="w-full max-w-45"
           type="number"
           value={idx}
           onChange={(e) =>
-            useWcStore.setState((state) => {
-              state.localRule.wordConnectionRule.rawTailIdx = Number(
+            storeApi.setState((state) => {
+              state.localRuleForm.wordConnectionRule.rawTailIdx = Number(
                 e.target.value,
               );
             })

@@ -1,6 +1,6 @@
-import { Ball } from "~/components/ball";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store";
+import { Ball } from "~/routes/engine/$rule/+components/ball";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function GameState({ id }: { id: string }) {
   const finished = useWcStore((e) => e.gameMap[id].finished);

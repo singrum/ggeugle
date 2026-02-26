@@ -1,15 +1,19 @@
 import { CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
-import { useWcStore } from "~/stores/wc-store";
+import {
+  useRuleEditorStore,
+  useRuleEditorStoreApi,
+} from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
 import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../components/outline-card";
+} from "../../../../routes/engine/$rule/+components/outline-card";
 import RegexExamples from "./regex-examples";
 
 export default function RegexFilter() {
-  const value = useWcStore((e) => e.localRule.wordRule.regexFilter);
+  const value = useRuleEditorStore((e) => e.localRuleForm.wordRule.regexFilter);
+  const storeApi = useRuleEditorStoreApi();
   return (
     <OutlineCardSection>
       <OutlineCardHeader>
@@ -19,8 +23,8 @@ export default function RegexFilter() {
         <Input
           value={value}
           onChange={(e) =>
-            useWcStore.setState((state) => {
-              state.localRule.wordRule.regexFilter = e.target.value;
+            storeApi.setState((state) => {
+              state.localRuleForm.wordRule.regexFilter = e.target.value;
             })
           }
         />

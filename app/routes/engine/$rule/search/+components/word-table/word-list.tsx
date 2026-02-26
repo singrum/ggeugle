@@ -1,9 +1,10 @@
 import { Minus } from "lucide-react";
+import { Button, buttonVariants } from "~/components/ui/button";
+import { Separator } from "~/components/ui/separator";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
+
 import type { MoveRow } from "~/types/search";
-import { Button, buttonVariants } from "../ui/button";
-import { Separator } from "../ui/separator";
 
 export default function WordList({ rows }: { rows: MoveRow[] }) {
   const addExceptedWord = useWcStore((e) => e.addExceptedWord);

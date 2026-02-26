@@ -45,6 +45,8 @@ export interface RuleMetadata {
   id: string;
   title: string;
   description: string;
+  updatedAt: number;
+  color: string;
 }
 
 export interface RuleForm {

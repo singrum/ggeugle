@@ -3,6 +3,7 @@ import { get, has, isEqual, set } from "lodash-es";
 import { twMerge } from "tailwind-merge";
 import type { RuleForm } from "~/types/rule";
 
+import { sampleRules } from "~/constants/sample-rules";
 import { EdgeCounter } from "./wordchain/classes/edge-counter";
 import type { NodeName } from "./wordchain/graph/graph";
 
@@ -251,4 +252,20 @@ export function truncate<T>(elements: T[], toString: (e: T) => string) {
 
 export function compareEdge(a: [string, string], b: [string, string]) {
   return a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]);
+}
+
+export async function getRuleFormById(
+  id: string,
+): Promise<{ ruleForm: RuleForm; isSample: boolean } | null> {
+  const sampleRule = sampleRules.find((rule) => rule.metadata.id === id);
+
+  if (sampleRule) {
+    return {
+      ruleForm: sampleRule,
+      isSample: true,
+    };
+  }
+  // 스토리지에서 검색
+  // (구현 중)
+  return null;
 }

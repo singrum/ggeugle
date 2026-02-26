@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { getComparisonData } from "~/lib/wordchain/graph/graph-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import type { ComparisonMap } from "~/types/search";
 import ComparisonInfo from "./comparison-info";
 

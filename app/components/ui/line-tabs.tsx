@@ -44,7 +44,7 @@ function LineTabsTrigger({
         data-slot="tabs-trigger"
         className={cn(
           "group hover:text-accent-foreground text-muted-foreground inline-flex w-fit flex-col items-center justify-center rounded-none border-b-2 border-transparent bg-transparent text-base leading-4 font-medium transition-all",
-          "data-[state=active]:text-foreground data-[state=active]:border-foreground",
+          "data-[state=active]:text-foreground data-[state=active]:font-semibold data-[state=active]:border-foreground",
           className,
         )}
         {...props}

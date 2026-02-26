@@ -2,7 +2,7 @@ import { useMemo } from "react";
 
 import { getRegex } from "~/lib/utils";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import WordSearchResult from "../../word-table/word-search-result";
 export default function IncludePattern({ solver }: { solver: WordSolver }) {
   const searchInputValue = useWcStore((e) => e.searchInputValue);

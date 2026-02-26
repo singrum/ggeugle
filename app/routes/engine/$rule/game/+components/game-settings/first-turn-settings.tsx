@@ -1,6 +1,6 @@
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group"; // toggle-group 임포트
 import { firstTurnFormInfo } from "~/constants/play";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import {
   GameSettingsCard,
   GameSettingsContent,

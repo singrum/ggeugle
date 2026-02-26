@@ -1,5 +1,5 @@
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 import { useEffect } from "react";
 import type { SingleMove } from "~/lib/wordchain/graph/graph";

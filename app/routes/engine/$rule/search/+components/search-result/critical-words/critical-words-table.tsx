@@ -1,7 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Minus } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
-import { Ball } from "~/components/ball";
 import { Button } from "~/components/ui/button";
 import {
   Popover,
@@ -17,7 +16,8 @@ import {
   TableRow,
 } from "~/components/ui/table";
 import type { NodeType, SingleMove } from "~/lib/wordchain/graph/graph";
-import { useWcStore } from "~/stores/wc-store";
+import { Ball } from "~/routes/engine/$rule/+components/ball";
+import { useWcStore } from "~/stores/wc-store-provider";
 import type { CriticalWordInfo } from "~/types/search";
 
 const DISPLAY_NUM = 3;

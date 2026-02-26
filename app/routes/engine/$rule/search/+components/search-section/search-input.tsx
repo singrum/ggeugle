@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "~/components/ui/tooltip";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function SearchInput() {
   const inputRef = useRef<HTMLInputElement>(null);

@@ -1,4 +1,5 @@
-import { OutlineCard } from "../../../components/outline-card";
+import { Separator } from "~/components/ui/separator";
+import { OutlineCard } from "../../../routes/engine/$rule/+components/outline-card";
 import ChangeRule from "./connection/change-rule";
 import HeadIndex from "./connection/head-index";
 import TailIndex from "./connection/tail-index";
@@ -8,7 +9,10 @@ export default function Connection() {
     <div className="space-y-4">
       <OutlineCard>
         <ChangeRule />
-      </OutlineCard>
+      </OutlineCard>{" "}
+      <div className="px-4">
+        <Separator />
+      </div>
       <OutlineCard>
         <HeadIndex />
 

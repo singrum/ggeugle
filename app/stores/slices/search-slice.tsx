@@ -61,7 +61,7 @@ export const createSearchSlice: StateCreator<
     const {
       solver,
       view,
-      rule,
+      ruleForm,
       searchInputType: prevSearchInputType,
       searchResultMenu,
     } = get();
@@ -74,7 +74,7 @@ export const createSearchSlice: StateCreator<
       solver.graphSolver.getNodeType(
         value,
         view,
-        sampleChangeFuncs[rule.wordConnectionRule.changeFuncIdx],
+        sampleChangeFuncs[ruleForm.wordConnectionRule.changeFuncIdx],
       ) === "route"
     ) {
       searchInputType = "route";
@@ -108,7 +108,7 @@ export const createSearchSlice: StateCreator<
   onSolverUpdated: (solver: WordSolver) => {
     const {
       solver: prevSolver,
-      rule,
+      ruleForm,
       searchInputValue,
       setSearchInputValue,
       setComparisonMap,
@@ -123,7 +123,7 @@ export const createSearchSlice: StateCreator<
     setComparisonMap(
       prevSolver!.graphSolver.getComparisonMap(
         solver.graphSolver,
-        sampleChangeFuncs[rule.wordConnectionRule.changeFuncIdx],
+        sampleChangeFuncs[ruleForm.wordConnectionRule.changeFuncIdx],
       ),
     );
 
@@ -209,8 +209,14 @@ export const createSearchSlice: StateCreator<
   exceptedWordsLoading: false,
 
   setComparisonMap: (cmap: ComparisonMap) => {
-    const { view, solver, rule, setSearchResultMenu, search, comparisonToast } =
-      get();
+    const {
+      view,
+      solver,
+      ruleForm,
+      setSearchResultMenu,
+      search,
+      comparisonToast,
+    } = get();
     const changedNodes = Array.from(cmap[view].keys());
 
     if (comparisonToast && changedNodes.length > 0) {

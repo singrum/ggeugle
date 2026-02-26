@@ -1,14 +1,20 @@
 import { CardTitle } from "~/components/ui/card";
 import { Textarea } from "~/components/ui/textarea";
-import { useWcStore } from "~/stores/wc-store";
+import {
+  useRuleEditorStore,
+  useRuleEditorStoreApi,
+} from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
 import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../components/outline-card";
+} from "../../../../routes/engine/$rule/+components/outline-card";
 
 export default function RemovedWords() {
-  const value = useWcStore((e) => e.localRule.wordRule.removedWords);
+  const value = useRuleEditorStore(
+    (e) => e.localRuleForm.wordRule.removedWords,
+  );
+  const storeApi = useRuleEditorStoreApi();
   return (
     <OutlineCardSection>
       <OutlineCardHeader>
@@ -19,8 +25,8 @@ export default function RemovedWords() {
           placeholder="제거할 단어들을 입력하세요. (공백으로 구분)"
           value={value}
           onChange={(e) =>
-            useWcStore.setState((state) => {
-              state.localRule.wordRule.removedWords = e.target.value;
+            storeApi.setState((state) => {
+              state.localRuleForm.wordRule.removedWords = e.target.value;
             })
           }
         />

@@ -2,7 +2,7 @@ import type React from "react";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
 import type { NodeType } from "~/lib/wordchain/graph/graph";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function CharButton({
   className,

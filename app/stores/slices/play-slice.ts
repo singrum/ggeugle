@@ -20,8 +20,10 @@ import {
   winMessages,
 } from "~/lib/game-messages";
 import type { InternalPlaySlice, PlaySlice, Slices } from "../types/wc-store";
-import { getMovesFromChats } from "../wc-store";
 
+export function getMovesFromChats(chats: Chat[]): string[] {
+  return chats.filter((e) => e.type === "move").map((e) => e.content as string);
+}
 export const createPlaySlice: StateCreator<
   Slices,
   [["zustand/immer", never]],

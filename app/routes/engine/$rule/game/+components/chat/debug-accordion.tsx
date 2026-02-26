@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "~/components/ui/accordion";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function DebugAccordion({ debug }: { debug: string }) {
   const debugOpen = useWcStore((e) => e.debugOpen);

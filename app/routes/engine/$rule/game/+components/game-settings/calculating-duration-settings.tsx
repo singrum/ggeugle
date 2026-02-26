@@ -1,6 +1,6 @@
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import {
   GameSettingsCard,
   GameSettingsContent,

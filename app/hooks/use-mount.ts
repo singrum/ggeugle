@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { sampleRules } from "~/constants/sample-rules";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export const useMount = (): boolean => {
   const [isMounted, setIsMounted] = useState(false);

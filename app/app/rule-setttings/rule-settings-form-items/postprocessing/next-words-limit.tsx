@@ -1,17 +1,20 @@
 import { CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
-import { useWcStore } from "~/stores/wc-store";
+import {
+  useRuleEditorStore,
+  useRuleEditorStoreApi,
+} from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
 import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../components/outline-card";
+} from "../../../../routes/engine/$rule/+components/outline-card";
 
 export default function NextWordsLimit() {
-  const nextWordsLimit = useWcStore(
-    (e) => e.localRule.postprocessing.manner.nextWordsLimit,
+  const nextWordsLimit = useRuleEditorStore(
+    (e) => e.localRuleForm.postprocessing.manner.nextWordsLimit,
   );
-
+  const storeApi = useRuleEditorStoreApi();
   return (
     <OutlineCardSection>
       <OutlineCardHeader>
@@ -22,14 +25,13 @@ export default function NextWordsLimit() {
           <Input
             type="number"
             value={nextWordsLimit}
-            className="w-[100px]"
-            onChange={(e) =>
-              useWcStore.setState((state) => {
-                state.localRule.postprocessing.manner.nextWordsLimit = Number(
-                  e.target.value,
-                );
-              })
-            }
+            className="w-25"
+            onChange={(e) => {
+              storeApi.setState((state) => {
+                state.localRuleForm.postprocessing.manner.nextWordsLimit =
+                  Number(e.target.value);
+              });
+            }}
           />
           개
         </div>

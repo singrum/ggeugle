@@ -6,7 +6,7 @@ import {
   AccordionTrigger,
 } from "~/components/ui/accordion";
 import { Button } from "~/components/ui/button";
-import { useWcStore } from "~/stores/wc-store";
+import { useRuleEditorStoreApi } from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
 const regexExamples = [
   {
     title: "모든 단어",
@@ -83,6 +83,7 @@ const regexExamples = [
 ];
 export default function RegexExamples() {
   const [isOpen, setIsOpen] = useState(false);
+  const storeApi = useRuleEditorStoreApi();
   return (
     <Accordion type="single" className="w-full" collapsible={true}>
       <AccordionItem value={`item`}>
@@ -93,8 +94,8 @@ export default function RegexExamples() {
           {regexExamples.map(({ title, content }) => (
             <Button
               onClick={() => {
-                useWcStore.setState((state) => {
-                  state.localRule.wordRule.regexFilter = content;
+                storeApi.setState((state) => {
+                  state.localRuleForm.wordRule.regexFilter = content;
                 });
               }}
               key={title}

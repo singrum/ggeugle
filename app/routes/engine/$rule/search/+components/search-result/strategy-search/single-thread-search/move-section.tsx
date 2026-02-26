@@ -11,7 +11,7 @@ import { cn } from "~/lib/utils";
 import type { NodeName } from "~/lib/wordchain/graph/graph";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
 import WordStack from "~/routes/engine/$rule/+components/word-stack/word-stack";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function MoveSection({
   solver,

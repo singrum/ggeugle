@@ -6,7 +6,7 @@ import {
   CharSection,
   Title,
 } from "~/routes/engine/$rule/search/+components/char-data-section/char-section";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function Reachability({ solver }: { solver: WordSolver }) {
   const view = useWcStore((e) => e.view);

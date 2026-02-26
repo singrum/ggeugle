@@ -1,9 +1,4 @@
-import {
-  ChatsIcon,
-  HouseIcon,
-  SlidersHorizontalIcon,
-  type Icon,
-} from "@phosphor-icons/react";
+import { ChatsIcon, HouseIcon, type Icon } from "@phosphor-icons/react";
 import { type LucideIcon } from "lucide-react";
 
 import type { ReactNode } from "react";
@@ -37,14 +32,6 @@ export const navInfo: Nav[] = [
     title: "게임",
     key: "game",
     icon: ChatsIcon,
-    component: null,
-    innerSidebarComponent: null,
-    isMore: false,
-  },
-  {
-    title: "룰 설정",
-    key: "rule",
-    icon: SlidersHorizontalIcon,
     component: null,
     innerSidebarComponent: null,
     isMore: false,

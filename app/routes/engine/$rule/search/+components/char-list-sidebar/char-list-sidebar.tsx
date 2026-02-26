@@ -1,6 +1,6 @@
-import { CharSectionListLoading } from "~/components/ui/char-section";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import CharList from "./char-list";
+import { CharSectionListLoading } from "./char-section";
 
 export default function CharListSidebar() {
   const solver = useWcStore((e) => e.solver);

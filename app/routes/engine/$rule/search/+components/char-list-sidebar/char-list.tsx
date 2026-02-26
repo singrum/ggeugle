@@ -1,11 +1,7 @@
-import {
-  RouteCharSectionList,
-  WinloseCharSectionList,
-} from "~/components/ui/char-section";
 import { indexToNodeType } from "~/lib/wordchain/constants";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
 
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import type {
   CharListData,
   RouteCharListData,
@@ -13,6 +9,7 @@ import type {
 } from "~/types/search";
 
 import { useMemo } from "react";
+import { RouteCharSectionList, WinloseCharSectionList } from "./char-section";
 
 export default function CharList({ solver }: { solver: WordSolver }) {
   const charMenu = useWcStore((e) => e.charMenu);

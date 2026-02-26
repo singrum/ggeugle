@@ -2,8 +2,8 @@ import { ArrowRight } from "lucide-react";
 import { typeMap } from "~/constants/search";
 import type { ComparisonData } from "~/types/search";
 
-import { Ball } from "~/components/ball";
 import type { NodeName, NodeType } from "~/lib/wordchain/graph/graph";
+import { Ball } from "~/routes/engine/$rule/+components/ball";
 import {
   CharList,
   CharSection,

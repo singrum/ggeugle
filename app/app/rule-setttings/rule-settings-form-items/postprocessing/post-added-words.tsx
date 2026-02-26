@@ -1,14 +1,20 @@
 import { CardTitle } from "~/components/ui/card";
 import { Textarea } from "~/components/ui/textarea";
-import { useWcStore } from "~/stores/wc-store";
+import {
+  useRuleEditorStore,
+  useRuleEditorStoreApi,
+} from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
 import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../components/outline-card";
+} from "../../../../routes/engine/$rule/+components/outline-card";
 
 export default function AddedWords() {
-  const value = useWcStore((e) => e.localRule.postprocessing.addedWords);
+  const value = useRuleEditorStore(
+    (e) => e.localRuleForm.postprocessing.addedWords,
+  );
+  const storeApi = useRuleEditorStoreApi();
   return (
     <OutlineCardSection>
       <OutlineCardHeader>
@@ -19,8 +25,8 @@ export default function AddedWords() {
           value={value}
           placeholder="추가할 단어들을 입력하세요. (공백으로 구분)"
           onChange={(e) =>
-            useWcStore.setState((state) => {
-              state.localRule.postprocessing.addedWords = e.target.value;
+            storeApi.setState((state) => {
+              state.localRuleForm.postprocessing.addedWords = e.target.value;
             })
           }
         />

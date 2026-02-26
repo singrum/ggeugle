@@ -12,7 +12,7 @@ import { PaginationSimple } from "~/components/ui/pagination-simple"; // ✅ 추
 import { pageSizeInfo } from "~/constants/search";
 import type { NodeName } from "~/lib/wordchain/graph/graph";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import SccTable from "./scc-table";
 
 const topoSortInfo = [

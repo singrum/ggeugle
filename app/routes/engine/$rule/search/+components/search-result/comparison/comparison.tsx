@@ -5,7 +5,7 @@ import {
   GhostTabsTrigger,
 } from "~/components/ui/ghost-tabs";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import ComparisonBefore from "./comparison-before";
 import ComparisonOrigin from "./comparison-origin";
 export default function Comparison({ solver }: { solver: WordSolver }) {

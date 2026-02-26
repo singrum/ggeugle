@@ -8,7 +8,7 @@ import {
   type ChartConfig,
 } from "~/components/ui/chart";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 const chartConfig = {
   num: {

@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from "~/components/ui/dialog";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import type { Chat } from "~/types/play";
 import ChatLoading from "./chat-loading";
 import DebugAccordion from "./debug-accordion";

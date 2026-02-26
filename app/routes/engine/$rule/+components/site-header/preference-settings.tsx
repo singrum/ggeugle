@@ -19,9 +19,8 @@ import {
 import { Label } from "~/components/ui/label";
 import { Separator } from "~/components/ui/separator";
 import { Switch } from "~/components/ui/switch";
-import { useIsMobile } from "~/hooks/use-mobile";
 import { useIsTablet } from "~/hooks/use-tablet";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 import ItemsPerPageSelect from "./items-per-page-select";
 import WordDispSelect from "./word-disp-select";
@@ -78,7 +77,6 @@ function SearchSettingsForm() {
   const setComparisonToast = useWcStore((e) => e.setComparisonToast);
   const debugOpen = useWcStore((e) => e.debugOpen);
   const setDebugOpen = useWcStore((e) => e.setDebugOpen);
-  const isMobile = useIsMobile();
 
   return (
     <div className="space-y-4 pt-2">

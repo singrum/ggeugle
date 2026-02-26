@@ -18,9 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
-import { useWcStore } from "~/stores/wc-store";
-import PreferenceSettingsTrigger from "./preference-settings";
-import SearchPrecedenceSettingsTrigger from "./search-precedence-settings";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 const toolbarInfo = [
   {
@@ -150,11 +148,14 @@ function AlgorithmToolbarContent() {
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
-        <SearchPrecedenceSettingsTrigger asChild>
-          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-            우선 순위 설정
-          </DropdownMenuItem>
-        </SearchPrecedenceSettingsTrigger>
+
+        <DropdownMenuItem
+          onClick={() =>
+            document.getElementById("preference-settings-trigger")?.click()
+          }
+        >
+          우선 순위 설정
+        </DropdownMenuItem>
       </DropdownMenuGroup>
     </>
   );
@@ -166,11 +167,15 @@ function SettingsToolbarContent() {
   return (
     <DropdownMenuGroup>
       <DropdownMenuLabel>설정</DropdownMenuLabel>
-      <PreferenceSettingsTrigger asChild>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-          환경 설정
-        </DropdownMenuItem>
-      </PreferenceSettingsTrigger>
+
+      <DropdownMenuItem
+        onClick={() =>
+          document.getElementById("preference-settings-trigger")?.click()
+        }
+      >
+        환경 설정
+      </DropdownMenuItem>
+
       <DropdownMenuSub>
         <DropdownMenuSubTrigger>테마</DropdownMenuSubTrigger>
         <DropdownMenuPortal>

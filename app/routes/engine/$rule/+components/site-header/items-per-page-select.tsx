@@ -9,7 +9,7 @@ import {
 import { pageSizeInfo } from "~/constants/search";
 
 import { ChevronDown } from "lucide-react";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function ItemsPerPageSelect() {
   const itemNum = useWcStore((e) => e.pageSize);

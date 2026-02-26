@@ -1,10 +1,10 @@
 import { Minus, MoveRight } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
-import { useWcStore } from "~/stores/wc-store";
+import { Button } from "~/components/ui/button";
+import { Card } from "~/components/ui/card";
+import { useWcStore } from "~/stores/wc-store-provider";
 import type { MoveRow } from "~/types/search";
-import CharButton from "../../routes/engine/$rule/search/+components/char-data-section/char-button";
-import { Button } from "../ui/button";
-import { Card } from "../ui/card";
+import CharButton from "../char-data-section/char-button";
 
 export default function WordRow({ data }: { data: MoveRow }) {
   const addExceptedWord = useWcStore((e) => e.addExceptedWord);

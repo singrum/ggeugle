@@ -6,7 +6,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "~/components/ui/drawer";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import GameList from "./play-sidebar/game-list";
 import SidebarHeader from "./play-sidebar/sidebar-header";
 export default function MobileGameListTrigger() {

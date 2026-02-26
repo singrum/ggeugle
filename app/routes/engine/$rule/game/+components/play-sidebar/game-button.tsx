@@ -5,7 +5,7 @@ import { cn } from "~/lib/utils";
 
 import { Check, Clipboard, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import GameMoves from "./game-moves";
 import GameState from "./game-state";
 import GameTitle from "./game-title";

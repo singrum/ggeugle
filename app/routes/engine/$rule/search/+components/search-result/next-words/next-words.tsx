@@ -1,13 +1,14 @@
 import { useMemo } from "react";
-import WordSearchResult from "~/components/word-table/word-search-result";
+
 import { sampleChangeFuncs } from "~/lib/wordchain/rule/change";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
+import WordSearchResult from "../../word-table/word-search-result";
 
 export default function NextWords({ solver }: { solver: WordSolver }) {
   const view = useWcStore((e) => e.view);
   const searchInputValue = useWcStore((e) => e.searchInputValue);
-  const rule = useWcStore((e) => e.rule);
+  const rule = useWcStore((e) => e.ruleForm);
   const data = useMemo(
     () =>
       solver.getWordsCardsFromChar(

@@ -9,16 +9,19 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { dicts } from "~/constants/rule";
-import { useWcStore } from "~/stores/wc-store";
+import {
+  useRuleEditorStore,
+  useRuleEditorStoreApi,
+} from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
 import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../components/outline-card";
+} from "../../../../routes/engine/$rule/+components/outline-card";
 export default function Dict() {
-  const words = useWcStore((e) => e.localRule.wordRule.words);
+  const words = useRuleEditorStore((e) => e.localRuleForm.wordRule.words);
   const value = words.type === "manual" ? dicts.length : words.option.dict;
-
+  const storeApi = useRuleEditorStoreApi();
   return (
     <OutlineCardSection>
       <OutlineCardHeader>
@@ -30,8 +33,8 @@ export default function Dict() {
           onValueChange={(e: string) => {
             const num = Number(e);
             if (num < dicts.length) {
-              useWcStore.setState((state) => {
-                state.localRule.wordRule.words = {
+              storeApi.setState((state) => {
+                state.localRuleForm.wordRule.words = {
                   type: "selected",
                   option: {
                     dict: num,
@@ -43,8 +46,8 @@ export default function Dict() {
               // selected
             } else {
               // manual
-              useWcStore.setState((state) => {
-                state.localRule.wordRule.words = {
+              storeApi.setState((state) => {
+                state.localRuleForm.wordRule.words = {
                   type: "manual",
                   option: { content: "" },
                 };
@@ -52,7 +55,7 @@ export default function Dict() {
             }
           }}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-45">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

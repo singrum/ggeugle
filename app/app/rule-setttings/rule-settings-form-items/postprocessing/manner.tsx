@@ -7,15 +7,20 @@ import {
   SelectValue,
 } from "~/components/ui/select";
 import { manners } from "~/constants/rule";
-import { useWcStore } from "~/stores/wc-store";
+import {
+  useRuleEditorStore,
+  useRuleEditorStoreApi,
+} from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
 import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../components/outline-card";
+} from "../../../../routes/engine/$rule/+components/outline-card";
 export default function Manner() {
-  const manner = useWcStore((e) => e.localRule.postprocessing.manner.type);
-
+  const manner = useRuleEditorStore(
+    (e) => e.localRuleForm.postprocessing.manner.type,
+  );
+  const storeApi = useRuleEditorStoreApi();
   return (
     <OutlineCardSection>
       <OutlineCardHeader>
@@ -25,20 +30,20 @@ export default function Manner() {
         <Select
           value={`${manner}`}
           onValueChange={(e: string) => {
-            useWcStore.setState((state) => {
-              state.localRule.postprocessing.manner.type = Number(e) as
+            storeApi.setState((state) => {
+              state.localRuleForm.postprocessing.manner.type = Number(e) as
                 | 0
                 | 1
                 | 2
                 | 3;
               if (Number(e) === 3) {
-                state.localRule.postprocessing.manner.nextWordsLimit = 0;
+                state.localRuleForm.postprocessing.manner.nextWordsLimit = 0;
               }
             });
             // selected
           }}
         >
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-45">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

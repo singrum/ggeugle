@@ -1,6 +1,6 @@
-import { useWcStore } from "~/stores/wc-store";
-
-import { OutlineCard } from "../../../components/outline-card";
+import { Separator } from "~/components/ui/separator";
+import { useRuleEditorStore } from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
+import { OutlineCard } from "../../../routes/engine/$rule/+components/outline-card";
 import AddedWords from "./words/added-words";
 import Cate from "./words/cate";
 import Dict from "./words/dict";
@@ -10,7 +10,7 @@ import RegexFilter from "./words/regex-filter";
 import RemovedWords from "./words/removed-words";
 
 export default function Words() {
-  const type = useWcStore((e) => e.localRule.wordRule.words.type);
+  const type = useRuleEditorStore((e) => e.localRuleForm.wordRule.words.type);
 
   return (
     <div className="space-y-4">
@@ -25,6 +25,9 @@ export default function Words() {
           <FileUpload />
         )}
       </OutlineCard>
+      <div className="px-4">
+        <Separator />
+      </div>
       <OutlineCard>
         <AddedWords />
         <RemovedWords />

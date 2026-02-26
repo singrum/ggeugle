@@ -1,7 +1,7 @@
 import type { VariantProps } from "class-variance-authority";
 import type React from "react";
 import { cn } from "~/lib/utils";
-import { Button, buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "../../../../components/ui/button";
 
 export function SplitButtons({ children }: React.ComponentProps<"div">) {
   return <div className="flex gap-[1px]">{children}</div>;

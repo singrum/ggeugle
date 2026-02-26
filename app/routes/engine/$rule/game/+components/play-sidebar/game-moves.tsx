@@ -1,5 +1,6 @@
 import WordStack from "~/routes/engine/$rule/+components/word-stack/word-stack";
-import { getMovesFromChats, useWcStore } from "~/stores/wc-store";
+import { getMovesFromChats } from "~/stores/slices/play-slice";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function GameMoves({ id }: { id: string }) {
   const chats = useWcStore((e) => e.gameMap[id].chats);

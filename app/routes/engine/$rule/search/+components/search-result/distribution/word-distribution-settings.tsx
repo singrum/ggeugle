@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 const adjacentOptions = ["다음 단어", "이전 단어"];
 const nonAdjacentOptions = [

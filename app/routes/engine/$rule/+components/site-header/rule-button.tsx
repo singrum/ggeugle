@@ -1,48 +1,29 @@
-import { ChevronRight } from "lucide-react";
-
-import { ScrollIcon } from "@phosphor-icons/react";
-import { Fragment } from "react/jsx-runtime";
+import { ArticleIcon } from "@phosphor-icons/react/dist/ssr";
+import { Pencil } from "lucide-react";
 import { cn } from "~/lib/utils";
 import { Button } from "../../../../../components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "../../../../../components/ui/tooltip";
+import type { LoaderData } from "../../_layout";
+import RuleEditSheetTrigger from "../rule-edit/rule-edit-sheet-trigger";
 
-export function RuleButton({ ruleTitle }: { ruleTitle?: string }) {
-  // const rule = useWcStore((e) => e.rule);
-  // const originalSolver = useWcStore((e) => e.originalSolver);
-  // const navigate = useNavigate();
-  // const location = useLocation();
+export function RuleButton({ loaderData }: { loaderData: LoaderData }) {
+  const { title: ruleTitle, id: ruleId, color } = loaderData;
+
   return (
     <div className="flex min-w-0 flex-1 items-center text-nowrap">
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            className={cn(
-              "max-w-full cursor-pointer px-2 pr-4 has-[>svg]:pl-3",
-              { "animate-pulse": !ruleTitle },
-            )}
-            variant={"outline"}
-          >
-            <div className="no-scrollbar flex flex-1 items-center gap-2 overflow-auto">
-              <ScrollIcon weight="fill" className="size-5" />
-              {ruleTitle
-                ? ruleTitle.split("-").map((e, i, arr) => (
-                    <Fragment key={i}>
-                      {e}
-                      {arr.length - 1 !== i && (
-                        <ChevronRight className="size-3" />
-                      )}
-                    </Fragment>
-                  ))
-                : "커스텀 룰"}
-            </div>
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>룰 변경</TooltipContent>
-      </Tooltip>
+      <RuleEditSheetTrigger ruleId={ruleId} asChild>
+        <Button className={cn("max-w-full px-3")} variant={"outline"}>
+          <ArticleIcon
+            className="size-5 shrink-0"
+            weight="fill"
+            style={{ color: color }}
+          />
+
+          <div className="no-scrollbar flex flex-1 items-center gap-3 overflow-auto">
+            {ruleTitle}
+            <Pencil className="size-3" />
+          </div>
+        </Button>
+      </RuleEditSheetTrigger>
     </div>
   );
 }

@@ -7,16 +7,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { useWcStore } from "~/stores/wc-store";
+import {
+  useRuleEditorStore,
+  useRuleEditorStoreApi,
+} from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
 import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../components/outline-card";
+} from "../../../../routes/engine/$rule/+components/outline-card";
 
 export default function HeadIndex() {
-  const idx = useWcStore((e) => e.localRule.wordConnectionRule.rawHeadIdx);
-  const dir = useWcStore((e) => e.localRule.wordConnectionRule.headDir);
+  const idx = useRuleEditorStore(
+    (e) => e.localRuleForm.wordConnectionRule.rawHeadIdx,
+  );
+  const dir = useRuleEditorStore(
+    (e) => e.localRuleForm.wordConnectionRule.headDir,
+  );
+  const storeApi = useRuleEditorStoreApi();
   return (
     <OutlineCardSection>
       <OutlineCardHeader>
@@ -27,12 +35,12 @@ export default function HeadIndex() {
           value={`${dir}`}
           onValueChange={(e: string) => {
             const num = Number(e);
-            useWcStore.setState((state) => {
-              state.localRule.wordConnectionRule.headDir = num as 0 | 1;
+            storeApi.setState((state) => {
+              state.localRuleForm.wordConnectionRule.headDir = num as 0 | 1;
             });
           }}
         >
-          <SelectTrigger className="w-full max-w-[180px]">
+          <SelectTrigger className="w-full max-w-45">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -45,11 +53,11 @@ export default function HeadIndex() {
         </Select>
         <Input
           type="number"
-          className="w-full max-w-[100px]"
+          className="w-full max-w-25"
           value={idx}
           onChange={(e) =>
-            useWcStore.setState((state) => {
-              state.localRule.wordConnectionRule.rawHeadIdx = Number(
+            storeApi.setState((state) => {
+              state.localRuleForm.wordConnectionRule.rawHeadIdx = Number(
                 e.target.value,
               );
             })

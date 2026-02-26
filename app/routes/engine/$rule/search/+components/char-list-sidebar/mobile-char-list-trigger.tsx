@@ -9,7 +9,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "~/components/ui/drawer";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import CharListSidebar from "./char-list-sidebar";
 import CharMenu from "./char-menu";
 

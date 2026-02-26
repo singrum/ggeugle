@@ -22,26 +22,13 @@ import type { GameWorkerRunner } from "~/lib/worker/game-worker-runner";
 import type { Chat, Game } from "../../types/play";
 
 export type RuleSlice = {
+  ruleForm: RuleForm;
   funcWorkerRunner: ComlinkRunner<FuncWorkerApi>;
+  updateRule: () => Promise<void>;
   onSolverLoaded: (solver: WordSolver) => void;
 
-  kkutuLocalRule: { gameType: number; manner: number; injeong: boolean };
-  setKkutuRule: () => void;
-  localRule: RuleForm;
-  ruleJsonInputValue: string;
-  initRuleJsonInputValue: () => void;
-  setRuleJsonInputValue: (value: string) => void;
-  isValidJson: boolean;
-  rule: RuleForm;
-  updateRule: () => Promise<void>;
-  restoreLocalRule: () => void;
-  setRule: (rule: RuleForm) => void;
-  syncRule: () => void;
   originalSolver?: WordSolver;
   solver?: WordSolver;
-
-  ruleSettingsMenu: number;
-  setRuleSettingsMenu: (menu: number) => void;
 
   flow: number;
   setFlow: (flow: number) => void;

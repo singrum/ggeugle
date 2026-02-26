@@ -4,13 +4,16 @@ import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { File } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { useDropzone } from "react-dropzone";
-import { useWcStore } from "~/stores/wc-store";
+import {
+  useRuleEditorStore,
+  useRuleEditorStoreApi,
+} from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
 import type { ManualWordsOption } from "~/types/rule";
 import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../components/outline-card";
+} from "../../../../routes/engine/$rule/+components/outline-card";
 function getWordsFromUploadedDict(text: string) {
   return text.split(/\s+/).map((x) => x.trim());
 }
@@ -18,16 +21,17 @@ export default function FileUpload() {
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     multiple: false,
   });
-  const content = useWcStore(
-    (e) => (e.localRule.wordRule.words.option as ManualWordsOption).content,
+  const content = useRuleEditorStore(
+    (e) => (e.localRuleForm.wordRule.words.option as ManualWordsOption).content,
   );
+  const storeApi = useRuleEditorStoreApi();
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {
       acceptedFiles[0].text().then((e) => {
-        useWcStore.setState((state) => {
-          if (state.localRule.wordRule.words.type === "manual") {
-            state.localRule.wordRule.words.option.content = e;
+        storeApi.setState((state) => {
+          if (state.localRuleForm.wordRule.words.type === "manual") {
+            state.localRuleForm.wordRule.words.option.content = e;
           }
         });
       });

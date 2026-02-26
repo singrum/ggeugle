@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { useIsTablet } from "~/hooks/use-tablet";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 export default function ChatBar({ disabled }: { disabled: boolean }) {
   const send = useWcStore((e) => e.send);
   const [message, setMessage] = useState("");

@@ -2,7 +2,7 @@ import type React from "react";
 import { Button } from "~/components/ui/button";
 import { charMenuInfo } from "~/constants/search";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function MobileCharMenu({
   className,
@@ -67,11 +67,11 @@ function CharMenuButton({
     <Button
       variant={"ghost"}
       className={cn(
-        "text-muted-foreground hover:text-muted-foreground h-12 rounded-lg font-semibold tracking-wider",
+        "text-muted-foreground hover:text-muted-foreground h-12 rounded-lg font-medium tracking-wider text-base",
 
         {
           [colorVariants[color].active]: active,
-          "bg-accent dark:bg-accent/50": active,
+          "bg-accent dark:bg-accent/50 font-semibold": active,
         },
         className,
       )}

@@ -1,6 +1,6 @@
 import { CardHeader, CardTitle } from "~/components/ui/card";
 import { difficultyInfo } from "~/constants/play";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function GameTitle({ id }: { id: string }) {
   const difficulty = useWcStore((e) => e.gameMap[id].difficulty);

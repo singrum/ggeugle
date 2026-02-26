@@ -6,9 +6,8 @@ import {
 import { immer } from "zustand/middleware/immer";
 
 import Cookies from "js-cookie";
-import { create } from "zustand";
 
-import type { Chat } from "../types/play";
+import { createStore } from "zustand";
 import { createCriticalWordsSlice } from "./slices/critical-words-slice";
 import { createDistributionSlice } from "./slices/distribution-slice";
 import { createInfoSlice } from "./slices/info-slice";
@@ -39,44 +38,45 @@ const cookieStorage: StateStorage = {
   },
 };
 
-export const useWcStore = create<Slices>()(
-  persist(
-    // 1. persist 미들웨어로 감싸기
-    immer((...a) => ({
-      ...createRuleSlice(...a),
-      ...createSearchSlice(...a),
-      ...createStrategySearchSlice(...a),
-      ...createCriticalWordsSlice(...a),
-      ...createPlaySlice(...a),
-      ...createInfoSlice(...a),
-      ...createDistributionSlice(...a),
-      ...createKnowledgeSlice(...a),
-    })),
-    {
-      name: "ggeugle",
-      version: 4.2,
-      storage: createJSONStorage(() => cookieStorage),
+export type WcState = Slices;
+export type WcStore = ReturnType<typeof createWcStore>;
 
-      partialize: (state) => ({
-        gameSettingsInfo: state.gameSettingsInfo,
-        charMenu: state.charMenu,
-        view: state.view,
-        autoSearch: state.autoSearch,
-        defaultAllOpen: state.defaultAllOpen,
-        maxThreadValue: state.maxThreadValue,
-        debugOpen: state.debugOpen,
-        comparisonToast: state.comparisonToast,
-        kkutuLocalRule: state.kkutuLocalRule,
-        distributionNodeType: state.distributionNodeType,
-        wordDistributionOption: state.wordDistributionOption,
-        pageSize: state.pageSize,
-        wordDispType: state.wordDispType,
-        flow: state.flow,
-      }),
-    },
-  ),
-);
-
-export function getMovesFromChats(chats: Chat[]): string[] {
-  return chats.filter((e) => e.type === "move").map((e) => e.content as string);
-}
+// 스토어 생성기: 매 요청마다 새로운 스토어를 만들기 위함
+export const createWcStore = (initProps?: Partial<WcState>) => {
+  return createStore<WcState>()(
+    persist(
+      immer((...a) => ({
+        ...createRuleSlice(...a),
+        ...createSearchSlice(...a),
+        ...createStrategySearchSlice(...a),
+        ...createCriticalWordsSlice(...a),
+        ...createPlaySlice(...a),
+        ...createInfoSlice(...a),
+        ...createDistributionSlice(...a),
+        ...createKnowledgeSlice(...a),
+        ...initProps, // 초기 주입된 props로 상태 덮어쓰기
+      })),
+      {
+        name: "ggeugle",
+        version: 4.2,
+        storage: createJSONStorage(() => cookieStorage),
+        partialize: (state) => ({
+          gameSettingsInfo: state.gameSettingsInfo,
+          charMenu: state.charMenu,
+          view: state.view,
+          autoSearch: state.autoSearch,
+          defaultAllOpen: state.defaultAllOpen,
+          maxThreadValue: state.maxThreadValue,
+          debugOpen: state.debugOpen,
+          comparisonToast: state.comparisonToast,
+          kkutuLocalRule: state.kkutuLocalRule,
+          distributionNodeType: state.distributionNodeType,
+          wordDistributionOption: state.wordDistributionOption,
+          pageSize: state.pageSize,
+          wordDispType: state.wordDispType,
+          flow: state.flow,
+        }),
+      },
+    ),
+  );
+};

@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { ExceptedWordButton } from "~/routes/engine/$rule/search/+components/words-section/word-button";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function ExceptedWords() {
   const exceptedWords = useWcStore((e) => e.exceptedWords);
@@ -87,7 +87,7 @@ export default function ExceptedWords() {
 function ExceptWordsDropDown() {
   const setExceptedWords = useWcStore((e) => e.setExceptedWords);
   const exceptedWords = useWcStore((e) => e.exceptedWords);
-  const syncRule = useWcStore((e) => e.syncRule);
+  // const syncRule = useWcStore((e) => e.syncRule);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -117,7 +117,7 @@ function ExceptWordsDropDown() {
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => {
-            syncRule();
+            // syncRule();
           }}
         >
           <FolderSync /> 룰에 반영하기

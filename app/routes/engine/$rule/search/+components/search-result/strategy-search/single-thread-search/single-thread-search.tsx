@@ -3,13 +3,14 @@ import { useEffect } from "react";
 import { Button } from "~/components/ui/button";
 import type { NodeName } from "~/lib/wordchain/graph/graph";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import MaxThreadNumSelect from "./max-thread-num-select";
 import MoveSection from "./move-section";
 
 import { useState } from "react";
 import { PaginationSimple } from "~/components/ui/pagination-simple"; // ✅ 추가
 import { pageSizeInfo } from "~/constants/search";
+import SearchPrecedenceSettingsTrigger from "~/routes/engine/$rule/+components/site-header/search-precedence-settings";
 
 export default function SingleThreadSearch({ solver }: { solver: WordSolver }) {
   const view = useWcStore((e) => e.view);
@@ -54,16 +55,12 @@ export default function SingleThreadSearch({ solver }: { solver: WordSolver }) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <MaxThreadNumSelect />
-        <Button
-          onClick={() =>
-            document.getElementById("precedence-dialog-trigger")?.click()
-          }
-          variant="ghost"
-          className="text-muted-foreground"
-        >
-          <FileSliders />
-          우선순위 편집
-        </Button>
+        <SearchPrecedenceSettingsTrigger asChild>
+          <Button variant="ghost" className="text-muted-foreground">
+            <FileSliders />
+            우선순위 편집
+          </Button>
+        </SearchPrecedenceSettingsTrigger>
       </div>
 
       {paginatedMoves.map((move) => (

@@ -1,7 +1,7 @@
 import { range } from "lodash-es";
 import { MoveRight, TextSearch } from "lucide-react";
 import { useMemo } from "react";
-import { Ball } from "~/components/ball";
+import { Ball } from "~/routes/engine/$rule/+components/ball";
 
 import {
   Accordion,
@@ -16,7 +16,7 @@ import {
   moveTypeToWordVariant,
 } from "~/lib/wordchain/constants";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import { NodeTypeLabel } from "./node-type-label";
 export default function WordTypeNumChart({ solver }: { solver: WordSolver }) {
   const data = useMemo(() => {
@@ -49,7 +49,7 @@ export default function WordTypeNumChart({ solver }: { solver: WordSolver }) {
           className="w-full"
         >
           {range(6).map((i) => (
-            <AccordionItem value={`${i}`} key={i} className="!border-none">
+            <AccordionItem value={`${i}`} key={i} className="border-none!">
               <AccordionTrigger
                 disabled={i === 2}
                 className="hover:bg-accent dark:hover:bg-accent/50 rounded-none px-2 py-3 hover:no-underline"

@@ -1,4 +1,4 @@
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 import GameSettings from "./game-settings/game-settings";
 import Game from "./game/game";

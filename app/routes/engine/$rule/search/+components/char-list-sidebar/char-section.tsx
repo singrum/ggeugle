@@ -4,12 +4,13 @@ import { cn } from "~/lib/utils";
 
 import { range } from "lodash-es";
 import React, { Fragment, type ReactNode } from "react";
+import { Separator } from "~/components/ui/separator";
+import { Skeleton } from "~/components/ui/skeleton";
 import { maxMinComp } from "~/constants/search";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import type { RouteCharListData, WinloseCharListData } from "~/types/search";
-import { Ball } from "../ball";
-import { Separator } from "./separator";
-import { Skeleton } from "./skeleton";
+import { Ball } from "../../../+components/ball";
+
 export function WinloseCharSectionList({
   nodeType,
   charListData,

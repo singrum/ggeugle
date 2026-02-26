@@ -10,7 +10,7 @@ import {
 } from "~/components/ui/table";
 import { guelMaxRouteCharData } from "~/constants/search";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function MaxRouteCharDataTable({
   solver,

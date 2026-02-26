@@ -9,7 +9,7 @@ import type { StrategySearchSlice } from "~/stores/types/wc-store";
 
 import { Star } from "lucide-react";
 import { useState } from "react";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 const info: {
   title: string; // The description of the precedence rule.

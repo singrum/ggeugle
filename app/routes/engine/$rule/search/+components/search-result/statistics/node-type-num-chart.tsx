@@ -11,7 +11,7 @@ import {
 
 import { useMemo } from "react";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 const chartConfig = {
   num: {
@@ -49,7 +49,7 @@ export default function NodeTypeNumChart({ solver }: { solver: WordSolver }) {
       <CardContent className="flex flex-1 items-center pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px] w-full pb-0"
+          className="mx-auto aspect-square max-h-62.5 w-full pb-0"
         >
           <PieChart>
             <ChartTooltip

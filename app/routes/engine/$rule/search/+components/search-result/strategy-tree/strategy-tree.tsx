@@ -3,7 +3,7 @@ import { WcStrategyTree } from "~/lib/wordchain/graph/strategy-tree";
 import { sampleChangeFuncs } from "~/lib/wordchain/rule/change";
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
 import { useTreeStore } from "~/stores/tree-store";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import LosingMoves from "./losing-moves";
 import WinningMoves from "./winning-moves";
 

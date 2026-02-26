@@ -6,7 +6,7 @@ import {
 import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area";
 import { searchResultMenuInfo } from "~/constants/search";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function SearchResultMenu() {
   const searchResultMenu = useWcStore((e) => e.searchResultMenu);

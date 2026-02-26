@@ -24,7 +24,7 @@ import {
 import { Textarea } from "~/components/ui/textarea";
 import { useIsTablet } from "~/hooks/use-tablet";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store";
+import { useWcStore } from "~/stores/wc-store-provider";
 import type { PrecedenceMaps } from "~/types/search";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
