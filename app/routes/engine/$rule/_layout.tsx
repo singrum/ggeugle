@@ -3,11 +3,13 @@ import {
   Outlet,
   redirect,
   useLoaderData,
+  useNavigate,
   type MetaFunction,
 } from "react-router";
 import { toast } from "sonner";
 import { Card } from "~/components/ui/card";
 import { sampleRules } from "~/constants/sample-rules";
+import { storage } from "~/lib/storage/storage";
 import { getRuleFormById } from "~/lib/utils";
 import { AppSidebar } from "~/routes/engine/$rule/+components/nav-sidebar/app-sidebar";
 import SiteHeader from "~/routes/engine/$rule/+components/site-header/site-header";
@@ -36,7 +38,16 @@ export async function getLoaderDataById(
     };
   }
   // 스토리지에서 검색
-  // (구현 중)
+  const data = await storage.getRuleFormById(id);
+  if (data) {
+    return {
+      title: data.metadata.title,
+      isSample: false,
+      id,
+      updatedAt: data.metadata.updatedAt,
+      color: data.metadata.color,
+    };
+  }
   return null;
 }
 
@@ -51,26 +62,27 @@ export async function clientLoader({
   params,
 }: {
   params: { rule: string };
-}): Promise<{ data: LoaderData | null }> {
+}): Promise<{ data: LoaderData }> {
   // 샘플 룰에서 검색
   const data = await getLoaderDataById(params.rule);
-  return { data };
+  if (!data) {
+    redirect("/home");
+  }
+  return { data: data! };
 }
 
 clientLoader.hydrate = true;
 
 export default function Layout() {
   const { data } = useLoaderData<typeof clientLoader>();
-  if (!data) {
-    return redirect("/home");
-  }
+  const navigate = useNavigate();
   const [ruleForm, setRuleForm] = useState<RuleForm | null>(null);
   useEffect(() => {
     (async function () {
       const result = await getRuleFormById(data.id);
       if (!result) {
         toast.error("해당 룰을 불러올 수 없습니다.");
-        redirect("/home");
+        navigate("/home");
         return;
       }
       setRuleForm(result.ruleForm);
@@ -91,7 +103,10 @@ export default function Layout() {
     </div>;
   } else {
     return (
-      <WcStoreProvider ruleForm={ruleForm}>
+      <WcStoreProvider
+        key={ruleForm.metadata.id + ruleForm.metadata.updatedAt}
+        ruleForm={ruleForm}
+      >
         <div className="[--header-height:calc(--spacing(14))] bg-sidebar">
           <SiteHeader loaderData={data} />
           <div className="h-[calc(100svh-var(--header-height))] flex">

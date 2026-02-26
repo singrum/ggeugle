@@ -30,8 +30,13 @@ export const createStrategySearchSlice: StateCreator<
   },
 
   initSingleThreadSearch: () => {
-    const { solver, view, searchInputValue, rule, maximizeSingleThreadSearch } =
-      get();
+    const {
+      solver,
+      view,
+      searchInputValue,
+      ruleForm: rule,
+      maximizeSingleThreadSearch,
+    } = get();
 
     // search info 초기화
     let moves: [NodeName, NodeName][];

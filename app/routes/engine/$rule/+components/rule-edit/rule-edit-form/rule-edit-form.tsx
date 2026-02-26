@@ -8,7 +8,13 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import { RuleEditFooter } from "./rule-edit-footer";
 import RuleEditHeader from "./rule-edit-header";
 
-export function RuleEditForm({ ruleId }: { ruleId: string }) {
+export function RuleEditForm({
+  ruleId,
+  setOpen,
+}: {
+  ruleId: string;
+  setOpen?: (open: boolean) => void;
+}) {
   const [loading, setLoading] = useState(true);
   const [ruleForm, setRuleForm] = useState<RuleForm | null>(null);
   const [isSample, setIsSample] = useState(false);
@@ -39,7 +45,7 @@ export function RuleEditForm({ ruleId }: { ruleId: string }) {
         <ScrollArea className="h-full flex-1 min-h-0">
           <RuleEditContent />
         </ScrollArea>
-        <RuleEditFooter />
+        <RuleEditFooter setOpen={setOpen} />
       </div>
     </RuleEditorStoreProvider>
   );

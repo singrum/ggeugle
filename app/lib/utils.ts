@@ -1,9 +1,10 @@
 import { clsx, type ClassValue } from "clsx";
-import { get, has, isEqual, set } from "lodash-es";
+import { get, has, set } from "lodash-es";
 import { twMerge } from "tailwind-merge";
 import type { RuleForm } from "~/types/rule";
 
 import { sampleRules } from "~/constants/sample-rules";
+import { storage } from "./storage/storage";
 import { EdgeCounter } from "./wordchain/classes/edge-counter";
 import type { NodeName } from "./wordchain/graph/graph";
 
@@ -78,20 +79,6 @@ export function compareTuple(a: number[], b: number[]) {
     }
   }
   return 0;
-}
-
-export function isEqualRules(rule1: RuleForm, rule2: RuleForm) {
-  const rule1WithoutMetadata = { ...rule1 };
-  delete rule1WithoutMetadata.metadata;
-  const rule2WithoutMetadata = { ...rule2 };
-  delete rule2WithoutMetadata.metadata;
-  return isEqual(rule1WithoutMetadata, rule2WithoutMetadata);
-}
-
-export function removeMetaData(rule: RuleForm) {
-  const ruleWithoutMetadata = { ...rule };
-  delete ruleWithoutMetadata.metadata;
-  return ruleWithoutMetadata;
 }
 
 export function wordsToMoves(
@@ -266,6 +253,12 @@ export async function getRuleFormById(
     };
   }
   // 스토리지에서 검색
-  // (구현 중)
+  const data = await storage.getRuleFormById(id);
+  if (data) {
+    return {
+      ruleForm: data,
+      isSample: false,
+    };
+  }
   return null;
 }

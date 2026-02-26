@@ -16,6 +16,7 @@ export default function Sample() {
         color: e.metadata.color,
         updatedAt: e.metadata.updatedAt,
       }))}
+      isSample={true}
     />
   );
 }

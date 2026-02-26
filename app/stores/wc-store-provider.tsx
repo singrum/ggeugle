@@ -23,12 +23,12 @@ export const WcStoreProvider = ({
       ruleForm,
     }),
   );
+  console.log(ruleForm);
   useEffect(() => {
     const { updateRule } = store.getState();
 
     if (updateRule) {
       updateRule();
-      console.log("Rule updated in store via Provider effect");
     }
   }, [store, ruleForm]); // ruleForm이 외부에서 바뀌면 스토어 데이터도 동기화
 
@@ -43,7 +43,6 @@ export const useWcStore = <T,>(selector: (state: WcState) => T): T => {
     throw new Error(`useWcStore must be used within WcStoreProvider`);
   }
 
-  // useStore(스토어_인스턴스, 셀렉터) -> 셀렉터의 인자는 '상태(State)'가 됨
   return useStore(wcStoreContext, selector);
 };
 

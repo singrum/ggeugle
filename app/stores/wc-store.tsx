@@ -69,7 +69,6 @@ export const createWcStore = (initProps?: Partial<WcState>) => {
           maxThreadValue: state.maxThreadValue,
           debugOpen: state.debugOpen,
           comparisonToast: state.comparisonToast,
-          kkutuLocalRule: state.kkutuLocalRule,
           distributionNodeType: state.distributionNodeType,
           wordDistributionOption: state.wordDistributionOption,
           pageSize: state.pageSize,

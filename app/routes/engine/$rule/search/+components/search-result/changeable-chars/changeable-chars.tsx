@@ -11,7 +11,7 @@ import { useWcStore } from "~/stores/wc-store-provider";
 
 export default function ChangeableChars({ solver }: { solver: WordSolver }) {
   const changeFuncIdx = useWcStore(
-    (e) => e.rule.wordConnectionRule.changeFuncIdx,
+    (e) => e.ruleForm.wordConnectionRule.changeFuncIdx,
   );
   const char = useWcStore((e) => e.searchInputValue);
   const data = useMemo(() => {

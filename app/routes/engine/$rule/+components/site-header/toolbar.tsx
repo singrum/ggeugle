@@ -151,10 +151,12 @@ function AlgorithmToolbarContent() {
 
         <DropdownMenuItem
           onClick={() =>
-            document.getElementById("preference-settings-trigger")?.click()
+            document
+              .getElementById("search-precedence-settings-trigger")
+              ?.click()
           }
         >
-          우선 순위 설정
+          전략 탐색 우선순위 편집
         </DropdownMenuItem>
       </DropdownMenuGroup>
     </>

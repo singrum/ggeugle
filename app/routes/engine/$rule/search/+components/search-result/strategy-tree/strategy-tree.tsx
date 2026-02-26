@@ -9,7 +9,7 @@ import WinningMoves from "./winning-moves";
 
 export default function StrategyTree({ solver }: { solver: WordSolver }) {
   const view = useWcStore((e) => e.view);
-  const rule = useWcStore((e) => e.rule);
+  const rule = useWcStore((e) => e.ruleForm);
   const searchInputValue = useWcStore((e) => e.searchInputValue);
   const setTree = useTreeStore((e) => e.setTree);
   const treeData = useTreeStore((e) => e.treeData);

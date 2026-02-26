@@ -98,6 +98,5 @@ export type PrecedenceMaps = {
 
 export type PrecInfo = {
   rule: number;
-
   maps: PrecedenceMaps;
 };

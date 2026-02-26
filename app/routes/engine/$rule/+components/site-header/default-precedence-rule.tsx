@@ -9,7 +9,7 @@ import type { StrategySearchSlice } from "~/stores/types/wc-store";
 
 import { Star } from "lucide-react";
 import { useState } from "react";
-import { useWcStore } from "~/stores/wc-store-provider";
+import { useWcStore, useWcStoreApi } from "~/stores/wc-store-provider";
 
 const info: {
   title: string; // The description of the precedence rule.
@@ -29,12 +29,12 @@ export default function DefaultPrecedenceRule({
   setOpen: (v: boolean) => void;
 }) {
   const rule = useWcStore((e) => e.prec.rule);
-
+  const storeApi = useWcStoreApi();
   const [localRule, setLocalRule] =
     useState<StrategySearchSlice["prec"]["rule"]>(rule);
 
   const save = () => {
-    useWcStore.setState((state) => {
+    storeApi.setState((state) => {
       state.prec.rule = localRule;
     });
     setOpen(false);

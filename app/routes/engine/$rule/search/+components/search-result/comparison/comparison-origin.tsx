@@ -8,14 +8,14 @@ import ComparisonInfo from "./comparison-info";
 export default function ComparisonOrigin({ solver }: { solver: WordSolver }) {
   const originalSolver = useWcStore((e) => e.originalSolver);
   const view = useWcStore((e) => e.view);
-  const rule = useWcStore((e) => e.rule);
+  const ruleForm = useWcStore((e) => e.ruleForm);
   const data = useMemo(() => {
     const mapping = originalSolver!.graphSolver.getComparisonMap(
       solver.graphSolver,
-      sampleChangeFuncs[rule.wordConnectionRule.changeFuncIdx],
+      sampleChangeFuncs[ruleForm.wordConnectionRule.changeFuncIdx],
     );
     const result = getComparisonData(mapping);
     return result;
-  }, [solver, originalSolver, rule]);
+  }, [solver, originalSolver, ruleForm]);
   return <ComparisonInfo comparisonData={data[view]} />;
 }

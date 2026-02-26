@@ -1,6 +1,5 @@
 import { redirect } from "react-router";
 
-// /sample로 리다이렉트
 export function loader() {
-  return redirect("/home/storage");
+  return redirect("/home/sample");
 }
