@@ -1,10 +1,10 @@
 import { useLoaderData } from "react-router";
 import { storage } from "~/lib/storage/storage";
+import RulesView from "../+components/rules-view/rules-view";
 import type { Route } from "../+types";
-import Storage from "./+components/storage-rules-view/storage";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "룰 보관함" }];
+  return [{ title: "보관함" }];
 }
 
 export function shouldRevalidate() {
@@ -29,5 +29,12 @@ export async function clientLoader() {
 export default function StorageIndex() {
   const { rules } = useLoaderData<typeof clientLoader>();
 
-  return <Storage rules={rules} />;
+  return (
+    <RulesView
+      title="보관함"
+      rules={rules}
+      isSample={false}
+      key={rules.reduce((acc, curr) => Math.max(acc, curr.updatedAt), 0)}
+    />
+  );
 }

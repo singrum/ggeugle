@@ -1,6 +1,6 @@
 import { ArticleIcon } from "@phosphor-icons/react";
-import { Download, MoreVertical, Pencil } from "lucide-react";
-import { Link, useNavigate } from "react-router";
+import { Copy, MoreVertical, Pencil, Trash2 } from "lucide-react";
+import { Link, useNavigate, useRevalidator } from "react-router";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 
+import { toast } from "sonner";
 import { storage } from "~/lib/storage/storage";
 import { cn } from "~/lib/utils";
 import { useRulesViewStore } from "./rules-view-provider";
@@ -21,6 +22,8 @@ export default function RuleViewButton({
   const navigate = useNavigate();
   const selectedRuleId = useRulesViewStore((e) => e.selectedRuleId);
   const select = useRulesViewStore((e) => e.select);
+  const isSample = useRulesViewStore((e) => e.isSample);
+  const { revalidate } = useRevalidator();
   return (
     <Button
       key={id}
@@ -69,12 +72,26 @@ export default function RuleViewButton({
             <DropdownMenuItem
               onSelect={async () => {
                 await storage.copyRuleForm(id);
-                navigate("/home/storage");
+                revalidate();
+                if (isSample) {
+                  toast.success("보관함에 저장되었습니다.");
+                }
               }}
             >
-              <Download className="size-4" />
-              보관함에 저장
+              <Copy className="size-4" />
+              {isSample ? "보관함에 저장" : "복사"}
             </DropdownMenuItem>
+            {!isSample && (
+              <DropdownMenuItem
+                onSelect={async () => {
+                  await storage.deleteRuleForm(id);
+                  revalidate();
+                }}
+              >
+                <Trash2 className="size-4" />
+                삭제
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

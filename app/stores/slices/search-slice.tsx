@@ -212,7 +212,7 @@ export const createSearchSlice: StateCreator<
     const {
       view,
       solver,
-      ruleForm,
+      ruleForm: rule,
       setSearchResultMenu,
       search,
       comparisonToast,

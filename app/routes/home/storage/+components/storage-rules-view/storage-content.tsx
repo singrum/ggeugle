@@ -1,4 +1,4 @@
-import RuleButton from "./rule-button";
+import RuleButton from "../../../+components/rules-view/rule-view-button";
 import { useStorageStore } from "./storage-provider";
 export default function StorageContent() {
   const rules = useStorageStore((e) => e.rules);
