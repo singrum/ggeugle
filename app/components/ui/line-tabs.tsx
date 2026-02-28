@@ -10,7 +10,7 @@ function LineTabs({
   return (
     <TabsPrimitive.Root
       data-slot="tabs"
-      className={cn("relative flex flex-col px-6", className)}
+      className={cn("relative flex flex-col px-6 w-full min-w-0", className)}
       {...props}
     >
       {children}

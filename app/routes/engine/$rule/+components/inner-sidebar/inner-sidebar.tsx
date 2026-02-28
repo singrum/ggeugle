@@ -6,7 +6,7 @@ export default function InnerSidebar({
   return (
     <div
       className={cn(
-        "h-full min-h-0 overflow-auto no-scrollbar w-[calc(max(400px,min(33svw,600px)))]",
+        "h-full min-h-0 overflow-auto no-scrollbar w-[calc(max(400px,min(33svw,600px)))] shrink-0",
       )}
       {...props}
     />

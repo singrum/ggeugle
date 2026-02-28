@@ -14,28 +14,26 @@ export default function SearchResultMenu() {
   const searchInputType = useWcStore((e) => e.searchInputType);
 
   return (
-    <div className="bg-background">
-      <ScrollArea className="">
-        <LineTabs
-          className={cn("px-4 whitespace-nowrap md:px-6")}
-          value={`${searchResultMenu}`}
-        >
-          <LineTabsList>
-            {searchResultMenuInfo[searchInputType].map(({ title }, i) => (
-              <LineTabsTrigger
-                key={title}
-                value={`${i}`}
-                onClick={() => {
-                  setSearchResultMenu(i);
-                }}
-              >
-                {title}
-              </LineTabsTrigger>
-            ))}
-          </LineTabsList>
-        </LineTabs>
-        <ScrollBar orientation="horizontal" hidden />
-      </ScrollArea>
-    </div>
+    <ScrollArea className="w-full ">
+      <LineTabs
+        className={cn("px-4 whitespace-nowrap md:px-6")}
+        value={`${searchResultMenu}`}
+      >
+        <LineTabsList>
+          {searchResultMenuInfo[searchInputType].map(({ title }, i) => (
+            <LineTabsTrigger
+              key={title}
+              value={`${i}`}
+              onClick={() => {
+                setSearchResultMenu(i);
+              }}
+            >
+              {title}
+            </LineTabsTrigger>
+          ))}
+        </LineTabsList>
+      </LineTabs>
+      <ScrollBar orientation="horizontal" hidden />
+    </ScrollArea>
   );
 }

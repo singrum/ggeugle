@@ -1,49 +1,59 @@
 import { Card } from "~/components/ui/card";
 import { ScrollArea } from "~/components/ui/scroll-area";
+import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
 import { useIsTablet } from "~/hooks/use-tablet";
-import RulesViewContent from "./rules-view-content";
+import { RuleEditForm } from "~/routes/engine/$rule/+components/rule-edit/rule-edit-form/rule-edit-form";
 import {
   RulesViewStoreProvider,
   useRulesViewStore,
 } from "./rules-view-provider";
 import RulesViewSidebar from "./rules-view-sidebar";
-import RulesViewTitle from "./rules-view-title";
 
 export default function RulesView({
-  title,
   rules,
   isSample,
+  children,
 }: {
-  title: string;
   rules: { id: string; title: string; color: string }[];
   isSample: boolean;
+  children?: React.ReactNode;
 }) {
   const isTablet = useIsTablet();
 
   return (
     <RulesViewStoreProvider rules={rules} isSample={isSample}>
-      <RulesViewInner title={title} />
+      <RulesViewInner>{children}</RulesViewInner>
     </RulesViewStoreProvider>
   );
 }
 
-function RulesViewInner({ title }: { title: string }) {
+function RulesViewInner({ children }: { children?: React.ReactNode }) {
   const isTablet = useIsTablet();
   const selectedRuleId = useRulesViewStore((e) => e.selectedRuleId);
-
+  const select = useRulesViewStore((e) => e.select);
   return (
-    <div className="p-0 md:pr-2 md:py-2 md:flex-1 md:h-full flex gap-2">
-      <Card className="rounded-lg h-full p-0 bg-background sm:border sm:dark:border-0 w-full md:flex-1">
-        <ScrollArea className="md:h-full">
-          <div className="space-y-1 p-0 min-h-svh">
-            <div className="p-6 sticky top-0 z-20 bg-background md:rounded-t-lg">
-              <RulesViewTitle>{title}</RulesViewTitle>
-            </div>
-            <RulesViewContent />
-          </div>
-        </ScrollArea>
+    <div className="p-0 lg:pr-2 lg:py-2 lg:flex-1 h-full flex ">
+      <Card className="rounded-lg h-full p-0 bg-background lg:border lg:dark:border-0 w-full lg:flex-1">
+        <ScrollArea className="lg:h-full">{children}</ScrollArea>
       </Card>
-      {!isTablet && selectedRuleId && <RulesViewSidebar />}
+      {selectedRuleId &&
+        (!isTablet ? (
+          <RulesViewSidebar />
+        ) : (
+          <Sheet open={!!selectedRuleId} onOpenChange={() => select(null)}>
+            <SheetTrigger asChild>
+              <button className="hidden" />
+            </SheetTrigger>
+            <SheetContent>
+              <RuleEditForm
+                ruleId={selectedRuleId!}
+                setOpen={(open: boolean) => {
+                  if (!open) select(null);
+                }}
+              />
+            </SheetContent>
+          </Sheet>
+        ))}
     </div>
   );
 }

@@ -5,5 +5,5 @@ export default function RulesViewTitle({
 }: {
   children: React.ReactNode;
 }) {
-  return <h1 className="text-xl font-bold">{children}</h1>;
+  return <h1 className="text-xl lg:text-2xl font-semibold">{children}</h1>;
 }

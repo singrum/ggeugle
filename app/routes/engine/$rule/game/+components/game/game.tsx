@@ -15,7 +15,7 @@ export default function Game({ id }: { id: string }) {
   return (
     <>
       <div
-        className="h-full max-h-full min-h-0 flex-1 no-scrollbar"
+        className="h-full max-h-full min-h-0 flex-1 overflow-y-scroll"
         id="chatbox"
       >
         <div className="mx-auto flex min-h-full w-full max-w-3xl flex-col justify-end">

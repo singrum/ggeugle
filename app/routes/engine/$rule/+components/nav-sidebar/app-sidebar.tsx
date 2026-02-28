@@ -8,11 +8,9 @@ import { Button } from "../../../../../components/ui/button";
 export function AppSidebar() {
   const location = useLocation();
 
-  const mainTabs = navInfo.filter((e) => !e.isMore);
-
   return (
     <div className="h-[calc(100svh-var(--header-height))] w-20 shrink-0 flex items-center justify-center flex-col gap-2">
-      {mainTabs.map(({ title, icon, key }) => {
+      {navInfo.map(({ title, icon, key }) => {
         const Icon = icon;
         const active = location.pathname.includes(key);
         return (

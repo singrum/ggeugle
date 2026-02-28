@@ -1,26 +1,22 @@
-import { BookIcon, FolderIcon } from "@phosphor-icons/react";
-import { matchPath, NavLink, useLocation } from "react-router";
+import { NavLink, useLocation, useParams } from "react-router";
 import { Button } from "~/components/ui/button";
+import { navInfo } from "~/constants/sidebar";
 import { cn } from "~/lib/utils";
-
-const sidebarItems = [
-  { name: "기본 룰", path: "/home/sample", iconName: BookIcon },
-  { name: "보관함", path: "/home/storage", iconName: FolderIcon },
-];
 
 export default function MobileNav() {
   const { pathname } = useLocation();
-  return (
-    <div className="grid grid-cols-2 w-full bg-sidebar z-10 border-t dark:border-0">
-      {sidebarItems.map((item) => {
-        const isExactMatch = matchPath(
-          { path: item.path, end: false },
-          pathname,
-        );
+  const { rule } = useParams();
 
+  const pathSegments = pathname.split("/").filter(Boolean);
+  const lastSegment = pathSegments[pathSegments.length - 1];
+
+  return (
+    <div className="grid grid-cols-2 w-full  bg-sidebar z-10 border-t dark:border-0">
+      {navInfo.map((item) => {
+        const isExactMatch = lastSegment === item.key;
         const isActive = isExactMatch;
         return (
-          <div key={item.path}>
+          <div key={item.key}>
             <Button
               asChild
               variant={"ghost"}
@@ -28,13 +24,13 @@ export default function MobileNav() {
                 "rounded-none w-full justify-start flex-col h-auto  gap-1 py-2",
               )}
             >
-              <NavLink to={item.path}>
+              <NavLink to={`/engine/${encodeURIComponent(rule!)}/${item.key}`}>
                 <div
                   className={cn("px-5 py-0.5 rounded-full bg-transparent", {
                     "bg-primary": isActive,
                   })}
                 >
-                  <item.iconName
+                  <item.icon
                     className={cn("size-6 shrink-0 text-muted-foreground", {
                       "text-primary-foreground": isActive,
                     })}
@@ -46,7 +42,7 @@ export default function MobileNav() {
                     "text-sidebar-primary": isActive,
                   })}
                 >
-                  {item.name}
+                  {item.title}
                 </div>
               </NavLink>
             </Button>

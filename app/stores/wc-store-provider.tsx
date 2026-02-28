@@ -23,7 +23,7 @@ export const WcStoreProvider = ({
       ruleForm,
     }),
   );
-  console.log(ruleForm);
+
   useEffect(() => {
     const { updateRule } = store.getState();
 

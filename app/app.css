@@ -14,9 +14,6 @@ html,
 body {
   @apply bg-white dark:bg-gray-950;
   font-family: "Noto Sans KR", "Noto Sans", sans-serif;
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
 }
 
 @theme inline {

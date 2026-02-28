@@ -8,7 +8,7 @@ export default function StorageSidebar() {
   const selectedRuleId = useStorageStore((e) => e.selectedRuleId);
   const select = useStorageStore((e) => e.select);
   return (
-    <Card className="rounded-lg h-full p-0 bg-background border dark:border-0 sm:max-w-sm w-full relative">
+    <Card className="rounded-lg h-full p-0 bg-background border dark:border-0 md:max-w-sm w-full relative">
       <Button
         className="absolute top-2 right-2"
         variant="ghost"

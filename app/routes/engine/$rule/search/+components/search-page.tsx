@@ -7,13 +7,14 @@ import SearchResultMenu from "./search-section/search-result-menu";
 
 export default function SearchPage() {
   return (
-    <div className="relative flex h-full min-w-0 flex-1 flex-col">
+    <div className="relative grid grid-cols-1 min-w-0 flex-1 flex-col">
       <div className="mx-auto w-full max-w-3xl">
         <ExceptedWordsInputContainer>
           <ExceptedWords />
           <SearchInput />
         </ExceptedWordsInputContainer>
         <SearchResultMenu />
+
         <SearchResult />
       </div>
       <Toaster position="top-right" />
