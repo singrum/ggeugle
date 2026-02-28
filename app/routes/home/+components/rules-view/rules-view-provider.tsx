@@ -1,4 +1,10 @@
-import { type ReactNode, createContext, useContext, useState } from "react";
+import {
+  type ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { useStore } from "zustand";
 import { createStore } from "zustand/vanilla";
 
@@ -50,6 +56,11 @@ export const RulesViewStoreProvider = ({
   const [store] = useState(() =>
     createRulesStore({ rules, isSample, selectedRuleId: null }),
   );
+
+  useEffect(() => {
+    store.setState({ rules, isSample });
+  }, [rules, isSample]);
+
   return (
     <RulesViewStoreContext.Provider value={store}>
       {children}

@@ -103,7 +103,7 @@ export default function Layout() {
         <div className="[--header-height:calc(--spacing(14))] bg-sidebar flex flex-col h-svh">
           <div className="flex-1 min-h-0 overflow-auto flex flex-col">
             <SiteHeader loaderData={data} />
-            <div className="flex-1 lg:flex min-h-0">
+            <div className="flex-1 lg:flex ">
               {!isTablet && <AppSidebar />}
               <div className="lg:pr-2 lg:pb-2 flex-1 h-full">
                 <Card className="rounded-none lg:rounded-lg h-full p-0 bg-background lg:border lg:dark:border-0 ">

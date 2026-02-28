@@ -34,7 +34,10 @@ export default function StorageIndex() {
   const { rules } = useLoaderData<typeof clientLoader>();
 
   return (
-    <RulesView isSample={false} rules={rules}>
+    <RulesView
+      isSample={false}
+      rules={rules}
+    >
       <RulesViewHeader>
         <RulesViewTitle>보관함</RulesViewTitle>
         <RulesViewDescription>
