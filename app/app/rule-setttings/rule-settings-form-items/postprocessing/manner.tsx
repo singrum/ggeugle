@@ -18,7 +18,7 @@ import {
 } from "../../../../routes/engine/$rule/+components/outline-card";
 export default function Manner() {
   const manner = useRuleEditorStore(
-    (e) => e.localRuleForm.postprocessing.manner.type,
+    (e) => e.localRuleForm.content.postprocessing.manner.type,
   );
   const storeApi = useRuleEditorStoreApi();
   return (
@@ -31,13 +31,13 @@ export default function Manner() {
           value={`${manner}`}
           onValueChange={(e: string) => {
             storeApi.setState((state) => {
-              state.localRuleForm.postprocessing.manner.type = Number(e) as
+              state.localRuleForm.content.postprocessing.manner.type = Number(e) as
                 | 0
                 | 1
                 | 2
                 | 3;
               if (Number(e) === 3) {
-                state.localRuleForm.postprocessing.manner.nextWordsLimit = 0;
+                state.localRuleForm.content.postprocessing.manner.nextWordsLimit = 0;
               }
             });
             // selected

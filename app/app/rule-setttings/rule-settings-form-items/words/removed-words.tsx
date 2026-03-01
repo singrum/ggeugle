@@ -12,7 +12,7 @@ import {
 
 export default function RemovedWords() {
   const value = useRuleEditorStore(
-    (e) => e.localRuleForm.wordRule.removedWords,
+    (e) => e.localRuleForm.content.wordRule.removedWords,
   );
   const storeApi = useRuleEditorStoreApi();
   return (
@@ -26,7 +26,8 @@ export default function RemovedWords() {
           value={value}
           onChange={(e) =>
             storeApi.setState((state) => {
-              state.localRuleForm.wordRule.removedWords = e.target.value;
+              state.localRuleForm.content.wordRule.removedWords =
+                e.target.value;
             })
           }
         />

@@ -244,7 +244,7 @@ export function compareEdge(a: [string, string], b: [string, string]) {
 export async function getRuleFormById(
   id: string,
 ): Promise<{ ruleForm: RuleForm; isSample: boolean } | null> {
-  const sampleRule = sampleRules.find((rule) => rule.metadata.id === id);
+  const sampleRule = sampleRules.find((rule) => rule.id === id);
 
   if (sampleRule) {
     return {

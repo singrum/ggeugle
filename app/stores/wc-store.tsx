@@ -25,9 +25,9 @@ const cookieStorage: StateStorage = {
     if (!value) return null;
 
     try {
-      return value; // createJSONStorage가 JSON.parse 처리
+      return value;
     } catch {
-      return null; // 파싱 실패 시 초기화
+      return null;
     }
   },
   setItem: (name: string, value: string): void => {

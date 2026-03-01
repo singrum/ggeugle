@@ -10,7 +10,9 @@ import RegexFilter from "./words/regex-filter";
 import RemovedWords from "./words/removed-words";
 
 export default function Words() {
-  const type = useRuleEditorStore((e) => e.localRuleForm.wordRule.words.type);
+  const type = useRuleEditorStore(
+    (e) => e.localRuleForm.content.wordRule.words.type,
+  );
 
   return (
     <div className="space-y-4">

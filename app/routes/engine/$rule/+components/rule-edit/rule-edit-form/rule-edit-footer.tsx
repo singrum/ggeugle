@@ -1,6 +1,7 @@
 import { isEqual } from "lodash-es";
 import { ChevronDownIcon, RotateCcw, Save, SaveAll } from "lucide-react";
 import { useLocation, useNavigate, useRevalidator } from "react-router";
+import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { ButtonGroup } from "~/components/ui/button-group";
 import {
@@ -32,6 +33,7 @@ export function RuleEditFooter({
   const onSave = async () => {
     await storage.updateRuleForm(localRuleForm);
     setOpen?.(false);
+    toast.success("성공적으로 저장되었습니다.");
     revalidate();
   };
 

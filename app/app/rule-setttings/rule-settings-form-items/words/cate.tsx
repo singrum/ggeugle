@@ -14,10 +14,14 @@ import {
 
 export default function Cate() {
   const cate = useRuleEditorStore(
-    (e) => (e.localRuleForm.wordRule.words.option as SelectedWordsOption).cate,
+    (e) =>
+      (e.localRuleForm.content.wordRule.words.option as SelectedWordsOption)
+        .cate,
   );
   const dict = useRuleEditorStore(
-    (e) => (e.localRuleForm.wordRule.words.option as SelectedWordsOption).dict,
+    (e) =>
+      (e.localRuleForm.content.wordRule.words.option as SelectedWordsOption)
+        .dict,
   );
   const storeApi = useRuleEditorStoreApi();
 
@@ -36,7 +40,7 @@ export default function Cate() {
             onPressedChange={(value: boolean) => {
               storeApi.setState((state) => {
                 (
-                  state.localRuleForm.wordRule.words
+                  state.localRuleForm.content.wordRule.words
                     .option as SelectedWordsOption
                 ).cate[e] = Number(value) as 0 | 1;
               });

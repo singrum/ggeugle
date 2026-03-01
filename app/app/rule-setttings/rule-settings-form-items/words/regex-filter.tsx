@@ -12,7 +12,9 @@ import {
 import RegexExamples from "./regex-examples";
 
 export default function RegexFilter() {
-  const value = useRuleEditorStore((e) => e.localRuleForm.wordRule.regexFilter);
+  const value = useRuleEditorStore(
+    (e) => e.localRuleForm.content.wordRule.regexFilter,
+  );
   const storeApi = useRuleEditorStoreApi();
   return (
     <OutlineCardSection>
@@ -24,7 +26,7 @@ export default function RegexFilter() {
           value={value}
           onChange={(e) =>
             storeApi.setState((state) => {
-              state.localRuleForm.wordRule.regexFilter = e.target.value;
+              state.localRuleForm.content.wordRule.regexFilter = e.target.value;
             })
           }
         />

@@ -29,7 +29,7 @@ export default function Nav() {
               <NavLink to={item.path}>
                 <item.iconName
                   className="size-5 mr-2"
-                  weight={isActive ? "regular" : "regular"}
+                  weight={isActive ? "fill" : "regular"}
                 />
                 {item.name}
               </NavLink>

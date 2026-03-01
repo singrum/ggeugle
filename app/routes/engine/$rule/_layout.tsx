@@ -28,7 +28,7 @@ export type LoaderData = {
 export async function getLoaderDataById(
   id: string,
 ): Promise<LoaderData | null> {
-  const sampleRule = sampleRules.find((rule) => rule.metadata.id === id);
+  const sampleRule = sampleRules.find((rule) => rule.id === id);
 
   if (sampleRule) {
     return {
@@ -97,13 +97,13 @@ export default function Layout() {
   } else {
     return (
       <WcStoreProvider
-        key={ruleForm.metadata.id + ruleForm.metadata.updatedAt}
+        key={ruleForm.id + ruleForm.metadata.updatedAt}
         ruleForm={ruleForm}
       >
         <div className="[--header-height:calc(--spacing(14))] bg-sidebar flex flex-col h-svh">
           <div className="flex-1 min-h-0 overflow-auto flex flex-col">
             <SiteHeader loaderData={data} />
-            <div className="flex-1 lg:flex ">
+            <div className="flex-1 lg:flex min-h-auto lg:min-h-0">
               {!isTablet && <AppSidebar />}
               <div className="lg:pr-2 lg:pb-2 flex-1 h-full">
                 <Card className="rounded-none lg:rounded-lg h-full p-0 bg-background lg:border lg:dark:border-0 ">

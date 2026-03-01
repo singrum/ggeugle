@@ -39,7 +39,7 @@ export default function MobileNav() {
                 </div>
                 <div
                   className={cn(" text-xs text-muted-foreground", {
-                    "text-sidebar-primary": isActive,
+                    "text-sidebar-foreground": isActive,
                   })}
                 >
                   {item.title}

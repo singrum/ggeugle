@@ -8,7 +8,7 @@ import PostRemovedWords from "./postprocessing/post-removed-words";
 
 export default function Postprocessing() {
   const type = useRuleEditorStore(
-    (e) => e.localRuleForm.postprocessing.manner.type,
+    (e) => e.localRuleForm.content.postprocessing.manner.type,
   );
   return (
     <div className="space-y-4">

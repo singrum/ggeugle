@@ -65,24 +65,25 @@ const funcWorkerApi: FuncWorkerApi = {
     let start, end;
     start = performance.now();
 
-    const words = await loadWords(rule.wordRule);
+    const words = await loadWords(rule.content.wordRule);
     end = performance.now();
 
     start = performance.now();
 
-    const { manner, addedWords, removedWords } = rule.postprocessing;
+    const { manner, addedWords, removedWords } = rule.content.postprocessing;
 
     const [headIdx, tailIdx] = [
       getIdx(
-        rule.wordConnectionRule.rawHeadIdx,
-        rule.wordConnectionRule.headDir,
+        rule.content.wordConnectionRule.rawHeadIdx,
+        rule.content.wordConnectionRule.headDir,
       ),
       getIdx(
-        rule.wordConnectionRule.rawTailIdx,
-        rule.wordConnectionRule.tailDir,
+        rule.content.wordConnectionRule.rawTailIdx,
+        rule.content.wordConnectionRule.tailDir,
       ),
     ];
-    const changeFunc = sampleChangeFuncs[rule.wordConnectionRule.changeFuncIdx];
+    const changeFunc =
+      sampleChangeFuncs[rule.content.wordConnectionRule.changeFuncIdx];
 
     const wordMap = WordMap.fromWords(words, headIdx, tailIdx);
     let graph: BipartiteDiGraph = BipartiteDiGraph.fromWordMap(

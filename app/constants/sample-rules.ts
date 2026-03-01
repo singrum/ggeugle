@@ -2,543 +2,532 @@ import { toObject } from "~/lib/utils";
 import type { RuleForm } from "~/types/rule";
 import { cates, poses } from "./rule";
 
+
+
 export const sampleRules: RuleForm[] = [
   {
+    id: "구엜룰",
     metadata: {
-      id: "구엜룰",
       title: "구엜룰",
-      description:
-        "(구)표준국어대사전에 등록된 명사만 사용할 수 있으며, 표준 두음 법칙이 적용됩니다.",
       updatedAt: 0,
       color: "#3b82f6",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 0,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 1, 1, 1]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 0,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
         },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: ".*",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 1,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "신엜룰",
     metadata: {
-      id: "신엜룰",
       title: "신엜룰",
-      description:
-        "(신)표준국어대사전에 등록된 명사만 사용할 수 있으며, 표준 두음 법칙이 적용됩니다.",
       updatedAt: 0,
       color: "#6366f1",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 1,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 0, 0, 0]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 1,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 0, 0, 0]),
+          },
         },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: ".*",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 1,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "넯룰",
     metadata: {
-      id: "넯룰",
       title: "넶룰",
-      description:
-        "네이버 국어사전에 등록된 명사만 사용할 수 있으며, 자유 두음 법칙이 적용됩니다.",
       updatedAt: 0,
       color: "#8b5cf6",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 3,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 1, 1, 1]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 3,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
         },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: ".*",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 5,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 5,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "앞말잇기",
     metadata: {
-      id: "앞말잇기",
       title: "앞말잇기",
-      description:
-        "(구)표준국어대사전에 등록된 명사만 사용할 수 있으며, 두음 법칙은 적용되지 않습니다. 끝말잇기와는 달리, 앞 단어의 첫 글자로 끝나는 단어를 말해야 합니다.",
       updatedAt: 0,
       color: "#a855f7",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 0,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 1, 1, 1]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 0,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
         },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: ".*",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 1,
-      headDir: 1,
-      rawHeadIdx: 1,
-      tailDir: 0,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        headDir: 1,
+        rawHeadIdx: 1,
+        tailDir: 0,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "노룰",
     metadata: {
-      id: "노룰",
       title: "노룰",
-      description:
-        "(구)표준국어대사전에 등록된 명사만 사용할 수 있으며, 두음 법칙과 한방 단어는 사용할 수 없습니다.",
       updatedAt: 0,
       color: "#d946ef",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 0,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 1, 1, 1]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 0,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
         },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: ".*",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 0,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 2 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 0,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 2 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "반전룰",
     metadata: {
-      id: "반전룰",
       title: "반전룰",
-      description:
-        "(구)표준국어대사전에 등록된 명사만 사용할 수 있으며, 모음 반전 두음 법칙이 적용됩니다.",
       updatedAt: 0,
       color: "#ec4899",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 0,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 1, 1, 1]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 0,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
         },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: ".*",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 7,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 7,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "챈룰",
     metadata: {
-      id: "챈룰",
       title: "챈룰",
-      description:
-        "(구)표준국어대사전에 등록된 명사만 사용할 수 있으며, 자음 상하 반전 두음 법칙이 적용됩니다.",
       updatedAt: 0,
       color: "#f43f5e",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 0,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 1, 1, 1]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 0,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
         },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: ".*",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 8,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 8,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "듭2룰",
     metadata: {
-      id: "듭2룰",
       title: "듭2룰",
-      description:
-        "(구)표준국어대사전에 등록된 명사만 사용할 수 있으며, 초성과 종성에 자유 두음 법칙이 적용됩니다.",
       updatedAt: 0,
       color: "#ef4444",
     },
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 0,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 1, 1, 1]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 0,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
         },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: ".*",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 9,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 9,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "천도룰",
     metadata: {
-      id: "천도룰",
       title: "천도룰",
-      description:
-        "(신)표준국어대사전에 등록된 세 글자 명사만 사용할 수 있으며, 표준 두음 법칙이 적용됩니다. 한방 단어는 사용할 수 없습니다.",
       updatedAt: 0,
       color: "#f97316",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 1,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 1, 0]),
-          cate: toObject(cates, [1, 0, 0, 0]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 1,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 1, 0]),
+            cate: toObject(cates, [1, 0, 0, 0]),
+          },
         },
+        regexFilter: "(.{3})",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: "(.{3})",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 1,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 2 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 2 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "연결룰",
     metadata: {
-      id: "연결룰",
       title: "연결룰",
-      description: "구엜룰에서 '붕어톱', '궤휼', '잎뽕'이 제외됩니다.",
       updatedAt: 0,
       color: "#f59e0b",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 0,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 1, 1, 1]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 0,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
         },
+        regexFilter: ".*",
+        removedWords: "붕어톱 궤휼 잎뽕",
+        addedWords: "",
       },
-      regexFilter: ".*",
-      removedWords: "붕어톱 궤휼 잎뽕",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 1,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "듭룰",
     metadata: {
-      id: "듭룰",
       title: "듭룰",
-      description:
-        "(구)표준국어대사전에 등록된 명사만 사용할 수 있으며, 양방향 자유 두음 법칙이 적용됩니다.",
       updatedAt: 0,
       color: "#eab308",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 0,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 1, 1, 1]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 0,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
         },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: ".*",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 6,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 6,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "채린쿵따룰",
     metadata: {
-      id: "채린쿵따룰",
       title: "채린쿵따룰",
-      description:
-        "(구)표준국어대사전에 등록된 세 글자 명사만 사용할 수 있으며, 표준 두음 법칙이 적용됩니다. 한방 단어는 사용할 수 없습니다.",
       updatedAt: 0,
       color: "#84cc16",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 0,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 1, 1, 1]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 0,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
         },
+        regexFilter: "(.{3})",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: "(.{3})",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 1,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 1 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 1 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "표샘룰",
     metadata: {
-      id: "표샘룰",
       title: "표샘룰",
-      description:
-        "우리말샘에 등록된 일반어 명사만 사용할 수 있으며, 표준 두음 법칙이 적용됩니다.",
       updatedAt: 0,
       color: "#22c55e",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 2,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 0, 0, 0]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 2,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 0, 0, 0]),
+          },
         },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: ".*",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 1,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "두샘룰",
     metadata: {
-      id: "두샘룰",
       title: "두샘룰",
-      description:
-        "우리말샘에 등록된 두 글자의 일반어 명사만 사용할 수 있으며, 표준 두음 법칙이 적용됩니다.",
       updatedAt: 0,
       color: "#10b981",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 2,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 0, 0, 0]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 2,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 0, 0, 0]),
+          },
         },
+        regexFilter: "(.{2})",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: "(.{2})",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 1,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
   {
+    id: "옛두샘룰",
     metadata: {
-      id: "옛두샘룰",
       title: "옛두샘룰",
-      description:
-        "우리말샘에 등록된 두 글자의 일반어 명사 또는 옛말 명사만 사용할 수 있으며, 표준 두음 법칙이 적용됩니다.",
       updatedAt: 0,
       color: "#14b8a6",
     },
-
-    wordRule: {
-      words: {
-        type: "selected",
-        option: {
-          dict: 2,
-          pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
-          cate: toObject(cates, [1, 0, 0, 1]),
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 2,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 0, 0, 1]),
+          },
         },
+        regexFilter: "(.{2})",
+        removedWords: "",
+        addedWords: "",
       },
-      regexFilter: "(.{2})",
-      removedWords: "",
-      addedWords: "",
-    },
-    wordConnectionRule: {
-      changeFuncIdx: 1,
-      headDir: 0,
-      rawHeadIdx: 1,
-      tailDir: 1,
-      rawTailIdx: 1,
-    },
-    postprocessing: {
-      removedWords: "",
-      manner: { type: 0 },
-      addedWords: "",
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
     },
   },
 ];

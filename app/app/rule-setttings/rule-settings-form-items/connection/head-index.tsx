@@ -19,10 +19,10 @@ import {
 
 export default function HeadIndex() {
   const idx = useRuleEditorStore(
-    (e) => e.localRuleForm.wordConnectionRule.rawHeadIdx,
+    (e) => e.localRuleForm.content.wordConnectionRule.rawHeadIdx,
   );
   const dir = useRuleEditorStore(
-    (e) => e.localRuleForm.wordConnectionRule.headDir,
+    (e) => e.localRuleForm.content.wordConnectionRule.headDir,
   );
   const storeApi = useRuleEditorStoreApi();
   return (
@@ -36,7 +36,7 @@ export default function HeadIndex() {
           onValueChange={(e: string) => {
             const num = Number(e);
             storeApi.setState((state) => {
-              state.localRuleForm.wordConnectionRule.headDir = num as 0 | 1;
+              state.localRuleForm.content.wordConnectionRule.headDir = num as 0 | 1;
             });
           }}
         >
@@ -57,7 +57,7 @@ export default function HeadIndex() {
           value={idx}
           onChange={(e) =>
             storeApi.setState((state) => {
-              state.localRuleForm.wordConnectionRule.rawHeadIdx = Number(
+              state.localRuleForm.content.wordConnectionRule.rawHeadIdx = Number(
                 e.target.value,
               );
             })

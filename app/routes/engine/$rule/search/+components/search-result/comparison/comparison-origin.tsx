@@ -12,7 +12,7 @@ export default function ComparisonOrigin({ solver }: { solver: WordSolver }) {
   const data = useMemo(() => {
     const mapping = originalSolver!.graphSolver.getComparisonMap(
       solver.graphSolver,
-      sampleChangeFuncs[ruleForm.wordConnectionRule.changeFuncIdx],
+      sampleChangeFuncs[ruleForm.content.wordConnectionRule.changeFuncIdx],
     );
     const result = getComparisonData(mapping);
     return result;

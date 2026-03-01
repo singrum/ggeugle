@@ -3,6 +3,7 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
 import { useIsTablet } from "~/hooks/use-tablet";
 import { RuleEditForm } from "~/routes/engine/$rule/+components/rule-edit/rule-edit-form/rule-edit-form";
+import type { RuleMetadata } from "~/types/rule";
 import {
   RulesViewStoreProvider,
   useRulesViewStore,
@@ -14,7 +15,7 @@ export default function RulesView({
   isSample,
   children,
 }: {
-  rules: { id: string; title: string; color: string }[];
+  rules: { id: string; order: number; metadata: RuleMetadata }[];
   isSample: boolean;
   children?: React.ReactNode;
 }) {
@@ -32,7 +33,7 @@ function RulesViewInner({ children }: { children?: React.ReactNode }) {
   const selectedRuleId = useRulesViewStore((e) => e.selectedRuleId);
   const select = useRulesViewStore((e) => e.select);
   return (
-    <div className="p-0 lg:pr-2 lg:py-2 lg:flex-1 h-full flex ">
+    <div className="p-0 lg:pr-2 lg:py-2 lg:flex-1 flex">
       <Card className="rounded-lg h-full p-0 bg-background lg:border lg:dark:border-0 w-full lg:flex-1">
         <ScrollArea className="lg:h-full">{children}</ScrollArea>
       </Card>

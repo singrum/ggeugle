@@ -12,7 +12,7 @@ import {
 
 export default function PostRemovedWords() {
   const value = useRuleEditorStore(
-    (e) => e.localRuleForm.postprocessing.removedWords,
+    (e) => e.localRuleForm.content.postprocessing.removedWords,
   );
   const stroreApi = useRuleEditorStoreApi();
   return (
@@ -26,7 +26,8 @@ export default function PostRemovedWords() {
           placeholder="제거할 단어들을 입력하세요. (공백으로 구분)"
           onChange={(e) =>
             stroreApi.setState((state) => {
-              state.localRuleForm.postprocessing.removedWords = e.target.value;
+              state.localRuleForm.content.postprocessing.removedWords =
+                e.target.value;
             })
           }
         />

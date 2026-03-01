@@ -42,18 +42,19 @@ export interface WordConnectionRuleForm {
 }
 
 export interface RuleMetadata {
-  id: string;
   title: string;
-  description: string;
   updatedAt: number;
   color: string;
 }
 
 export interface RuleForm {
+  id: string;
   metadata: RuleMetadata;
-  wordRule: WordRule;
-  wordConnectionRule: WordConnectionRuleForm;
-  postprocessing: Postprocessing;
+  content: {
+    wordRule: WordRule;
+    wordConnectionRule: WordConnectionRuleForm;
+    postprocessing: Postprocessing;
+  };
 }
 
 export type ChangeFunc = {

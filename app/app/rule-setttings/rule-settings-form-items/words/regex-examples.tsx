@@ -95,7 +95,7 @@ export default function RegexExamples() {
             <Button
               onClick={() => {
                 storeApi.setState((state) => {
-                  state.localRuleForm.wordRule.regexFilter = content;
+                  state.localRuleForm.content.wordRule.regexFilter = content;
                 });
               }}
               key={title}

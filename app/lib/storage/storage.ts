@@ -1,72 +1,192 @@
 import Dexie, { type Table } from "dexie";
-import v4 from "node_modules/uuid/dist/v4";
+import { produce } from "immer";
 import { toast } from "sonner";
+import { v4 as uuidv4 } from "uuid";
 import type { RuleForm } from "~/types/rule";
 import { getRuleFormById } from "../utils";
 
 export class Storage extends Dexie {
-  rule!: Table<{ id: string; ruleForm: RuleForm }>;
+  // 메타데이터 테이블 (목록용, 가벼움)
+  ruleMeta!: Table<{
+    id: string;
+    order: number;
+    metadata: RuleForm["metadata"];
+  }>;
+
+  // 실제 내용 테이블 (상세 편집용, 무거움)
+  ruleContent!: Table<{
+    id: string;
+    content: RuleForm["content"];
+  }>;
 
   constructor() {
     super("ikki-engine-storage");
-    this.version(1).stores({
-      rule: "id",
+    this.version(2).stores({
+      ruleMeta: "id, order",
+      ruleContent: "id",
     });
-  }
-  async copyRuleForm(id: string) {
-    const data = await getRuleFormById(id);
-    if (!data) toast.error("규칙을 불러오는 데 실패했습니다.");
-    const newId = v4();
-    storage.rule.add({
-      id: newId,
-      ruleForm: {
-        ...data!.ruleForm,
-        metadata: {
-          ...data!.ruleForm.metadata,
-          id: newId,
-          updatedAt: Date.now(),
-          title: `${data!.ruleForm.metadata.title}`,
-        },
-      },
-    });
-  }
-  async addRuleForm(ruleForm: RuleForm) {
-    const newId = v4();
-    const now = Date.now();
-    await storage.rule.add({
-      id: newId,
-      ruleForm: {
-        ...ruleForm,
-        metadata: {
-          ...ruleForm.metadata,
-          id: newId,
-          updatedAt: Date.now(),
-        },
-      },
-    });
-    return newId;
   }
 
-  async updateRuleForm(ruleForm: RuleForm) {
-    await storage.rule.put({
-      id: ruleForm.metadata.id,
-      ruleForm: {
-        ...ruleForm,
-        metadata: {
-          ...ruleForm.metadata,
-          updatedAt: Date.now(),
-        },
-      },
-    });
+  // --- 조회 로직 ---
+
+  async getAllRuleMetas(): Promise<
+    { id: string; order: number; metadata: RuleForm["metadata"] }[]
+  > {
+    return await this.ruleMeta.orderBy("order").toArray();
   }
 
   async getRuleFormById(id: string): Promise<RuleForm | null> {
-    const data = await storage.rule.get(id);
-    if (!data) return null;
-    return data.ruleForm;
+    const meta = await this.ruleMeta.get(id);
+    const body = await this.ruleContent.get(id);
+
+    if (!meta || !body) return null;
+
+    return {
+      id: meta.id,
+      metadata: meta.metadata,
+      content: body.content,
+    };
   }
+
+  // --- 생성 로직 ---
+
+  async addRuleForm(ruleForm: RuleForm) {
+    const newId = uuidv4();
+    const now = Date.now();
+
+    const processedForm = produce(ruleForm, (draft) => {
+      draft.id = newId;
+      draft.metadata.updatedAt = now;
+    });
+
+    await this.transaction(
+      "rw",
+      [this.ruleMeta, this.ruleContent],
+      async () => {
+        await this.ruleMeta.toCollection().modify((item) => {
+          item.order += 1;
+        });
+
+        await this.ruleMeta.add({
+          id: newId,
+          order: 0,
+          metadata: processedForm.metadata,
+        });
+
+        await this.ruleContent.add({
+          id: newId,
+          content: processedForm.content,
+        });
+      },
+    );
+
+    return newId;
+  }
+
+  // --- 복사 로직 ---
+
+  async copyRuleForm(id: string) {
+    const original_ = await getRuleFormById(id);
+    if (!original_) {
+      toast.error("원본 규칙을 찾을 수 없습니다.");
+      return;
+    }
+    const original = original_.ruleForm;
+
+    const newId = uuidv4();
+    const now = Date.now();
+
+    const copiedForm = produce(original, (draft) => {
+      draft.id = newId;
+      draft.metadata.title = `${original.metadata.title} 복사본`;
+      draft.metadata.updatedAt = now;
+    });
+
+    await this.transaction(
+      "rw",
+      [this.ruleMeta, this.ruleContent],
+      async () => {
+        await this.ruleMeta.toCollection().modify((item) => {
+          item.order += 1;
+        });
+
+        await this.ruleMeta.add({
+          id: newId,
+          order: 0,
+          metadata: copiedForm.metadata,
+        });
+
+        await this.ruleContent.add({
+          id: newId,
+          content: copiedForm.content,
+        });
+      },
+    );
+
+    return newId;
+  }
+
+  // --- 수정 로직 (핵심 수정) ---
+
+  async updateRuleForm(ruleForm: RuleForm) {
+    const id = ruleForm.id;
+    const now = Date.now();
+
+    // 데이터 가공
+    const updatedForm = produce(ruleForm, (draft) => {
+      draft.metadata.updatedAt = now;
+    });
+
+    await this.transaction(
+      "rw",
+      [this.ruleMeta, this.ruleContent],
+      async () => {
+        await this.ruleMeta.update(id, {
+          metadata: updatedForm.metadata,
+        });
+
+        await this.ruleContent.update(id, {
+          content: updatedForm.content,
+        });
+      },
+    );
+  }
+
+  // --- 순서 변경 (고성능 일괄 업데이트) ---
+
+  async reorderRules(orderedIds: string[]) {
+    await this.transaction("rw", this.ruleMeta, async () => {
+      const updates = orderedIds.map((id, index) =>
+        this.ruleMeta.update(id, { order: index }),
+      );
+      await Promise.all(updates);
+    });
+  }
+
+  // --- 삭제 로직 ---
+
   async deleteRuleForm(id: string) {
-    await storage.rule.delete(id);
+    // 1. 삭제할 대상의 현재 순서(order)를 먼저 파악해야 합니다.
+    const target = await this.ruleMeta.get(id);
+    if (!target) return;
+
+    const targetOrder = target.order;
+
+    await this.transaction(
+      "rw",
+      [this.ruleMeta, this.ruleContent],
+      async () => {
+        await this.ruleMeta.delete(id);
+        await this.ruleContent.delete(id);
+
+        await this.ruleMeta
+          .where("order")
+          .above(targetOrder)
+          .modify((item) => {
+            item.order -= 1;
+          });
+      },
+    );
   }
 }
 

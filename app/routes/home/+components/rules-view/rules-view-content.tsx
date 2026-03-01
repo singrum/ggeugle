@@ -1,17 +1,19 @@
-import RuleViewButton from "./rule-view-button";
+import { RulesViewGrid } from "./rules-view-grid";
 import { useRulesViewStore } from "./rules-view-provider";
+import { RulesViewSortable } from "./rules-view-sortable";
+
 export default function RulesViewContent() {
   const rules = useRulesViewStore((e) => e.rules);
+  const reorder = useRulesViewStore((e) => e.reorder);
   const isSample = useRulesViewStore((e) => e.isSample);
 
-  const select = useRulesViewStore((e) => e.select);
   return (
-    <div className="space-y-1 p-0 pt-1">
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4 px-6 pb-6">
-        {rules.map((rule) => (
-          <RuleViewButton key={rule.id} rule={rule} />
-        ))}
-      </div>
+    <div className="space-y-1 p-0 pt-6">
+      {isSample ? (
+        <RulesViewGrid rules={rules} />
+      ) : (
+        <RulesViewSortable rules={rules} reorder={reorder} />
+      )}
     </div>
   );
 }

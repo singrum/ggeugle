@@ -19,10 +19,10 @@ import {
 
 export default function TailIndex() {
   const idx = useRuleEditorStore(
-    (e) => e.localRuleForm.wordConnectionRule.rawTailIdx,
+    (e) => e.localRuleForm.content.wordConnectionRule.rawTailIdx,
   );
   const dir = useRuleEditorStore(
-    (e) => e.localRuleForm.wordConnectionRule.tailDir,
+    (e) => e.localRuleForm.content.wordConnectionRule.tailDir,
   );
   const storeApi = useRuleEditorStoreApi();
   return (
@@ -36,7 +36,7 @@ export default function TailIndex() {
           onValueChange={(e: string) => {
             const num = Number(e);
             storeApi.setState((state) => {
-              state.localRuleForm.wordConnectionRule.tailDir = num as 0 | 1;
+              state.localRuleForm.content.wordConnectionRule.tailDir = num as 0 | 1;
             });
           }}
         >
@@ -57,7 +57,7 @@ export default function TailIndex() {
           value={idx}
           onChange={(e) =>
             storeApi.setState((state) => {
-              state.localRuleForm.wordConnectionRule.rawTailIdx = Number(
+              state.localRuleForm.content.wordConnectionRule.rawTailIdx = Number(
                 e.target.value,
               );
             })

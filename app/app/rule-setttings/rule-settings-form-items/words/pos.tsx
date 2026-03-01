@@ -14,10 +14,10 @@ import {
 
 export default function Pos() {
   const pos = useRuleEditorStore(
-    (e) => (e.localRuleForm.wordRule.words.option as SelectedWordsOption).pos,
+    (e) => (e.localRuleForm.content.wordRule.words.option as SelectedWordsOption).pos,
   );
   const dict = useRuleEditorStore(
-    (e) => (e.localRuleForm.wordRule.words.option as SelectedWordsOption).dict,
+    (e) => (e.localRuleForm.content.wordRule.words.option as SelectedWordsOption).dict,
   );
   const storeApi = useRuleEditorStoreApi();
 
@@ -36,7 +36,7 @@ export default function Pos() {
             onPressedChange={(value: boolean) => {
               storeApi.setState((state) => {
                 (
-                  state.localRuleForm.wordRule.words
+                  state.localRuleForm.content.wordRule.words
                     .option as SelectedWordsOption
                 ).pos[e] = Number(value) as 0 | 1;
               });

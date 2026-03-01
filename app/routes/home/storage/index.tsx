@@ -16,17 +16,9 @@ export function shouldRevalidate() {
 }
 
 export async function clientLoader() {
-  const rules = await storage.rule.toArray();
+  const rules = await storage.getAllRuleMetas();
   return {
-    rules: rules
-
-      .map((e) => ({
-        id: e.id,
-        title: e.ruleForm.metadata.title,
-        color: e.ruleForm.metadata.color,
-        updatedAt: e.ruleForm.metadata.updatedAt,
-      }))
-      .sort((a, b) => b.updatedAt - a.updatedAt),
+    rules: rules,
   };
 }
 
@@ -34,10 +26,7 @@ export default function StorageIndex() {
   const { rules } = useLoaderData<typeof clientLoader>();
 
   return (
-    <RulesView
-      isSample={false}
-      rules={rules}
-    >
+    <RulesView isSample={false} rules={rules}>
       <RulesViewHeader>
         <RulesViewTitle>보관함</RulesViewTitle>
         <RulesViewDescription>

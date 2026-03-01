@@ -14,17 +14,17 @@ export default function Sample() {
   return (
     <RulesView
       isSample={true}
-      rules={sampleRules.map((e) => ({
-        id: e.metadata.id,
-        title: e.metadata.title,
-        color: e.metadata.color,
-        updatedAt: e.metadata.updatedAt,
+      rules={sampleRules.map((e, i) => ({
+        id: e.id,
+        order: i,
+        metadata: e.metadata,
       }))}
     >
       <RulesViewHeader>
         <RulesViewTitle>기본 룰</RulesViewTitle>
         <RulesViewDescription>기본 끝말잇기 룰 목록</RulesViewDescription>
       </RulesViewHeader>
+
       <RulesViewContent />
     </RulesView>
   );

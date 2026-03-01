@@ -11,7 +11,9 @@ import {
 } from "../../../../routes/engine/$rule/+components/outline-card";
 
 export default function AddedWords() {
-  const value = useRuleEditorStore((e) => e.localRuleForm.wordRule.addedWords);
+  const value = useRuleEditorStore(
+    (e) => e.localRuleForm.content.wordRule.addedWords,
+  );
   const storeApi = useRuleEditorStoreApi();
   return (
     <OutlineCardSection>
@@ -24,7 +26,7 @@ export default function AddedWords() {
           value={value}
           onChange={(e) =>
             storeApi.setState((state) => {
-              state.localRuleForm.wordRule.addedWords = e.target.value;
+              state.localRuleForm.content.wordRule.addedWords = e.target.value;
             })
           }
         />

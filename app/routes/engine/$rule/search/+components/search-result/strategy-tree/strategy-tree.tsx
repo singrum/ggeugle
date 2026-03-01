@@ -19,7 +19,7 @@ export default function StrategyTree({ solver }: { solver: WordSolver }) {
         solver,
         view,
         searchInputValue,
-        sampleChangeFuncs[rule.wordConnectionRule.changeFuncIdx],
+        sampleChangeFuncs[rule.content.wordConnectionRule.changeFuncIdx],
       ),
     );
   }, [solver, searchInputValue, view, rule, setTree]);

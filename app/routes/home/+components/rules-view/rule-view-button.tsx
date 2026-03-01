@@ -6,6 +6,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 
@@ -15,9 +16,13 @@ import { cn } from "~/lib/utils";
 import { useRulesViewStore } from "./rules-view-provider";
 
 export default function RuleViewButton({
-  rule: { title, id, color },
+  rule: {
+    id,
+    metadata,
+    metadata: { title, color },
+  },
 }: {
-  rule: { title: string; id: string; color: string };
+  rule: { id: string; metadata: { title: string; color: string } };
 }) {
   const navigate = useNavigate();
   const selectedRuleId = useRulesViewStore((e) => e.selectedRuleId);
@@ -81,16 +86,21 @@ export default function RuleViewButton({
               <Copy className="size-4" />
               {isSample ? "보관함에 저장" : "복사"}
             </DropdownMenuItem>
+
             {!isSample && (
-              <DropdownMenuItem
-                onSelect={async () => {
-                  await storage.deleteRuleForm(id);
-                  revalidate();
-                }}
-              >
-                <Trash2 className="size-4" />
-                삭제
-              </DropdownMenuItem>
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onSelect={async () => {
+                    await storage.deleteRuleForm(id);
+                    revalidate();
+                  }}
+                  variant="destructive"
+                >
+                  <Trash2 className="size-4" />
+                  삭제
+                </DropdownMenuItem>
+              </>
             )}
           </DropdownMenuContent>
         </DropdownMenu>

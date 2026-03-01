@@ -74,7 +74,7 @@ export const createSearchSlice: StateCreator<
       solver.graphSolver.getNodeType(
         value,
         view,
-        sampleChangeFuncs[ruleForm.wordConnectionRule.changeFuncIdx],
+        sampleChangeFuncs[ruleForm.content.wordConnectionRule.changeFuncIdx],
       ) === "route"
     ) {
       searchInputType = "route";
@@ -123,7 +123,7 @@ export const createSearchSlice: StateCreator<
     setComparisonMap(
       prevSolver!.graphSolver.getComparisonMap(
         solver.graphSolver,
-        sampleChangeFuncs[ruleForm.wordConnectionRule.changeFuncIdx],
+        sampleChangeFuncs[ruleForm.content.wordConnectionRule.changeFuncIdx],
       ),
     );
 
@@ -228,7 +228,9 @@ export const createSearchSlice: StateCreator<
               variant: solver!.graphSolver.getNodeType(
                 e,
                 view,
-                sampleChangeFuncs[rule.wordConnectionRule.changeFuncIdx],
+                sampleChangeFuncs[
+                  rule.content.wordConnectionRule.changeFuncIdx
+                ],
               ),
             }))}
           />

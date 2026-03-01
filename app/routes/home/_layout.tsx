@@ -9,7 +9,7 @@ import Sidebar from "./+components/sidebar/sidebar";
 export default function Index() {
   const isTablet = useIsTablet();
   return (
-    <div className="bg-sidebar">
+    <div className="bg-background lg:bg-sidebar">
       <div
         className={cn("min-h-svh lg:h-svh flex relative", {
           "flex-col h-svh": isTablet,

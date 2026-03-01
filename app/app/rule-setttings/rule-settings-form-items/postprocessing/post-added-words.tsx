@@ -12,7 +12,7 @@ import {
 
 export default function AddedWords() {
   const value = useRuleEditorStore(
-    (e) => e.localRuleForm.postprocessing.addedWords,
+    (e) => e.localRuleForm.content.postprocessing.addedWords,
   );
   const storeApi = useRuleEditorStoreApi();
   return (
@@ -26,7 +26,7 @@ export default function AddedWords() {
           placeholder="추가할 단어들을 입력하세요. (공백으로 구분)"
           onChange={(e) =>
             storeApi.setState((state) => {
-              state.localRuleForm.postprocessing.addedWords = e.target.value;
+              state.localRuleForm.content.postprocessing.addedWords = e.target.value;
             })
           }
         />

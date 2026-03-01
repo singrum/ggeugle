@@ -15,7 +15,7 @@ export default function NextWords({ solver }: { solver: WordSolver }) {
         searchInputValue,
         view,
         0,
-        sampleChangeFuncs[rule.wordConnectionRule.changeFuncIdx],
+        sampleChangeFuncs[rule.content.wordConnectionRule.changeFuncIdx],
       ),
     [solver, view, searchInputValue, rule],
   );

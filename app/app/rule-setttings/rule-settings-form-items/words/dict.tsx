@@ -19,7 +19,7 @@ import {
   OutlineCardSection,
 } from "../../../../routes/engine/$rule/+components/outline-card";
 export default function Dict() {
-  const words = useRuleEditorStore((e) => e.localRuleForm.wordRule.words);
+  const words = useRuleEditorStore((e) => e.localRuleForm.content.wordRule.words);
   const value = words.type === "manual" ? dicts.length : words.option.dict;
   const storeApi = useRuleEditorStoreApi();
   return (
@@ -34,7 +34,7 @@ export default function Dict() {
             const num = Number(e);
             if (num < dicts.length) {
               storeApi.setState((state) => {
-                state.localRuleForm.wordRule.words = {
+                state.localRuleForm.content.wordRule.words = {
                   type: "selected",
                   option: {
                     dict: num,
@@ -47,7 +47,7 @@ export default function Dict() {
             } else {
               // manual
               storeApi.setState((state) => {
-                state.localRuleForm.wordRule.words = {
+                state.localRuleForm.content.wordRule.words = {
                   type: "manual",
                   option: { content: "" },
                 };

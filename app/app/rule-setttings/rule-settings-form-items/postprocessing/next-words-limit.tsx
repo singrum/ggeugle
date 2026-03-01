@@ -12,7 +12,7 @@ import {
 
 export default function NextWordsLimit() {
   const nextWordsLimit = useRuleEditorStore(
-    (e) => e.localRuleForm.postprocessing.manner.nextWordsLimit,
+    (e) => e.localRuleForm.content.postprocessing.manner.nextWordsLimit,
   );
   const storeApi = useRuleEditorStoreApi();
   return (
@@ -28,7 +28,7 @@ export default function NextWordsLimit() {
             className="w-25"
             onChange={(e) => {
               storeApi.setState((state) => {
-                state.localRuleForm.postprocessing.manner.nextWordsLimit =
+                state.localRuleForm.content.postprocessing.manner.nextWordsLimit =
                   Number(e.target.value);
               });
             }}

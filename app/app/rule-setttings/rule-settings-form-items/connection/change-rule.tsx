@@ -19,7 +19,7 @@ import {
 } from "../../../../routes/engine/$rule/+components/outline-card";
 export default function ChangeRule() {
   const changeRule = useRuleEditorStore(
-    (e) => e.localRuleForm.wordConnectionRule.changeFuncIdx,
+    (e) => e.localRuleForm.content.wordConnectionRule.changeFuncIdx,
   );
   const storeApi = useRuleEditorStoreApi();
 
@@ -34,7 +34,8 @@ export default function ChangeRule() {
           onValueChange={(e: string) => {
             const num = Number(e);
             storeApi.setState((state) => {
-              state.localRuleForm.wordConnectionRule.changeFuncIdx = num;
+              state.localRuleForm.content.wordConnectionRule.changeFuncIdx =
+                num;
             });
           }}
         >

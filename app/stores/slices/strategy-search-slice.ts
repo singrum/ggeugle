@@ -57,7 +57,7 @@ export const createStrategySearchSlice: StateCreator<
           searchInputValue,
           view,
           0,
-          sampleChangeFuncs[rule.wordConnectionRule.changeFuncIdx],
+          sampleChangeFuncs[rule.content.wordConnectionRule.changeFuncIdx],
         )
         .sort((a, b) =>
           solver!.graphSolver.graphs

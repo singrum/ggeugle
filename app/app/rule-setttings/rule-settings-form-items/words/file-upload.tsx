@@ -22,7 +22,9 @@ export default function FileUpload() {
     multiple: false,
   });
   const content = useRuleEditorStore(
-    (e) => (e.localRuleForm.wordRule.words.option as ManualWordsOption).content,
+    (e) =>
+      (e.localRuleForm.content.wordRule.words.option as ManualWordsOption)
+        .content,
   );
   const storeApi = useRuleEditorStoreApi();
 
@@ -30,8 +32,8 @@ export default function FileUpload() {
     if (acceptedFiles.length > 0) {
       acceptedFiles[0].text().then((e) => {
         storeApi.setState((state) => {
-          if (state.localRuleForm.wordRule.words.type === "manual") {
-            state.localRuleForm.wordRule.words.option.content = e;
+          if (state.localRuleForm.content.wordRule.words.type === "manual") {
+            state.localRuleForm.content.wordRule.words.option.content = e;
           }
         });
       });
