@@ -23,13 +23,6 @@ export class Storage extends Dexie {
     content: PrecInfo;
   }>;
 
-  games!: Table<{
-    id: string;
-    ruleFormId: string;
-    createdAt : number;
-    
-  }>;
-
   constructor() {
     super("ikki-engine-storage");
     this.version(2).stores({
