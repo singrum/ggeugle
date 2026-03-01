@@ -8,6 +8,7 @@ import {
 } from "react-router";
 import { toast } from "sonner";
 import { Card } from "~/components/ui/card";
+import { samplePrecedenceMaps } from "~/constants/sample-precedence-maps";
 import { sampleRules } from "~/constants/sample-rules";
 import { useIsTablet } from "~/hooks/use-tablet";
 import { storage } from "~/lib/storage/storage";
@@ -16,6 +17,7 @@ import { AppSidebar } from "~/routes/engine/$rule/+components/nav-sidebar/app-si
 import SiteHeader from "~/routes/engine/$rule/+components/site-header/site-header";
 import { WcStoreProvider } from "~/stores/wc-store-provider";
 import type { RuleForm } from "~/types/rule";
+import type { PrecInfo } from "~/types/search";
 import MobileNav from "./+components/mobile-nav";
 export type LoaderData = {
   title: string;
@@ -79,6 +81,7 @@ export default function Layout() {
   const { data } = useLoaderData<typeof clientLoader>();
   const navigate = useNavigate();
   const [ruleForm, setRuleForm] = useState<RuleForm | null>(null);
+  const [prec, setPrec] = useState<PrecInfo | null>(null);
   const isTablet = useIsTablet();
   useEffect(() => {
     (async function () {
@@ -88,17 +91,35 @@ export default function Layout() {
         navigate("/home");
         return;
       }
+      let prec = await storage.getPrecByRuleFormId(data.id);
+
+      if (!prec) {
+        if (data.isSample && samplePrecedenceMaps[data.id]) {
+          const precMaps = samplePrecedenceMaps[data.id];
+          prec = {
+            rule: 0,
+            maps: {
+              edge: precMaps.edge || {},
+              node: precMaps.node || {},
+            },
+          };
+        } else {
+          prec = { rule: 0, maps: { edge: {}, node: {} } };
+        }
+      }
+      setPrec(prec);
       setRuleForm(result.ruleForm);
     })();
   }, [data.id, data.updatedAt]);
 
-  if (!ruleForm) {
+  if (!ruleForm || !prec) {
     return null;
   } else {
     return (
       <WcStoreProvider
         key={ruleForm.id + ruleForm.metadata.updatedAt}
         ruleForm={ruleForm}
+        prec={prec}
       >
         <div className="[--header-height:calc(--spacing(14))] bg-sidebar flex flex-col h-svh">
           <div className="flex-1 min-h-0 overflow-auto flex flex-col">

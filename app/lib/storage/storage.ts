@@ -3,20 +3,31 @@ import { produce } from "immer";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import type { RuleForm } from "~/types/rule";
+import type { PrecInfo } from "~/types/search";
 import { getRuleFormById } from "../utils";
 
 export class Storage extends Dexie {
-  // 메타데이터 테이블 (목록용, 가벼움)
   ruleMeta!: Table<{
     id: string;
     order: number;
     metadata: RuleForm["metadata"];
   }>;
 
-  // 실제 내용 테이블 (상세 편집용, 무거움)
   ruleContent!: Table<{
     id: string;
     content: RuleForm["content"];
+  }>;
+
+  prec!: Table<{
+    ruleFormId: string;
+    content: PrecInfo;
+  }>;
+
+  games!: Table<{
+    id: string;
+    ruleFormId: string;
+    createdAt : number;
+    
   }>;
 
   constructor() {
@@ -24,6 +35,7 @@ export class Storage extends Dexie {
     this.version(2).stores({
       ruleMeta: "id, order",
       ruleContent: "id",
+      prec: "ruleFormId",
     });
   }
 
@@ -98,7 +110,7 @@ export class Storage extends Dexie {
 
     const copiedForm = produce(original, (draft) => {
       draft.id = newId;
-      draft.metadata.title = `${original.metadata.title} 복사본`;
+      draft.metadata.title = `${original.metadata.title}`;
       draft.metadata.updatedAt = now;
     });
 
@@ -174,11 +186,11 @@ export class Storage extends Dexie {
 
     await this.transaction(
       "rw",
-      [this.ruleMeta, this.ruleContent],
+      [this.ruleMeta, this.ruleContent, this.prec],
       async () => {
         await this.ruleMeta.delete(id);
         await this.ruleContent.delete(id);
-
+        await this.prec.delete(id);
         await this.ruleMeta
           .where("order")
           .above(targetOrder)
@@ -187,6 +199,18 @@ export class Storage extends Dexie {
           });
       },
     );
+  }
+
+  // --- 우선순위 맵 관련 로직 ---
+  async getPrecByRuleFormId(ruleFormId: string): Promise<PrecInfo | null> {
+    const record = await this.prec.get(ruleFormId);
+    return record ? record.content : null;
+  }
+
+  async updatePrec(ruleFormId: string, precInfo: PrecInfo) {
+    console.log(precInfo);
+    await this.prec.put({ ruleFormId, content: precInfo });
+    console.log("Updated precedence map for ruleFormId:", ruleFormId);
   }
 }
 

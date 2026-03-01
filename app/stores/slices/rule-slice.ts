@@ -4,8 +4,6 @@ import { ComlinkRunner } from "~/lib/worker/comlink-runner";
 import { default as FuncWorker } from "~/lib/worker/func-worker?worker";
 // import * as Comlink from "comlink";
 import { type StateCreator } from "zustand";
-import { samplePrecedenceMaps } from "~/constants/sample-precedence-maps";
-import type { PrecedenceMaps } from "~/types/search";
 import type { RuleSlice, Slices } from "../types/wc-store";
 
 export const createRuleSlice: StateCreator<
@@ -23,24 +21,16 @@ export const createRuleSlice: StateCreator<
       onSolverLoaded,
       funcWorkerRunner,
       flow,
+      prec,
     } = get();
 
-    const precedenceMaps: PrecedenceMaps = { node: {}, edge: {} };
-
-    if (ruleForm.metadata && samplePrecedenceMaps[ruleForm.metadata.title]) {
-      const { edge, node } = samplePrecedenceMaps[ruleForm.metadata.title];
-      precedenceMaps.edge = edge ?? {};
-      precedenceMaps.node = node ?? {};
-    }
     set({
       ruleForm,
       originalSolver: undefined,
       solver: undefined,
       exceptedWords: [],
       comparisonMap: undefined,
-    });
-    set((state) => {
-      state.prec.maps = precedenceMaps;
+      prec,
     });
 
     setSearchResultMenu(0);

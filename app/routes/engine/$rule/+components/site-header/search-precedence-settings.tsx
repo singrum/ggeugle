@@ -24,12 +24,13 @@ import {
 import { Textarea } from "~/components/ui/textarea";
 import { useIsTablet } from "~/hooks/use-tablet";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store-provider";
+import { useWcStore, useWcStoreApi } from "~/stores/wc-store-provider";
 import type { PrecedenceMaps } from "~/types/search";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useState } from "react";
+import { storage } from "~/lib/storage/storage";
 import DefaultPrecedenceRule from "./default-precedence-rule";
 export default function SearchPrecedenceSettingsTrigger({
   ...props
@@ -96,6 +97,7 @@ function PrecedenceSettingsForm({
   const [parsedNode, setParsedNode] = useState<object | null>(
     precedenceMaps.node,
   );
+  const storeApi = useWcStoreApi();
 
   function isValidEdge(
     obj: object,
@@ -144,17 +146,20 @@ function PrecedenceSettingsForm({
 
   const save = () => {
     if (edgeValid && parsedEdge) {
-      useWcStore.setState((state) => {
+      storeApi.setState((state) => {
         state.prec.maps.edge = parsedEdge as PrecedenceMaps["edge"];
       });
-      setOpen(false);
     }
     if (nodeValid && parsedNode) {
-      useWcStore.setState((state) => {
+      storeApi.setState((state) => {
         state.prec.maps.node = parsedNode as PrecedenceMaps["node"];
       });
-      setOpen(false);
     }
+    storage.updatePrec(
+      storeApi.getState().ruleForm.id,
+      storeApi.getState().prec,
+    );
+    setOpen(false);
   };
 
   return (
@@ -209,12 +214,7 @@ function PrecedenceSettingsForm({
           <div className="text-muted-foreground text-sm">
             숫자가 작을수록 우선순위가 높아요.(기본값 0)
           </div>
-          {/* <div className="h-64 overflow-hidden border border-red-500">
-            <textarea
-              className="box-border h-full max-h-full min-h-0 w-full resize-none overflow-y-auto"
-              placeholder="test"
-            ></textarea>
-          </div> */}
+
           <div className="h-64">
             <Textarea
               value={nodeString}

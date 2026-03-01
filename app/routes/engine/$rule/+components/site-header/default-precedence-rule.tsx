@@ -9,6 +9,7 @@ import type { StrategySearchSlice } from "~/stores/types/wc-store";
 
 import { Star } from "lucide-react";
 import { useState } from "react";
+import { storage } from "~/lib/storage/storage";
 import { useWcStore, useWcStoreApi } from "~/stores/wc-store-provider";
 
 const info: {
@@ -37,6 +38,10 @@ export default function DefaultPrecedenceRule({
     storeApi.setState((state) => {
       state.prec.rule = localRule;
     });
+    storage.updatePrec(
+      storeApi.getState().ruleForm.id,
+      storeApi.getState().prec,
+    );
     setOpen(false);
   };
   return (

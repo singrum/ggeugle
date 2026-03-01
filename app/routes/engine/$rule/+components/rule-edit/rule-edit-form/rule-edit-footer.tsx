@@ -41,11 +41,14 @@ export function RuleEditFooter({
     const newId = await storage.addRuleForm(localRuleForm);
     if (firstPathSegment === "engine") {
       navigate(`/engine/${newId}`);
+      toast.success("성공적으로 저장되었습니다.");
     } else if (firstPathSegment === "home") {
       if (secondPathSegment === "storage") {
+        toast.success("성공적으로 저장되었습니다.");
         revalidate();
       } else if (secondPathSegment === "sample") {
         navigate(`/home/storage`);
+        toast.success("성공적으로 저장되었습니다.");
       } else {
         return;
       }

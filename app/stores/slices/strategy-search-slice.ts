@@ -213,5 +213,5 @@ export const createStrategySearchSlice: StateCreator<
   },
   singleThreadSearchInfo: { moves: [], mapping: {} },
 
-  prec: { rule: 0, maps: { edge: {}, node: {} } },
+  prec: { rule: 0, maps: { edge: {}, node: {} } }, // 어차피 업데이트 될 때 덮어씌워짐
 });
