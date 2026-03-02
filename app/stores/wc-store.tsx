@@ -1,13 +1,8 @@
-import {
-  createJSONStorage,
-  persist,
-  type StateStorage,
-} from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
-import Cookies from "js-cookie";
-
 import { createStore } from "zustand";
+import { localStorageVersion } from "~/lib/local-storage";
 import { createCriticalWordsSlice } from "./slices/critical-words-slice";
 import { createDistributionSlice } from "./slices/distribution-slice";
 import { createInfoSlice } from "./slices/info-slice";
@@ -17,9 +12,6 @@ import { createRuleSlice } from "./slices/rule-slice";
 import { createSearchSlice } from "./slices/search-slice";
 import { createStrategySearchSlice } from "./slices/strategy-search-slice";
 import type { Slices } from "./types/wc-store";
-import { cookieStorage } from "~/lib/cookie-storage";
-
-
 
 export type WcState = Slices;
 export type WcStore = ReturnType<typeof createWcStore>;
@@ -41,8 +33,15 @@ export const createWcStore = (initProps?: Partial<WcState>) => {
       })),
       {
         name: "ggeugle",
-        version: 4.3,
-        storage: createJSONStorage(() => cookieStorage),
+        version: localStorageVersion,
+        storage: createJSONStorage(() => localStorage),
+        migrate: (persistedState, version) => {
+          if (version !== localStorageVersion) {
+            console.log("버전 불일치로 스토리지를 초기화합니다.");
+            return undefined;
+          }
+          return persistedState;
+        },
         partialize: (state) => ({
           gameSettingsInfo: state.gameSettingsInfo,
           charMenu: state.charMenu,

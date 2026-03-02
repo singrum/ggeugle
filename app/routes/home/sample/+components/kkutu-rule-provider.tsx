@@ -1,9 +1,9 @@
 import { createContext, useContext, useState } from "react";
 import { useStore } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
+import { persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import { createStore } from "zustand/vanilla";
-import { cookieStorage } from "~/lib/cookie-storage";
+import { localStorageVersion } from "~/lib/local-storage";
 export const views = ["list", "grid"] as const;
 
 export type KkutuRuleState = {
@@ -17,16 +17,19 @@ export type KkutuRuleStore = KkutuRuleState & KkutuRuleActions;
 export const createKkutuRuleStore = (initState: KkutuRuleState) => {
   return createStore<KkutuRuleStore>()(
     persist(
-      immer((set) => ({
+      immer(() => ({
         ...initState,
       })),
       {
         name: "ggeuglekkutu",
-        version: 4.3,
-        storage: createJSONStorage(() => cookieStorage),
-        partialize: (state) => ({
-          kkutuLocalRule: state.kkutuLocalRule,
-        }),
+        version: localStorageVersion,
+        migrate: (persistedState, version) => {
+          if (version !== localStorageVersion) {
+            return undefined;
+          }
+          return persistedState as KkutuRuleStore;
+        },
+        partialize: (state) => ({ kkutuLocalRule: state.kkutuLocalRule }),
       },
     ),
   );

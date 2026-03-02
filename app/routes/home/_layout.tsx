@@ -1,4 +1,5 @@
-import { Outlet } from "react-router";
+import { useEffect } from "react";
+import { Outlet, useLocation } from "react-router";
 import { Toaster } from "~/components/ui/sonner";
 import { useIsTablet } from "~/hooks/use-tablet";
 import { cn } from "~/lib/utils";
@@ -6,8 +7,12 @@ import MobileHeader from "./+components/sidebar/mobile-header";
 import MobileNav from "./+components/sidebar/mobile-nav";
 import Sidebar from "./+components/sidebar/sidebar";
 
-export default function Index() {
+export default function HomeLayout() {
   const isTablet = useIsTablet();
+  const location = useLocation();
+  useEffect(() => {
+    localStorage.setItem("last_home_path", location.pathname);
+  }, []);
   return (
     <div className="bg-background lg:bg-sidebar">
       <div

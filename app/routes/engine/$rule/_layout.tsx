@@ -88,7 +88,6 @@ export async function clientLoader({
 }: {
   params: { rule: string };
 }): Promise<{ data: LoaderData }> {
-  // 샘플 룰에서 검색
   try {
     const data = await getLoaderDataById(params.rule);
     return { data };
