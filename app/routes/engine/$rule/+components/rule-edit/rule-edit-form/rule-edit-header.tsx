@@ -22,7 +22,7 @@ export default function RuleEditHeader() {
   const storeApi = useRuleEditorStoreApi();
   return (
     <div className=" pb-0 border-b flex flex-col">
-      <div className="p-6 flex items-center gap-2 pr-12">
+      <div className="p-6 flex items-center gap-2 pr-16">
         <Select
           value={color}
           onValueChange={(value) =>
@@ -44,10 +44,9 @@ export default function RuleEditHeader() {
                   value={rule.metadata.color}
                 >
                   <div
-                    className="w-4 h-4 rounded-full mr-2"
+                    className="w-25 h-4 rounded-none mr-2"
                     style={{ backgroundColor: rule.metadata.color }}
                   />
-                  {rule.metadata.color}
                 </SelectItem>
               ))}
             </SelectGroup>

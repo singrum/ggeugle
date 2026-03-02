@@ -12,7 +12,7 @@ export default function Sidebar() {
   const { pathname } = useLocation();
 
   return (
-    <div className="h-full w-64 space-y-6">
+    <div className="h-full w-64 ">
       <Header />
       <Nav />
     </div>

@@ -79,6 +79,13 @@ export const useRulesViewStore = <T,>(
   selector: (store: RulesViewStore) => T,
 ): T => {
   const rulesViewStoreContext = useContext(RulesViewStoreContext);
+  useEffect(() => {
+    const listener = (e: Event) => {
+      rulesViewStoreContext?.getState().select((e as CustomEvent).detail); // Zustand 함수 호출
+    };
+    window.addEventListener("select_rule", listener);
+    return () => window.removeEventListener("select_rule", listener);
+  }, [rulesViewStoreContext]);
   if (!rulesViewStoreContext) {
     throw new Error(
       `useRulesViewStore must be used within RulesViewStoreProvider`,
@@ -86,4 +93,13 @@ export const useRulesViewStore = <T,>(
   }
 
   return useStore(rulesViewStoreContext, selector);
+};
+
+export const useRulesViewStoreApi = () => {
+  const context = useContext(RulesViewStoreContext);
+  if (!context)
+    throw new Error(
+      "useRulesViewStoreApi must be used within RulesViewStoreProvider",
+    );
+  return context;
 };

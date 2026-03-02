@@ -22,6 +22,11 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap",
   },
+  { rel: "icon", href: "/logo.png", type: "image/x-icon" },
+  // SVG 아이콘을 사용할 경우
+  { rel: "icon", href: "/logo.png", type: "image/svg+xml" },
+  // 애플 터치 아이콘 등 추가 가능
+  { rel: "apple-touch-icon", href: "/logo.png" },
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {

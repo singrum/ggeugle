@@ -34,7 +34,7 @@ function RulesViewInner({ children }: { children?: React.ReactNode }) {
   const select = useRulesViewStore((e) => e.select);
   return (
     <div className="p-0 lg:pr-2 lg:py-2 lg:flex-1 flex">
-      <Card className="rounded-lg h-full p-0 bg-background lg:border lg:dark:border-0 w-full lg:flex-1">
+      <Card className="rounded-lg h-full p-0 bg-background lg:border lg:dark:border-0 w-full lg:flex-1 relative">
         <ScrollArea className="lg:h-full">{children}</ScrollArea>
       </Card>
       {selectedRuleId &&

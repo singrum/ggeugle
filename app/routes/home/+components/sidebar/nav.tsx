@@ -23,8 +23,11 @@ export default function Nav() {
           <div key={item.path}>
             <Button
               asChild
-              variant={isActive ? "default" : "ghost"}
-              className={cn("rounded-full w-full justify-start")}
+              variant={isActive ? "secondary" : "ghost"}
+              className={cn("w-full justify-start", {
+                "bg-foreground/10 hover:bg-foreground/10 dark:bg-secondary dark:hover:bg-secondary":
+                  isActive,
+              })}
             >
               <NavLink to={item.path}>
                 <item.iconName
