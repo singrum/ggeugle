@@ -15,11 +15,7 @@ import { Separator } from "~/components/ui/separator";
 import { storage } from "~/lib/storage/storage";
 import { useRuleEditorStore } from "../rule-editor-store-provider";
 
-export function RuleEditFooter({
-  setOpen,
-}: {
-  setOpen?: (open: boolean) => void;
-}) {
+export function RuleEditFooter() {
   const isSample = useRuleEditorStore((e) => e.isSample);
   const restore = useRuleEditorStore((e) => e.restoreLocalRuleForm);
   const ruleForm = useRuleEditorStore((e) => e.ruleForm);
@@ -30,29 +26,41 @@ export function RuleEditFooter({
   const { pathname } = useLocation();
   const firstPathSegment = pathname.split("/")[1];
   const secondPathSegment = pathname.split("/")[2];
+
   const onSave = async () => {
-    await storage.updateRuleForm(localRuleForm);
-    setOpen?.(false);
-    toast.success("성공적으로 저장되었습니다.");
-    revalidate();
+    try {
+      await storage.updateRuleForm(localRuleForm);
+      toast.success("성공적으로 저장되었습니다.");
+      revalidate();
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+      toast.error("저장 중 오류가 발생했습니다.");
+      return;
+    }
   };
 
   const onSaveCopy = async () => {
-    const newId = await storage.addRuleForm(localRuleForm);
-    if (firstPathSegment === "engine") {
-      navigate(`/engine/${newId}`);
-      toast.success("성공적으로 저장되었습니다.");
-    } else if (firstPathSegment === "home") {
-      if (secondPathSegment === "storage") {
+    try {
+      const newId = await storage.addRuleForm(localRuleForm);
+      if (firstPathSegment === "engine") {
+        navigate(`/engine/${newId}`);
         toast.success("성공적으로 저장되었습니다.");
-        revalidate();
-      } else if (secondPathSegment === "sample") {
-        navigate(`/home/storage`);
-        toast.success("성공적으로 저장되었습니다.");
-      } else {
-        return;
+      } else if (firstPathSegment === "home") {
+        if (secondPathSegment === "storage") {
+          toast.success("성공적으로 저장되었습니다.");
+          revalidate();
+        } else if (secondPathSegment === "sample") {
+          toast.success("성공적으로 저장되었습니다.");
+          navigate(`/home/storage`);
+        }
       }
-    } else {
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+      toast.error("저장 중 오류가 발생했습니다.");
       return;
     }
   };

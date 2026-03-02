@@ -30,6 +30,7 @@ import type { PrecedenceMaps } from "~/types/search";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useState } from "react";
+import { toast } from "sonner";
 import { storage } from "~/lib/storage/storage";
 import DefaultPrecedenceRule from "./default-precedence-rule";
 export default function SearchPrecedenceSettingsTrigger({
@@ -155,10 +156,17 @@ function PrecedenceSettingsForm({
         state.prec.maps.node = parsedNode as PrecedenceMaps["node"];
       });
     }
-    storage.updatePrec(
-      storeApi.getState().ruleForm.id,
-      storeApi.getState().prec,
-    );
+    try {
+      storage.updatePrec(
+        storeApi.getState().ruleForm.id,
+        storeApi.getState().prec,
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+      return;
+    }
     setOpen(false);
   };
 

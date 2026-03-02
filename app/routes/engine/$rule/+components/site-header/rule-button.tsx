@@ -13,7 +13,7 @@ export function RuleButton({ loaderData }: { loaderData: LoaderData }) {
     <div className="flex min-w-0 flex-1 items-center text-nowrap">
       <RuleEditSheetTrigger ruleId={ruleId} asChild>
         <Button
-          className={cn("max-w-full px-3")}
+          className={cn("max-w-full px-3 ")}
           variant={"outline"}
           size={isMobile ? "sm" : "default"}
         >
@@ -24,9 +24,9 @@ export function RuleButton({ loaderData }: { loaderData: LoaderData }) {
           />
 
           <div className="no-scrollbar flex flex-1 items-center gap-3 overflow-auto">
-            {ruleTitle}
-            <Pencil className="size-3" />
+            <div>{ruleTitle}</div>
           </div>
+          <Pencil className="size-3" />
         </Button>
       </RuleEditSheetTrigger>
     </div>

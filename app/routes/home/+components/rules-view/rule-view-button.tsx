@@ -1,6 +1,6 @@
 import { ArticleIcon } from "@phosphor-icons/react";
 import { Copy, MoreVertical, Pencil, Trash2 } from "lucide-react";
-import { Link, useNavigate, useRevalidator } from "react-router";
+import { Link, useRevalidator } from "react-router";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -18,13 +18,11 @@ import { useRulesViewStore } from "./rules-view-provider";
 export default function RuleViewButton({
   rule: {
     id,
-    metadata,
     metadata: { title, color },
   },
 }: {
   rule: { id: string; metadata: { title: string; color: string } };
 }) {
-  const navigate = useNavigate();
   const selectedRuleId = useRulesViewStore((e) => e.selectedRuleId);
   const select = useRulesViewStore((e) => e.select);
   const isSample = useRulesViewStore((e) => e.isSample);
@@ -76,10 +74,17 @@ export default function RuleViewButton({
             </DropdownMenuItem>
             <DropdownMenuItem
               onSelect={async () => {
-                await storage.copyRuleForm(id);
-                revalidate();
-                if (isSample) {
-                  toast.success("보관함에 저장되었습니다.");
+                try {
+                  await storage.copyRuleForm(id);
+                  revalidate();
+                  if (isSample) {
+                    toast.success("보관함에 저장되었습니다.");
+                  }
+                } catch (error) {
+                  if (error instanceof Error) {
+                    toast.error(error.message);
+                  }
+                  toast.error("보관함에 저장하는 중 오류가 발생했습니다.");
                 }
               }}
             >
@@ -92,8 +97,15 @@ export default function RuleViewButton({
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   onSelect={async () => {
-                    await storage.deleteRuleForm(id);
-                    revalidate();
+                    try {
+                      await storage.deleteRuleForm(id);
+                      revalidate();
+                    } catch (error) {
+                      if (error instanceof Error) {
+                        toast.error(error.message);
+                      }
+                      toast.error("삭제하는 중 오류가 발생했습니다.");
+                    }
                   }}
                   variant="destructive"
                 >

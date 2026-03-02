@@ -20,7 +20,7 @@ export default function AddRuleButton({
       <DropdownMenuTrigger {...props} />
       <DropdownMenuContent>
         <DropdownMenuGroup>
-          <DropdownMenuLabel>복사할 룰을 선택하세요.</DropdownMenuLabel>
+          <DropdownMenuLabel>복사할 룰 선택</DropdownMenuLabel>
           {sampleRules.map((rule) => (
             <DropdownMenuItem
               key={rule.id}

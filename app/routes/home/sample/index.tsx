@@ -5,6 +5,7 @@ import RulesViewContent from "../+components/rules-view/rules-view-content";
 import RulesViewDescription from "../+components/rules-view/rules-view-description";
 import RulesViewHeader from "../+components/rules-view/rules-view-header";
 import RulesViewTitle from "../+components/rules-view/rules-view-title";
+import KkutuRuleSettings from "./+components/kkutu-rule-settings";
 
 export const meta: MetaFunction = () => {
   return [{ title: "기본 룰" }];
@@ -24,8 +25,13 @@ export default function Sample() {
         <RulesViewTitle>기본 룰</RulesViewTitle>
         <RulesViewDescription>기본 끝말잇기 룰 목록</RulesViewDescription>
       </RulesViewHeader>
-
       <RulesViewContent />
+
+      <RulesViewHeader>
+        <RulesViewTitle>끄투 코리아</RulesViewTitle>
+        <RulesViewDescription>끄투 코리아 기반 룰 설정</RulesViewDescription>
+      </RulesViewHeader>
+      <KkutuRuleSettings />
     </RulesView>
   );
 }

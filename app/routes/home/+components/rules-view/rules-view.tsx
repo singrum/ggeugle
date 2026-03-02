@@ -1,6 +1,12 @@
 import { Card } from "~/components/ui/card";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "~/components/ui/sheet";
 import { useIsTablet } from "~/hooks/use-tablet";
 import { RuleEditForm } from "~/routes/engine/$rule/+components/rule-edit/rule-edit-form/rule-edit-form";
 import type { RuleMetadata } from "~/types/rule";
@@ -19,8 +25,6 @@ export default function RulesView({
   isSample: boolean;
   children?: React.ReactNode;
 }) {
-  const isTablet = useIsTablet();
-
   return (
     <RulesViewStoreProvider rules={rules} isSample={isSample}>
       <RulesViewInner>{children}</RulesViewInner>
@@ -46,6 +50,9 @@ function RulesViewInner({ children }: { children?: React.ReactNode }) {
               <button className="hidden" />
             </SheetTrigger>
             <SheetContent>
+              <SheetHeader>
+                <SheetTitle className="hidden" />
+              </SheetHeader>
               <RuleEditForm
                 ruleId={selectedRuleId!}
                 setOpen={(open: boolean) => {

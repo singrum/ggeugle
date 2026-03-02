@@ -61,3 +61,5 @@ export type ChangeFunc = {
   forward: (char: string) => string[];
   backward: (char: string) => string[];
 };
+
+export type KkutuRule = { gameType: number; manner: number; injeong: boolean };

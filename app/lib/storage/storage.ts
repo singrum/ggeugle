@@ -1,6 +1,5 @@
 import Dexie, { type Table } from "dexie";
 import { produce } from "immer";
-import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import type { RuleForm } from "~/types/rule";
 import type { PrecInfo } from "~/types/search";
@@ -37,14 +36,17 @@ export class Storage extends Dexie {
   async getAllRuleMetas(): Promise<
     { id: string; order: number; metadata: RuleForm["metadata"] }[]
   > {
-    return await this.ruleMeta.orderBy("order").toArray();
+    const data = await this.ruleMeta.orderBy("order").toArray();
+    return data;
   }
 
-  async getRuleFormById(id: string): Promise<RuleForm | null> {
+  async getRuleFormById(id: string): Promise<RuleForm> {
     const meta = await this.ruleMeta.get(id);
     const body = await this.ruleContent.get(id);
 
-    if (!meta || !body) return null;
+    if (!meta || !body) {
+      throw new Error("해당 룰을 찾을 수 없습니다.");
+    }
 
     return {
       id: meta.id,
@@ -55,7 +57,7 @@ export class Storage extends Dexie {
 
   // --- 생성 로직 ---
 
-  async addRuleForm(ruleForm: RuleForm) {
+  async addRuleForm(ruleForm: RuleForm): Promise<string> {
     const newId = uuidv4();
     const now = Date.now();
 
@@ -90,11 +92,10 @@ export class Storage extends Dexie {
 
   // --- 복사 로직 ---
 
-  async copyRuleForm(id: string) {
+  async copyRuleForm(id: string): Promise<string> {
     const original_ = await getRuleFormById(id);
     if (!original_) {
-      toast.error("원본 규칙을 찾을 수 없습니다.");
-      return;
+      throw new Error("복사할 원본 룰을 찾을 수 없습니다.");
     }
     const original = original_.ruleForm;
 
@@ -133,7 +134,7 @@ export class Storage extends Dexie {
 
   // --- 수정 로직 (핵심 수정) ---
 
-  async updateRuleForm(ruleForm: RuleForm) {
+  async updateRuleForm(ruleForm: RuleForm): Promise<string> {
     const id = ruleForm.id;
     const now = Date.now();
 
@@ -155,11 +156,12 @@ export class Storage extends Dexie {
         });
       },
     );
+    return id;
   }
 
   // --- 순서 변경 (고성능 일괄 업데이트) ---
 
-  async reorderRules(orderedIds: string[]) {
+  async reorderRules(orderedIds: string[]): Promise<void> {
     await this.transaction("rw", this.ruleMeta, async () => {
       const updates = orderedIds.map((id, index) =>
         this.ruleMeta.update(id, { order: index }),
@@ -170,10 +172,9 @@ export class Storage extends Dexie {
 
   // --- 삭제 로직 ---
 
-  async deleteRuleForm(id: string) {
-    // 1. 삭제할 대상의 현재 순서(order)를 먼저 파악해야 합니다.
+  async deleteRuleForm(id: string): Promise<string> {
     const target = await this.ruleMeta.get(id);
-    if (!target) return;
+    if (!target) throw new Error("삭제할 룰을 찾을 수 없습니다.");
 
     const targetOrder = target.order;
 
@@ -192,6 +193,7 @@ export class Storage extends Dexie {
           });
       },
     );
+    return id;
   }
 
   // --- 우선순위 맵 관련 로직 ---
@@ -200,10 +202,9 @@ export class Storage extends Dexie {
     return record ? record.content : null;
   }
 
-  async updatePrec(ruleFormId: string, precInfo: PrecInfo) {
-    console.log(precInfo);
+  async updatePrec(ruleFormId: string, precInfo: PrecInfo): Promise<string> {
     await this.prec.put({ ruleFormId, content: precInfo });
-    console.log("Updated precedence map for ruleFormId:", ruleFormId);
+    return ruleFormId;
   }
 }
 

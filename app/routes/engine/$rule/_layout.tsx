@@ -3,16 +3,15 @@ import {
   Outlet,
   redirect,
   useLoaderData,
-  useNavigate,
   type MetaFunction,
 } from "react-router";
-import { toast } from "sonner";
 import { Card } from "~/components/ui/card";
 import { samplePrecedenceMaps } from "~/constants/sample-precedence-maps";
 import { sampleRules } from "~/constants/sample-rules";
+import { navInfo } from "~/constants/sidebar";
 import { useIsTablet } from "~/hooks/use-tablet";
 import { storage } from "~/lib/storage/storage";
-import { getRuleFormById } from "~/lib/utils";
+import { getKkutuRule, getKkutuRuleForm, getRuleFormById } from "~/lib/utils";
 import { AppSidebar } from "~/routes/engine/$rule/+components/nav-sidebar/app-sidebar";
 import SiteHeader from "~/routes/engine/$rule/+components/site-header/site-header";
 import { WcStoreProvider } from "~/stores/wc-store-provider";
@@ -27,11 +26,9 @@ export type LoaderData = {
   id: string;
 };
 
-export async function getLoaderDataById(
-  id: string,
-): Promise<LoaderData | null> {
+export async function getLoaderDataById(id: string): Promise<LoaderData> {
   const sampleRule = sampleRules.find((rule) => rule.id === id);
-
+  // 샘플 룰에서 검색
   if (sampleRule) {
     return {
       title: sampleRule.metadata.title,
@@ -41,6 +38,22 @@ export async function getLoaderDataById(
       color: sampleRule.metadata.color,
     };
   }
+
+  // 끄투룰에서 검색
+  const kkutuRule = getKkutuRule(id);
+  if (kkutuRule) {
+    const kkutuRuleForm = getKkutuRuleForm(kkutuRule);
+    if (kkutuRuleForm) {
+      return {
+        title: kkutuRuleForm.metadata.title,
+        isSample: true,
+        id,
+        updatedAt: kkutuRuleForm.metadata.updatedAt,
+        color: kkutuRuleForm.metadata.color,
+      };
+    }
+  }
+
   // 스토리지에서 검색
   const data = await storage.getRuleFormById(id);
   if (data) {
@@ -52,14 +65,21 @@ export async function getLoaderDataById(
       color: data.metadata.color,
     };
   }
-  return null;
+  throw new Error("Rule not found");
 }
 
-export const meta: MetaFunction<typeof clientLoader> = ({ loaderData }) => {
+export const meta: MetaFunction<typeof clientLoader> = ({
+  location,
+  loaderData,
+}) => {
+  const { pathname } = location;
+  const lastPath = pathname.split("/").at(-1);
+  const navTitle = navInfo.find((nav) => nav.key === lastPath)?.title;
+
   const title =
     (loaderData as { data: LoaderData | null })?.data?.title ?? "로딩 중";
 
-  return [{ title: `${title}` }];
+  return [{ title: `${title} - ${navTitle ?? ""}` }];
 };
 
 export async function clientLoader({
@@ -68,47 +88,51 @@ export async function clientLoader({
   params: { rule: string };
 }): Promise<{ data: LoaderData }> {
   // 샘플 룰에서 검색
-  const data = await getLoaderDataById(params.rule);
-  if (!data) {
-    redirect("/home");
+  try {
+    const data = await getLoaderDataById(params.rule);
+    return { data };
+  } catch (error) {
+    throw redirect("/home");
   }
-  return { data: data! };
 }
 
 clientLoader.hydrate = true;
 
 export default function Layout() {
   const { data } = useLoaderData<typeof clientLoader>();
-  const navigate = useNavigate();
   const [ruleForm, setRuleForm] = useState<RuleForm | null>(null);
   const [prec, setPrec] = useState<PrecInfo | null>(null);
   const isTablet = useIsTablet();
   useEffect(() => {
     (async function () {
-      const result = await getRuleFormById(data.id);
-      if (!result) {
-        toast.error("해당 룰을 불러올 수 없습니다.");
-        navigate("/home");
-        return;
-      }
-      let prec = await storage.getPrecByRuleFormId(data.id);
+      try {
+        const result = await getRuleFormById(data.id);
 
-      if (!prec) {
-        if (data.isSample && samplePrecedenceMaps[data.id]) {
-          const precMaps = samplePrecedenceMaps[data.id];
-          prec = {
-            rule: 0,
-            maps: {
-              edge: precMaps.edge || {},
-              node: precMaps.node || {},
-            },
-          };
+        let prec = await storage.getPrecByRuleFormId(data.id);
+
+        if (!prec) {
+          if (data.isSample && samplePrecedenceMaps[data.id]) {
+            const precMaps = samplePrecedenceMaps[data.id];
+            prec = {
+              rule: 0,
+              maps: {
+                edge: precMaps.edge || {},
+                node: precMaps.node || {},
+              },
+            };
+          } else {
+            prec = { rule: 0, maps: { edge: {}, node: {} } };
+          }
+        }
+        setPrec(prec);
+        setRuleForm(result.ruleForm);
+      } catch (error) {
+        if (error instanceof Error) {
+          alert(error.message);
         } else {
-          prec = { rule: 0, maps: { edge: {}, node: {} } };
+          alert("알 수 없는 오류가 발생했습니다.");
         }
       }
-      setPrec(prec);
-      setRuleForm(result.ruleForm);
     })();
   }, [data.id, data.updatedAt]);
 

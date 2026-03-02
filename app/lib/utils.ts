@@ -1,9 +1,11 @@
 import { clsx, type ClassValue } from "clsx";
 import { get, has, set } from "lodash-es";
 import { twMerge } from "tailwind-merge";
-import type { RuleForm } from "~/types/rule";
+import type { KkutuRule, RuleForm } from "~/types/rule";
 
+import { cates, kkutuInfo, poses } from "~/constants/rule";
 import { sampleRules } from "~/constants/sample-rules";
+
 import { storage } from "./storage/storage";
 import { EdgeCounter } from "./wordchain/classes/edge-counter";
 import type { NodeName } from "./wordchain/graph/graph";
@@ -243,22 +245,116 @@ export function compareEdge(a: [string, string], b: [string, string]) {
 
 export async function getRuleFormById(
   id: string,
-): Promise<{ ruleForm: RuleForm; isSample: boolean } | null> {
+): Promise<{ ruleForm: RuleForm; isSample: boolean }> {
+  // 기본 룰에서 검색
   const sampleRule = sampleRules.find((rule) => rule.id === id);
-
   if (sampleRule) {
     return {
       ruleForm: sampleRule,
       isSample: true,
     };
   }
-  // 스토리지에서 검색
-  const data = await storage.getRuleFormById(id);
-  if (data) {
-    return {
-      ruleForm: data,
-      isSample: false,
-    };
+
+  // 끄투룰에서 검색
+  const kkutuRule = getKkutuRule(id);
+
+  if (kkutuRule) {
+    const kkutuRuleForm = getKkutuRuleForm(kkutuRule);
+    if (kkutuRuleForm) {
+      return {
+        ruleForm: kkutuRuleForm,
+        isSample: true,
+      };
+    }
   }
-  return null;
+
+  // 스토리지에서 검색
+  try {
+    const data = await storage.getRuleFormById(id);
+    if (data) {
+      return {
+        ruleForm: data,
+        isSample: false,
+      };
+    }
+  } catch (error) {
+    throw new Error("해당 룰을 찾을 수 없습니다.");
+  }
+
+  throw new Error("해당 룰을 찾을 수 없습니다.");
+}
+
+export function getKkutuRuleTitle(rule: KkutuRule): string {
+  return `끄투코리아-${kkutuInfo.gameType[rule.gameType]}-${kkutuInfo.injeong[Number(rule.injeong)]}-${kkutuInfo.manner[rule.manner]}`;
+}
+
+export function getKkutuRule(title: string): KkutuRule | null {
+  const parts = title.split("-");
+  if (parts.length !== 4) return null;
+  const [prefix, gameTypeStr, injeongStr, mannerStr] = parts;
+  if (prefix !== "끄투코리아") return null;
+  const gameType = Object.entries(kkutuInfo.gameType).find(
+    ([, value]) => value === gameTypeStr,
+  )?.[0];
+  const injeong = Object.entries(kkutuInfo.injeong).find(
+    ([, value]) => value === injeongStr,
+  )?.[0];
+  const manner = Object.entries(kkutuInfo.manner).find(
+    ([, value]) => value === mannerStr,
+  )?.[0];
+  if (gameType === undefined || injeong === undefined || manner === undefined) {
+    return null;
+  }
+  return {
+    gameType: Number(gameType),
+    injeong: Boolean(Number(injeong)),
+    manner: Number(manner),
+  };
+}
+
+export function getKkutuRuleForm(rule: KkutuRule): RuleForm {
+  const title = getKkutuRuleTitle(rule);
+  return {
+    id: title,
+    metadata: {
+      title,
+      updatedAt: 0,
+      color: "#eab308",
+    },
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: rule.injeong ? 5 : 4,
+            pos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 1, 1]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
+        },
+        regexFilter:
+          rule.gameType === 1
+            ? "(.{3})"
+            : rule.gameType === 0 && rule.manner === 1 && !rule.injeong
+              ? "(?!(껏구리)$).*"
+              : ".*",
+        removedWords: "",
+        addedWords: "",
+      },
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        rawHeadIdx: 1,
+        headDir: rule.gameType === 2 ? 1 : 0,
+        rawTailIdx: 1,
+        tailDir: rule.gameType === 2 ? 0 : 1,
+      },
+      postprocessing: {
+        manner: {
+          type: (rule.manner === 2 ? 3 : rule.manner) as 0 | 1 | 2 | 3,
+          nextWordsLimit: rule.manner === 2 ? 6 : undefined,
+        },
+        addedWords: "",
+        removedWords: "",
+      },
+    },
+  };
 }

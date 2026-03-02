@@ -66,6 +66,7 @@ export const RulesViewStoreProvider = ({
 
   useEffect(() => {
     store.setState({ rules, isSample });
+    store.getState().select(null);
   }, [rules, isSample]);
 
   return (

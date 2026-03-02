@@ -19,6 +19,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useRevalidator } from "react-router";
+import { toast } from "sonner";
 import { storage } from "~/lib/storage/storage";
 import RuleViewButton from "./rule-view-button";
 
@@ -87,6 +88,11 @@ export function RulesViewSortable({
       await storage.reorderRules(newOrderList.map((r) => r.id));
       revalidator.revalidate();
     } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error("룰 순서 변경 중 오류가 발생했습니다.");
+      }
       revalidator.revalidate();
     }
   };

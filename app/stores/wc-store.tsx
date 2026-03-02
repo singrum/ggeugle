@@ -17,26 +17,9 @@ import { createRuleSlice } from "./slices/rule-slice";
 import { createSearchSlice } from "./slices/search-slice";
 import { createStrategySearchSlice } from "./slices/strategy-search-slice";
 import type { Slices } from "./types/wc-store";
+import { cookieStorage } from "~/lib/cookie-storage";
 
-// js-cookie를 사용하는 StateStorage 구현
-const cookieStorage: StateStorage = {
-  getItem: (name) => {
-    const value = Cookies.get(name);
-    if (!value) return null;
 
-    try {
-      return value;
-    } catch {
-      return null;
-    }
-  },
-  setItem: (name: string, value: string): void => {
-    Cookies.set(name, value, { expires: 365 }); // 1년간 쿠키 유지
-  },
-  removeItem: (name: string): void => {
-    Cookies.remove(name);
-  },
-};
 
 export type WcState = Slices;
 export type WcStore = ReturnType<typeof createWcStore>;
@@ -58,7 +41,7 @@ export const createWcStore = (initProps?: Partial<WcState>) => {
       })),
       {
         name: "ggeugle",
-        version: 4.2,
+        version: 4.3,
         storage: createJSONStorage(() => cookieStorage),
         partialize: (state) => ({
           gameSettingsInfo: state.gameSettingsInfo,
