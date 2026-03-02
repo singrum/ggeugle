@@ -29,7 +29,7 @@ export default function Sample() {
 
       <RulesViewHeader>
         <RulesViewTitle>끄투 코리아</RulesViewTitle>
-        <RulesViewDescription>끄투 코리아 기반 룰 설정</RulesViewDescription>
+        <RulesViewDescription>끄투 코리아 룰 설정</RulesViewDescription>
       </RulesViewHeader>
       <KkutuRuleSettings />
     </RulesView>

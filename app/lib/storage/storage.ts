@@ -156,6 +156,7 @@ export class Storage extends Dexie {
         });
       },
     );
+
     return id;
   }
 

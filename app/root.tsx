@@ -2,6 +2,7 @@ import {
   isRouteErrorResponse,
   Links,
   Meta,
+  Navigate,
   Outlet,
   Scripts,
   ScrollRestoration,
@@ -22,10 +23,11 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap",
   },
+  { rel: "stylesheet", href: "./app.css" },
   { rel: "icon", href: "/logo.png", type: "image/x-icon" },
-  // SVG 아이콘을 사용할 경우
+
   { rel: "icon", href: "/logo.png", type: "image/svg+xml" },
-  // 애플 터치 아이콘 등 추가 가능
+
   { rel: "apple-touch-icon", href: "/logo.png" },
 ];
 
@@ -59,6 +61,9 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    return <Navigate to="/home" replace />;
+  }
   let message = "에러 발생";
   let details = "개발자에게 문의해주세요";
   let stack: string | undefined;
@@ -75,7 +80,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
+    <main className="pt-16 p-4 container mx-auto h-svh">
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (

@@ -4,17 +4,12 @@ import type { RuleForm } from "~/types/rule";
 import { RuleEditorStoreProvider } from "../rule-editor-store-provider";
 import RuleEditContent from "./rule-edit-content";
 
+import { toast } from "sonner";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { RuleEditFooter } from "./rule-edit-footer";
 import RuleEditHeader from "./rule-edit-header";
 
-export function RuleEditForm({
-  ruleId,
-  setOpen,
-}: {
-  ruleId: string;
-  setOpen?: (open: boolean) => void;
-}) {
+export function RuleEditForm({ ruleId }: { ruleId: string }) {
   const [loading, setLoading] = useState(true);
   const [ruleForm, setRuleForm] = useState<RuleForm | null>(null);
   const [isSample, setIsSample] = useState(false);
@@ -30,6 +25,11 @@ export function RuleEditForm({
         }
         setLoading(false);
       } catch (error) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
+        toast.error("룰을 불러오는 중 오류가 발생했습니다.");
+
         setLoading(false);
       }
     })();
@@ -45,7 +45,7 @@ export function RuleEditForm({
         <ScrollArea className="h-full flex-1 min-h-0">
           <RuleEditContent />
         </ScrollArea>
-        <RuleEditFooter setOpen={setOpen} />
+        <RuleEditFooter />
       </div>
     </RuleEditorStoreProvider>
   );

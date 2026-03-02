@@ -5,6 +5,7 @@ import {
   useLoaderData,
   type MetaFunction,
 } from "react-router";
+import { toast } from "sonner";
 import { Card } from "~/components/ui/card";
 import { samplePrecedenceMaps } from "~/constants/sample-precedence-maps";
 import { sampleRules } from "~/constants/sample-rules";
@@ -128,9 +129,9 @@ export default function Layout() {
         setRuleForm(result.ruleForm);
       } catch (error) {
         if (error instanceof Error) {
-          alert(error.message);
+          toast.error(error.message);
         } else {
-          alert("알 수 없는 오류가 발생했습니다.");
+          toast.error("알 수 없는 오류가 발생했습니다.");
         }
       }
     })();

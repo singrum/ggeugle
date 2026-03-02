@@ -1,5 +1,6 @@
 import { ChevronDown, MoreVertical } from "lucide-react";
 import { useTheme } from "next-themes";
+import { Link } from "react-router";
 import { Fragment } from "react/jsx-runtime";
 import { Button } from "~/components/ui/button";
 import {
@@ -203,18 +204,33 @@ function HelpToolbarContent() {
       <DropdownMenuLabel>도움말</DropdownMenuLabel>
       <DropdownMenuItem>지식</DropdownMenuItem>
       <DropdownMenuItem>FAQ</DropdownMenuItem>
-      <DropdownMenuItem>피드백</DropdownMenuItem>
     </DropdownMenuGroup>
   );
 }
 
 function InfoToolbarContent() {
+  const items = [
+    { title: "이끼", url: "https://ikki.app" },
+    { title: "깃허브", url: "https://github.com/singrum/ggeugle" },
+    {
+      title: "디스코드",
+      url: "https://discord.gg/bkHgyajx89",
+    },
+    {
+      title: "구버전 (v3)",
+      url: "https://v3.engine.ikki.app",
+    },
+  ];
   return (
     <DropdownMenuGroup>
       <DropdownMenuLabel>바로 가기</DropdownMenuLabel>
-      <DropdownMenuItem>이끼</DropdownMenuItem>
-      <DropdownMenuItem>깃허브</DropdownMenuItem>
-      <DropdownMenuItem>디스코드</DropdownMenuItem>
+      {items.map(({ title, url }) => (
+        <DropdownMenuItem key={title} asChild>
+          <Link to={url} target="_blank" rel="noopener noreferrer">
+            {title}
+          </Link>
+        </DropdownMenuItem>
+      ))}
     </DropdownMenuGroup>
   );
 }

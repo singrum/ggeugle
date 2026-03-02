@@ -53,12 +53,7 @@ function RulesViewInner({ children }: { children?: React.ReactNode }) {
               <SheetHeader>
                 <SheetTitle className="hidden" />
               </SheetHeader>
-              <RuleEditForm
-                ruleId={selectedRuleId!}
-                setOpen={(open: boolean) => {
-                  if (!open) select(null);
-                }}
-              />
+              <RuleEditForm ruleId={selectedRuleId!} />
             </SheetContent>
           </Sheet>
         ))}

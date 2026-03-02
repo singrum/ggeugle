@@ -269,16 +269,13 @@ export async function getRuleFormById(
   }
 
   // 스토리지에서 검색
-  try {
-    const data = await storage.getRuleFormById(id);
-    if (data) {
-      return {
-        ruleForm: data,
-        isSample: false,
-      };
-    }
-  } catch (error) {
-    throw new Error("해당 룰을 찾을 수 없습니다.");
+
+  const data = await storage.getRuleFormById(id);
+  if (data) {
+    return {
+      ruleForm: data,
+      isSample: false,
+    };
   }
 
   throw new Error("해당 룰을 찾을 수 없습니다.");
