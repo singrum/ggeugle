@@ -34,7 +34,7 @@ export default function RuleViewButton({
       variant={"secondary"}
       size="lg"
       className={cn(
-        "group relative flex flex-col justify-start items-start h-auto p-0 rounded-lg overflow-hidden",
+        "group relative flex flex-col justify-start items-start h-auto p-0 rounded-lg overflow-hidden hover:underline underline-offset-2",
         selectedRuleId === id && "ring-2 ring-primary",
       )}
       asChild
@@ -42,7 +42,7 @@ export default function RuleViewButton({
       <div className="relative w-full h-full">
         <Link
           to={`/engine/${encodeURIComponent(id)}`}
-          className="flex items-center gap-2 w-full h-full py-4 px-3 pr-9"
+          className="flex items-center gap-2 w-full h-full py-4 px-3 pr-9 "
         >
           <ArticleIcon
             className="size-5 shrink-0"
