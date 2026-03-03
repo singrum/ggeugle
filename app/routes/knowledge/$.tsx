@@ -1,6 +1,6 @@
 import "katex/dist/katex.min.css";
 import ReactMarkdown from "react-markdown";
-import { useLoaderData } from "react-router";
+import { useLoaderData, type MetaFunction } from "react-router";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -27,6 +27,14 @@ export async function loader({
   const data = await file.text();
   return { data, ok: file.ok };
 }
+
+export const meta: MetaFunction = ({ params }: { params: any }) => {
+  return [
+    {
+      title: `${params["*"].replace("/", " - ")} | 끝말잇기 엔진`,
+    },
+  ];
+};
 
 export default function Knowledge() {
   const { data, ok } = useLoaderData();

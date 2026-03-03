@@ -8,7 +8,7 @@ import RulesViewTitle from "../+components/rules-view/rules-view-title";
 import type { Route } from "../+types";
 
 export function meta({}: Route.MetaArgs) {
-  return [{ title: "보관함" }];
+  return [{ title: "보관함 | 끝말잇기 엔진" }];
 }
 
 export function shouldRevalidate() {

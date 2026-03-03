@@ -6,6 +6,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  type MetaFunction,
 } from "react-router";
 
 import type { Route } from "./+types/root";
@@ -30,6 +31,17 @@ export const links: Route.LinksFunction = () => [
 
   { rel: "apple-touch-icon", href: "/logo.png" },
 ];
+
+export const meta: MetaFunction = () => {
+  return [
+    { property: "og:image", content: "/static-opengraph.png" },
+    {
+      name: "description",
+      content:
+        "이끼에서 제공하는 끝말잇기 엔진은 끝말잇기 단어 검색과 끝말잇기 게임 분석을 위한 웹 서비스입니다. (구 끄글)",
+    },
+  ];
+};
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (

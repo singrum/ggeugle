@@ -81,7 +81,7 @@ export const meta: MetaFunction<typeof clientLoader> = ({
   const title =
     (loaderData as { data: LoaderData | null })?.data?.title ?? "로딩 중";
 
-  return [{ title: `${title} - ${navTitle ?? ""}` }];
+  return [{ title: `${title} - ${navTitle ?? ""} | 끝말잇기 엔진` }];
 };
 
 export async function clientLoader({
