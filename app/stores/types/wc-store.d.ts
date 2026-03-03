@@ -208,5 +208,4 @@ export type Slices = RuleSlice &
   StrategySearchSlice &
   CriticalWordsSlice &
   PlaySlice &
-  InfoSlice &
   DistributionSlice;

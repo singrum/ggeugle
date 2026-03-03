@@ -5,7 +5,6 @@ import { createStore } from "zustand";
 import { localStorageVersion } from "~/lib/local-storage";
 import { createCriticalWordsSlice } from "./slices/critical-words-slice";
 import { createDistributionSlice } from "./slices/distribution-slice";
-import { createInfoSlice } from "./slices/info-slice";
 
 import { createPlaySlice } from "./slices/play-slice";
 import { createRuleSlice } from "./slices/rule-slice";
@@ -26,7 +25,6 @@ export const createWcStore = (initProps?: Partial<WcState>) => {
         ...createStrategySearchSlice(...a),
         ...createCriticalWordsSlice(...a),
         ...createPlaySlice(...a),
-        ...createInfoSlice(...a),
         ...createDistributionSlice(...a),
         ...initProps, // 초기 주입된 props로 상태 덮어쓰기
       })),
