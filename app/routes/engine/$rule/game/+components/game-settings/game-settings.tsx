@@ -7,8 +7,8 @@ import CalculatingDurationSettings from "./calculating-duration-settings";
 import DifficultySettings from "./difficulty-settings";
 import FirstTurnSettings from "./first-turn-settings";
 import GameSettingsList from "./game-settings-list";
+
 import StealableSettings from "./stealable-settings";
-import RemovedWordsSettings from "./removed-words-settings";
 
 export default function GameSettings() {
   const originalSolver = useWcStore((e) => e.originalSolver);
@@ -40,8 +40,6 @@ export default function GameSettings() {
           <CalculatingDurationSettings />
 
           <StealableSettings />
-
-          <RemovedWordsSettings/>
         </GameSettingsList>
       </div>
 
