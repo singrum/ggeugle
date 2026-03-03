@@ -11,7 +11,7 @@ const sidebarItems = [
 export default function MobileNav() {
   const { pathname } = useLocation();
   return (
-    <div className="grid grid-cols-2 w-full bg-sidebar z-10 border-t dark:border-0">
+    <div className="grid grid-cols-2 w-full bg-sidebar z-10 border-t dark:border-0 sticky bottom-0 ">
       {sidebarItems.map((item) => {
         const isExactMatch = matchPath(
           { path: item.path, end: false },

@@ -11,20 +11,17 @@ export default function HomeLayout() {
     localStorage.setItem("last_home_path", location.pathname);
   }, []);
   return (
-    <div className="bg-background lg:bg-sidebar lg:h-svh">
-      <div className="min-h-svh relative flex-col lg:flex-row h-svh lg:h-full hidden lg:flex">
+    <div className="bg-background lg:bg-sidebar min-h-svh lg:h-svh flex">
+      <div className="relative flex-row h-full hidden lg:flex flex-1">
         <Toaster position="top-right" />
-
         <Sidebar />
         <Outlet />
       </div>
-      <div className="min-h-svh flex relative flex-col lg:flex-row h-svh lg:h-full lg:hidden">
+      <div className="flex flex-col flex-1 lg:hidden">
         <Toaster position="top-right" />
+        <MobileHeader />
+        <Outlet />
 
-        <div className="flex-1 min-h-0 overflow-auto">
-          <MobileHeader />
-          <Outlet />
-        </div>
         <MobileNav />
       </div>
     </div>

@@ -6,7 +6,7 @@ import InnerSidebar from "../+components/inner-sidebar/inner-sidebar";
 export default function Game() {
   const isTablet = useIsTablet();
   return (
-    <div className="flex h-full">
+    <div className="flex h-full flex-1 flex-col lg:flex-row">
       {!isTablet && (
         <InnerSidebar>
           <PlaySidebar />

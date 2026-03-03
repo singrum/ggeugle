@@ -327,5 +327,9 @@ function scrollToLast() {
       top: document.getElementById("chatbox")!.scrollHeight,
       behavior: "instant",
     });
+    window.scrollTo({
+      top: document.getElementById("chatbox")!.scrollHeight,
+      behavior: "instant",
+    });
   }, 10);
 }

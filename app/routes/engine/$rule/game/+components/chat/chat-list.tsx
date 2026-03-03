@@ -20,7 +20,7 @@ export default function ChatList({
   });
 
   return (
-    <div className="space-y-4 px-4 pt-8 pb-2 md:px-8 md:py-4 md:pt-16">
+    <div className="space-y-4 px-4 pt-8 pb-2 md:px-8 md:py-4 md:pt-16 mt-auto">
       <AnimatePresence>
         {chatGroups.map((group, i) => (
           <motion.div
