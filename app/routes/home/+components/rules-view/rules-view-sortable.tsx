@@ -44,7 +44,7 @@ function SortableItem({ rule }: { rule: any }) {
       style={style}
       {...attributes}
       {...listeners}
-      className="touch-none select-none cursor-grab"
+      className="touch-pan-y select-none cursor-grab"
     >
       <motion.div
         layout
