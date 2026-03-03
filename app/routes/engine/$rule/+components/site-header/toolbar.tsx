@@ -109,18 +109,8 @@ export function PosSelect() {
         }
       }}
     >
-      <ToggleGroupItem
-        value="0"
-        className="lg:data-[state=on]:bg-foreground/10"
-      >
-        첫 글자
-      </ToggleGroupItem>
-      <ToggleGroupItem
-        value="1"
-        className="lg:data-[state=on]:bg-foreground/10"
-      >
-        끝 글자
-      </ToggleGroupItem>
+      <ToggleGroupItem value="0">첫 글자</ToggleGroupItem>
+      <ToggleGroupItem value="1">끝 글자</ToggleGroupItem>
     </ToggleGroup>
   );
 }
