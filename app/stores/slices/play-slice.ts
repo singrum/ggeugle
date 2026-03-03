@@ -36,7 +36,6 @@ export const createPlaySlice: StateCreator<
   playDrawerOpen: false,
   setPlayDrawerOpen: (val: boolean) => set({ playDrawerOpen: val }),
   gameSettingsInfo: {
-    removedWords: "",
     difficulty: 2,
     calculatingDuration: 3,
     firstTurnForm: 1,
