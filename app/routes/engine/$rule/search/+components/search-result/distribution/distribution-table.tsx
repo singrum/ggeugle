@@ -27,7 +27,7 @@ import {
 import type { WordSolver } from "~/lib/wordchain/word/word-solver";
 import { Ball } from "~/routes/engine/$rule/+components/ball";
 import CharButton from "~/routes/engine/$rule/search/+components/char-data-section/char-button";
-import { useWcStore } from "~/stores/wc-store-provider";
+import { useWcStore, useWcStoreApi } from "~/stores/wc-store-provider";
 import type { MoveType } from "~/types/search";
 const adjacentOptions = ["다음 단어", "이전 단어"];
 
@@ -41,6 +41,7 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
   const view = useWcStore((e) => e.view);
   const setData = useWcStore((e) => e.setDistributionData);
   const pageSize = useWcStore((e) => e.pageSize);
+  const storeApi = useWcStoreApi();
 
   useEffect(() => {
     setData(
@@ -88,7 +89,7 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
                       size="sm"
                       variant={"ghost"}
                       onClick={() => {
-                        useWcStore.setState((state) => {
+                        storeApi.setState((state) => {
                           if (
                             state.wordDistributionOption.type === "adjacent"
                           ) {
@@ -118,7 +119,7 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
                   <Button
                     variant={"ghost"}
                     onClick={() => {
-                      useWcStore.setState((state) => {
+                      storeApi.setState((state) => {
                         if (state.wordDistributionOption.type === "adjacent") {
                           state.wordDistributionOption.sort = {
                             key: "total",
@@ -164,7 +165,7 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
                       <DropdownMenuRadioGroup
                         value={String(option.wordTypes[direction])}
                         onValueChange={(e: string) => {
-                          useWcStore.setState((state) => {
+                          storeApi.setState((state) => {
                             if (
                               state.wordDistributionOption.type !== "adjacent"
                             ) {
@@ -204,7 +205,7 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
                   <Button
                     variant={"ghost"}
                     onClick={() => {
-                      useWcStore.setState((state) => {
+                      storeApi.setState((state) => {
                         if (state.wordDistributionOption.type !== "adjacent") {
                           state.wordDistributionOption.desc =
                             !state.wordDistributionOption.desc;

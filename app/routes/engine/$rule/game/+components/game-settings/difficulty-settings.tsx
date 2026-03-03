@@ -1,6 +1,6 @@
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { difficultyInfo } from "~/constants/play";
-import { useWcStore } from "~/stores/wc-store-provider";
+import { useWcStore, useWcStoreApi } from "~/stores/wc-store-provider";
 import {
   GameSettingsCard,
   GameSettingsContent,
@@ -9,10 +9,11 @@ import {
 
 export default function DifficultySettings() {
   const difficulty = useWcStore((e) => e.gameSettingsInfo.difficulty);
+  const storeApi = useWcStoreApi();
   const handleDifficultyChange = (value: string) => {
     // 값이 없을 경우(이미 선택된 걸 다시 눌렀을 때)를 대비해 조건문 추가
     if (value) {
-      useWcStore.setState((state) => {
+      storeApi.setState((state) => {
         state.gameSettingsInfo.difficulty = parseInt(value) as 0 | 1 | 2;
       });
     }

@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { cn } from "~/lib/utils";
-import { useWcStore } from "~/stores/wc-store-provider";
+import { useWcStore, useWcStoreApi } from "~/stores/wc-store-provider";
 
 const adjacentOptions = ["다음 단어", "이전 단어"];
 const nonAdjacentOptions = [
@@ -23,7 +23,7 @@ const displayTypeOptions = [
 ];
 export default function WordDistributionSettings() {
   const option = useWcStore((e) => e.wordDistributionOption);
-
+  const storeApi = useWcStoreApi();
   const { title } =
     option.type === "adjacent"
       ? displayTypeOptions.find((e) => e.key === option.displayType)!
@@ -49,7 +49,7 @@ export default function WordDistributionSettings() {
             value={`${option.type === "adjacent" ? "adjacent-" + option.direction : option.type}`}
             onValueChange={(e: string) => {
               const [type, direction] = e.split("-");
-              useWcStore.setState((state) => {
+              storeApi.setState((state) => {
                 state.wordDistributionOption.type = type as
                   | "adjacent"
                   | "ratio";
@@ -105,7 +105,7 @@ export default function WordDistributionSettings() {
             <DropdownMenuRadioGroup
               value={option.displayType}
               onValueChange={(e: string) => {
-                useWcStore.setState((state) => {
+                storeApi.setState((state) => {
                   if (state.wordDistributionOption.type === "adjacent") {
                     state.wordDistributionOption.displayType = e as
                       | "fraction"

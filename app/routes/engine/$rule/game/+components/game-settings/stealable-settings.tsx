@@ -1,6 +1,6 @@
 import { Label } from "~/components/ui/label";
 import { Switch } from "~/components/ui/switch";
-import { useWcStore } from "~/stores/wc-store-provider";
+import { useWcStore, useWcStoreApi } from "~/stores/wc-store-provider";
 import {
   GameSettingsCard,
   GameSettingsContent,
@@ -9,6 +9,7 @@ import {
 
 export default function StealableSettings() {
   const steal = useWcStore((e) => e.gameSettingsInfo.stealable);
+  const storeApi = useWcStoreApi();
   return (
     <Label>
       <GameSettingsCard>
@@ -18,7 +19,7 @@ export default function StealableSettings() {
             <Switch
               checked={steal}
               onCheckedChange={(e) =>
-                useWcStore.setState((state) => {
+                storeApi.setState((state) => {
                   state.gameSettingsInfo.stealable = e as boolean;
                   if (!e) {
                     state.gameSettingsInfo.firstTurnForm = 0;

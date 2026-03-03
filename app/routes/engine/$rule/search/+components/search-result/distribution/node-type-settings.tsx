@@ -11,10 +11,11 @@ import { typeMap } from "~/constants/search";
 import { cn } from "~/lib/utils";
 import type { NodeType } from "~/lib/wordchain/graph/graph";
 import { Ball } from "~/routes/engine/$rule/+components/ball";
-import { useWcStore } from "~/stores/wc-store-provider";
+import { useWcStore, useWcStoreApi } from "~/stores/wc-store-provider";
 const nodeTypeOption = ["win", "lose", "loopwin", "route"];
 export default function NodeTypeSettings() {
   const nodeType = useWcStore((e) => e.distributionNodeType);
+  const storeApi = useWcStoreApi();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -33,7 +34,7 @@ export default function NodeTypeSettings() {
         <DropdownMenuRadioGroup
           value={`${nodeType}`}
           onValueChange={(nodeType: string) => {
-            useWcStore.setState((e) => {
+            storeApi.setState((e) => {
               if (e.wordDistributionOption.type === "adjacent") {
                 e.wordDistributionOption.sort = { key: "total", desc: true };
               } else {

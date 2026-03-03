@@ -36,6 +36,7 @@ export const createPlaySlice: StateCreator<
   playDrawerOpen: false,
   setPlayDrawerOpen: (val: boolean) => set({ playDrawerOpen: val }),
   gameSettingsInfo: {
+    removedWords: "",
     difficulty: 2,
     calculatingDuration: 3,
     firstTurnForm: 1,
@@ -51,8 +52,13 @@ export const createPlaySlice: StateCreator<
   makeGame: () => {
     const { gameSettingsInfo, selectGame, takeComputersTurn } = get();
 
-    const { difficulty, calculatingDuration, firstTurnForm, stealable } =
-      gameSettingsInfo;
+    const {
+      difficulty,
+      calculatingDuration,
+      firstTurnForm,
+      stealable,
+      removedWords,
+    } = gameSettingsInfo;
     const isFirst: boolean =
       firstTurnForm === 0
         ? true
@@ -69,6 +75,7 @@ export const createPlaySlice: StateCreator<
       finished: false,
       chats: [],
       isMyTurn: isFirst,
+      removedWords,
     };
     set((state) => {
       state.games.push(id);
@@ -150,7 +157,7 @@ export const createPlaySlice: StateCreator<
   },
 
   isValidMove: (word: string) => {
-    const { gameMap, originalSolver, rule, selectedGame } = get();
+    const { gameMap, originalSolver, ruleForm: rule, selectedGame } = get();
     if (!selectedGame) {
       return false;
     }
@@ -171,7 +178,7 @@ export const createPlaySlice: StateCreator<
 
     if (moves.length > 0) {
       const chars = sampleChangeFuncs[
-        rule.wordConnectionRule.changeFuncIdx
+        rule.content.wordConnectionRule.changeFuncIdx
       ].forward(moves.at(-1)!.at(originalSolver!.tailIdx)!);
       if (moves.length === 1) {
         if (
@@ -199,7 +206,8 @@ export const createPlaySlice: StateCreator<
   takeComputersTurn: (id: string) => {
     const { gameMap, originalSolver, finishGame } = get();
     const game = gameMap[id];
-    const history = getMovesFromChats(game.chats);
+
+    const history = [...game.removedWords, ...getMovesFromChats(game.chats)];
     const callbackId = v4();
 
     const runner = new GameWorkerRunner(

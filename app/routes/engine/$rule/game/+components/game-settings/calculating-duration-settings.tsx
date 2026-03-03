@@ -1,6 +1,6 @@
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { useWcStore } from "~/stores/wc-store-provider";
+import { useWcStore, useWcStoreApi } from "~/stores/wc-store-provider";
 import {
   GameSettingsCard,
   GameSettingsContent,
@@ -12,6 +12,7 @@ export default function CalculatingDurationSettings() {
     (e) => e.gameSettingsInfo.calculatingDuration,
   );
   const difficulty = useWcStore((e) => e.gameSettingsInfo.difficulty);
+  const storeApi = useWcStoreApi();
   return (
     <Label>
       <GameSettingsCard>
@@ -19,12 +20,12 @@ export default function CalculatingDurationSettings() {
         <GameSettingsContent>
           <div className="flex items-center gap-2">
             <Input
-              className="w-[100px] text-right"
+              className="w-25 text-right"
               disabled={difficulty !== 2}
               type="number"
               value={calculatingDuration}
               onChange={(e) => {
-                useWcStore.setState((state) => {
+                storeApi.setState((state) => {
                   state.gameSettingsInfo.calculatingDuration = Number(
                     e.target.value,
                   );

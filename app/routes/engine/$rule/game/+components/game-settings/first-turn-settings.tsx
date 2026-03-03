@@ -1,6 +1,6 @@
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group"; // toggle-group 임포트
 import { firstTurnFormInfo } from "~/constants/play";
-import { useWcStore } from "~/stores/wc-store-provider";
+import { useWcStore, useWcStoreApi } from "~/stores/wc-store-provider";
 import {
   GameSettingsCard,
   GameSettingsContent,
@@ -10,11 +10,11 @@ import {
 export default function FirstTurnSettings() {
   const first = useWcStore((e) => e.gameSettingsInfo.firstTurnForm);
   const stealable = useWcStore((e) => e.gameSettingsInfo.stealable);
-
+  const storeApi = useWcStoreApi();
   const handleValueChange = (value: string) => {
     // 선택 해제 방지 및 상태 업데이트
     if (value) {
-      useWcStore.setState((state) => {
+      storeApi.setState((state) => {
         state.gameSettingsInfo.firstTurnForm = parseInt(value);
       });
     }
