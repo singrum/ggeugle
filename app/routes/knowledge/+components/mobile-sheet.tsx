@@ -17,7 +17,7 @@ export default function MobileSheet() {
   return (
     <Sheet open={open} onOpenChange={(isOpen) => setOpen(isOpen)}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" className="flex lg:hidden">
           <Menu className="stroke-foreground" />
         </Button>
       </SheetTrigger>

@@ -2,12 +2,10 @@ import { Slash } from "lucide-react";
 import { Link } from "react-router";
 import { ModeToggle } from "~/components/mode-toggle";
 import { Button } from "~/components/ui/button";
-import { useIsTablet } from "~/hooks/use-tablet";
 import IkkiLogo from "~/routes/home/+components/ikki-logo";
 import MobileSheet from "./mobile-sheet";
 
 export default function Header() {
-  const isTablet = useIsTablet();
   return (
     <div className="justify-between p-4 border-b sticky top-0 bg-background z-10 flex items-center h-13 lg:h-14">
       <Link to="/knowledge" className="flex gap-2 items-center shrink-0 p-0">
@@ -18,16 +16,14 @@ export default function Header() {
         </span>
       </Link>
 
-      {!isTablet ? (
-        <div className="flex gap-2">
-          <ModeToggle />
-          <Button asChild>
-            <Link to="/home">엔진 홈</Link>
-          </Button>
-        </div>
-      ) : (
-        <MobileSheet />
-      )}
+      <div className="gap-2 hidden lg:flex">
+        <ModeToggle />
+        <Button asChild>
+          <Link to="/home">엔진 홈</Link>
+        </Button>
+      </div>
+
+      <MobileSheet />
     </div>
   );
 }

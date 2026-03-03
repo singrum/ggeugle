@@ -7,7 +7,7 @@ import RulesViewHeader from "../+components/rules-view/rules-view-header";
 import RulesViewTitle from "../+components/rules-view/rules-view-title";
 import KkutuRuleSettings from "./+components/kkutu-rule-settings";
 
-export const meta: MetaFunction = () => {
+export const meta: MetaFunction = ({ matches }) => {
   return [{ title: "기본 룰 | 끝말잇기 엔진" }];
 };
 

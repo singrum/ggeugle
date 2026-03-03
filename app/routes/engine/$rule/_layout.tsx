@@ -1,4 +1,3 @@
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import {
   Outlet,
@@ -104,7 +103,6 @@ export default function Layout() {
   const [ruleForm, setRuleForm] = useState<RuleForm | null>(null);
   const [prec, setPrec] = useState<PrecInfo | null>(null);
   const isTablet = useIsTablet();
-  const { theme } = useTheme();
 
   useEffect(() => {
     (async function () {

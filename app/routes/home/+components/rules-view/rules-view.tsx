@@ -37,7 +37,7 @@ function RulesViewInner({ children }: { children?: React.ReactNode }) {
   const selectedRuleId = useRulesViewStore((e) => e.selectedRuleId);
   const select = useRulesViewStore((e) => e.select);
   return (
-    <div className="p-0 lg:pr-2 lg:py-2 lg:flex-1 flex">
+    <div className="p-0 lg:pr-2 lg:py-2 lg:flex-1 flex min-h-0">
       <Card className="rounded-lg h-full p-0 bg-background lg:border lg:dark:border-0 w-full lg:flex-1 relative">
         <ScrollArea className="lg:h-full">{children}</ScrollArea>
       </Card>
@@ -50,7 +50,7 @@ function RulesViewInner({ children }: { children?: React.ReactNode }) {
               <button className="hidden" />
             </SheetTrigger>
             <SheetContent>
-              <SheetHeader>
+              <SheetHeader className="hidden">
                 <SheetTitle className="hidden" />
               </SheetHeader>
               <RuleEditForm ruleId={selectedRuleId!} />

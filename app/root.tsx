@@ -24,16 +24,17 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap",
   },
-
   { rel: "icon", href: "/logo.png", type: "image/x-icon" },
-
   { rel: "icon", href: "/logo.png", type: "image/svg+xml" },
-
   { rel: "apple-touch-icon", href: "/logo.png" },
 ];
 
 export const meta: MetaFunction = () => {
   return [
+    {
+      name: "naver-site-verification",
+      content: "eaba2366fdaca84d9cc4c1d7ba78ac752d2c0416",
+    },
     { property: "og:image", content: "/static-opengraph.png" },
     {
       name: "description",
@@ -49,8 +50,25 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
+
         <Links />
+        <Meta />
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-7KVJT9KM4X"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-7KVJT9KM4X");
+            `,
+          }}
+        />
       </head>
       <body>
         <ThemeProvider

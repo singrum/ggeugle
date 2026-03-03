@@ -31,8 +31,8 @@ function KkutuRuleSettingsInner() {
   const kkutuLocalRule = useKkutuRuleStore((state) => state.kkutuLocalRule);
   const storeApi = useKkutuRuleStoreApi();
   return (
-    <div className="p-6">
-      <Card className="px-6 w-fit bg-transparent border p-4">
+    <div className="p-6 grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-4 px-6 pb-6">
+      <Card className="px-6 w-fit bg-transparent border p-4 col-span-2 w-full">
         <div className="grid w-fit grid-cols-2 gap-y-4">
           <div className="flex h-9 items-center text-sm font-medium">
             게임 유형
