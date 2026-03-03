@@ -25,7 +25,7 @@ export default function MobileNav() {
               asChild
               variant={"ghost"}
               className={cn(
-                "rounded-none w-full justify-start flex-col h-auto gap-1 py-2",
+                "rounded-none w-full justify-start flex-col h-auto gap-1 py-2 hover:bg-transparent dark:hover:bg-transparent",
               )}
             >
               <NavLink to={item.path}>

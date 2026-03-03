@@ -147,7 +147,7 @@ export default function Layout() {
         prec={prec}
       >
         <div className="[--header-height:calc(--spacing(14))] bg-sidebar flex flex-col h-svh">
-          <div className="flex-1 min-h-0 overflow-auto flex flex-col">
+          <div className="flex-1 min-h-0 overflow-auto flex flex-col relative">
             <SiteHeader loaderData={data} />
             <div className="flex-1 lg:flex min-h-auto lg:min-h-0">
               {!isTablet && <AppSidebar />}
