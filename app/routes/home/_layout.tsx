@@ -11,7 +11,7 @@ export default function HomeLayout() {
     localStorage.setItem("last_home_path", location.pathname);
   }, []);
   return (
-    <div className="bg-background lg:bg-sidebar min-h-svh lg:h-svh flex">
+    <div className="bg-background lg:bg-sidebar min-h-dvh lg:h-svh flex lg:min-h-0">
       <div className="relative flex-row h-full hidden lg:flex flex-1">
         <Toaster position="top-right" />
         <Sidebar />
