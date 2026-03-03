@@ -1,5 +1,6 @@
 import { Slash } from "lucide-react";
 import { Link } from "react-router";
+import { ModeToggle } from "~/components/mode-toggle";
 import { Button } from "~/components/ui/button";
 import { useIsTablet } from "~/hooks/use-tablet";
 import IkkiLogo from "~/routes/home/+components/ikki-logo";
@@ -19,6 +20,7 @@ export default function Header() {
 
       {!isTablet ? (
         <div className="flex gap-2">
+          <ModeToggle />
           <Button variant="secondary" asChild>
             <Link to="/home">엔진 홈</Link>
           </Button>

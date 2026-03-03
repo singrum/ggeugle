@@ -22,7 +22,7 @@ export default function Nav({ onItemClick }: { onItemClick?: () => void }) {
                   return (
                     <Button
                       key={subItem.title}
-                      className="w-full justify-start pl-5"
+                      className="w-full justify-start pl-6"
                       variant={isActive ? "secondary" : "ghost"}
                       asChild
                       onClick={onItemClick}

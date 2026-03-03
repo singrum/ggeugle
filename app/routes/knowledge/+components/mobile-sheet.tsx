@@ -1,6 +1,7 @@
 import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
+import { ModeToggle } from "~/components/mode-toggle";
 import { Button } from "~/components/ui/button";
 import {
   Sheet,
@@ -25,8 +26,9 @@ export default function MobileSheet() {
         <div className="p-4 flex-1 min-h-0 overflow-auto">
           <Nav onItemClick={() => setOpen(false)} />
         </div>
-        <SheetFooter className="">
-          <Button variant="secondary" asChild>
+        <SheetFooter className="flex gap-2 flex-row">
+          <ModeToggle />
+          <Button variant="secondary" asChild className="flex-1">
             <Link to="/home">엔진 홈</Link>
           </Button>
         </SheetFooter>
