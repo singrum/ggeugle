@@ -15,10 +15,10 @@ export default function Game({ id }: { id: string }) {
   return (
     <>
       <div
-        className="h-full max-h-full min-h-0 flex-1 overflow-y-scroll w-full"
+        className="h-full max-h-full min-h-0 flex-1 overflow-y-scroll w-full flex flex-col"
         id="chatbox"
       >
-        <div className="max-w-3xl w-full mx-auto">
+        <div className="max-w-3xl w-full mx-auto mt-auto">
           <ChatList chats={chats} difficulty={difficulty} loading={!isMyTurn} />
         </div>
       </div>
