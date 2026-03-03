@@ -211,7 +211,7 @@ export class GameWorkerRunner {
   }
   takeMove(word: string) {
     this.callback({ action: "move", payload: word! });
-
+    this.historyNum++;
     if (this.isHanbang(word)) {
       this.callback({ action: "computerWin" });
     }
@@ -296,6 +296,7 @@ export class GameWorkerRunner {
     );
 
     const counter = this.getNextCounter(tail);
+
     const historyNum = this.historyWordMap.getSize();
 
     if (this.stealable && historyNum === 0) {
@@ -308,6 +309,7 @@ export class GameWorkerRunner {
     ) {
       counter.decrease(head, tail);
     }
+    console.log(counter, word);
 
     return counter.toArray().length === 0;
   }
