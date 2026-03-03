@@ -7,7 +7,7 @@ import MobileSheet from "./mobile-sheet";
 
 export default function Header() {
   return (
-    <div className="justify-between p-4 border-b sticky top-0 bg-background z-10 flex items-center h-13 lg:h-14">
+    <div className="justify-between p-4 pr-2 lg:px-6 border-b sticky top-0 bg-background z-10 flex items-center h-13 lg:h-14">
       <Link to="/knowledge" className="flex gap-2 items-center shrink-0 p-0">
         <IkkiLogo className="h-3 lg:h-4 w-auto shrink-0" />
         <Slash className="size-3 lg:size-4 -rotate-20 text-muted-foreground" />

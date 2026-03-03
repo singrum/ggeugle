@@ -70,7 +70,7 @@ export function MiniToolbar() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon-lg">
-          <MoreVertical className="stroke-foreground" />
+          <MoreVertical className="stroke-foreground size-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

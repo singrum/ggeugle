@@ -1,3 +1,7 @@
+import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -23,15 +27,10 @@ import {
 } from "~/components/ui/ghost-tabs";
 import { Textarea } from "~/components/ui/textarea";
 import { useIsTablet } from "~/hooks/use-tablet";
+import { storage } from "~/lib/storage/storage";
 import { cn } from "~/lib/utils";
 import { useWcStore, useWcStoreApi } from "~/stores/wc-store-provider";
 import type { PrecedenceMaps } from "~/types/search";
-
-import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { useState } from "react";
-import { toast } from "sonner";
-import { storage } from "~/lib/storage/storage";
 import DefaultPrecedenceRule from "./default-precedence-rule";
 export default function SearchPrecedenceSettingsTrigger({
   ...props
@@ -66,6 +65,7 @@ export default function SearchPrecedenceSettingsTrigger({
           <DrawerTitle className="px-2 text-left">
             전략 탐색 우선순위 편집
           </DrawerTitle>
+          <DrawerDescription>변경 내용은 기기에 저장됩니다.</DrawerDescription>
           <VisuallyHidden>
             <DrawerDescription></DrawerDescription>
           </VisuallyHidden>
