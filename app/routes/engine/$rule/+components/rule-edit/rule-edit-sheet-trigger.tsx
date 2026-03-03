@@ -12,7 +12,7 @@ export default function RuleEditSheetTrigger({
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger {...props} />
       <SheetContent className="gap-0">
-        <RuleEditForm ruleId={ruleId} setOpen={setOpen} />
+        <RuleEditForm ruleId={ruleId} />
       </SheetContent>
     </Sheet>
   );

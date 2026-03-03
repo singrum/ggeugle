@@ -1,6 +1,6 @@
 import "katex/dist/katex.min.css";
 import ReactMarkdown from "react-markdown";
-import { redirect, useLoaderData } from "react-router";
+import { useLoaderData } from "react-router";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
@@ -23,29 +23,32 @@ export async function loader({
   const fileUrl = `${url.protocol}//${url.host}/docs/${encodedPath}.md`;
 
   const file = await fetch(fileUrl);
-  if (!file.ok) {
-    return redirect("/knowledge");
-  }
 
   const data = await file.text();
-  return { data };
+  return { data, ok: file.ok };
 }
 
 export default function Knowledge() {
-  const { data } = useLoaderData();
+  const { data, ok } = useLoaderData();
+
+  if (!ok) {
+    return (
+      <div className="prose dark:prose-invert mx-auto w-full max-w-3xl space-y-16 p-6 pb-36 break-keep ">
+        <p className="text-base">문서를 찾을 수 없습니다.</p>
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <div className="prose dark:prose-invert mx-auto w-full max-w-3xl space-y-16 p-6 pb-36 break-keep ">
-        <KnowledgeHeader />
-        <ReactMarkdown
-          remarkPlugins={[remarkMath, remarkGfm]}
-          rehypePlugins={[rehypeKatex, rehypeRaw]}
-          skipHtml={false}
-        >
-          {data}
-        </ReactMarkdown>
-      </div>
+    <div className="prose dark:prose-invert mx-auto w-full max-w-3xl space-y-16 p-6 pb-36 break-keep ">
+      <KnowledgeHeader />
+      <ReactMarkdown
+        remarkPlugins={[remarkMath, remarkGfm]}
+        rehypePlugins={[rehypeKatex, rehypeRaw]}
+        skipHtml={false}
+      >
+        {data}
+      </ReactMarkdown>
     </div>
   );
 }
