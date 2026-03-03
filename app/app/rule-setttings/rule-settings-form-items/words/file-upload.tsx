@@ -83,7 +83,7 @@ export default function FileUpload() {
                   ({words.length.toLocaleString()} 단어)
                 </span>
               </div>
-              <ScrollArea className="h-72 w-full max-w-full min-w-0 overflow-auto rounded-lg border-none">
+              <ScrollArea className="h-72 w-full max-w-full min-w-0 overflow-auto rounded-lg border-none break-all">
                 {words.slice(0, 99).map((e, i) => (
                   <div key={i} className="flex">
                     <div className="text-muted-foreground w-10 shrink-0 pr-4 text-right">
