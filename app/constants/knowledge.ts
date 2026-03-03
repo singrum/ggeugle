@@ -55,7 +55,7 @@ export const content: Content = [
   },
   {
     type: "sub",
-    title: "FAQ",
+    title: "자주 묻는 질문",
   },
 ];
 

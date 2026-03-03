@@ -202,7 +202,10 @@ function SettingsToolbarContent() {
 function HelpToolbarContent() {
   const items = [
     { title: "지식", url: "/knowledge" },
-    { title: "FAQ", url: "/knowledge/faq" },
+    {
+      title: "자주 묻는 질문",
+      url: `/knowledge/${encodeURIComponent("자주 묻는 질문")}`,
+    },
   ];
   return (
     <DropdownMenuGroup>

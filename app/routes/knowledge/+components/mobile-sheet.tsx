@@ -22,7 +22,7 @@ export default function MobileSheet() {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader />
-        <div className="p-2 flex-1 min-h-0 overflow-auto">
+        <div className="p-4 flex-1 min-h-0 overflow-auto">
           <Nav onItemClick={() => setOpen(false)} />
         </div>
         <SheetFooter className="">
