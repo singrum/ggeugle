@@ -69,7 +69,7 @@ export default function SingleThreadSearch({ solver }: { solver: WordSolver }) {
 
       {totalPages > 1 && (
         <PaginationSimple
-          className="sticky bottom-0"
+          className="sticky bottom-16 dark:bottom-[calc((--spacing(16))-1px)] lg:bottom-0 dark:lg:bottom-0"
           page={page}
           totalPages={totalPages}
           onPageChange={setPage}

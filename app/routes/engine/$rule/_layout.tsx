@@ -146,8 +146,8 @@ export default function Layout() {
         ruleForm={ruleForm}
         prec={prec}
       >
-        <div className="bg-sidebar flex flex-col lg:h-svh min-h-svh">
-          <div className="flex-1 min-h-0 flex flex-col relative ">
+        <div className="lg:bg-sidebar flex flex-col lg:h-svh min-h-svh">
+          <div className="flex-1 min-h-0 flex flex-col lg:relative ">
             <SiteHeader loaderData={data} />
             <div className="flex-1 flex min-h-auto lg:min-h-0 flex-col lg:flex-row">
               {!isTablet && <AppSidebar />}

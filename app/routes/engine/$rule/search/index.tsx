@@ -8,16 +8,20 @@ import SearchPage from "./+components/search-page";
 export default function Search() {
   const isTablet = useIsTablet();
   return (
-    <div className="flex h-full max-w-full overflow-auto">
+    <div className="flex h-full max-w-full lg:overflow-auto">
       {!isTablet && (
         <InnerSidebar>
           <MobileCharMenu className="sticky top-0 z-20" />
           <CharListSidebar />
         </InnerSidebar>
       )}
-      <ScrollArea className="md:flex-1 md:h-full w-full @container/main">
+      {!isTablet ? (
+        <ScrollArea className="lg:flex-1 lg:h-full w-full @container/main">
+          <SearchPage />
+        </ScrollArea>
+      ) : (
         <SearchPage />
-      </ScrollArea>
+      )}
     </div>
   );
 }

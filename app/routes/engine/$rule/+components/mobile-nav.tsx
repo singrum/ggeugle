@@ -11,7 +11,7 @@ export default function MobileNav() {
   const lastSegment = pathSegments[pathSegments.length - 1];
 
   return (
-    <div className="grid grid-cols-2 w-full bg-sidebar z-40 border-t dark:border-0 sticky bottom-0">
+    <div className="grid grid-cols-2 w-full bg-sidebar z-40 border-t dark:border-0 sticky bottom-0 shadow-[0_500px_0_500px_var(--sidebar)]">
       {navInfo.map((item) => {
         const isExactMatch = lastSegment === item.key;
         const isActive = isExactMatch;
