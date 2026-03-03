@@ -1,6 +1,5 @@
 export type Game = {
   id: string;
-  removedWords: string;
   calculatingDuration: number;
   isFirst: boolean;
   stealable: boolean;

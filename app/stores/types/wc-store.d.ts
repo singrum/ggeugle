@@ -142,7 +142,6 @@ export type PlaySlice = {
     calculatingDuration: number;
     firstTurnForm: number;
     stealable: boolean;
-    removedWords: string;
   };
   isDebug: boolean;
   selectedGame: string | null;

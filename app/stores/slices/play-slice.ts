@@ -52,13 +52,8 @@ export const createPlaySlice: StateCreator<
   makeGame: () => {
     const { gameSettingsInfo, selectGame, takeComputersTurn } = get();
 
-    const {
-      difficulty,
-      calculatingDuration,
-      firstTurnForm,
-      stealable,
-      removedWords,
-    } = gameSettingsInfo;
+    const { difficulty, calculatingDuration, firstTurnForm, stealable } =
+      gameSettingsInfo;
     const isFirst: boolean =
       firstTurnForm === 0
         ? true
@@ -75,7 +70,6 @@ export const createPlaySlice: StateCreator<
       finished: false,
       chats: [],
       isMyTurn: isFirst,
-      removedWords,
     };
     set((state) => {
       state.games.push(id);
@@ -207,7 +201,7 @@ export const createPlaySlice: StateCreator<
     const { gameMap, originalSolver, finishGame } = get();
     const game = gameMap[id];
 
-    const history = [...game.removedWords, ...getMovesFromChats(game.chats)];
+    const history = getMovesFromChats(game.chats);
     const callbackId = v4();
 
     const runner = new GameWorkerRunner(
