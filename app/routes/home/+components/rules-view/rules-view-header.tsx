@@ -5,9 +5,5 @@ export default function RulesViewHeader({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <div className="p-6 pb-0 bg-background md:rounded-t-lg space-y-2">
-      {children}
-    </div>
-  );
+  return <div className="p-6 pb-0 space-y-2">{children}</div>;
 }
