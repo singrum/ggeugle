@@ -35,8 +35,8 @@ export default function RuleViewButton({
       size="lg"
       className={cn(
         "group relative flex flex-col justify-start items-start h-auto p-0 rounded-lg overflow-hidden",
-        selectedRuleId === id && "ring-2 ring-ring",
-      )} // p-0으로 변경
+        selectedRuleId === id && "ring-2 ring-primary",
+      )}
       asChild
     >
       <div className="relative w-full h-full">

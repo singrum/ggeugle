@@ -28,7 +28,7 @@ export default function MobileSheet() {
         </div>
         <SheetFooter className="flex gap-2 flex-row">
           <ModeToggle />
-          <Button variant="secondary" asChild className="flex-1">
+          <Button asChild className="flex-1">
             <Link to="/home">엔진 홈</Link>
           </Button>
         </SheetFooter>

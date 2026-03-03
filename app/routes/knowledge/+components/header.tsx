@@ -21,7 +21,7 @@ export default function Header() {
       {!isTablet ? (
         <div className="flex gap-2">
           <ModeToggle />
-          <Button variant="secondary" asChild>
+          <Button asChild>
             <Link to="/home">엔진 홈</Link>
           </Button>
         </div>

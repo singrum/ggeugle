@@ -47,9 +47,10 @@ export default function SearchPrecedenceSettingsTrigger({
         <DialogContent className="flex h-full max-h-130 flex-col gap-6 overflow-auto sm:max-w-106.25">
           <DialogHeader>
             <DialogTitle>전략 탐색 우선순위 편집</DialogTitle>
-            <VisuallyHidden>
-              <DialogDescription></DialogDescription>
-            </VisuallyHidden>
+
+            <DialogDescription>
+              변경 내용은 기기에 저장됩니다.
+            </DialogDescription>
           </DialogHeader>
           <PrecedenceSettingsForm setOpen={setOpen} />
         </DialogContent>
