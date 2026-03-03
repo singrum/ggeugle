@@ -22,6 +22,7 @@ export function AppSidebar() {
             className={cn(
               "rounded-none w-full justify-start flex-col h-auto  gap-1 py-2 hover:bg-transparent dark:hover:bg-transparent",
             )}
+            key={item.key}
           >
             <NavLink to={`/engine/${encodeURIComponent(rule!)}/${item.key}`}>
               <div
