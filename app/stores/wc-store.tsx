@@ -6,7 +6,7 @@ import { localStorageVersion } from "~/lib/local-storage";
 import { createCriticalWordsSlice } from "./slices/critical-words-slice";
 import { createDistributionSlice } from "./slices/distribution-slice";
 import { createInfoSlice } from "./slices/info-slice";
-import { createKnowledgeSlice } from "./slices/knowledge-slice";
+
 import { createPlaySlice } from "./slices/play-slice";
 import { createRuleSlice } from "./slices/rule-slice";
 import { createSearchSlice } from "./slices/search-slice";
@@ -28,7 +28,6 @@ export const createWcStore = (initProps?: Partial<WcState>) => {
         ...createPlaySlice(...a),
         ...createInfoSlice(...a),
         ...createDistributionSlice(...a),
-        ...createKnowledgeSlice(...a),
         ...initProps, // 초기 주입된 props로 상태 덮어쓰기
       })),
       {
@@ -37,7 +36,6 @@ export const createWcStore = (initProps?: Partial<WcState>) => {
         storage: createJSONStorage(() => localStorage),
         migrate: (persistedState, version) => {
           if (version !== localStorageVersion) {
-            console.log("버전 불일치로 스토리지를 초기화합니다.");
             return undefined;
           }
           return persistedState;

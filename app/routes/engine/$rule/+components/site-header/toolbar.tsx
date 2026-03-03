@@ -122,12 +122,13 @@ export function PosSelect() {
 function AlgorithmToolbarContent() {
   const setFlow = useWcStore((e) => e.setFlow);
   const flow = useWcStore((e) => e.flow);
+
   return (
     <>
       <DropdownMenuGroup>
         <DropdownMenuLabel>알고리즘</DropdownMenuLabel>
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>돌림 단어 최소/최대화</DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger>음절 분류 절차</DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuRadioGroup
@@ -137,13 +138,13 @@ function AlgorithmToolbarContent() {
                   value="minimize"
                   onClick={() => setFlow(0)}
                 >
-                  최소화
+                  돌림 단어 최소화
                 </DropdownMenuRadioItem>
                 <DropdownMenuRadioItem
                   value="maximize"
                   onClick={() => setFlow(1)}
                 >
-                  최대화
+                  돌림 단어 최대화
                 </DropdownMenuRadioItem>
               </DropdownMenuRadioGroup>
             </DropdownMenuSubContent>
@@ -199,11 +200,18 @@ function SettingsToolbarContent() {
   );
 }
 function HelpToolbarContent() {
+  const items = [
+    { title: "지식", url: "/knowledge" },
+    { title: "FAQ", url: "/knowledge/faq" },
+  ];
   return (
     <DropdownMenuGroup>
       <DropdownMenuLabel>도움말</DropdownMenuLabel>
-      <DropdownMenuItem>지식</DropdownMenuItem>
-      <DropdownMenuItem>FAQ</DropdownMenuItem>
+      {items.map(({ title, url }) => (
+        <DropdownMenuItem key={title} asChild>
+          <Link to={url}>{title}</Link>
+        </DropdownMenuItem>
+      ))}
     </DropdownMenuGroup>
   );
 }

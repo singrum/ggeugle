@@ -4,6 +4,7 @@ export type SubMenu = { title: string } & { type: "sub"; unwritten?: boolean };
 export type Content = (SuperMenu | SubMenu)[];
 
 export const content: Content = [
+  { type: "sub", title: "개요" },
   {
     type: "super",
     title: "표준 끝말잇기",
