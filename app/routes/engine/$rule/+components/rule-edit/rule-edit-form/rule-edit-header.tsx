@@ -6,7 +6,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from "~/components/ui/select";
-import { sampleRules } from "~/constants/sample-rules";
+import { colorMap, colors } from "~/constants/color";
 import {
   useRuleEditorStore,
   useRuleEditorStoreApi,
@@ -34,19 +34,17 @@ export default function RuleEditHeader() {
           <SelectTrigger
             size="sm"
             className="aspect-square rounded-full border p-0 [&_svg]:hidden"
-            style={{ backgroundColor: color }}
-          ></SelectTrigger>
+            style={{ backgroundColor: colorMap[color] }}
+          />
           <SelectContent>
             <SelectGroup>
-              {sampleRules.map((rule) => (
-                <SelectItem
-                  key={rule.metadata.color}
-                  value={rule.metadata.color}
-                >
+              {colors.map((color) => (
+                <SelectItem key={color} value={color}>
                   <div
-                    className="w-25 h-4 rounded-none mr-2"
-                    style={{ backgroundColor: rule.metadata.color }}
+                    className="size-4 rounded-full mr-2"
+                    style={{ backgroundColor: colorMap[color] }}
                   />
+                  {color}
                 </SelectItem>
               ))}
             </SelectGroup>

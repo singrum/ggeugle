@@ -2,15 +2,13 @@ import { toObject } from "~/lib/utils";
 import type { RuleForm } from "~/types/rule";
 import { cates, poses } from "./rule";
 
-
-
 export const sampleRules: RuleForm[] = [
   {
     id: "구엜룰",
     metadata: {
       title: "구엜룰",
       updatedAt: 0,
-      color: "#3b82f6",
+      color: "blue",
     },
     content: {
       wordRule: {
@@ -45,7 +43,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "신엜룰",
       updatedAt: 0,
-      color: "#6366f1",
+      color: "indigo",
     },
     content: {
       wordRule: {
@@ -80,7 +78,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "넶룰",
       updatedAt: 0,
-      color: "#8b5cf6",
+      color: "violet",
     },
     content: {
       wordRule: {
@@ -115,7 +113,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "앞말잇기",
       updatedAt: 0,
-      color: "#a855f7",
+      color: "purple",
     },
     content: {
       wordRule: {
@@ -150,7 +148,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "노룰",
       updatedAt: 0,
-      color: "#d946ef",
+      color: "fuchsia",
     },
     content: {
       wordRule: {
@@ -185,7 +183,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "반전룰",
       updatedAt: 0,
-      color: "#ec4899",
+      color: "pink",
     },
     content: {
       wordRule: {
@@ -220,7 +218,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "챈룰",
       updatedAt: 0,
-      color: "#f43f5e",
+      color: "rose",
     },
     content: {
       wordRule: {
@@ -255,7 +253,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "듭2룰",
       updatedAt: 0,
-      color: "#ef4444",
+      color: "red",
     },
     content: {
       wordRule: {
@@ -290,7 +288,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "천도룰",
       updatedAt: 0,
-      color: "#f97316",
+      color: "orange",
     },
     content: {
       wordRule: {
@@ -325,7 +323,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "연결룰",
       updatedAt: 0,
-      color: "#f59e0b",
+      color: "amber",
     },
     content: {
       wordRule: {
@@ -360,7 +358,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "듭룰",
       updatedAt: 0,
-      color: "#eab308",
+      color: "yellow",
     },
     content: {
       wordRule: {
@@ -395,7 +393,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "채린쿵따룰",
       updatedAt: 0,
-      color: "#84cc16",
+      color: "lime",
     },
     content: {
       wordRule: {
@@ -430,7 +428,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "표샘룰",
       updatedAt: 0,
-      color: "#22c55e",
+      color: "green",
     },
     content: {
       wordRule: {
@@ -465,7 +463,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "두샘룰",
       updatedAt: 0,
-      color: "#10b981",
+      color: "emerald",
     },
     content: {
       wordRule: {
@@ -500,7 +498,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "옛두샘룰",
       updatedAt: 0,
-      color: "#14b8a6",
+      color: "teal",
     },
     content: {
       wordRule: {

@@ -1,5 +1,6 @@
 import { ArticleIcon } from "@phosphor-icons/react/dist/ssr";
 import { Pencil } from "lucide-react";
+import { colorMap } from "~/constants/color";
 import { useIsMobile } from "~/hooks/use-mobile";
 import { cn } from "~/lib/utils";
 import { Button } from "../../../../../components/ui/button";
@@ -20,7 +21,7 @@ export function RuleButton({ loaderData }: { loaderData: LoaderData }) {
           <ArticleIcon
             className="size-5 shrink-0"
             weight="fill"
-            style={{ color: color }}
+            style={{ color: colorMap[color] }}
           />
 
           <div className="no-scrollbar flex flex-1 items-center gap-3 overflow-auto">

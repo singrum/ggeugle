@@ -25,25 +25,25 @@ export default function MobileNav() {
               asChild
               variant={"ghost"}
               className={cn(
-                "rounded-none w-full justify-start flex-col h-auto  gap-1 py-2",
+                "rounded-none w-full justify-start flex-col h-auto gap-1 py-2",
               )}
             >
               <NavLink to={item.path}>
                 <div
-                  className={cn("px-5 py-0.5 rounded-full bg-transparent", {
-                    "bg-primary": isActive,
+                  className={cn("px-4 py-0.5 rounded-full bg-transparent", {
+                    "bg-primary/10": isActive,
                   })}
                 >
                   <item.iconName
                     className={cn("size-6 shrink-0 text-muted-foreground", {
-                      "text-primary-foreground": isActive,
+                      "text-primary": isActive,
                     })}
                     weight={isActive ? "fill" : "regular"}
                   />
                 </div>
                 <div
-                  className={cn(" text-xs text-muted-foreground", {
-                    "text-sidebar-foreground": isActive,
+                  className={cn("text-xs text-muted-foreground", {
+                    "font-semibold text-sidebar-foreground": isActive,
                   })}
                 >
                   {item.name}

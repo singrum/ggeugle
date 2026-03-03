@@ -11,6 +11,7 @@ import {
 } from "~/components/ui/dropdown-menu";
 
 import { toast } from "sonner";
+import { colorMap } from "~/constants/color";
 import { storage } from "~/lib/storage/storage";
 import { cn } from "~/lib/utils";
 import { useRulesViewStore } from "./rules-view-provider";
@@ -46,7 +47,7 @@ export default function RuleViewButton({
           <ArticleIcon
             className="size-5 shrink-0"
             weight="fill"
-            style={{ color: color }}
+            style={{ color: colorMap[color] }}
           />
           <span className="truncate flex-1 font-medium text-sm">{title}</span>
         </Link>

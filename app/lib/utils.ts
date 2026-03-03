@@ -316,7 +316,7 @@ export function getKkutuRuleForm(rule: KkutuRule): RuleForm {
     metadata: {
       title,
       updatedAt: 0,
-      color: "#eab308",
+      color: "yellow",
     },
     content: {
       wordRule: {
