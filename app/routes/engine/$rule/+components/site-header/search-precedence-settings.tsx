@@ -65,7 +65,9 @@ export default function SearchPrecedenceSettingsTrigger({
           <DrawerTitle className="px-2 text-left">
             전략 탐색 우선순위 편집
           </DrawerTitle>
-          <DrawerDescription>변경 내용은 기기에 저장됩니다.</DrawerDescription>
+          <DrawerDescription className="px-2 text-left">
+            변경 내용은 기기에 저장됩니다.
+          </DrawerDescription>
           <VisuallyHidden>
             <DrawerDescription></DrawerDescription>
           </VisuallyHidden>
