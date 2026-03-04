@@ -6,7 +6,7 @@ export default function KnowledgeLayout() {
   return (
     <div>
       <Header />
-      <div className="flex">
+      <div className="flex bg-background">
         <Sidebar />
 
         <div className="flex-1">
