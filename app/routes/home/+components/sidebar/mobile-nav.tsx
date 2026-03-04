@@ -31,19 +31,19 @@ export default function MobileNav() {
               <NavLink to={item.path}>
                 <div
                   className={cn("px-4 py-0.5 rounded-full bg-transparent", {
-                    "bg-primary/10": isActive,
+                    "bg-foreground/10": isActive,
                   })}
                 >
                   <item.iconName
                     className={cn("size-6 shrink-0 text-muted-foreground", {
-                      "text-primary": isActive,
+                      "text-foreground": isActive,
                     })}
                     weight={isActive ? "fill" : "regular"}
                   />
                 </div>
                 <div
                   className={cn("text-xs text-muted-foreground", {
-                    "font-semibold text-sidebar-foreground": isActive,
+                    "font-semibold text-foreground": isActive,
                   })}
                 >
                   {item.name}

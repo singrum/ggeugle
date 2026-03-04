@@ -6,6 +6,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
   type MetaFunction,
 } from "react-router";
 
@@ -55,6 +56,8 @@ export const meta: MetaFunction = () => {
 };
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const navigation = useNavigation();
+  const isLoading = navigation.state === "loading";
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
@@ -87,6 +90,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
+          {isLoading && (
+            <div className="fixed top-0 left-0 z-50 h-1 w-full bg-primary animate-pulse" />
+          )}
           {children}
         </ThemeProvider>
         <ScrollRestoration />

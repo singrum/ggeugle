@@ -27,19 +27,19 @@ export function AppSidebar() {
             <NavLink to={`/engine/${encodeURIComponent(rule!)}/${item.key}`}>
               <div
                 className={cn("px-4 py-0.5 rounded-full bg-transparent", {
-                  "bg-primary/10": isActive,
+                  "bg-foreground/10": isActive,
                 })}
               >
                 <item.icon
                   className={cn("size-6 shrink-0 text-muted-foreground", {
-                    "text-primary": isActive,
+                    "text-foreground": isActive,
                   })}
                   weight={isActive ? "fill" : "regular"}
                 />
               </div>
               <div
                 className={cn("text-xs text-muted-foreground", {
-                  "font-semibold text-sidebar-foreground": isActive,
+                  "font-semibold text-foreground": isActive,
                 })}
               >
                 {item.title}
