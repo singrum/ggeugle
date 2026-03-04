@@ -32,7 +32,7 @@ export const createRuleEditorStore = (initState: RuleEditorState) => {
         const { localRuleForm } = get();
 
         set({
-          ruleJsonInputValue: JSON.stringify(localRuleForm, null, 2),
+          ruleJsonInputValue: JSON.stringify(localRuleForm.content, null, 2),
           isValidJson: true,
         });
       },
@@ -44,7 +44,7 @@ export const createRuleEditorStore = (initState: RuleEditorState) => {
           set({
             isValidJson: true,
             ruleJsonInputValue: value,
-            localRuleForm: parsed,
+            localRuleForm: { ...get().localRuleForm, content: parsed },
           });
         } catch (e) {
           set({
@@ -57,7 +57,7 @@ export const createRuleEditorStore = (initState: RuleEditorState) => {
         const { ruleForm } = get();
         set({
           localRuleForm: cloneDeep(ruleForm),
-          ruleJsonInputValue: JSON.stringify(ruleForm, null, 2),
+          ruleJsonInputValue: JSON.stringify(ruleForm.content, null, 2),
           isValidJson: true,
         });
       },
