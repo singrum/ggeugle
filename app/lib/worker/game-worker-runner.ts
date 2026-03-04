@@ -2,7 +2,7 @@ import { range, round, sample, shuffle } from "lodash-es";
 import { ComlinkRunner } from "~/lib/worker/comlink-runner";
 import { default as FuncWorker } from "~/lib/worker/func-worker?worker";
 import type { PrecInfo } from "~/types/search";
-import { getHeadTail, truncate } from "../utils";
+import { truncate } from "../utils";
 import { EdgeCounter } from "../wordchain/classes/edge-counter";
 import { EdgeMap } from "../wordchain/classes/edge-map";
 import type { NodeName } from "../wordchain/graph/graph";
@@ -13,14 +13,6 @@ import {
 import { WordMap } from "../wordchain/word/word-map";
 import type { WordSolver } from "../wordchain/word/word-solver";
 import type { FuncWorkerApi } from "./func-worker";
-
-// steal
-// 1 : historyNum 0
-//   : historyNum 1
-//   : historyNum 2 이상
-// 0 : historyNum 0
-
-const states = ["steal0", "steal1", "steal2", "unsteal"] as const;
 
 export type GameWorkerRunnerOnmessageData =
   | {
@@ -40,11 +32,11 @@ export class GameWorkerRunner {
   private calculatingDuration: number;
   private stealable: boolean;
   private prec: PrecInfo;
+  private history: string[];
   private historyWordMap: WordMap;
   private currChar: undefined | NodeName;
   private comlinkRunner: ComlinkRunner<FuncWorkerApi>;
 
-  private state: (typeof states)[number];
   private callback: (e: GameWorkerRunnerOnmessageData) => void;
   id: string;
   constructor(
@@ -62,14 +54,8 @@ export class GameWorkerRunner {
     this.difficulty = difficulty;
     this.calculatingDuration = calculatingDuration;
     this.stealable = stealable;
-    this.state = stealable
-      ? history.length === 0
-        ? "steal0"
-        : history.length === 1
-          ? "steal1"
-          : "steal2"
-      : "unsteal";
 
+    this.history = history;
     this.historyWordMap = WordMap.fromWords(
       [...new Set(history)],
       solver.headIdx,
@@ -84,10 +70,6 @@ export class GameWorkerRunner {
   }
 
   async run(flow: number) {
-    const historyNum = this.historyWordMap
-      .toArray()
-      .reduce((prev, curr) => prev + curr.length, 0);
-
     let resultMove: [NodeName, NodeName];
     if (this.difficulty === 0) {
       const word = this.getRandomNextWord();
@@ -95,7 +77,7 @@ export class GameWorkerRunner {
       this.takeMove(word);
       return;
     } else {
-      if (historyNum === 0) {
+      if (this.history.length === 0) {
         if (this.difficulty === 1) {
           // 난이도 : 보통일 때 첫 수
           this.takeRandomRouteWord();
@@ -227,20 +209,8 @@ export class GameWorkerRunner {
   }
   takeMove(word: string) {
     this.callback({ action: "move", payload: word! });
-    if (
-      !(
-        this.state === "steal1" &&
-        this.historyWordMap.toArray()[0][2][0] === word
-      )
-    ) {
-      this.historyWordMap.addWord(
-        word,
-        this.solver.headIdx,
-        this.solver.tailIdx,
-      );
-    }
 
-    if (this.isHanbang(word)) {
+    if (isGameEnd(this.solver, [...this.history, word], this.stealable)) {
       this.callback({ action: "computerWin" });
     }
     this.callback({ action: "messageEnd" });
@@ -248,10 +218,10 @@ export class GameWorkerRunner {
   }
 
   checkSteal(): boolean {
-    if (this.state !== "steal1") {
+    if (!this.stealable || this.history.length != 1) {
       return false;
     }
-    const result = this.historyWordMap.toArray()[0][2][0];
+    const result = this.history[0];
 
     [`### 단어 뺏기  \n`, `결과: ${result}`].map((e) =>
       this.callback({
@@ -267,77 +237,20 @@ export class GameWorkerRunner {
       .get(move[0], move[1])!
       .find(
         (e) =>
-          this.state === "steal1" ||
+          (this.history.length === 1 && this.stealable) ||
           !(this.historyWordMap.get(move[0], move[1]) || []).includes(e),
       )!;
-  }
-  isLose(): boolean {
-    if (!this.currChar) {
-      return false;
-    }
-
-    const counter = this.getNextCounter(this.currChar);
-    return counter.toArray().length === 0;
   }
 
   getNextMoves(): [NodeName, NodeName, number][] {
     if (!this.currChar) {
       return this.solver.graphSolver.graphs.union().edges(1);
     } else {
-      const counter = this.getNextCounter(this.currChar);
+      const counter = getNextCounter(this.solver, this.history);
       return counter.toArray();
     }
   }
-  getNextCounter(char: NodeName) {
-    const nextMoves: [NodeName, NodeName, number][] =
-      this.solver.graphSolver.graphs
-        .getMovesFromNode(char, 0, 0)
-        .map((e) => [
-          e[0],
-          e[1],
-          this.solver.graphSolver.graphs.getEdgeNumAndOffet(e[0], e[1])[0],
-        ]);
 
-    const nextCounter = EdgeCounter.fromEdgeMap(EdgeMap.fromArray(nextMoves));
-    for (const [start, end, arr] of this.historyWordMap.toArray()) {
-      if (nextCounter.get(start, end, arr.length) > 0)
-        nextCounter.decrease(start, end, arr.length);
-    }
-    if (this.state === "steal1") {
-      const firstMove = this.historyWordMap.toArray()[0];
-      nextCounter.increase(firstMove[0], firstMove[1]);
-    }
-
-    return nextCounter;
-  }
-  getFirstWord(): string {
-    return this.historyWordMap.getAllWords()[0];
-  }
-
-  isHanbang(word: string) {
-    const [head, tail] = getHeadTail(
-      word,
-      this.solver.headIdx,
-      this.solver.tailIdx,
-    );
-
-    const counter = this.getNextCounter(tail);
-
-    const historyNum = this.historyWordMap.getSize();
-
-    if (this.state === "steal0") {
-      return false;
-    }
-
-    if (
-      counter.get(head, tail) > 0 &&
-      (!this.stealable || historyNum !== 1 || word === this.getFirstWord())
-    ) {
-      counter.decrease(head, tail);
-    }
-
-    return counter.toArray().length === 0;
-  }
   getRandomNextWord() {
     const nextMoves = this.getNextMoves();
     const [start, end] = sample(nextMoves)!;
@@ -555,59 +468,44 @@ export class GameWorkerRunner {
   }
 }
 
-// 1. getPositionInfo
-// 2. getDeepSearchInfo 반복
+function getNextCounter(solver: WordSolver, history: string[]) {
+  const char = history.at(-1)!.at(solver.tailIdx)!;
+  const nextMoves: [NodeName, NodeName, number][] = solver.graphSolver.graphs
+    .getMovesFromNode(char, 0, 0)
+    .map((e) => [
+      e[0],
+      e[1],
+      solver.graphSolver.graphs.getEdgeNumAndOffet(e[0], e[1])[0],
+    ]);
 
-// class Position {
-//   originalSolver: WordSolver;
-//   historyWordMap: WordMap;
-//   currChar: string | undefined;
-//   stealable: boolean;
-//   constructor(
-//     originalSolver: WordSolver,
-//     historyWordMap: WordMap,
-//     currChar: string | undefined,
-//     stealable: boolean,
-//   ) {
-//     this.originalSolver = originalSolver;
-//     this.historyWordMap = historyWordMap;
-//     this.currChar = currChar;
-//     this.stealable = stealable;
-//   }
-//   getNextMoves(): [NodeName, NodeName, number][] {
-//     if (!this.currChar) {
-//       return this.originalSolver.graphSolver.graphs.union().edges(1);
-//     }
-//     if (this.historyWordMap.getSize() === 1 && this.stealable) {
-//       const moves = this.originalSolver.graphSolver.graphs
-//         .getMovesFromNode(this.currChar, 0, 0)
-//         .map(
-//           (e) =>
-//             [
-//               e[0],
-//               e[1],
-//               this.originalSolver.graphSolver.graphs.getEdgeNumAndOffet(
-//                 e[0],
-//                 e[1],
-//               )[0],
-//             ] as [string, string, number],
-//         );
-//       return moves;
-//     }
-//   }
+  const nextCounter = EdgeCounter.fromEdgeMap(EdgeMap.fromArray(nextMoves));
+  const historyRemoveDuplicated = [...new Set(history)];
+  for (const word of historyRemoveDuplicated) {
+    if (nextCounter.get(word.at(solver.headIdx)!, word.at(solver.tailIdx)!) > 0)
+      nextCounter.decrease(
+        word.at(solver.headIdx)!,
+        word.at(solver.tailIdx)!,
+        1,
+      );
+  }
 
-//   isLose() {
-//     // 첫수
-//     if (!this.currChar) {
-//       // 단어가 아예 없음
-//       return this.originalSolver.wordMap.getSize() === 0;
-//     } else {
-//       if (this.historyWordMap.getSize() === 1 && this.stealable)
-//         this.originalSolver.graphSolver.graphs.getMovesFromNode(
-//           this.currChar,
-//           0,
-//           0,
-//         );
-//     }
-//   }
-// }
+  return nextCounter;
+}
+
+export function isGameEnd(
+  solver: WordSolver,
+  history: string[],
+  stealable: boolean,
+): boolean {
+  if (history.length === 0)
+    return solver.graphSolver.graphs.union().edges(1).length === 0;
+  if (!stealable) {
+    return getNextCounter(solver, history).toArray().length === 0;
+  } else {
+    if (history.length === 1) {
+      return false;
+    } else {
+      return getNextCounter(solver, history).toArray().length === 0;
+    }
+  }
+}

@@ -8,6 +8,7 @@ import type { Chat, Game } from "../../types/play";
 
 import {
   GameWorkerRunner,
+  isGameEnd,
   type GameWorkerRunnerOnmessageData,
 } from "~/lib/worker/game-worker-runner";
 
@@ -151,22 +152,27 @@ export const createPlaySlice: StateCreator<
 
   isValidMove: (word: string) => {
     const { gameMap, originalSolver, ruleForm: rule, selectedGame } = get();
+
     if (!selectedGame) {
       return false;
     }
+
     const game = gameMap[selectedGame];
     if (word.length < 1) {
       return false;
     }
+
     if (game.finished) {
       return false;
     }
+
     const wordMap: WordMap = originalSolver!.wordMap;
 
     // 내 턴인지 체크
     if (!game.isMyTurn) {
       return false;
     }
+
     const moves = getMovesFromChats(game.chats);
 
     if (moves.length > 0) {
@@ -186,12 +192,13 @@ export const createPlaySlice: StateCreator<
         return false;
       }
     }
-
     if (
       !wordMap.hasWord(word, originalSolver!.headIdx, originalSolver!.tailIdx)
     ) {
+      console.log(13);
       return false;
     }
+    console.log(14);
 
     return true;
   },
@@ -233,7 +240,7 @@ export const createPlaySlice: StateCreator<
       callbackId,
     );
 
-    if (runner.isLose()) {
+    if (isGameEnd(originalSolver!, history, game.stealable)) {
       fire();
       finishGame(id, true);
     } else {
