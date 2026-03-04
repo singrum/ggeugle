@@ -5,7 +5,8 @@ import { useIsMobile } from "~/hooks/use-mobile";
 import { cn } from "~/lib/utils";
 import { useWcStore } from "~/stores/wc-store-provider";
 import { Button } from "../../../../../components/ui/button";
-import type { LoaderData } from "../../_layout";
+
+import type { LoaderData } from "~/types/rule";
 import RuleEditSheetTrigger from "../rule-edit/rule-edit-sheet-trigger";
 
 export function RuleButton({ loaderData }: { loaderData: LoaderData }) {

@@ -8,66 +8,17 @@ import {
 import { toast } from "sonner";
 import { Card } from "~/components/ui/card";
 import { samplePrecedenceMaps } from "~/constants/sample-precedence-maps";
-import { sampleRules } from "~/constants/sample-rules";
 import { navInfo } from "~/constants/sidebar";
 import { useIsTablet } from "~/hooks/use-tablet";
 import { storage } from "~/lib/storage/storage";
-import { getKkutuRule, getKkutuRuleForm, getRuleFormById } from "~/lib/utils";
+import { getLoaderDataById, getRuleFormById } from "~/lib/utils";
 import { AppSidebar } from "~/routes/engine/$rule/+components/nav-sidebar/app-sidebar";
 import SiteHeader from "~/routes/engine/$rule/+components/site-header/site-header";
 import { WcStoreProvider } from "~/stores/wc-store-provider";
-import type { RuleForm } from "~/types/rule";
+import type { LoaderData, RuleForm } from "~/types/rule";
 import type { PrecInfo } from "~/types/search";
 import MobileNav from "./+components/mobile-nav";
-export type LoaderData = {
-  title: string;
-  updatedAt: number;
-  isSample: boolean;
-  color: string;
-  id: string;
-};
-
-export async function getLoaderDataById(id: string): Promise<LoaderData> {
-  const sampleRule = sampleRules.find((rule) => rule.id === id);
-  // 샘플 룰에서 검색
-  if (sampleRule) {
-    return {
-      title: sampleRule.metadata.title,
-      isSample: true,
-      id,
-      updatedAt: sampleRule.metadata.updatedAt,
-      color: sampleRule.metadata.color,
-    };
-  }
-
-  // 끄투룰에서 검색
-  const kkutuRule = getKkutuRule(id);
-  if (kkutuRule) {
-    const kkutuRuleForm = getKkutuRuleForm(kkutuRule);
-    if (kkutuRuleForm) {
-      return {
-        title: kkutuRuleForm.metadata.title,
-        isSample: true,
-        id,
-        updatedAt: kkutuRuleForm.metadata.updatedAt,
-        color: kkutuRuleForm.metadata.color,
-      };
-    }
-  }
-
-  // 스토리지에서 검색
-  const data = await storage.getRuleFormById(id);
-  if (data) {
-    return {
-      title: data.metadata.title,
-      isSample: false,
-      id,
-      updatedAt: data.metadata.updatedAt,
-      color: data.metadata.color,
-    };
-  }
-  throw new Error("Rule not found");
-}
+import EngineLoading from "./search/+components/engine-loading";
 
 export const meta: MetaFunction<typeof clientLoader> = ({
   location,
@@ -97,7 +48,9 @@ export async function clientLoader({
 }
 
 clientLoader.hydrate = true;
-
+export function HydrateFallback() {
+  return <EngineLoading />;
+}
 export default function Layout() {
   const { data } = useLoaderData<typeof clientLoader>();
   const [ruleForm, setRuleForm] = useState<RuleForm | null>(null);
@@ -138,7 +91,7 @@ export default function Layout() {
   }, [data.id, data.updatedAt]);
 
   if (!ruleForm || !prec) {
-    return null;
+    return <EngineLoading />;
   } else {
     return (
       <WcStoreProvider

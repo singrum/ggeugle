@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { get, has, set } from "lodash-es";
 import { twMerge } from "tailwind-merge";
-import type { KkutuRule, RuleForm } from "~/types/rule";
+import type { KkutuRule, LoaderData, RuleForm } from "~/types/rule";
 
 import { cates, kkutuInfo, poses } from "~/constants/rule";
 import { sampleRules } from "~/constants/sample-rules";
@@ -241,6 +241,48 @@ export function truncate<T>(elements: T[], toString: (e: T) => string) {
 
 export function compareEdge(a: [string, string], b: [string, string]) {
   return a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]);
+}
+
+export async function getLoaderDataById(id: string): Promise<LoaderData> {
+  const sampleRule = sampleRules.find((rule) => rule.id === id);
+  // 샘플 룰에서 검색
+  if (sampleRule) {
+    return {
+      title: sampleRule.metadata.title,
+      isSample: true,
+      id,
+      updatedAt: sampleRule.metadata.updatedAt,
+      color: sampleRule.metadata.color,
+    };
+  }
+
+  // 끄투룰에서 검색
+  const kkutuRule = getKkutuRule(id);
+  if (kkutuRule) {
+    const kkutuRuleForm = getKkutuRuleForm(kkutuRule);
+    if (kkutuRuleForm) {
+      return {
+        title: kkutuRuleForm.metadata.title,
+        isSample: true,
+        id,
+        updatedAt: kkutuRuleForm.metadata.updatedAt,
+        color: kkutuRuleForm.metadata.color,
+      };
+    }
+  }
+
+  // 스토리지에서 검색
+  const data = await storage.getRuleFormById(id);
+  if (data) {
+    return {
+      title: data.metadata.title,
+      isSample: false,
+      id,
+      updatedAt: data.metadata.updatedAt,
+      color: data.metadata.color,
+    };
+  }
+  throw new Error("Rule not found");
 }
 
 export async function getRuleFormById(

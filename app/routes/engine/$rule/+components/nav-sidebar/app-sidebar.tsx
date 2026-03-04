@@ -11,7 +11,7 @@ export function AppSidebar() {
   const pathSegments = pathname.split("/").filter(Boolean);
   const lastSegment = pathSegments[pathSegments.length - 1];
   return (
-    <div className="h-[calc(100svh-var(--header-height))] w-20 shrink-0 flex items-center justify-center flex-col gap-2">
+    <div className="h-[calc(100svh-var(--header-height))] w-20 shrink-0 items-center justify-center flex-col gap-2 hidden lg:flex">
       {navInfo.map((item) => {
         const isExactMatch = lastSegment === item.key;
         const isActive = isExactMatch;

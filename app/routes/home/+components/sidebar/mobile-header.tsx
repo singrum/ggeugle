@@ -9,8 +9,8 @@ export default function MobileHeader() {
     <header className="bg-sidebar border-b dark:border-0 flex justify-between items-center pr-2">
       <div className="p-4">
         <Link to="/home" className="flex gap-2 items-center w-fit ">
-          <IkkiLogo className="h-3 w-auto shrink-0" />
-          <Slash className="size-3 -rotate-20 text-muted-foreground" />
+          <IkkiLogo className="h-3.5 w-auto shrink-0" />
+          <Slash className="size-3.5 -rotate-20 text-muted-foreground" />
           <span className="text-base font-extrabold rounded-full">엔진</span>
         </Link>
       </div>

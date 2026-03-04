@@ -63,3 +63,11 @@ export type ChangeFunc = {
 };
 
 export type KkutuRule = { gameType: number; manner: number; injeong: boolean };
+
+export type LoaderData = {
+  title: string;
+  updatedAt: number;
+  isSample: boolean;
+  color: string;
+  id: string;
+};
