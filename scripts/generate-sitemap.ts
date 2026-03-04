@@ -57,7 +57,7 @@ const STATIC_ROUTES = [
   "/home/sample",
   "/home/storage",
   ...ruleIds
-    .map((id: string) => [`/engine/${id}/search`, `/engine/${id}/play`])
+    .map((id: string) => [`/engine/${id}/search`, `/engine/${id}/game`])
     .flat(),
   ...knowledgePaths.map((path) => `/knowledge/${path}`),
 ].map((route) => encodeURI(route));
