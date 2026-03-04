@@ -14,13 +14,17 @@ import {
 
 export default function Pos() {
   const pos = useRuleEditorStore(
-    (e) => (e.localRuleForm.content.wordRule.words.option as SelectedWordsOption).pos,
+    (e) =>
+      (e.localRuleForm.content.wordRule.words.option as SelectedWordsOption)
+        .pos,
   );
   const dict = useRuleEditorStore(
-    (e) => (e.localRuleForm.content.wordRule.words.option as SelectedWordsOption).dict,
+    (e) =>
+      (e.localRuleForm.content.wordRule.words.option as SelectedWordsOption)
+        .dict,
   );
   const storeApi = useRuleEditorStoreApi();
-
+  
   return (
     <OutlineCardSection>
       <OutlineCardHeader>
@@ -42,12 +46,6 @@ export default function Pos() {
               });
             }}
           >
-            {/* <Check
-              className={cn("stroke-muted-foreground stroke-3", {
-                "stroke-primary": pos[e] === 1,
-              })}
-            /> */}
-
             {e}
           </Toggle>
         ))}

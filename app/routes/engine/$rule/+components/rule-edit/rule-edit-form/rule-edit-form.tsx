@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { getRuleFormById } from "~/lib/utils";
 import type { RuleForm } from "~/types/rule";
-import { RuleEditorStoreProvider } from "../rule-editor-store-provider";
+import {
+  RuleEditorStoreProvider,
+  useRuleEditorStore,
+} from "../rule-editor-store-provider";
 import RuleEditContent from "./rule-edit-content";
 
 import { toast } from "sonner";
@@ -13,7 +16,6 @@ export function RuleEditForm({ ruleId }: { ruleId: string }) {
   const [loading, setLoading] = useState(true);
   const [ruleForm, setRuleForm] = useState<RuleForm | null>(null);
   const [isSample, setIsSample] = useState(false);
-
   useEffect(() => {
     (async function () {
       setLoading(true);
@@ -39,14 +41,21 @@ export function RuleEditForm({ ruleId }: { ruleId: string }) {
   }
   return (
     <RuleEditorStoreProvider ruleForm={ruleForm} isSample={isSample}>
-      <div className="h-full flex flex-col">
-        <RuleEditHeader />
-
-        <ScrollArea className="h-full flex-1 min-h-0">
-          <RuleEditContent />
-        </ScrollArea>
-        <RuleEditFooter />
-      </div>
+      <RuleEditFormInner />
     </RuleEditorStoreProvider>
+  );
+}
+
+function RuleEditFormInner() {
+  const color = useRuleEditorStore((e) => e.localRuleForm.metadata.color);
+  return (
+    <div className={`h-full flex flex-col theme-${color}`}>
+      <RuleEditHeader />
+
+      <ScrollArea className="h-full flex-1 min-h-0">
+        <RuleEditContent />
+      </ScrollArea>
+      <RuleEditFooter />
+    </div>
   );
 }

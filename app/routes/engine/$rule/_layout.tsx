@@ -64,7 +64,26 @@ export default function Layout() {
   const [ruleForm, setRuleForm] = useState<RuleForm | null>(null);
   const [prec, setPrec] = useState<PrecInfo | null>(null);
   const isTablet = useIsTablet();
+  useEffect(() => {
+    // 1. 테마 적용 로직
+    const root = window.document.documentElement;
 
+    // 기존에 붙어있던 theme- 관련 클래스들 제거
+    root.classList.forEach((cls) => {
+      if (cls.startsWith("theme-")) root.classList.remove(cls);
+    });
+
+    // 현재 룰의 color 값 적용 (예: theme-red)
+    if (data.color) {
+      root.classList.add(`theme-${data.color}`);
+    }
+    console.log(data.color);
+
+    // (선택 사항) 언마운트 시 클래스 제거
+    return () => {
+      if (data.color) root.classList.remove(`theme-${data.color}`);
+    };
+  }, [data.color]);
   useEffect(() => {
     (async function () {
       try {
