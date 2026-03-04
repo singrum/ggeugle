@@ -1,15 +1,16 @@
-import { useLoaderData } from "react-router";
+import { useLoaderData, type MetaFunction } from "react-router";
 import { storage } from "~/lib/storage/storage";
+import { mergedMeta } from "~/lib/utils";
 import RulesView from "../+components/rules-view/rules-view";
 import RulesViewContent from "../+components/rules-view/rules-view-content";
 import RulesViewDescription from "../+components/rules-view/rules-view-description";
 import RulesViewHeader from "../+components/rules-view/rules-view-header";
 import RulesViewTitle from "../+components/rules-view/rules-view-title";
-import type { Route } from "../+types";
 
-export function meta({}: Route.MetaArgs) {
-  return [{ title: "보관함 | 끝말잇기 엔진" }];
-}
+export const meta: MetaFunction = ({ matches }) => {
+  const currentMeta = [{ title: "보관함 | 끝말잇기 엔진" }];
+  return mergedMeta(matches, currentMeta);
+};
 
 export function shouldRevalidate() {
   return true;

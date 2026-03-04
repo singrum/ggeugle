@@ -5,6 +5,7 @@ import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import { mergedMeta } from "~/lib/utils";
 import KnowledgeHeader from "./+components/knowledge-header";
 
 export async function loader({
@@ -28,12 +29,12 @@ export async function loader({
   return { data, ok: file.ok };
 }
 
-export const meta: MetaFunction = ({ params }: { params: any }) => {
-  return [
+export const meta: MetaFunction = ({ params, matches }) => {
+  return mergedMeta(matches, [
     {
-      title: `${params["*"].replace("/", " - ")} | 끝말잇기 엔진`,
+      title: `${(params["*"] ?? "지식").replace("/", " - ")} | 끝말잇기 엔진`,
     },
-  ];
+  ]);
 };
 
 export default function Knowledge() {

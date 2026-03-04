@@ -33,7 +33,7 @@ export function RuleButton({ loaderData }: { loaderData: LoaderData }) {
           {loading ? (
             <Loader2 className="size-3 animate-spin" />
           ) : (
-            <Pencil className="size-3" />
+            <Pencil className="size-3 stroke-foreground" />
           )}
         </Button>
       </RuleEditSheetTrigger>

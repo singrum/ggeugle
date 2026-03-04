@@ -11,7 +11,7 @@ import { samplePrecedenceMaps } from "~/constants/sample-precedence-maps";
 import { navInfo } from "~/constants/sidebar";
 import { useIsTablet } from "~/hooks/use-tablet";
 import { storage } from "~/lib/storage/storage";
-import { getLoaderDataById, getRuleFormById } from "~/lib/utils";
+import { getLoaderDataById, getRuleFormById, mergedMeta } from "~/lib/utils";
 import { AppSidebar } from "~/routes/engine/$rule/+components/nav-sidebar/app-sidebar";
 import SiteHeader from "~/routes/engine/$rule/+components/site-header/site-header";
 import { WcStoreProvider } from "~/stores/wc-store-provider";
@@ -23,6 +23,7 @@ import EngineLoading from "./search/+components/engine-loading";
 export const meta: MetaFunction<typeof clientLoader> = ({
   location,
   loaderData,
+  matches,
 }) => {
   const { pathname } = location;
   const lastPath = pathname.split("/").at(-1);
@@ -31,7 +32,9 @@ export const meta: MetaFunction<typeof clientLoader> = ({
   const title =
     (loaderData as { data: LoaderData | null })?.data?.title ?? "로딩 중";
 
-  return [{ title: `${title} - ${navTitle ?? ""} | 끝말잇기 엔진` }];
+  return mergedMeta(matches, [
+    { title: `${title} - ${navTitle ?? ""} | 끝말잇기 엔진` },
+  ]);
 };
 
 export async function clientLoader({

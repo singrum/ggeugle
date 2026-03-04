@@ -6,6 +6,7 @@ import type { KkutuRule, LoaderData, RuleForm } from "~/types/rule";
 import { cates, kkutuInfo, poses } from "~/constants/rule";
 import { sampleRules } from "~/constants/sample-rules";
 
+import type { MetaArgs, MetaDescriptor } from "react-router";
 import { storage } from "./storage/storage";
 import { EdgeCounter } from "./wordchain/classes/edge-counter";
 import type { NodeName } from "./wordchain/graph/graph";
@@ -396,4 +397,22 @@ export function getKkutuRuleForm(rule: KkutuRule): RuleForm {
       },
     },
   };
+}
+
+export function mergedMeta(
+  matches: MetaArgs["matches"],
+  currentMeta: MetaDescriptor[],
+): MetaDescriptor[] {
+  const rootMeta = matches[0].meta;
+  const filteredParentMeta = rootMeta.filter((pMeta) => {
+    if ("title" in pMeta && currentMeta.some((c) => "title" in c)) return false;
+
+    return !currentMeta.some((cMeta) => {
+      if ("name" in cMeta && "name" in pMeta) return cMeta.name === pMeta.name;
+      if ("property" in cMeta && "property" in pMeta)
+        return cMeta.property === pMeta.property;
+      return false;
+    });
+  });
+  return [...filteredParentMeta, ...currentMeta];
 }
