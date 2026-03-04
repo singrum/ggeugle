@@ -195,10 +195,8 @@ export const createPlaySlice: StateCreator<
     if (
       !wordMap.hasWord(word, originalSolver!.headIdx, originalSolver!.tailIdx)
     ) {
-      console.log(13);
       return false;
     }
-    console.log(14);
 
     return true;
   },

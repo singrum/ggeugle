@@ -77,7 +77,6 @@ export default function Layout() {
     if (data.color) {
       root.classList.add(`theme-${data.color}`);
     }
-    console.log(data.color);
 
     // (선택 사항) 언마운트 시 클래스 제거
     return () => {
