@@ -1,15 +1,10 @@
-import { useEffect } from "react";
-import { Outlet, useLocation } from "react-router";
+import { Outlet } from "react-router";
 import { Toaster } from "~/components/ui/sonner";
 import MobileHeader from "./+components/sidebar/mobile-header";
 import MobileNav from "./+components/sidebar/mobile-nav";
 import Sidebar from "./+components/sidebar/sidebar";
 
 export default function HomeLayout() {
-  const location = useLocation();
-  useEffect(() => {
-    localStorage.setItem("last_home_path", location.pathname);
-  }, []);
   return (
     <div className="bg-background lg:bg-sidebar min-h-dvh lg:h-svh flex lg:min-h-0">
       <div className="relative flex-row h-full hidden lg:flex flex-1">

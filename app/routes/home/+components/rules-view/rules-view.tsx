@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router";
 import { Card } from "~/components/ui/card";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import {
@@ -25,6 +27,10 @@ export default function RulesView({
   isSample: boolean;
   children?: React.ReactNode;
 }) {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    localStorage.setItem("last_home_path", pathname);
+  }, [pathname]);
   return (
     <RulesViewStoreProvider rules={rules} isSample={isSample}>
       <RulesViewInner>{children}</RulesViewInner>
