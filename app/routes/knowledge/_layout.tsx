@@ -8,6 +8,7 @@ export default function KnowledgeLayout() {
     const originalStyle = window.getComputedStyle(
       document.body,
     ).backgroundColor;
+
     document.body.style.backgroundColor = "var(--background)";
 
     return () => {

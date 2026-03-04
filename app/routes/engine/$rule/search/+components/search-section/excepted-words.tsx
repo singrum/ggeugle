@@ -115,13 +115,13 @@ function ExceptWordsDropDown() {
         >
           <Copy /> 복사
         </DropdownMenuItem>
-        <DropdownMenuItem
+        {/* <DropdownMenuItem
           onClick={() => {
             // syncRule();
           }}
         >
           <FolderSync /> 룰에 반영하기
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   );
