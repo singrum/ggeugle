@@ -14,6 +14,14 @@ import { WordMap } from "../wordchain/word/word-map";
 import type { WordSolver } from "../wordchain/word/word-solver";
 import type { FuncWorkerApi } from "./func-worker";
 
+// steal
+// 1 : historyNum 0
+//   : historyNum 1
+//   : historyNum 2 이상
+// 0 : historyNum 0
+
+const states = ["steal0", "steal1", "steal2", "unsteal"] as const;
+
 export type GameWorkerRunnerOnmessageData =
   | {
       action: "debug";
@@ -35,7 +43,8 @@ export class GameWorkerRunner {
   private historyWordMap: WordMap;
   private currChar: undefined | NodeName;
   private comlinkRunner: ComlinkRunner<FuncWorkerApi>;
-  private historyNum: number;
+
+  private state: (typeof states)[number];
   private callback: (e: GameWorkerRunnerOnmessageData) => void;
   id: string;
   constructor(
@@ -53,7 +62,14 @@ export class GameWorkerRunner {
     this.difficulty = difficulty;
     this.calculatingDuration = calculatingDuration;
     this.stealable = stealable;
-    this.historyNum = history.length;
+    this.state = stealable
+      ? history.length === 0
+        ? "steal0"
+        : history.length === 1
+          ? "steal1"
+          : "steal2"
+      : "unsteal";
+
     this.historyWordMap = WordMap.fromWords(
       [...new Set(history)],
       solver.headIdx,
@@ -211,22 +227,32 @@ export class GameWorkerRunner {
   }
   takeMove(word: string) {
     this.callback({ action: "move", payload: word! });
-    this.historyNum++;
+    if (
+      !(
+        this.state === "steal1" &&
+        this.historyWordMap.toArray()[0][2][0] === word
+      )
+    ) {
+      this.historyWordMap.addWord(
+        word,
+        this.solver.headIdx,
+        this.solver.tailIdx,
+      );
+    }
+
     if (this.isHanbang(word)) {
       this.callback({ action: "computerWin" });
     }
     this.callback({ action: "messageEnd" });
     return;
   }
-  currStealable() {
-    return this.historyNum === 1 && this.stealable;
-  }
+
   checkSteal(): boolean {
-    if (!this.currStealable()) {
+    if (this.state !== "steal1") {
       return false;
     }
-    const temp = this.historyWordMap.toArray()[0];
-    const result = temp[2][0];
+    const result = this.historyWordMap.toArray()[0][2][0];
+
     [`### 단어 뺏기  \n`, `결과: ${result}`].map((e) =>
       this.callback({
         action: "debug",
@@ -241,7 +267,7 @@ export class GameWorkerRunner {
       .get(move[0], move[1])!
       .find(
         (e) =>
-          this.currStealable() ||
+          this.state === "steal1" ||
           !(this.historyWordMap.get(move[0], move[1]) || []).includes(e),
       )!;
   }
@@ -277,7 +303,7 @@ export class GameWorkerRunner {
       if (nextCounter.get(start, end, arr.length) > 0)
         nextCounter.decrease(start, end, arr.length);
     }
-    if (this.currStealable()) {
+    if (this.state === "steal1") {
       const firstMove = this.historyWordMap.toArray()[0];
       nextCounter.increase(firstMove[0], firstMove[1]);
     }
@@ -299,7 +325,7 @@ export class GameWorkerRunner {
 
     const historyNum = this.historyWordMap.getSize();
 
-    if (this.stealable && historyNum === 0) {
+    if (this.state === "steal0") {
       return false;
     }
 
