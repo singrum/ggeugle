@@ -225,8 +225,8 @@ function InfoToolbarContent() {
     },
   ];
   const previousItems = [
-    { title: "끝말잇기 엔진 v3", url: "https://v3.engine.ikki.app" },
     { title: "끝말잇기 엔진 v4", url: "https://v4.engine.ikki.app" },
+    { title: "끝말잇기 엔진 v3", url: "https://v3.engine.ikki.app" },
   ];
   return (
     <DropdownMenuGroup>
