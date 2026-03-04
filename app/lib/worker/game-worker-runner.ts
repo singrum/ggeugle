@@ -233,13 +233,12 @@ export class GameWorkerRunner {
     return true;
   }
   getWord(move: [NodeName, NodeName]): string {
-    return this.solver.wordMap
-      .get(move[0], move[1])!
-      .find(
-        (e) =>
-          (this.history.length === 1 && this.stealable) ||
-          !(this.historyWordMap.get(move[0], move[1]) || []).includes(e),
-      )!;
+    return this.solver.wordMap.get(move[0], move[1])!.find(
+      (e) =>
+        // aa, aaa 일 때 aa -> aa 하는 버그
+        // (this.history.length === 1 && this.stealable) ||
+        !(this.historyWordMap.get(move[0], move[1]) || []).includes(e),
+    )!;
   }
 
   getNextMoves(): [NodeName, NodeName, number][] {
