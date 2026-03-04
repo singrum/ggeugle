@@ -1,6 +1,6 @@
 import { type MetaFunction } from "react-router";
 import { sampleRules } from "~/constants/sample-rules";
-import { mergedMeta } from "~/lib/utils";
+import { mergedMeta, metaTitle } from "~/lib/utils";
 import RulesView from "../+components/rules-view/rules-view";
 import RulesViewContent from "../+components/rules-view/rules-view-content";
 import RulesViewDescription from "../+components/rules-view/rules-view-description";
@@ -9,9 +9,7 @@ import RulesViewTitle from "../+components/rules-view/rules-view-title";
 import KkutuRuleSettings from "./+components/kkutu-rule-settings";
 
 export const meta: MetaFunction = ({ matches }) => {
-  const currentMeta = [{ title: "기본 룰 | 끝말잇기 엔진" }];
-
-  return mergedMeta(matches, currentMeta);
+  return mergedMeta(matches, [...metaTitle("기본 룰 | 끝말잇기 엔진")]);
 };
 export default function Sample() {
   return (

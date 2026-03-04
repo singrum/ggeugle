@@ -11,7 +11,12 @@ import { samplePrecedenceMaps } from "~/constants/sample-precedence-maps";
 import { navInfo } from "~/constants/sidebar";
 import { useIsTablet } from "~/hooks/use-tablet";
 import { storage } from "~/lib/storage/storage";
-import { getLoaderDataById, getRuleFormById, mergedMeta } from "~/lib/utils";
+import {
+  getLoaderDataById,
+  getRuleFormById,
+  mergedMeta,
+  metaTitle,
+} from "~/lib/utils";
 import { AppSidebar } from "~/routes/engine/$rule/+components/nav-sidebar/app-sidebar";
 import SiteHeader from "~/routes/engine/$rule/+components/site-header/site-header";
 import { WcStoreProvider } from "~/stores/wc-store-provider";
@@ -33,7 +38,7 @@ export const meta: MetaFunction<typeof clientLoader> = ({
     (loaderData as { data: LoaderData | null })?.data?.title ?? "로딩 중";
 
   return mergedMeta(matches, [
-    { title: `${title} - ${navTitle ?? ""} | 끝말잇기 엔진` },
+    ...metaTitle(`${title} - ${navTitle ?? ""} | 끝말잇기 엔진`),
   ]);
 };
 

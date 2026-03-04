@@ -12,6 +12,7 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { ThemeProvider } from "./components/theme-provider";
+import { metaDescription, metaImage, metaTitle } from "./lib/utils";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -35,15 +36,21 @@ export const meta: MetaFunction = () => {
       name: "naver-site-verification",
       content: "eaba2366fdaca84d9cc4c1d7ba78ac752d2c0416",
     },
-    { property: "og:image", content: "/static-opengraph.png" },
+
     {
-      name: "description",
-      content:
-        "끝말잇기 엔진은 끝말잇기 단어 검색과 끝말잇기 게임 분석을 위한 웹 서비스입니다. (구 끄글)",
+      property: "twitter:card",
+      content: "summary_large_image",
     },
+
     {
-      title: "끝말잇기 엔진",
+      property: "og:site_name",
+      content: "끝말잇기 엔진",
     },
+    ...metaTitle("끝말잇기 엔진"),
+    ...metaDescription(
+      "끝말잇기 엔진은 끝말잇기 단어 검색과 끝말잇기 게임 분석을 위한 웹 서비스입니다. (구 끄글)",
+    ),
+    ...metaImage("/static-opengraph.png"),
   ];
 };
 

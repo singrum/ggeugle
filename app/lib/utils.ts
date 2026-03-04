@@ -403,16 +403,48 @@ export function mergedMeta(
   matches: MetaArgs["matches"],
   currentMeta: MetaDescriptor[],
 ): MetaDescriptor[] {
-  const rootMeta = matches[0].meta;
+  // matches[0] 대신 모든 상위 matches를 합치거나,
+  // 특정하게 root만 타겟팅한다면 아래와 같이 null 체크를 추가하세요.
+  const rootMeta = matches[0]?.meta ?? [];
+
   const filteredParentMeta = rootMeta.filter((pMeta) => {
+    // 1. Title 중복 체크
     if ("title" in pMeta && currentMeta.some((c) => "title" in c)) return false;
 
+    // 2. Name/Property 중복 체크
     return !currentMeta.some((cMeta) => {
-      if ("name" in cMeta && "name" in pMeta) return cMeta.name === pMeta.name;
-      if ("property" in cMeta && "property" in pMeta)
-        return cMeta.property === pMeta.property;
-      return false;
+      const isNameMatch =
+        "name" in cMeta && "name" in pMeta && cMeta.name === pMeta.name;
+      const isPropertyMatch =
+        "property" in cMeta &&
+        "property" in pMeta &&
+        cMeta.property === pMeta.property;
+      return isNameMatch || isPropertyMatch;
     });
   });
+
   return [...filteredParentMeta, ...currentMeta];
+}
+
+export function metaTitle(title: string): MetaDescriptor[] {
+  return [
+    { title: `${title}` },
+    { property: "og:title", content: title },
+    { property: "twitter:title", content: title },
+  ];
+}
+
+export function metaDescription(description: string): MetaDescriptor[] {
+  return [
+    { name: "description", content: description },
+    { property: "og:description", content: description },
+    { property: "twitter:description", content: description },
+  ];
+}
+
+export function metaImage(imageUrl: string): MetaDescriptor[] {
+  return [
+    { property: "og:image", content: imageUrl },
+    { property: "twitter:image", content: imageUrl },
+  ];
 }

@@ -1,6 +1,6 @@
 import { useLoaderData, type MetaFunction } from "react-router";
 import { storage } from "~/lib/storage/storage";
-import { mergedMeta } from "~/lib/utils";
+import { mergedMeta, metaTitle } from "~/lib/utils";
 import RulesView from "../+components/rules-view/rules-view";
 import RulesViewContent from "../+components/rules-view/rules-view-content";
 import RulesViewDescription from "../+components/rules-view/rules-view-description";
@@ -8,8 +8,7 @@ import RulesViewHeader from "../+components/rules-view/rules-view-header";
 import RulesViewTitle from "../+components/rules-view/rules-view-title";
 
 export const meta: MetaFunction = ({ matches }) => {
-  const currentMeta = [{ title: "보관함 | 끝말잇기 엔진" }];
-  return mergedMeta(matches, currentMeta);
+  return mergedMeta(matches, [...metaTitle("보관함 | 끝말잇기 엔진")]);
 };
 
 export function shouldRevalidate() {

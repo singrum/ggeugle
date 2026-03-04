@@ -309,7 +309,6 @@ export class GameWorkerRunner {
     ) {
       counter.decrease(head, tail);
     }
-    console.log(counter, word);
 
     return counter.toArray().length === 0;
   }
