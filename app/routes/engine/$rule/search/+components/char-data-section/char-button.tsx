@@ -27,7 +27,7 @@ export default function CharButton({
     <Button
       variant={"ghost"}
       className={cn(
-        "size-8 items-center justify-center text-base font-normal hover:font-medium",
+        "size-8 items-center justify-center text-base hover:font-medium",
         buttonColorVariant[variant ?? "default"],
         { "text-xs": size === "sm" },
         className,
