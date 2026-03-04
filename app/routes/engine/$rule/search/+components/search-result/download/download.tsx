@@ -19,7 +19,7 @@ export default function Download({ solver }: { solver: WordSolver }) {
   return (
     <div className="space-y-4">
       {downloadActionData.map((group, i) => (
-        <OutlineCard key={i} className="gap-0 p-0 sm:p-0">
+        <OutlineCard key={i} className="gap-0 p-0 sm:p-0 border">
           {group.map(({ title, action }, i) => (
             <Fragment key={title}>
               <DownloadSection>
