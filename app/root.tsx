@@ -95,7 +95,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           disableTransitionOnChange
         >
           {isLoading && (
-            <div className="fixed top-0 left-0 z-200 h-1 w-full bg-primary animate-pulse" />
+            <div className="fixed top-0 left-0 z-200 h-1 w-full bg-blue-400 animate-pulse" />
           )}
           {children}
         </ThemeProvider>
