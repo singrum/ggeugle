@@ -109,8 +109,8 @@ export function PosSelect() {
         }
       }}
     >
-      <ToggleGroupItem value="0">첫 글자</ToggleGroupItem>
-      <ToggleGroupItem value="1">끝 글자</ToggleGroupItem>
+      <ToggleGroupItem value="0">끝 글자</ToggleGroupItem>
+      <ToggleGroupItem value="1">첫 글자</ToggleGroupItem>
     </ToggleGroup>
   );
 }
