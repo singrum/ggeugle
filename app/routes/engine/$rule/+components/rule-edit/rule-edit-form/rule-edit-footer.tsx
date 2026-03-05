@@ -92,7 +92,12 @@ export function RuleEditFooter() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-44">
                 <DropdownMenuGroup>
-                  <DropdownMenuItem onSelect={onSave}>
+                  <DropdownMenuItem
+                    onSelect={(e) => {
+                      e.preventDefault();
+                      onSave();
+                    }}
+                  >
                     <Save />
                     저장
                   </DropdownMenuItem>
