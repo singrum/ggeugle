@@ -34,7 +34,7 @@ export default function RuleViewButton({
       variant={"secondary"}
       size="lg"
       className={cn(
-        "group relative flex flex-col justify-start items-start h-auto p-0 rounded-lg hover:underline underline-offset-2",
+        "group relative flex flex-col justify-start items-start h-auto p-0 rounded-lg",
         selectedRuleId === id && "ring-2 ring-primary",
       )}
       asChild
