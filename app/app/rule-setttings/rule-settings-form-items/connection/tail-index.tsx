@@ -36,7 +36,9 @@ export default function TailIndex() {
           onValueChange={(e: string) => {
             const num = Number(e);
             storeApi.setState((state) => {
-              state.localRuleForm.content.wordConnectionRule.tailDir = num as 0 | 1;
+              state.localRuleForm.content.wordConnectionRule.tailDir = num as
+                | 0
+                | 1;
             });
           }}
         >
@@ -52,14 +54,13 @@ export default function TailIndex() {
           </SelectContent>
         </Select>
         <Input
-          className="w-full max-w-45"
+          className="w-full max-w-25"
           type="number"
           value={idx}
           onChange={(e) =>
             storeApi.setState((state) => {
-              state.localRuleForm.content.wordConnectionRule.rawTailIdx = Number(
-                e.target.value,
-              );
+              state.localRuleForm.content.wordConnectionRule.rawTailIdx =
+                Number(e.target.value);
             })
           }
         />
