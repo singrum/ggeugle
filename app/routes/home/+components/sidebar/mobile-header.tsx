@@ -6,7 +6,7 @@ import IkkiLogo from "../ikki-logo";
 
 export default function MobileHeader() {
   return (
-    <header className="bg-sidebar border-b dark:border-0 flex justify-between items-center pr-2">
+    <header className="bg-sidebar border-b flex justify-between items-center pr-2">
       <div className="p-4">
         <Link to="/home" className="flex gap-2 items-center w-fit ">
           <IkkiLogo className="h-3.5 w-auto shrink-0" />

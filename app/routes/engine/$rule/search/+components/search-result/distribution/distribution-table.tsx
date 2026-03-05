@@ -259,7 +259,7 @@ export default function DistributionTable({ solver }: { solver: WordSolver }) {
       </Table>
       {totalPages > 1 && (
         <PaginationSimple
-          className="sticky bottom-16 dark:bottom-[calc((--spacing(16))-1px)] lg:bottom-0 dark:lg:bottom-0"
+          className="sticky bottom-16 lg:bottom-0"
           page={page}
           totalPages={totalPages}
           onPageChange={setPage}

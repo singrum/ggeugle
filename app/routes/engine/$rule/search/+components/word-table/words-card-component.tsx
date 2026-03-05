@@ -58,7 +58,7 @@ export default function WordsCardComponent({
           <Component rows={currentRows} />
           {totalPages > 0 && (
             <PaginationSimple
-              className="sticky z-20 bottom-16 dark:bottom-[calc((--spacing(16))-1px)] lg:bottom-0 dark:lg:bottom-0"
+              className="sticky z-20 bottom-16 lg:bottom-0"
               page={page}
               totalPages={totalPages}
               onPageChange={setPage}

@@ -19,7 +19,7 @@ export default function ChatBar({ disabled }: { disabled: boolean }) {
   };
 
   return (
-    <div className="bg-background mx-auto w-full max-w-3xl px-2 py-2 lg:py-4 sticky bottom-[calc(1px+(--spacing(16)))] dark:bottom-16 lg:bottom-0 lg:dark:bottom-0 shadow-[0_1px_0_0_var(--background)]">
+    <div className="bg-background mx-auto w-full max-w-3xl px-2 py-2 lg:py-4 sticky bottom-[calc(1px+(--spacing(16)))] lg:bottom-0 shadow-[0_1px_0_0_var(--background)] lg:shadow-none">
       <div className="relative">
         <div className="flex items-center gap-2">
           {isTablet && (

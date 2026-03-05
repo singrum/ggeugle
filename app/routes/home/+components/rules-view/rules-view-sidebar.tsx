@@ -8,7 +8,7 @@ export default function RulesViewSidebar() {
   const selectedRuleId = useRulesViewStore((e) => e.selectedRuleId);
   const select = useRulesViewStore((e) => e.select);
   return (
-    <Card className="rounded-lg h-full p-0 bg-background border dark:border-0 md:max-w-sm w-full relative ml-2">
+    <Card className="rounded-lg h-full p-0 bg-background border md:max-w-sm w-full relative ml-2">
       <Button
         className="absolute top-2 right-2"
         variant="ghost"
@@ -17,12 +17,7 @@ export default function RulesViewSidebar() {
       >
         <X className="size-4" />
       </Button>
-      <RuleEditForm
-        ruleId={selectedRuleId!}
-        setOpen={(open: boolean) => {
-          if (!open) select(null);
-        }}
-      />
+      <RuleEditForm ruleId={selectedRuleId!} />
     </Card>
   );
 }
