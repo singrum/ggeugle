@@ -96,7 +96,12 @@ export function RuleEditFooter() {
                     <Save />
                     저장
                   </DropdownMenuItem>
-                  <DropdownMenuItem onSelect={onSaveCopy}>
+                  <DropdownMenuItem
+                    onSelect={(e) => {
+                      e.preventDefault();
+                      onSaveCopy();
+                    }}
+                  >
                     <SaveAll />
                     복사본 저장
                   </DropdownMenuItem>
