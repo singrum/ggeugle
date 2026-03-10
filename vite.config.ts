@@ -12,8 +12,8 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
-        name: "끝말잇기 엔진",
-        short_name: "끝말잇기 엔진",
+        name: "My App",
+        short_name: "App",
         start_url: "/",
         display: "standalone",
         background_color: "#ffffff",
