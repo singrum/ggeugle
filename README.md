@@ -1,274 +1,87 @@
-# 끝말잇기 엔진
+# Welcome to React Router!
 
-끝말잇기 엔진은 끝말잇기 단어 검색과 끝말잇기 게임 분석을 위한 웹 서비스입니다. (구 끄글)
+A modern, production-ready template for building full-stack React applications using React Router.
 
-[https://engine.ikki.app](https://engine.ikki.app)
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
 
-## 설치/실행
+## Features
 
-아래 명령어로 로컬에서 프로젝트를 바로 실행할 수 있습니다.
+- 🚀 Server-side rendering
+- ⚡️ Hot Module Replacement (HMR)
+- 📦 Asset bundling and optimization
+- 🔄 Data loading and mutations
+- 🔒 TypeScript by default
+- 🎉 TailwindCSS for styling
+- 📖 [React Router docs](https://reactrouter.com/)
+
+## Getting Started
+
+### Installation
+
+Install the dependencies:
 
 ```bash
-git clone https://github.com/singrum/ggeugle.git
-cd ggeugle
 npm install
+```
+
+### Development
+
+Start the development server with HMR:
+
+```bash
 npm run dev
 ```
 
-## 기술 스택
+Your application will be available at `http://localhost:5173`.
 
-- Vite, React, Typescript, React Router v7
-- 스타일링 : TailwindCSS, shadcn/ui
-- indexed db : Dexie.js
-- 상태 관리 : Zustand
-- 워커 쓰레드 : Comlink
-- 배포 : Vercel
+## Building for Production
 
+Create a production build:
 
-## 주요 기능
+```bash
+npm run build
+```
 
-- 승패에 따른 음절 및 단어 분류
-- 고전적 인공지능 기반의 필승 전략 탐색 알고리즘 적용
-- 컴퓨터(AI)와의 실시간 대결 인터페이스
-- 게임 규칙 맞춤 설정 지원
+## Deployment
 
+### Docker Deployment
 
-## 탐색 성능 벤치마크
+To build and run using Docker:
 
-총 루트 단어 : **587개**  
-승패 여부 탐색 성공 : **225개**
+```bash
+docker build -t my-app .
 
-| 시작 단어 | 승패 여부 | 탐색 시간(sec) |
-| --------- | --------- | -------------- |
-| 겁결      | 패        | 3.5            |
-| 견득      | 패        | 12.19          |
-| 견효      | 패        | 0.33           |
-| 견묘      | 패        | 0.3            |
-| 견습      | 패        | 0.52           |
-| 견이불식  | 패        | 0.33           |
-| 견방직    | 패        | 0.36           |
-| 결벽      | 패        | 0.37           |
-| 결획      | 승        | 5.8            |
-| 결단식    | 패        | 0.52           |
-| 결결      | 패        | 5.19           |
-| 결가부좌  | 패        | 0.37           |
-| 겸업      | 승        | 0.29           |
-| 겸지우겸  | 패        | 0.56           |
-| 겸직      | 패        | 0.46           |
-| 겸득      | 패        | 22.64          |
-| 곶닢      | 패        | 0.21           |
-| 곽재겸    | 패        | 0.2            |
-| 괘사직    | 패        | 0.21           |
-| 괘하현    | 패        | 0.24           |
-| 괘효      | 패        | 0.4            |
-| 굉업      | 승        | 8.35           |
-| 굉굉      | 패        | 1.02           |
-| 굉재탁식  | 패        | 0.4            |
-| 굉규      | 패        | 0.63           |
-| 굽벽      | 패        | 0.27           |
-| 궁듕      | 승        | 2.08           |
-| 궁깃      | 패        | 2.45           |
-| 궁궐      | 패        | 0.41           |
-| 궁장식    | 패        | 0.55           |
-| 궁궁      | 패        | 1.97           |
-| 궁사멱득  | 패        | 26.42          |
-| 궁결      | 패        | 7.81           |
-| 권벽      | 패        | 4.56           |
-| 권유식    | 패        | 0.9            |
-| 권설직    | 패        | 0.97           |
-| 권덕규    | 패        | 3.72           |
-| 권굉      | 패        | 23.17          |
-| 권뢰      | 패        | 13.75          |
-| 권중현    | 패        | 1.07           |
-| 권전법륜  | 패        | 4.27           |
-| 권삼득    | 패        | 20.17          |
-| 궐획      | 승        | 0.37           |
-| 궐직      | 패        | 0.36           |
-| 궤도업    | 승        | 0.25           |
-| 궤촉      | 승        | 0.98           |
-| 궤직      | 패        | 0.28           |
-| 궤좌      | 패        | 0.24           |
-| 규획      | 승        | 0.45           |
-| 규범의식  | 패        | 0.37           |
-| 규규      | 패        | 0.57           |
-| 규벽      | 패        | 0.72           |
-| 규결      | 패        | 7.74           |
-| 균습      | 패        | 0.31           |
-| 균현      | 패        | 0.38           |
-| 균륜      | 패        | 2.8            |
-| 귤잎      | 패        | 0.2            |
-| 깃꼴잎    | 패        | 0.18           |
-| 깃촉      | 승        | 0.49           |
-| 꽂임촉    | 승        | 1.27           |
-| 꿈결      | 패        | 3.07           |
-| 낭자궤    | 패        | 0.24           |
-| 낭랑묘    | 패        | 0.42           |
-| 낭유도식  | 패        | 0.26           |
-| 낭비벽    | 패        | 0.63           |
-| 뇌홍      | 패        | 0.27           |
-| 뇌뢰      | 패        | 8.93           |
-| 뇌굉      | 패        | 10.64          |
-| 뇌궁      | 패        | 1.38           |
-| 늠식      | 패        | 0.19           |
-| 둑신묘    | 패        | 0.28           |
-| 듕깃      | 패        | 0.58           |
-| 득도식    | 패        | 0.28           |
-| 득롱망촉  | 승        | 4.86           |
-| 득업      | 승        | 19.74          |
-| 뢰촉      | 승        | 1.7            |
-| 뢰명산붕  | 패        | 6.92           |
-| 뢰홍      | 패        | 0.46           |
-| 륜습      | 패        | 0.29           |
-| 륜직      | 패        | 0.44           |
-| 륜좌      | 패        | 0.47           |
-| 맹벽      | 패        | 0.34           |
-| 맹묘      | 패        | 0.32           |
-| 맹습      | 패        | 0.24           |
-| 맹홍      | 패        | 0.24           |
-| 멱득      | 패        | 15.9           |
-| 묘획      | 승        | 0.25           |
-| 묘식      | 패        | 0.22           |
-| 묘직      | 패        | 0.21           |
-| 묘윤      | 패        | 2.12           |
-| 묘득      | 패        | 18.12          |
-| 밑깃      | 패        | 1.41           |
-| 밑열이식  | 패        | 0.38           |
-| 밖벽      | 패        | 0.26           |
-| 벽읍      | 승        | 0.23           |
-| 변두리벽  | 패        | 0.59           |
-| 변식      | 패        | 0.44           |
-| 변혁      | 패        | 0.39           |
-| 변궁      | 패        | 2.12           |
-| 붕획      | 승        | 6.42           |
-| 붕결      | 패        | 4.82           |
-| 삭직      | 패        | 0.41           |
-| 섭식      | 패        | 0.19           |
-| 섭육십    | 패        | 0.16           |
-| 섭직      | 패        | 0.19           |
-| 송화다식  | 패        | 0.26           |
-| 송깃      | 패        | 1.96           |
-| 송습      | 패        | 0.28           |
-| 송치규    | 패        | 1.75           |
-| 송뢰      | 패        | 17.57          |
-| 습업      | 승        | 0.17           |
-| 습궐      | 패        | 0.28           |
-| 습식      | 패        | 0.25           |
-| 습직      | 패        | 0.25           |
-| 습득      | 패        | 27.35          |
-| 습벽      | 패        | 0.53           |
-| 식업      | 패        | 0.38           |
-| 식식      | 패        | 0.4            |
-| 십불선업  | 승        | 0.18           |
-| 십년일득  | 패        | 11.82          |
-| 십습      | 패        | 0.15           |
-| 십장식    | 패        | 0.19           |
-| 십자좌    | 패        | 0.19           |
-| 업시름    | 패        | 0.14           |
-| 욱은지붕  | 패        | 0.13           |
-| 웅문거벽  | 패        | 0.14           |
-| 웅묘      | 패        | 0.15           |
-| 윤업      | 승        | 1.06           |
-| 윤동규    | 패        | 0.54           |
-| 윤직      | 패        | 0.37           |
-| 윤제홍    | 패        | 0.42           |
-| 윤희결    | 패        | 6.53           |
-| 융식      | 패        | 0.37           |
-| 융궁      | 패        | 0.7            |
-| 을미개혁  | 패        | 0.2            |
-| 을묘      | 패        | 0.32           |
-| 을좌      | 패        | 0.2            |
-| 잎자욱    | 승        | 0.13           |
-| 좌업      | 승        | 0.15           |
-| 좌식      | 패        | 0.16           |
-| 좌궁깃    | 패        | 1.52           |
-| 좌우청촉  | 승        | 7.14           |
-| 좌직      | 패        | 0.18           |
-| 좌현묘    | 패        | 0.29           |
-| 좌보궐    | 패        | 0.34           |
-| 좌규      | 패        | 1.62           |
-| 좌향좌    | 패        | 0.32           |
-| 좌윤      | 패        | 2.21           |
-| 좌우궁    | 패        | 1.38           |
-| 죽궤      | 패        | 0.3            |
-| 죽궁      | 패        | 1.16           |
-| 죽림칠현  | 패        | 0.31           |
-| 준공식    | 패        | 0.31           |
-| 준직      | 패        | 0.42           |
-| 준좌      | 패        | 0.52           |
-| 준뢰      | 패        | 12.26          |
-| 즉위식    | 패        | 0.28           |
-| 즉결      | 패        | 3.68           |
-| 즉좌      | 패        | 0.4            |
-| 즉효      | 패        | 0.31           |
-| 직업      | 승        | 0.42           |
-| 직업의식  | 패        | 0.39           |
-| 직결      | 패        | 5.64           |
-| 직격뢰    | 패        | 13.92          |
-| 직효      | 패        | 0.71           |
-| 직사궁    | 패        | 1.71           |
-| 척촌지효  | 패        | 0.4            |
-| 척식      | 패        | 0.39           |
-| 첩시꽂    | 패        | 0.69           |
-| 촉식      | 패        | 0.18           |
-| 촉규      | 패        | 0.19           |
-| 촉직      | 패        | 0.2            |
-| 촉륜      | 패        | 0.35           |
-| 축하식    | 패        | 0.12           |
-| 축세륜    | 패        | 0.36           |
-| 춘식      | 패        | 0.23           |
-| 춘뢰      | 패        | 1.72           |
-| 춘대옥촉  | 승        | 1.82           |
-| 춘효      | 패        | 0.62           |
-| 칭굉      | 패        | 0.29           |
-| 칭병사직  | 패        | 0.25           |
-| 칭송      | 패        | 5.02           |
-| 캄캄절벽  | 승        | 0.18           |
-| 택식      | 패        | 0.12           |
-| 폄직      | 패        | 0.17           |
-| 폄좌      | 패        | 0.19           |
-| 험결      | 패        | 0.3            |
-| 험윤      | 패        | 0.6            |
-| 험득      | 패        | 5.55           |
-| 혁업      | 승        | 0.17           |
-| 혁직      | 패        | 0.17           |
-| 혁현      | 패        | 0.17           |
-| 현업      | 승        | 0.33           |
-| 현벽      | 패        | 0.54           |
-| 현행계획  | 승        | 0.4            |
-| 현식      | 패        | 0.49           |
-| 현촉      | 승        | 12.24          |
-| 현직      | 패        | 0.56           |
-| 현묘      | 패        | 0.66           |
-| 현순백결  | 패        | 6.07           |
-| 현좌      | 패        | 0.45           |
-| 현윤      | 패        | 3.6            |
-| 홍업      | 승        | 0.8            |
-| 홍촉      | 승        | 3.41           |
-| 홍혁      | 패        | 0.55           |
-| 홍만식    | 패        | 0.97           |
-| 홍규      | 패        | 1.72           |
-| 홍륜      | 패        | 2.23           |
-| 홍벽      | 패        | 0.79           |
-| 확효      | 패        | 0.28           |
-| 획득      | 패        | 0.19           |
-| 효근귤    | 승        | 0.15           |
-| 효창묘    | 패        | 0.25           |
-| 효습      | 패        | 0.09           |
-| 흉벽      | 패        | 0.31           |
-| 흉겸      | 패        | 4.93           |
-| 흔굉      | 패        | 8.95           |
-| 흔캄      | 승        | 0.3            |
-| 흡음벽    | 패        | 0.26           |
-| 흡습      | 패        | 0.27           |
-| 흡현      | 패        | 0.25           |
-| 희망퇴직  | 패        | 0.3            |
-| 희견궁    | 패        | 1.17           |
+# Run the container
+docker run -p 3000:3000 my-app
+```
 
-## 커뮤니티
+The containerized application can be deployed to any platform that supports Docker, including:
 
-[Discord](https://discord.com/invite/bkHgyajx89)
+- AWS ECS
+- Google Cloud Run
+- Azure Container Apps
+- Digital Ocean App Platform
+- Fly.io
+- Railway
 
-## 파생 프로젝트
+### DIY Deployment
 
-- 가가끄글 : [@tingtingplanet/gagageul](https://github.com/tingtingplanet/gagageul)  
-  더 많은 전략 탐색 옵션 구현
+If you're familiar with deploying Node applications, the built-in app server is production-ready.
+
+Make sure to deploy the output of `npm run build`
+
+```
+├── package.json
+├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
+├── build/
+│   ├── client/    # Static assets
+│   └── server/    # Server-side code
+```
+
+## Styling
+
+This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+
+---
+
+Built with ❤️ using React Router.
