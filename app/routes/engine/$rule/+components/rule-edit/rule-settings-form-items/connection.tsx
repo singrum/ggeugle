@@ -1,5 +1,6 @@
 import { Separator } from "~/components/ui/separator";
-import { OutlineCard } from "../../../routes/engine/$rule/+components/outline-card";
+
+import { OutlineCard } from "../../outline-card";
 import ChangeRule from "./connection/change-rule";
 import HeadIndex from "./connection/head-index";
 import TailIndex from "./connection/tail-index";

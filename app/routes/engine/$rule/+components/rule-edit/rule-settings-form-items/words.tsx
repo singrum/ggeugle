@@ -1,6 +1,7 @@
 import { Separator } from "~/components/ui/separator";
 import { useRuleEditorStore } from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
-import { OutlineCard } from "../../../routes/engine/$rule/+components/outline-card";
+
+import { OutlineCard } from "../../outline-card";
 import AddedWords from "./words/added-words";
 import Cate from "./words/cate";
 import Dict from "./words/dict";

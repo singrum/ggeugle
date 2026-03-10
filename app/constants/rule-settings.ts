@@ -1,7 +1,7 @@
-import Connection from "~/app/rule-setttings/rule-settings-form-items/connection";
-import Json from "~/app/rule-setttings/rule-settings-form-items/json";
-import Postprocessing from "~/app/rule-setttings/rule-settings-form-items/postprocessing";
-import Words from "~/app/rule-setttings/rule-settings-form-items/words";
+import Connection from "~/routes/engine/$rule/+components/rule-edit/rule-settings-form-items/connection";
+import Json from "~/routes/engine/$rule/+components/rule-edit/rule-settings-form-items/json";
+import Postprocessing from "~/routes/engine/$rule/+components/rule-edit/rule-settings-form-items/postprocessing";
+import Words from "~/routes/engine/$rule/+components/rule-edit/rule-settings-form-items/words";
 
 export const ruleSettingsMenuInfo: {
   title: string;

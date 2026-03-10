@@ -15,7 +15,7 @@ import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../routes/engine/$rule/+components/outline-card";
+} from "../../../outline-card";
 
 export default function HeadIndex() {
   const idx = useRuleEditorStore(
@@ -36,7 +36,9 @@ export default function HeadIndex() {
           onValueChange={(e: string) => {
             const num = Number(e);
             storeApi.setState((state) => {
-              state.localRuleForm.content.wordConnectionRule.headDir = num as 0 | 1;
+              state.localRuleForm.content.wordConnectionRule.headDir = num as
+                | 0
+                | 1;
             });
           }}
         >
@@ -57,9 +59,8 @@ export default function HeadIndex() {
           value={idx}
           onChange={(e) =>
             storeApi.setState((state) => {
-              state.localRuleForm.content.wordConnectionRule.rawHeadIdx = Number(
-                e.target.value,
-              );
+              state.localRuleForm.content.wordConnectionRule.rawHeadIdx =
+                Number(e.target.value);
             })
           }
         />

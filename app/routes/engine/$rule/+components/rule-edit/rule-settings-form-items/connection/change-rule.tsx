@@ -1,4 +1,4 @@
-import { CardTitle } from "~/components/ui/card";
+import { Card, CardTitle } from "~/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -6,7 +6,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import { manners } from "~/constants/rule";
+import { sampleChangeFuncInfo } from "~/lib/wordchain/rule/change";
+import { ChangeRuleTableMap } from "~/lib/wordchain/rule/change-rule-tables";
 import {
   useRuleEditorStore,
   useRuleEditorStoreApi,
@@ -15,45 +16,46 @@ import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../routes/engine/$rule/+components/outline-card";
-export default function Manner() {
-  const manner = useRuleEditorStore(
-    (e) => e.localRuleForm.content.postprocessing.manner.type,
+} from "../../../outline-card";
+export default function ChangeRule() {
+  const changeRule = useRuleEditorStore(
+    (e) => e.localRuleForm.content.wordConnectionRule.changeFuncIdx,
   );
   const storeApi = useRuleEditorStoreApi();
+
   return (
     <OutlineCardSection>
       <OutlineCardHeader>
-        <CardTitle>한방단어 제거</CardTitle>
+        <CardTitle>두음 법칙</CardTitle>
       </OutlineCardHeader>
       <OutlineCardContent>
         <Select
-          value={`${manner}`}
+          value={`${changeRule}`}
           onValueChange={(e: string) => {
+            const num = Number(e);
             storeApi.setState((state) => {
-              state.localRuleForm.content.postprocessing.manner.type = Number(e) as
-                | 0
-                | 1
-                | 2
-                | 3;
-              if (Number(e) === 3) {
-                state.localRuleForm.content.postprocessing.manner.nextWordsLimit = 0;
-              }
+              state.localRuleForm.content.wordConnectionRule.changeFuncIdx =
+                num;
             });
-            // selected
           }}
         >
           <SelectTrigger className="w-45">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {manners.map((e, i) => (
+            {sampleChangeFuncInfo.map(({ title }, i) => (
               <SelectItem key={i} value={`${i}`}>
-                {e}
+                {title}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
+
+        {changeRule !== 0 && (
+          <Card className="p-6 border mt-2 bg-transparent dark:bg-transparent">
+            {ChangeRuleTableMap[changeRule]}
+          </Card>
+        )}
       </OutlineCardContent>
     </OutlineCardSection>
   );

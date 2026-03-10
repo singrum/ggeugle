@@ -8,7 +8,7 @@ import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../routes/engine/$rule/+components/outline-card";
+} from "../../../outline-card";
 
 export default function NextWordsLimit() {
   const nextWordsLimit = useRuleEditorStore(

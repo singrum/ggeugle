@@ -10,7 +10,7 @@ import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../routes/engine/$rule/+components/outline-card";
+} from "../../../outline-card";
 
 export default function Pos() {
   const pos = useRuleEditorStore(
@@ -24,7 +24,7 @@ export default function Pos() {
         .dict,
   );
   const storeApi = useRuleEditorStoreApi();
-  
+
   return (
     <OutlineCardSection>
       <OutlineCardHeader>

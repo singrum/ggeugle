@@ -8,11 +8,11 @@ import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../routes/engine/$rule/+components/outline-card";
+} from "../../../outline-card";
 
 export default function AddedWords() {
   const value = useRuleEditorStore(
-    (e) => e.localRuleForm.content.wordRule.addedWords,
+    (e) => e.localRuleForm.content.postprocessing.addedWords,
   );
   const storeApi = useRuleEditorStoreApi();
   return (
@@ -22,11 +22,12 @@ export default function AddedWords() {
       </OutlineCardHeader>
       <OutlineCardContent className="flex flex-wrap gap-2">
         <Textarea
-          placeholder="추가할 단어들을 입력하세요. (공백으로 구분)"
           value={value}
+          placeholder="추가할 단어들을 입력하세요. (공백으로 구분)"
           onChange={(e) =>
             storeApi.setState((state) => {
-              state.localRuleForm.content.wordRule.addedWords = e.target.value;
+              state.localRuleForm.content.postprocessing.addedWords =
+                e.target.value;
             })
           }
         />

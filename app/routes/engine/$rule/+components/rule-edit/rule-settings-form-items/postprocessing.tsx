@@ -1,6 +1,7 @@
 import { Separator } from "~/components/ui/separator";
 import { useRuleEditorStore } from "~/routes/engine/$rule/+components/rule-edit/rule-editor-store-provider";
-import { OutlineCard } from "../../../routes/engine/$rule/+components/outline-card";
+
+import { OutlineCard } from "../../outline-card";
 import Manner from "./postprocessing/manner";
 import NextWordsLimit from "./postprocessing/next-words-limit";
 import PostAddedWords from "./postprocessing/post-added-words";

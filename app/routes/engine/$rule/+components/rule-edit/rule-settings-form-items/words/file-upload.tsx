@@ -13,7 +13,7 @@ import {
   OutlineCardContent,
   OutlineCardHeader,
   OutlineCardSection,
-} from "../../../../routes/engine/$rule/+components/outline-card";
+} from "../../../outline-card";
 function getWordsFromUploadedDict(text: string) {
   return text.split(/\s+/).map((x) => x.trim());
 }
