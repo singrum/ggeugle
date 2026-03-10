@@ -51,17 +51,6 @@ export const meta: MetaFunction = () => {
       property: "og:url",
       content: "https://engine.ikki.app",
     },
-    {
-      name: "theme-color",
-      content: "#fafafa",
-      media: "(prefers-color-scheme: light)",
-    },
-    {
-      name: "theme-color",
-      content: "#171717",
-      media: "(prefers-color-scheme: dark)",
-    },
-
     ...metaTitle("끝말잇기 엔진"),
     ...metaDescription(
       "끝말잇기 엔진은 끝말잇기 단어 검색과 끝말잇기 게임 분석을 위한 웹 서비스입니다. (구 끄글)",
