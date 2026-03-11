@@ -20,7 +20,7 @@ export default function GameButton({ id }: { id: string }) {
   return (
     <Card
       className={cn(
-        "dark:bg-muted/50 relative w-full gap-0 border bg-transparent p-0 transition-shadow hover:shadow-md dark:border-0",
+        "dark:bg-muted/50 relative w-full gap-0 border bg-transparent p-0 transition-shadow hover:shadow-md",
         {
           "ring-primary ring-2": selectedGame === id,
         },

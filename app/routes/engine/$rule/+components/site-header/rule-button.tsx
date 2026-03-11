@@ -17,9 +17,11 @@ export function RuleButton({ loaderData }: { loaderData: LoaderData }) {
     <div className="flex min-w-0 flex-1 items-center text-nowrap">
       <RuleEditSheetTrigger ruleId={ruleId} asChild>
         <Button
-          className={cn("max-w-full px-3", { "opacity-50": loading })}
+          className={cn("max-w-full", {
+            "opacity-50": loading,
+          })}
           variant={"outline"}
-          size={isMobile ? "sm" : "default"}
+          size={"default"}
         >
           <ArticleIcon
             className="size-5 shrink-0"
