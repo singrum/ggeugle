@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -9,7 +10,7 @@ import {
   useNavigation,
   type MetaFunction,
 } from "react-router";
-
+import LoadingBar from "react-top-loading-bar";
 import type { Route } from "./+types/root";
 import "./app.css";
 import { ThemeProvider } from "./components/theme-provider";
@@ -61,7 +62,15 @@ export const meta: MetaFunction = () => {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const navigation = useNavigation();
-  const isLoading = navigation.state === "loading";
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    if (navigation.state === "loading") {
+      setProgress(40); // 로딩 시작 시 40%로 이동
+    } else if (navigation.state === "idle") {
+      setProgress(100); // 완료 시 100%
+    }
+  }, [navigation.state]);
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
@@ -94,9 +103,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          {isLoading && (
-            <div className="fixed top-0 left-0 z-200 h-1 w-full bg-primary animate-pulse" />
-          )}
+          <LoadingBar
+            color="var(--foreground)" // 원하셨던 foreground 색상
+            progress={progress}
+            onLoaderFinished={() => setProgress(0)}
+            height={3}
+            waitingTime={400}
+            shadow={false}
+          />
           {children}
         </ThemeProvider>
         <ScrollRestoration />
