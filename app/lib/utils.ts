@@ -244,6 +244,33 @@ export function compareEdge(a: [string, string], b: [string, string]) {
   return a[0].localeCompare(b[0]) || a[1].localeCompare(b[1]);
 }
 
+export function getStaticLoaderDataById(id: string): LoaderData | null {
+  const sampleRule = sampleRules.find((rule) => rule.id === id);
+  if (sampleRule) {
+    return {
+      title: sampleRule.metadata.title,
+      isSample: true,
+      id,
+      updatedAt: sampleRule.metadata.updatedAt,
+      color: sampleRule.metadata.color,
+    };
+  }
+  const kkutuRule = getKkutuRule(id);
+  if (kkutuRule) {
+    const kkutuRuleForm = getKkutuRuleForm(kkutuRule);
+    if (kkutuRuleForm) {
+      return {
+        title: kkutuRuleForm.metadata.title,
+        isSample: true,
+        id,
+        updatedAt: kkutuRuleForm.metadata.updatedAt,
+        color: kkutuRuleForm.metadata.color,
+      };
+    }
+  }
+  return null;
+}
+
 export async function getLoaderDataById(id: string): Promise<LoaderData> {
   const sampleRule = sampleRules.find((rule) => rule.id === id);
   // 샘플 룰에서 검색

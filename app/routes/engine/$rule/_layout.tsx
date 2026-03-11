@@ -14,6 +14,7 @@ import { storage } from "~/lib/storage/storage";
 import {
   getLoaderDataById,
   getRuleFormById,
+  getStaticLoaderDataById,
   mergedMeta,
   metaDescription,
   metaTitle,
@@ -30,13 +31,17 @@ export const meta: MetaFunction<typeof clientLoader> = ({
   location,
   loaderData,
   matches,
+  params: { rule: ruleId },
 }) => {
   const { pathname } = location;
   const lastPath = pathname.split("/").at(-1);
   const navTitle = navInfo.find((nav) => nav.key === lastPath)?.title;
 
-  const title =
-    (loaderData as { data: LoaderData | null })?.data?.title ?? "로딩 중";
+  let title = getStaticLoaderDataById(ruleId!)?.title;
+  if (!title) {
+    title =
+      (loaderData as { data: LoaderData | null })?.data?.title ?? "로딩 중";
+  }
 
   return mergedMeta(matches, [
     ...metaTitle(`${title} - ${navTitle ?? ""} | 끝말잇기 엔진`),
