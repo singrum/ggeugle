@@ -15,6 +15,7 @@ import {
   getLoaderDataById,
   getRuleFormById,
   mergedMeta,
+  metaDescription,
   metaTitle,
 } from "~/lib/utils";
 import { AppSidebar } from "~/routes/engine/$rule/+components/nav-sidebar/app-sidebar";
@@ -39,6 +40,9 @@ export const meta: MetaFunction<typeof clientLoader> = ({
 
   return mergedMeta(matches, [
     ...metaTitle(`${title} - ${navTitle ?? ""} | 끝말잇기 엔진`),
+    ...metaDescription(
+      `끝말잇기 엔진에서 ${lastPath !== "game" ? `${title} 단어를 검색하고, 전략을 분석해보세요.` : `AI와 ${title} 끝말잇기를 즐겨보세요.`}`,
+    ),
   ]);
 };
 
