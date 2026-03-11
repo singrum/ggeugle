@@ -74,7 +74,7 @@ export const sampleRules: RuleForm[] = [
     },
   },
   {
-    id: "넯룰",
+    id: "넶룰",
     metadata: {
       title: "넶룰",
       updatedAt: 0,
