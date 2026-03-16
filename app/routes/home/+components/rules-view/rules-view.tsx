@@ -55,15 +55,7 @@ function RulesViewInner({ children }: { children?: React.ReactNode }) {
             <SheetTrigger asChild>
               <button className="hidden" />
             </SheetTrigger>
-            <SheetContent
-              onPointerDownOutside={(e) => {
-                // 클릭된 요소가 SelectContent 내부에 있는지 확인
-                const target = e.target as HTMLElement;
-                if (target?.closest("[data-radix-select-content]")) {
-                  e.preventDefault();
-                }
-              }}
-            >
+            <SheetContent>
               <SheetHeader className="hidden">
                 <SheetTitle className="hidden" />
               </SheetHeader>
