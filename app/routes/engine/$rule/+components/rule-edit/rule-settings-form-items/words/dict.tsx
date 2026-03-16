@@ -30,9 +30,10 @@ export default function Dict() {
       <OutlineCardContent>
         <Select
           value={`${value}`}
+          
           onValueChange={(e: string) => {
             const num = Number(e);
-            if (num < dicts.length) {
+            if (num < dicts.length) { 
               storeApi.setState((state) => {
                 state.localRuleForm.content.wordRule.words = {
                   type: "selected",

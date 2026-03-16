@@ -11,7 +11,16 @@ export default function RuleEditSheetTrigger({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger {...props} />
-      <SheetContent className="gap-0">
+      <SheetContent
+        className="gap-0"
+        onPointerDownOutside={(e) => {
+          // 클릭된 요소가 SelectContent 내부에 있는지 확인
+          const target = e.target as HTMLElement;
+          if (target?.closest("[data-radix-select-content]")) {
+            e.preventDefault();
+          }
+        }}
+      >
         <RuleEditForm ruleId={ruleId} />
       </SheetContent>
     </Sheet>
