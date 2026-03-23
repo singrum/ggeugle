@@ -1,6 +1,7 @@
 export default function IkkiLogo({ ...props }: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
+      role="img"
       width="1000"
       height="320"
       viewBox="0 0 1000 320"
@@ -8,6 +9,7 @@ export default function IkkiLogo({ ...props }: React.SVGProps<SVGSVGElement>) {
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
+      <title id="svgTitle">이끼 로고</title>
       <rect x="355" width="80" height="320" rx="40" fill="currentColor" />
       <rect x="920" width="80" height="320" rx="40" fill="currentColor" />
       <path
