@@ -26,11 +26,7 @@ export function HydrateFallback() {
     <RulesView isSample={false} rules={[]}>
       <RulesViewHeader>
         <RulesViewTitle>보관함</RulesViewTitle>
-        <RulesViewDescription>
-          이 기기에 저장된 룰 목록
-          <br />
-          기기의 용량을 차지하므로 필요 없는 룰은 삭제하는 것을 권장드립니다.
-        </RulesViewDescription>
+        <RulesViewDescription>이 기기에 저장된 룰 목록</RulesViewDescription>
       </RulesViewHeader>
       <RulesViewContent loading={true} />
     </RulesView>
@@ -44,11 +40,7 @@ export default function StorageIndex() {
     <RulesView isSample={false} rules={rules}>
       <RulesViewHeader>
         <RulesViewTitle>보관함</RulesViewTitle>
-        <RulesViewDescription>
-          이 기기에 저장된 룰 목록
-          <br />
-          기기의 용량을 차지하므로 필요 없는 룰은 삭제하는 것을 권장드립니다.
-        </RulesViewDescription>
+        <RulesViewDescription>이 기기에 저장된 룰 목록</RulesViewDescription>
       </RulesViewHeader>
       <RulesViewContent />
     </RulesView>
