@@ -1,4 +1,3 @@
-import { ArticleIcon } from "@phosphor-icons/react/dist/ssr";
 import { Loader2, Pencil } from "lucide-react";
 import { colorMap } from "~/constants/color";
 import { useIsMobile } from "~/hooks/use-mobile";
@@ -6,6 +5,7 @@ import { cn } from "~/lib/utils";
 import { useWcStore } from "~/stores/wc-store-provider";
 import { Button } from "../../../../../components/ui/button";
 
+import { CircleIcon } from "@phosphor-icons/react";
 import type { LoaderData } from "~/types/rule";
 import RuleEditSheetTrigger from "../rule-edit/rule-edit-sheet-trigger";
 
@@ -23,11 +23,13 @@ export function RuleButton({ loaderData }: { loaderData: LoaderData }) {
           variant={"outline"}
           size={"default"}
         >
-          <ArticleIcon
-            className="size-5 shrink-0"
-            weight="fill"
-            style={{ color: colorMap[color] }}
-          />
+          <div className="flex items-center justify-center size-4">
+            <CircleIcon
+              className="size-3 shrink-0"
+              weight="fill"
+              style={{ color: colorMap[color] }}
+            />
+          </div>
 
           <div className="no-scrollbar flex flex-1 items-center gap-3 overflow-auto">
             <div>{ruleTitle}</div>

@@ -1,4 +1,4 @@
-import { ArticleIcon } from "@phosphor-icons/react";
+import { CircleIcon } from "@phosphor-icons/react";
 import { Copy, MoreVertical, Pencil, Trash2 } from "lucide-react";
 import { Link, useRevalidator } from "react-router";
 import { Button } from "~/components/ui/button";
@@ -44,11 +44,13 @@ export default function RuleViewButton({
           to={`/engine/${encodeURIComponent(id)}`}
           className="flex items-center gap-2 w-full h-full py-4 px-3 pr-9 "
         >
-          <ArticleIcon
-            className="size-5 shrink-0"
-            weight="fill"
-            style={{ color: colorMap[color] }}
-          />
+          <div className="flex items-center justify-center size-5">
+            <CircleIcon
+              className="size-3 shrink-0"
+              weight="fill"
+              style={{ color: colorMap[color] }}
+            />
+          </div>
           <span className="truncate flex-1 font-medium text-sm">{title}</span>
         </Link>
         <DropdownMenu>
