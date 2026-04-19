@@ -238,22 +238,6 @@ function InfoToolbarContent() {
           </Link>
         </DropdownMenuItem>
       ))}
-      <DropdownMenuSub>
-        <DropdownMenuSubTrigger>구버전</DropdownMenuSubTrigger>
-        <DropdownMenuPortal>
-          <DropdownMenuSubContent>
-            <DropdownMenuGroup>
-              {previousItems.map(({ title, url }) => (
-                <DropdownMenuItem key={title} asChild>
-                  <Link to={url} target="_blank" rel="noopener noreferrer">
-                    {title}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuPortal>
-      </DropdownMenuSub>
     </DropdownMenuGroup>
   );
 }
