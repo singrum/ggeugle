@@ -20,7 +20,7 @@ import StrategySearch from "~/routes/engine/$rule/search/+components/search-resu
 import StrategyTree from "~/routes/engine/$rule/search/+components/search-result/strategy-tree/strategy-tree";
 import WordList from "~/routes/engine/$rule/search/+components/word-table/word-list";
 import WordsTable from "~/routes/engine/$rule/search/+components/word-table/word-table";
-import type { SearchInputType } from "~/types/search";
+import type { PrecInfo, SearchInputType } from "~/types/search";
 
 export const charMenuInfo = [
   { title: "승리", key: "win" },
@@ -118,7 +118,7 @@ export const downloadActionData: {
   title: string;
   action: {
     getJson?: (solver: WordSolver, view: NodePos) => string;
-    getText?: (solver: WordSolver, view: NodePos) => string;
+    getText?: (solver: WordSolver, view: NodePos, prec: PrecInfo) => string;
   };
 }[][] = [
   [
@@ -305,6 +305,16 @@ export const downloadActionData: {
             null,
             2,
           );
+        },
+      },
+    },
+  ],
+  [
+    {
+      title: "이끼 자동완성 데이터",
+      action: {
+        getText: (solver: WordSolver, view: NodePos, prec: PrecInfo) => {
+          return solver.getIkkiWordsFile(prec);
         },
       },
     },

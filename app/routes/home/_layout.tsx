@@ -16,7 +16,6 @@ export default function HomeLayout() {
         <Toaster position="top-right" />
         <MobileHeader />
         <Outlet />
-
         <MobileNav />
       </div>
     </div>

@@ -13,8 +13,10 @@ import {
 import LoadingBar from "react-top-loading-bar";
 import type { Route } from "./+types/root";
 import "./app.css";
+import IkkiAlert from "./components/ikki-alert";
 import { ThemeProvider } from "./components/theme-provider";
 import { metaDescription, metaImage, metaTitle } from "./lib/utils";
+import { IkkiAlertStoreProvider } from "./stores/ikki-alert-store";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -103,15 +105,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
           enableSystem
           disableTransitionOnChange
         >
-          <LoadingBar
-            color="var(--foreground)" // 원하셨던 foreground 색상
-            progress={progress}
-            onLoaderFinished={() => setProgress(0)}
-            height={3}
-            waitingTime={400}
-            shadow={false}
-          />
-          {children}
+          <IkkiAlertStoreProvider>
+            <LoadingBar
+              color="var(--foreground)" // 원하셨던 foreground 색상
+              progress={progress}
+              onLoaderFinished={() => setProgress(0)}
+              height={3}
+              waitingTime={400}
+              shadow={false}
+            />
+            {children}
+            <IkkiAlert />
+          </IkkiAlertStoreProvider>
         </ThemeProvider>
         <ScrollRestoration />
         <Scripts />

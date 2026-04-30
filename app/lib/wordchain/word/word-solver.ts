@@ -1,7 +1,13 @@
 import { range } from "lodash-es";
-import { compareEdge } from "~/lib/utils";
+import { compareEdge, getRegex } from "~/lib/utils";
 import type { ChangeFunc } from "~/types/rule";
-import type { MoveClass, MoveRow, MoveType, WordsCard } from "~/types/search";
+import type {
+  MoveClass,
+  MoveRow,
+  MoveType,
+  PrecInfo,
+  WordsCard,
+} from "~/types/search";
 import { EdgeCounter } from "../classes/edge-counter";
 import { EdgeMap } from "../classes/edge-map";
 import { hasDepthMap, moveTypeToWordVariant } from "../constants";
@@ -335,5 +341,49 @@ export class WordSolver {
         ) as [string, string],
     );
     return wordPairs.sort((a, b) => a[0].localeCompare(b[0]));
+  }
+  getIkkiWordsFile(prec: PrecInfo): string {
+    const data = [["word", "sort_key", "rule"]];
+
+    const regex = getRegex(`^.*$`);
+    const movesMap = this.wordMap.getMoves((word: string) => {
+      if (regex === null) {
+        return false;
+      }
+      return regex.test(word);
+    });
+
+    const moveClass = this.graphSolver.classifyMoves(movesMap);
+    const cards = this.moveClassToWordsCards(moveClass);
+    const words: string[] = [];
+    const routes: string[] = [];
+    for (const card of cards) {
+      const rows = card.moveRows;
+
+      if (card.moveType === 1 || card.moveType === 4) {
+        rows.sort((a, b) =>
+          this!.graphSolver.graphs
+            .getGraph("route")
+            .compareNextMoveNum(a.move, b.move, prec),
+        );
+      }
+      for (const moveRow of rows) {
+        for (const word of moveRow.words) {
+          if (card.moveType === 1) {
+            routes.push(word);
+          }
+          words.push(word);
+        }
+      }
+    }
+    words.forEach((word, sortKey) => {
+      data.push([word, sortKey.toString(), "2"]);
+    });
+
+    console.log(data.find((e) => routes.includes(e[0])));
+    const csvContent = data
+      .map((row) => row.map((field) => `"${field}"`).join(","))
+      .join("\n");
+    return csvContent;
   }
 }

@@ -16,6 +16,7 @@ import {
 export default function Download({ solver }: { solver: WordSolver }) {
   const view = useWcStore((e) => e.view);
   const isMobile = useIsMobile();
+  const prec = useWcStore((e) => e.prec);
   return (
     <div className="space-y-4">
       {downloadActionData.map((group, i) => (
@@ -43,7 +44,10 @@ export default function Download({ solver }: { solver: WordSolver }) {
                     <DownloadActionButton
                       className={cn({ "rounded-full": isMobile })}
                       onClick={() => {
-                        downloadText(title, action.getText!(solver, view));
+                        downloadText(
+                          title,
+                          action.getText!(solver, view, prec),
+                        );
                       }}
                     >
                       <FileText />

@@ -11,7 +11,7 @@ const sidebarItems = [
 export default function Nav() {
   const { pathname } = useLocation();
   return (
-    <div className="space-y-2 w-full flex-1 p-4 pt-0">
+    <div className="space-y-2 w-full p-4 pt-0">
       {sidebarItems.map((item) => {
         const isExactMatch = matchPath(
           { path: item.path, end: false },
