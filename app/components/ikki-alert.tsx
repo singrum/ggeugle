@@ -20,7 +20,7 @@ export default function IkkiAlert() {
           <div className="flex justify-between w-full">
             <Button size="lg" asChild>
               <a
-                href="https://engine.ikki.app"
+                href="https://ikki.app"
                 target="_blank"
                 rel="noopener noreferrer"
               >
