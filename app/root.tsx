@@ -114,8 +114,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
               waitingTime={400}
               shadow={false}
             />
-            {children}
             <IkkiAlert />
+            {children}
           </IkkiAlertStoreProvider>
         </ThemeProvider>
         <ScrollRestoration />

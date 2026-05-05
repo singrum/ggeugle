@@ -8,6 +8,7 @@ import { createStore } from "zustand/vanilla";
 
 export type IkkiAlertState = {
   open: boolean;
+  updatedAt: number | null;
   setOpen: (open: boolean) => void;
 };
 
@@ -20,13 +21,20 @@ export const createIkkiAlertStore = () => {
     persist(
       (set, get) => ({
         open: true,
-        setOpen: (open: boolean) => set({ open }),
+        updatedAt: null,
+        setOpen: (open: boolean) =>
+          set({
+            open,
+            updatedAt: open ? null : Date.now(),
+          }),
       }),
       {
         name: "ggeugle-ikki-alert-store",
+        version: 2,
         storage: createJSONStorage(() => localStorage),
         partialize: (state) => ({
           open: state.open,
+          updatedAt: state.updatedAt,
         }),
       },
     ),
