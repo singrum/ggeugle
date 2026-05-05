@@ -9,7 +9,7 @@
 아래 명령어로 로컬에서 프로젝트를 바로 실행할 수 있습니다.
 
 ```bash
-git clone https://github.com/singrum/ggeugle.git
+git clone -b dev https://github.com/singrum/ggeugle.git
 cd ggeugle
 npm install
 npm run dev
@@ -24,14 +24,12 @@ npm run dev
 - 워커 쓰레드 : Comlink
 - 배포 : Vercel
 
-
 ## 주요 기능
 
 - 승패에 따른 음절 및 단어 분류
 - 고전적 인공지능 기반의 필승 전략 탐색 알고리즘 적용
 - 컴퓨터(AI)와의 실시간 대결 인터페이스
 - 게임 규칙 맞춤 설정 지원
-
 
 ## 탐색 성능 벤치마크
 
