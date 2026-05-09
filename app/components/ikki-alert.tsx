@@ -37,7 +37,8 @@ export default function IkkiAlert() {
       rel="noopener noreferrer"
     >
       <div className="flex relative h-full w-full flex-col">
-        <div className="flex justify-center items-center pb-6 pt-8 flex-col gap-6">
+        <div className="flex justify-center items-center pb-6 pt-8 flex-col gap-4">
+          <div className=" text-sm">🎁 출시 기념 이벤트 중</div>
           <div className="flex items-center gap-1">
             일일 끝말잇기 하러 가기 <ChevronRight className="size-4" />
           </div>
