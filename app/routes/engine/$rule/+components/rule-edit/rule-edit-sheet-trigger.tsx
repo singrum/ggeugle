@@ -1,15 +1,17 @@
 import { Sheet, SheetContent, SheetTrigger } from "~/components/ui/sheet";
 
-import { useState } from "react";
+import { useSearchParams } from "react-router";
 import { RuleEditForm } from "./rule-edit-form/rule-edit-form";
 
 export default function RuleEditSheetTrigger({
   ruleId,
   ...props
 }: { ruleId: string } & React.ComponentProps<typeof SheetTrigger>) {
-  const [open, setOpen] = useState(false);
+  const [searchParams] = useSearchParams();
+  const defaultOpen = searchParams.get("edit") || "";
+
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet defaultOpen={!!defaultOpen}>
       <SheetTrigger {...props} />
       <SheetContent className="gap-0">
         <RuleEditForm ruleId={ruleId} />
