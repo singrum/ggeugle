@@ -1,8 +1,7 @@
-import { Plus, Slash } from "lucide-react";
+import { Slash } from "lucide-react";
 import { Link } from "react-router";
-import { Button } from "~/components/ui/button";
-import AddRuleButton from "../add-rule-button";
 import IkkiLogo from "../ikki-logo";
+import MoreTrigger from "../more-trigger";
 
 export default function MobileHeader() {
   return (
@@ -20,11 +19,7 @@ export default function MobileHeader() {
           </Link>
         </div>
       </div>
-      <AddRuleButton asChild>
-        <Button variant="ghost" size="icon-lg">
-          <Plus className="stroke-foreground size-5" />
-        </Button>
-      </AddRuleButton>
+      <MoreTrigger />
     </header>
   );
 }

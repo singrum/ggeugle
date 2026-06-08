@@ -18,15 +18,7 @@ export default function Header() {
           <span className="text-xl font-extrabold rounded-full p-2">엔진</span>
         </Link>
       </div>
-      <AddRuleButton asChild>
-        <Button className="w-full justify-start">
-          <PlusCircleIcon
-            weight="fill"
-            className="stroke-primary-foreground size-5 mr-2"
-          />
-          룰 추가
-        </Button>
-      </AddRuleButton>
+      
     </header>
   );
 }

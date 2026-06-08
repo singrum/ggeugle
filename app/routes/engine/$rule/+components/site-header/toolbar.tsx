@@ -115,7 +115,7 @@ export function PosSelect() {
   );
 }
 
-function AlgorithmToolbarContent() {
+export function AlgorithmToolbarContent() {
   const setFlow = useWcStore((e) => e.setFlow);
   const flow = useWcStore((e) => e.flow);
 
@@ -161,20 +161,26 @@ function AlgorithmToolbarContent() {
   );
 }
 
-function SettingsToolbarContent() {
+export function SettingsToolbarContent({
+  showPreferenceSettings,
+}: {
+  showPreferenceSettings?: boolean;
+}) {
   const { theme, setTheme } = useTheme();
 
   return (
     <DropdownMenuGroup>
       <DropdownMenuLabel>설정</DropdownMenuLabel>
 
-      <DropdownMenuItem
-        onClick={() =>
-          document.getElementById("preference-settings-trigger")?.click()
-        }
-      >
-        환경 설정
-      </DropdownMenuItem>
+      {showPreferenceSettings && (
+        <DropdownMenuItem
+          onClick={() =>
+            document.getElementById("preference-settings-trigger")?.click()
+          }
+        >
+          환경 설정
+        </DropdownMenuItem>
+      )}
 
       <DropdownMenuSub>
         <DropdownMenuSubTrigger>테마</DropdownMenuSubTrigger>
@@ -195,7 +201,7 @@ function SettingsToolbarContent() {
     </DropdownMenuGroup>
   );
 }
-function HelpToolbarContent() {
+export function HelpToolbarContent() {
   const items = [
     { title: "지식", url: "/knowledge" },
     {
@@ -215,7 +221,7 @@ function HelpToolbarContent() {
   );
 }
 
-function InfoToolbarContent() {
+export function InfoToolbarContent() {
   const items = [
     { title: "이끼", url: "https://ikki.app" },
     { title: "깃허브", url: "https://github.com/singrum/ggeugle" },
@@ -223,10 +229,6 @@ function InfoToolbarContent() {
       title: "디스코드",
       url: "https://discord.gg/bkHgyajx89",
     },
-  ];
-  const previousItems = [
-    { title: "끝말잇기 엔진 v4", url: "https://v4.engine.ikki.app" },
-    { title: "끝말잇기 엔진 v3", url: "https://v3.engine.ikki.app" },
   ];
   return (
     <DropdownMenuGroup>
