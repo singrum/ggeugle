@@ -78,6 +78,33 @@ export const dicts: {
     activeCate: toObject(cates, [0, 0, 0, 0]),
     defaultCate: toObject(cates, [1, 1, 1, 1]),
   },
+  {
+    title: "끄투3 기초 사전",
+    urlFunction: () =>
+      `https://singrum.github.io/KoreanDict/kkutu3/kkutu3-기초사전`,
+    activePos: toObject(poses, [0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    defaultPos: toObject(poses, [1, 1, 1, 1, 1, 0, 1, 1, 0]),
+    activeCate: toObject(cates, [0, 0, 0, 0]),
+    defaultCate: toObject(cates, [1, 0, 0, 0]),
+  },
+  {
+    title: "끄투3 표준 사전",
+    urlFunction: () =>
+      `https://singrum.github.io/KoreanDict/kkutu3/kkutu3-표준사전`,
+    activePos: toObject(poses, [0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    defaultPos: toObject(poses, [1, 1, 1, 1, 1, 0, 1, 1, 0]),
+    activeCate: toObject(cates, [0, 0, 0, 0]),
+    defaultCate: toObject(cates, [1, 0, 0, 0]),
+  },
+  {
+    title: "끄투3 복합 사전",
+    urlFunction: () =>
+      `https://singrum.github.io/KoreanDict/kkutu3/kkutu3-복합사전`,
+    activePos: toObject(poses, [0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    defaultPos: toObject(poses, [1, 1, 1, 1, 1, 0, 1, 1, 0]),
+    activeCate: toObject(cates, [0, 0, 0, 0]),
+    defaultCate: toObject(cates, [1, 1, 1, 1]),
+  },
 ];
 
 export const kkutuInfo: {
