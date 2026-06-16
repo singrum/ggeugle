@@ -4,7 +4,7 @@ import { cates, dicts, poses } from "~/constants/rule";
 import type { WordRule } from "~/types/rule";
 
 async function fetchWords(url: string) {
-  const fetchOptions = { cache: "force-cache" as RequestCache };
+  const fetchOptions = { cache: "no-store" as RequestCache };
   const response = await fetch(url, fetchOptions);
 
   const text = await response.text();
