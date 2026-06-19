@@ -388,6 +388,7 @@ export const sampleRules: RuleForm[] = [
       },
     },
   },
+
   {
     id: "채린쿵따룰",
     metadata: {
@@ -424,11 +425,46 @@ export const sampleRules: RuleForm[] = [
     },
   },
   {
+    id: "우샘룰",
+    metadata: {
+      title: "우샘룰",
+      updatedAt: 0,
+      color: "green",
+    },
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 2,
+            pos: toObject(poses, [1, 0, 0, 0, 0, 0, 0, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
+        },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
+      },
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
+    },
+  },
+  {
     id: "표샘룰",
     metadata: {
       title: "표샘룰",
       updatedAt: 0,
-      color: "green",
+      color: "emerald",
     },
     content: {
       wordRule: {
@@ -463,7 +499,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "두샘룰",
       updatedAt: 0,
-      color: "emerald",
+      color: "teal",
     },
     content: {
       wordRule: {
@@ -498,7 +534,7 @@ export const sampleRules: RuleForm[] = [
     metadata: {
       title: "옛두샘룰",
       updatedAt: 0,
-      color: "teal",
+      color: "cyan",
     },
     content: {
       wordRule: {
