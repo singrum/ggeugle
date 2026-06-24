@@ -13,4 +13,4 @@ jobs:
           git clone -b dev https://github.com/singrum/ggeugle.git source_repo
           cd source_repo
           git remote add target https://singrum2:${{ secrets.SYNC_TOKEN }}@github.com/singrum2/ggeugle-rr-deploy.git
-          git push target dev
+          git push target dev --force
