@@ -602,7 +602,7 @@ export class BipartiteDiGraph {
 
     // 3
     for (const i of [0, 1]) {
-      const [, end] = moves[i];
+      const [first, end] = moves[i];
       const evaluate = () => {
         const getNextNum = () => {
           const nextMoves = this.getMovesFromNode(end, 0, 0);
@@ -628,8 +628,13 @@ export class BipartiteDiGraph {
           const nextMoves = this.getMovesFromNode(end, 0, 0);
           return nextMoves.length;
         };
+
         if (precRule === 0) {
-          return getNextNum() * 1000 - getPrevNodeNum();
+          return (
+            getNextNum() * 1000 -
+            getPrevNodeNum() -
+            (isTrapSituation(this, first, end) ? 1000000 : 0)
+          );
         } else if (precRule === 1) {
           return getPrevNum();
         } else if (precRule === 2) {
@@ -690,4 +695,27 @@ export class BipartiteDiGraph {
 
 export function getOppos(pos: NodePos): NodePos {
   return (1 - pos) as NodePos;
+}
+
+function isTrapSituation(
+  g: BipartiteDiGraph,
+  first: NodeName,
+  last: NodeName,
+): boolean {
+  if (first === "__none") {
+    return false;
+  }
+  if (g.successors(1, first).length === 2) {
+    const successors = g.successors(1, first);
+    const edge1 = [first, successors[0]];
+    const edge2 = [first, successors[1]];
+    if (
+      g.getEdgeNum(edge1[0], edge1[1]) === 1 &&
+      g.getEdgeNum(edge2[0], edge2[1]) === 1 &&
+      g.hasEdge(0, last, first)
+    ) {
+      return true;
+    }
+  }
+  return false;
 }
