@@ -254,6 +254,38 @@ function forceRevStd_rev(char: string) {
   else return revStdRevChan;
 }
 
+function roblox(char: string) {
+  const [cho, jung, jong] = disassemble(char);
+  if (cho === "ㄹ" && ["ㅑ", "ㅕ", "ㅛ", "ㅠ", "ㅣ", "ㅖ"].includes(jung!))
+    return [char, assemble(["ㅇ", jung!, jong!])];
+  else if (cho === "ㄹ" && ["ㅏ", "ㅐ", "ㅗ", "ㅜ", "ㅡ", "ㅚ"].includes(jung!))
+    return [char, assemble(["ㄴ", jung!, jong!])];
+  else if (cho === "ㄴ" && ["ㅕ", "ㅛ", "ㅠ", "ㅣ"].includes(jung!))
+    return [char, assemble(["ㅇ", jung!, jong!])];
+  else if (cho === "ㄹ") return [char, assemble(["ㅇ", jung!, jong!])];
+  else return [char];
+}
+
+function roblox_rev(char: string) {
+  const [cho, jung, jong] = disassemble(char);
+  if (cho === "ㅇ" && ["ㅑ", "ㅖ"].includes(jung!))
+    return [char, assemble(["ㄹ", jung!, jong!])];
+  else if (cho === "ㄴ" && ["ㅏ", "ㅐ", "ㅗ", "ㅜ", "ㅡ", "ㅚ"].includes(jung!))
+    return [char, assemble(["ㄹ", jung!, jong!])];
+  else if (cho === "ㅇ" && ["ㅕ", "ㅛ", "ㅠ", "ㅣ"].includes(jung!))
+    return [
+      char,
+      assemble(["ㄴ", jung!, jong!]),
+      assemble(["ㄹ", jung!, jong!]),
+    ];
+  else if (
+    cho === "ㅇ" &&
+    !["ㅏ", "ㅐ", "ㅗ", "ㅜ", "ㅡ", "ㅚ"].includes(jung!)
+  )
+    return [char, assemble(["ㄹ", jung!, jong!])];
+  else return [char];
+}
+
 export const sampleChangeFuncs = [
   // 0 : 없음
   {
@@ -305,6 +337,11 @@ export const sampleChangeFuncs = [
     forward: dpRule,
     backward: dpRule_rev,
   },
+  // 10 : 로블록스룰
+  {
+    forward: roblox,
+    backward: roblox_rev,
+  },
 ];
 
 export const sampleChangeFuncInfo = [
@@ -333,5 +370,8 @@ export const sampleChangeFuncInfo = [
   },
   {
     title: "초성종성자유두음법칙",
+  },
+  {
+    title: "로블록스두음법칙",
   },
 ];

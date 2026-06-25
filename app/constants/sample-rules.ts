@@ -564,4 +564,39 @@ export const sampleRules: RuleForm[] = [
       },
     },
   },
+  {
+    id: "로블록스 한국 끝말잇기",
+    metadata: {
+      title: "로블록스 한국 끝말잇기",
+      updatedAt: 0,
+      color: "sky",
+    },
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 2,
+            pos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 0, 0]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
+        },
+        regexFilter: ".*",
+        removedWords: "윰라대왕 윰차",
+        addedWords: "",
+      },
+      wordConnectionRule: {
+        changeFuncIdx: 10,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 0 },
+        addedWords: "",
+      },
+    },
+  },
 ];
