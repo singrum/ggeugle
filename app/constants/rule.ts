@@ -105,6 +105,15 @@ export const dicts: {
     activeCate: toObject(cates, [0, 0, 0, 0]),
     defaultCate: toObject(cates, [1, 1, 1, 1]),
   },
+  {
+    title: "로블록스 한국 끝말잇기 사전",
+    urlFunction: () =>
+      `https://singrum.github.io/KoreanDict/roblox`,
+    activePos: toObject(poses, [0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    defaultPos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 1, 1]),
+    activeCate: toObject(cates, [0, 0, 0, 0]),
+    defaultCate: toObject(cates, [1, 1, 1, 1]),
+  },
 ];
 
 export const kkutuInfo: {

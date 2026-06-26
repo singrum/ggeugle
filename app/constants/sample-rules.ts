@@ -576,8 +576,8 @@ export const sampleRules: RuleForm[] = [
         words: {
           type: "selected",
           option: {
-            dict: 2,
-            pos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 0, 0]),
+            dict: 9,
+            pos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 1, 1]),
             cate: toObject(cates, [1, 1, 1, 1]),
           },
         },
