@@ -582,7 +582,7 @@ export const sampleRules: RuleForm[] = [
           },
         },
         regexFilter: ".*",
-        removedWords: "윰라대왕 윰차",
+        removedWords: "",
         addedWords: "",
       },
       wordConnectionRule: {
