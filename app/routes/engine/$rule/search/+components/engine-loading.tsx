@@ -1,8 +1,9 @@
 import { Link } from "react-router";
 import { Card } from "~/components/ui/card";
-import IkkiLogo from "~/routes/home/+components/ikki-logo";
 import MobileNav from "../../+components/mobile-nav";
 import { AppSidebar } from "../../+components/nav-sidebar/app-sidebar";
+import { Button } from "~/components/ui/button";
+import { ChevronLeft } from "lucide-react";
 
 export default function EngineLoading() {
   return (
@@ -10,9 +11,11 @@ export default function EngineLoading() {
       <div className="flex-1 min-h-0 flex flex-col lg:relative ">
         <header className="shrink-0 flex items-center justify-between h-14 pl-4 lg:pl-6 pr-2 bg-sidebar border-b lg:border-0">
           <div className="flex items-center gap-4 md:gap-6 min-w-0 ">
-            <Link to="/home" className="-m-6 p-6">
-              <IkkiLogo className="h-3.5 lg:h-4 w-auto " />
-            </Link>
+            <Button asChild variant="ghost" size="icon-lg">
+              <Link to="/home" className="-mx-3 lg:-mx-4">
+                <ChevronLeft className="size-5 " />
+              </Link>
+            </Button>
           </div>
         </header>
         <div className="flex-1 flex min-h-auto lg:min-h-0 flex-col lg:flex-row">
