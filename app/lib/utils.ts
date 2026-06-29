@@ -304,7 +304,7 @@ export async function getLoaderDataById(id: string): Promise<LoaderData> {
 
   if (kkutu3Rule) {
     const kkutu3RuleForm = getKkutu3RuleForm(kkutu3Rule);
-    console.log(kkutu3RuleForm);
+
     if (kkutu3RuleForm) {
       return {
         title: kkutu3RuleForm.metadata.title,
