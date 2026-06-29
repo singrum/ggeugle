@@ -28,7 +28,7 @@ const toolbarInfo = [
   },
   {
     name: "설정",
-    content: <SettingsToolbarContent />,
+    content: <SettingsToolbarContent showPreferenceSettings={true} />,
   },
   {
     name: "도움말",
