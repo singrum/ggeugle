@@ -37,8 +37,8 @@ export default function Sample() {
         </div>
         <div className="col-span-2">
           <RulesViewHeader className="p-0 pb-6">
-            <RulesViewTitle>끄투 온라인 (끄투 3)</RulesViewTitle>
-            <RulesViewDescription>끄투 온라인 룰 설정</RulesViewDescription>
+            <RulesViewTitle>끄투 3 (끄투 온라인)</RulesViewTitle>
+            <RulesViewDescription>끄투 3 룰 설정</RulesViewDescription>
           </RulesViewHeader>
           <Kkutu3RuleSettings />
         </div>

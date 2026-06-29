@@ -120,7 +120,7 @@ function Kkutu3RuleSettingsInner() {
                 });
               }}
             />
-            <div>3 쿵쿵따</div>
+            <div>쿵쿵따</div>
           </Label>
         </div>
       </div>
