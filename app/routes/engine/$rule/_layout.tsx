@@ -58,6 +58,7 @@ export async function clientLoader({
 }): Promise<{ data: LoaderData }> {
   try {
     const data = await getLoaderDataById(params.rule);
+
     return { data };
   } catch (error) {
     throw redirect("/home");

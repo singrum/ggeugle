@@ -107,8 +107,7 @@ export const dicts: {
   },
   {
     title: "로블록스 한국 끝말잇기 사전",
-    urlFunction: () =>
-      `https://singrum.github.io/KoreanDict/roblox`,
+    urlFunction: () => `https://singrum.github.io/KoreanDict/roblox`,
     activePos: toObject(poses, [0, 0, 0, 0, 0, 0, 0, 0, 0]),
     defaultPos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 1, 1]),
     activeCate: toObject(cates, [0, 0, 0, 0]),
@@ -124,6 +123,14 @@ export const kkutuInfo: {
   gameType: ["끝말잇기", "쿵쿵따", "앞말잇기"],
   manner: ["노매너", "매너", "젠틀"],
   injeong: ["노인정", "어인정"],
+};
+
+export const kkutu3Info: {
+  gameType: string[];
+  dict: string[];
+} = {
+  gameType: ["끝말잇기", "앞말잇기"],
+  dict: ["기초 사전", "표준 사전", "복합 사전"],
 };
 
 export const flowInfo = [

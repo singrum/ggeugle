@@ -63,6 +63,12 @@ export type ChangeFunc = {
 };
 
 export type KkutuRule = { gameType: number; manner: number; injeong: boolean };
+export type Kkutu3Rule = {
+  gameType: number;
+  dict: number;
+  manner: boolean;
+  three: boolean;
+};
 
 export type LoaderData = {
   title: string;

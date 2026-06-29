@@ -3,12 +3,13 @@
 import { ChevronRight, X } from "lucide-react";
 import { useEffect } from "react";
 import { useIsMounted } from "~/hooks/use-is-mounted";
+
 import { useAlertStore } from "~/stores/alert-store";
 import { Button } from "./ui/button";
 
 const EXPIRE_TIME = 24 * 60 * 60 * 1000;
 
-export default function IkkiAlert() {
+export default function DiscordAlert() {
   const open = useAlertStore((state) => state.open);
   const updatedAt = useAlertStore((state) => state.updatedAt);
   const setOpen = useAlertStore((state) => state.setOpen);
@@ -31,16 +32,17 @@ export default function IkkiAlert() {
 
   return (
     <a
-      className="bg-[#302e2f] text-[#d9d9d6] font-semibold w-full z-49 fixed bottom-2 left-2 flex max-w-60 rounded-lg shadow-lg overflow-hidden"
-      href="https://ikki.app/daily"
+      className="bg-[#5865F2] text-[#E0E3FF] font-semibold w-full z-49 fixed bottom-2 left-2 flex max-w-60 rounded-lg shadow-lg overflow-hidden"
+      href="https://discord.gg/bkHgyajx89"
       target="_blank"
       rel="noopener noreferrer"
     >
       <div className="flex relative h-full w-full flex-col">
         <div className="flex justify-center items-center pb-6 pt-8 flex-col gap-4">
-          <div className=" text-sm">🎁 출시 기념 이벤트 중</div>
+          <div className=" text-sm">오류 제보 및 피드백</div>
           <div className="flex items-center gap-1">
-            일일 끝말잇기 하러 가기 <ChevronRight className="size-4" />
+            디스코드
+            <ChevronRight className="size-4" />
           </div>
         </div>
 

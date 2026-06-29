@@ -1,9 +1,9 @@
 import { clsx, type ClassValue } from "clsx";
 import { get, has, set } from "lodash-es";
 import { twMerge } from "tailwind-merge";
-import type { KkutuRule, LoaderData, RuleForm } from "~/types/rule";
+import type { Kkutu3Rule, KkutuRule, LoaderData, RuleForm } from "~/types/rule";
 
-import { cates, kkutuInfo, poses } from "~/constants/rule";
+import { cates, dicts, kkutu3Info, kkutuInfo, poses } from "~/constants/rule";
 import { sampleRules } from "~/constants/sample-rules";
 
 import type { MetaArgs, MetaDescriptor } from "react-router";
@@ -299,6 +299,23 @@ export async function getLoaderDataById(id: string): Promise<LoaderData> {
     }
   }
 
+  // 끄투3 룰에서 검색
+  const kkutu3Rule = getKkutu3Rule(id);
+
+  if (kkutu3Rule) {
+    const kkutu3RuleForm = getKkutu3RuleForm(kkutu3Rule);
+    console.log(kkutu3RuleForm);
+    if (kkutu3RuleForm) {
+      return {
+        title: kkutu3RuleForm.metadata.title,
+        isSample: true,
+        id,
+        updatedAt: kkutu3RuleForm.metadata.updatedAt,
+        color: kkutu3RuleForm.metadata.color,
+      };
+    }
+  }
+
   // 스토리지에서 검색
   const data = await storage.getRuleFormById(id);
   if (data) {
@@ -338,6 +355,19 @@ export async function getRuleFormById(
     }
   }
 
+  // 끄투3 룰에서 검색
+  const kkutu3Rule = getKkutu3Rule(id);
+
+  if (kkutu3Rule) {
+    const kkutu3RuleForm = getKkutu3RuleForm(kkutu3Rule);
+    if (kkutu3RuleForm) {
+      return {
+        ruleForm: kkutu3RuleForm,
+        isSample: true,
+      };
+    }
+  }
+
   // 스토리지에서 검색
 
   const data = await storage.getRuleFormById(id);
@@ -353,6 +383,10 @@ export async function getRuleFormById(
 
 export function getKkutuRuleTitle(rule: KkutuRule): string {
   return `끄투코리아-${kkutuInfo.gameType[rule.gameType]}-${kkutuInfo.injeong[Number(rule.injeong)]}-${kkutuInfo.manner[rule.manner]}`;
+}
+
+export function getKkutu3RuleTitle(rule: Kkutu3Rule): string {
+  return `끄투3-${kkutu3Info.gameType[rule.gameType]}-${kkutu3Info.dict[rule.dict]}-${rule.manner ? "매너" : "노매너"}${`${rule.three ? "-쿵쿵따" : ""}`}`;
 }
 
 export function getKkutuRule(title: string): KkutuRule | null {
@@ -376,6 +410,43 @@ export function getKkutuRule(title: string): KkutuRule | null {
     gameType: Number(gameType),
     injeong: Boolean(Number(injeong)),
     manner: Number(manner),
+  };
+}
+
+export function getKkutu3Rule(title: string): Kkutu3Rule | null {
+  const parts = title.split("-");
+
+  const [prefix, gameTypeStr, dictStr, mannerStr] = parts;
+  const threeStr = parts[4];
+  if (prefix !== "끄투3") return null;
+  const gameType = Object.entries(kkutu3Info.gameType).find(
+    ([, value]) => value === gameTypeStr,
+  )?.[0];
+
+  const dict = Object.entries(kkutu3Info.dict).find(
+    ([, value]) => value === dictStr,
+  )?.[0];
+
+  const manner =
+    mannerStr === "매너" ? true : mannerStr === "노매너" ? false : undefined;
+
+  const three =
+    threeStr === "쿵쿵따" ? true : threeStr === undefined ? false : undefined;
+
+  if (
+    gameType === undefined ||
+    dict === undefined ||
+    manner === undefined ||
+    three === undefined
+  ) {
+    return null;
+  }
+
+  return {
+    gameType: Number(gameType),
+    dict: Number(dict),
+    manner,
+    three,
   };
 }
 
@@ -418,6 +489,52 @@ export function getKkutuRuleForm(rule: KkutuRule): RuleForm {
         manner: {
           type: (rule.manner === 2 ? 3 : rule.manner) as 0 | 1 | 2 | 3,
           nextWordsLimit: rule.manner === 2 ? 6 : undefined,
+        },
+        addedWords: "",
+        removedWords: "",
+      },
+    },
+  };
+}
+
+export function getKkutu3RuleForm(rule: Kkutu3Rule): RuleForm {
+  const title = getKkutu3RuleTitle(rule);
+  const dictIdx = dicts.findIndex(
+    (dict) => dict.title === `끄투3 ${kkutu3Info.dict[rule.dict]}`,
+  );
+
+  return {
+    id: title,
+    metadata: {
+      title,
+      updatedAt: 0,
+      color: "green",
+    },
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: dictIdx,
+            pos: dicts[dictIdx].defaultPos,
+            cate: dicts[dictIdx].defaultCate,
+          },
+        },
+        regexFilter: rule.three ? "(.{3})" : ".*",
+        removedWords: "",
+        addedWords: "",
+      },
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        rawHeadIdx: 1,
+        headDir: rule.gameType === 1 ? 1 : 0,
+        rawTailIdx: 1,
+        tailDir: rule.gameType === 1 ? 0 : 1,
+      },
+      postprocessing: {
+        manner: {
+          type: (rule.manner ? 3 : 0) as 0 | 1 | 2 | 3,
+          nextWordsLimit: rule.manner ? 10 : undefined,
         },
         addedWords: "",
         removedWords: "",

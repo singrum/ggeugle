@@ -7,6 +7,7 @@ import RulesViewDescription from "../+components/rules-view/rules-view-descripti
 import RulesViewHeader from "../+components/rules-view/rules-view-header";
 import RulesViewTitle from "../+components/rules-view/rules-view-title";
 import KkutuRuleSettings from "./+components/kkutu-rule-settings";
+import Kkutu3RuleSettings from "./+components/kkutu3-rule-settings";
 
 export const meta: MetaFunction = ({ matches }) => {
   return mergedMeta(matches, [...metaTitle("기본 룰 | 끝말잇기 엔진")]);
@@ -26,12 +27,22 @@ export default function Sample() {
         <RulesViewDescription>기본 끝말잇기 룰 목록</RulesViewDescription>
       </RulesViewHeader>
       <RulesViewContent />
-
-      <RulesViewHeader>
-        <RulesViewTitle>끄투 코리아</RulesViewTitle>
-        <RulesViewDescription>끄투 코리아 룰 설정</RulesViewDescription>
-      </RulesViewHeader>
-      <KkutuRuleSettings />
+      <div className="p-6 grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-9 px-6 pb-6">
+        <div className="col-span-2">
+          <RulesViewHeader className="p-0 pb-6">
+            <RulesViewTitle>끄투 코리아</RulesViewTitle>
+            <RulesViewDescription>끄투 코리아 룰 설정</RulesViewDescription>
+          </RulesViewHeader>
+          <KkutuRuleSettings />
+        </div>
+        <div className="col-span-2">
+          <RulesViewHeader className="p-0 pb-6">
+            <RulesViewTitle>끄투 온라인 (끄투 3)</RulesViewTitle>
+            <RulesViewDescription>끄투 온라인 룰 설정</RulesViewDescription>
+          </RulesViewHeader>
+          <Kkutu3RuleSettings />
+        </div>
+      </div>
     </RulesView>
   );
 }
