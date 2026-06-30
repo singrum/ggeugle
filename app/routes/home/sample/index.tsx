@@ -27,15 +27,15 @@ export default function Sample() {
         <RulesViewDescription>기본 끝말잇기 룰 목록</RulesViewDescription>
       </RulesViewHeader>
       <RulesViewContent />
-      <div className="p-6 grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-9 px-6 pb-6">
-        <div className="col-span-2">
+      <div className="p-6 grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-9 px-6 pb-6 grid-rows-1">
+        <div className="col-span-2 flex flex-col">
           <RulesViewHeader className="p-0 pb-6">
             <RulesViewTitle>끄투 코리아</RulesViewTitle>
             <RulesViewDescription>끄투 코리아 룰 설정</RulesViewDescription>
           </RulesViewHeader>
           <KkutuRuleSettings />
         </div>
-        <div className="col-span-2">
+        <div className="col-span-2 flex flex-col">
           <RulesViewHeader className="p-0 pb-6">
             <RulesViewTitle>끄투 3 (끄투 온라인)</RulesViewTitle>
             <RulesViewDescription>끄투 3 룰 설정</RulesViewDescription>
