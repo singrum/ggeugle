@@ -2,11 +2,12 @@ import { MoreVertical } from "lucide-react";
 import { Fragment } from "react/jsx-runtime";
 import { Button } from "~/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+  Menubar,
+  MenubarContent,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger,
+} from "~/components/ui/menubar";
 import {
   HelpToolbarContent,
   InfoToolbarContent,
@@ -15,24 +16,26 @@ import {
 
 export default function MoreTrigger() {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon-lg">
-          <MoreVertical className="stroke-foreground size-5" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        {[
-          { content: <SettingsToolbarContent /> },
-          { content: <HelpToolbarContent /> },
-          { content: <InfoToolbarContent /> },
-        ].map((item, index) => (
-          <Fragment key={index}>
-            {index > 0 && <DropdownMenuSeparator />}
-            {item.content}
-          </Fragment>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Menubar>
+      <MenubarMenu>
+        <MenubarTrigger asChild>
+          <Button variant="ghost" size="icon-lg">
+            <MoreVertical className="stroke-foreground size-5" />
+          </Button>
+        </MenubarTrigger>
+        <MenubarContent>
+          {[
+            { content: <SettingsToolbarContent /> },
+            { content: <HelpToolbarContent /> },
+            { content: <InfoToolbarContent /> },
+          ].map((item, index) => (
+            <Fragment key={index}>
+              {index > 0 && <MenubarSeparator />}
+              {item.content}
+            </Fragment>
+          ))}
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>
   );
 }

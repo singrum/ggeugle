@@ -4,20 +4,21 @@ import { Link } from "react-router";
 import { Fragment } from "react/jsx-runtime";
 import { Button } from "~/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
+  Menubar,
+  MenubarContent,
+  MenubarGroup,
+  MenubarItem,
+  MenubarLabel,
+  MenubarMenu,
+  MenubarPortal,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarSeparator,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from "~/components/ui/menubar";
 import { ToggleGroup, ToggleGroupItem } from "~/components/ui/toggle-group";
 import { useWcStore } from "~/stores/wc-store-provider";
 
@@ -45,21 +46,23 @@ export function Toolbar() {
     <div className="flex gap-2 items-center">
       <PosSelect />
       <div className="flex gap-0">
-        {toolbarInfo.map((item) => (
-          <DropdownMenu key={item.name}>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                className="text-sm px-3 rounded-md font-normal "
-                size="sm"
-              >
-                {item.name}
-                <ChevronDown />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>{item.content}</DropdownMenuContent>
-          </DropdownMenu>
-        ))}
+        <Menubar>
+          {toolbarInfo.map((item) => (
+            <MenubarMenu key={item.name}>
+              <MenubarTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="text-sm px-3 rounded-md font-normal "
+                  size="sm"
+                >
+                  {item.name}
+                  <ChevronDown />
+                </Button>
+              </MenubarTrigger>
+              <MenubarContent>{item.content}</MenubarContent>
+            </MenubarMenu>
+          ))}
+        </Menubar>
       </div>
     </div>
   );
@@ -67,29 +70,31 @@ export function Toolbar() {
 
 export function MiniToolbar() {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon-lg">
-          <MoreVertical className="stroke-foreground size-5" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>음절 위치</DropdownMenuLabel>
-          <div className="p-2">
-            <PosSelect />
-          </div>
-        </DropdownMenuGroup>
+    <Menubar className="">
+      <MenubarMenu>
+        <MenubarTrigger asChild>
+          <Button variant="ghost" size="icon-lg">
+            <MoreVertical className="stroke-foreground size-5" />
+          </Button>
+        </MenubarTrigger>
+        <MenubarContent>
+          <MenubarGroup>
+            <MenubarLabel>음절 위치</MenubarLabel>
+            <div className="p-2">
+              <PosSelect />
+            </div>
+          </MenubarGroup>
 
-        <DropdownMenuSeparator />
-        {toolbarInfo.map((item, index) => (
-          <Fragment key={item.name}>
-            {index > 0 && <DropdownMenuSeparator />}
-            {item.content}
-          </Fragment>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
+          <MenubarSeparator />
+          {toolbarInfo.map((item, index) => (
+            <Fragment key={item.name}>
+              {index > 0 && <MenubarSeparator />}
+              {item.content}
+            </Fragment>
+          ))}
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>
   );
 }
 
@@ -121,33 +126,25 @@ export function AlgorithmToolbarContent() {
 
   return (
     <>
-      <DropdownMenuGroup>
-        <DropdownMenuLabel>알고리즘</DropdownMenuLabel>
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>음절 분류 절차</DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent>
-              <DropdownMenuRadioGroup
-                value={flow === 0 ? "minimize" : "maximize"}
-              >
-                <DropdownMenuRadioItem
-                  value="minimize"
-                  onClick={() => setFlow(0)}
-                >
+      <MenubarGroup>
+        <MenubarLabel>알고리즘</MenubarLabel>
+        <MenubarSub>
+          <MenubarSubTrigger>음절 분류 절차</MenubarSubTrigger>
+          <MenubarPortal>
+            <MenubarSubContent>
+              <MenubarRadioGroup value={flow === 0 ? "minimize" : "maximize"}>
+                <MenubarRadioItem value="minimize" onClick={() => setFlow(0)}>
                   돌림 단어 최소화
-                </DropdownMenuRadioItem>
-                <DropdownMenuRadioItem
-                  value="maximize"
-                  onClick={() => setFlow(1)}
-                >
+                </MenubarRadioItem>
+                <MenubarRadioItem value="maximize" onClick={() => setFlow(1)}>
                   돌림 단어 최대화
-                </DropdownMenuRadioItem>
-              </DropdownMenuRadioGroup>
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
-        </DropdownMenuSub>
+                </MenubarRadioItem>
+              </MenubarRadioGroup>
+            </MenubarSubContent>
+          </MenubarPortal>
+        </MenubarSub>
 
-        <DropdownMenuItem
+        <MenubarItem
           onClick={() =>
             document
               .getElementById("search-precedence-settings-trigger")
@@ -155,8 +152,8 @@ export function AlgorithmToolbarContent() {
           }
         >
           전략 탐색 우선순위 편집
-        </DropdownMenuItem>
-      </DropdownMenuGroup>
+        </MenubarItem>
+      </MenubarGroup>
     </>
   );
 }
@@ -169,36 +166,32 @@ export function SettingsToolbarContent({
   const { theme, setTheme } = useTheme();
 
   return (
-    <DropdownMenuGroup>
-      <DropdownMenuLabel>설정</DropdownMenuLabel>
+    <MenubarGroup>
+      <MenubarLabel>설정</MenubarLabel>
 
       {showPreferenceSettings && (
-        <DropdownMenuItem
+        <MenubarItem
           onClick={() =>
             document.getElementById("preference-settings-trigger")?.click()
           }
         >
           환경 설정
-        </DropdownMenuItem>
+        </MenubarItem>
       )}
 
-      <DropdownMenuSub>
-        <DropdownMenuSubTrigger>테마</DropdownMenuSubTrigger>
-        <DropdownMenuPortal>
-          <DropdownMenuSubContent>
-            <DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
-              <DropdownMenuRadioItem value="light">
-                라이트
-              </DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="dark">다크</DropdownMenuRadioItem>
-              <DropdownMenuRadioItem value="system">
-                시스템
-              </DropdownMenuRadioItem>
-            </DropdownMenuRadioGroup>
-          </DropdownMenuSubContent>
-        </DropdownMenuPortal>
-      </DropdownMenuSub>
-    </DropdownMenuGroup>
+      <MenubarSub>
+        <MenubarSubTrigger>테마</MenubarSubTrigger>
+        <MenubarPortal>
+          <MenubarSubContent>
+            <MenubarRadioGroup value={theme} onValueChange={setTheme}>
+              <MenubarRadioItem value="light">라이트</MenubarRadioItem>
+              <MenubarRadioItem value="dark">다크</MenubarRadioItem>
+              <MenubarRadioItem value="system">시스템</MenubarRadioItem>
+            </MenubarRadioGroup>
+          </MenubarSubContent>
+        </MenubarPortal>
+      </MenubarSub>
+    </MenubarGroup>
   );
 }
 export function HelpToolbarContent() {
@@ -210,14 +203,14 @@ export function HelpToolbarContent() {
     },
   ];
   return (
-    <DropdownMenuGroup>
-      <DropdownMenuLabel>도움말</DropdownMenuLabel>
+    <MenubarGroup>
+      <MenubarLabel>도움말</MenubarLabel>
       {items.map(({ title, url }) => (
-        <DropdownMenuItem key={title} asChild>
+        <MenubarItem key={title} asChild>
           <Link to={url}>{title}</Link>
-        </DropdownMenuItem>
+        </MenubarItem>
       ))}
-    </DropdownMenuGroup>
+    </MenubarGroup>
   );
 }
 
@@ -231,15 +224,15 @@ export function InfoToolbarContent() {
     },
   ];
   return (
-    <DropdownMenuGroup>
-      <DropdownMenuLabel>바로 가기</DropdownMenuLabel>
+    <MenubarGroup>
+      <MenubarLabel>바로 가기</MenubarLabel>
       {items.map(({ title, url }) => (
-        <DropdownMenuItem key={title} asChild>
+        <MenubarItem key={title} asChild>
           <Link to={url} target="_blank" rel="noopener noreferrer">
             {title}
           </Link>
-        </DropdownMenuItem>
+        </MenubarItem>
       ))}
-    </DropdownMenuGroup>
+    </MenubarGroup>
   );
 }
