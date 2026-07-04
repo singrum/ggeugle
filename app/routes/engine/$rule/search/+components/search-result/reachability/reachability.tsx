@@ -22,7 +22,7 @@ export default function Reachability({ solver }: { solver: WordSolver }) {
     // 1. 현재 검색어(char)가 속한 SCC ID 찾기
     const targetSccId = currentSccMap.get(char);
 
-    // 2. 같은 SCC 컴포넌트에 속한 음절들 추출 (기존 myComp 대체)
+    // 2. 같은 SCC 컴포넌트에 속한 음절들 추출
     const myComp: string[] = [];
     if (targetSccId !== undefined) {
       for (const [node, sccId] of currentSccMap.entries()) {
@@ -44,32 +44,45 @@ export default function Reachability({ solver }: { solver: WordSolver }) {
     const routeChars = routeGraph.nodes(view);
 
     // 4. 세 가지 세션 데이터 필터링 연산
-    // data[0]: 서로 도달 가능한 음절 (같은 SCC 소속)
+    // 💡 [수정] 배열을 모은 직후 순수 .sort()로 정렬하고 .map()을 돌립니다.
+
+    // data[0]: 서로 도달 가능한 음절
+    myComp.sort();
     const sameCompData = myComp.map((e) => ({
       char: e,
       type: "route" as NodeType,
     }));
 
-    // data[1]: char에서만 도달 가능한 음절 (도달 가능하지만 다른 SCC 소속)
-    const reachableOnlyData: { char: string; type: NodeType }[] = [];
+    // data[1]: char에서만 도달 가능한 음절
+    const reachableOnlyRaw: string[] = [];
     for (let i = 0; i < reachablesArray.length; i++) {
       const e = reachablesArray[i];
       if (!myCompSet.has(e)) {
-        reachableOnlyData.push({ char: e, type: "route" as NodeType });
+        reachableOnlyRaw.push(e);
       }
     }
+    reachableOnlyRaw.sort(); // 순수 문자열 배열 정렬
+    const reachableOnlyData = reachableOnlyRaw.map((e) => ({
+      char: e,
+      type: "route" as NodeType,
+    }));
 
     // data[2]: 도달 불가능한 음절
-    const unreachableData: { char: string; type: NodeType }[] = [];
+    const unreachableRaw: string[] = [];
     for (let i = 0; i < routeChars.length; i++) {
       const e = routeChars[i];
       if (!reachablesSet.has(e)) {
-        unreachableData.push({ char: e, type: "route" as NodeType });
+        unreachableRaw.push(e);
       }
     }
+    unreachableRaw.sort(); // 순수 문자열 배열 정렬
+    const unreachableData = unreachableRaw.map((e) => ({
+      char: e,
+      type: "route" as NodeType,
+    }));
 
     return [sameCompData, reachableOnlyData, unreachableData];
-  }, [view, char, solver]);
+  }, [view, char, solver, changeFunc]);
 
   return (
     <div className="space-y-6">
