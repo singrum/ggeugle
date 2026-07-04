@@ -261,7 +261,81 @@ export class BipartiteDiGraph {
 
     return SCC;
   }
+  getSCCMap(): [Map<NodeName, number>, Map<NodeName, number>] {
+    let id = 0;
+    let sccCounter = 0; // 💡 각 SCC 그룹을 식별할 고유 ID (0, 1, 2, ...)
 
+    const nodes: [NodePos, NodeName][] = [
+      ...this.nodes(0).map((e) => [0, e] as [NodePos, NodeName]),
+      ...this.nodes(1).map((e) => [1, e] as [NodePos, NodeName]),
+    ];
+
+    const d: [Map<NodeName, number>, Map<NodeName, number>] = [
+      new Map(),
+      new Map(),
+    ];
+    const finished: [Map<NodeName, boolean>, Map<NodeName, boolean>] = [
+      new Map(),
+      new Map(),
+    ];
+
+    // 💡 최종 반환할 결과물 [pos=0의 SCC 맵, pos=1의 SCC 맵]
+    const sccMap: [Map<NodeName, number>, Map<NodeName, number>] = [
+      new Map(),
+      new Map(),
+    ];
+
+    for (const [pos, node] of nodes) {
+      d[pos].set(node, 0);
+      finished[pos].set(node, false);
+    }
+
+    const stack: [NodePos, NodeName][] = [];
+
+    const dfs = (pos: NodePos, name: NodeName): number => {
+      d[pos].set(name, ++id);
+      stack.push([pos, name]);
+
+      let parent = d[pos].get(name)!;
+      const oppos: NodePos = (1 - pos) as NodePos;
+      const succ: NodeName[] = this.successors(pos, name);
+
+      for (let i = 0; i < succ.length; i++) {
+        const next = succ[i];
+        if (d[oppos].get(next) === 0) {
+          parent = Math.min(parent, dfs(oppos, next));
+        } else if (!finished[oppos].get(next)) {
+          parent = Math.min(parent, d[oppos].get(next)!);
+        }
+      }
+
+      if (parent === d[pos].get(name)) {
+        // 💡 새로운 SCC 컴포넌트를 찾았으므로 고유 번호를 부여합니다.
+        const currentSccId = sccCounter++;
+
+        while (true) {
+          const [pos_, name_] = stack.pop()!;
+
+          // 💡 배열에 푸시하는 대신, 노드 명을 Key로 하여 SCC ID를 즉시 기록합니다.
+          sccMap[pos_].set(name_, currentSccId);
+
+          finished[pos_].set(name_, true);
+          if (pos === pos_ && name === name_) break;
+        }
+      }
+
+      return parent;
+    };
+
+    for (const [pos, node] of nodes) {
+      if (d[pos].get(node) === 0) {
+        dfs(pos, node);
+      }
+    }
+
+    // 기존 [NodeName[], NodeName[]][] 대신 [Map, Map] 구조를 반환합니다.
+    return sccMap;
+  }
   getTwoPaths(pos: NodePos) {
     const result: [NodeName, NodeName, NodeName][] = [];
     for (const node of this.nodes(pos)) {
@@ -279,36 +353,46 @@ export class BipartiteDiGraph {
     return result;
   }
 
+  // BipartiteDiGraph 클래스 내부 메서드
   condensation(
-    scc: [NodeName[], NodeName[]][] | undefined,
+    sccMap: [Map<NodeName, number>, Map<NodeName, number>], // 💡 외부에서 생성된 sccMap을 주입받음
     pos: 0 | 1,
   ): [
     DiGraph<number, { edges: EdgeCounter }>,
     Map<NodeName, number>,
     NodeName[][],
   ] {
-    if (scc === undefined) {
-      scc = this.getSCC();
-    }
-    const sccInView: NodeName[][] = scc
-      .map((e) => e[pos])
-      .filter((e) => e.length > 0);
+    const currentSccMap = sccMap[pos]; // Map<NodeName, number>
 
     const mapping: Map<NodeName, number> = new Map();
     const members: NodeName[][] = [];
-    sccInView.forEach((nodes, i) => {
-      members[i] = nodes;
-      nodes.forEach((e) => {
-        mapping.set(e, i);
-      });
-    });
+
+    let compactIndexCounter = 0;
+    const sccIdToCompactIndex = new Map<number, number>();
+
+    for (const [node, sccId] of currentSccMap.entries()) {
+      let compIdx = sccIdToCompactIndex.get(sccId);
+      if (compIdx === undefined) {
+        compIdx = compactIndexCounter++;
+        sccIdToCompactIndex.set(sccId, compIdx);
+        members[compIdx] = [];
+      }
+
+      members[compIdx].push(node);
+      mapping.set(node, compIdx);
+    }
 
     const G = new DiGraph<number, { edges: EdgeCounter }>();
 
     for (const [start, middle, end] of this.getTwoPaths(pos)) {
-      const startIndex = mapping.get(start)!;
-      const endIndex = mapping.get(end)!;
-      if (startIndex !== endIndex) {
+      const startIndex = mapping.get(start);
+      const endIndex = mapping.get(end);
+
+      if (
+        startIndex !== undefined &&
+        endIndex !== undefined &&
+        startIndex !== endIndex
+      ) {
         if (!G.hasEdge(startIndex, endIndex)) {
           G.addEdge(startIndex, endIndex, { edges: new EdgeCounter() });
         }
@@ -461,6 +545,7 @@ export class BipartiteDiGraph {
   getReachableNodes(
     pos: NodePos,
     name: NodeName,
+    changeFunc?: ChangeFunc,
   ): [Set<NodeName>, Set<NodeName>] {
     const visited: [Set<NodeName>, Set<NodeName>] = [new Set(), new Set()];
     visited[pos].add(name);
@@ -469,7 +554,10 @@ export class BipartiteDiGraph {
     while (stack.length > 0) {
       const [pos, name] = stack.pop()!;
       const oppos = getOppos(pos);
-      const succs = this.successors(pos, name);
+
+      const succs = this.hasNode(pos, name)
+        ? this.successors(pos, name)
+        : changeFunc?.forward(name).filter((e) => this.hasNode(oppos, e)) || [];
       for (const succ of succs) {
         if (visited[oppos].has(succ)) {
           continue;

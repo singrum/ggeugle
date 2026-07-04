@@ -32,7 +32,7 @@ export class GraphSolver {
   depthMap: NodeMap<number>;
   loopMap: Map<NodeName, NodeName>;
   pairManager: PairManager;
-  scc: [NodeName[], NodeName[]][];
+  sccMap: [Map<NodeName, number>, Map<NodeName, number>];
   flow: number;
 
   constructor(graph: BipartiteDiGraph, flow: number) {
@@ -61,19 +61,20 @@ export class GraphSolver {
       }
     }
 
-    this.scc = this.graphs.getGraph("route").getSCC();
+    this.sccMap = this.graphs.getGraph("route").getSCCMap();
     this.flow = flow;
   }
   static fromObj(obj: GraphSolver): GraphSolver {
     const result: GraphSolver = Object.create(GraphSolver.prototype);
-    const { graphs, typeMap, depthMap, scc, pairManager, loopMap, flow } = obj;
+    const { graphs, typeMap, depthMap, sccMap, pairManager, loopMap, flow } =
+      obj;
     Object.assign(result, {
       graphs: GraphPartitions.fromObj(graphs),
       pairManager: PairManager.fromObj(pairManager),
       typeMap,
       depthMap,
       loopMap,
-      scc,
+      sccMap,
       flow,
     });
 
@@ -106,36 +107,43 @@ export class GraphSolver {
     return result;
   }
   getRouteNodes(pos: NodePos): RouteCharListData {
-    const scc = this.scc.map((nodes) => nodes[pos]).filter((e) => e.length > 0);
+    // 1. getSCCMap()을 호출하여 현재 pos에 맞는 Map을 가져옵니다.
+    // (만약 이미 클래스 내부에 캐싱되어 있다면 this.sccMap[pos] 형태로 바로 쓰셔도 됩니다)
+    const sccMaps = this.sccMap;
+    const currentSccMap = sccMaps[pos]; // Map<NodeName, number>
 
-    const result: [NodeName[], NodeName[]] = [[], []];
-    for (const comp of scc) {
-      result[Number(comp.length < 3)].push(...comp);
+    // 2. 각 SCC ID별로 어떤 노드들이 속해있는지 모으기 위한 임시 맵을 만듭니다.
+    // Key: SCC ID, Value: NodeName[]
+    const sccGroups = new Map<number, NodeName[]>();
+
+    for (const [node, sccId] of currentSccMap.entries()) {
+      let group = sccGroups.get(sccId);
+      if (!group) {
+        group = [];
+        sccGroups.set(sccId, group);
+      }
+      group.push(node);
     }
 
+    // 3. 조건(길이가 3 미만인지 아닌지)에 따라 분류합니다.
+    // result[0]: 길이가 3 이상인 컴포넌트의 노드들
+    // result[1]: 길이가 3 미만인 컴포넌트의 노드들
+    const result: [NodeName[], NodeName[]] = [[], []];
+
+    for (const comp of sccGroups.values()) {
+      // comp.length가 3보다 작으면 index 1, 크거나 같으면 index 0
+      const index = Number(comp.length < 3);
+      result[index].push(...comp);
+    }
+
+    // 4. 기존 로직 정렬 수행
     for (const e of result) {
       e.sort();
     }
+
     return result;
   }
 
-  getMaxMinRouteNum(pos: NodePos) {
-    const scc = this.scc.map((nodes) => nodes[pos]).filter((e) => e.length > 0);
-
-    const result: [number, number] = [0, 0];
-    for (const comp of scc) {
-      result[Number(comp.length < 3)] += comp.length;
-    }
-
-    return [
-      { type: "max", num: result[0], fill: "var(--color-route)" },
-      {
-        type: "min",
-        num: result[1],
-        fill: "color-mix(in oklch, var(--color-route) 70%, transparent)",
-      },
-    ];
-  }
   getNodeTypeNum(pos: NodePos) {
     const result: Record<NodeType, number> = {
       win: 0,
@@ -380,7 +388,7 @@ export class GraphSolver {
     }
     return moveClass;
   }
-
+  // WordSolver 클래스 내부 메서드
   getSccData(
     pos: NodePos,
     asc: boolean,
@@ -389,46 +397,48 @@ export class GraphSolver {
     succ: { nodes: NodeName[]; by: [NodeName, NodeName, [number, number]][] }[];
   }[] {
     const routeGraph = this.graphs.getGraph("route");
-    const [G, , members] = routeGraph.condensation(this.scc, pos);
+
+    // 💡 routeGraph가 BipartiteDiGraph 인스턴스이므로, 여기에 this.sccMap을 주입합니다.
+    const [G, , members] = routeGraph.condensation(this.sccMap, pos);
 
     const oppos: NodePos = (1 - pos) as NodePos;
-    for (const member of members)
+
+    // 2단계 탐색 최적화 헬퍼 함수 (기존과 동일)
+    const getTwoStepCount = (node: NodeName, isSuccessor: boolean): number => {
+      let count = 0;
+      const firstStep = isSuccessor
+        ? routeGraph.successors(pos, node)
+        : routeGraph.predecessors(pos, node);
+
+      const len = firstStep.length;
+      for (let i = 0; i < len; i++) {
+        const nextNode = firstStep[i];
+        const secondStep = isSuccessor
+          ? routeGraph.successors(oppos, nextNode)
+          : routeGraph.predecessors(oppos, nextNode);
+        count += secondStep.length;
+      }
+      return count;
+    };
+
+    for (const member of members) {
+      if (!member) continue;
       member.sort((prev, curr) => {
-        const twoStepSuccPrev = routeGraph
-          .successors(pos, prev)
-          .map((e) => routeGraph.successors(oppos, e))
-          .flat();
+        const prevTotal =
+          getTwoStepCount(prev, true) + getTwoStepCount(prev, false);
+        const currTotal =
+          getTwoStepCount(curr, true) + getTwoStepCount(curr, false);
 
-        const twoStepPredPrev = routeGraph
-          .predecessors(pos, prev)
-          .map((e) => routeGraph.predecessors(oppos, e))
-          .flat();
-
-        const twoStepSuccCurr = routeGraph
-          .successors(pos, curr)
-          .map((e) => routeGraph.successors(oppos, e))
-          .flat();
-
-        const twoStepPredCurr = routeGraph
-          .predecessors(pos, curr)
-          .map((e) => routeGraph.predecessors(oppos, e))
-          .flat();
-
-        if (
-          twoStepSuccPrev.length + twoStepPredPrev.length >
-          twoStepSuccCurr.length + twoStepPredCurr.length
-        ) {
-          return -1;
-        } else {
-          return 1;
-        }
+        return prevTotal > currTotal ? -1 : 1;
       });
+    }
 
     const result: ReturnType<typeof this.getSccData> = [];
     const nodes = G.sortByDistanceFromSink();
     if (asc) {
       nodes.reverse();
     }
+
     for (const index of nodes) {
       const nextIndices = G.successors(index);
       const data = {
@@ -500,38 +510,81 @@ export class GraphSolver {
   }
 
   getMaxRouteInfo(view: NodePos) {
+    // 1. 각 SCC ID별 전체 노드 개수 집계 (pos 0과 pos 1의 합산)
+    const sccTotalCounts = new Map<number, number>();
+
+    for (const sccId of this.sccMap[0].values()) {
+      sccTotalCounts.set(sccId, (sccTotalCounts.get(sccId) || 0) + 1);
+    }
+    for (const sccId of this.sccMap[1].values()) {
+      sccTotalCounts.set(sccId, (sccTotalCounts.get(sccId) || 0) + 1);
+    }
+
+    // 2. 총 크기가 3 이상인 SCC에 속한 노드들만 추출하여 유도 부분 그래프(Induced Subgraph) 대상 생성
     const maxNodes: [Set<NodeName>, Set<NodeName>] = [new Set(), new Set()];
-    for (const comp of this.scc) {
-      if (comp[0].length + comp[1].length >= 3) {
-        comp[0].forEach((e) => maxNodes[0].add(e));
-        comp[1].forEach((e) => maxNodes[1].add(e));
+
+    for (const [node, sccId] of this.sccMap[0].entries()) {
+      if ((sccTotalCounts.get(sccId) || 0) >= 3) {
+        maxNodes[0].add(node);
       }
     }
+    for (const [node, sccId] of this.sccMap[1].entries()) {
+      if ((sccTotalCounts.get(sccId) || 0) >= 3) {
+        maxNodes[1].add(node);
+      }
+    }
+
+    // 유도 부분 그래프 생성
     const maxGraph = this.graphs.getGraph("route").getInducedSubgraph(maxNodes);
 
     const charNum = maxGraph.nodes(view).length;
-    const moveNum = maxGraph.edges(1).reduce((pred, curr) => pred + curr[2], 0);
+
+    // 3. reduce 제거하고 단순 루프로 엣지 총합 계산 (가비지 컬렉션 최적화)
+    const maxEdges = maxGraph.edges(1);
+    let moveNum = 0;
+    for (let i = 0; i < maxEdges.length; i++) {
+      moveNum += maxEdges[i][2];
+    }
 
     let averageNum = 0;
+    const nodes1 = maxGraph.nodes(1);
 
     if (view === 0) {
-      for (const node1 of maxGraph.nodes(1)) {
-        const outDeg = maxGraph
-          .successors(1, node1)
-          .reduce((prev, curr) => prev + maxGraph.getEdgeNum(node1, curr), 0);
+      for (let i = 0; i < nodes1.length; i++) {
+        const node1 = nodes1[i];
+        const successors = maxGraph.successors(1, node1);
+
+        let outDeg = 0;
+        for (let j = 0; j < successors.length; j++) {
+          outDeg += maxGraph.getEdgeNum(node1, successors[j]);
+        }
+
         const inDeg = maxGraph.inDegree(1, node1);
         averageNum += inDeg * outDeg;
       }
     } else {
-      for (const node1 of maxGraph.nodes(1)) {
-        const outDeg = maxGraph
-          .successors(1, node1)
-          .reduce((prev, curr) => prev + maxGraph.getEdgeNum(node1, curr), 0);
+      for (let i = 0; i < nodes1.length; i++) {
+        const node1 = nodes1[i];
+        const successors = maxGraph.successors(1, node1);
+
+        let outDeg = 0;
+        for (let j = 0; j < successors.length; j++) {
+          outDeg += maxGraph.getEdgeNum(node1, successors[j]);
+        }
+
         averageNum += outDeg;
       }
     }
-    averageNum /= maxGraph.nodes(view).length;
+
+    // 0으로 나누는 런타임 에러 방지 방어 코드 추가
+    if (charNum > 0) {
+      averageNum /= charNum;
+    } else {
+      averageNum = 0;
+    }
+
     averageNum = round(averageNum, 3);
+
     return { charNum, moveNum, averageNum };
   }
   getWordTypeNum(): {
@@ -596,9 +649,14 @@ export class GraphSolver {
         depth: this.depthMap[0].get(end)! + 1,
       };
     } else if (moveType === 1) {
+      const endSccId = this.sccMap[0].get(end); // pos: 0 (end)
+      const startSccId = this.sccMap[1].get(start); // pos: 1 (start)
+
+      // 두 노드 모두 SCC ID가 존재하고, 그 ID가 서로 일치하는지 O(1)로 비교합니다.
       const connected =
-        this.scc.find((e) => e[1].includes(start)) ===
-        this.scc.find((e) => e[0].includes(end));
+        startSccId !== undefined &&
+        endSccId !== undefined &&
+        startSccId === endSccId;
       return { type: moveType, connected };
     } else {
       return { type: moveType };
