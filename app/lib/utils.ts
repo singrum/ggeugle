@@ -488,7 +488,7 @@ export function getKkutuRuleForm(rule: KkutuRule): RuleForm {
       postprocessing: {
         manner: {
           type: (rule.manner === 2 ? 3 : rule.manner) as 0 | 1 | 2 | 3,
-          nextWordsLimit: rule.manner === 2 ? 6 : undefined,
+          nextWordsLimit: rule.manner === 2 ? 11 : undefined,
         },
         addedWords: "",
         removedWords: "",
