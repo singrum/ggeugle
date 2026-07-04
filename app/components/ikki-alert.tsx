@@ -1,29 +1,17 @@
 "use client";
 
 import { ChevronRight, X } from "lucide-react";
-import { useEffect } from "react";
 import { useIsMounted } from "~/hooks/use-is-mounted";
 import { useAlertStore } from "~/stores/alert-store";
 import { Button } from "./ui/button";
 
-const EXPIRE_TIME = 24 * 60 * 60 * 1000;
+const EXPIRE_TIME = 7 * 24 * 60 * 60 * 1000;
 
 export default function IkkiAlert() {
   const open = useAlertStore((state) => state.open);
   const updatedAt = useAlertStore((state) => state.updatedAt);
   const setOpen = useAlertStore((state) => state.setOpen);
   const mounted = useIsMounted();
-
-  // 만료 체크 로직
-  useEffect(() => {
-    if (mounted && !open && updatedAt) {
-      const currentTime = Date.now();
-
-      if (currentTime - updatedAt > EXPIRE_TIME) {
-        setOpen(true);
-      }
-    }
-  }, [mounted, open, updatedAt, setOpen]);
 
   if (!mounted || !open) {
     return null;
