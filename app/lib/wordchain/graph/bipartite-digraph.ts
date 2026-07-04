@@ -455,6 +455,9 @@ export class BipartiteDiGraph {
   getSinks(pos: NodePos): NodeName[] {
     return this.nodes(pos).filter((e) => this.outDegree(pos, e) === 0);
   }
+  getSources(pos: NodePos): NodeName[] {
+    return this.nodes(pos).filter((e) => this.inDegree(pos, e) === 0);
+  }
   getReachableNodes(
     pos: NodePos,
     name: NodeName,

@@ -118,6 +118,7 @@ const funcWorkerApi: FuncWorkerApi = {
               for (const [start, end] of inEdges) wordMap.remove(start, end);
             }
             const nodes1 = graph.getSinks(1);
+
             for (const node of nodes1) {
               graph.removeNode(1, node);
             }
@@ -129,13 +130,17 @@ const funcWorkerApi: FuncWorkerApi = {
           throw new Error("nextWordsLimit Error");
 
         const targets = graph.nextWordsLimitNodes(0, manner.nextWordsLimit);
-
+        // target으로 향하는 엣지 모두 제거
         for (const node of targets) {
-          const [, inEdges] = graph.removeNode(0, node);
-          for (const [start, end] of inEdges) wordMap.remove(start, end);
+          const preds = graph.predecessors(0, node);
+          for (const pred of preds) {
+            graph.removeEdge(1, pred, node);
+            wordMap.remove(pred, node);
+          }
         }
 
         const nodes1 = graph.getSinks(1);
+
         for (const node of nodes1) {
           graph.removeNode(1, node);
         }
@@ -162,6 +167,15 @@ const funcWorkerApi: FuncWorkerApi = {
       }
 
       graph = BipartiteDiGraph.fromWordMap(wordMap, changeFunc);
+    }
+    // pos가 1인 sink, pos가 0인 source 제거
+    const sinks1 = graph.getSinks(1);
+    const sources0 = graph.getSources(0);
+    for (const node of sinks1) {
+      graph.removeNode(1, node);
+    }
+    for (const node of sources0) {
+      graph.removeNode(0, node);
     }
 
     const solver = new WordSolver(graph, wordMap, headIdx, tailIdx, flow);

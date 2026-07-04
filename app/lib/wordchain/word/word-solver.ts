@@ -380,7 +380,6 @@ export class WordSolver {
       data.push([word, sortKey.toString(), "2"]);
     });
 
-    console.log(data.find((e) => routes.includes(e[0])));
     const csvContent = data
       .map((row) => row.map((field) => `"${field}"`).join(","))
       .join("\n");

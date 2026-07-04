@@ -149,8 +149,11 @@ export function getDepthMap(
   function setSeeds() {
     const poses: NodePos[] = [0, 1];
     for (const pos of poses) {
+      
       for (const node of graph.nodes(pos as NodePos)) {
+        
         const type = isSink(pos, node);
+
         if (type === "lose") {
           loseStack[pos].push(node);
           depthMap[pos].set(node, 0);
@@ -163,6 +166,7 @@ export function getDepthMap(
   }
 
   setSeeds();
+
   // loseStack[1] -> loseStack[0] -> winStack[1] -> winStack[0]
   while (
     loseStack[1].length > 0 ||

@@ -40,12 +40,14 @@ export class GraphSolver {
       graph,
       flow,
     );
+
     this.graphs = graphs;
     this.typeMap = typeMap;
     this.loopMap = loopMap;
     this.pairManager = PairManager.fromData(evenLoops, twoCycles);
 
     // depth 구하기
+
     this.depthMap = getDepthMap(this.graphs.getGraph("winlose"), this.typeMap);
 
     // Set all nodeDataValue.type that are undefined to "route"
