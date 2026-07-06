@@ -11,7 +11,7 @@ export default function GameList() {
   const exitingIdsRef = useRef<Set<string>>(new Set());
 
   return (
-    <div className="space-y-4 p-4 pt-0">
+    <div className="space-y-4 p-4 overflow-y-auto scroll-fade-t flex-1 min-h-0 no-scrollbar">
       <AnimatePresence
         onExitComplete={() => {
           exitingIdsRef.current.forEach((id) => {

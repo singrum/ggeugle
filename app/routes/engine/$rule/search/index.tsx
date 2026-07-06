@@ -10,8 +10,8 @@ export default function Search() {
   return (
     <div className="flex h-full max-w-full lg:overflow-auto">
       {!isTablet && (
-        <InnerSidebar>
-          <MobileCharMenu className="sticky top-0 z-20" />
+        <InnerSidebar className="flex flex-col">
+          <MobileCharMenu className="" />
           <CharListSidebar />
         </InnerSidebar>
       )}

@@ -22,9 +22,8 @@ export default function MobileGameListTrigger() {
           </VisuallyHidden>
           <SidebarHeader />
         </DrawerHeader>
-        <div className="h-full overflow-auto py-2">
-          <GameList />
-        </div>
+
+        <GameList />
       </DrawerContent>
     </Drawer>
   );

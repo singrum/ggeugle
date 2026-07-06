@@ -22,12 +22,13 @@ export default function GameSettings() {
         <h1 className="mx-2 text-xl font-semibold lg:text-2xl">게임 설정</h1>
         {isTablet && (
           <Button
-            size="icon"
+            size="lg"
             variant="withHeader"
             onClick={() => setOpen(true)}
-            className="size-11"
+            className="rounded-full"
           >
-            <Inbox className="stroke-foreground size-5" />
+            <Inbox className="stroke-foreground" />
+            게임 목록
           </Button>
         )}
       </div>

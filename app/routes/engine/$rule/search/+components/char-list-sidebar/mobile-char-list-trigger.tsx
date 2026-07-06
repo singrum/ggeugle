@@ -20,9 +20,9 @@ export default function MobileCharListTrigger() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="withHeader" className="size-11">
-          <LayoutGrid className="stroke-foreground size-5" />
-          {/* 음절 목록 */}
+        <Button variant="withHeader" size="lg" className=" rounded-full">
+          <LayoutGrid className="stroke-foreground" />
+          음절 목록
         </Button>
       </DrawerTrigger>
       <DrawerContent className="h-full">
@@ -36,9 +36,7 @@ export default function MobileCharListTrigger() {
           <CharMenu className="mt-4" />
         </DrawerHeader>
 
-        <div className="h-full overflow-auto">
-          <CharListSidebar />
-        </div>
+        <CharListSidebar />
       </DrawerContent>
     </Drawer>
   );
