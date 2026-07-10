@@ -13,7 +13,6 @@ import {
 import LoadingBar from "react-top-loading-bar";
 import type { Route } from "./+types/root";
 import "./app.css";
-import IkkiAlert from "./components/ikki-alert";
 import { ThemeProvider } from "./components/theme-provider";
 import { metaDescription, metaImage, metaTitle } from "./lib/utils";
 import { AlertStoreProvider } from "./stores/alert-store";
@@ -106,7 +105,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
           disableTransitionOnChange
         >
           <AlertStoreProvider>
-            <IkkiAlert />
             <LoadingBar
               color="var(--foreground)" // 원하셨던 foreground 색상
               progress={progress}
