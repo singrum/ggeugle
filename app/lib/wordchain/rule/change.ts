@@ -375,6 +375,6 @@ export const sampleChangeFuncInfo = [
     title: "초성종성자유두음법칙",
   },
   {
-    title: "로블록스두음법칙",
+    title: "로블록스 한국 끝말잇기 두음법칙",
   },
 ];
