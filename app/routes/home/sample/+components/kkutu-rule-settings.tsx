@@ -32,7 +32,7 @@ function KkutuRuleSettingsInner() {
   const storeApi = useKkutuRuleStoreApi();
   return (
     <Card className="px-6 bg-transparent border p-4 col-span-2 w-full flex-1 justify-between">
-      <div className="grid w-fit grid-cols-2 gap-y-4">
+      <div className="grid w-full grid-cols-2 gap-y-4">
         <div className="flex h-9 items-center text-sm font-medium">
           게임 유형
         </div>
