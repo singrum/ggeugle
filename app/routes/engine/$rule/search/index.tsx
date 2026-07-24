@@ -17,7 +17,10 @@ export default function Search() {
       )}
       {!isTablet ? (
         <ScrollArea className="lg:flex-1 lg:h-full w-full @container/main">
-          <SearchPage />
+          <div className="flex">
+            <SearchPage />
+            {/* <SideAds /> */}
+          </div>
         </ScrollArea>
       ) : (
         <SearchPage />
