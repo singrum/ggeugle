@@ -14,7 +14,7 @@ export default function SearchPage() {
           <SearchInput />
         </ExceptedWordsInputContainer>
         <SearchResultMenu />
-
+        {/* <BodyAds /> */}
         <SearchResult />
       </div>
       <Toaster position="top-right" />
