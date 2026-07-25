@@ -104,6 +104,7 @@ export function PosSelect() {
 
   return (
     <ToggleGroup
+      className="rounded-full"
       type="single"
       size="sm"
       variant="outline"
