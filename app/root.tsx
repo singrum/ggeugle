@@ -86,12 +86,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
         ></script>
 
         <script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3218283453997693"
-          crossOrigin="anonymous"
-        ></script>
-
-        <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
@@ -103,6 +97,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
             `,
           }}
         />
+        {/* 구글 애드센스 스크립트 추가 */}
+        {/* <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3218283453997693"
+          crossOrigin="anonymous"
+        ></script> */}
       </head>
       <body>
         <ThemeProvider
