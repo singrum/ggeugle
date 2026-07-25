@@ -16,7 +16,7 @@ export default function SearchResultMenu() {
   return (
     <ScrollArea className="w-full ">
       <LineTabs
-        className={cn("px-4 whitespace-nowrap md:px-6")}
+        className={cn("px-4 whitespace-nowrap")}
         value={`${searchResultMenu}`}
       >
         <LineTabsList>
