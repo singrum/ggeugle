@@ -19,7 +19,6 @@ export default function Search() {
         <ScrollArea className="lg:flex-1 lg:h-full w-full @container/main">
           <div className="flex">
             <SearchPage />
-            {/* <SideAds /> */}
           </div>
         </ScrollArea>
       ) : (
