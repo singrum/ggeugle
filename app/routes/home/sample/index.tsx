@@ -1,3 +1,4 @@
+import { Adsense } from "@ctrl/react-adsense";
 import { type MetaFunction } from "react-router";
 import { sampleRules } from "~/constants/sample-rules";
 import { mergedMeta, metaTitle } from "~/lib/utils";
@@ -22,6 +23,14 @@ export default function Sample() {
         metadata: e.metadata,
       }))}
     >
+      <div className="w-full h-40 flex justify-center lg:p-6 lg:pb-0">
+        <Adsense
+          client="ca-pub-3218283453997693"
+          slot="3239247288"
+          style={{ width: "100%", display: "block" }}
+          format="fluid"
+        />
+      </div>
       <RulesViewHeader>
         <RulesViewTitle>기본 룰</RulesViewTitle>
         <RulesViewDescription>기본 끝말잇기 룰 목록</RulesViewDescription>
