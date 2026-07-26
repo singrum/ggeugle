@@ -55,7 +55,7 @@ export const meta: MetaFunction = () => {
     },
     ...metaTitle("끝말잇기 엔진"),
     ...metaDescription(
-      "끝말잇기 엔진은 끝말잇기 단어 검색과 끝말잇기 게임 분석을 위한 웹 서비스입니다. (구 끄글)",
+      "끝말잇기 엔진은 끝말잇기 단어 검색과 끝말잇기 게임 분석을 위한 오픈소스 웹 서비스입니다. (구 끄글)",
     ),
     ...metaImage("https://engine.ikki.app/static-opengraph.png"),
   ];
