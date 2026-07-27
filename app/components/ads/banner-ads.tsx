@@ -7,9 +7,9 @@ export default function BannerAds() {
         client="ca-pub-3218283453997693"
         slot="1024680318"
         style={{
-          width: "100%",
-          display: "block",
-          backgroundColor: "transparent",
+          width: "728px",
+          height: "90px",
+          display: "inline-block",
         }}
         format="fluid"
         responsive="true"
