@@ -10,11 +10,15 @@ export default function SearchPage() {
   return (
     <div className="grid grid-cols-1 min-w-0 flex-1 flex-col">
       <div className="mx-auto w-full max-w-3xl">
-        <div className="w-full h-40 flex justify-center">
+        <div className="w-full h-30 flex justify-center">
           <Adsense
             client="ca-pub-3218283453997693"
             slot="1024680318"
-            style={{ width: "100%", display: "block" }}
+            style={{
+              width: "100%",
+              display: "block",
+              backgroundColor: "transparent",
+            }}
             format="fluid"
           />
         </div>
