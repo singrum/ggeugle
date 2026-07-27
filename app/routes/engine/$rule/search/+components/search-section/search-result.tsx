@@ -7,11 +7,11 @@ export default function SearchResult() {
   const solver = useWcStore((e) => e.solver);
   const Component =
     searchResultMenuInfo[searchInputType][searchResultMenu].component!;
-  if (solver) {
-    return (
-      <div className="px-4 py-6 md:p-6">
-        <Component solver={solver} />
-      </div>
-    );
-  }
+  return solver ? (
+    <div className="px-4 py-6 md:p-6">
+      <Component solver={solver} />
+    </div>
+  ) : (
+    <div className="h-180 px-4 py-6 md:p-6"></div>
+  );
 }
