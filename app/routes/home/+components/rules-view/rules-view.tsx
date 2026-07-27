@@ -16,7 +16,6 @@ import {
   RulesViewStoreProvider,
   useRulesViewStore,
 } from "./rules-view-provider";
-import RulesViewSidebar from "./rules-view-sidebar";
 
 export default function RulesView({
   rules,
@@ -47,22 +46,19 @@ function RulesViewInner({ children }: { children?: React.ReactNode }) {
       <Card className="rounded-lg h-full p-0 bg-background lg:border w-full lg:flex-1 relative">
         <ScrollArea className="lg:h-full">{children}</ScrollArea>
       </Card>
-      {selectedRuleId &&
-        (!isTablet ? (
-          <RulesViewSidebar />
-        ) : (
-          <Sheet open={!!selectedRuleId} onOpenChange={() => select(null)}>
-            <SheetTrigger asChild>
-              <button className="hidden" />
-            </SheetTrigger>
-            <SheetContent>
-              <SheetHeader className="hidden">
-                <SheetTitle className="hidden" />
-              </SheetHeader>
-              <RuleEditForm ruleId={selectedRuleId!} />
-            </SheetContent>
-          </Sheet>
-        ))}
+      {selectedRuleId && (
+        <Sheet open={!!selectedRuleId} onOpenChange={() => select(null)}>
+          <SheetTrigger asChild>
+            <button className="hidden" />
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader className="hidden">
+              <SheetTitle className="hidden" />
+            </SheetHeader>
+            <RuleEditForm ruleId={selectedRuleId!} />
+          </SheetContent>
+        </Sheet>
+      )}
     </div>
   );
 }
