@@ -26,7 +26,6 @@ export default function SearchPage() {
           <Adsense
             client="ca-pub-3218283453997693"
             slot="1024680318"
-            style={{ width: "100%", display: "block" }}
             format="fluid"
             responsive="true"
           />
