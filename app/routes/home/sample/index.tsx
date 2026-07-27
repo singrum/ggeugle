@@ -23,7 +23,7 @@ export default function Sample() {
         metadata: e.metadata,
       }))}
     >
-      <div className="w-full flex justify-center lg:p-6 lg:pb-0">
+      <div className="w-full justify-center lg:p-6 lg:pb-0 hidden md:flex">
         <BannerAds />
       </div>
       <RulesViewHeader>
