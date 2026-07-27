@@ -8,10 +8,10 @@ export default function SearchResult() {
   const Component =
     searchResultMenuInfo[searchInputType][searchResultMenu].component!;
   return solver ? (
-    <div className="px-4 py-6 md:p-6">
+    <div className="px-4 py-6 md:p-6 min-h-100">
       <Component solver={solver} />
     </div>
   ) : (
-    <div className="h-180 px-4 py-6 md:p-6"></div>
+    <div className="h-100 px-4 py-6 md:p-6"></div>
   );
 }
