@@ -11,7 +11,7 @@ export default function SearchPage() {
   return (
     <div className="grid grid-cols-1 min-w-0 flex-1 flex-col">
       <div className="mx-auto w-full max-w-3xl">
-        <div className="lg:px-6 hidden md:block">
+        <div className="lg:px-6 ">
           <BannerAds />
         </div>
         <ExceptedWordsInputContainer>
