@@ -1,5 +1,5 @@
-import { Adsense } from "@ctrl/react-adsense";
 import { useLoaderData, type MetaFunction } from "react-router";
+import BannerAds from "~/components/ads/banner-ads";
 import { storage } from "~/lib/storage/storage";
 import { mergedMeta, metaTitle } from "~/lib/utils";
 import RulesView from "../+components/rules-view/rules-view";
@@ -39,13 +39,8 @@ export default function StorageIndex() {
 
   return (
     <RulesView isSample={false} rules={rules}>
-      <div className="w-full h-30 flex justify-center lg:p-6 lg:pb-0">
-        <Adsense
-          client="ca-pub-3218283453997693"
-          slot="3239247288"
-          style={{ width: "100%", display: "block" }}
-          format="fluid"
-        />
+      <div className="w-full flex justify-center lg:p-6 lg:pb-0">
+        <BannerAds />
       </div>
       <RulesViewHeader>
         <RulesViewTitle>보관함</RulesViewTitle>
