@@ -12,7 +12,7 @@ export default function HomeLayout() {
         <Sidebar />
         <Outlet />
       </div>
-      <div className="flex flex-col flex-1 lg:hidden">
+      <div className="flex flex-col flex-1 lg:hidden min-w-0">
         <Toaster position="top-right" />
         <MobileHeader />
         <Outlet />
