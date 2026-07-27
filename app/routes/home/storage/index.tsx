@@ -39,7 +39,7 @@ export default function StorageIndex() {
 
   return (
     <RulesView isSample={false} rules={rules}>
-      <div className="w-full h-30 flex justify-center lg:p-6 lg:pb-0">
+      <div className="w-full h-40 flex justify-center lg:p-6 lg:pb-0">
         <Adsense
           client="ca-pub-3218283453997693"
           slot="3239247288"
