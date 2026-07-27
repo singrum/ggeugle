@@ -1,4 +1,3 @@
-import { Adsense } from "@ctrl/react-adsense";
 import { type MetaFunction } from "react-router";
 import { sampleRules } from "~/constants/sample-rules";
 import { mergedMeta, metaTitle } from "~/lib/utils";
@@ -9,6 +8,7 @@ import RulesViewHeader from "../+components/rules-view/rules-view-header";
 import RulesViewTitle from "../+components/rules-view/rules-view-title";
 import KkutuRuleSettings from "./+components/kkutu-rule-settings";
 import Kkutu3RuleSettings from "./+components/kkutu3-rule-settings";
+import BannerAds from "~/components/ads/banner-ads";
 
 export const meta: MetaFunction = ({ matches }) => {
   return mergedMeta(matches, [...metaTitle("기본 룰 | 끝말잇기 엔진")]);
@@ -23,13 +23,9 @@ export default function Sample() {
         metadata: e.metadata,
       }))}
     >
-      <div className="w-full h-40 flex justify-center lg:p-6 lg:pb-0">
-        <Adsense
-          client="ca-pub-3218283453997693"
-          slot="3239247288"
-          style={{ width: "100%", display: "block" }}
-          format="fluid"
-        />
+      <div className="w-full flex justify-center lg:p-6 lg:pb-0">
+        <BannerAds
+         />
       </div>
       <RulesViewHeader>
         <RulesViewTitle>기본 룰</RulesViewTitle>
