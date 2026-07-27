@@ -12,6 +12,7 @@ export default function BannerAds() {
           backgroundColor: "transparent",
         }}
         format="fluid"
+        responsive="true"
       />
     </div>
   );
