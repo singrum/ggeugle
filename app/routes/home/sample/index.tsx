@@ -1,4 +1,5 @@
 import { type MetaFunction } from "react-router";
+import BannerAds from "~/components/ads/banner-ads";
 import { sampleRules } from "~/constants/sample-rules";
 import { mergedMeta, metaTitle } from "~/lib/utils";
 import RulesView from "../+components/rules-view/rules-view";
@@ -8,7 +9,6 @@ import RulesViewHeader from "../+components/rules-view/rules-view-header";
 import RulesViewTitle from "../+components/rules-view/rules-view-title";
 import KkutuRuleSettings from "./+components/kkutu-rule-settings";
 import Kkutu3RuleSettings from "./+components/kkutu3-rule-settings";
-import BannerAds from "~/components/ads/banner-ads";
 
 export const meta: MetaFunction = ({ matches }) => {
   return mergedMeta(matches, [...metaTitle("기본 룰 | 끝말잇기 엔진")]);
@@ -24,8 +24,7 @@ export default function Sample() {
       }))}
     >
       <div className="w-full flex justify-center lg:p-6 lg:pb-0">
-        <BannerAds
-         />
+        <BannerAds />
       </div>
       <RulesViewHeader>
         <RulesViewTitle>기본 룰</RulesViewTitle>
