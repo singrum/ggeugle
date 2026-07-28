@@ -89,7 +89,7 @@ function Words({
 }) {
   const words = useMemo(() => {
     if (move[0] === "__none") {
-      return [`${move[1]}`];
+      return [`~${move[1]}`];
     } else {
       return (solver.wordMap.get(move[0], move[1]) || []).slice(
         ...solver.graphSolver.graphs.getEdgeIdxRange(move[0], move[1], "route"),
