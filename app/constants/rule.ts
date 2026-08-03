@@ -117,7 +117,7 @@ export const dicts: {
     title: "우리말샘(어휘)",
     urlFunction: () => `https://singrum.github.io/KoreanDict/usam_word`,
     activePos: toObject(poses, [0, 0, 0, 0, 0, 0, 0, 0, 0]),
-    defaultPos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 1, 0]),
+    defaultPos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 0, 1]),
     activeCate: toObject(cates, [0, 0, 0, 0]),
     defaultCate: toObject(cates, [1, 1, 1, 1]),
   },
