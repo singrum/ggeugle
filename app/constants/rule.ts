@@ -113,6 +113,14 @@ export const dicts: {
     activeCate: toObject(cates, [0, 0, 0, 0]),
     defaultCate: toObject(cates, [1, 1, 1, 1]),
   },
+  {
+    title: "우리말샘(어휘 + 구)",
+    urlFunction: () => `https://singrum.github.io/KoreanDict/allusam`,
+    activePos: toObject(poses, [0, 0, 0, 0, 0, 0, 0, 0, 0]),
+    defaultPos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 1, 1]),
+    activeCate: toObject(cates, [0, 0, 0, 0]),
+    defaultCate: toObject(cates, [1, 1, 1, 1]),
+  },
 ];
 
 export const kkutuInfo: {

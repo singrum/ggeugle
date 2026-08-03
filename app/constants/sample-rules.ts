@@ -460,6 +460,41 @@ export const sampleRules: RuleForm[] = [
     },
   },
   {
+    id: "풀우샘룰",
+    metadata: {
+      title: "풀우샘룰",
+      updatedAt: 0,
+      color: "green",
+    },
+    content: {
+      wordRule: {
+        words: {
+          type: "selected",
+          option: {
+            dict: 10,
+            pos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 1, 1]),
+            cate: toObject(cates, [1, 1, 1, 1]),
+          },
+        },
+        regexFilter: ".*",
+        removedWords: "",
+        addedWords: "",
+      },
+      wordConnectionRule: {
+        changeFuncIdx: 1,
+        headDir: 0,
+        rawHeadIdx: 1,
+        tailDir: 1,
+        rawTailIdx: 1,
+      },
+      postprocessing: {
+        removedWords: "",
+        manner: { type: 1 },
+        addedWords: "",
+      },
+    },
+  },
+  {
     id: "표샘룰",
     metadata: {
       title: "표샘룰",
@@ -564,6 +599,7 @@ export const sampleRules: RuleForm[] = [
       },
     },
   },
+
   {
     id: "로블록스 한국 끝말잇기",
     metadata: {
