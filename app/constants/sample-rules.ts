@@ -460,9 +460,9 @@ export const sampleRules: RuleForm[] = [
     },
   },
   {
-    id: "풀우샘룰",
+    id: "우샘어휘룰",
     metadata: {
-      title: "풀우샘룰",
+      title: "우샘어휘룰",
       updatedAt: 0,
       color: "green",
     },
@@ -472,7 +472,7 @@ export const sampleRules: RuleForm[] = [
           type: "selected",
           option: {
             dict: 10,
-            pos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 1, 1]),
+            pos: toObject(poses, [1, 1, 1, 1, 1, 1, 1, 1, 0]),
             cate: toObject(cates, [1, 1, 1, 1]),
           },
         },
