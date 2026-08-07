@@ -1,5 +1,4 @@
 import { useLoaderData, type MetaFunction } from "react-router";
-import BannerAds from "~/components/ads/banner-ads";
 import { storage } from "~/lib/storage/storage";
 import { mergedMeta, metaTitle } from "~/lib/utils";
 import RulesView from "../+components/rules-view/rules-view";
@@ -39,9 +38,6 @@ export default function StorageIndex() {
 
   return (
     <RulesView isSample={false} rules={rules}>
-      <div className="w-full justify-center lg:p-6 lg:pb-0 hidden md:flex">
-        <BannerAds />
-      </div>
       <RulesViewHeader>
         <RulesViewTitle>보관함</RulesViewTitle>
         <RulesViewDescription>이 기기에 저장된 룰 목록</RulesViewDescription>

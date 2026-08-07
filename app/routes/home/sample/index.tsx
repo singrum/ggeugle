@@ -1,5 +1,5 @@
+import { Adsense } from "@ctrl/react-adsense";
 import { type MetaFunction } from "react-router";
-import BannerAds from "~/components/ads/banner-ads";
 import { sampleRules } from "~/constants/sample-rules";
 import { mergedMeta, metaTitle } from "~/lib/utils";
 import RulesView from "../+components/rules-view/rules-view";
@@ -23,14 +23,39 @@ export default function Sample() {
         metadata: e.metadata,
       }))}
     >
-      <div className="w-full justify-center lg:p-6 lg:pb-0 hidden md:flex">
-        <BannerAds />
+      <div className="w-full justify-center p-6 pb-0 flex">
+        <div className="w-full flex justify-center">
+          <Adsense
+            client="ca-pub-3218283453997693"
+            slot="1024680318"
+            style={{
+              display: "inline-block",
+              ...{ width: "100%", height: "200px" },
+            }}
+            format="fluid"
+            responsive="true"
+          />
+        </div>
       </div>
       <RulesViewHeader>
         <RulesViewTitle>기본 룰</RulesViewTitle>
         <RulesViewDescription>기본 끝말잇기 룰 목록</RulesViewDescription>
       </RulesViewHeader>
       <RulesViewContent />
+      <div className="w-full justify-center p-6 py-0 flex md:hidden">
+        <div className="w-full flex justify-center">
+          <Adsense
+            client="ca-pub-3218283453997693"
+            slot="1024680318"
+            style={{
+              display: "inline-block",
+              ...{ width: "100%" },
+            }}
+            format="fluid"
+            responsive="true"
+          />
+        </div>
+      </div>
       <div className="p-6 grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] gap-9 px-6 pb-6 grid-rows-1">
         <div className="col-span-2 flex flex-col">
           <RulesViewHeader className="p-0 pb-6">
