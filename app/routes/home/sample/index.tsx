@@ -1,6 +1,7 @@
 import { Adsense } from "@ctrl/react-adsense";
 import { type MetaFunction } from "react-router";
 import { sampleRules } from "~/constants/sample-rules";
+import { useIsMobile } from "~/hooks/use-mobile";
 import { mergedMeta, metaTitle } from "~/lib/utils";
 import RulesView from "../+components/rules-view/rules-view";
 import RulesViewContent from "../+components/rules-view/rules-view-content";
@@ -14,6 +15,7 @@ export const meta: MetaFunction = ({ matches }) => {
   return mergedMeta(matches, [...metaTitle("기본 룰 | 끝말잇기 엔진")]);
 };
 export default function Sample() {
+  const isMobile = useIsMobile();
   return (
     <RulesView
       isSample={true}
@@ -30,7 +32,9 @@ export default function Sample() {
             slot="3239247288"
             style={{
               display: "inline-block",
-              ...{ width: "100%", height: "120px" },
+              ...(isMobile
+                ? { width: "100%" }
+                : { width: "100%", height: "160px" }),
             }}
             format="fluid"
             responsive="true"
