@@ -1,4 +1,4 @@
-import { Inbox, Loader } from "lucide-react";
+import { Loader, Menu } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { useWcStore } from "~/stores/wc-store-provider";
 
@@ -27,7 +27,7 @@ export default function GameSettings() {
             onClick={() => setOpen(true)}
             className="rounded-full"
           >
-            <Inbox className="stroke-foreground" />
+            <Menu className="stroke-foreground" />
             게임 목록
           </Button>
         )}

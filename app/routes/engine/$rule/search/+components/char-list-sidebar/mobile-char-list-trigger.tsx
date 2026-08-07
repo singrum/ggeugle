@@ -1,5 +1,5 @@
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
-import { LayoutGrid } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import {
   Drawer,
@@ -21,7 +21,7 @@ export default function MobileCharListTrigger() {
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button variant="withHeader" size="lg" className=" rounded-full">
-          <LayoutGrid className="stroke-foreground" />
+          <Menu className="stroke-foreground" />
           음절 목록
         </Button>
       </DrawerTrigger>

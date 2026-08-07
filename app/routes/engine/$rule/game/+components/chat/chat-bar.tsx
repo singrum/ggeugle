@@ -1,5 +1,5 @@
 import { PaperPlaneRightIcon } from "@phosphor-icons/react";
-import { Inbox } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -29,7 +29,7 @@ export default function ChatBar({ disabled }: { disabled: boolean }) {
               className="size-10"
               onClick={() => setOpen(true)}
             >
-              <Inbox className="stroke-muted-foreground size-5" />
+              <Menu className="stroke-muted-foreground size-5" />
             </Button>
           )}
           <Input
