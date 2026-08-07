@@ -11,16 +11,15 @@ export default function SearchPage() {
   return (
     <div className="grid grid-cols-1 min-w-0 flex-1 flex-col">
       <div className="mx-auto w-full max-w-3xl">
-        <div className="lg:px-6 ">
-          <BannerAds />
-        </div>
         <ExceptedWordsInputContainer>
           <ExceptedWords />
           <SearchInput />
         </ExceptedWordsInputContainer>
 
         <SearchResultMenu />
-
+        <div className="lg:px-6 pt-6">
+          <BannerAds />
+        </div>
         <SearchResult />
         <div className="w-full flex justify-center pt-6 lg:px-6">
           <Adsense
