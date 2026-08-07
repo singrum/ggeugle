@@ -26,8 +26,8 @@ export default function SearchPage() {
               style={{
                 display: "inline-block",
                 ...(isMobile
-                  ? { width: "100%", height: "160px" }
-                  : { width: "100%", height: "160px" }),
+                  ? { width: "100%", height: "120px" }
+                  : { width: "100%", height: "120px" }),
               }}
               format="fluid"
               responsive="true"

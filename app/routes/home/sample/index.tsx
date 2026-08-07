@@ -30,7 +30,7 @@ export default function Sample() {
             slot="3239247288"
             style={{
               display: "inline-block",
-              ...{ width: "100%", height: "160px" },
+              ...{ width: "100%", height: "120px" },
             }}
             format="fluid"
             responsive="true"
