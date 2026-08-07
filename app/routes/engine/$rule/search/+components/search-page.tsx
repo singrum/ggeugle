@@ -17,11 +17,11 @@ export default function SearchPage() {
         </ExceptedWordsInputContainer>
 
         <SearchResultMenu />
-        <div className="lg:px-6 pt-6">
+        <div className="px-6 pt-6">
           <BannerAds />
         </div>
         <SearchResult />
-        <div className="w-full flex justify-center pt-6 lg:px-6">
+        <div className="w-full flex justify-center pt-6 px-6">
           <Adsense
             client="ca-pub-3218283453997693"
             slot="1024680318"

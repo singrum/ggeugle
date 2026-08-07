@@ -11,8 +11,8 @@ export default function BannerAds() {
         style={{
           display: "inline-block",
           ...(isMobile
-            ? { width: "100%", height: "108px" }
-            : { width: "728px", height: "108px" }),
+            ? { width: "100%", height: "180px" }
+            : { width: "100%", height: "180px" }),
         }}
         format="fluid"
         responsive="true"
