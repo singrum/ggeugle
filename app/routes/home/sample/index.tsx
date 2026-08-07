@@ -27,7 +27,7 @@ export default function Sample() {
         <div className="w-full flex justify-center">
           <Adsense
             client="ca-pub-3218283453997693"
-            slot="1024680318"
+            slot="3239247288"
             style={{
               display: "inline-block",
               ...{ width: "100%", height: "160px" },
@@ -46,7 +46,7 @@ export default function Sample() {
         <div className="w-full flex justify-center">
           <Adsense
             client="ca-pub-3218283453997693"
-            slot="1024680318"
+            slot="7736635738"
             style={{
               display: "inline-block",
               ...{ width: "100%" },

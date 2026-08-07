@@ -7,7 +7,7 @@ export default function CharListAd() {
     <div className="w-full flex justify-center">
       <Adsense
         client="ca-pub-3218283453997693"
-        slot="1024680318"
+        slot="4896398137"
         style={{
           display: "inline-block",
           ...{ width: "100%" },
