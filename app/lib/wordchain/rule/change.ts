@@ -256,6 +256,7 @@ function forceRevStd_rev(char: string) {
 
 function roblox(char: string) {
   if (char === "름") return [char, "늠", "음"];
+  if (char === "랑") return [char, "낭", "앙"];
   const [cho, jung, jong] = disassemble(char);
   if (cho === "ㄹ" && ["ㅑ", "ㅕ", "ㅛ", "ㅠ", "ㅣ", "ㅖ"].includes(jung!))
     return [char, assemble(["ㅇ", jung!, jong!])];
@@ -269,6 +270,7 @@ function roblox(char: string) {
 
 function roblox_rev(char: string) {
   if (char === "음") return [char, "름"];
+  if (char === "앙") return [char, "랑"];
   const [cho, jung, jong] = disassemble(char);
 
   if (cho === "ㅇ" && ["ㅑ", "ㅖ"].includes(jung!))
