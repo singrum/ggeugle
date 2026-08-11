@@ -7,6 +7,7 @@ import {
 } from "~/components/ui/accordion";
 import { PaginationSimple } from "~/components/ui/pagination-simple";
 import { pageSizeInfo, wordDispTypeInfo } from "~/constants/search";
+import { separateMoveRows } from "~/lib/utils";
 import {
   hasDepthMap,
   moveTypeNameMap,
@@ -34,6 +35,7 @@ export default function WordsCardComponent({
     start,
     start + pageSizeInfo[pageSize].value,
   );
+  const wordSortType = useWcStore((e) => e.wordSortType);
 
   return (
     <div>
@@ -55,7 +57,18 @@ export default function WordsCardComponent({
         </div>
 
         <AccordionContent>
-          <Component rows={currentRows} />
+          <Component
+            rows={
+              wordSortType === 0
+                ? currentRows
+                : separateMoveRows(currentRows).sort((a, b) => {
+                    const aWord = a.words[0];
+                    const bWord = b.words[0];
+                    if (aWord === bWord) return 0;
+                    return aWord < bWord ? -1 : 1;
+                  })
+            }
+          />
           {totalPages > 0 && (
             <PaginationSimple
               className="sticky z-20 bottom-16 lg:bottom-0"

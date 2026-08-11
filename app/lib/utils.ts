@@ -7,6 +7,7 @@ import { cates, dicts, kkutu3Info, kkutuInfo, poses } from "~/constants/rule";
 import { sampleRules } from "~/constants/sample-rules";
 
 import type { MetaArgs, MetaDescriptor } from "react-router";
+import type { MoveRow } from "~/types/search";
 import { storage } from "./storage/storage";
 import { EdgeCounter } from "./wordchain/classes/edge-counter";
 import type { NodeName } from "./wordchain/graph/graph";
@@ -591,4 +592,19 @@ export function metaImage(imageUrl: string): MetaDescriptor[] {
     { property: "og:image", content: imageUrl },
     { property: "twitter:image", content: imageUrl },
   ];
+}
+
+export function separateMoveRows(rows: MoveRow[]): MoveRow[] {
+  const result = [];
+  for (const row of rows) {
+    for (const word of row.words) {
+      result.push({
+        move: row.move,
+        nodeTypes: row.nodeTypes,
+        words: [word],
+        pairs: row.pairs,
+      });
+    }
+  }
+  return result;
 }

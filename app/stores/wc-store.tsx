@@ -51,6 +51,7 @@ export const createWcStore = (initProps?: Partial<WcState>) => {
           wordDistributionOption: state.wordDistributionOption,
           pageSize: state.pageSize,
           wordDispType: state.wordDispType,
+          wordSortType: state.wordSortType,
           flow: state.flow,
         }),
       },

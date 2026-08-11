@@ -48,6 +48,8 @@ export const wordDispTypeInfo = [
   { title: "나열", component: WordList },
 ];
 
+export const wordSortTypeInfo = [{ title: "엣지" }, { title: "단어" }];
+
 export const typeMap: Record<NodeType, string> = {
   win: "승리",
   lose: "패배",

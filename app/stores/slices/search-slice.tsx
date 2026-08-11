@@ -50,6 +50,9 @@ export const createSearchSlice: StateCreator<
   wordDispType: 0,
   setWordDispType: (v: number) => set({ wordDispType: v }),
 
+  wordSortType: 0,
+  setWordSortType: (v: number) => set({ wordSortType: v }),
+
   localSearchInputValue: "",
   setLocalSearchInputValue: (value: string) => {
     set({ localSearchInputValue: value });

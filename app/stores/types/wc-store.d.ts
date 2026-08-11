@@ -59,6 +59,9 @@ export type SearchSlice = {
   wordDispType: number;
   setWordDispType: (v: number) => void;
 
+  wordSortType: number;
+  setWordSortType: (v: number) => void;
+
   localSearchInputValue: string;
   setLocalSearchInputValue: (value: string) => void;
   searchInputValue: string;

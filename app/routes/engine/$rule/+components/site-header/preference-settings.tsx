@@ -24,6 +24,7 @@ import { useWcStore } from "~/stores/wc-store-provider";
 
 import ItemsPerPageSelect from "./items-per-page-select";
 import WordDispSelect from "./word-disp-select";
+import WordSortSelect from "./word-sort-select";
 export default function PreferenceSettingsTrigger({
   ...props
 }: React.ComponentProps<typeof DialogTrigger>) {
@@ -114,6 +115,10 @@ function SearchSettingsForm() {
             />
           </div>
         </Label>
+        <div className="flex items-center justify-between">
+          <div className="text-sm font-medium">정렬 기준</div>
+          <WordSortSelect />
+        </div>
         <div className="flex items-center justify-between">
           <div className="text-sm font-medium">단어 보기</div>
           <WordDispSelect />
