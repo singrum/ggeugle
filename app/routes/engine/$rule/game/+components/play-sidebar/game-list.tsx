@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useRef } from "react";
 import { useWcStore } from "~/stores/wc-store-provider";
+import GameListAd from "../../../../../../components/ads/game-list-ad";
 import GameButton from "./game-button";
 
 export default function GameList() {
@@ -43,6 +44,7 @@ export default function GameList() {
           </motion.div>
         ))}
       </AnimatePresence>
+      <GameListAd />
     </div>
   );
 }
