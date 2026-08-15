@@ -1,8 +1,9 @@
 import { debounce, type DebouncedFunc } from "lodash-es";
 import { Minus, Search, X } from "lucide-react";
-import { useMemo, useRef, type ComponentProps } from "react";
+import { useEffect, useMemo, useRef, type ComponentProps } from "react";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { Kbd } from "~/components/ui/kbd";
 import {
   Tooltip,
   TooltipContent,
@@ -10,11 +11,11 @@ import {
 } from "~/components/ui/tooltip";
 import { cn } from "~/lib/utils";
 import { useWcStore } from "~/stores/wc-store-provider";
-
 export default function SearchInput() {
   const inputRef = useRef<HTMLInputElement>(null);
   const localSearchInputValue = useWcStore((e) => e.localSearchInputValue);
   const setSearchInputValue = useWcStore((e) => e.setSearchInputValue);
+
   const debouncedSetValue = useMemo(
     () =>
       debounce((v: string) => {
@@ -22,6 +23,32 @@ export default function SearchInput() {
       }, 100),
     [setSearchInputValue],
   );
+
+  // ------------------ 단축키 이벤트 리스너 추가 ------------------
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // 사용자가 이미 다른 입력창에 입력 중인 경우 동작 방지
+      const activeElement = document.activeElement;
+      const isInputText =
+        activeElement?.tagName === "INPUT" ||
+        activeElement?.tagName === "TEXTAREA" ||
+        (activeElement as HTMLElement)?.isContentEditable;
+
+      if (isInputText) return;
+
+      if (e.key === "/") {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+  // -------------------------------------------------------------
+
   return (
     <div
       className="flex cursor-text flex-col gap-2 rounded-b-2xl p-3"
@@ -33,12 +60,17 @@ export default function SearchInput() {
           ref={inputRef}
         />
         <Search className="text-foreground absolute top-1/2 left-1 size-5 -translate-y-1/2 stroke-3" />
-        {localSearchInputValue.length > 0 && (
-          <InputActionGroup>
-            <ClearButton onClick={() => debouncedSetValue.cancel()} />
-            <ExceptButton onClick={() => debouncedSetValue.cancel()} />
-          </InputActionGroup>
-        )}
+
+        <InputActionGroup>
+          {localSearchInputValue.length > 0 ? (
+            <>
+              <ClearButton onClick={() => debouncedSetValue.cancel()} />
+              <ExceptButton onClick={() => debouncedSetValue.cancel()} />
+            </>
+          ) : (
+            <Kbd className="bg-foreground/5 hidden lg:inline-flex">/</Kbd>
+          )}
+        </InputActionGroup>
       </div>
       {/* <SearchHistory /> */}
     </div>
